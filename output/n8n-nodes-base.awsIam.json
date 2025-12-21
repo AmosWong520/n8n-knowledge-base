@@ -1,0 +1,590 @@
+{
+  "node_id": "n8n-nodes-base.awsIam",
+  "name": "n8n-nodes-base.awsIam",
+  "version": 1,
+  "semantic_context": "Interacts with Amazon IAM",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "default": "user",
+      "options": [
+        {
+          "name": "User",
+          "value": "user"
+        },
+        {
+          "name": "Group",
+          "value": "group"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "routing": {
+        "send": {
+          "preSend": [
+            null
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "default": "getAll",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "group"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "action": "Create group",
+          "description": "Create a new group",
+          "routing": {
+            "request": {
+              "method": "POST",
+              "url": "",
+              "body": {
+                "Action": "CreateGroup",
+                "Version": "2010-05-08",
+                "GroupName": "={{ $parameter[\"groupName\"] }}"
+              },
+              "ignoreHttpStatusErrors": true
+            },
+            "output": {
+              "postReceive": [
+                null
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "action": "Delete group",
+          "description": "Delete an existing group",
+          "routing": {
+            "send": {
+              "preSend": [
+                null
+              ]
+            },
+            "request": {
+              "method": "POST",
+              "url": "",
+              "body": {
+                "Action": "DeleteGroup",
+                "Version": "2010-05-08",
+                "GroupName": "={{ $parameter[\"group\"] }}"
+              },
+              "ignoreHttpStatusErrors": true
+            },
+            "output": {
+              "postReceive": [
+                null
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "action": "Get group",
+          "description": "Retrieve details of an existing group",
+          "routing": {
+            "request": {
+              "method": "POST",
+              "url": "",
+              "body": {
+                "Action": "GetGroup",
+                "Version": "2010-05-08",
+                "GroupName": "={{ $parameter[\"group\"] }}"
+              },
+              "ignoreHttpStatusErrors": true
+            },
+            "output": {
+              "postReceive": [
+                null,
+                null
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "action": "Get many groups",
+          "description": "Retrieve a list of groups",
+          "routing": {
+            "request": {
+              "method": "POST",
+              "url": "",
+              "body": {
+                "Action": "ListGroups",
+                "Version": "2010-05-08"
+              },
+              "ignoreHttpStatusErrors": true
+            },
+            "output": {
+              "postReceive": [
+                null,
+                null
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "action": "Update group",
+          "description": "Update an existing group",
+          "routing": {
+            "request": {
+              "method": "POST",
+              "url": "",
+              "body": {
+                "Action": "UpdateGroup",
+                "Version": "2010-05-08",
+                "GroupName": "={{ $parameter[\"group\"] }}",
+                "NewGroupName": "={{ $parameter[\"groupName\"] }}"
+              },
+              "ignoreHttpStatusErrors": true
+            },
+            "output": {
+              "postReceive": [
+                null
+              ]
+            }
+          }
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "user": {
+      "displayName": "User",
+      "name": "user",
+      "required": true,
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "modes": [
+        {
+          "displayName": "From list",
+          "name": "list",
+          "type": "list",
+          "typeOptions": {
+            "searchListMethod": "searchUsers",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By Name",
+          "name": "userName",
+          "type": "string",
+          "placeholder": "e.g. Admins",
+          "hint": "Enter the user name",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "^[\\w+=,.@-]+$",
+                "errorMessage": "The user name must follow the allowed pattern"
+              }
+            }
+          ]
+        }
+      ],
+      "description": "Select the user you want to remove from the group",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "removeFromGroup"
+          ]
+        }
+      },
+      "ai_hint": "Select the user you want to remove from the group"
+    },
+    "group": {
+      "displayName": "Group",
+      "name": "group",
+      "required": true,
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "modes": [
+        {
+          "displayName": "From list",
+          "name": "list",
+          "type": "list",
+          "typeOptions": {
+            "searchListMethod": "searchGroups",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By Name",
+          "name": "groupName",
+          "type": "string",
+          "placeholder": "e.g. Admins",
+          "hint": "Enter the group name",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "^[\\w+=,.@-]+$",
+                "errorMessage": "The group name must follow the allowed pattern."
+              }
+            }
+          ]
+        }
+      ],
+      "description": "Select the group you want to update",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "group"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "Select the group you want to update"
+    },
+    "userName": {
+      "displayName": "User Name",
+      "name": "userName",
+      "required": true,
+      "type": "string",
+      "validateType": "string",
+      "default": "",
+      "placeholder": "e.g. JohnSmith",
+      "typeOptions": {
+        "maxLength": 64,
+        "regex": "^[A-Za-z0-9+=,\\.@_-]+$"
+      },
+      "routing": {
+        "send": {
+          "preSend": [
+            null
+          ]
+        }
+      },
+      "description": "The new name of the user",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "The new name of the user"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Path",
+          "name": "path",
+          "type": "string",
+          "validateType": "string",
+          "default": "/",
+          "placeholder": "e.g. /division_abc/engineering/",
+          "description": "The new path to the group, if it is not included, it defaults to a slash (/)",
+          "routing": {
+            "send": {
+              "preSend": [
+                null
+              ],
+              "property": "NewPath",
+              "type": "query"
+            }
+          }
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "group"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "group"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "default": 100,
+      "type": "number",
+      "validateType": "number",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "description": "Max number of results to return",
+      "displayOptions": {
+        "hide": {
+          "returnAll": [
+            true
+          ]
+        },
+        "show": {
+          "resource": [
+            "group"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "routing": {
+        "send": {
+          "property": "MaxItems",
+          "type": "body",
+          "value": "={{ $value }}"
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "groupName": {
+      "displayName": "Group Name",
+      "name": "groupName",
+      "required": true,
+      "type": "string",
+      "validateType": "string",
+      "typeOptions": {
+        "maxLength": 128,
+        "regex": "^[+=,.@\\-_A-Za-z0-9]+$"
+      },
+      "default": "",
+      "placeholder": "e.g. GroupName",
+      "routing": {
+        "send": {
+          "preSend": [
+            null
+          ]
+        }
+      },
+      "description": "The new name of the group",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "group"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "The new name of the group"
+    },
+    "includeUsers": {
+      "displayName": "Include Users",
+      "name": "includeUsers",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to include a list of users in the group",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "group"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "requestOptions": {
+      "displayName": "Request Options",
+      "name": "requestOptions",
+      "type": "collection",
+      "isNodeSetting": true,
+      "placeholder": "Add Option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Batching",
+          "name": "batching",
+          "placeholder": "Add Batching",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": false
+          },
+          "default": {
+            "batch": {}
+          },
+          "options": [
+            {
+              "displayName": "Batching",
+              "name": "batch",
+              "values": [
+                {
+                  "displayName": "Items per Batch",
+                  "name": "batchSize",
+                  "type": "number",
+                  "typeOptions": {
+                    "minValue": -1
+                  },
+                  "default": 50,
+                  "description": "Input will be split in batches to throttle requests. -1 for disabled. 0 will be treated as 1."
+                },
+                {
+                  "displayName": "Batch Interval (ms)",
+                  "name": "batchInterval",
+                  "type": "number",
+                  "typeOptions": {
+                    "minValue": 0
+                  },
+                  "default": 1000,
+                  "description": "Time (in milliseconds) between each batch of requests. 0 for disabled."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Ignore SSL Issues (Insecure)",
+          "name": "allowUnauthorizedCerts",
+          "type": "boolean",
+          "noDataExpression": true,
+          "default": false,
+          "description": "Whether to accept the response even if SSL certificate validation is not possible"
+        },
+        {
+          "displayName": "Proxy",
+          "name": "proxy",
+          "type": "string",
+          "default": "",
+          "placeholder": "e.g. http://myproxy:3128",
+          "description": "HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128"
+        },
+        {
+          "displayName": "Timeout",
+          "name": "timeout",
+          "type": "number",
+          "typeOptions": {
+            "minValue": 1
+          },
+          "default": 10000,
+          "description": "Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "user",
+      "group",
+      "userName",
+      "additionalFields",
+      "user",
+      "user",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "user",
+      "userName",
+      "additionalFields",
+      "user",
+      "group",
+      "operation",
+      "groupName",
+      "additionalFields",
+      "group",
+      "group",
+      "includeUsers",
+      "returnAll",
+      "limit",
+      "includeUsers",
+      "group",
+      "groupName",
+      "additionalFields",
+      "requestOptions"
+    ],
+    "conditional_rules": [
+      "IF resource == 'user' THEN SHOW parameter 'operation'",
+      "IF resource == 'user' AND operation == 'addToGroup' THEN SHOW parameter 'user'",
+      "IF resource == 'user' AND operation == 'addToGroup' THEN SHOW parameter 'group'",
+      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'userName'",
+      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'user' AND operation == 'delete' THEN SHOW parameter 'user'",
+      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'user'",
+      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'limit'",
+      "IF returnAll == True THEN HIDE parameter 'limit'",
+      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'user' AND operation == 'update' THEN SHOW parameter 'user'",
+      "IF resource == 'user' AND operation == 'update' THEN SHOW parameter 'userName'",
+      "IF resource == 'user' AND operation == 'update' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'user' AND operation == 'removeFromGroup' THEN SHOW parameter 'user'",
+      "IF resource == 'user' AND operation == 'removeFromGroup' THEN SHOW parameter 'group'",
+      "IF resource == 'group' THEN SHOW parameter 'operation'",
+      "IF resource == 'group' AND operation == 'create' THEN SHOW parameter 'groupName'",
+      "IF resource == 'group' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'group' AND operation == 'delete' THEN SHOW parameter 'group'",
+      "IF resource == 'group' AND operation == 'get' THEN SHOW parameter 'group'",
+      "IF resource == 'group' AND operation == 'get' THEN SHOW parameter 'includeUsers'",
+      "IF resource == 'group' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'group' AND operation == 'getAll' THEN SHOW parameter 'limit'",
+      "IF resource == 'group' AND operation == 'getAll' THEN SHOW parameter 'includeUsers'",
+      "IF resource == 'group' AND operation == 'update' THEN SHOW parameter 'group'",
+      "IF resource == 'group' AND operation == 'update' THEN SHOW parameter 'groupName'",
+      "IF resource == 'group' AND operation == 'update' THEN SHOW parameter 'additionalFields'"
+    ]
+  }
+}

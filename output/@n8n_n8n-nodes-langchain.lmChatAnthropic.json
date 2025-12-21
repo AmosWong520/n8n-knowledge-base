@@ -1,0 +1,180 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+  "name": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+  "version": [
+    1,
+    1.1,
+    1.2,
+    1.3
+  ],
+  "semantic_context": "Language Model Anthropic",
+  "parameters": {
+    "notice": {
+      "displayName": "This node must be connected to an AI chain. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>",
+      "name": "notice",
+      "type": "notice",
+      "default": "",
+      "typeOptions": {
+        "containerClass": "ndv-connection-hint-notice"
+      }
+    },
+    "model": {
+      "displayName": "Model",
+      "name": "model",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": "claude-sonnet-4-5-20250929",
+        "cachedResultName": "Claude Sonnet 4.5"
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a model...",
+          "typeOptions": {
+            "searchListMethod": "searchModels",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "Claude Sonnet"
+        }
+      ],
+      "description": "The model. Choose from the list, or specify an ID. <a href=\"https://docs.anthropic.com/claude/docs/models-overview\">Learn more</a>.",
+      "displayOptions": {
+        "show": {
+          "@version": [
+            {
+              "_cnd": {
+                "gte": 1.3
+              }
+            }
+          ]
+        }
+      },
+      "ai_hint": "The model. Choose from the list, or specify an ID. <a href=\"https://docs.anthropic.com/claude/docs/models-overview\">Learn more</a>."
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "placeholder": "Add Option",
+      "description": "Additional options to add",
+      "type": "collection",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Maximum Number of Tokens",
+          "name": "maxTokensToSample",
+          "default": 4096,
+          "description": "The maximum number of tokens to generate in the completion",
+          "type": "number"
+        },
+        {
+          "displayName": "Sampling Temperature",
+          "name": "temperature",
+          "default": 0.7,
+          "typeOptions": {
+            "maxValue": 1,
+            "minValue": 0,
+            "numberPrecision": 1
+          },
+          "description": "Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.",
+          "type": "number",
+          "displayOptions": {
+            "hide": {
+              "thinking": [
+                true
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Top K",
+          "name": "topK",
+          "default": -1,
+          "typeOptions": {
+            "maxValue": 1,
+            "minValue": -1,
+            "numberPrecision": 1
+          },
+          "description": "Used to remove \"long tail\" low probability responses. Defaults to -1, which disables it.",
+          "type": "number",
+          "displayOptions": {
+            "hide": {
+              "thinking": [
+                true
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Top P",
+          "name": "topP",
+          "default": 1,
+          "typeOptions": {
+            "maxValue": 1,
+            "minValue": 0,
+            "numberPrecision": 1
+          },
+          "description": "Controls diversity via nucleus sampling: 0.5 means half of all likelihood-weighted options are considered. We generally recommend altering this or temperature but not both.",
+          "type": "number",
+          "displayOptions": {
+            "hide": {
+              "thinking": [
+                true
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Enable Thinking",
+          "name": "thinking",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to enable thinking mode for the model"
+        },
+        {
+          "displayName": "Thinking Budget (Tokens)",
+          "name": "thinkingBudget",
+          "type": "number",
+          "default": 1024,
+          "description": "The maximum number of tokens to use for thinking",
+          "displayOptions": {
+            "show": {
+              "thinking": [
+                true
+              ]
+            }
+          }
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "notice",
+      "model",
+      "model",
+      "model",
+      "model",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF @version == 1 THEN SHOW parameter 'model'",
+      "IF @version == 1.1 THEN SHOW parameter 'model'",
+      "IF @version == {'_cnd': {'lte': 1.2}} THEN SHOW parameter 'model'",
+      "IF @version == {'_cnd': {'gte': 1.3}} THEN SHOW parameter 'model'",
+      "IF thinking == True THEN HIDE parameter 'temperature'",
+      "IF thinking == True THEN HIDE parameter 'topK'",
+      "IF thinking == True THEN HIDE parameter 'topP'",
+      "IF thinking == True THEN SHOW parameter 'thinkingBudget'"
+    ]
+  }
+}

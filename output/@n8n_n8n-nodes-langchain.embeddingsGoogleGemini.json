@@ -1,0 +1,76 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+  "name": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+  "version": 1,
+  "semantic_context": "Use Google Gemini Embeddings",
+  "parameters": {
+    "notice": {
+      "displayName": "Each model is using different dimensional density for embeddings. Please make sure to use the same dimensionality for your vector store. The default model is using 768-dimensional embeddings.",
+      "name": "notice",
+      "type": "notice",
+      "default": ""
+    },
+    "modelName": {
+      "displayName": "Model",
+      "name": "modelName",
+      "type": "options",
+      "description": "The model which will generate the embeddings. <a href=\"https://developers.generativeai.google/api/rest/generativelanguage/models/list\">Learn more</a>.",
+      "typeOptions": {
+        "loadOptions": {
+          "routing": {
+            "request": {
+              "method": "GET",
+              "url": "/v1beta/models"
+            },
+            "output": {
+              "postReceive": [
+                {
+                  "type": "rootProperty",
+                  "properties": {
+                    "property": "models"
+                  }
+                },
+                {
+                  "type": "filter",
+                  "properties": {
+                    "pass": "={{ $responseItem.name.includes('embedding') }}"
+                  }
+                },
+                {
+                  "type": "setKeyValue",
+                  "properties": {
+                    "name": "={{$responseItem.name}}",
+                    "value": "={{$responseItem.name}}",
+                    "description": "={{$responseItem.description}}"
+                  }
+                },
+                {
+                  "type": "sort",
+                  "properties": {
+                    "key": "name"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "routing": {
+        "send": {
+          "type": "body",
+          "property": "model"
+        }
+      },
+      "default": "models/text-embedding-004",
+      "ai_hint": "The model which will generate the embeddings. <a href=\"https://developers.generativeai.google/api/rest/generativelanguage/models/list\">Learn more</a>."
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "notice",
+      "notice",
+      "modelName"
+    ],
+    "conditional_rules": []
+  }
+}

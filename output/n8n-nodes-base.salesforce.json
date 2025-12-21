@@ -1,0 +1,1289 @@
+{
+  "node_id": "n8n-nodes-base.salesforce",
+  "name": "n8n-nodes-base.salesforce",
+  "version": 1,
+  "semantic_context": "Consume Salesforce API",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        },
+        {
+          "name": "OAuth2 JWT",
+          "value": "jwt"
+        }
+      ],
+      "default": "oAuth2",
+      "description": "OAuth Authorization Flow",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Account",
+          "value": "account",
+          "description": "Represents an individual account, which is an organization or person involved with your business (such as customers, competitors, and partners)"
+        },
+        {
+          "name": "Attachment",
+          "value": "attachment",
+          "description": "Represents a file that a has uploaded and attached to a parent object"
+        },
+        {
+          "name": "Case",
+          "value": "case",
+          "description": "Represents a case, which is a customer issue or problem"
+        },
+        {
+          "name": "Contact",
+          "value": "contact",
+          "description": "Represents a contact, which is an individual associated with an account"
+        },
+        {
+          "name": "Custom Object",
+          "value": "customObject",
+          "description": "Represents a custom object"
+        },
+        {
+          "name": "Document",
+          "value": "document",
+          "description": "Represents a document"
+        },
+        {
+          "name": "Flow",
+          "value": "flow",
+          "description": "Represents an autolaunched flow"
+        },
+        {
+          "name": "Lead",
+          "value": "lead",
+          "description": "Represents a prospect or potential"
+        },
+        {
+          "name": "Opportunity",
+          "value": "opportunity",
+          "description": "Represents an opportunity, which is a sale or pending deal"
+        },
+        {
+          "name": "Search",
+          "value": "search",
+          "description": "Search records"
+        },
+        {
+          "name": "Task",
+          "value": "task",
+          "description": "Represents a business activity such as making a phone call or other to-do items. In the user interface, and records are collectively referred to as activities."
+        },
+        {
+          "name": "User",
+          "value": "user",
+          "description": "Represents a person, which is one user in system"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "lead",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "flow"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many flows",
+          "action": "Get many flows"
+        },
+        {
+          "name": "Invoke",
+          "value": "invoke",
+          "description": "Invoke a flow",
+          "action": "Invoke a flow"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "invoke",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "externalId": {
+      "displayName": "Match Against",
+      "name": "externalId",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getExternalIdFields",
+        "loadOptionsDependsOn": [
+          "resource"
+        ]
+      },
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "account"
+          ],
+          "operation": [
+            "upsert"
+          ]
+        }
+      },
+      "description": "The field to check to see if the account already exists. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The field to check to see if the account already exists. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "externalIdValue": {
+      "displayName": "Value to Match",
+      "name": "externalIdValue",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "account"
+          ],
+          "operation": [
+            "upsert"
+          ]
+        }
+      },
+      "description": "If this value exists in the 'match against' field, update the account. Otherwise create a new one.",
+      "ai_hint": "If this value exists in the 'match against' field, update the account. Otherwise create a new one."
+    },
+    "company": {
+      "displayName": "Company",
+      "name": "company",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "lead"
+          ],
+          "operation": [
+            "create",
+            "upsert"
+          ]
+        }
+      },
+      "description": "Company of the lead. If person account record types have been enabled, and if the value of Company is null, the lead converts to a person account.",
+      "ai_hint": "Company of the lead. If person account record types have been enabled, and if the value of Company is null, the lead converts to a person account."
+    },
+    "lastname": {
+      "displayName": "Last Name",
+      "name": "lastname",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "create",
+            "upsert"
+          ]
+        }
+      },
+      "description": "Required. Last name of the contact. Limited to 80 characters.",
+      "ai_hint": "Required. Last name of the contact. Limited to 80 characters."
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "attachment"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Description",
+          "name": "description",
+          "type": "string",
+          "default": "",
+          "description": "Text description of the Document. Limit: 255 characters."
+        },
+        {
+          "displayName": "Is Private",
+          "name": "isPrivate",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this record is viewable only by the owner and administrators (true) or viewable by all otherwise-allowed users (false)"
+        },
+        {
+          "displayName": "Owner Name or ID",
+          "name": "owner",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getUsers"
+          },
+          "default": "",
+          "description": "ID of the User who owns the attachment. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "leadId": {
+      "displayName": "Lead ID",
+      "name": "leadId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "lead"
+          ],
+          "operation": [
+            "addNote"
+          ]
+        }
+      },
+      "description": "ID of lead that needs to be fetched",
+      "ai_hint": "ID of lead that needs to be fetched"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "attachment"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Input Binary Field",
+          "name": "binaryPropertyName",
+          "type": "string",
+          "default": "data",
+          "placeholder": "",
+          "hint": "The name of the input binary field containing the file to be uploaded"
+        },
+        {
+          "displayName": "Description",
+          "name": "description",
+          "type": "string",
+          "default": "",
+          "description": "Text description of the Document. Limit: 255 characters."
+        },
+        {
+          "displayName": "Is Private",
+          "name": "isPrivate",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this record is viewable only by the owner and administrators (true) or viewable by all otherwise-allowed users (false)"
+        },
+        {
+          "displayName": "Name",
+          "name": "name",
+          "type": "string",
+          "default": "",
+          "description": "Required. Name of the attached file. Maximum size is 255 characters. Label is File Name."
+        },
+        {
+          "displayName": "Owner Name or ID",
+          "name": "owner",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getUsers"
+          },
+          "default": "",
+          "description": "ID of the User who owns the attachment. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "flow"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "flow"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 50,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Conditions",
+          "name": "conditionsUi",
+          "placeholder": "Add Condition",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "description": "The condition to set",
+          "default": {},
+          "options": [
+            {
+              "name": "conditionValues",
+              "displayName": "Condition",
+              "values": [
+                {
+                  "displayName": "Field Name or ID",
+                  "name": "field",
+                  "type": "options",
+                  "typeOptions": {
+                    "loadOptionsMethod": "getUserFields"
+                  },
+                  "default": "",
+                  "description": "For date, number, or boolean, please use expressions. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+                },
+                {
+                  "displayName": "Operation",
+                  "name": "operation",
+                  "type": "options",
+                  "options": [
+                    {
+                      "name": "<",
+                      "value": "<"
+                    },
+                    {
+                      "name": "<=",
+                      "value": "<="
+                    },
+                    {
+                      "name": "=",
+                      "value": "equal"
+                    },
+                    {
+                      "name": ">",
+                      "value": ">"
+                    },
+                    {
+                      "name": ">=",
+                      "value": ">="
+                    }
+                  ],
+                  "default": "equal"
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Fields",
+          "name": "fields",
+          "type": "string",
+          "default": "",
+          "description": "Fields to include separated by ,"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "campaignId": {
+      "displayName": "Campaign Name or ID",
+      "name": "campaignId",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getCampaigns"
+      },
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "addToCampaign"
+          ]
+        }
+      },
+      "description": "ID of the campaign that needs to be fetched. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "ID of the campaign that needs to be fetched. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "account"
+          ],
+          "operation": [
+            "addNote"
+          ]
+        }
+      },
+      "description": "Title of the note",
+      "ai_hint": "Title of the note"
+    },
+    "contactId": {
+      "displayName": "Contact ID",
+      "name": "contactId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "addNote"
+          ]
+        }
+      },
+      "description": "ID of contact that needs to be fetched",
+      "ai_hint": "ID of contact that needs to be fetched"
+    },
+    "customObject": {
+      "displayName": "Custom Object Name or ID",
+      "name": "customObject",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getCustomObjects"
+      },
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "customObject"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "description": "Name of the custom object. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "Name of the custom object. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "customFieldsUi": {
+      "displayName": "Fields",
+      "name": "customFieldsUi",
+      "placeholder": "Add Field",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "description": "Filter by custom fields",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "customObject"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "customFieldsValues",
+          "displayName": "Custom Field",
+          "values": [
+            {
+              "displayName": "Field Name or ID",
+              "name": "fieldId",
+              "type": "options",
+              "typeOptions": {
+                "loadOptionsMethod": "getCustomObjectFields",
+                "loadOptionsDependsOn": [
+                  "customObject"
+                ]
+              },
+              "default": "",
+              "description": "The ID of the field. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "The value to set on custom field"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "recordId": {
+      "displayName": "Record ID",
+      "name": "recordId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "customObject"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "description": "Record ID to be deleted",
+      "ai_hint": "Record ID to be deleted"
+    },
+    "binaryPropertyName": {
+      "displayName": "Input Binary Field",
+      "name": "binaryPropertyName",
+      "type": "string",
+      "default": "data",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "attachment"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "placeholder": "",
+      "hint": "The name of the input binary field containing the file to be uploaded"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "attachment"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Required. Name of the attached file. Maximum size is 255 characters. Label is File Name.",
+      "ai_hint": "Required. Name of the attached file. Maximum size is 255 characters. Label is File Name."
+    },
+    "closeDate": {
+      "displayName": "Close Date",
+      "name": "closeDate",
+      "type": "dateTime",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "opportunity"
+          ],
+          "operation": [
+            "create",
+            "upsert"
+          ]
+        }
+      },
+      "description": "Required. Date when the opportunity is expected to close.",
+      "ai_hint": "Required. Date when the opportunity is expected to close."
+    },
+    "stageName": {
+      "displayName": "Stage Name or ID",
+      "name": "stageName",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getStages"
+      },
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "opportunity"
+          ],
+          "operation": [
+            "create",
+            "upsert"
+          ]
+        }
+      },
+      "description": "Required. Date when the opportunity is expected to close. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "Required. Date when the opportunity is expected to close. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "opportunityId": {
+      "displayName": "Opportunity ID",
+      "name": "opportunityId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "opportunity"
+          ],
+          "operation": [
+            "addNote"
+          ]
+        }
+      },
+      "description": "ID of opportunity that needs to be fetched",
+      "ai_hint": "ID of opportunity that needs to be fetched"
+    },
+    "accountId": {
+      "displayName": "Account ID",
+      "name": "accountId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "account"
+          ],
+          "operation": [
+            "addNote"
+          ]
+        }
+      },
+      "description": "ID of account that needs to be fetched",
+      "ai_hint": "ID of account that needs to be fetched"
+    },
+    "query": {
+      "displayName": "Query",
+      "name": "query",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "search"
+          ],
+          "operation": [
+            "query"
+          ]
+        }
+      },
+      "description": "A SOQL query. An example query parameter string might look like: “SELECT+Name+FROM+MyObject”. If the SOQL query string is invalid, a MALFORMED_QUERY response is returned.",
+      "ai_hint": "A SOQL query. An example query parameter string might look like: “SELECT+Name+FROM+MyObject”. If the SOQL query string is invalid, a MALFORMED_QUERY response is returned."
+    },
+    "type": {
+      "displayName": "Type Name or ID",
+      "name": "type",
+      "type": "options",
+      "required": true,
+      "typeOptions": {
+        "loadOptionsMethod": "getCaseTypes"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The type of case. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The type of case. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "caseId": {
+      "displayName": "Case ID",
+      "name": "caseId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "addComment"
+          ]
+        }
+      },
+      "description": "ID of case that needs to be fetched",
+      "ai_hint": "ID of case that needs to be fetched"
+    },
+    "status": {
+      "displayName": "Status Name or ID",
+      "name": "status",
+      "type": "options",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "typeOptions": {
+        "loadOptionsMethod": "getTaskStatuses"
+      },
+      "description": "The current status of the task, such as In Progress or Completed. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The current status of the task, such as In Progress or Completed. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "taskId": {
+      "displayName": "Task ID",
+      "name": "taskId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "description": "ID of task that needs to be fetched",
+      "ai_hint": "ID of task that needs to be fetched"
+    },
+    "parentId": {
+      "displayName": "Parent ID",
+      "name": "parentId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "attachment"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "attachmentId": {
+      "displayName": "Attachment ID",
+      "name": "attachmentId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "attachment"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "description": "ID of attachment that needs to be fetched",
+      "ai_hint": "ID of attachment that needs to be fetched"
+    },
+    "userId": {
+      "displayName": "User ID",
+      "name": "userId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "description": "ID of user that needs to be fetched",
+      "ai_hint": "ID of user that needs to be fetched"
+    },
+    "apiName": {
+      "displayName": "API Name",
+      "name": "apiName",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "flow"
+          ],
+          "operation": [
+            "invoke"
+          ]
+        }
+      },
+      "description": "Required. API name of the flow.",
+      "ai_hint": "Required. API name of the flow."
+    },
+    "jsonParameters": {
+      "displayName": "JSON Parameters",
+      "name": "jsonParameters",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "flow"
+          ],
+          "operation": [
+            "invoke"
+          ]
+        }
+      },
+      "description": "Whether the input variables should be set via the value-key pair UI or JSON/RAW",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "variablesJson": {
+      "displayName": "Variables",
+      "name": "variablesJson",
+      "type": "json",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "flow"
+          ],
+          "operation": [
+            "invoke"
+          ],
+          "jsonParameters": [
+            true
+          ]
+        }
+      },
+      "default": "",
+      "description": "Input variables as JSON object",
+      "ai_hint": "Input variables as JSON object"
+    },
+    "variablesUi": {
+      "displayName": "Variables",
+      "name": "variablesUi",
+      "placeholder": "Add Variable",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "flow"
+          ],
+          "operation": [
+            "invoke"
+          ],
+          "jsonParameters": [
+            false
+          ]
+        }
+      },
+      "description": "The input variable to send",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Variable",
+          "name": "variablesValues",
+          "values": [
+            {
+              "displayName": "Name",
+              "name": "name",
+              "type": "string",
+              "default": "",
+              "description": "Name of the input variable"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "Value of the input variable"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "resource",
+      "operation",
+      "externalId",
+      "externalIdValue",
+      "company",
+      "lastname",
+      "additionalFields",
+      "leadId",
+      "updateFields",
+      "leadId",
+      "leadId",
+      "returnAll",
+      "limit",
+      "options",
+      "leadId",
+      "campaignId",
+      "options",
+      "leadId",
+      "title",
+      "options",
+      "operation",
+      "externalId",
+      "externalIdValue",
+      "lastname",
+      "additionalFields",
+      "contactId",
+      "updateFields",
+      "contactId",
+      "contactId",
+      "returnAll",
+      "limit",
+      "options",
+      "contactId",
+      "campaignId",
+      "options",
+      "contactId",
+      "title",
+      "options",
+      "operation",
+      "customObject",
+      "externalId",
+      "externalIdValue",
+      "customFieldsUi",
+      "customObject",
+      "recordId",
+      "customFieldsUi",
+      "customObject",
+      "recordId",
+      "customObject",
+      "recordId",
+      "customObject",
+      "returnAll",
+      "limit",
+      "options",
+      "additionalFields",
+      "updateFields",
+      "operation",
+      "title",
+      "binaryPropertyName",
+      "additionalFields",
+      "operation",
+      "externalId",
+      "externalIdValue",
+      "name",
+      "closeDate",
+      "stageName",
+      "additionalFields",
+      "opportunityId",
+      "updateFields",
+      "opportunityId",
+      "opportunityId",
+      "returnAll",
+      "limit",
+      "options",
+      "opportunityId",
+      "title",
+      "options",
+      "operation",
+      "externalId",
+      "externalIdValue",
+      "name",
+      "additionalFields",
+      "accountId",
+      "updateFields",
+      "accountId",
+      "accountId",
+      "returnAll",
+      "limit",
+      "options",
+      "accountId",
+      "title",
+      "options",
+      "operation",
+      "query",
+      "operation",
+      "type",
+      "additionalFields",
+      "caseId",
+      "updateFields",
+      "caseId",
+      "caseId",
+      "returnAll",
+      "limit",
+      "options",
+      "caseId",
+      "options",
+      "operation",
+      "status",
+      "additionalFields",
+      "taskId",
+      "updateFields",
+      "taskId",
+      "taskId",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "parentId",
+      "name",
+      "binaryPropertyName",
+      "additionalFields",
+      "attachmentId",
+      "updateFields",
+      "attachmentId",
+      "attachmentId",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "userId",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "returnAll",
+      "limit",
+      "apiName",
+      "jsonParameters",
+      "variablesJson",
+      "variablesUi"
+    ],
+    "conditional_rules": [
+      "IF resource == 'lead' THEN SHOW parameter 'operation'",
+      "IF resource == 'lead' AND operation == 'upsert' THEN SHOW parameter 'externalId'",
+      "IF resource == 'lead' AND operation == 'upsert' THEN SHOW parameter 'externalIdValue'",
+      "IF resource == 'lead' AND operation IN [\"create\", \"upsert\"] THEN SHOW parameter 'company'",
+      "IF resource == 'lead' AND operation IN [\"create\", \"upsert\"] THEN SHOW parameter 'lastname'",
+      "IF resource == 'lead' AND operation IN [\"create\", \"upsert\"] THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'lead' AND operation == 'update' THEN SHOW parameter 'leadId'",
+      "IF resource == 'lead' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'lead' AND operation == 'get' THEN SHOW parameter 'leadId'",
+      "IF resource == 'lead' AND operation == 'delete' THEN SHOW parameter 'leadId'",
+      "IF resource == 'lead' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'lead' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'lead' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'lead' AND operation == 'addToCampaign' THEN SHOW parameter 'leadId'",
+      "IF resource == 'lead' AND operation == 'addToCampaign' THEN SHOW parameter 'campaignId'",
+      "IF resource == 'lead' AND operation == 'addToCampaign' THEN SHOW parameter 'options'",
+      "IF resource == 'lead' AND operation == 'addNote' THEN SHOW parameter 'leadId'",
+      "IF resource == 'lead' AND operation == 'addNote' THEN SHOW parameter 'title'",
+      "IF resource == 'lead' AND operation == 'addNote' THEN SHOW parameter 'options'",
+      "IF resource == 'contact' THEN SHOW parameter 'operation'",
+      "IF resource == 'contact' AND operation == 'upsert' THEN SHOW parameter 'externalId'",
+      "IF resource == 'contact' AND operation == 'upsert' THEN SHOW parameter 'externalIdValue'",
+      "IF resource == 'contact' AND operation IN [\"create\", \"upsert\"] THEN SHOW parameter 'lastname'",
+      "IF resource == 'contact' AND operation IN [\"create\", \"upsert\"] THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'contact' AND operation == 'update' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'contact' AND operation == 'get' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'delete' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'contact' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'contact' AND operation == 'addToCampaign' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'addToCampaign' THEN SHOW parameter 'campaignId'",
+      "IF resource == 'contact' AND operation == 'addToCampaign' THEN SHOW parameter 'options'",
+      "IF resource == 'contact' AND operation == 'addNote' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'addNote' THEN SHOW parameter 'title'",
+      "IF resource == 'contact' AND operation == 'addNote' THEN SHOW parameter 'options'",
+      "IF resource == 'customObject' THEN SHOW parameter 'operation'",
+      "IF resource == 'customObject' AND operation IN [\"create\", \"upsert\"] THEN SHOW parameter 'customObject'",
+      "IF resource == 'customObject' AND operation == 'upsert' THEN SHOW parameter 'externalId'",
+      "IF resource == 'customObject' AND operation == 'upsert' THEN SHOW parameter 'externalIdValue'",
+      "IF resource == 'customObject' AND operation IN [\"create\", \"upsert\"] THEN SHOW parameter 'customFieldsUi'",
+      "IF resource == 'customObject' AND operation == 'update' THEN SHOW parameter 'customObject'",
+      "IF resource == 'customObject' AND operation == 'update' THEN SHOW parameter 'recordId'",
+      "IF resource == 'customObject' AND operation == 'update' THEN SHOW parameter 'customFieldsUi'",
+      "IF resource == 'customObject' AND operation == 'get' THEN SHOW parameter 'customObject'",
+      "IF resource == 'customObject' AND operation == 'get' THEN SHOW parameter 'recordId'",
+      "IF resource == 'customObject' AND operation == 'delete' THEN SHOW parameter 'customObject'",
+      "IF resource == 'customObject' AND operation == 'delete' THEN SHOW parameter 'recordId'",
+      "IF resource == 'customObject' AND operation == 'getAll' THEN SHOW parameter 'customObject'",
+      "IF resource == 'customObject' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'customObject' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'customObject' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF operation IN [\"create\", \"upsert\"] AND resource == 'customObject' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'update' AND resource == 'customObject' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'document' THEN SHOW parameter 'operation'",
+      "IF resource == 'document' AND operation == 'upload' THEN SHOW parameter 'title'",
+      "IF resource == 'document' AND operation == 'upload' THEN SHOW parameter 'binaryPropertyName'",
+      "IF resource == 'document' AND operation == 'upload' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'opportunity' THEN SHOW parameter 'operation'",
+      "IF resource == 'opportunity' AND operation == 'upsert' THEN SHOW parameter 'externalId'",
+      "IF resource == 'opportunity' AND operation == 'upsert' THEN SHOW parameter 'externalIdValue'",
+      "IF resource == 'opportunity' AND operation IN [\"create\", \"upsert\"] THEN SHOW parameter 'name'",
+      "IF resource == 'opportunity' AND operation IN [\"create\", \"upsert\"] THEN SHOW parameter 'closeDate'",
+      "IF resource == 'opportunity' AND operation IN [\"create\", \"upsert\"] THEN SHOW parameter 'stageName'",
+      "IF resource == 'opportunity' AND operation IN [\"create\", \"upsert\"] THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'opportunity' AND operation == 'update' THEN SHOW parameter 'opportunityId'",
+      "IF resource == 'opportunity' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'opportunity' AND operation == 'get' THEN SHOW parameter 'opportunityId'",
+      "IF resource == 'opportunity' AND operation == 'delete' THEN SHOW parameter 'opportunityId'",
+      "IF resource == 'opportunity' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'opportunity' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'opportunity' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'opportunity' AND operation == 'addNote' THEN SHOW parameter 'opportunityId'",
+      "IF resource == 'opportunity' AND operation == 'addNote' THEN SHOW parameter 'title'",
+      "IF resource == 'opportunity' AND operation == 'addNote' THEN SHOW parameter 'options'",
+      "IF resource == 'account' THEN SHOW parameter 'operation'",
+      "IF resource == 'account' AND operation == 'upsert' THEN SHOW parameter 'externalId'",
+      "IF resource == 'account' AND operation == 'upsert' THEN SHOW parameter 'externalIdValue'",
+      "IF resource == 'account' AND operation IN [\"create\", \"upsert\"] THEN SHOW parameter 'name'",
+      "IF resource == 'account' AND operation IN [\"create\", \"upsert\"] THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'account' AND operation == 'update' THEN SHOW parameter 'accountId'",
+      "IF resource == 'account' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'account' AND operation == 'get' THEN SHOW parameter 'accountId'",
+      "IF resource == 'account' AND operation == 'delete' THEN SHOW parameter 'accountId'",
+      "IF resource == 'account' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'account' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'account' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'account' AND operation == 'addNote' THEN SHOW parameter 'accountId'",
+      "IF resource == 'account' AND operation == 'addNote' THEN SHOW parameter 'title'",
+      "IF resource == 'account' AND operation == 'addNote' THEN SHOW parameter 'options'",
+      "IF resource == 'search' THEN SHOW parameter 'operation'",
+      "IF resource == 'search' AND operation == 'query' THEN SHOW parameter 'query'",
+      "IF resource == 'case' THEN SHOW parameter 'operation'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'type'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'case' AND operation == 'update' THEN SHOW parameter 'caseId'",
+      "IF resource == 'case' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'case' AND operation == 'get' THEN SHOW parameter 'caseId'",
+      "IF resource == 'case' AND operation == 'delete' THEN SHOW parameter 'caseId'",
+      "IF resource == 'case' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'case' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'case' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'case' AND operation == 'addComment' THEN SHOW parameter 'caseId'",
+      "IF resource == 'case' AND operation == 'addComment' THEN SHOW parameter 'options'",
+      "IF resource == 'task' THEN SHOW parameter 'operation'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'status'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'task' AND operation == 'get' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'delete' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'task' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'attachment' THEN SHOW parameter 'operation'",
+      "IF resource == 'attachment' AND operation == 'create' THEN SHOW parameter 'parentId'",
+      "IF resource == 'attachment' AND operation == 'create' THEN SHOW parameter 'name'",
+      "IF resource == 'attachment' AND operation == 'create' THEN SHOW parameter 'binaryPropertyName'",
+      "IF resource == 'attachment' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'attachment' AND operation == 'update' THEN SHOW parameter 'attachmentId'",
+      "IF resource == 'attachment' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'attachment' AND operation == 'get' THEN SHOW parameter 'attachmentId'",
+      "IF resource == 'attachment' AND operation == 'delete' THEN SHOW parameter 'attachmentId'",
+      "IF resource == 'attachment' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'attachment' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'attachment' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'user' THEN SHOW parameter 'operation'",
+      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'userId'",
+      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'user' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'flow' THEN SHOW parameter 'operation'",
+      "IF operation == 'getAll' AND resource == 'flow' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'flow' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'flow' AND operation == 'invoke' THEN SHOW parameter 'apiName'",
+      "IF resource == 'flow' AND operation == 'invoke' THEN SHOW parameter 'jsonParameters'",
+      "IF resource == 'flow' AND operation == 'invoke' AND jsonParameters == True THEN SHOW parameter 'variablesJson'",
+      "IF resource == 'flow' AND operation == 'invoke' AND jsonParameters == False THEN SHOW parameter 'variablesUi'"
+    ]
+  }
+}

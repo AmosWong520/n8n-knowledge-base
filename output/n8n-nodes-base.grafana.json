@@ -1,0 +1,412 @@
+{
+  "node_id": "n8n-nodes-base.grafana",
+  "name": "n8n-nodes-base.grafana",
+  "version": 1,
+  "semantic_context": "Consume the Grafana API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "noDataExpression": true,
+      "type": "options",
+      "options": [
+        {
+          "name": "Dashboard",
+          "value": "dashboard"
+        },
+        {
+          "name": "Team",
+          "value": "team"
+        },
+        {
+          "name": "Team Member",
+          "value": "teamMember"
+        },
+        {
+          "name": "User",
+          "value": "user"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "dashboard",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a user from the current organization",
+          "action": "Delete a user"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Retrieve many users in the current organization",
+          "action": "Get many users"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a user in the current organization",
+          "action": "Update a user"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "getAll",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "description": "Title of the dashboard to create",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "dashboard"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Title of the dashboard to create"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "team"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Email",
+          "name": "email",
+          "type": "string",
+          "placeholder": "engineering@n8n.io",
+          "default": "",
+          "description": "Email of the team to create"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "dashboardUidOrUrl": {
+      "displayName": "Dashboard UID or URL",
+      "name": "dashboardUidOrUrl",
+      "description": "Unique alphabetic identifier or URL of the dashboard to update",
+      "placeholder": "cIBgcSjkk",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "dashboard"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "default": 50,
+      "description": "Max number of results to return",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "team"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Name",
+          "name": "name",
+          "type": "string",
+          "default": "",
+          "description": "Name of the team to filter by"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Role",
+          "name": "role",
+          "type": "options",
+          "default": "Admin",
+          "description": "New role for the user",
+          "options": [
+            {
+              "name": "Admin",
+              "value": "Admin"
+            },
+            {
+              "name": "Editor",
+              "value": "Editor"
+            },
+            {
+              "name": "Viewer",
+              "value": "Viewer"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "description": "Name of the team to create",
+      "placeholder": "Engineering",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "team"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Name of the team to create"
+    },
+    "teamId": {
+      "displayName": "Team Name or ID",
+      "name": "teamId",
+      "description": "Team to retrieve all members from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "typeOptions": {
+        "loadOptionsMethod": "getTeams"
+      },
+      "type": "options",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "teamMember"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "Team to retrieve all members from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "userId": {
+      "displayName": "User ID",
+      "name": "userId",
+      "description": "ID of the user to delete",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "ai_hint": "ID of the user to delete"
+    },
+    "memberId": {
+      "displayName": "User Name or ID",
+      "name": "memberId",
+      "description": "User to remove from the team. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "type": "options",
+      "required": true,
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "getUsers"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "teamMember"
+          ],
+          "operation": [
+            "remove"
+          ]
+        }
+      },
+      "ai_hint": "User to remove from the team. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "title",
+      "additionalFields",
+      "dashboardUidOrUrl",
+      "dashboardUidOrUrl",
+      "returnAll",
+      "limit",
+      "filters",
+      "dashboardUidOrUrl",
+      "updateFields",
+      "operation",
+      "name",
+      "additionalFields",
+      "teamId",
+      "teamId",
+      "returnAll",
+      "limit",
+      "filters",
+      "teamId",
+      "updateFields",
+      "operation",
+      "userId",
+      "teamId",
+      "memberId",
+      "teamId",
+      "teamId",
+      "returnAll",
+      "limit",
+      "operation",
+      "userId",
+      "updateFields",
+      "userId",
+      "returnAll",
+      "limit"
+    ],
+    "conditional_rules": [
+      "IF resource == 'dashboard' THEN SHOW parameter 'operation'",
+      "IF resource == 'dashboard' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'dashboard' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'dashboard' AND operation == 'delete' THEN SHOW parameter 'dashboardUidOrUrl'",
+      "IF resource == 'dashboard' AND operation == 'get' THEN SHOW parameter 'dashboardUidOrUrl'",
+      "IF resource == 'dashboard' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'dashboard' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'dashboard' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'dashboard' AND operation == 'update' THEN SHOW parameter 'dashboardUidOrUrl'",
+      "IF resource == 'dashboard' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'team' THEN SHOW parameter 'operation'",
+      "IF resource == 'team' AND operation == 'create' THEN SHOW parameter 'name'",
+      "IF resource == 'team' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'team' AND operation == 'delete' THEN SHOW parameter 'teamId'",
+      "IF resource == 'team' AND operation == 'get' THEN SHOW parameter 'teamId'",
+      "IF resource == 'team' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'team' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'team' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'team' AND operation == 'update' THEN SHOW parameter 'teamId'",
+      "IF resource == 'team' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'teamMember' THEN SHOW parameter 'operation'",
+      "IF resource == 'teamMember' AND operation == 'add' THEN SHOW parameter 'userId'",
+      "IF resource == 'teamMember' AND operation == 'add' THEN SHOW parameter 'teamId'",
+      "IF resource == 'teamMember' AND operation == 'remove' THEN SHOW parameter 'memberId'",
+      "IF resource == 'teamMember' AND operation == 'remove' THEN SHOW parameter 'teamId'",
+      "IF resource == 'teamMember' AND operation == 'getAll' THEN SHOW parameter 'teamId'",
+      "IF resource == 'teamMember' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'teamMember' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'user' THEN SHOW parameter 'operation'",
+      "IF resource == 'user' AND operation == 'update' THEN SHOW parameter 'userId'",
+      "IF resource == 'user' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'user' AND operation == 'delete' THEN SHOW parameter 'userId'",
+      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'user' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'"
+    ]
+  }
+}

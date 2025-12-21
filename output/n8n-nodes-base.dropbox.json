@@ -1,0 +1,400 @@
+{
+  "node_id": "n8n-nodes-base.dropbox",
+  "name": "n8n-nodes-base.dropbox",
+  "version": 1,
+  "semantic_context": "Access data on Dropbox",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Access Token",
+          "value": "accessToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "accessToken",
+      "description": "Means of authenticating with the service",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "File",
+          "value": "file"
+        },
+        {
+          "name": "Folder",
+          "value": "folder"
+        },
+        {
+          "name": "Search",
+          "value": "search"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "file",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "search"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Query",
+          "value": "query",
+          "action": "Query"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "query",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "path": {
+      "displayName": "Folder Path",
+      "name": "path",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "list"
+          ],
+          "resource": [
+            "folder"
+          ]
+        }
+      },
+      "placeholder": "/invoices/2019/",
+      "description": "The path of which to list the content",
+      "ai_hint": "The path of which to list the content"
+    },
+    "toPath": {
+      "displayName": "To Path",
+      "name": "toPath",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "move"
+          ],
+          "resource": [
+            "file",
+            "folder"
+          ]
+        }
+      },
+      "placeholder": "/invoices/new_name.txt",
+      "description": "The new path of file or folder",
+      "ai_hint": "The new path of file or folder"
+    },
+    "binaryPropertyName": {
+      "displayName": "Input Binary Field",
+      "name": "binaryPropertyName",
+      "type": "string",
+      "default": "data",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "upload"
+          ],
+          "resource": [
+            "file"
+          ],
+          "binaryData": [
+            true
+          ]
+        }
+      },
+      "placeholder": "",
+      "hint": "The name of the input binary field containing the file to be uploaded"
+    },
+    "binaryData": {
+      "displayName": "Binary File",
+      "name": "binaryData",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "upload"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "description": "Whether the data to upload should be taken from binary field",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "fileContent": {
+      "displayName": "File Content",
+      "name": "fileContent",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "upload"
+          ],
+          "resource": [
+            "file"
+          ],
+          "binaryData": [
+            false
+          ]
+        }
+      },
+      "placeholder": "",
+      "description": "The text content of the file to upload",
+      "ai_hint": "The text content of the file to upload"
+    },
+    "query": {
+      "displayName": "Query",
+      "name": "query",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "query"
+          ],
+          "resource": [
+            "search"
+          ]
+        }
+      },
+      "description": "The string to search for. May match across multiple fields based on the request arguments.",
+      "ai_hint": "The string to search for. May match across multiple fields based on the request arguments."
+    },
+    "fileStatus": {
+      "displayName": "File Status",
+      "name": "fileStatus",
+      "type": "options",
+      "options": [
+        {
+          "name": "Active",
+          "value": "active"
+        },
+        {
+          "name": "Deleted",
+          "value": "deleted"
+        }
+      ],
+      "default": "active",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "query"
+          ],
+          "resource": [
+            "search"
+          ]
+        }
+      },
+      "description": "The string to search for. May match across multiple fields based on the request arguments.",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "list"
+          ],
+          "resource": [
+            "folder"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "folder"
+          ],
+          "operation": [
+            "list"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "simple": {
+      "displayName": "Simplify",
+      "name": "simple",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "query"
+          ],
+          "resource": [
+            "search"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to return a simplified version of the response instead of the raw data",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "folder"
+          ],
+          "operation": [
+            "list"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Include Deleted",
+          "name": "include_deleted",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the results will include entries for files and folders that used to exist but were deleted. The default for this field is False."
+        },
+        {
+          "displayName": "Include Shared Members",
+          "name": "include_has_explicit_shared_members",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the results will include a flag for each file indicating whether or not that file has any explicit members. The default for this field is False."
+        },
+        {
+          "displayName": "Include Mounted Folders",
+          "name": "include_mounted_folders",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether the results will include entries under mounted folders which includes app folder, shared folder and team folder. The default for this field is True."
+        },
+        {
+          "displayName": "Include Non Downloadable Files",
+          "name": "include_non_downloadable_files",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to include files that are not downloadable, i.e. Google Docs. The default for this field is True."
+        },
+        {
+          "displayName": "Recursive",
+          "name": "recursive",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the list folder operation will be applied recursively to all subfolders and the response will contain contents of all subfolders. The default for this field is False."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "resource",
+      "operation",
+      "operation",
+      "operation",
+      "path",
+      "toPath",
+      "path",
+      "path",
+      "toPath",
+      "path",
+      "binaryPropertyName",
+      "path",
+      "binaryData",
+      "fileContent",
+      "binaryPropertyName",
+      "query",
+      "fileStatus",
+      "returnAll",
+      "limit",
+      "simple",
+      "filters",
+      "path",
+      "path",
+      "returnAll",
+      "limit",
+      "filters"
+    ],
+    "conditional_rules": [
+      "IF resource == 'file' THEN SHOW parameter 'operation'",
+      "IF resource == 'folder' THEN SHOW parameter 'operation'",
+      "IF resource == 'search' THEN SHOW parameter 'operation'",
+      "IF operation == 'copy' AND resource IN [\"file\", \"folder\"] THEN SHOW parameter 'path'",
+      "IF operation == 'copy' AND resource IN [\"file\", \"folder\"] THEN SHOW parameter 'toPath'",
+      "IF operation == 'delete' AND resource IN [\"file\", \"folder\"] THEN SHOW parameter 'path'",
+      "IF operation == 'move' AND resource IN [\"file\", \"folder\"] THEN SHOW parameter 'path'",
+      "IF operation == 'move' AND resource IN [\"file\", \"folder\"] THEN SHOW parameter 'toPath'",
+      "IF operation == 'download' AND resource == 'file' THEN SHOW parameter 'path'",
+      "IF operation == 'download' AND resource == 'file' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'path'",
+      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'binaryData'",
+      "IF operation == 'upload' AND resource == 'file' AND binaryData == False THEN SHOW parameter 'fileContent'",
+      "IF operation == 'upload' AND resource == 'file' AND binaryData == True THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'query' AND resource == 'search' THEN SHOW parameter 'query'",
+      "IF operation == 'query' AND resource == 'search' THEN SHOW parameter 'fileStatus'",
+      "IF operation == 'query' AND resource == 'search' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'search' AND operation == 'query' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'query' AND resource == 'search' THEN SHOW parameter 'simple'",
+      "IF resource == 'search' AND operation == 'query' THEN SHOW parameter 'filters'",
+      "IF operation == 'create' AND resource == 'folder' THEN SHOW parameter 'path'",
+      "IF operation == 'list' AND resource == 'folder' THEN SHOW parameter 'path'",
+      "IF operation == 'list' AND resource == 'folder' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'folder' AND operation == 'list' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'folder' AND operation == 'list' THEN SHOW parameter 'filters'"
+    ]
+  }
+}

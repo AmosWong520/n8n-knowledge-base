@@ -1,0 +1,490 @@
+{
+  "node_id": "n8n-nodes-base.quickbaseTool",
+  "name": "n8n-nodes-base.quickbaseTool",
+  "version": 1,
+  "semantic_context": "Integrate with the Quick Base RESTful API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Integrate with the Quick Base RESTful API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Field",
+          "value": "field"
+        },
+        {
+          "name": "File",
+          "value": "file"
+        },
+        {
+          "name": "Record",
+          "value": "record"
+        },
+        {
+          "name": "Report",
+          "value": "report"
+        }
+      ],
+      "default": "record",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a report",
+          "action": "Get a report"
+        },
+        {
+          "name": "Run",
+          "value": "run",
+          "description": "Run a report",
+          "action": "Run a report"
+        }
+      ],
+      "default": "get",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "tableId": {
+      "displayName": "Table ID",
+      "name": "tableId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "run"
+          ]
+        }
+      },
+      "description": "The table identifier",
+      "ai_hint": "The table identifier"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "run"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "run"
+          ]
+        },
+        "hide": {
+          "returnAll": [
+            true
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 100
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "record"
+          ],
+          "operation": [
+            "upsert"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Field Names or IDs",
+          "name": "fields",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getTableFields",
+            "loadOptionsDependsOn": [
+              "tableId"
+            ]
+          },
+          "default": [],
+          "description": "Specify an array of field IDs that will return data for any updates or added record. Record ID (FID 3) is always returned if any field ID is requested. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Use Field IDs",
+          "name": "useFieldIDs",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to use Field IDs instead of Field Names in Columns"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "recordId": {
+      "displayName": "Record ID",
+      "name": "recordId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ],
+          "operation": [
+            "download",
+            "delete"
+          ]
+        }
+      },
+      "description": "The unique identifier of the record",
+      "ai_hint": "The unique identifier of the record"
+    },
+    "fieldId": {
+      "displayName": "Field ID",
+      "name": "fieldId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ],
+          "operation": [
+            "download",
+            "delete"
+          ]
+        }
+      },
+      "description": "The unique identifier of the field",
+      "ai_hint": "The unique identifier of the field"
+    },
+    "versionNumber": {
+      "displayName": "Version Number",
+      "name": "versionNumber",
+      "type": "number",
+      "default": 1,
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ],
+          "operation": [
+            "download",
+            "delete"
+          ]
+        }
+      },
+      "description": "The file attachment version number",
+      "ai_hint": "The file attachment version number"
+    },
+    "binaryPropertyName": {
+      "displayName": "Input Binary Field",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ],
+          "operation": [
+            "download"
+          ]
+        }
+      },
+      "name": "binaryPropertyName",
+      "type": "string",
+      "default": "data",
+      "hint": "The name of the input binary field containing the file to be written",
+      "required": true
+    },
+    "columns": {
+      "displayName": "Columns",
+      "name": "columns",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "record"
+          ],
+          "operation": [
+            "upsert"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "placeholder": "id,name,description",
+      "description": "Comma-separated list of the properties which should used as columns for the new rows",
+      "ai_hint": "Comma-separated list of the properties which should used as columns for the new rows"
+    },
+    "simple": {
+      "displayName": "Simplify",
+      "name": "simple",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "record"
+          ],
+          "operation": [
+            "upsert"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to return a simplified version of the response instead of the raw data",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "where": {
+      "displayName": "Where",
+      "name": "where",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "record"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "description": "The filter to delete records. To delete all records specify a filter that will include all records, for example {3.GT.0} where 3 is the ID of the Record ID field.",
+      "ai_hint": "The filter to delete records. To delete all records specify a filter that will include all records, for example {3.GT.0} where 3 is the ID of the Record ID field."
+    },
+    "updateKey": {
+      "displayName": "Update Key",
+      "name": "updateKey",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "record"
+          ],
+          "operation": [
+            "upsert"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Update can use the key field on the table, or any other supported unique field",
+      "ai_hint": "Update can use the key field on the table, or any other supported unique field"
+    },
+    "mergeFieldId": {
+      "displayName": "Merge Field Name or ID",
+      "name": "mergeFieldId",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getUniqueTableFields"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "record"
+          ],
+          "operation": [
+            "upsert"
+          ]
+        }
+      },
+      "default": "",
+      "description": "<p>You're updating records in a Quick Base table with data from an external file. In order for a merge like this to work, Quick Base needs a way to match records in the source data with corresponding records in the destination table.</p><p>You make this possible by choosing the field in the app table that holds unique matching values. This is called a merge field.</p>. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "<p>You're updating records in a Quick Base table with data from an external file. In order for a merge like this to work, Quick Base needs a way to match records in the source data with corresponding records in the destination table.</p><p>You make this possible by choosing the field in the app table that holds unique matching values. This is called a merge field.</p>. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "reportId": {
+      "displayName": "Report ID",
+      "name": "reportId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "run"
+          ]
+        }
+      },
+      "description": "The identifier of the report, unique to the table",
+      "ai_hint": "The identifier of the report, unique to the table"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "tableId",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "tableId",
+      "recordId",
+      "fieldId",
+      "versionNumber",
+      "binaryPropertyName",
+      "operation",
+      "tableId",
+      "columns",
+      "simple",
+      "options",
+      "tableId",
+      "where",
+      "tableId",
+      "returnAll",
+      "limit",
+      "options",
+      "tableId",
+      "columns",
+      "updateKey",
+      "simple",
+      "options",
+      "tableId",
+      "columns",
+      "updateKey",
+      "mergeFieldId",
+      "simple",
+      "options",
+      "operation",
+      "tableId",
+      "reportId",
+      "tableId",
+      "reportId",
+      "returnAll",
+      "limit"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'field' THEN SHOW parameter 'operation'",
+      "IF resource == 'field' AND operation == 'getAll' THEN SHOW parameter 'tableId'",
+      "IF resource == 'field' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'field' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'field' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'file' THEN SHOW parameter 'operation'",
+      "IF resource == 'file' AND operation IN [\"download\", \"delete\"] THEN SHOW parameter 'tableId'",
+      "IF resource == 'file' AND operation IN [\"download\", \"delete\"] THEN SHOW parameter 'recordId'",
+      "IF resource == 'file' AND operation IN [\"download\", \"delete\"] THEN SHOW parameter 'fieldId'",
+      "IF resource == 'file' AND operation IN [\"download\", \"delete\"] THEN SHOW parameter 'versionNumber'",
+      "IF resource == 'file' AND operation == 'download' THEN SHOW parameter 'binaryPropertyName'",
+      "IF resource == 'record' THEN SHOW parameter 'operation'",
+      "IF resource == 'record' AND operation == 'create' THEN SHOW parameter 'tableId'",
+      "IF resource == 'record' AND operation == 'create' THEN SHOW parameter 'columns'",
+      "IF resource == 'record' AND operation == 'create' THEN SHOW parameter 'simple'",
+      "IF resource == 'record' AND operation == 'create' THEN SHOW parameter 'options'",
+      "IF resource == 'record' AND operation == 'delete' THEN SHOW parameter 'tableId'",
+      "IF resource == 'record' AND operation == 'delete' THEN SHOW parameter 'where'",
+      "IF resource == 'record' AND operation == 'getAll' THEN SHOW parameter 'tableId'",
+      "IF resource == 'record' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'record' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'record' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'record' AND operation == 'update' THEN SHOW parameter 'tableId'",
+      "IF resource == 'record' AND operation == 'update' THEN SHOW parameter 'columns'",
+      "IF resource == 'record' AND operation == 'update' THEN SHOW parameter 'updateKey'",
+      "IF resource == 'record' AND operation == 'update' THEN SHOW parameter 'simple'",
+      "IF resource == 'record' AND operation == 'update' THEN SHOW parameter 'options'",
+      "IF resource == 'record' AND operation == 'upsert' THEN SHOW parameter 'tableId'",
+      "IF resource == 'record' AND operation == 'upsert' THEN SHOW parameter 'columns'",
+      "IF resource == 'record' AND operation == 'upsert' THEN SHOW parameter 'updateKey'",
+      "IF resource == 'record' AND operation == 'upsert' THEN SHOW parameter 'mergeFieldId'",
+      "IF resource == 'record' AND operation == 'upsert' THEN SHOW parameter 'simple'",
+      "IF resource == 'record' AND operation == 'upsert' THEN SHOW parameter 'options'",
+      "IF resource == 'report' THEN SHOW parameter 'operation'",
+      "IF resource == 'report' AND operation == 'get' THEN SHOW parameter 'tableId'",
+      "IF resource == 'report' AND operation == 'get' THEN SHOW parameter 'reportId'",
+      "IF resource == 'report' AND operation == 'run' THEN SHOW parameter 'tableId'",
+      "IF resource == 'report' AND operation == 'run' THEN SHOW parameter 'reportId'",
+      "IF resource == 'report' AND operation == 'run' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'report' AND operation == 'run' THEN SHOW parameter 'limit'",
+      "IF returnAll == True THEN HIDE parameter 'limit'"
+    ]
+  }
+}

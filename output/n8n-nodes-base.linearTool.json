@@ -1,0 +1,490 @@
+{
+  "node_id": "n8n-nodes-base.linearTool",
+  "name": "n8n-nodes-base.linearTool",
+  "version": [
+    1,
+    1.1
+  ],
+  "semantic_context": "Consume Linear API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume Linear API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "API Token",
+          "value": "apiToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "apiToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Comment",
+          "value": "comment"
+        },
+        {
+          "name": "Issue",
+          "value": "issue"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "issue",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "issue"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Add Link",
+          "value": "addLink",
+          "description": "Add a link to an issue",
+          "action": "Add a link to an issue"
+        },
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create an issue",
+          "action": "Create an issue"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete an issue",
+          "action": "Delete an issue"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get an issue",
+          "action": "Get an issue"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many issues",
+          "action": "Get many issues"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update an issue",
+          "action": "Update an issue"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "issueId": {
+      "displayName": "Issue ID",
+      "name": "issueId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "issue"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "default": "",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "comment": {
+      "displayName": "Comment",
+      "name": "comment",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "comment"
+          ],
+          "operation": [
+            "addComment"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "issue"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Assignee Name or ID",
+          "name": "assigneeId",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getUsers"
+          },
+          "default": ""
+        },
+        {
+          "displayName": "Description",
+          "name": "description",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Priority",
+          "name": "priorityId",
+          "type": "options",
+          "options": [
+            {
+              "name": "Urgent",
+              "value": 1
+            },
+            {
+              "name": "High",
+              "value": 2
+            },
+            {
+              "name": "Normal",
+              "value": 3
+            },
+            {
+              "name": "Low",
+              "value": 4
+            },
+            {
+              "name": "No Priority",
+              "value": 0
+            }
+          ],
+          "default": 0
+        },
+        {
+          "displayName": "State Name or ID",
+          "name": "stateId",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getStates"
+          },
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "teamId": {
+      "displayName": "Team Name or ID",
+      "name": "teamId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "issue"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "typeOptions": {
+        "loadOptionsMethod": "getTeams"
+      },
+      "default": "",
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "issue"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "issue"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "default": 50,
+      "typeOptions": {
+        "minValue": 1
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "issue"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "issue"
+          ],
+          "operation": [
+            "update"
+          ]
+        },
+        "hide": {
+          "@version": [
+            1
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Assignee Name or ID",
+          "name": "assigneeId",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getUsers"
+          },
+          "default": ""
+        },
+        {
+          "displayName": "Description",
+          "name": "description",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Priority Name/ID",
+          "name": "priorityId",
+          "type": "options",
+          "options": [
+            {
+              "name": "Urgent",
+              "value": 1
+            },
+            {
+              "name": "High",
+              "value": 2
+            },
+            {
+              "name": "Medium",
+              "value": 3
+            },
+            {
+              "name": "Low",
+              "value": 4
+            },
+            {
+              "name": "No Priority",
+              "value": 0
+            }
+          ],
+          "default": 0
+        },
+        {
+          "displayName": "State Name or ID",
+          "name": "stateId",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getStates"
+          },
+          "default": ""
+        },
+        {
+          "displayName": "Team Name or ID",
+          "name": "teamId",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getTeams"
+          },
+          "default": ""
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "link": {
+      "displayName": "Link",
+      "name": "link",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "issue"
+          ],
+          "operation": [
+            "addLink"
+          ]
+        }
+      },
+      "default": ""
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "authentication",
+      "resource",
+      "operation",
+      "issueId",
+      "comment",
+      "additionalFields",
+      "operation",
+      "teamId",
+      "title",
+      "additionalFields",
+      "issueId",
+      "returnAll",
+      "limit",
+      "issueId",
+      "updateFields",
+      "updateFields",
+      "link"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'comment' THEN SHOW parameter 'operation'",
+      "IF resource == 'comment' AND operation == 'addComment' THEN SHOW parameter 'issueId'",
+      "IF resource == 'comment' AND operation == 'addComment' THEN SHOW parameter 'comment'",
+      "IF resource == 'comment' AND operation == 'addComment' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'issue' THEN SHOW parameter 'operation'",
+      "IF resource == 'issue' AND operation == 'create' THEN SHOW parameter 'teamId'",
+      "IF resource == 'issue' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'issue' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'issue' AND operation IN [\"addLink\", \"get\", \"delete\"] THEN SHOW parameter 'issueId'",
+      "IF resource == 'issue' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'issue' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'issue' AND operation == 'update' THEN SHOW parameter 'issueId'",
+      "IF resource == 'issue' AND operation == 'update' AND @version == 1 THEN SHOW parameter 'updateFields'",
+      "IF resource == 'issue' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF @version == 1 THEN HIDE parameter 'updateFields'",
+      "IF resource == 'issue' AND operation == 'addLink' THEN SHOW parameter 'link'"
+    ]
+  }
+}

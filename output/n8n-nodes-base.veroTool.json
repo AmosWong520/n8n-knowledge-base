@@ -1,0 +1,429 @@
+{
+  "node_id": "n8n-nodes-base.veroTool",
+  "name": "n8n-nodes-base.veroTool",
+  "version": 1,
+  "semantic_context": "Consume Vero API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume Vero API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "User",
+          "value": "user",
+          "description": "Create, update and manage the subscription status of your users"
+        },
+        {
+          "name": "Event",
+          "value": "event",
+          "description": "Track events based on actions your customers take in real time"
+        }
+      ],
+      "default": "user",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "event"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Track",
+          "value": "track",
+          "description": "Track an event for a specific customer",
+          "action": "Track an event"
+        }
+      ],
+      "default": "track",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "id": {
+      "displayName": "ID",
+      "name": "id",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "event"
+          ],
+          "operation": [
+            "track"
+          ]
+        }
+      },
+      "description": "The unique identifier of the customer",
+      "ai_hint": "The unique identifier of the customer"
+    },
+    "jsonParameters": {
+      "displayName": "JSON Parameters",
+      "name": "jsonParameters",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "event"
+          ],
+          "operation": [
+            "track"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Email",
+          "name": "email",
+          "type": "string",
+          "placeholder": "name@email.com",
+          "default": "",
+          "description": "The table to create the row in"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "dataAttributesUi": {
+      "displayName": "Data",
+      "name": "dataAttributesUi",
+      "placeholder": "Add Data",
+      "description": "Key value pairs that represent any properties you want to track with this event",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "event"
+          ],
+          "operation": [
+            "track"
+          ],
+          "jsonParameters": [
+            false
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "dataAttributesValues",
+          "displayName": "Data",
+          "values": [
+            {
+              "displayName": "Key",
+              "name": "key",
+              "type": "string",
+              "default": "",
+              "description": "Name of the property to set"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "Value of the property to set"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "dataAttributesJson": {
+      "displayName": "Data",
+      "name": "dataAttributesJson",
+      "type": "json",
+      "default": "",
+      "typeOptions": {
+        "alwaysOpenEditWindow": true
+      },
+      "description": "Key value pairs that represent the custom user properties you want to update",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "event"
+          ],
+          "operation": [
+            "track"
+          ],
+          "jsonParameters": [
+            true
+          ]
+        }
+      },
+      "ai_hint": "Key value pairs that represent the custom user properties you want to update"
+    },
+    "newId": {
+      "displayName": "New ID",
+      "name": "newId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "alias"
+          ]
+        }
+      },
+      "description": "The new unique identifier of the user",
+      "ai_hint": "The new unique identifier of the user"
+    },
+    "tags": {
+      "displayName": "Tags",
+      "name": "tags",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "removeTags"
+          ]
+        }
+      },
+      "description": "Tags to remove separated by \",\"",
+      "ai_hint": "Tags to remove separated by \",\""
+    },
+    "email": {
+      "displayName": "Email",
+      "name": "email",
+      "type": "string",
+      "placeholder": "name@email.com",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "event"
+          ],
+          "operation": [
+            "track"
+          ]
+        }
+      }
+    },
+    "eventName": {
+      "displayName": "Event Name",
+      "name": "eventName",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "event"
+          ],
+          "operation": [
+            "track"
+          ]
+        }
+      },
+      "description": "The name of the event tracked",
+      "ai_hint": "The name of the event tracked"
+    },
+    "extraAttributesUi": {
+      "displayName": "Extra",
+      "name": "extraAttributesUi",
+      "placeholder": "Add Extra",
+      "description": "Key value pairs that represent reserved, Vero-specific operators. Refer to the note on “deduplication” below.",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "event"
+          ],
+          "operation": [
+            "track"
+          ],
+          "jsonParameters": [
+            false
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "extraAttributesValues",
+          "displayName": "Extra",
+          "values": [
+            {
+              "displayName": "Key",
+              "name": "key",
+              "type": "string",
+              "default": "",
+              "description": "Name of the property to set"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "Value of the property to set"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "extraAttributesJson": {
+      "displayName": "Extra",
+      "name": "extraAttributesJson",
+      "type": "json",
+      "default": "",
+      "typeOptions": {
+        "alwaysOpenEditWindow": true
+      },
+      "description": "Key value pairs that represent reserved, Vero-specific operators. Refer to the note on “deduplication” below.",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "event"
+          ],
+          "operation": [
+            "track"
+          ],
+          "jsonParameters": [
+            true
+          ]
+        }
+      },
+      "ai_hint": "Key value pairs that represent reserved, Vero-specific operators. Refer to the note on “deduplication” below."
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "operation",
+      "id",
+      "jsonParameters",
+      "additionalFields",
+      "dataAttributesUi",
+      "dataAttributesJson",
+      "id",
+      "newId",
+      "id",
+      "id",
+      "id",
+      "id",
+      "tags",
+      "id",
+      "tags",
+      "id",
+      "email",
+      "eventName",
+      "jsonParameters",
+      "dataAttributesUi",
+      "extraAttributesUi",
+      "dataAttributesJson",
+      "extraAttributesJson"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'user' THEN SHOW parameter 'operation'",
+      "IF resource == 'event' THEN SHOW parameter 'operation'",
+      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'id'",
+      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'jsonParameters'",
+      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'user' AND operation == 'create' AND jsonParameters == False THEN SHOW parameter 'dataAttributesUi'",
+      "IF resource == 'user' AND operation == 'create' AND jsonParameters == True THEN SHOW parameter 'dataAttributesJson'",
+      "IF resource == 'user' AND operation == 'alias' THEN SHOW parameter 'id'",
+      "IF resource == 'user' AND operation == 'alias' THEN SHOW parameter 'newId'",
+      "IF resource == 'user' AND operation == 'unsubscribe' THEN SHOW parameter 'id'",
+      "IF resource == 'user' AND operation == 'resubscribe' THEN SHOW parameter 'id'",
+      "IF resource == 'user' AND operation == 'delete' THEN SHOW parameter 'id'",
+      "IF resource == 'user' AND operation == 'addTags' THEN SHOW parameter 'id'",
+      "IF resource == 'user' AND operation == 'addTags' THEN SHOW parameter 'tags'",
+      "IF resource == 'user' AND operation == 'removeTags' THEN SHOW parameter 'id'",
+      "IF resource == 'user' AND operation == 'removeTags' THEN SHOW parameter 'tags'",
+      "IF resource == 'event' AND operation == 'track' THEN SHOW parameter 'id'",
+      "IF resource == 'event' AND operation == 'track' THEN SHOW parameter 'email'",
+      "IF resource == 'event' AND operation == 'track' THEN SHOW parameter 'eventName'",
+      "IF resource == 'event' AND operation == 'track' THEN SHOW parameter 'jsonParameters'",
+      "IF resource == 'event' AND operation == 'track' AND jsonParameters == False THEN SHOW parameter 'dataAttributesUi'",
+      "IF resource == 'event' AND operation == 'track' AND jsonParameters == False THEN SHOW parameter 'extraAttributesUi'",
+      "IF resource == 'event' AND operation == 'track' AND jsonParameters == True THEN SHOW parameter 'dataAttributesJson'",
+      "IF resource == 'event' AND operation == 'track' AND jsonParameters == True THEN SHOW parameter 'extraAttributesJson'"
+    ]
+  }
+}

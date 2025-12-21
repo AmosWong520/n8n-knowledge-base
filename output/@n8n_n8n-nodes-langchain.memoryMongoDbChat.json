@@ -1,0 +1,91 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.memoryMongoDbChat",
+  "name": "@n8n/n8n-nodes-langchain.memoryMongoDbChat",
+  "version": [
+    1
+  ],
+  "semantic_context": "Stores the chat history in MongoDB collection.",
+  "parameters": {
+    "notice": {
+      "displayName": "This node must be connected to an AI agent. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>",
+      "name": "notice",
+      "type": "notice",
+      "default": "",
+      "typeOptions": {
+        "containerClass": "ndv-connection-hint-notice"
+      }
+    },
+    "sessionIdType": {
+      "displayName": "Session ID",
+      "name": "sessionIdType",
+      "type": "options",
+      "options": [
+        {
+          "name": "Connected Chat Trigger Node",
+          "value": "fromInput",
+          "description": "Looks for an input field called 'sessionId' that is coming from a directly connected Chat Trigger"
+        },
+        {
+          "name": "Define below",
+          "value": "customKey",
+          "description": "Use an expression to reference data in previous nodes or enter static text"
+        }
+      ],
+      "default": "fromInput",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "sessionKey": {
+      "displayName": "Key",
+      "name": "sessionKey",
+      "type": "string",
+      "default": "",
+      "description": "The key to use to store session ID in the memory",
+      "displayOptions": {
+        "show": {
+          "sessionIdType": [
+            "customKey"
+          ]
+        }
+      },
+      "ai_hint": "The key to use to store session ID in the memory"
+    },
+    "collectionName": {
+      "displayName": "Collection Name",
+      "name": "collectionName",
+      "type": "string",
+      "default": "n8n_chat_histories",
+      "description": "The collection name to store the chat history in. If collection does not exist, it will be created.",
+      "ai_hint": "The collection name to store the chat history in. If collection does not exist, it will be created."
+    },
+    "databaseName": {
+      "displayName": "Database Name",
+      "name": "databaseName",
+      "type": "string",
+      "default": "",
+      "description": "The database name to store the chat history in. If not provided, the database from credentials will be used.",
+      "ai_hint": "The database name to store the chat history in. If not provided, the database from credentials will be used."
+    },
+    "contextWindowLength": {
+      "displayName": "Context Window Length",
+      "name": "contextWindowLength",
+      "type": "number",
+      "default": 5,
+      "hint": "How many past interactions the model receives as context"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "notice",
+      "sessionIdType",
+      "sessionKey",
+      "sessionKey",
+      "collectionName",
+      "databaseName",
+      "contextWindowLength"
+    ],
+    "conditional_rules": [
+      "IF sessionIdType == 'fromInput' AND @version == {'_cnd': {'gte': 1}} THEN SHOW parameter 'sessionKey'",
+      "IF sessionIdType == 'customKey' THEN SHOW parameter 'sessionKey'"
+    ]
+  }
+}

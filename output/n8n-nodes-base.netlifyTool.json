@@ -1,0 +1,250 @@
+{
+  "node_id": "n8n-nodes-base.netlifyTool",
+  "name": "n8n-nodes-base.netlifyTool",
+  "version": 1,
+  "semantic_context": "Consume Netlify API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume Netlify API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Deploy",
+          "value": "deploy"
+        },
+        {
+          "name": "Site",
+          "value": "site"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "deploy",
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "site"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a site",
+          "action": "Delete a site"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a site",
+          "action": "Get a site"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Returns many sites",
+          "action": "Get many sites"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "delete",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "siteId": {
+      "displayName": "Site ID",
+      "name": "siteId",
+      "required": true,
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "site"
+          ],
+          "operation": [
+            "get",
+            "delete"
+          ]
+        }
+      }
+    },
+    "deployId": {
+      "displayName": "Deploy ID",
+      "name": "deployId",
+      "required": true,
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "deploy"
+          ],
+          "operation": [
+            "get",
+            "cancel"
+          ]
+        }
+      }
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "site"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "site"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 200
+      },
+      "default": 50,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Fields",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "deploy"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Branch",
+          "name": "branch",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "siteId",
+      "deployId",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "operation",
+      "siteId",
+      "returnAll",
+      "limit"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'deploy' THEN SHOW parameter 'operation'",
+      "IF resource == 'deploy' AND operation IN [\"get\", \"create\", \"getAll\"] THEN SHOW parameter 'siteId'",
+      "IF resource == 'deploy' AND operation IN [\"get\", \"cancel\"] THEN SHOW parameter 'deployId'",
+      "IF operation == 'getAll' AND resource == 'deploy' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'deploy' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'deploy' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'site' THEN SHOW parameter 'operation'",
+      "IF resource == 'site' AND operation IN [\"get\", \"delete\"] THEN SHOW parameter 'siteId'",
+      "IF operation == 'getAll' AND resource == 'site' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'site' AND returnAll == False THEN SHOW parameter 'limit'"
+    ]
+  }
+}

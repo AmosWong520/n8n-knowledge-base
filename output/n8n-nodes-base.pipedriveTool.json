@@ -1,0 +1,1240 @@
+{
+  "node_id": "n8n-nodes-base.pipedriveTool",
+  "name": "n8n-nodes-base.pipedriveTool",
+  "version": 1,
+  "semantic_context": "Create and edit data in Pipedrive",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Create and edit data in Pipedrive",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "API Token",
+          "value": "apiToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "apiToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Activity",
+          "value": "activity"
+        },
+        {
+          "name": "Deal",
+          "value": "deal"
+        },
+        {
+          "name": "Deal Activity",
+          "value": "dealActivity"
+        },
+        {
+          "name": "Deal Product",
+          "value": "dealProduct"
+        },
+        {
+          "name": "File",
+          "value": "file"
+        },
+        {
+          "name": "Lead",
+          "value": "lead"
+        },
+        {
+          "name": "Note",
+          "value": "note"
+        },
+        {
+          "name": "Organization",
+          "value": "organization"
+        },
+        {
+          "name": "Person",
+          "value": "person"
+        },
+        {
+          "name": "Product",
+          "value": "product"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "deal",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "product"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get data of many products",
+          "action": "Get many products"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "getAll",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "subject": {
+      "displayName": "Subject",
+      "name": "subject",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "activity"
+          ]
+        }
+      },
+      "description": "The subject of the activity to create",
+      "ai_hint": "The subject of the activity to create"
+    },
+    "done": {
+      "displayName": "Done",
+      "name": "done",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "activity"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Not Done",
+          "value": "0"
+        },
+        {
+          "name": "Done",
+          "value": "1"
+        }
+      ],
+      "default": "0",
+      "description": "Whether the activity is done or not",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "type": {
+      "displayName": "Type",
+      "name": "type",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "activity"
+          ]
+        }
+      },
+      "placeholder": "call",
+      "description": "Type of the activity like \"call\", \"meeting\", etc",
+      "ai_hint": "Type of the activity like \"call\", \"meeting\", etc"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "activity"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Done",
+          "name": "done",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the Activity is done or not. 0 = Not done, 1 = Done. If omitted returns both Done and Not done activities."
+        },
+        {
+          "displayName": "End Date",
+          "name": "end_date",
+          "type": "dateTime",
+          "default": "",
+          "description": "Use the Activity due date where you wish to stop fetching Activities from. Insert due date in YYYY-MM-DD format."
+        },
+        {
+          "displayName": "Predefined Filter Name or ID",
+          "name": "filterId",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getFilters"
+          },
+          "default": "",
+          "description": "The ID of the Filter to use (will narrow down results if used together with user_id parameter). Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Star Date",
+          "name": "start_date",
+          "type": "dateTime",
+          "default": "",
+          "description": "Use the Activity due date where you wish to begin fetching Activities from. Insert due date in YYYY-MM-DD format."
+        },
+        {
+          "displayName": "Type Names or IDs",
+          "name": "type",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getActivityTypes"
+          },
+          "default": [],
+          "description": "Type of the Activity. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "User Name or ID",
+          "name": "user_id",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getUserIds"
+          },
+          "default": "",
+          "description": "The ID of the User whose Activities will be fetched. If omitted, the User associated with the API token will be used. If 0, Activities for all company Users will be fetched based on the permission sets. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "activityId": {
+      "displayName": "Activity ID",
+      "name": "activityId",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "activity"
+          ]
+        }
+      },
+      "default": 0,
+      "required": true,
+      "description": "ID of the activity to update",
+      "ai_hint": "ID of the activity to update"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "description": "The fields to update",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "person"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Custom Properties",
+          "name": "customProperties",
+          "placeholder": "Add Custom Property",
+          "description": "Adds a custom property to set also values which have not been predefined",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": {},
+          "options": [
+            {
+              "name": "property",
+              "displayName": "Property",
+              "values": [
+                {
+                  "displayName": "Property Name or ID",
+                  "name": "name",
+                  "type": "options",
+                  "typeOptions": {
+                    "loadOptionsMethod": "getPersonCustomFields"
+                  },
+                  "default": "",
+                  "description": "Name of the custom field to set. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+                },
+                {
+                  "displayName": "Property Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": "",
+                  "description": "Value of the property to set"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Email",
+          "name": "email",
+          "type": "string",
+          "placeholder": "name@email.com",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": "",
+          "description": "Email of the person"
+        },
+        {
+          "displayName": "Label Name or ID",
+          "name": "label",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getPersonLabels"
+          },
+          "default": ""
+        },
+        {
+          "displayName": "Marketing Status",
+          "name": "marketing_status",
+          "type": "options",
+          "options": [
+            {
+              "name": "No Consent",
+              "value": "no_consent"
+            },
+            {
+              "name": "Unsubscribed",
+              "value": "unsubscribed"
+            },
+            {
+              "name": "Subscribed",
+              "value": "subscribed"
+            },
+            {
+              "name": "Archived",
+              "value": "archived"
+            }
+          ],
+          "default": "subscribed",
+          "description": "Please be aware that it is only allowed once to change the marketing status from an old status to a new one"
+        },
+        {
+          "displayName": "Name",
+          "name": "name",
+          "type": "string",
+          "default": "",
+          "description": "The name of the person"
+        },
+        {
+          "displayName": "Organization Name or ID",
+          "name": "org_id",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getOrganizationIds"
+          },
+          "default": "",
+          "description": "ID of the organization this deal will be associated with. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Phone",
+          "name": "phone",
+          "type": "string",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": "",
+          "description": "Phone number of the person"
+        },
+        {
+          "displayName": "User Name or ID",
+          "name": "owner_id",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getUserIds"
+          },
+          "default": "",
+          "description": "ID of the User this person will be associated with. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Visible To",
+          "name": "visible_to",
+          "type": "options",
+          "options": [
+            {
+              "name": "Owner & Followers (Private)",
+              "value": "1"
+            },
+            {
+              "name": "Entire Company (Shared)",
+              "value": "3"
+            }
+          ],
+          "default": "3",
+          "description": "Visibility of the deal. If omitted, visibility will be set to the default visibility setting of this item type for the authorized user."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "description": "Name of the lead to create",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "lead"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Name of the lead to create"
+    },
+    "associateWith": {
+      "displayName": "Associate With",
+      "name": "associateWith",
+      "type": "options",
+      "options": [
+        {
+          "name": "Organization",
+          "value": "organization"
+        },
+        {
+          "name": "Person",
+          "value": "person"
+        }
+      ],
+      "default": "organization",
+      "description": "Type of entity to link to this lead",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "lead"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "org_id": {
+      "displayName": "Organization ID",
+      "name": "org_id",
+      "type": "number",
+      "default": 0,
+      "description": "ID of the organization this deal will be associated with",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "deal"
+          ],
+          "associateWith": [
+            "organization"
+          ]
+        }
+      },
+      "ai_hint": "ID of the organization this deal will be associated with"
+    },
+    "person_id": {
+      "displayName": "Person ID",
+      "name": "person_id",
+      "type": "number",
+      "default": 0,
+      "description": "ID of the person to link to this lead",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "lead"
+          ],
+          "operation": [
+            "create"
+          ],
+          "associateWith": [
+            "person"
+          ]
+        }
+      },
+      "ai_hint": "ID of the person to link to this lead"
+    },
+    "dealId": {
+      "displayName": "Deal Name or ID",
+      "name": "dealId",
+      "type": "options",
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "getDeals"
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "dealActivity"
+          ]
+        }
+      },
+      "description": "The ID of the deal whose activity to retrieve. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The ID of the deal whose activity to retrieve. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "productId": {
+      "displayName": "Product Name or ID",
+      "name": "productId",
+      "type": "options",
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "getProducts"
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "add"
+          ],
+          "resource": [
+            "dealProduct"
+          ]
+        }
+      },
+      "description": "The ID of the product to add to a deal. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The ID of the product to add to a deal. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "item_price": {
+      "displayName": "Item Price",
+      "name": "item_price",
+      "type": "number",
+      "typeOptions": {
+        "numberPrecision": 2
+      },
+      "default": 0,
+      "required": true,
+      "description": "Price at which to add or update this product in a deal",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "add"
+          ],
+          "resource": [
+            "dealProduct"
+          ]
+        }
+      },
+      "ai_hint": "Price at which to add or update this product in a deal"
+    },
+    "quantity": {
+      "displayName": "Quantity",
+      "name": "quantity",
+      "type": "number",
+      "default": 1,
+      "typeOptions": {
+        "minValue": 1
+      },
+      "required": true,
+      "description": "How many items of this product to add/update in a deal",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "add"
+          ],
+          "resource": [
+            "dealProduct"
+          ]
+        }
+      },
+      "ai_hint": "How many items of this product to add/update in a deal"
+    },
+    "productAttachmentId": {
+      "displayName": "Product Attachment Name or ID",
+      "name": "productAttachmentId",
+      "type": "options",
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "getProductsDeal",
+        "loadOptionsDependsOn": [
+          "dealId"
+        ]
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "remove"
+          ],
+          "resource": [
+            "dealProduct"
+          ]
+        }
+      },
+      "description": "ID of the deal-product (the ID of the product attached to the deal). Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "ID of the deal-product (the ID of the product attached to the deal). Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "term": {
+      "displayName": "Term",
+      "name": "term",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ],
+          "resource": [
+            "person"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The search term to look for. Minimum 2 characters (or 1 if using exact_match).",
+      "ai_hint": "The search term to look for. Minimum 2 characters (or 1 if using exact_match)."
+    },
+    "exactMatch": {
+      "displayName": "Exact Match",
+      "name": "exactMatch",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ],
+          "resource": [
+            "deal"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether only full exact matches against the given term are returned. It is not case sensitive.",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "binaryPropertyName": {
+      "displayName": "Put Output File in Field",
+      "name": "binaryPropertyName",
+      "type": "string",
+      "required": true,
+      "default": "data",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "download"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "hint": "The name of the output binary field to put the file in"
+    },
+    "fileId": {
+      "displayName": "File ID",
+      "name": "fileId",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "default": 0,
+      "required": true,
+      "description": "ID of the file to update",
+      "ai_hint": "ID of the file to update"
+    },
+    "organization_id": {
+      "displayName": "Organization ID",
+      "name": "organization_id",
+      "type": "number",
+      "default": 0,
+      "description": "ID of the organization to link to this lead",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "lead"
+          ],
+          "operation": [
+            "create"
+          ],
+          "associateWith": [
+            "organization"
+          ]
+        }
+      },
+      "ai_hint": "ID of the organization to link to this lead"
+    },
+    "leadId": {
+      "displayName": "Lead ID",
+      "name": "leadId",
+      "description": "ID of the lead to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "lead"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the lead to update"
+    },
+    "content": {
+      "displayName": "Content",
+      "name": "content",
+      "typeOptions": {
+        "rows": 5
+      },
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "note"
+          ]
+        }
+      },
+      "description": "The content of the note to create",
+      "ai_hint": "The content of the note to create"
+    },
+    "noteId": {
+      "displayName": "Note ID",
+      "name": "noteId",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "note"
+          ]
+        }
+      },
+      "default": 0,
+      "required": true,
+      "description": "ID of the note to update",
+      "ai_hint": "ID of the note to update"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "person"
+          ]
+        }
+      },
+      "description": "The name of the person to create",
+      "ai_hint": "The name of the person to create"
+    },
+    "organizationId": {
+      "displayName": "Organization ID",
+      "name": "organizationId",
+      "type": "number",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "organization"
+          ]
+        }
+      },
+      "description": "The ID of the organization to create",
+      "ai_hint": "The ID of the organization to create"
+    },
+    "personId": {
+      "displayName": "Person ID",
+      "name": "personId",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "person"
+          ]
+        }
+      },
+      "default": 0,
+      "required": true,
+      "description": "ID of the person to update",
+      "ai_hint": "ID of the person to update"
+    },
+    "resolveProperties": {
+      "displayName": "Resolve Properties",
+      "name": "resolveProperties",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "activity",
+            "deal",
+            "organization",
+            "person",
+            "product"
+          ],
+          "operation": [
+            "get",
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "By default do custom properties get returned only as ID instead of their actual name. Also option fields contain only the ID instead of their actual value. If this option gets set they get automatically resolved.",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "encodeProperties": {
+      "displayName": "Encode Properties",
+      "name": "encodeProperties",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "activity",
+            "deal",
+            "organization",
+            "person",
+            "product"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "default": false,
+      "description": "By default do custom properties have to be set as ID instead of their actual name. Also option fields have to be set as ID instead of their actual value. If this option gets set they get automatically encoded.",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "deal"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Predefined Filter Name or ID",
+          "name": "filter_id",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getFilters"
+          },
+          "default": "",
+          "description": "Predefined filter to apply to the deals to retrieve. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Stage Name or ID",
+          "name": "stage_id",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getStageIds"
+          },
+          "default": "",
+          "description": "ID of the stage to filter deals by. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Status",
+          "name": "status",
+          "type": "options",
+          "options": [
+            {
+              "name": "All Not Deleted",
+              "value": "all_not_deleted"
+            },
+            {
+              "name": "Deleted",
+              "value": "deleted"
+            },
+            {
+              "name": "Lost",
+              "value": "lost"
+            },
+            {
+              "name": "Open",
+              "value": "open"
+            },
+            {
+              "name": "Won",
+              "value": "won"
+            }
+          ],
+          "default": "all_not_deleted",
+          "description": "Status to filter deals by. Defaults to <code>all_not_deleted</code>"
+        },
+        {
+          "displayName": "User Name or ID",
+          "name": "user_id",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getUserIds"
+          },
+          "default": "",
+          "description": "ID of the user to filter deals by. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "authentication",
+      "resource",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "subject",
+      "done",
+      "type",
+      "additionalFields",
+      "activityId",
+      "activityId",
+      "activityId",
+      "updateFields",
+      "title",
+      "associateWith",
+      "org_id",
+      "person_id",
+      "additionalFields",
+      "dealId",
+      "dealId",
+      "dealId",
+      "dealId",
+      "updateFields",
+      "dealId",
+      "productId",
+      "item_price",
+      "quantity",
+      "additionalFields",
+      "dealId",
+      "productAttachmentId",
+      "updateFields",
+      "dealId",
+      "productAttachmentId",
+      "dealId",
+      "term",
+      "exactMatch",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "binaryPropertyName",
+      "additionalFields",
+      "fileId",
+      "fileId",
+      "binaryPropertyName",
+      "fileId",
+      "fileId",
+      "updateFields",
+      "title",
+      "associateWith",
+      "organization_id",
+      "person_id",
+      "additionalFields",
+      "leadId",
+      "leadId",
+      "leadId",
+      "updateFields",
+      "content",
+      "noteId",
+      "noteId",
+      "noteId",
+      "updateFields",
+      "name",
+      "additionalFields",
+      "organizationId",
+      "organizationId",
+      "term",
+      "additionalFields",
+      "organizationId",
+      "updateFields",
+      "name",
+      "additionalFields",
+      "personId",
+      "personId",
+      "personId",
+      "updateFields",
+      "resolveProperties",
+      "encodeProperties",
+      "returnAll",
+      "limit",
+      "dealId",
+      "additionalFields",
+      "filters",
+      "filters",
+      "additionalFields",
+      "term",
+      "additionalFields",
+      "additionalFields",
+      "additionalFields",
+      "filters"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'activity' THEN SHOW parameter 'operation'",
+      "IF resource == 'deal' THEN SHOW parameter 'operation'",
+      "IF resource == 'dealActivity' THEN SHOW parameter 'operation'",
+      "IF resource == 'dealProduct' THEN SHOW parameter 'operation'",
+      "IF resource == 'file' THEN SHOW parameter 'operation'",
+      "IF resource == 'lead' THEN SHOW parameter 'operation'",
+      "IF resource == 'note' THEN SHOW parameter 'operation'",
+      "IF resource == 'organization' THEN SHOW parameter 'operation'",
+      "IF resource == 'person' THEN SHOW parameter 'operation'",
+      "IF resource == 'product' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'activity' THEN SHOW parameter 'subject'",
+      "IF operation == 'create' AND resource == 'activity' THEN SHOW parameter 'done'",
+      "IF operation == 'create' AND resource == 'activity' THEN SHOW parameter 'type'",
+      "IF operation == 'create' AND resource == 'activity' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'delete' AND resource == 'activity' THEN SHOW parameter 'activityId'",
+      "IF operation == 'get' AND resource == 'activity' THEN SHOW parameter 'activityId'",
+      "IF operation == 'update' AND resource == 'activity' THEN SHOW parameter 'activityId'",
+      "IF operation == 'update' AND resource == 'activity' THEN SHOW parameter 'updateFields'",
+      "IF operation == 'create' AND resource == 'deal' THEN SHOW parameter 'title'",
+      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'associateWith'",
+      "IF operation == 'create' AND resource == 'deal' AND associateWith == 'organization' THEN SHOW parameter 'org_id'",
+      "IF operation == 'create' AND resource == 'deal' AND associateWith == 'person' THEN SHOW parameter 'person_id'",
+      "IF operation == 'create' AND resource == 'deal' THEN SHOW parameter 'additionalFields'",
+      "IF /associateWith == 'person' THEN SHOW parameter 'org_id'",
+      "IF /associateWith == 'organization' THEN SHOW parameter 'person_id'",
+      "IF operation == 'delete' AND resource == 'deal' THEN SHOW parameter 'dealId'",
+      "IF operation == 'duplicate' AND resource == 'deal' THEN SHOW parameter 'dealId'",
+      "IF operation == 'get' AND resource == 'deal' THEN SHOW parameter 'dealId'",
+      "IF operation == 'update' AND resource == 'deal' THEN SHOW parameter 'dealId'",
+      "IF operation == 'update' AND resource == 'deal' THEN SHOW parameter 'updateFields'",
+      "IF operation == 'add' AND resource == 'dealProduct' THEN SHOW parameter 'dealId'",
+      "IF operation == 'add' AND resource == 'dealProduct' THEN SHOW parameter 'productId'",
+      "IF operation == 'add' AND resource == 'dealProduct' THEN SHOW parameter 'item_price'",
+      "IF operation == 'add' AND resource == 'dealProduct' THEN SHOW parameter 'quantity'",
+      "IF operation == 'add' AND resource == 'dealProduct' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'update' AND resource == 'dealProduct' THEN SHOW parameter 'dealId'",
+      "IF operation == 'update' AND resource == 'dealProduct' THEN SHOW parameter 'productAttachmentId'",
+      "IF operation == 'update' AND resource == 'dealProduct' THEN SHOW parameter 'updateFields'",
+      "IF operation == 'remove' AND resource == 'dealProduct' THEN SHOW parameter 'dealId'",
+      "IF operation == 'remove' AND resource == 'dealProduct' THEN SHOW parameter 'productAttachmentId'",
+      "IF operation == 'getAll' AND resource == 'dealProduct' THEN SHOW parameter 'dealId'",
+      "IF operation == 'search' AND resource == 'deal' THEN SHOW parameter 'term'",
+      "IF operation == 'search' AND resource == 'deal' THEN SHOW parameter 'exactMatch'",
+      "IF operation == 'search' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'search' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'search' AND resource == 'deal' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'create' AND resource == 'file' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'create' AND resource == 'file' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'delete' AND resource == 'file' THEN SHOW parameter 'fileId'",
+      "IF operation == 'download' AND resource == 'file' THEN SHOW parameter 'fileId'",
+      "IF operation == 'download' AND resource == 'file' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'get' AND resource == 'file' THEN SHOW parameter 'fileId'",
+      "IF operation == 'update' AND resource == 'file' THEN SHOW parameter 'fileId'",
+      "IF operation == 'update' AND resource == 'file' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'lead' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'lead' AND operation == 'create' THEN SHOW parameter 'associateWith'",
+      "IF resource == 'lead' AND operation == 'create' AND associateWith == 'organization' THEN SHOW parameter 'organization_id'",
+      "IF resource == 'lead' AND operation == 'create' AND associateWith == 'person' THEN SHOW parameter 'person_id'",
+      "IF resource == 'lead' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF /associateWith == 'person' THEN SHOW parameter 'organization_id'",
+      "IF resource == 'lead' AND operation == 'delete' THEN SHOW parameter 'leadId'",
+      "IF resource == 'lead' AND operation == 'get' THEN SHOW parameter 'leadId'",
+      "IF resource == 'lead' AND operation == 'update' THEN SHOW parameter 'leadId'",
+      "IF resource == 'lead' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF operation == 'create' AND resource == 'note' THEN SHOW parameter 'content'",
+      "IF operation == 'delete' AND resource == 'note' THEN SHOW parameter 'noteId'",
+      "IF operation == 'get' AND resource == 'note' THEN SHOW parameter 'noteId'",
+      "IF operation == 'update' AND resource == 'note' THEN SHOW parameter 'noteId'",
+      "IF operation == 'update' AND resource == 'note' THEN SHOW parameter 'updateFields'",
+      "IF operation == 'create' AND resource == 'organization' THEN SHOW parameter 'name'",
+      "IF operation == 'create' AND resource == 'organization' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'delete' AND resource == 'organization' THEN SHOW parameter 'organizationId'",
+      "IF operation == 'get' AND resource == 'organization' THEN SHOW parameter 'organizationId'",
+      "IF operation == 'search' AND resource == 'organization' THEN SHOW parameter 'term'",
+      "IF operation == 'search' AND resource == 'organization' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'update' AND resource == 'organization' THEN SHOW parameter 'organizationId'",
+      "IF operation == 'update' AND resource == 'organization' THEN SHOW parameter 'updateFields'",
+      "IF operation == 'create' AND resource == 'person' THEN SHOW parameter 'name'",
+      "IF operation == 'create' AND resource == 'person' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'delete' AND resource == 'person' THEN SHOW parameter 'personId'",
+      "IF operation == 'get' AND resource == 'person' THEN SHOW parameter 'personId'",
+      "IF operation == 'update' AND resource == 'person' THEN SHOW parameter 'personId'",
+      "IF operation == 'update' AND resource == 'person' THEN SHOW parameter 'updateFields'",
+      "IF resource IN [\"activity\", \"deal\", \"organization\", \"person\", \"product\"] AND operation IN [\"get\", \"getAll\"] THEN SHOW parameter 'resolveProperties'",
+      "IF resource IN [\"activity\", \"deal\", \"organization\", \"person\", \"product\"] AND operation == 'update' THEN SHOW parameter 'encodeProperties'",
+      "IF operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'dealActivity' THEN SHOW parameter 'dealId'",
+      "IF operation == 'getAll' AND resource == 'dealActivity' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'lead' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF operation == 'getAll' AND resource == 'organization' THEN SHOW parameter 'filters'",
+      "IF operation == 'getAll' AND resource == 'person' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'search' AND resource == 'person' THEN SHOW parameter 'term'",
+      "IF operation == 'search' AND resource == 'person' THEN SHOW parameter 'additionalFields'",
+      "IF operation IN [\"create\", \"getAll\"] AND resource == 'note' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'getAll' AND resource == 'activity' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'getAll' AND resource == 'deal' THEN SHOW parameter 'filters'"
+    ]
+  }
+}

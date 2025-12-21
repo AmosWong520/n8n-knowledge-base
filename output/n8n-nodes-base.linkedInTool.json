@@ -1,0 +1,379 @@
+{
+  "node_id": "n8n-nodes-base.linkedInTool",
+  "name": "n8n-nodes-base.linkedInTool",
+  "version": 1,
+  "semantic_context": "Consume LinkedIn API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume LinkedIn API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Standard",
+          "value": "standard"
+        },
+        {
+          "name": "Community Management",
+          "value": "communityManagement"
+        }
+      ],
+      "default": "standard",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Post",
+          "value": "post"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "post",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "post"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a new post",
+          "action": "Create a post"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "postAs": {
+      "displayName": "Post As",
+      "name": "postAs",
+      "type": "options",
+      "default": "person",
+      "description": "If to post on behalf of a user or an organization",
+      "options": [
+        {
+          "name": "Person",
+          "value": "person"
+        },
+        {
+          "name": "Organization",
+          "value": "organization"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "person": {
+      "displayName": "Person Name or ID",
+      "name": "person",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getPersonUrn"
+      },
+      "default": "",
+      "required": true,
+      "description": "Person as which the post should be posted as. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "postAs": [
+            "person"
+          ],
+          "resource": [
+            "post"
+          ]
+        }
+      },
+      "ai_hint": "Person as which the post should be posted as. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "organization": {
+      "displayName": "Organization URN",
+      "name": "organization",
+      "type": "string",
+      "default": "",
+      "placeholder": "1234567",
+      "description": "URN of Organization as which the post should be posted as",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "postAs": [
+            "organization"
+          ],
+          "resource": [
+            "post"
+          ]
+        }
+      },
+      "ai_hint": "URN of Organization as which the post should be posted as"
+    },
+    "text": {
+      "displayName": "Text",
+      "name": "text",
+      "type": "string",
+      "default": "",
+      "description": "The primary content of the post",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "post"
+          ]
+        }
+      },
+      "ai_hint": "The primary content of the post"
+    },
+    "shareMediaCategory": {
+      "displayName": "Media Category",
+      "name": "shareMediaCategory",
+      "type": "options",
+      "default": "NONE",
+      "options": [
+        {
+          "name": "None",
+          "value": "NONE",
+          "description": "The post does not contain any media, and will only consist of text"
+        },
+        {
+          "name": "Article",
+          "value": "ARTICLE",
+          "description": "The post contains an article URL"
+        },
+        {
+          "name": "Image",
+          "value": "IMAGE",
+          "description": "The post contains an image"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "post"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "binaryPropertyName": {
+      "displayName": "Input Binary Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "post"
+          ],
+          "shareMediaCategory": [
+            "IMAGE"
+          ]
+        }
+      },
+      "name": "binaryPropertyName",
+      "type": "string",
+      "default": "data",
+      "hint": "The name of the input binary field containing the file to be written",
+      "required": true
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "post"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Description",
+          "name": "description",
+          "type": "string",
+          "default": "",
+          "description": "Provide a short description for your image or article",
+          "displayOptions": {
+            "show": {
+              "/shareMediaCategory": [
+                "ARTICLE"
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Original URL",
+          "name": "originalUrl",
+          "type": "string",
+          "default": "",
+          "description": "Provide the URL of the article you would like to share here",
+          "displayOptions": {
+            "show": {
+              "/shareMediaCategory": [
+                "ARTICLE"
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Input Binary Field",
+          "name": "thumbnailBinaryPropertyName",
+          "type": "string",
+          "default": "data",
+          "hint": "The name of the input binary field containing the file for the article thumbnail",
+          "displayOptions": {
+            "show": {
+              "/shareMediaCategory": [
+                "ARTICLE"
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": "",
+          "description": "Customize the title of your image or article",
+          "displayOptions": {
+            "show": {
+              "/shareMediaCategory": [
+                "ARTICLE",
+                "IMAGE"
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Visibility",
+          "name": "visibility",
+          "type": "options",
+          "default": "PUBLIC",
+          "description": "Dictate if post will be seen by the public or only connections",
+          "displayOptions": {
+            "show": {
+              "/postAs": [
+                "person"
+              ]
+            }
+          },
+          "options": [
+            {
+              "name": "Connections",
+              "value": "CONNECTIONS"
+            },
+            {
+              "name": "Public",
+              "value": "PUBLIC"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "authentication",
+      "resource",
+      "operation",
+      "postAs",
+      "person",
+      "organization",
+      "text",
+      "shareMediaCategory",
+      "binaryPropertyName",
+      "additionalFields"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'post' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND postAs == 'person' AND resource == 'post' THEN SHOW parameter 'person'",
+      "IF operation == 'create' AND postAs == 'organization' AND resource == 'post' THEN SHOW parameter 'organization'",
+      "IF operation == 'create' AND resource == 'post' THEN SHOW parameter 'text'",
+      "IF operation == 'create' AND resource == 'post' THEN SHOW parameter 'shareMediaCategory'",
+      "IF operation == 'create' AND resource == 'post' AND shareMediaCategory == 'IMAGE' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'create' AND resource == 'post' THEN SHOW parameter 'additionalFields'",
+      "IF /shareMediaCategory == 'ARTICLE' THEN SHOW parameter 'description'",
+      "IF /shareMediaCategory == 'ARTICLE' THEN SHOW parameter 'originalUrl'",
+      "IF /shareMediaCategory == 'ARTICLE' THEN SHOW parameter 'thumbnailBinaryPropertyName'",
+      "IF /shareMediaCategory IN [\"ARTICLE\", \"IMAGE\"] THEN SHOW parameter 'title'",
+      "IF /postAs == 'person' THEN SHOW parameter 'visibility'"
+    ]
+  }
+}

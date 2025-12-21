@@ -1,0 +1,99 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.lmChatCohere",
+  "name": "@n8n/n8n-nodes-langchain.lmChatCohere",
+  "version": [
+    1
+  ],
+  "semantic_context": "For advanced usage with an AI chain",
+  "parameters": {
+    "notice": {
+      "displayName": "This node must be connected to an AI chain. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>",
+      "name": "notice",
+      "type": "notice",
+      "default": "",
+      "typeOptions": {
+        "containerClass": "ndv-connection-hint-notice"
+      }
+    },
+    "model": {
+      "displayName": "Model",
+      "name": "model",
+      "type": "options",
+      "description": "The model which will generate the completion. <a href=\"https://docs.cohere.com/docs/models\">Learn more</a>.",
+      "typeOptions": {
+        "loadOptions": {
+          "routing": {
+            "request": {
+              "method": "GET",
+              "url": "/v1/models?page_size=100&endpoint=chat"
+            },
+            "output": {
+              "postReceive": [
+                {
+                  "type": "rootProperty",
+                  "properties": {
+                    "property": "models"
+                  }
+                },
+                {
+                  "type": "setKeyValue",
+                  "properties": {
+                    "name": "={{$responseItem.name}}",
+                    "value": "={{$responseItem.name}}",
+                    "description": "={{$responseItem.description}}"
+                  }
+                },
+                {
+                  "type": "sort",
+                  "properties": {
+                    "key": "name"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "default": "command-a-03-2025",
+      "ai_hint": "The model which will generate the completion. <a href=\"https://docs.cohere.com/docs/models\">Learn more</a>."
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "placeholder": "Add Option",
+      "description": "Additional options to add",
+      "type": "collection",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Sampling Temperature",
+          "name": "temperature",
+          "default": 0.7,
+          "typeOptions": {
+            "maxValue": 2,
+            "minValue": 0,
+            "numberPrecision": 1
+          },
+          "description": "Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.",
+          "type": "number"
+        },
+        {
+          "displayName": "Max Retries",
+          "name": "maxRetries",
+          "default": 2,
+          "description": "Maximum number of retries to attempt",
+          "type": "number"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "notice",
+      "model",
+      "options"
+    ],
+    "conditional_rules": []
+  }
+}

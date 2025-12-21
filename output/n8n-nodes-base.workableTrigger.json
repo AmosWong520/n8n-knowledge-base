@@ -1,0 +1,63 @@
+{
+  "node_id": "n8n-nodes-base.workableTrigger",
+  "name": "n8n-nodes-base.workableTrigger",
+  "version": 1,
+  "semantic_context": "Starts the workflow when Workable events occur",
+  "parameters": {
+    "triggerOn": {
+      "displayName": "Trigger On",
+      "name": "triggerOn",
+      "type": "options",
+      "options": [
+        {
+          "name": "Candidate Created",
+          "value": "candidateCreated"
+        },
+        {
+          "name": "Candidate Moved",
+          "value": "candidateMoved"
+        }
+      ],
+      "default": "",
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Job Name or ID",
+          "name": "job",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getJobs"
+          },
+          "default": "",
+          "description": "Get notifications only for one job. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Stage Name or ID",
+          "name": "stage",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getStages"
+          },
+          "default": "",
+          "description": "Get notifications for specific stages. e.g. 'hired'. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "triggerOn",
+      "filters"
+    ],
+    "conditional_rules": []
+  }
+}

@@ -1,0 +1,459 @@
+{
+  "node_id": "n8n-nodes-base.ldap",
+  "name": "n8n-nodes-base.ldap",
+  "version": 1,
+  "semantic_context": "Interact with LDAP servers",
+  "parameters": {
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Compare",
+          "value": "compare",
+          "description": "Compare an attribute",
+          "action": "Compare an attribute"
+        },
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a new entry",
+          "action": "Create a new entry"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete an entry",
+          "action": "Delete an entry"
+        },
+        {
+          "name": "Rename",
+          "value": "rename",
+          "description": "Rename the DN of an existing entry",
+          "action": "Rename the DN of an existing entry"
+        },
+        {
+          "name": "Search",
+          "value": "search",
+          "description": "Search LDAP",
+          "action": "Search LDAP"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update attributes",
+          "action": "Update attributes"
+        }
+      ],
+      "default": "search",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "nodeDebug": {
+      "displayName": "Debug",
+      "name": "nodeDebug",
+      "type": "boolean",
+      "isNodeSetting": true,
+      "default": false,
+      "noDataExpression": true,
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "dn": {
+      "displayName": "DN",
+      "name": "dn",
+      "type": "string",
+      "default": "",
+      "placeholder": "e.g. ou=users,dc=n8n,dc=io",
+      "required": true,
+      "typeOptions": {
+        "alwaysOpenEditWindow": false
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "description": "The distinguished name of the entry to update",
+      "ai_hint": "The distinguished name of the entry to update"
+    },
+    "id": {
+      "displayName": "Attribute ID",
+      "name": "id",
+      "type": "options",
+      "required": true,
+      "default": [],
+      "typeOptions": {
+        "loadOptionsMethod": "getAttributesForDn"
+      },
+      "description": "The ID of the attribute to compare",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "compare"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the attribute to compare"
+    },
+    "value": {
+      "displayName": "Value",
+      "name": "value",
+      "type": "string",
+      "default": "",
+      "description": "The value to compare",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "compare"
+          ]
+        }
+      },
+      "ai_hint": "The value to compare"
+    },
+    "targetDn": {
+      "displayName": "New DN",
+      "name": "targetDn",
+      "type": "string",
+      "default": "",
+      "placeholder": "e.g. cn=nathan,ou=users,dc=n8n,dc=io",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "rename"
+          ]
+        }
+      },
+      "description": "The new distinguished name for the entry",
+      "ai_hint": "The new distinguished name for the entry"
+    },
+    "attributes": {
+      "displayName": "Update Attributes",
+      "name": "attributes",
+      "placeholder": "Update Attributes",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true,
+        "sortable": true
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "description": "Update entry attributes",
+      "default": {},
+      "options": [
+        {
+          "name": "add",
+          "displayName": "Add",
+          "values": [
+            {
+              "displayName": "Attribute ID",
+              "name": "id",
+              "type": "string",
+              "default": "",
+              "description": "The ID of the attribute to add",
+              "required": true
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "Value of the attribute to set"
+            }
+          ]
+        },
+        {
+          "name": "replace",
+          "displayName": "Replace",
+          "values": [
+            {
+              "displayName": "Attribute ID",
+              "name": "id",
+              "type": "string",
+              "default": "",
+              "description": "The ID of the attribute to replace",
+              "required": true
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "Value of the attribute to replace"
+            }
+          ]
+        },
+        {
+          "name": "delete",
+          "displayName": "Remove",
+          "values": [
+            {
+              "displayName": "Attribute ID",
+              "name": "id",
+              "type": "string",
+              "default": "",
+              "description": "The ID of the attribute to remove",
+              "required": true
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "Value of the attribute to remove"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "baseDN": {
+      "displayName": "Base DN",
+      "name": "baseDN",
+      "type": "string",
+      "default": "",
+      "placeholder": "e.g. ou=users, dc=n8n, dc=io",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "description": "The distinguished name of the subtree to search in",
+      "ai_hint": "The distinguished name of the subtree to search in"
+    },
+    "searchFor": {
+      "displayName": "Search For",
+      "name": "searchFor",
+      "type": "options",
+      "default": [],
+      "typeOptions": {
+        "loadOptionsMethod": "getObjectClasses"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "description": "Directory object class to search for",
+      "ai_hint": "Directory object class to search for"
+    },
+    "customFilter": {
+      "displayName": "Custom Filter",
+      "name": "customFilter",
+      "type": "string",
+      "default": "(objectclass=*)",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ],
+          "searchFor": [
+            "custom"
+          ]
+        }
+      },
+      "description": "Custom LDAP filter. Escape these chars * ( ) \\ with a backslash \"\\\".",
+      "ai_hint": "Custom LDAP filter. Escape these chars * ( ) \\ with a backslash \"\\\"."
+    },
+    "attribute": {
+      "displayName": "Attribute",
+      "name": "attribute",
+      "type": "options",
+      "required": true,
+      "default": [],
+      "typeOptions": {
+        "loadOptionsMethod": "getAttributes"
+      },
+      "description": "Attribute to search for",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ]
+        },
+        "hide": {
+          "searchFor": [
+            "custom"
+          ]
+        }
+      },
+      "ai_hint": "Attribute to search for"
+    },
+    "searchText": {
+      "displayName": "Search Text",
+      "name": "searchText",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ]
+        },
+        "hide": {
+          "searchFor": [
+            "custom"
+          ]
+        }
+      },
+      "description": "Text to search for, Use * for a wildcard",
+      "ai_hint": "Text to search for, Use * for a wildcard"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "default": 50,
+      "description": "Max number of results to return",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Attribute Names or IDs",
+          "name": "attributes",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getAttributes"
+          },
+          "default": [],
+          "description": "Comma-separated list of attributes to return. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Page Size",
+          "name": "pageSize",
+          "type": "number",
+          "default": 1000,
+          "typeOptions": {
+            "minValue": 0
+          },
+          "description": "Maximum number of results to request at one time. Set to 0 to disable paging."
+        },
+        {
+          "displayName": "Scope",
+          "name": "scope",
+          "default": "sub",
+          "description": "The set of entries at or below the BaseDN that may be considered potential matches",
+          "type": "options",
+          "options": [
+            {
+              "name": "Base Object",
+              "value": "base"
+            },
+            {
+              "name": "Single Level",
+              "value": "one"
+            },
+            {
+              "name": "Whole Subtree",
+              "value": "sub"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "operation",
+      "nodeDebug",
+      "dn",
+      "dn",
+      "dn",
+      "dn",
+      "dn",
+      "dn",
+      "id",
+      "value",
+      "targetDn",
+      "attributes",
+      "attributes",
+      "baseDN",
+      "searchFor",
+      "customFilter",
+      "attribute",
+      "searchText",
+      "returnAll",
+      "limit",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF operation == 'compare' THEN SHOW parameter 'dn'",
+      "IF operation == 'create' THEN SHOW parameter 'dn'",
+      "IF operation == 'delete' THEN SHOW parameter 'dn'",
+      "IF operation == 'rename' THEN SHOW parameter 'dn'",
+      "IF operation == 'modify' THEN SHOW parameter 'dn'",
+      "IF operation == 'update' THEN SHOW parameter 'dn'",
+      "IF operation == 'compare' THEN SHOW parameter 'id'",
+      "IF operation == 'compare' THEN SHOW parameter 'value'",
+      "IF operation == 'rename' THEN SHOW parameter 'targetDn'",
+      "IF operation == 'create' THEN SHOW parameter 'attributes'",
+      "IF operation == 'update' THEN SHOW parameter 'attributes'",
+      "IF operation == 'search' THEN SHOW parameter 'baseDN'",
+      "IF operation == 'search' THEN SHOW parameter 'searchFor'",
+      "IF operation == 'search' AND searchFor == 'custom' THEN SHOW parameter 'customFilter'",
+      "IF operation == 'search' THEN SHOW parameter 'attribute'",
+      "IF searchFor == 'custom' THEN HIDE parameter 'attribute'",
+      "IF operation == 'search' THEN SHOW parameter 'searchText'",
+      "IF searchFor == 'custom' THEN HIDE parameter 'searchText'",
+      "IF operation == 'search' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'search' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'search' THEN SHOW parameter 'options'"
+    ]
+  }
+}

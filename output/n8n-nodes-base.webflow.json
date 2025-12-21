@@ -1,0 +1,300 @@
+{
+  "node_id": "n8n-nodes-base.webflow",
+  "name": "n8n-nodes-base.webflow",
+  "version": 1,
+  "semantic_context": "Consume the Webflow API",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Access Token",
+          "value": "accessToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "accessToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Item",
+          "value": "item"
+        }
+      ],
+      "default": "item",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "default": "get",
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "action": "Create an item"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "action": "Delete an item"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "action": "Get an item"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "action": "Get many items"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "action": "Update an item"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "item"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "siteId": {
+      "displayName": "Site Name or ID",
+      "name": "siteId",
+      "type": "options",
+      "required": true,
+      "typeOptions": {
+        "loadOptionsMethod": "getSites"
+      },
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "item"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "description": "ID of the site containing the collection whose items to retrieve. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "ID of the site containing the collection whose items to retrieve. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "collectionId": {
+      "displayName": "Collection Name or ID",
+      "name": "collectionId",
+      "type": "options",
+      "required": true,
+      "typeOptions": {
+        "loadOptionsMethod": "getCollections",
+        "loadOptionsDependsOn": [
+          "siteId"
+        ]
+      },
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "item"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "description": "ID of the collection whose items to retrieve. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "ID of the collection whose items to retrieve. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "live": {
+      "displayName": "Live",
+      "name": "live",
+      "type": "boolean",
+      "required": true,
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "item"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "description": "Whether the item should be published on the live site",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "fieldsUi": {
+      "displayName": "Fields",
+      "name": "fieldsUi",
+      "placeholder": "Add Field",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "item"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Field",
+          "name": "fieldValues",
+          "values": [
+            {
+              "displayName": "Field Name or ID",
+              "name": "fieldId",
+              "type": "options",
+              "typeOptions": {
+                "loadOptionsMethod": "getFields",
+                "loadOptionsDependsOn": [
+                  "collectionId"
+                ]
+              },
+              "default": "",
+              "description": "Field to set for the item to update. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+            },
+            {
+              "displayName": "Field Value",
+              "name": "fieldValue",
+              "type": "string",
+              "default": "",
+              "description": "Value to set for the item to update"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "itemId": {
+      "displayName": "Item ID",
+      "name": "itemId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "item"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "description": "ID of the item to update",
+      "ai_hint": "ID of the item to update"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "item"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "item"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 100
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "resource",
+      "operation",
+      "siteId",
+      "collectionId",
+      "live",
+      "fieldsUi",
+      "siteId",
+      "collectionId",
+      "itemId",
+      "siteId",
+      "collectionId",
+      "itemId",
+      "live",
+      "fieldsUi",
+      "siteId",
+      "collectionId",
+      "returnAll",
+      "limit"
+    ],
+    "conditional_rules": [
+      "IF resource == 'item' THEN SHOW parameter 'operation'",
+      "IF resource == 'item' AND operation == 'create' THEN SHOW parameter 'siteId'",
+      "IF resource == 'item' AND operation == 'create' THEN SHOW parameter 'collectionId'",
+      "IF resource == 'item' AND operation == 'create' THEN SHOW parameter 'live'",
+      "IF resource == 'item' AND operation == 'create' THEN SHOW parameter 'fieldsUi'",
+      "IF resource == 'item' AND operation IN [\"delete\", \"get\"] THEN SHOW parameter 'siteId'",
+      "IF resource == 'item' AND operation IN [\"delete\", \"get\"] THEN SHOW parameter 'collectionId'",
+      "IF resource == 'item' AND operation IN [\"delete\", \"get\"] THEN SHOW parameter 'itemId'",
+      "IF resource == 'item' AND operation == 'update' THEN SHOW parameter 'siteId'",
+      "IF resource == 'item' AND operation == 'update' THEN SHOW parameter 'collectionId'",
+      "IF resource == 'item' AND operation == 'update' THEN SHOW parameter 'itemId'",
+      "IF resource == 'item' AND operation == 'update' THEN SHOW parameter 'live'",
+      "IF resource == 'item' AND operation == 'update' THEN SHOW parameter 'fieldsUi'",
+      "IF resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'siteId'",
+      "IF resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'collectionId'",
+      "IF resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'item' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'"
+    ]
+  }
+}

@@ -1,0 +1,1167 @@
+{
+  "node_id": "n8n-nodes-base.quickbooksTool",
+  "name": "n8n-nodes-base.quickbooksTool",
+  "version": 1,
+  "semantic_context": "Consume the QuickBooks Online API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume the QuickBooks Online API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Bill",
+          "value": "bill"
+        },
+        {
+          "name": "Customer",
+          "value": "customer"
+        },
+        {
+          "name": "Employee",
+          "value": "employee"
+        },
+        {
+          "name": "Estimate",
+          "value": "estimate"
+        },
+        {
+          "name": "Invoice",
+          "value": "invoice"
+        },
+        {
+          "name": "Item",
+          "value": "item"
+        },
+        {
+          "name": "Payment",
+          "value": "payment"
+        },
+        {
+          "name": "Purchase",
+          "value": "purchase"
+        },
+        {
+          "name": "Transaction",
+          "value": "transaction"
+        },
+        {
+          "name": "Vendor",
+          "value": "vendor"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "customer",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "default": "get",
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "action": "Create a vendor"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "action": "Get a vendor"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "action": "Get many vendors"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "action": "Update a vendor"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "vendor"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "VendorRef": {
+      "displayName": "For Vendor Name or ID",
+      "name": "VendorRef",
+      "type": "options",
+      "required": true,
+      "description": "The ID of the vendor who the bill is for. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "default": [],
+      "typeOptions": {
+        "loadOptionsMethod": "getVendors"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "bill"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the vendor who the bill is for. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "Line": {
+      "displayName": "Line",
+      "name": "Line",
+      "type": "collection",
+      "placeholder": "Add Line Item Property",
+      "description": "Individual line item of a transaction",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "invoice"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Amount",
+          "name": "Amount",
+          "description": "Monetary amount of the line item",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "displayName": "Description",
+          "name": "Description",
+          "description": "Textual description of the line item",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Detail Type",
+          "name": "DetailType",
+          "type": "options",
+          "default": "SalesItemLineDetail",
+          "options": [
+            {
+              "name": "Sales Item Line Detail",
+              "value": "SalesItemLineDetail"
+            }
+          ]
+        },
+        {
+          "displayName": "Item Name or ID",
+          "name": "itemId",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "default": [],
+          "typeOptions": {
+            "loadOptionsMethod": "getItems"
+          }
+        },
+        {
+          "displayName": "Position",
+          "name": "LineNum",
+          "description": "Position of the line item relative to others",
+          "type": "number",
+          "default": 1
+        },
+        {
+          "displayName": "Tax Code Ref Name or ID",
+          "name": "TaxCodeRef",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "default": [],
+          "typeOptions": {
+            "loadOptionsMethod": "getTaxCodeRefs"
+          }
+        },
+        {
+          "displayName": "Quantity",
+          "name": "Qty",
+          "description": "Number of units of the line item",
+          "type": "number",
+          "default": 0
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "vendor"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Account Number",
+          "name": "AcctNum",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "description": "Whether the employee is currently enabled for use by QuickBooks",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "displayName": "Balance",
+          "name": "Balance",
+          "description": "The balance reflecting any payments made against the transaction",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "displayName": "Billing Address",
+          "name": "BillAddr",
+          "placeholder": "Add Billing Address Fields",
+          "type": "fixedCollection",
+          "default": {},
+          "options": [
+            {
+              "displayName": "Details",
+              "name": "details",
+              "values": [
+                {
+                  "displayName": "City",
+                  "name": "City",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Line 1",
+                  "name": "Line1",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Postal Code",
+                  "name": "PostalCode",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Latitude",
+                  "name": "Lat",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Longitude",
+                  "name": "Long",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Country Subdivision Code",
+                  "name": "CountrySubDivisionCode",
+                  "type": "string",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Company Name",
+          "name": "CompanyName",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Family Name",
+          "name": "FamilyName",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Given Name",
+          "name": "GivenName",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Primary Email Address",
+          "name": "PrimaryEmailAddr",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Primary Phone",
+          "name": "PrimaryPhone",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Print-On-Check Name",
+          "name": "PrintOnCheckName",
+          "description": "Name of the vendor as printed on a check",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Vendor 1099",
+          "name": "Vendor1099",
+          "description": "Whether the vendor is an independent contractor, given a 1099-MISC form at the end of the year",
+          "type": "boolean",
+          "default": false
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "billId": {
+      "displayName": "Bill ID",
+      "name": "billId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "The ID of the bill to update",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "bill"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the bill to update"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "vendor"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "default": 50,
+      "description": "Max number of results to return",
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 1000
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "vendor"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Query",
+          "name": "query",
+          "type": "string",
+          "default": "",
+          "placeholder": "WHERE Metadata.LastUpdatedTime > '2021-01-01'",
+          "description": "The condition for selecting vendors. See the <a href=\"https://developer.intuit.com/app/developer/qbo/docs/develop/explore-the-quickbooks-online-api/data-queries\">guide</a> for supported syntax."
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "vendor"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "vendor"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Account Number",
+          "name": "AcctNum",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Active",
+          "name": "Active",
+          "description": "Whether the employee is currently enabled for use by QuickBooks",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "displayName": "Balance",
+          "name": "Balance",
+          "description": "The balance reflecting any payments made against the transaction",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "displayName": "Billing Address",
+          "name": "BillAddr",
+          "placeholder": "Add Billing Address Fields",
+          "type": "fixedCollection",
+          "default": {},
+          "options": [
+            {
+              "displayName": "Details",
+              "name": "details",
+              "values": [
+                {
+                  "displayName": "City",
+                  "name": "City",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Line 1",
+                  "name": "Line1",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Postal Code",
+                  "name": "PostalCode",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Latitude",
+                  "name": "Lat",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Longitude",
+                  "name": "Long",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Country Subdivision Code",
+                  "name": "CountrySubDivisionCode",
+                  "type": "string",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Company Name",
+          "name": "CompanyName",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Family Name",
+          "name": "FamilyName",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Given Name",
+          "name": "GivenName",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Primary Email Address",
+          "name": "PrimaryEmailAddr",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Primary Phone",
+          "name": "PrimaryPhone",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Print-On-Check Name",
+          "name": "PrintOnCheckName",
+          "description": "Name of the vendor as printed on a check",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Vendor 1099",
+          "name": "Vendor1099",
+          "description": "Whether the vendor is an independent contractor, given a 1099-MISC form at the end of the year",
+          "type": "boolean",
+          "default": false
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "displayName": {
+      "displayName": "Display Name",
+      "name": "displayName",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "The display name of the vendor to create",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "vendor"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "The display name of the vendor to create"
+    },
+    "customerId": {
+      "displayName": "Customer ID",
+      "name": "customerId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "The ID of the customer to update",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "customer"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the customer to update"
+    },
+    "FamilyName": {
+      "displayName": "Family Name",
+      "name": "FamilyName",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "GivenName": {
+      "displayName": "Given Name",
+      "name": "GivenName",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "employeeId": {
+      "displayName": "Employee ID",
+      "name": "employeeId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "The ID of the employee to update",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the employee to update"
+    },
+    "CustomerRef": {
+      "displayName": "For Customer Name or ID",
+      "name": "CustomerRef",
+      "type": "options",
+      "required": true,
+      "description": "The ID of the customer who the payment is for. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "default": [],
+      "typeOptions": {
+        "loadOptionsMethod": "getCustomers"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "payment"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the customer who the payment is for. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "estimateId": {
+      "displayName": "Estimate ID",
+      "name": "estimateId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "The ID of the estimate to update",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "estimate"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the estimate to update"
+    },
+    "download": {
+      "displayName": "Download",
+      "name": "download",
+      "type": "boolean",
+      "required": true,
+      "default": false,
+      "description": "Whether to download estimate as PDF file",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "payment"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "binaryProperty": {
+      "displayName": "Put Output File in Field",
+      "name": "binaryProperty",
+      "type": "string",
+      "required": true,
+      "default": "data",
+      "hint": "The name of the output binary field to put the file in",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "payment"
+          ],
+          "operation": [
+            "get"
+          ],
+          "download": [
+            true
+          ]
+        }
+      }
+    },
+    "fileName": {
+      "displayName": "File Name",
+      "name": "fileName",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "placeholder": "data.pdf",
+      "description": "Name of the file that will be downloaded",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "payment"
+          ],
+          "operation": [
+            "get"
+          ],
+          "download": [
+            true
+          ]
+        }
+      },
+      "ai_hint": "Name of the file that will be downloaded"
+    },
+    "email": {
+      "displayName": "Email",
+      "name": "email",
+      "type": "string",
+      "placeholder": "name@email.com",
+      "required": true,
+      "default": "",
+      "description": "The email of the recipient of the payment",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "payment"
+          ],
+          "operation": [
+            "send"
+          ]
+        }
+      },
+      "ai_hint": "The email of the recipient of the payment"
+    },
+    "invoiceId": {
+      "displayName": "Invoice ID",
+      "name": "invoiceId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "The ID of the invoice to update",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "invoice"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the invoice to update"
+    },
+    "itemId": {
+      "displayName": "Item ID",
+      "name": "itemId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "The ID of the item to retrieve",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "item"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the item to retrieve"
+    },
+    "TotalAmt": {
+      "displayName": "Total Amount",
+      "name": "TotalAmt",
+      "description": "Total amount of the transaction",
+      "type": "number",
+      "default": 0,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "payment"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Total amount of the transaction"
+    },
+    "paymentId": {
+      "displayName": "Payment ID",
+      "name": "paymentId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "The ID of the payment to update",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "payment"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the payment to update"
+    },
+    "purchaseId": {
+      "displayName": "Purchase ID",
+      "name": "purchaseId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "The ID of the purchase to retrieve",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "purchase"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the purchase to retrieve"
+    },
+    "simple": {
+      "displayName": "Simplify",
+      "name": "simple",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "transaction"
+          ],
+          "operation": [
+            "getReport"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to return a simplified version of the response instead of the raw data",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "vendorId": {
+      "displayName": "Vendor ID",
+      "name": "vendorId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "The ID of the vendor to update",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "vendor"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the vendor to update"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "VendorRef",
+      "Line",
+      "additionalFields",
+      "billId",
+      "billId",
+      "returnAll",
+      "limit",
+      "filters",
+      "billId",
+      "updateFields",
+      "operation",
+      "displayName",
+      "additionalFields",
+      "customerId",
+      "returnAll",
+      "limit",
+      "filters",
+      "customerId",
+      "updateFields",
+      "operation",
+      "FamilyName",
+      "GivenName",
+      "additionalFields",
+      "employeeId",
+      "returnAll",
+      "limit",
+      "filters",
+      "employeeId",
+      "updateFields",
+      "operation",
+      "CustomerRef",
+      "Line",
+      "additionalFields",
+      "estimateId",
+      "estimateId",
+      "download",
+      "binaryProperty",
+      "fileName",
+      "returnAll",
+      "limit",
+      "filters",
+      "estimateId",
+      "email",
+      "estimateId",
+      "updateFields",
+      "operation",
+      "CustomerRef",
+      "Line",
+      "additionalFields",
+      "invoiceId",
+      "invoiceId",
+      "download",
+      "binaryProperty",
+      "fileName",
+      "returnAll",
+      "limit",
+      "filters",
+      "invoiceId",
+      "email",
+      "invoiceId",
+      "invoiceId",
+      "updateFields",
+      "operation",
+      "itemId",
+      "returnAll",
+      "limit",
+      "filters",
+      "operation",
+      "CustomerRef",
+      "TotalAmt",
+      "additionalFields",
+      "paymentId",
+      "paymentId",
+      "download",
+      "binaryProperty",
+      "fileName",
+      "returnAll",
+      "limit",
+      "filters",
+      "paymentId",
+      "email",
+      "paymentId",
+      "paymentId",
+      "updateFields",
+      "operation",
+      "purchaseId",
+      "returnAll",
+      "limit",
+      "filters",
+      "operation",
+      "simple",
+      "filters",
+      "operation",
+      "displayName",
+      "additionalFields",
+      "vendorId",
+      "returnAll",
+      "limit",
+      "filters",
+      "vendorId",
+      "updateFields"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'bill' THEN SHOW parameter 'operation'",
+      "IF resource == 'bill' AND operation == 'create' THEN SHOW parameter 'VendorRef'",
+      "IF resource == 'bill' AND operation == 'create' THEN SHOW parameter 'Line'",
+      "IF resource == 'bill' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'bill' AND operation == 'delete' THEN SHOW parameter 'billId'",
+      "IF resource == 'bill' AND operation == 'get' THEN SHOW parameter 'billId'",
+      "IF resource == 'bill' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'bill' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'bill' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'bill' AND operation == 'update' THEN SHOW parameter 'billId'",
+      "IF resource == 'bill' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'customer' THEN SHOW parameter 'operation'",
+      "IF resource == 'customer' AND operation == 'create' THEN SHOW parameter 'displayName'",
+      "IF resource == 'customer' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'customer' AND operation == 'get' THEN SHOW parameter 'customerId'",
+      "IF resource == 'customer' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'customer' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'customer' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'customer' AND operation == 'update' THEN SHOW parameter 'customerId'",
+      "IF resource == 'customer' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'employee' THEN SHOW parameter 'operation'",
+      "IF resource == 'employee' AND operation == 'create' THEN SHOW parameter 'FamilyName'",
+      "IF resource == 'employee' AND operation == 'create' THEN SHOW parameter 'GivenName'",
+      "IF resource == 'employee' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'employee' AND operation == 'get' THEN SHOW parameter 'employeeId'",
+      "IF resource == 'employee' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'employee' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'employee' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'employee' AND operation == 'update' THEN SHOW parameter 'employeeId'",
+      "IF resource == 'employee' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'estimate' THEN SHOW parameter 'operation'",
+      "IF resource == 'estimate' AND operation == 'create' THEN SHOW parameter 'CustomerRef'",
+      "IF resource == 'estimate' AND operation == 'create' THEN SHOW parameter 'Line'",
+      "IF resource == 'estimate' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'estimate' AND operation == 'delete' THEN SHOW parameter 'estimateId'",
+      "IF resource == 'estimate' AND operation == 'get' THEN SHOW parameter 'estimateId'",
+      "IF resource == 'estimate' AND operation == 'get' THEN SHOW parameter 'download'",
+      "IF resource == 'estimate' AND operation == 'get' AND download == True THEN SHOW parameter 'binaryProperty'",
+      "IF resource == 'estimate' AND operation == 'get' AND download == True THEN SHOW parameter 'fileName'",
+      "IF resource == 'estimate' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'estimate' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'estimate' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'estimate' AND operation == 'send' THEN SHOW parameter 'estimateId'",
+      "IF resource == 'estimate' AND operation == 'send' THEN SHOW parameter 'email'",
+      "IF resource == 'estimate' AND operation == 'update' THEN SHOW parameter 'estimateId'",
+      "IF resource == 'estimate' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'invoice' THEN SHOW parameter 'operation'",
+      "IF resource == 'invoice' AND operation == 'create' THEN SHOW parameter 'CustomerRef'",
+      "IF resource == 'invoice' AND operation == 'create' THEN SHOW parameter 'Line'",
+      "IF resource == 'invoice' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'invoice' AND operation == 'delete' THEN SHOW parameter 'invoiceId'",
+      "IF resource == 'invoice' AND operation == 'get' THEN SHOW parameter 'invoiceId'",
+      "IF resource == 'invoice' AND operation == 'get' THEN SHOW parameter 'download'",
+      "IF resource == 'invoice' AND operation == 'get' AND download == True THEN SHOW parameter 'binaryProperty'",
+      "IF resource == 'invoice' AND operation == 'get' AND download == True THEN SHOW parameter 'fileName'",
+      "IF resource == 'invoice' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'invoice' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'invoice' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'invoice' AND operation == 'send' THEN SHOW parameter 'invoiceId'",
+      "IF resource == 'invoice' AND operation == 'send' THEN SHOW parameter 'email'",
+      "IF resource == 'invoice' AND operation == 'void' THEN SHOW parameter 'invoiceId'",
+      "IF resource == 'invoice' AND operation == 'update' THEN SHOW parameter 'invoiceId'",
+      "IF resource == 'invoice' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'item' THEN SHOW parameter 'operation'",
+      "IF resource == 'item' AND operation == 'get' THEN SHOW parameter 'itemId'",
+      "IF resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'item' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'payment' THEN SHOW parameter 'operation'",
+      "IF resource == 'payment' AND operation == 'create' THEN SHOW parameter 'CustomerRef'",
+      "IF resource == 'payment' AND operation == 'create' THEN SHOW parameter 'TotalAmt'",
+      "IF resource == 'payment' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'payment' AND operation == 'delete' THEN SHOW parameter 'paymentId'",
+      "IF resource == 'payment' AND operation == 'get' THEN SHOW parameter 'paymentId'",
+      "IF resource == 'payment' AND operation == 'get' THEN SHOW parameter 'download'",
+      "IF resource == 'payment' AND operation == 'get' AND download == True THEN SHOW parameter 'binaryProperty'",
+      "IF resource == 'payment' AND operation == 'get' AND download == True THEN SHOW parameter 'fileName'",
+      "IF resource == 'payment' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'payment' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'payment' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'payment' AND operation == 'send' THEN SHOW parameter 'paymentId'",
+      "IF resource == 'payment' AND operation == 'send' THEN SHOW parameter 'email'",
+      "IF resource == 'payment' AND operation == 'void' THEN SHOW parameter 'paymentId'",
+      "IF resource == 'payment' AND operation == 'update' THEN SHOW parameter 'paymentId'",
+      "IF resource == 'payment' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'purchase' THEN SHOW parameter 'operation'",
+      "IF resource == 'purchase' AND operation == 'get' THEN SHOW parameter 'purchaseId'",
+      "IF resource == 'purchase' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'purchase' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'purchase' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'transaction' THEN SHOW parameter 'operation'",
+      "IF resource == 'transaction' AND operation == 'getReport' THEN SHOW parameter 'simple'",
+      "IF resource == 'transaction' AND operation == 'getReport' THEN SHOW parameter 'filters'",
+      "IF resource == 'vendor' THEN SHOW parameter 'operation'",
+      "IF resource == 'vendor' AND operation == 'create' THEN SHOW parameter 'displayName'",
+      "IF resource == 'vendor' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'vendor' AND operation == 'get' THEN SHOW parameter 'vendorId'",
+      "IF resource == 'vendor' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'vendor' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'vendor' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'vendor' AND operation == 'update' THEN SHOW parameter 'vendorId'",
+      "IF resource == 'vendor' AND operation == 'update' THEN SHOW parameter 'updateFields'"
+    ]
+  }
+}

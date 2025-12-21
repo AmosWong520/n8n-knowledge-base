@@ -1,0 +1,1768 @@
+{
+  "node_id": "n8n-nodes-base.microsoftTeams",
+  "name": "n8n-nodes-base.microsoftTeams",
+  "version": 2,
+  "semantic_context": "Consume Microsoft Teams API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Channel",
+          "value": "channel"
+        },
+        {
+          "name": "Channel Message",
+          "value": "channelMessage"
+        },
+        {
+          "name": "Chat Message",
+          "value": "chatMessage"
+        },
+        {
+          "name": "Task",
+          "value": "task"
+        }
+      ],
+      "default": "channel",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a task",
+          "action": "Create task"
+        },
+        {
+          "name": "Delete",
+          "value": "deleteTask",
+          "description": "Delete a task",
+          "action": "Delete task"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a task",
+          "action": "Get task"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many tasks",
+          "action": "Get many tasks"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a task",
+          "action": "Update task"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "teamId": {
+      "displayName": "Team",
+      "name": "teamId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "description": "Select the team from the list, by URL, or by ID (the ID is the \"groupId\" parameter in the URL you get from \"Get a link to the team\")",
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "e.g. My Team",
+          "typeOptions": {
+            "searchListMethod": "getTeams",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "From URL",
+          "name": "url",
+          "type": "string",
+          "placeholder": "e.g. https://teams.microsoft.com/l/team/19%3AP8l9gXd6oqlgq…",
+          "extractValue": {
+            "type": "regex",
+            "regex": "groupId=([a-f0-9-]+)\\&"
+          },
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "https:\\/\\/teams.microsoft.com\\/.*groupId=[a-f0-9-]+\\&.*",
+                "errorMessage": "Not a valid Microsoft Teams URL"
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "By ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "e.g. 61165b04-e4cc-4026-b43f-926b4e2a7182",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "^([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})[ \t]*",
+                "errorMessage": "Not a valid Microsoft Teams Team ID"
+              }
+            }
+          ],
+          "extractValue": {
+            "type": "regex",
+            "regex": "^([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})"
+          }
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "channelMessage"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "Select the team from the list, by URL, or by ID (the ID is the \"groupId\" parameter in the URL you get from \"Get a link to the team\")"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "default": "",
+      "placeholder": "e.g. My New Channel name",
+      "description": "The name of the channel",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "channel"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "The name of the channel"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "default": {},
+      "placeholder": "Add option",
+      "options": [
+        {
+          "displayName": "Assigned To",
+          "name": "assignedTo",
+          "type": "resourceLocator",
+          "default": {
+            "mode": "list",
+            "value": ""
+          },
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "groupId.balue"
+            ]
+          },
+          "modes": [
+            {
+              "displayName": "From List",
+              "name": "list",
+              "type": "list",
+              "placeholder": "Select a Member...",
+              "typeOptions": {
+                "searchListMethod": "getMembers",
+                "searchable": true
+              }
+            },
+            {
+              "displayName": "By ID",
+              "name": "id",
+              "type": "string",
+              "placeholder": "7e2f1174-e8ee-4859-b8b1-a8d1cc63d276",
+              "validation": [
+                {
+                  "type": "regex",
+                  "properties": {
+                    "regex": "^([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})[ \t]*",
+                    "errorMessage": "Not a valid Microsoft Teams Team ID"
+                  }
+                }
+              ],
+              "extractValue": {
+                "type": "regex",
+                "regex": "^([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})"
+              }
+            }
+          ],
+          "description": "Who the task should be assigned to"
+        },
+        {
+          "displayName": "Due Date Time",
+          "name": "dueDateTime",
+          "type": "string",
+          "validateType": "dateTime",
+          "default": "",
+          "description": "Date and time at which the task is due. The Timestamp type represents date and time information using ISO 8601 format and is always in UTC time."
+        },
+        {
+          "displayName": "Percent Complete",
+          "name": "percentComplete",
+          "type": "number",
+          "typeOptions": {
+            "minValue": 0,
+            "maxValue": 100
+          },
+          "default": 0,
+          "placeholder": "e.g. 75",
+          "description": "Percentage of task completion. When set to 100, the task is considered completed."
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "channelId": {
+      "displayName": "Channel",
+      "name": "channelId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "description": "Select the channel from the list, by URL, or by ID (the ID is the \"threadId\" in the URL)",
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "teamId.value"
+        ]
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a Channel...",
+          "typeOptions": {
+            "searchListMethod": "getChannels",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "19:-xlxyqXNSCxpI1SDzgQ_L9ZvzSR26pgphq1BJ9y7QJE1@thread.tacv2"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "channelMessage"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "Select the channel from the list, by URL, or by ID (the ID is the \"threadId\" in the URL)"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "returnAll": [
+            false
+          ],
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "contentType": {
+      "displayName": "Content Type",
+      "name": "contentType",
+      "required": true,
+      "type": "options",
+      "options": [
+        {
+          "name": "Text",
+          "value": "text"
+        },
+        {
+          "name": "HTML",
+          "value": "html"
+        }
+      ],
+      "default": "text",
+      "description": "Whether the message is plain text or HTML",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "chatMessage"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "typeOptions": {
+        "rows": 4
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "chatMessage"
+          ],
+          "operation": [
+            "sendAndWait"
+          ]
+        }
+      }
+    },
+    "chatId": {
+      "displayName": "Chat",
+      "name": "chatId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "description": "Select the chat from the list, by URL, or by ID (find the chat ID after \"conversations/\" in the URL)",
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a Chat...",
+          "typeOptions": {
+            "searchListMethod": "getChats",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "19:7e2f1174-e8ee-4859-b8b1-a8d1cc63d276_0c5cfdbb-596f-4d39-b557-5d9516c94107@unq.gbl.spaces",
+          "url": "=https://teams.microsoft.com/l/chat/{{encodeURIComponent($value)}}/0"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "chatMessage"
+          ],
+          "operation": [
+            "sendAndWait"
+          ]
+        }
+      },
+      "ai_hint": "Select the chat from the list, by URL, or by ID (find the chat ID after \"conversations/\" in the URL)"
+    },
+    "messageId": {
+      "displayName": "Message ID",
+      "name": "messageId",
+      "required": true,
+      "type": "string",
+      "default": "",
+      "placeholder": "e.g. 1673355049064",
+      "description": "The ID of the message to retrieve",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "chatMessage"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the message to retrieve"
+    },
+    "responseType": {
+      "displayName": "Response Type",
+      "name": "responseType",
+      "type": "options",
+      "default": "approval",
+      "options": [
+        {
+          "name": "Approval",
+          "value": "approval",
+          "description": "User can approve/disapprove from within the message"
+        },
+        {
+          "name": "Free Text",
+          "value": "freeText",
+          "description": "User can submit a response via a form"
+        },
+        {
+          "name": "Custom Form",
+          "value": "customForm",
+          "description": "User can submit a response via a custom form"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "chatMessage"
+          ],
+          "operation": [
+            "sendAndWait"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "defineForm": {
+      "displayName": "Define Form",
+      "name": "defineForm",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Using Fields Below",
+          "value": "fields"
+        },
+        {
+          "name": "Using JSON",
+          "value": "json"
+        }
+      ],
+      "default": "fields",
+      "displayOptions": {
+        "show": {
+          "responseType": [
+            "customForm"
+          ],
+          "resource": [
+            "chatMessage"
+          ],
+          "operation": [
+            "sendAndWait"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "jsonOutput": {
+      "displayName": "Form Fields",
+      "name": "jsonOutput",
+      "type": "json",
+      "typeOptions": {
+        "rows": 5
+      },
+      "default": "[\n  {\n    \"fieldLabel\": \"Name\",\n    \"placeholder\": \"enter your name\",\n    \"requiredField\": true\n  },\n  {\n    \"fieldLabel\": \"Age\",\n    \"fieldType\": \"number\",\n    \"placeholder\": \"enter your age\"\n  },\n  {\n    \"fieldLabel\": \"Email\",\n    \"fieldType\": \"email\",\n    \"requiredField\": true\n  },\n  {\n    \"fieldLabel\": \"Textarea\",\n    \"fieldType\": \"textarea\"\n  },\n  {\n    \"fieldLabel\": \"Dropdown Options\",\n    \"fieldType\": \"dropdown\",\n    \"fieldOptions\": {\n      \"values\": [\n        {\n          \"option\": \"option 1\"\n        },\n        {\n          \"option\": \"option 2\"\n        }\n      ]\n    },\n    \"requiredField\": true\n  },\n  {\n    \"fieldLabel\": \"Checkboxes\",\n    \"fieldType\": \"checkbox\",\n    \"fieldOptions\": {\n      \"values\": [\n        {\n          \"option\": \"option 1\"\n        },\n        {\n          \"option\": \"option 2\"\n        }\n      ]\n    }\n  },\n  {\n    \"fieldLabel\": \"Radio\",\n    \"fieldType\": \"radio\",\n    \"fieldOptions\": {\n      \"values\": [\n        {\n          \"option\": \"option 1\"\n        },\n        {\n          \"option\": \"option 2\"\n        }\n      ]\n    }\n  },\n  {\n    \"fieldLabel\": \"Email\",\n    \"fieldType\": \"email\",\n    \"placeholder\": \"me@mail.con\"\n  },\n  {\n    \"fieldLabel\": \"File\",\n    \"fieldType\": \"file\",\n    \"multipleFiles\": true,\n    \"acceptFileTypes\": \".jpg, .png\"\n  },\n  {\n    \"fieldLabel\": \"Number\",\n    \"fieldType\": \"number\"\n  },\n  {\n    \"fieldLabel\": \"Password\",\n    \"fieldType\": \"password\"\n  }\n]\n",
+      "validateType": "form-fields",
+      "ignoreValidationDuringExecution": true,
+      "hint": "<a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.form/\" target=\"_blank\">See docs</a> for field syntax",
+      "displayOptions": {
+        "show": {
+          "defineForm": [
+            "json"
+          ],
+          "responseType": [
+            "customForm"
+          ],
+          "resource": [
+            "chatMessage"
+          ],
+          "operation": [
+            "sendAndWait"
+          ]
+        }
+      }
+    },
+    "formFields": {
+      "displayName": "Form Elements",
+      "name": "formFields",
+      "placeholder": "Add Form Element",
+      "type": "fixedCollection",
+      "default": {},
+      "typeOptions": {
+        "multipleValues": true,
+        "sortable": true
+      },
+      "options": [
+        {
+          "displayName": "Values",
+          "name": "values",
+          "values": [
+            {
+              "displayName": "Field Name",
+              "name": "fieldLabel",
+              "type": "string",
+              "default": "",
+              "placeholder": "e.g. What is your name?",
+              "description": "Label that appears above the input field",
+              "required": true,
+              "displayOptions": {
+                "hide": {
+                  "fieldType": [
+                    "hiddenField",
+                    "html"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field Name",
+              "name": "fieldName",
+              "description": "The name of the field, used in input attributes and referenced by the workflow",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "hiddenField"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Element Type",
+              "name": "fieldType",
+              "type": "options",
+              "default": "text",
+              "description": "The type of field to add to the form",
+              "options": [
+                {
+                  "name": "Checkboxes",
+                  "value": "checkbox"
+                },
+                {
+                  "name": "Custom HTML",
+                  "value": "html"
+                },
+                {
+                  "name": "Date",
+                  "value": "date"
+                },
+                {
+                  "name": "Dropdown",
+                  "value": "dropdown"
+                },
+                {
+                  "name": "Email",
+                  "value": "email"
+                },
+                {
+                  "name": "File",
+                  "value": "file"
+                },
+                {
+                  "name": "Hidden Field",
+                  "value": "hiddenField"
+                },
+                {
+                  "name": "Number",
+                  "value": "number"
+                },
+                {
+                  "name": "Password",
+                  "value": "password"
+                },
+                {
+                  "name": "Radio Buttons",
+                  "value": "radio"
+                },
+                {
+                  "name": "Text",
+                  "value": "text"
+                },
+                {
+                  "name": "Textarea",
+                  "value": "textarea"
+                }
+              ],
+              "required": true
+            },
+            {
+              "displayName": "Element Name",
+              "name": "elementName",
+              "type": "string",
+              "default": "",
+              "placeholder": "e.g. content-section",
+              "description": "Optional field. It can be used to include the html in the output.",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "html"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Placeholder",
+              "name": "placeholder",
+              "description": "Sample text to display inside the field",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "hide": {
+                  "fieldType": [
+                    "dropdown",
+                    "date",
+                    "file",
+                    "html",
+                    "hiddenField",
+                    "radio",
+                    "checkbox"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Default Value",
+              "name": "defaultValue",
+              "description": "Default value that will be pre-filled in the form field",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "text",
+                    "number",
+                    "email",
+                    "textarea"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Default Value",
+              "name": "defaultValue",
+              "description": "Default date value that will be pre-filled in the form field (format: YYYY-MM-DD)",
+              "type": "dateTime",
+              "typeOptions": {
+                "dateOnly": true
+              },
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "date"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Default Value",
+              "name": "defaultValue",
+              "description": "Default value that will be pre-selected. Must match one of the option labels.",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "dropdown",
+                    "radio"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Default Value",
+              "name": "defaultValue",
+              "description": "Default value(s) that will be pre-selected. Must match one or multiple of the option labels. Separate multiple pre-selected options with a comma.",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "checkbox"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field Value",
+              "name": "fieldValue",
+              "description": "Input value can be set here or will be passed as a query parameter via Field Name if no value is set",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "hiddenField"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field Options",
+              "name": "fieldOptions",
+              "placeholder": "Add Field Option",
+              "description": "List of options that can be selected from the dropdown",
+              "type": "fixedCollection",
+              "default": {
+                "values": [
+                  {
+                    "option": ""
+                  }
+                ]
+              },
+              "required": true,
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "dropdown"
+                  ]
+                }
+              },
+              "typeOptions": {
+                "multipleValues": true,
+                "sortable": true
+              },
+              "options": [
+                {
+                  "displayName": "Values",
+                  "name": "values",
+                  "values": [
+                    {
+                      "displayName": "Option",
+                      "name": "option",
+                      "type": "string",
+                      "default": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "displayName": "Checkboxes",
+              "name": "fieldOptions",
+              "placeholder": "Add Checkbox",
+              "type": "fixedCollection",
+              "default": {
+                "values": [
+                  {
+                    "option": ""
+                  }
+                ]
+              },
+              "required": true,
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "checkbox"
+                  ]
+                }
+              },
+              "typeOptions": {
+                "multipleValues": true,
+                "sortable": true
+              },
+              "options": [
+                {
+                  "displayName": "Values",
+                  "name": "values",
+                  "values": [
+                    {
+                      "displayName": "Checkbox Label",
+                      "name": "option",
+                      "type": "string",
+                      "default": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "displayName": "Radio Buttons",
+              "name": "fieldOptions",
+              "placeholder": "Add Radio Button",
+              "type": "fixedCollection",
+              "default": {
+                "values": [
+                  {
+                    "option": ""
+                  }
+                ]
+              },
+              "required": true,
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "radio"
+                  ]
+                }
+              },
+              "typeOptions": {
+                "multipleValues": true,
+                "sortable": true
+              },
+              "options": [
+                {
+                  "displayName": "Values",
+                  "name": "values",
+                  "values": [
+                    {
+                      "displayName": "Radio Button Label",
+                      "name": "option",
+                      "type": "string",
+                      "default": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "displayName": "Multiple Choice is a legacy option, please use Checkboxes or Radio Buttons field type instead",
+              "name": "multiselectLegacyNotice",
+              "type": "notice",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "multiselect": [
+                    true
+                  ],
+                  "fieldType": [
+                    "dropdown"
+                  ],
+                  "@version": [
+                    {
+                      "_cnd": {
+                        "lt": 2.3
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Multiple Choice",
+              "name": "multiselect",
+              "type": "boolean",
+              "default": false,
+              "description": "Whether to allow the user to select multiple options from the dropdown list",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "dropdown"
+                  ],
+                  "@version": [
+                    {
+                      "_cnd": {
+                        "lt": 2.3
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Limit Selection",
+              "name": "limitSelection",
+              "type": "options",
+              "default": "unlimited",
+              "options": [
+                {
+                  "name": "Exact Number",
+                  "value": "exact"
+                },
+                {
+                  "name": "Range",
+                  "value": "range"
+                },
+                {
+                  "name": "Unlimited",
+                  "value": "unlimited"
+                }
+              ],
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "checkbox"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Number of Selections",
+              "name": "numberOfSelections",
+              "type": "number",
+              "default": 1,
+              "typeOptions": {
+                "numberPrecision": 0,
+                "minValue": 1
+              },
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "checkbox"
+                  ],
+                  "limitSelection": [
+                    "exact"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Minimum Selections",
+              "name": "minSelections",
+              "type": "number",
+              "default": 0,
+              "typeOptions": {
+                "numberPrecision": 0,
+                "minValue": 0
+              },
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "checkbox"
+                  ],
+                  "limitSelection": [
+                    "range"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Maximum Selections",
+              "name": "maxSelections",
+              "type": "number",
+              "default": 1,
+              "typeOptions": {
+                "numberPrecision": 0,
+                "minValue": 1
+              },
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "checkbox"
+                  ],
+                  "limitSelection": [
+                    "range"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "HTML",
+              "name": "html",
+              "typeOptions": {
+                "editor": "htmlEditor"
+              },
+              "type": "string",
+              "noDataExpression": true,
+              "default": "<!-- Your custom HTML here --->\n\n\n",
+              "description": "HTML elements to display on the form page",
+              "hint": "Does not accept <code>&lt;script&gt;</code>, <code>&lt;style&gt;</code> or <code>&lt;input&gt;</code> tags",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "html"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Multiple Files",
+              "name": "multipleFiles",
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to allow the user to select multiple files from the file input or just one",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "file"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Accepted File Types",
+              "name": "acceptFileTypes",
+              "type": "string",
+              "default": "",
+              "description": "Comma-separated list of allowed file extensions",
+              "hint": "Leave empty to allow all file types",
+              "placeholder": "e.g. .jpg, .png",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "file"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "The displayed date is formatted based on the locale of the user's browser",
+              "name": "formatDate",
+              "type": "notice",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "date"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Required Field",
+              "name": "requiredField",
+              "type": "boolean",
+              "default": false,
+              "description": "Whether to require the user to enter a value for this field before submitting the form",
+              "displayOptions": {
+                "hide": {
+                  "fieldType": [
+                    "html",
+                    "hiddenField"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "defineForm": [
+            "fields"
+          ],
+          "responseType": [
+            "customForm"
+          ],
+          "resource": [
+            "chatMessage"
+          ],
+          "operation": [
+            "sendAndWait"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "approvalOptions": {
+      "displayName": "Approval Options",
+      "name": "approvalOptions",
+      "type": "fixedCollection",
+      "placeholder": "Add option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Values",
+          "name": "values",
+          "values": [
+            {
+              "displayName": "Type of Approval",
+              "name": "approvalType",
+              "type": "options",
+              "placeholder": "Add option",
+              "default": "single",
+              "options": [
+                {
+                  "name": "Approve Only",
+                  "value": "single"
+                },
+                {
+                  "name": "Approve and Disapprove",
+                  "value": "double"
+                }
+              ]
+            },
+            {
+              "displayName": "Approve Button Label",
+              "name": "approveLabel",
+              "type": "string",
+              "default": "✓ Approve",
+              "displayOptions": {
+                "show": {
+                  "approvalType": [
+                    "single",
+                    "double"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Disapprove Button Label",
+              "name": "disapproveLabel",
+              "type": "string",
+              "default": "✗ Decline",
+              "displayOptions": {
+                "show": {
+                  "approvalType": [
+                    "double"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "responseType": [
+            "approval"
+          ],
+          "resource": [
+            "chatMessage"
+          ],
+          "operation": [
+            "sendAndWait"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "groupId": {
+      "displayName": "Team",
+      "name": "groupId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "groupSource"
+        ]
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a Team...",
+          "typeOptions": {
+            "searchListMethod": "getGroups",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "12f0ca7d-b77f-4c4e-93d2-5cbdb4f464c6",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "^([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})[ \t]*",
+                "errorMessage": "Not a valid Microsoft Teams Team ID"
+              }
+            }
+          ],
+          "extractValue": {
+            "type": "regex",
+            "regex": "^([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})"
+          }
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      }
+    },
+    "planId": {
+      "displayName": "Plan",
+      "name": "planId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "groupId.value"
+        ]
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a Plan...",
+          "typeOptions": {
+            "searchListMethod": "getPlans",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "rl1HYb0cUEiHPc7zgB_KWWUAA7Of"
+        }
+      ],
+      "description": "The plan for the task to belong to",
+      "displayOptions": {
+        "show": {
+          "tasksFor": [
+            "plan"
+          ],
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "The plan for the task to belong to"
+    },
+    "bucketId": {
+      "displayName": "Bucket",
+      "name": "bucketId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "planId.value"
+        ]
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a Bucket...",
+          "typeOptions": {
+            "searchListMethod": "getBuckets",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "rl1HYb0cUEiHPc7zgB_KWWUAA7Of"
+        }
+      ],
+      "description": "The bucket for the task to belong to",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "The bucket for the task to belong to"
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "required": true,
+      "type": "string",
+      "default": "",
+      "placeholder": "e.g. new task",
+      "description": "Title of the task",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Title of the task"
+    },
+    "taskId": {
+      "displayName": "Task ID",
+      "name": "taskId",
+      "required": true,
+      "type": "string",
+      "default": "",
+      "placeholder": "e.g. h3ufgLvXPkSRzYm-zO5cY5gANtBQ",
+      "description": "The ID of the task to update",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the task to update"
+    },
+    "tasksFor": {
+      "displayName": "Tasks For",
+      "name": "tasksFor",
+      "default": "member",
+      "required": true,
+      "type": "options",
+      "description": "Whether to retrieve the tasks for a user or for a plan",
+      "options": [
+        {
+          "name": "Group Member",
+          "value": "member",
+          "description": "Tasks assigned to group member"
+        },
+        {
+          "name": "Plan",
+          "value": "plan",
+          "description": "Tasks in group plan"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "default": {},
+      "placeholder": "Add Field",
+      "options": [
+        {
+          "displayName": "Assigned To",
+          "name": "assignedTo",
+          "type": "resourceLocator",
+          "default": {
+            "mode": "list",
+            "value": ""
+          },
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "updateFields.groupId.value"
+            ]
+          },
+          "modes": [
+            {
+              "displayName": "From List",
+              "name": "list",
+              "type": "list",
+              "placeholder": "Select a Member...",
+              "typeOptions": {
+                "searchListMethod": "getMembers",
+                "searchable": true
+              }
+            },
+            {
+              "displayName": "By ID",
+              "name": "id",
+              "type": "string",
+              "placeholder": "7e2f1174-e8ee-4859-b8b1-a8d1cc63d276",
+              "validation": [
+                {
+                  "type": "regex",
+                  "properties": {
+                    "regex": "^([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})[ \t]*",
+                    "errorMessage": "Not a valid Microsoft Teams Team ID"
+                  }
+                }
+              ],
+              "extractValue": {
+                "type": "regex",
+                "regex": "^([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})"
+              }
+            }
+          ],
+          "description": "Who the task should be assigned to",
+          "hint": "Select 'Team' from options first",
+          "required": false
+        },
+        {
+          "displayName": "Bucket",
+          "name": "bucketId",
+          "type": "resourceLocator",
+          "default": {
+            "mode": "list",
+            "value": ""
+          },
+          "required": false,
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "updateFields.planId.value"
+            ]
+          },
+          "modes": [
+            {
+              "displayName": "From List",
+              "name": "list",
+              "type": "list",
+              "placeholder": "Select a Bucket...",
+              "typeOptions": {
+                "searchListMethod": "getBuckets",
+                "searchable": true
+              }
+            },
+            {
+              "displayName": "By ID",
+              "name": "id",
+              "type": "string",
+              "placeholder": "rl1HYb0cUEiHPc7zgB_KWWUAA7Of"
+            }
+          ],
+          "description": "The bucket for the task to belong to"
+        },
+        {
+          "displayName": "Due Date Time",
+          "name": "dueDateTime",
+          "type": "string",
+          "validateType": "dateTime",
+          "default": "",
+          "description": "Date and time at which the task is due. The Timestamp type represents date and time information using ISO 8601 format and is always in UTC time."
+        },
+        {
+          "displayName": "Team",
+          "name": "groupId",
+          "type": "resourceLocator",
+          "default": {
+            "mode": "list",
+            "value": ""
+          },
+          "required": false,
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "/groupSource"
+            ]
+          },
+          "modes": [
+            {
+              "displayName": "From List",
+              "name": "list",
+              "type": "list",
+              "placeholder": "Select a Team...",
+              "typeOptions": {
+                "searchListMethod": "getGroups",
+                "searchable": true
+              }
+            },
+            {
+              "displayName": "By ID",
+              "name": "id",
+              "type": "string",
+              "placeholder": "12f0ca7d-b77f-4c4e-93d2-5cbdb4f464c6",
+              "validation": [
+                {
+                  "type": "regex",
+                  "properties": {
+                    "regex": "^([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})[ \t]*",
+                    "errorMessage": "Not a valid Microsoft Teams Team ID"
+                  }
+                }
+              ],
+              "extractValue": {
+                "type": "regex",
+                "regex": "^([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})"
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "Percent Complete",
+          "name": "percentComplete",
+          "type": "number",
+          "typeOptions": {
+            "minValue": 0,
+            "maxValue": 100
+          },
+          "default": 0,
+          "placeholder": "e.g. 75",
+          "description": "Percentage of task completion. When set to 100, the task is considered completed."
+        },
+        {
+          "displayName": "Plan",
+          "name": "planId",
+          "type": "resourceLocator",
+          "default": {
+            "mode": "list",
+            "value": ""
+          },
+          "required": false,
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "updateFields.groupId.value"
+            ]
+          },
+          "modes": [
+            {
+              "displayName": "From List",
+              "name": "list",
+              "type": "list",
+              "placeholder": "Select a Plan...",
+              "typeOptions": {
+                "searchListMethod": "getPlans",
+                "searchable": true
+              }
+            },
+            {
+              "displayName": "By ID",
+              "name": "id",
+              "type": "string",
+              "placeholder": "rl1HYb0cUEiHPc7zgB_KWWUAA7Of"
+            }
+          ],
+          "description": "The plan for the task to belong to",
+          "hint": "Select 'Team' from options first"
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": "",
+          "placeholder": "e.g. my task",
+          "description": "Title of the task"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "teamId",
+      "name",
+      "options",
+      "teamId",
+      "channelId",
+      "teamId",
+      "channelId",
+      "teamId",
+      "returnAll",
+      "limit",
+      "teamId",
+      "channelId",
+      "name",
+      "options",
+      "operation",
+      "teamId",
+      "channelId",
+      "contentType",
+      "message",
+      "options",
+      "teamId",
+      "channelId",
+      "returnAll",
+      "limit",
+      "operation",
+      "chatId",
+      "contentType",
+      "message",
+      "options",
+      "chatId",
+      "messageId",
+      "chatId",
+      "returnAll",
+      "limit",
+      "chatId",
+      "message",
+      "responseType",
+      "defineForm",
+      "jsonOutput",
+      "formFields",
+      "approvalOptions",
+      "options",
+      "options",
+      "operation",
+      "groupId",
+      "planId",
+      "bucketId",
+      "title",
+      "options",
+      "taskId",
+      "taskId",
+      "tasksFor",
+      "groupId",
+      "planId",
+      "returnAll",
+      "limit",
+      "taskId",
+      "updateFields"
+    ],
+    "conditional_rules": [
+      "IF resource == 'channel' THEN SHOW parameter 'operation'",
+      "IF resource == 'channel' AND operation == 'create' THEN SHOW parameter 'teamId'",
+      "IF resource == 'channel' AND operation == 'create' THEN SHOW parameter 'name'",
+      "IF resource == 'channel' AND operation == 'create' THEN SHOW parameter 'options'",
+      "IF resource == 'channel' AND operation == 'deleteChannel' THEN SHOW parameter 'teamId'",
+      "IF resource == 'channel' AND operation == 'deleteChannel' THEN SHOW parameter 'channelId'",
+      "IF resource == 'channel' AND operation == 'get' THEN SHOW parameter 'teamId'",
+      "IF resource == 'channel' AND operation == 'get' THEN SHOW parameter 'channelId'",
+      "IF resource == 'channel' AND operation == 'getAll' THEN SHOW parameter 'teamId'",
+      "IF resource == 'channel' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF returnAll == False AND resource == 'channel' AND operation == 'getAll' THEN SHOW parameter 'limit'",
+      "IF resource == 'channel' AND operation == 'update' THEN SHOW parameter 'teamId'",
+      "IF resource == 'channel' AND operation == 'update' THEN SHOW parameter 'channelId'",
+      "IF resource == 'channel' AND operation == 'update' THEN SHOW parameter 'name'",
+      "IF resource == 'channel' AND operation == 'update' THEN SHOW parameter 'options'",
+      "IF resource == 'channelMessage' THEN SHOW parameter 'operation'",
+      "IF resource == 'channelMessage' AND operation == 'create' THEN SHOW parameter 'teamId'",
+      "IF resource == 'channelMessage' AND operation == 'create' THEN SHOW parameter 'channelId'",
+      "IF resource == 'channelMessage' AND operation == 'create' THEN SHOW parameter 'contentType'",
+      "IF resource == 'channelMessage' AND operation == 'create' THEN SHOW parameter 'message'",
+      "IF resource == 'channelMessage' AND operation == 'create' THEN SHOW parameter 'options'",
+      "IF resource == 'channelMessage' AND operation == 'getAll' THEN SHOW parameter 'teamId'",
+      "IF resource == 'channelMessage' AND operation == 'getAll' THEN SHOW parameter 'channelId'",
+      "IF resource == 'channelMessage' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF returnAll == False AND resource == 'channelMessage' AND operation == 'getAll' THEN SHOW parameter 'limit'",
+      "IF resource == 'chatMessage' THEN SHOW parameter 'operation'",
+      "IF resource == 'chatMessage' AND operation == 'create' THEN SHOW parameter 'chatId'",
+      "IF resource == 'chatMessage' AND operation == 'create' THEN SHOW parameter 'contentType'",
+      "IF resource == 'chatMessage' AND operation == 'create' THEN SHOW parameter 'message'",
+      "IF resource == 'chatMessage' AND operation == 'create' THEN SHOW parameter 'options'",
+      "IF resource == 'chatMessage' AND operation == 'get' THEN SHOW parameter 'chatId'",
+      "IF resource == 'chatMessage' AND operation == 'get' THEN SHOW parameter 'messageId'",
+      "IF resource == 'chatMessage' AND operation == 'getAll' THEN SHOW parameter 'chatId'",
+      "IF resource == 'chatMessage' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF returnAll == False AND resource == 'chatMessage' AND operation == 'getAll' THEN SHOW parameter 'limit'",
+      "IF resource == 'chatMessage' AND operation == 'sendAndWait' THEN SHOW parameter 'chatId'",
+      "IF resource == 'chatMessage' AND operation == 'sendAndWait' THEN SHOW parameter 'message'",
+      "IF resource == 'chatMessage' AND operation == 'sendAndWait' THEN SHOW parameter 'responseType'",
+      "IF responseType == 'customForm' AND resource == 'chatMessage' AND operation == 'sendAndWait' THEN SHOW parameter 'defineForm'",
+      "IF defineForm == 'json' AND responseType == 'customForm' AND resource == 'chatMessage' AND operation == 'sendAndWait' THEN SHOW parameter 'jsonOutput'",
+      "IF defineForm == 'fields' AND responseType == 'customForm' AND resource == 'chatMessage' AND operation == 'sendAndWait' THEN SHOW parameter 'formFields'",
+      "IF fieldType IN [\"hiddenField\", \"html\"] THEN HIDE parameter 'fieldLabel'",
+      "IF fieldType == 'hiddenField' THEN SHOW parameter 'fieldName'",
+      "IF fieldType == 'html' THEN SHOW parameter 'elementName'",
+      "IF fieldType IN [\"dropdown\", \"date\", \"file\", \"html\", \"hiddenField\", \"radio\", \"checkbox\"] THEN HIDE parameter 'placeholder'",
+      "IF fieldType IN [\"text\", \"number\", \"email\", \"textarea\"] THEN SHOW parameter 'defaultValue'",
+      "IF fieldType == 'date' THEN SHOW parameter 'defaultValue'",
+      "IF fieldType IN [\"dropdown\", \"radio\"] THEN SHOW parameter 'defaultValue'",
+      "IF fieldType == 'checkbox' THEN SHOW parameter 'defaultValue'",
+      "IF fieldType == 'hiddenField' THEN SHOW parameter 'fieldValue'",
+      "IF fieldType == 'dropdown' THEN SHOW parameter 'fieldOptions'",
+      "IF fieldType == 'checkbox' THEN SHOW parameter 'fieldOptions'",
+      "IF fieldType == 'radio' THEN SHOW parameter 'fieldOptions'",
+      "IF multiselect == True AND fieldType == 'dropdown' AND @version == {'_cnd': {'lt': 2.3}} THEN SHOW parameter 'multiselectLegacyNotice'",
+      "IF fieldType == 'dropdown' AND @version == {'_cnd': {'lt': 2.3}} THEN SHOW parameter 'multiselect'",
+      "IF fieldType == 'checkbox' THEN SHOW parameter 'limitSelection'",
+      "IF fieldType == 'checkbox' AND limitSelection == 'exact' THEN SHOW parameter 'numberOfSelections'",
+      "IF fieldType == 'checkbox' AND limitSelection == 'range' THEN SHOW parameter 'minSelections'",
+      "IF fieldType == 'checkbox' AND limitSelection == 'range' THEN SHOW parameter 'maxSelections'",
+      "IF fieldType == 'html' THEN SHOW parameter 'html'",
+      "IF fieldType == 'file' THEN SHOW parameter 'multipleFiles'",
+      "IF fieldType == 'file' THEN SHOW parameter 'acceptFileTypes'",
+      "IF fieldType == 'date' THEN SHOW parameter 'formatDate'",
+      "IF fieldType IN [\"html\", \"hiddenField\"] THEN HIDE parameter 'requiredField'",
+      "IF responseType == 'approval' AND resource == 'chatMessage' AND operation == 'sendAndWait' THEN SHOW parameter 'approvalOptions'",
+      "IF approvalType IN [\"single\", \"double\"] THEN SHOW parameter 'approveLabel'",
+      "IF approvalType == 'double' THEN SHOW parameter 'disapproveLabel'",
+      "IF responseType == 'approval' AND resource == 'chatMessage' AND operation == 'sendAndWait' THEN SHOW parameter 'options'",
+      "IF limitType == 'afterTimeInterval' THEN SHOW parameter 'resumeAmount'",
+      "IF limitType == 'afterTimeInterval' THEN SHOW parameter 'resumeUnit'",
+      "IF limitType == 'atSpecifiedTime' THEN SHOW parameter 'maxDateAndTime'",
+      "IF responseType IN [\"freeText\", \"customForm\"] AND resource == 'chatMessage' AND operation == 'sendAndWait' THEN SHOW parameter 'options'",
+      "IF resource == 'task' THEN SHOW parameter 'operation'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'groupId'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'planId'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'bucketId'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'options'",
+      "IF resource == 'task' AND operation == 'deleteTask' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'get' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'tasksFor'",
+      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'groupId'",
+      "IF tasksFor == 'plan' AND resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'planId'",
+      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF returnAll == False AND resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'limit'",
+      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'updateFields'"
+    ]
+  }
+}

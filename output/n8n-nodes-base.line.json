@@ -1,0 +1,217 @@
+{
+  "node_id": "n8n-nodes-base.line",
+  "name": "n8n-nodes-base.line",
+  "version": 1,
+  "semantic_context": "Consume Line API",
+  "parameters": {
+    "notice": {
+      "displayName": "End of service: LINE Notify will be discontinued from April 1st 2025, You can find more information <a href=\"https://notify-bot.line.me/closing-announce\" target=\"_blank\">here</a>",
+      "name": "notice",
+      "type": "notice",
+      "default": ""
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Notification",
+          "value": "notification"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "notification",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "notification"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Send",
+          "value": "send",
+          "description": "Sends notifications to users or groups",
+          "action": "Send a notification"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "send",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "required": true,
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "send"
+          ],
+          "resource": [
+            "notification"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "send"
+          ],
+          "resource": [
+            "notification"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Image",
+          "name": "imageUi",
+          "placeholder": "Add Image",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": false
+          },
+          "default": {},
+          "options": [
+            {
+              "name": "imageValue",
+              "displayName": "Image",
+              "values": [
+                {
+                  "displayName": "Binary File",
+                  "name": "binaryData",
+                  "type": "boolean",
+                  "default": false
+                },
+                {
+                  "displayName": "Image Full Size",
+                  "name": "imageFullsize",
+                  "type": "string",
+                  "default": "",
+                  "displayOptions": {
+                    "show": {
+                      "binaryData": [
+                        false
+                      ]
+                    }
+                  },
+                  "description": "HTTP/HTTPS URL. Maximum size of 2048×2048px JPEG."
+                },
+                {
+                  "displayName": "Image Thumbnail",
+                  "name": "imageThumbnail",
+                  "type": "string",
+                  "displayOptions": {
+                    "show": {
+                      "binaryData": [
+                        false
+                      ]
+                    }
+                  },
+                  "default": "",
+                  "description": "HTTP/HTTPS URL. Maximum size of 240×240px JPEG."
+                },
+                {
+                  "displayName": "Input Binary Field",
+                  "name": "binaryProperty",
+                  "type": "string",
+                  "displayOptions": {
+                    "show": {
+                      "binaryData": [
+                        true
+                      ]
+                    }
+                  },
+                  "default": "data",
+                  "hint": "The name of the input binary field containing the file to be written"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Notification Disabled",
+          "name": "notificationDisabled",
+          "type": "boolean",
+          "default": false,
+          "description": "<p>true: The user doesn't receive a push notification when the message is sent.</p><p>false: The user receives a push notification when the message is sent</p>"
+        },
+        {
+          "displayName": "Sticker",
+          "name": "stickerUi",
+          "placeholder": "Add Sticker",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": false
+          },
+          "default": {},
+          "options": [
+            {
+              "name": "stickerValue",
+              "displayName": "Sticker",
+              "values": [
+                {
+                  "displayName": "Sticker ID",
+                  "name": "stickerId",
+                  "type": "number",
+                  "default": ""
+                },
+                {
+                  "displayName": "Sticker Package ID",
+                  "name": "stickerPackageId",
+                  "type": "number",
+                  "default": "",
+                  "description": "Package ID"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "notice",
+      "resource",
+      "operation",
+      "message",
+      "additionalFields"
+    ],
+    "conditional_rules": [
+      "IF resource == 'notification' THEN SHOW parameter 'operation'",
+      "IF operation == 'send' AND resource == 'notification' THEN SHOW parameter 'message'",
+      "IF operation == 'send' AND resource == 'notification' THEN SHOW parameter 'additionalFields'",
+      "IF binaryData == False THEN SHOW parameter 'imageFullsize'",
+      "IF binaryData == False THEN SHOW parameter 'imageThumbnail'",
+      "IF binaryData == True THEN SHOW parameter 'binaryProperty'"
+    ]
+  }
+}

@@ -1,0 +1,683 @@
+{
+  "node_id": "n8n-nodes-base.filemakerTool",
+  "name": "n8n-nodes-base.filemakerTool",
+  "version": 1,
+  "semantic_context": "Retrieve data from the FileMaker data API",
+  "parameters": {
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Retrieve data from the FileMaker data API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "action": {
+      "displayName": "Action",
+      "name": "action",
+      "type": "options",
+      "default": "record",
+      "options": [
+        {
+          "name": "Create Record",
+          "value": "create"
+        },
+        {
+          "name": "Delete Record",
+          "value": "delete"
+        },
+        {
+          "name": "Duplicate Record",
+          "value": "duplicate"
+        },
+        {
+          "name": "Edit Record",
+          "value": "edit"
+        },
+        {
+          "name": "Find Records",
+          "value": "find"
+        },
+        {
+          "name": "Get Records",
+          "value": "records"
+        },
+        {
+          "name": "Get Records By ID",
+          "value": "record"
+        },
+        {
+          "name": "Perform Script",
+          "value": "performscript"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "layout": {
+      "displayName": "Layout Name or ID",
+      "name": "layout",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getLayouts"
+      },
+      "options": [],
+      "default": "",
+      "required": true,
+      "displayOptions": {},
+      "placeholder": "Layout Name",
+      "description": "FileMaker Layout Name. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "FileMaker Layout Name. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "recid": {
+      "displayName": "Record ID",
+      "name": "recid",
+      "type": "number",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "action": [
+            "record",
+            "edit",
+            "delete",
+            "duplicate"
+          ]
+        }
+      },
+      "placeholder": "Record ID",
+      "description": "Internal Record ID returned by get (recordid)",
+      "ai_hint": "Internal Record ID returned by get (recordid)"
+    },
+    "offset": {
+      "displayName": "Offset",
+      "name": "offset",
+      "placeholder": "0",
+      "description": "The record number of the first record in the range of records",
+      "type": "number",
+      "default": 1,
+      "displayOptions": {
+        "show": {
+          "action": [
+            "find",
+            "records"
+          ]
+        }
+      },
+      "ai_hint": "The record number of the first record in the range of records"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "placeholder": "100",
+      "description": "Max number of results to return",
+      "type": "number",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "default": 100,
+      "displayOptions": {
+        "show": {
+          "action": [
+            "find",
+            "records"
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "getPortals": {
+      "displayName": "Get Portals",
+      "name": "getPortals",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to get portal data as well",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "record",
+            "records",
+            "find"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "portals": {
+      "displayName": "Portals Name or ID",
+      "name": "portals",
+      "type": "options",
+      "typeOptions": {
+        "multipleValues": true,
+        "multipleValueButtonText": "Add portal",
+        "loadOptionsMethod": "getPortals"
+      },
+      "options": [],
+      "default": [],
+      "displayOptions": {
+        "show": {
+          "action": [
+            "record",
+            "records",
+            "find"
+          ],
+          "getPortals": [
+            true
+          ]
+        }
+      },
+      "placeholder": "Portals",
+      "description": "The portal result set to return. Use the portal object name or portal table name. If this parameter is omitted, the API will return all portal objects and records in the layout. For best performance, pass the portal object name or portal table name. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The portal result set to return. Use the portal object name or portal table name. If this parameter is omitted, the API will return all portal objects and records in the layout. For best performance, pass the portal object name or portal table name. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "responseLayout": {
+      "displayName": "Response Layout Name or ID",
+      "name": "responseLayout",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getResponseLayouts"
+      },
+      "options": [],
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "find"
+          ]
+        }
+      },
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "queries": {
+      "displayName": "Queries",
+      "name": "queries",
+      "placeholder": "Add query",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "action": [
+            "find"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "name": "query",
+          "displayName": "Query",
+          "values": [
+            {
+              "displayName": "Fields",
+              "name": "fields",
+              "placeholder": "Add field",
+              "type": "fixedCollection",
+              "default": {},
+              "typeOptions": {
+                "multipleValues": true
+              },
+              "options": [
+                {
+                  "name": "field",
+                  "displayName": "Field",
+                  "values": [
+                    {
+                      "displayName": "Field Name or ID",
+                      "name": "name",
+                      "type": "options",
+                      "default": "",
+                      "typeOptions": {
+                        "loadOptionsMethod": "getFields"
+                      },
+                      "options": [],
+                      "description": "Search Field. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+                    },
+                    {
+                      "displayName": "Value",
+                      "name": "value",
+                      "type": "string",
+                      "default": "",
+                      "description": "Value to search"
+                    }
+                  ]
+                }
+              ],
+              "description": "Field Name"
+            },
+            {
+              "displayName": "Omit",
+              "name": "omit",
+              "type": "boolean",
+              "default": false
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "setSort": {
+      "displayName": "Sort Data?",
+      "name": "setSort",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to sort data",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "find",
+            "record",
+            "records"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "sortParametersUi": {
+      "displayName": "Sort",
+      "name": "sortParametersUi",
+      "placeholder": "Add Sort Rules",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "setSort": [
+            true
+          ],
+          "action": [
+            "find",
+            "records"
+          ]
+        }
+      },
+      "description": "Sort rules",
+      "default": {},
+      "options": [
+        {
+          "name": "rules",
+          "displayName": "Rules",
+          "values": [
+            {
+              "displayName": "Field Name or ID",
+              "name": "name",
+              "type": "options",
+              "default": "",
+              "typeOptions": {
+                "loadOptionsMethod": "getFields"
+              },
+              "options": [],
+              "description": "Field Name. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+            },
+            {
+              "displayName": "Order",
+              "name": "value",
+              "type": "options",
+              "default": "ascend",
+              "options": [
+                {
+                  "name": "Ascend",
+                  "value": "ascend"
+                },
+                {
+                  "name": "Descend",
+                  "value": "descend"
+                }
+              ],
+              "description": "Sort order"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "setScriptBefore": {
+      "displayName": "Before Find Script",
+      "name": "setScriptBefore",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to define a script to be run before the action specified by the API call and after the subsequent sort",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "find",
+            "record",
+            "records"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "scriptBefore": {
+      "displayName": "Script Name or ID",
+      "name": "scriptBefore",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getScripts"
+      },
+      "options": [],
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "action": [
+            "find",
+            "record",
+            "records"
+          ],
+          "setScriptBefore": [
+            true
+          ]
+        }
+      },
+      "placeholder": "Script Name",
+      "description": "The name of the FileMaker script to be run after the action specified by the API call and after the subsequent sort. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The name of the FileMaker script to be run after the action specified by the API call and after the subsequent sort. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "scriptBeforeParam": {
+      "displayName": "Script Parameter",
+      "name": "scriptBeforeParam",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "find",
+            "record",
+            "records"
+          ],
+          "setScriptBefore": [
+            true
+          ]
+        }
+      },
+      "placeholder": "Script Parameters",
+      "description": "A parameter for the FileMaker script",
+      "ai_hint": "A parameter for the FileMaker script"
+    },
+    "setScriptSort": {
+      "displayName": "Before Sort Script",
+      "name": "setScriptSort",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to define a script to be run after the action specified by the API call but before the subsequent sort",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "find",
+            "record",
+            "records"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "scriptSort": {
+      "displayName": "Script Name or ID",
+      "name": "scriptSort",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getScripts"
+      },
+      "options": [],
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "action": [
+            "find",
+            "record",
+            "records"
+          ],
+          "setScriptSort": [
+            true
+          ]
+        }
+      },
+      "placeholder": "Script Name",
+      "description": "The name of the FileMaker script to be run after the action specified by the API call but before the subsequent sort. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The name of the FileMaker script to be run after the action specified by the API call but before the subsequent sort. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "scriptSortParam": {
+      "displayName": "Script Parameter",
+      "name": "scriptSortParam",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "find",
+            "record",
+            "records"
+          ],
+          "setScriptSort": [
+            true
+          ]
+        }
+      },
+      "placeholder": "Script Parameters",
+      "description": "A parameter for the FileMaker script",
+      "ai_hint": "A parameter for the FileMaker script"
+    },
+    "setScriptAfter": {
+      "displayName": "After Sort Script",
+      "name": "setScriptAfter",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to define a script to be run after the action specified by the API call but before the subsequent sort",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "find",
+            "record",
+            "records"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "scriptAfter": {
+      "displayName": "Script Name or ID",
+      "name": "scriptAfter",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getScripts"
+      },
+      "options": [],
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "action": [
+            "find",
+            "record",
+            "records"
+          ],
+          "setScriptAfter": [
+            true
+          ]
+        }
+      },
+      "placeholder": "Script Name",
+      "description": "The name of the FileMaker script to be run after the action specified by the API call and after the subsequent sort. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The name of the FileMaker script to be run after the action specified by the API call and after the subsequent sort. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "scriptAfterParam": {
+      "displayName": "Script Parameter",
+      "name": "scriptAfterParam",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "find",
+            "record",
+            "records"
+          ],
+          "setScriptAfter": [
+            true
+          ]
+        }
+      },
+      "placeholder": "Script Parameters",
+      "description": "A parameter for the FileMaker script",
+      "ai_hint": "A parameter for the FileMaker script"
+    },
+    "modId": {
+      "displayName": "Mod ID",
+      "name": "modId",
+      "description": "The last modification ID. When you use modId, a record is edited only when the modId matches.",
+      "type": "number",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "edit"
+          ]
+        }
+      },
+      "ai_hint": "The last modification ID. When you use modId, a record is edited only when the modId matches."
+    },
+    "fieldsParametersUi": {
+      "displayName": "Fields",
+      "name": "fieldsParametersUi",
+      "placeholder": "Add field",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "action": [
+            "create",
+            "edit"
+          ]
+        }
+      },
+      "description": "Fields to define",
+      "default": {},
+      "options": [
+        {
+          "name": "fields",
+          "displayName": "Fields",
+          "values": [
+            {
+              "displayName": "Field Name or ID",
+              "name": "name",
+              "type": "options",
+              "default": "",
+              "typeOptions": {
+                "loadOptionsMethod": "getFields"
+              },
+              "options": [],
+              "description": "Field Name. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "script": {
+      "displayName": "Script Name or ID",
+      "name": "script",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getScripts"
+      },
+      "options": [],
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "action": [
+            "performscript"
+          ]
+        }
+      },
+      "placeholder": "Script Name",
+      "description": "The name of the FileMaker script to be run. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The name of the FileMaker script to be run. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "scriptParam": {
+      "displayName": "Script Parameter",
+      "name": "scriptParam",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "performscript"
+          ]
+        }
+      },
+      "placeholder": "Script Parameters",
+      "description": "A parameter for the FileMaker script",
+      "ai_hint": "A parameter for the FileMaker script"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "toolDescription",
+      "action",
+      "layout",
+      "recid",
+      "offset",
+      "limit",
+      "getPortals",
+      "portals",
+      "responseLayout",
+      "queries",
+      "setSort",
+      "sortParametersUi",
+      "setScriptBefore",
+      "scriptBefore",
+      "scriptBeforeParam",
+      "setScriptSort",
+      "scriptSort",
+      "scriptSortParam",
+      "setScriptAfter",
+      "scriptAfter",
+      "scriptAfterParam",
+      "modId",
+      "fieldsParametersUi",
+      "script",
+      "scriptParam"
+    ],
+    "conditional_rules": [
+      "IF action IN [\"record\", \"edit\", \"delete\", \"duplicate\"] THEN SHOW parameter 'recid'",
+      "IF action IN [\"find\", \"records\"] THEN SHOW parameter 'offset'",
+      "IF action IN [\"find\", \"records\"] THEN SHOW parameter 'limit'",
+      "IF action IN [\"record\", \"records\", \"find\"] THEN SHOW parameter 'getPortals'",
+      "IF action IN [\"record\", \"records\", \"find\"] AND getPortals == True THEN SHOW parameter 'portals'",
+      "IF action == 'find' THEN SHOW parameter 'responseLayout'",
+      "IF action == 'find' THEN SHOW parameter 'queries'",
+      "IF action IN [\"find\", \"record\", \"records\"] THEN SHOW parameter 'setSort'",
+      "IF setSort == True AND action IN [\"find\", \"records\"] THEN SHOW parameter 'sortParametersUi'",
+      "IF action IN [\"find\", \"record\", \"records\"] THEN SHOW parameter 'setScriptBefore'",
+      "IF action IN [\"find\", \"record\", \"records\"] AND setScriptBefore == True THEN SHOW parameter 'scriptBefore'",
+      "IF action IN [\"find\", \"record\", \"records\"] AND setScriptBefore == True THEN SHOW parameter 'scriptBeforeParam'",
+      "IF action IN [\"find\", \"record\", \"records\"] THEN SHOW parameter 'setScriptSort'",
+      "IF action IN [\"find\", \"record\", \"records\"] AND setScriptSort == True THEN SHOW parameter 'scriptSort'",
+      "IF action IN [\"find\", \"record\", \"records\"] AND setScriptSort == True THEN SHOW parameter 'scriptSortParam'",
+      "IF action IN [\"find\", \"record\", \"records\"] THEN SHOW parameter 'setScriptAfter'",
+      "IF action IN [\"find\", \"record\", \"records\"] AND setScriptAfter == True THEN SHOW parameter 'scriptAfter'",
+      "IF action IN [\"find\", \"record\", \"records\"] AND setScriptAfter == True THEN SHOW parameter 'scriptAfterParam'",
+      "IF action == 'edit' THEN SHOW parameter 'modId'",
+      "IF action IN [\"create\", \"edit\"] THEN SHOW parameter 'fieldsParametersUi'",
+      "IF action == 'performscript' THEN SHOW parameter 'script'",
+      "IF action == 'performscript' THEN SHOW parameter 'scriptParam'"
+    ]
+  }
+}

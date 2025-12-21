@@ -1,0 +1,679 @@
+{
+  "node_id": "n8n-nodes-base.evaluation",
+  "name": "n8n-nodes-base.evaluation",
+  "version": [
+    4.6,
+    4.7,
+    4.8
+  ],
+  "semantic_context": "Runs an evaluation",
+  "parameters": {
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Inputs",
+          "value": "setInputs"
+        },
+        {
+          "name": "Set Outputs",
+          "value": "setOutputs"
+        },
+        {
+          "name": "Set Metrics",
+          "value": "setMetrics"
+        },
+        {
+          "name": "Check If Evaluating",
+          "value": "checkIfEvaluating"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "setOutputs",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "source": {
+      "displayName": "Source",
+      "name": "source",
+      "type": "options",
+      "options": [
+        {
+          "name": "Data table",
+          "value": "dataTable",
+          "description": "Load the test dataset from a local Data table"
+        },
+        {
+          "name": "Google Sheets",
+          "value": "googleSheets",
+          "description": "Load the test dataset from a Google Sheets document"
+        }
+      ],
+      "default": "googleSheets",
+      "description": "Where to get the test dataset from",
+      "displayOptions": {
+        "show": {
+          "@version": [
+            {
+              "_cnd": {
+                "lte": 4.7
+              }
+            }
+          ],
+          "operation": [
+            "setOutputs"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Service Account",
+          "value": "serviceAccount"
+        },
+        {
+          "name": "OAuth2 (recommended)",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "oAuth2",
+      "displayOptions": {
+        "hide": {
+          "source": [
+            "dataTable"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "setInputsNotice": {
+      "displayName": "For adding columns from your dataset to the evaluation results. Anything you add here will be displayed in the ‘evaluations’ tab, not on the Google Sheet or Data table.",
+      "name": "setInputsNotice",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "setInputs"
+          ]
+        }
+      }
+    },
+    "inputs": {
+      "displayName": "Inputs",
+      "name": "inputs",
+      "placeholder": "Add Input",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValueButtonText": "Add Input",
+        "multipleValues": true
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Filter",
+          "name": "values",
+          "values": [
+            {
+              "displayName": "Name",
+              "name": "inputName",
+              "type": "string",
+              "default": "",
+              "requiresDataPath": "single"
+            },
+            {
+              "displayName": "Value",
+              "name": "inputValue",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "setInputs"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "credentials": {
+      "displayName": "Credentials",
+      "name": "credentials",
+      "type": "credentials",
+      "default": "",
+      "displayOptions": {
+        "hide": {
+          "source": [
+            "dataTable"
+          ]
+        }
+      }
+    },
+    "documentId": {
+      "displayName": "Document Containing Dataset",
+      "name": "documentId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "typeOptions": {
+            "searchListMethod": "spreadSheetsSearch",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By URL",
+          "name": "url",
+          "type": "string",
+          "extractValue": {
+            "type": "regex",
+            "regex": "https:\\/\\/(?:drive|docs)\\.google\\.com(?:\\/.*|)\\/d\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
+          },
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "https:\\/\\/(?:drive|docs)\\.google\\.com(?:\\/.*|)\\/d\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)",
+                "errorMessage": "Not a valid Google Drive File URL"
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "By ID",
+          "name": "id",
+          "type": "string",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "[a-zA-Z0-9\\-_]{2,}",
+                "errorMessage": "Not a valid Google Drive File ID"
+              }
+            }
+          ],
+          "url": "=https://docs.google.com/spreadsheets/d/{{$value}}/edit"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "setOutputs"
+          ]
+        },
+        "hide": {
+          "source": [
+            "dataTable"
+          ]
+        }
+      }
+    },
+    "sheetName": {
+      "displayName": "Sheet Containing Dataset",
+      "name": "sheetName",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "documentId.value"
+        ]
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "typeOptions": {
+            "searchListMethod": "sheetsSearch",
+            "searchable": false
+          }
+        },
+        {
+          "displayName": "By URL",
+          "name": "url",
+          "type": "string",
+          "extractValue": {
+            "type": "regex",
+            "regex": "https:\\/\\/docs\\.google\\.com\\/spreadsheets\\/d\\/[0-9a-zA-Z\\-_]+.*\\#gid=([0-9]+)"
+          },
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "https:\\/\\/docs\\.google\\.com\\/spreadsheets\\/d\\/[0-9a-zA-Z\\-_]+.*\\#gid=([0-9]+)",
+                "errorMessage": "Not a valid Sheet URL"
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "By ID",
+          "name": "id",
+          "type": "string",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "((gid=)?[0-9]{1,})",
+                "errorMessage": "Not a valid Sheet ID"
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "setOutputs"
+          ]
+        },
+        "hide": {
+          "source": [
+            "dataTable"
+          ]
+        }
+      }
+    },
+    "dataTableId": {
+      "displayName": "Data table",
+      "name": "dataTableId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "typeOptions": {
+            "searchListMethod": "dataTableSearch",
+            "searchable": true,
+            "skipCredentialsCheckInRLC": true
+          }
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "source": [
+            "dataTable"
+          ]
+        }
+      }
+    },
+    "outputs": {
+      "displayName": "Outputs",
+      "name": "outputs",
+      "placeholder": "Add Output",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValueButtonText": "Add Output",
+        "multipleValues": true
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Filter",
+          "name": "values",
+          "values": [
+            {
+              "displayName": "Name",
+              "name": "outputName",
+              "type": "string",
+              "default": "",
+              "requiresDataPath": "single"
+            },
+            {
+              "displayName": "Value",
+              "name": "outputValue",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "setOutputs"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "notice": {
+      "displayName": "Routes to the ‘evaluation’ branch if the execution started from an evaluation trigger. Otherwise routes to the ‘normal’ branch.",
+      "name": "notice",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "checkIfEvaluating"
+          ]
+        }
+      }
+    },
+    "metric": {
+      "displayName": "Metric",
+      "name": "metric",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Correctness (AI-based)",
+          "value": "correctness",
+          "description": "Whether the answer’s meaning is consistent with a reference answer. Uses a scale of 1 (worst) to 5 (best)."
+        },
+        {
+          "name": "Helpfulness (AI-based)",
+          "value": "helpfulness",
+          "description": "Whether the response addresses the query. Uses a scale of 1 (worst) to 5 (best)."
+        },
+        {
+          "name": "String Similarity",
+          "value": "stringSimilarity",
+          "description": "How close the answer is to a reference answer, measured character-by-character (edit distance). Returns a score between 0 and 1."
+        },
+        {
+          "name": "Categorization",
+          "value": "categorization",
+          "description": "Whether the answer exactly matches the reference answer. Returns 1 if so and 0 otherwise."
+        },
+        {
+          "name": "Tools Used",
+          "value": "toolsUsed",
+          "description": "Whether tool(s) were used or not. Returns a score between 0 and 1."
+        },
+        {
+          "name": "Custom Metrics",
+          "value": "customMetrics",
+          "description": "Define your own metric(s)"
+        }
+      ],
+      "default": "correctness",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "setMetrics"
+          ],
+          "@version": [
+            {
+              "_cnd": {
+                "gte": 4.7
+              }
+            }
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "expectedAnswer": {
+      "displayName": "Expected Answer",
+      "name": "expectedAnswer",
+      "type": "string",
+      "default": "",
+      "description": "The expected output defined in your evaluation dataset, used as ground truth",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "setMetrics"
+          ],
+          "metric": [
+            "correctness",
+            "stringSimilarity",
+            "categorization"
+          ]
+        }
+      },
+      "ai_hint": "The expected output defined in your evaluation dataset, used as ground truth"
+    },
+    "actualAnswer": {
+      "displayName": "Response",
+      "name": "actualAnswer",
+      "type": "string",
+      "default": "",
+      "description": "The response generated by AI (e.g. an agent or LLM in the workflow)",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "setMetrics"
+          ],
+          "metric": [
+            "helpfulness"
+          ]
+        }
+      },
+      "ai_hint": "The response generated by AI (e.g. an agent or LLM in the workflow)"
+    },
+    "userQuery": {
+      "displayName": "User Query",
+      "name": "userQuery",
+      "type": "string",
+      "default": "",
+      "description": "The original input or question submitted by the user",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "setMetrics"
+          ],
+          "metric": [
+            "helpfulness"
+          ]
+        }
+      },
+      "ai_hint": "The original input or question submitted by the user"
+    },
+    "expectedTools": {
+      "displayName": "Expected Tools",
+      "name": "expectedTools",
+      "type": "string",
+      "default": "",
+      "description": "Enter the name(s) of the tool(s) you expect the AI to call (separated by commas)",
+      "placeholder": "Get Events, Send Email, Search Database",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "setMetrics"
+          ],
+          "metric": [
+            "toolsUsed"
+          ]
+        }
+      },
+      "ai_hint": "Enter the name(s) of the tool(s) you expect the AI to call (separated by commas)"
+    },
+    "intermediateSteps": {
+      "displayName": "Intermediate Steps (of Agent)",
+      "name": "intermediateSteps",
+      "type": "string",
+      "default": "",
+      "hint": "Map the <code>intermediateSteps</code> field here. To see it, enable returning intermediate steps in the agent’s options",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "setMetrics"
+          ],
+          "metric": [
+            "toolsUsed"
+          ]
+        }
+      }
+    },
+    "prompt": {
+      "displayName": "Prompt",
+      "name": "prompt",
+      "type": "string",
+      "default": "You are an expert evaluator assessing the helpfulness of responses to user queries.\n\nEvaluate how helpful and useful a given response is to the user's question or request on a scale from 1 to 5. Consider whether the response addresses the user's needs, provides actionable information, and is relevant to their query.\n\n# Scoring Criteria\n\n- 5: Extremely helpful - The response fully addresses the user's needs, provides comprehensive and actionable information, and goes above and beyond to be useful.\n- 4: Very helpful - The response addresses most of the user's needs, provides useful information, and is highly relevant.\n- 3: Moderately helpful - The response addresses some of the user's needs, provides some useful information, but may lack completeness or depth.\n- 2: Slightly helpful - The response provides minimal useful information and only partially addresses the user's needs.\n- 1: Not helpful - The response fails to address the user's needs, provides no useful information, or is irrelevant.\n\n# Evaluation Steps\n\n1. Analyze the user's question or request to understand what they're looking for.\n2. Evaluate how well the response addresses the specific needs expressed in the query.\n3. Assess the completeness and quality of the information provided.\n4. Consider the relevance and applicability of the response to the user's situation.\n5. Evaluate whether the response provides actionable insights or next steps.\n6. Determine the overall helpfulness according to the defined criteria.\n\n# Output Format\n\nProvide:\n- A detailed analysis of the response's helpfulness (extended reasoning)\n- A one-sentence summary highlighting the key strengths or weaknesses\n- The final helpfulness score as an integer (1, 2, 3, 4, or 5)\n\nAlways follow the JSON format below and return nothing else:\n{\n  \"extended_reasoning\": \"<detailed step-by-step analysis of the response's helpfulness>\",\n  \"reasoning_summary\": \"<one sentence summary of the response's helpfulness>\",\n  \"score\": <number: integer from 1 to 5>\n}\n\n# Examples\n\n**Example 1:**\n\nInput:\n- Query: \"How do I fix a leaky faucet?\"\n- Response: \"A leaky faucet is usually caused by a worn washer or O-ring. Turn off the water supply, remove the handle, replace the washer or O-ring, and reassemble. If the leak persists, you may need to replace the entire cartridge.\"\n\nExpected Output:\n{\n  \"extended_reasoning\": \"The user asked for help fixing a leaky faucet, which is a practical home maintenance question. The response directly addresses the query by identifying the most common cause (worn washer or O-ring) and provides a clear step-by-step solution. It includes important safety information (turning off water supply) and offers a backup solution if the initial fix doesn't work. The response is concise, actionable, and comprehensive for this common problem.\",\n  \"reasoning_summary\": \"The response provides a complete, actionable solution with clear steps and troubleshooting advice.\",\n  \"score\": 5\n}\n\n**Example 2:**\n\nInput:\n- Query: \"What's the weather like?\"\n- Response: \"Weather can be sunny, rainy, cloudy, or snowy depending on various atmospheric conditions.\"\n\nExpected Output:\n{\n  \"extended_reasoning\": \"The user asked about the weather, which typically implies they want current weather conditions for their location or a specific place. However, the response provides only generic information about weather types without addressing the specific query. It doesn't provide current conditions, forecasts, or ask for location clarification. The response is factually correct but completely unhelpful for the user's actual need.\",\n  \"reasoning_summary\": \"The response provides generic weather information instead of addressing the user's likely need for current conditions.\",\n  \"score\": 1\n}\n\n# Notes\n\n- Focus on practical utility and how well the response serves the user's actual needs\n- Consider completeness, accuracy, and actionability of the information\n- Pay attention to whether the response asks for clarification when needed\n- Evaluate whether the response is appropriately detailed for the query complexity",
+      "description": "Instruction used to guide the model in scoring the actual answer’s helpfulness against the expected answer",
+      "typeOptions": {
+        "rows": 4
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "setMetrics"
+          ],
+          "metric": [
+            "helpfulness"
+          ]
+        }
+      },
+      "ai_hint": "Instruction used to guide the model in scoring the actual answer’s helpfulness against the expected answer"
+    },
+    "metrics": {
+      "displayName": "Metrics to Return",
+      "name": "metrics",
+      "type": "assignmentCollection",
+      "default": {
+        "assignments": [
+          {
+            "name": "",
+            "value": "",
+            "type": "number"
+          }
+        ]
+      },
+      "typeOptions": {
+        "assignment": {
+          "disableType": true,
+          "defaultType": "number"
+        }
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "setMetrics"
+          ],
+          "metric": [
+            "customMetrics"
+          ]
+        }
+      }
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "default": {},
+      "placeholder": "Add Option",
+      "options": [
+        {
+          "displayName": "Metric Name",
+          "name": "metricName",
+          "type": "string",
+          "default": "Tools Used"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "setMetrics"
+          ],
+          "metric": [
+            "toolsUsed"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "operation",
+      "source",
+      "source",
+      "authentication",
+      "setInputsNotice",
+      "inputs",
+      "credentials",
+      "documentId",
+      "sheetName",
+      "dataTableId",
+      "outputs",
+      "notice",
+      "metric",
+      "metric",
+      "expectedAnswer",
+      "actualAnswer",
+      "userQuery",
+      "actualAnswer",
+      "expectedTools",
+      "intermediateSteps",
+      "prompt",
+      "prompt",
+      "notice",
+      "metrics",
+      "options",
+      "options",
+      "options",
+      "options",
+      "options",
+      "notice"
+    ],
+    "conditional_rules": [
+      "IF @version == {'_cnd': {'gte': 4.8}} AND operation == 'setOutputs' THEN SHOW parameter 'source'",
+      "IF @version == {'_cnd': {'lte': 4.7}} AND operation == 'setOutputs' THEN SHOW parameter 'source'",
+      "IF source == 'dataTable' THEN HIDE parameter 'authentication'",
+      "IF operation == 'setInputs' THEN SHOW parameter 'setInputsNotice'",
+      "IF operation == 'setInputs' THEN SHOW parameter 'inputs'",
+      "IF source == 'dataTable' THEN HIDE parameter 'credentials'",
+      "IF operation == 'setOutputs' THEN SHOW parameter 'documentId'",
+      "IF source == 'dataTable' THEN HIDE parameter 'documentId'",
+      "IF operation == 'setOutputs' THEN SHOW parameter 'sheetName'",
+      "IF source == 'dataTable' THEN HIDE parameter 'sheetName'",
+      "IF source == 'dataTable' THEN SHOW parameter 'dataTableId'",
+      "IF operation == 'setOutputs' THEN SHOW parameter 'outputs'",
+      "IF operation == 'setMetrics' THEN SHOW parameter 'notice'",
+      "IF operation == 'setMetrics' AND @version == 4.6 THEN SHOW parameter 'metric'",
+      "IF operation == 'setMetrics' AND @version == {'_cnd': {'gte': 4.7}} THEN SHOW parameter 'metric'",
+      "IF operation == 'setMetrics' AND metric IN [\"correctness\", \"stringSimilarity\", \"categorization\"] THEN SHOW parameter 'expectedAnswer'",
+      "IF operation == 'setMetrics' AND metric IN [\"correctness\", \"stringSimilarity\", \"categorization\"] THEN SHOW parameter 'actualAnswer'",
+      "IF operation == 'setMetrics' AND metric == 'helpfulness' THEN SHOW parameter 'userQuery'",
+      "IF operation == 'setMetrics' AND metric == 'helpfulness' THEN SHOW parameter 'actualAnswer'",
+      "IF operation == 'setMetrics' AND metric == 'toolsUsed' THEN SHOW parameter 'expectedTools'",
+      "IF operation == 'setMetrics' AND metric == 'toolsUsed' THEN SHOW parameter 'intermediateSteps'",
+      "IF operation == 'setMetrics' AND metric == 'correctness' THEN SHOW parameter 'prompt'",
+      "IF operation == 'setMetrics' AND metric == 'helpfulness' THEN SHOW parameter 'prompt'",
+      "IF operation == 'setMetrics' AND metric == 'customMetrics' THEN SHOW parameter 'notice'",
+      "IF operation == 'setMetrics' AND metric == 'customMetrics' THEN SHOW parameter 'metrics'",
+      "IF operation == 'setMetrics' AND metric == 'correctness' THEN SHOW parameter 'options'",
+      "IF operation == 'setMetrics' AND metric == 'helpfulness' THEN SHOW parameter 'options'",
+      "IF operation == 'setMetrics' AND metric == 'categorization' THEN SHOW parameter 'options'",
+      "IF operation == 'setMetrics' AND metric == 'stringSimilarity' THEN SHOW parameter 'options'",
+      "IF operation == 'setMetrics' AND metric == 'toolsUsed' THEN SHOW parameter 'options'",
+      "IF operation == 'checkIfEvaluating' THEN SHOW parameter 'notice'"
+    ]
+  }
+}

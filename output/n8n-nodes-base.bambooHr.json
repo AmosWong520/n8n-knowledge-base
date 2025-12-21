@@ -1,0 +1,1619 @@
+{
+  "node_id": "n8n-nodes-base.bambooHr",
+  "name": "n8n-nodes-base.bambooHr",
+  "version": 1,
+  "semantic_context": "Consume BambooHR API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Company Report",
+          "value": "companyReport"
+        },
+        {
+          "name": "Employee",
+          "value": "employee"
+        },
+        {
+          "name": "Employee Document",
+          "value": "employeeDocument"
+        },
+        {
+          "name": "File",
+          "value": "file"
+        }
+      ],
+      "default": "employee",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "companyReport"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a company report",
+          "action": "Get a company report"
+        }
+      ],
+      "default": "get",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "synced": {
+      "displayName": "Synced with Trax Payroll",
+      "name": "synced",
+      "type": "boolean",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "employee"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether the employee to create was added to a pay schedule synced with Trax Payroll",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "firstName": {
+      "displayName": "First Name",
+      "name": "firstName",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "default": "",
+      "required": true
+    },
+    "lastName": {
+      "displayName": "Last Name",
+      "name": "lastName",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "default": "",
+      "required": true
+    },
+    "address": {
+      "displayName": "Address",
+      "name": "address",
+      "placeholder": "Address",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": false
+      },
+      "default": {},
+      "options": [
+        {
+          "name": "value",
+          "displayName": "Address",
+          "values": [
+            {
+              "displayName": "Line 1",
+              "name": "address1",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Line 2",
+              "name": "address2",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "City",
+              "name": "city",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "State",
+              "name": "state",
+              "type": "string",
+              "default": "",
+              "placeholder": "Florida",
+              "description": "The full name of the state/province"
+            },
+            {
+              "displayName": "Country",
+              "name": "country",
+              "type": "string",
+              "default": "",
+              "placeholder": "United States",
+              "description": "The name of the country. Must exist in the BambooHr country list."
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "create"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "dateOfBirth": {
+      "displayName": "Date of Birth",
+      "name": "dateOfBirth",
+      "type": "dateTime",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true
+    },
+    "department": {
+      "displayName": "Department Name or ID",
+      "name": "department",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getDepartments"
+      },
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "division": {
+      "displayName": "Division Name or ID",
+      "name": "division",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getDivisions"
+      },
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "employeeNumber": {
+      "displayName": "Employee Number",
+      "name": "employeeNumber",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true
+    },
+    "exempt": {
+      "displayName": "FLSA Overtime Status",
+      "name": "exempt",
+      "type": "options",
+      "options": [
+        {
+          "name": "Exempt",
+          "value": "exempt"
+        },
+        {
+          "name": "Non-Exempt",
+          "value": "non-exempt"
+        }
+      ],
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "gender": {
+      "displayName": "Gender",
+      "name": "gender",
+      "type": "options",
+      "options": [
+        {
+          "name": "Female",
+          "value": "female"
+        },
+        {
+          "name": "Male",
+          "value": "male"
+        }
+      ],
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "hireDate": {
+      "displayName": "Hire Date",
+      "name": "hireDate",
+      "type": "dateTime",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true
+    },
+    "location": {
+      "displayName": "Location Name or ID",
+      "name": "location",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getEmployeeLocations"
+      },
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "maritalStatus": {
+      "displayName": "Marital Status",
+      "name": "maritalStatus",
+      "type": "options",
+      "options": [
+        {
+          "name": "Single",
+          "value": "single"
+        },
+        {
+          "name": "Married",
+          "value": "married"
+        },
+        {
+          "name": "Domestic Partnership",
+          "value": "domesticPartnership"
+        }
+      ],
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "mobilePhone": {
+      "displayName": "Mobile Phone",
+      "name": "mobilePhone",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true
+    },
+    "paidPer": {
+      "displayName": "Pay Per",
+      "name": "paidPer",
+      "type": "options",
+      "options": [
+        {
+          "name": "Hour",
+          "value": "hour"
+        },
+        {
+          "name": "Day",
+          "value": "day"
+        },
+        {
+          "name": "Week",
+          "value": "week"
+        },
+        {
+          "name": "Month",
+          "value": "month"
+        },
+        {
+          "name": "Quater",
+          "value": "quater"
+        },
+        {
+          "name": "Year",
+          "value": "year"
+        }
+      ],
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "payRate": {
+      "displayName": "Pay Rate",
+      "name": "payRate",
+      "placeholder": "Add Pay Rate",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": false
+      },
+      "default": {},
+      "options": [
+        {
+          "name": "value",
+          "displayName": "Pay Rate",
+          "values": [
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "placeholder": "20.00"
+            },
+            {
+              "displayName": "Currency",
+              "name": "currency",
+              "type": "string",
+              "default": "",
+              "placeholder": "USD"
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "payType": {
+      "displayName": "Pay Type",
+      "name": "payType",
+      "type": "options",
+      "options": [
+        {
+          "name": "Commission",
+          "value": "commission"
+        },
+        {
+          "name": "Contract",
+          "value": "contract"
+        },
+        {
+          "name": "Daily",
+          "value": "daily"
+        },
+        {
+          "name": "Exception Hourly",
+          "value": "exceptionHourly"
+        },
+        {
+          "name": "Hourly",
+          "value": "hourly"
+        },
+        {
+          "name": "Monthly",
+          "value": "monthly"
+        },
+        {
+          "name": "Piece Rate",
+          "value": "pieceRate"
+        },
+        {
+          "name": "Pro Rata",
+          "value": "proRata"
+        },
+        {
+          "name": "Salary",
+          "value": "salary"
+        },
+        {
+          "name": "Weekly",
+          "value": "weekly"
+        }
+      ],
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "preferredName": {
+      "displayName": "Preferred Name",
+      "name": "preferredName",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true
+    },
+    "ssn": {
+      "displayName": "Social Security Number",
+      "name": "ssn",
+      "type": "string",
+      "default": "",
+      "placeholder": "123-45-6789",
+      "description": "A standard United States Social Security number, with dashes",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "A standard United States Social Security number, with dashes"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "employee"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Address",
+          "name": "address",
+          "placeholder": "Address",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": false
+          },
+          "default": {},
+          "options": [
+            {
+              "name": "value",
+              "displayName": "Address",
+              "values": [
+                {
+                  "displayName": "Line 1",
+                  "name": "address1",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Line 2",
+                  "name": "address2",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "City",
+                  "name": "city",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "State",
+                  "name": "state",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "Florida",
+                  "description": "The full name of the state/province"
+                },
+                {
+                  "displayName": "Country",
+                  "name": "country",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "United States",
+                  "description": "The name of the country. Must exist in the BambooHr country list."
+                }
+              ]
+            }
+          ],
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Date of Birth",
+          "name": "dateOfBirth",
+          "type": "dateTime",
+          "default": "",
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Department Name or ID",
+          "name": "department",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getDepartments"
+          },
+          "default": "",
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Division Name or ID",
+          "name": "division",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getDivisions"
+          },
+          "default": "",
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Employee Number",
+          "name": "employeeNumber",
+          "type": "string",
+          "default": "",
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "FLSA Overtime Status",
+          "name": "exempt",
+          "type": "options",
+          "options": [
+            {
+              "name": "Exempt",
+              "value": "exempt"
+            },
+            {
+              "name": "Non-Exempt",
+              "value": "non-exempt"
+            }
+          ],
+          "default": "",
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Gender",
+          "name": "gender",
+          "type": "options",
+          "options": [
+            {
+              "name": "Female",
+              "value": "female"
+            },
+            {
+              "name": "Male",
+              "value": "male"
+            }
+          ],
+          "default": "",
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Hire Date",
+          "name": "hireDate",
+          "type": "dateTime",
+          "default": "",
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Location Name or ID",
+          "name": "location",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getEmployeeLocations"
+          },
+          "default": "",
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Marital Status",
+          "name": "maritalStatus",
+          "type": "options",
+          "options": [
+            {
+              "name": "Single",
+              "value": "single"
+            },
+            {
+              "name": "Married",
+              "value": "married"
+            },
+            {
+              "name": "Domestic Partnership",
+              "value": "domesticPartnership"
+            }
+          ],
+          "default": "",
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Mobile Phone",
+          "name": "mobilePhone",
+          "type": "string",
+          "default": "",
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Pay Per",
+          "name": "paidPer",
+          "type": "options",
+          "options": [
+            {
+              "name": "Hour",
+              "value": "hour"
+            },
+            {
+              "name": "Day",
+              "value": "day"
+            },
+            {
+              "name": "Week",
+              "value": "week"
+            },
+            {
+              "name": "Month",
+              "value": "month"
+            },
+            {
+              "name": "Quater",
+              "value": "quater"
+            },
+            {
+              "name": "Year",
+              "value": "year"
+            }
+          ],
+          "default": "",
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Pay Rate",
+          "name": "payRate",
+          "placeholder": "Add Pay Rate",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": false
+          },
+          "default": {},
+          "options": [
+            {
+              "name": "value",
+              "displayName": "Pay Rate",
+              "values": [
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "20.00"
+                },
+                {
+                  "displayName": "Currency",
+                  "name": "currency",
+                  "type": "string",
+                  "default": "",
+                  "placeholder": "USD"
+                }
+              ]
+            }
+          ],
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Pay Type",
+          "name": "payType",
+          "type": "options",
+          "options": [
+            {
+              "name": "Commission",
+              "value": "commission"
+            },
+            {
+              "name": "Contract",
+              "value": "contract"
+            },
+            {
+              "name": "Daily",
+              "value": "daily"
+            },
+            {
+              "name": "Exception Hourly",
+              "value": "exceptionHourly"
+            },
+            {
+              "name": "Hourly",
+              "value": "hourly"
+            },
+            {
+              "name": "Monthly",
+              "value": "monthly"
+            },
+            {
+              "name": "Piece Rate",
+              "value": "pieceRate"
+            },
+            {
+              "name": "Pro Rata",
+              "value": "proRata"
+            },
+            {
+              "name": "Salary",
+              "value": "salary"
+            },
+            {
+              "name": "Weekly",
+              "value": "weekly"
+            }
+          ],
+          "default": "",
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Preferred Name",
+          "name": "preferredName",
+          "type": "string",
+          "default": "",
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Social Security Number",
+          "name": "ssn",
+          "type": "string",
+          "default": "",
+          "placeholder": "123-45-6789",
+          "description": "A standard United States Social Security number, with dashes",
+          "displayOptions": {
+            "show": {
+              "/synced": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Work Email",
+          "name": "workEmail",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Work Phone",
+          "name": "workPhone",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "employeeId": {
+      "displayName": "Employee ID",
+      "name": "employeeId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "upload"
+          ],
+          "resource": [
+            "employeeDocument"
+          ]
+        }
+      },
+      "default": "",
+      "description": "ID of the employee",
+      "ai_hint": "ID of the employee"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "companyReport"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Duplicate Field Filtering",
+          "name": "fd",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to apply the standard duplicate field filtering or not"
+        },
+        {
+          "displayName": "Only Current",
+          "name": "onlyCurrent",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to hide future dated values from the history table fields or not"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "default": 5,
+      "description": "Max number of results to return",
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 1000
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "file"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "addasasress": {
+      "displayName": "Address",
+      "name": "addasasress",
+      "placeholder": "Address",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": false
+      },
+      "default": {},
+      "options": [
+        {
+          "name": "value",
+          "displayName": "Address",
+          "values": [
+            {
+              "displayName": "Line 1",
+              "name": "address1",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Line 2",
+              "name": "address2",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "City",
+              "name": "city",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "State",
+              "name": "state",
+              "type": "string",
+              "default": "",
+              "placeholder": "Florida",
+              "description": "The full name of the state/province"
+            },
+            {
+              "displayName": "Country",
+              "name": "country",
+              "type": "string",
+              "default": "",
+              "placeholder": "United States",
+              "description": "The name of the country. Must exist in the BambooHr country list."
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "employee"
+          ],
+          "operation": [
+            "update"
+          ],
+          "synced": [
+            true
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Category Name or ID",
+          "name": "categoryId",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getCompanyFileCategories"
+          },
+          "default": "",
+          "description": "Move the file to a different category. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Name",
+          "name": "name",
+          "type": "string",
+          "default": "",
+          "description": "New name of the file"
+        },
+        {
+          "displayName": "Share with Employee",
+          "name": "shareWithEmployee",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether this file is shared or not"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "fileId": {
+      "displayName": "File ID",
+      "name": "fileId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "default": "",
+      "description": "ID of the file",
+      "ai_hint": "ID of the file"
+    },
+    "output": {
+      "displayName": "Put Output In Field",
+      "name": "output",
+      "type": "string",
+      "default": "data",
+      "required": true,
+      "description": "The name of the output field to put the binary file data in",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "companyReport"
+          ]
+        },
+        "hide": {
+          "format": [
+            "JSON"
+          ]
+        }
+      },
+      "ai_hint": "The name of the output field to put the binary file data in"
+    },
+    "simplifyOutput": {
+      "displayName": "Simplify",
+      "name": "simplifyOutput",
+      "type": "boolean",
+      "default": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "description": "Whether to return a simplified version of the response instead of the raw data",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "categoryId": {
+      "displayName": "Category Name or ID",
+      "name": "categoryId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getCompanyFileCategories"
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "upload"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "default": "",
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "binaryPropertyName": {
+      "displayName": "Input Data Field Name",
+      "name": "binaryPropertyName",
+      "type": "string",
+      "default": "data",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "upload"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The name of the input field containing the binary file data to be uploaded. Supported file types: PNG, JPEG.",
+      "ai_hint": "The name of the input field containing the binary file data to be uploaded. Supported file types: PNG, JPEG."
+    },
+    "reportId": {
+      "displayName": "Report ID",
+      "name": "reportId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "companyReport"
+          ]
+        }
+      },
+      "default": "",
+      "description": "ID of the report. You can get the report number by hovering over the report name on the reports page and grabbing the ID.",
+      "ai_hint": "ID of the report. You can get the report number by hovering over the report name on the reports page and grabbing the ID."
+    },
+    "format": {
+      "displayName": "Format",
+      "name": "format",
+      "type": "options",
+      "options": [
+        {
+          "name": "CSV",
+          "value": "CSV"
+        },
+        {
+          "name": "JSON",
+          "value": "JSON"
+        },
+        {
+          "name": "PDF",
+          "value": "PDF"
+        },
+        {
+          "name": "XLS",
+          "value": "XLS"
+        },
+        {
+          "name": "XML",
+          "value": "XML"
+        }
+      ],
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "companyReport"
+          ]
+        }
+      },
+      "default": "JSON",
+      "description": "The output format for the report",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "synced",
+      "firstName",
+      "lastName",
+      "address",
+      "dateOfBirth",
+      "department",
+      "division",
+      "employeeNumber",
+      "exempt",
+      "gender",
+      "hireDate",
+      "location",
+      "maritalStatus",
+      "mobilePhone",
+      "paidPer",
+      "payRate",
+      "payType",
+      "preferredName",
+      "ssn",
+      "additionalFields",
+      "employeeId",
+      "options",
+      "returnAll",
+      "limit",
+      "employeeId",
+      "synced",
+      "addasasress",
+      "dateOfBirth",
+      "department",
+      "division",
+      "employeeNumber",
+      "firstName",
+      "lastName",
+      "exempt",
+      "gender",
+      "hireDate",
+      "location",
+      "maritalStatus",
+      "mobilePhone",
+      "paidPer",
+      "payRate",
+      "payType",
+      "preferredName",
+      "ssn",
+      "updateFields",
+      "operation",
+      "employeeId",
+      "fileId",
+      "employeeId",
+      "fileId",
+      "output",
+      "employeeId",
+      "returnAll",
+      "limit",
+      "simplifyOutput",
+      "employeeId",
+      "fileId",
+      "updateFields",
+      "employeeId",
+      "categoryId",
+      "binaryPropertyName",
+      "options",
+      "operation",
+      "fileId",
+      "fileId",
+      "output",
+      "returnAll",
+      "limit",
+      "simplifyOutput",
+      "fileId",
+      "updateFields",
+      "binaryPropertyName",
+      "categoryId",
+      "options",
+      "operation",
+      "reportId",
+      "format",
+      "output",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF resource == 'employee' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'employee' THEN SHOW parameter 'synced'",
+      "IF operation == 'create' AND resource == 'employee' THEN SHOW parameter 'firstName'",
+      "IF operation == 'create' AND resource == 'employee' THEN SHOW parameter 'lastName'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'address'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'dateOfBirth'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'department'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'division'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'employeeNumber'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'exempt'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'gender'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'hireDate'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'location'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'maritalStatus'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'mobilePhone'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'paidPer'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'payRate'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'payType'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'preferredName'",
+      "IF resource == 'employee' AND operation == 'create' AND synced == True THEN SHOW parameter 'ssn'",
+      "IF operation == 'create' AND resource == 'employee' THEN SHOW parameter 'additionalFields'",
+      "IF /synced == False THEN SHOW parameter 'address'",
+      "IF /synced == False THEN SHOW parameter 'dateOfBirth'",
+      "IF /synced == False THEN SHOW parameter 'department'",
+      "IF /synced == False THEN SHOW parameter 'division'",
+      "IF /synced == False THEN SHOW parameter 'employeeNumber'",
+      "IF /synced == False THEN SHOW parameter 'exempt'",
+      "IF /synced == False THEN SHOW parameter 'gender'",
+      "IF /synced == False THEN SHOW parameter 'hireDate'",
+      "IF /synced == False THEN SHOW parameter 'location'",
+      "IF /synced == False THEN SHOW parameter 'maritalStatus'",
+      "IF /synced == False THEN SHOW parameter 'mobilePhone'",
+      "IF /synced == False THEN SHOW parameter 'paidPer'",
+      "IF /synced == False THEN SHOW parameter 'payRate'",
+      "IF /synced == False THEN SHOW parameter 'payType'",
+      "IF /synced == False THEN SHOW parameter 'preferredName'",
+      "IF /synced == False THEN SHOW parameter 'ssn'",
+      "IF operation == 'get' AND resource == 'employee' THEN SHOW parameter 'employeeId'",
+      "IF operation == 'get' AND resource == 'employee' THEN SHOW parameter 'options'",
+      "IF resource == 'employee' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'employee' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'update' AND resource == 'employee' THEN SHOW parameter 'employeeId'",
+      "IF operation == 'update' AND resource == 'employee' THEN SHOW parameter 'synced'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'addasasress'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'dateOfBirth'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'department'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'division'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'employeeNumber'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'firstName'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'lastName'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'exempt'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'gender'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'hireDate'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'location'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'maritalStatus'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'mobilePhone'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'paidPer'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'payRate'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'payType'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'preferredName'",
+      "IF resource == 'employee' AND operation == 'update' AND synced == True THEN SHOW parameter 'ssn'",
+      "IF operation == 'update' AND resource == 'employee' THEN SHOW parameter 'updateFields'",
+      "IF /synced == False THEN SHOW parameter 'addasasress'",
+      "IF /synced == False THEN SHOW parameter 'firstName'",
+      "IF /synced == False THEN SHOW parameter 'lastName'",
+      "IF resource == 'employeeDocument' THEN SHOW parameter 'operation'",
+      "IF operation == 'delete' AND resource == 'employeeDocument' THEN SHOW parameter 'employeeId'",
+      "IF operation == 'delete' AND resource == 'employeeDocument' THEN SHOW parameter 'fileId'",
+      "IF operation == 'download' AND resource == 'employeeDocument' THEN SHOW parameter 'employeeId'",
+      "IF operation == 'download' AND resource == 'employeeDocument' THEN SHOW parameter 'fileId'",
+      "IF operation == 'download' AND resource == 'employeeDocument' THEN SHOW parameter 'output'",
+      "IF operation == 'getAll' AND resource == 'employeeDocument' THEN SHOW parameter 'employeeId'",
+      "IF operation == 'getAll' AND resource == 'employeeDocument' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'employeeDocument' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'employeeDocument' THEN SHOW parameter 'simplifyOutput'",
+      "IF operation == 'update' AND resource == 'employeeDocument' THEN SHOW parameter 'employeeId'",
+      "IF operation == 'update' AND resource == 'employeeDocument' THEN SHOW parameter 'fileId'",
+      "IF operation == 'update' AND resource == 'employeeDocument' THEN SHOW parameter 'updateFields'",
+      "IF operation == 'upload' AND resource == 'employeeDocument' THEN SHOW parameter 'employeeId'",
+      "IF operation == 'upload' AND resource == 'employeeDocument' THEN SHOW parameter 'categoryId'",
+      "IF operation == 'upload' AND resource == 'employeeDocument' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'upload' AND resource == 'employeeDocument' THEN SHOW parameter 'options'",
+      "IF resource == 'file' THEN SHOW parameter 'operation'",
+      "IF operation == 'delete' AND resource == 'file' THEN SHOW parameter 'fileId'",
+      "IF operation == 'download' AND resource == 'file' THEN SHOW parameter 'fileId'",
+      "IF operation == 'download' AND resource == 'file' THEN SHOW parameter 'output'",
+      "IF operation == 'getAll' AND resource == 'file' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'file' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'file' THEN SHOW parameter 'simplifyOutput'",
+      "IF operation == 'update' AND resource == 'file' THEN SHOW parameter 'fileId'",
+      "IF operation == 'update' AND resource == 'file' THEN SHOW parameter 'updateFields'",
+      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'categoryId'",
+      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'options'",
+      "IF resource == 'companyReport' THEN SHOW parameter 'operation'",
+      "IF operation == 'get' AND resource == 'companyReport' THEN SHOW parameter 'reportId'",
+      "IF operation == 'get' AND resource == 'companyReport' THEN SHOW parameter 'format'",
+      "IF operation == 'get' AND resource == 'companyReport' THEN SHOW parameter 'output'",
+      "IF format == 'JSON' THEN HIDE parameter 'output'",
+      "IF operation == 'get' AND resource == 'companyReport' THEN SHOW parameter 'options'"
+    ]
+  }
+}

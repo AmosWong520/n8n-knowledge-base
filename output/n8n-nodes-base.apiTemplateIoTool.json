@@ -1,0 +1,420 @@
+{
+  "node_id": "n8n-nodes-base.apiTemplateIoTool",
+  "name": "n8n-nodes-base.apiTemplateIoTool",
+  "version": 1,
+  "semantic_context": "Consume the APITemplate.io API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume the APITemplate.io API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Account",
+          "value": "account"
+        },
+        {
+          "name": "Image",
+          "value": "image"
+        },
+        {
+          "name": "PDF",
+          "value": "pdf"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "image",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "default": "get",
+      "required": true,
+      "options": [
+        {
+          "name": "Get",
+          "value": "get",
+          "action": "Get an account"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "account"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "imageTemplateId": {
+      "displayName": "Template Name or ID",
+      "name": "imageTemplateId",
+      "type": "options",
+      "required": true,
+      "default": "",
+      "description": "ID of the image template to use. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "typeOptions": {
+        "loadOptionsMethod": "getImageTemplates"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "image"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "ID of the image template to use. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "pdfTemplateId": {
+      "displayName": "Template Name or ID",
+      "name": "pdfTemplateId",
+      "type": "options",
+      "required": true,
+      "default": "",
+      "description": "ID of the PDF template to use. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "typeOptions": {
+        "loadOptionsMethod": "getPdfTemplates"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "pdf"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "ID of the PDF template to use. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "jsonParameters": {
+      "displayName": "JSON Parameters",
+      "name": "jsonParameters",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "pdf",
+            "image"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "download": {
+      "displayName": "Download",
+      "name": "download",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "pdf",
+            "image"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Name of the binary property to which to write the data of the read file",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "binaryProperty": {
+      "displayName": "Put Output File in Field",
+      "name": "binaryProperty",
+      "type": "string",
+      "required": true,
+      "default": "data",
+      "hint": "The name of the output binary field to put the file in",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "pdf",
+            "image"
+          ],
+          "operation": [
+            "create"
+          ],
+          "download": [
+            true
+          ]
+        }
+      }
+    },
+    "overridesJson": {
+      "displayName": "Overrides (JSON)",
+      "name": "overridesJson",
+      "type": "json",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "image"
+          ],
+          "operation": [
+            "create"
+          ],
+          "jsonParameters": [
+            true
+          ]
+        }
+      },
+      "placeholder": "[ {\"name\": \"text_1\", \"text\": \"hello world\", \"textBackgroundColor\": \"rgba(246, 243, 243, 0)\" } ]"
+    },
+    "propertiesJson": {
+      "displayName": "Properties (JSON)",
+      "name": "propertiesJson",
+      "type": "json",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "pdf"
+          ],
+          "operation": [
+            "create"
+          ],
+          "jsonParameters": [
+            true
+          ]
+        }
+      },
+      "placeholder": "{ \"name\": \"text_1\" }"
+    },
+    "overridesUi": {
+      "displayName": "Overrides",
+      "name": "overridesUi",
+      "placeholder": "Add Override",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "image"
+          ],
+          "operation": [
+            "create"
+          ],
+          "jsonParameters": [
+            false
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "name": "overrideValues",
+          "displayName": "Override",
+          "values": [
+            {
+              "displayName": "Properties",
+              "name": "propertiesUi",
+              "placeholder": "Add Property",
+              "type": "fixedCollection",
+              "typeOptions": {
+                "multipleValues": true
+              },
+              "default": {},
+              "options": [
+                {
+                  "name": "propertyValues",
+                  "displayName": "Property",
+                  "values": [
+                    {
+                      "displayName": "Key",
+                      "name": "key",
+                      "type": "string",
+                      "default": "",
+                      "description": "Name of the property"
+                    },
+                    {
+                      "displayName": "Value",
+                      "name": "value",
+                      "type": "string",
+                      "default": "",
+                      "description": "Value to the property"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "propertiesUi": {
+      "displayName": "Properties",
+      "name": "propertiesUi",
+      "placeholder": "Add Property",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "pdf"
+          ],
+          "operation": [
+            "create"
+          ],
+          "jsonParameters": [
+            false
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "propertyValues",
+          "displayName": "Property",
+          "values": [
+            {
+              "displayName": "Key",
+              "name": "key",
+              "type": "string",
+              "default": "",
+              "description": "Name of the property"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "Value to the property"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "pdf",
+            "image"
+          ],
+          "download": [
+            true
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "File Name",
+          "name": "fileName",
+          "type": "string",
+          "default": "",
+          "description": "The name of the downloaded image/pdf. It has to include the extension. For example: report.pdf"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "operation",
+      "operation",
+      "imageTemplateId",
+      "pdfTemplateId",
+      "jsonParameters",
+      "download",
+      "binaryProperty",
+      "overridesJson",
+      "propertiesJson",
+      "overridesUi",
+      "propertiesUi",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'image' THEN SHOW parameter 'operation'",
+      "IF resource == 'pdf' THEN SHOW parameter 'operation'",
+      "IF resource == 'account' THEN SHOW parameter 'operation'",
+      "IF resource == 'image' AND operation == 'create' THEN SHOW parameter 'imageTemplateId'",
+      "IF resource == 'pdf' AND operation == 'create' THEN SHOW parameter 'pdfTemplateId'",
+      "IF resource IN [\"pdf\", \"image\"] AND operation == 'create' THEN SHOW parameter 'jsonParameters'",
+      "IF resource IN [\"pdf\", \"image\"] AND operation == 'create' THEN SHOW parameter 'download'",
+      "IF resource IN [\"pdf\", \"image\"] AND operation == 'create' AND download == True THEN SHOW parameter 'binaryProperty'",
+      "IF resource == 'image' AND operation == 'create' AND jsonParameters == True THEN SHOW parameter 'overridesJson'",
+      "IF resource == 'pdf' AND operation == 'create' AND jsonParameters == True THEN SHOW parameter 'propertiesJson'",
+      "IF resource == 'image' AND operation == 'create' AND jsonParameters == False THEN SHOW parameter 'overridesUi'",
+      "IF resource == 'pdf' AND operation == 'create' AND jsonParameters == False THEN SHOW parameter 'propertiesUi'",
+      "IF operation == 'create' AND resource IN [\"pdf\", \"image\"] AND download == True THEN SHOW parameter 'options'"
+    ]
+  }
+}

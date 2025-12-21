@@ -1,0 +1,166 @@
+{
+  "node_id": "n8n-nodes-base.sms77",
+  "name": "n8n-nodes-base.sms77",
+  "version": 1,
+  "semantic_context": "Send SMS and make text-to-speech calls",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "SMS",
+          "value": "sms"
+        },
+        {
+          "name": "Voice Call",
+          "value": "voice"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "sms",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "voice"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Send",
+          "value": "send",
+          "description": "Converts text to voice and calls a given number",
+          "action": "Convert text to voice"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "send",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "from": {
+      "displayName": "From",
+      "name": "from",
+      "type": "string",
+      "default": "",
+      "placeholder": "+4901234567890",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "send"
+          ],
+          "resource": [
+            "sms"
+          ]
+        }
+      },
+      "description": "The caller ID displayed in the receivers display. Max 16 numeric or 11 alphanumeric characters.",
+      "ai_hint": "The caller ID displayed in the receivers display. Max 16 numeric or 11 alphanumeric characters."
+    },
+    "to": {
+      "displayName": "To",
+      "name": "to",
+      "type": "string",
+      "default": "",
+      "placeholder": "+49876543210, MyGroup",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "send"
+          ],
+          "resource": [
+            "sms",
+            "voice"
+          ]
+        }
+      },
+      "description": "The number of your recipient(s) separated by comma. Can be regular numbers or contact/groups from seven.",
+      "ai_hint": "The number of your recipient(s) separated by comma. Can be regular numbers or contact/groups from seven."
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "send"
+          ],
+          "resource": [
+            "sms",
+            "voice"
+          ]
+        }
+      },
+      "description": "The message to send. Max. 1520 characters",
+      "ai_hint": "The message to send. Max. 1520 characters"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add Option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "send"
+          ],
+          "resource": [
+            "voice"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "From",
+          "name": "from",
+          "type": "string",
+          "default": "",
+          "placeholder": "+4901234567890",
+          "description": "The caller ID. Please use only verified sender IDs, one of your virtual inbound numbers or one of our shared virtual numbers."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "operation",
+      "from",
+      "to",
+      "message",
+      "options",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF resource == 'sms' THEN SHOW parameter 'operation'",
+      "IF resource == 'voice' THEN SHOW parameter 'operation'",
+      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'from'",
+      "IF operation == 'send' AND resource IN [\"sms\", \"voice\"] THEN SHOW parameter 'to'",
+      "IF operation == 'send' AND resource IN [\"sms\", \"voice\"] THEN SHOW parameter 'message'",
+      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'options'",
+      "IF operation == 'send' AND resource == 'voice' THEN SHOW parameter 'options'"
+    ]
+  }
+}

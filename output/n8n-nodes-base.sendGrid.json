@@ -1,0 +1,719 @@
+{
+  "node_id": "n8n-nodes-base.sendGrid",
+  "name": "n8n-nodes-base.sendGrid",
+  "version": 1,
+  "semantic_context": "Consume SendGrid API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Contact",
+          "value": "contact"
+        },
+        {
+          "name": "List",
+          "value": "list"
+        },
+        {
+          "name": "Mail",
+          "value": "mail"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "list",
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "mail"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Send",
+          "value": "send",
+          "description": "Send an email",
+          "action": "Send an email"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "send",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 1000
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "list"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Name of the list",
+      "ai_hint": "Name of the list"
+    },
+    "listId": {
+      "displayName": "List ID",
+      "name": "listId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "list"
+          ]
+        }
+      },
+      "default": "",
+      "description": "ID of the list",
+      "ai_hint": "ID of the list"
+    },
+    "deleteContacts": {
+      "displayName": "Delete Contacts",
+      "name": "deleteContacts",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "delete"
+          ],
+          "resource": [
+            "list"
+          ]
+        }
+      },
+      "description": "Whether to delete all contacts on the list",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "contactSample": {
+      "displayName": "Contact Sample",
+      "name": "contactSample",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "list"
+          ]
+        }
+      },
+      "description": "Whether to return the contact sample",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Query",
+          "name": "query",
+          "type": "string",
+          "default": "",
+          "description": "The query field accepts valid <a href=\"https://sendgrid.com/docs/for-developers/sending-email/segmentation-query-language/\">SGQL</a> for searching for a contact"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "email": {
+      "displayName": "Email",
+      "name": "email",
+      "type": "string",
+      "placeholder": "name@email.com",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "contact"
+          ],
+          "by": [
+            "email"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Email of the contact",
+      "ai_hint": "Email of the contact"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "mail"
+          ],
+          "operation": [
+            "send"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Attachments",
+          "name": "attachments",
+          "type": "string",
+          "default": "",
+          "description": "Comma-separated list of binary properties"
+        },
+        {
+          "displayName": "BCC Email",
+          "name": "bccEmail",
+          "type": "string",
+          "default": "",
+          "description": "Comma-separated list of emails of the recipients of a blind carbon copy of the email"
+        },
+        {
+          "displayName": "Categories",
+          "name": "categories",
+          "type": "string",
+          "default": "",
+          "description": "Comma-separated list of categories. Each category name may not exceed 255 characters."
+        },
+        {
+          "displayName": "CC Email",
+          "name": "ccEmail",
+          "type": "string",
+          "default": "",
+          "description": "Comma-separated list of emails of the recipients of a carbon copy of the email"
+        },
+        {
+          "displayName": "Enable Sandbox",
+          "name": "enableSandbox",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to use to the sandbox for testing out email-sending functionality"
+        },
+        {
+          "displayName": "IP Pool Name",
+          "name": "ipPoolName",
+          "type": "string",
+          "default": "",
+          "description": "The IP Pool that you would like to send this email from"
+        },
+        {
+          "displayName": "Reply-To Email",
+          "name": "replyToEmail",
+          "type": "string",
+          "default": "",
+          "placeholder": "reply@domain.com",
+          "description": "Comma-separated list of email addresses that will appear in the reply-to field of the email"
+        },
+        {
+          "displayName": "Headers",
+          "name": "headers",
+          "placeholder": "Add Header",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": {},
+          "options": [
+            {
+              "displayName": "Details",
+              "name": "details",
+              "values": [
+                {
+                  "displayName": "Key",
+                  "name": "key",
+                  "type": "string",
+                  "default": "",
+                  "description": "Key to set in the header object"
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": "",
+                  "description": "Value to set in the header object"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Send At",
+          "name": "sendAt",
+          "type": "dateTime",
+          "default": "",
+          "description": "When to deliver the email. Scheduling more than 72 hours in advance is forbidden."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "ids": {
+      "displayName": "Contact IDs",
+      "name": "ids",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "delete"
+          ],
+          "deleteAll": [
+            false
+          ]
+        }
+      },
+      "description": "ID of the contact. Multiple can be added separated by comma.",
+      "ai_hint": "ID of the contact. Multiple can be added separated by comma."
+    },
+    "deleteAll": {
+      "displayName": "Delete All",
+      "name": "deleteAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether all contacts will be deleted",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "by": {
+      "displayName": "By",
+      "name": "by",
+      "type": "options",
+      "options": [
+        {
+          "name": "ID",
+          "value": "id"
+        },
+        {
+          "name": "Email",
+          "value": "email"
+        }
+      ],
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "contact"
+          ]
+        }
+      },
+      "default": "id",
+      "description": "Search the user by ID or email",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "contactId": {
+      "displayName": "Contact ID",
+      "name": "contactId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "contact"
+          ],
+          "by": [
+            "id"
+          ]
+        }
+      },
+      "default": "",
+      "description": "ID of the contact",
+      "ai_hint": "ID of the contact"
+    },
+    "fromEmail": {
+      "displayName": "Sender Email",
+      "name": "fromEmail",
+      "type": "string",
+      "default": "",
+      "placeholder": "sender@domain.com",
+      "description": "Email address of the sender of the email",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "mail"
+          ],
+          "operation": [
+            "send"
+          ]
+        }
+      },
+      "ai_hint": "Email address of the sender of the email"
+    },
+    "fromName": {
+      "displayName": "Sender Name",
+      "name": "fromName",
+      "type": "string",
+      "default": "",
+      "placeholder": "John Smith",
+      "description": "Name of the sender of the email",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "mail"
+          ],
+          "operation": [
+            "send"
+          ]
+        }
+      },
+      "ai_hint": "Name of the sender of the email"
+    },
+    "toEmail": {
+      "displayName": "Recipient Email",
+      "name": "toEmail",
+      "type": "string",
+      "default": "",
+      "placeholder": "recipient@domain.com",
+      "description": "Comma-separated list of recipient email addresses",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "mail"
+          ],
+          "operation": [
+            "send"
+          ]
+        }
+      },
+      "ai_hint": "Comma-separated list of recipient email addresses"
+    },
+    "subject": {
+      "displayName": "Subject",
+      "name": "subject",
+      "type": "string",
+      "default": "",
+      "description": "Subject of the email to send",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "mail"
+          ],
+          "operation": [
+            "send"
+          ],
+          "dynamicTemplate": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Subject of the email to send"
+    },
+    "dynamicTemplate": {
+      "displayName": "Dynamic Template",
+      "name": "dynamicTemplate",
+      "type": "boolean",
+      "required": true,
+      "default": false,
+      "description": "Whether this email will contain a dynamic template",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "mail"
+          ],
+          "operation": [
+            "send"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "contentType": {
+      "displayName": "MIME Type",
+      "name": "contentType",
+      "type": "options",
+      "default": "text/plain",
+      "description": "MIME type of the email to send",
+      "options": [
+        {
+          "name": "Plain Text",
+          "value": "text/plain"
+        },
+        {
+          "name": "HTML",
+          "value": "text/html"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "mail"
+          ],
+          "operation": [
+            "send"
+          ],
+          "dynamicTemplate": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "contentValue": {
+      "displayName": "Message Body",
+      "name": "contentValue",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "description": "Message body of the email to send",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "mail"
+          ],
+          "operation": [
+            "send"
+          ],
+          "dynamicTemplate": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Message body of the email to send"
+    },
+    "templateId": {
+      "displayName": "Template Name or ID",
+      "name": "templateId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "default": [],
+      "typeOptions": {
+        "loadOptionsMethod": "getTemplateIds"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "mail"
+          ],
+          "operation": [
+            "send"
+          ],
+          "dynamicTemplate": [
+            true
+          ]
+        }
+      },
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "dynamicTemplateFields": {
+      "displayName": "Dynamic Template Fields",
+      "name": "dynamicTemplateFields",
+      "placeholder": "Add Dynamic Template Fields",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "mail"
+          ],
+          "operation": [
+            "send"
+          ],
+          "dynamicTemplate": [
+            true
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Fields",
+          "name": "fields",
+          "values": [
+            {
+              "displayName": "Key",
+              "name": "key",
+              "type": "string",
+              "default": "",
+              "description": "Key of the dynamic template field"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "Value for the field"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "returnAll",
+      "limit",
+      "name",
+      "listId",
+      "deleteContacts",
+      "listId",
+      "contactSample",
+      "listId",
+      "name",
+      "operation",
+      "returnAll",
+      "limit",
+      "filters",
+      "email",
+      "additionalFields",
+      "ids",
+      "deleteAll",
+      "by",
+      "contactId",
+      "email",
+      "operation",
+      "fromEmail",
+      "fromName",
+      "toEmail",
+      "subject",
+      "dynamicTemplate",
+      "contentType",
+      "contentValue",
+      "templateId",
+      "dynamicTemplateFields",
+      "additionalFields"
+    ],
+    "conditional_rules": [
+      "IF resource == 'list' THEN SHOW parameter 'operation'",
+      "IF resource == 'list' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'list' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'create' AND resource == 'list' THEN SHOW parameter 'name'",
+      "IF operation == 'delete' AND resource == 'list' THEN SHOW parameter 'listId'",
+      "IF operation == 'delete' AND resource == 'list' THEN SHOW parameter 'deleteContacts'",
+      "IF operation == 'get' AND resource == 'list' THEN SHOW parameter 'listId'",
+      "IF operation == 'get' AND resource == 'list' THEN SHOW parameter 'contactSample'",
+      "IF operation == 'update' AND resource == 'list' THEN SHOW parameter 'listId'",
+      "IF operation == 'update' AND resource == 'list' THEN SHOW parameter 'name'",
+      "IF resource == 'contact' THEN SHOW parameter 'operation'",
+      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'contact' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF operation == 'upsert' AND resource == 'contact' THEN SHOW parameter 'email'",
+      "IF resource == 'contact' AND operation == 'upsert' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'contact' AND operation == 'delete' AND deleteAll == False THEN SHOW parameter 'ids'",
+      "IF resource == 'contact' AND operation == 'delete' THEN SHOW parameter 'deleteAll'",
+      "IF operation == 'get' AND resource == 'contact' THEN SHOW parameter 'by'",
+      "IF operation == 'get' AND resource == 'contact' AND by == 'id' THEN SHOW parameter 'contactId'",
+      "IF operation == 'get' AND resource == 'contact' AND by == 'email' THEN SHOW parameter 'email'",
+      "IF resource == 'mail' THEN SHOW parameter 'operation'",
+      "IF resource == 'mail' AND operation == 'send' THEN SHOW parameter 'fromEmail'",
+      "IF resource == 'mail' AND operation == 'send' THEN SHOW parameter 'fromName'",
+      "IF resource == 'mail' AND operation == 'send' THEN SHOW parameter 'toEmail'",
+      "IF resource == 'mail' AND operation == 'send' AND dynamicTemplate == False THEN SHOW parameter 'subject'",
+      "IF resource == 'mail' AND operation == 'send' THEN SHOW parameter 'dynamicTemplate'",
+      "IF resource == 'mail' AND operation == 'send' AND dynamicTemplate == False THEN SHOW parameter 'contentType'",
+      "IF resource == 'mail' AND operation == 'send' AND dynamicTemplate == False THEN SHOW parameter 'contentValue'",
+      "IF resource == 'mail' AND operation == 'send' AND dynamicTemplate == True THEN SHOW parameter 'templateId'",
+      "IF resource == 'mail' AND operation == 'send' AND dynamicTemplate == True THEN SHOW parameter 'dynamicTemplateFields'",
+      "IF resource == 'mail' AND operation == 'send' THEN SHOW parameter 'additionalFields'"
+    ]
+  }
+}

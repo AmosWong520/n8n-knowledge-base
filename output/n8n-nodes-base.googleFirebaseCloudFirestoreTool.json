@@ -1,0 +1,398 @@
+{
+  "node_id": "n8n-nodes-base.googleFirebaseCloudFirestoreTool",
+  "name": "n8n-nodes-base.googleFirebaseCloudFirestoreTool",
+  "version": [
+    1,
+    1.1
+  ],
+  "semantic_context": "Interact with Google Firebase - Cloud Firestore API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Interact with Google Firebase - Cloud Firestore API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "OAuth2 (recommended)",
+          "value": "googleFirebaseCloudFirestoreOAuth2Api"
+        },
+        {
+          "name": "Service Account",
+          "value": "serviceAccount"
+        }
+      ],
+      "default": "googleFirebaseCloudFirestoreOAuth2Api",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Document",
+          "value": "document"
+        },
+        {
+          "name": "Collection",
+          "value": "collection"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "document",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "collection"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many root collections",
+          "action": "Get many collections"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "getAll",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "projectId": {
+      "displayName": "Project Name or ID",
+      "name": "projectId",
+      "type": "options",
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "getProjects"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "collection"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "description": "As displayed in firebase console URL. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "required": true,
+      "ai_hint": "As displayed in firebase console URL. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "database": {
+      "displayName": "Database",
+      "name": "database",
+      "type": "string",
+      "default": "(default)",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "collection"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "description": "Usually the provided default value will work",
+      "required": true,
+      "ai_hint": "Usually the provided default value will work"
+    },
+    "collection": {
+      "displayName": "Collection",
+      "name": "collection",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "document"
+          ],
+          "operation": [
+            "upsert"
+          ]
+        }
+      },
+      "description": "Collection name",
+      "required": true,
+      "ai_hint": "Collection name"
+    },
+    "documentId": {
+      "displayName": "Document ID",
+      "name": "documentId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "delete"
+          ],
+          "resource": [
+            "document"
+          ]
+        }
+      },
+      "default": "",
+      "required": true
+    },
+    "columns": {
+      "displayName": "Columns /Attributes",
+      "name": "columns",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "document"
+          ],
+          "operation": [
+            "upsert"
+          ]
+        }
+      },
+      "description": "Columns to insert",
+      "required": true,
+      "placeholder": "age, city, location",
+      "ai_hint": "Columns to insert"
+    },
+    "simple": {
+      "displayName": "Simplify",
+      "name": "simple",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "query"
+          ],
+          "resource": [
+            "document"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to return a simplified version of the response instead of the raw data",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "collection"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "description": "Whether to return all results or only up to a given limit",
+      "required": true,
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "collection"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "updateKey": {
+      "displayName": "Update Key",
+      "name": "updateKey",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "document"
+          ],
+          "operation": [
+            "upsert"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Name of the field in an input item that contains the document ID",
+      "required": true,
+      "placeholder": "documentId",
+      "ai_hint": "Name of the field in an input item that contains the document ID"
+    },
+    "query": {
+      "displayName": "Query JSON",
+      "name": "query",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "document"
+          ],
+          "operation": [
+            "query"
+          ]
+        }
+      },
+      "description": "JSON query to execute",
+      "required": true,
+      "placeholder": "{\"structuredQuery\": {\"where\": {\"fieldFilter\": {\"field\": {\"fieldPath\": \"age\"},\"op\": \"EQUAL\", \"value\": {\"integerValue\": 28}}}, \"from\": [{\"collectionId\": \"users-collection\"}]}}",
+      "ai_hint": "JSON query to execute"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "authentication",
+      "resource",
+      "operation",
+      "projectId",
+      "database",
+      "collection",
+      "documentId",
+      "columns",
+      "simple",
+      "projectId",
+      "database",
+      "collection",
+      "documentId",
+      "simple",
+      "projectId",
+      "database",
+      "collection",
+      "returnAll",
+      "limit",
+      "simple",
+      "projectId",
+      "database",
+      "collection",
+      "documentId",
+      "projectId",
+      "database",
+      "collection",
+      "updateKey",
+      "columns",
+      "projectId",
+      "database",
+      "query",
+      "simple",
+      "operation",
+      "projectId",
+      "database",
+      "returnAll",
+      "limit"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'document' THEN SHOW parameter 'operation'",
+      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'projectId'",
+      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'database'",
+      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'collection'",
+      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'documentId'",
+      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'columns'",
+      "IF operation == 'create' AND resource == 'document' THEN SHOW parameter 'simple'",
+      "IF resource == 'document' AND operation == 'get' THEN SHOW parameter 'projectId'",
+      "IF resource == 'document' AND operation == 'get' THEN SHOW parameter 'database'",
+      "IF resource == 'document' AND operation == 'get' THEN SHOW parameter 'collection'",
+      "IF operation == 'get' AND resource == 'document' THEN SHOW parameter 'documentId'",
+      "IF operation == 'get' AND resource == 'document' THEN SHOW parameter 'simple'",
+      "IF resource == 'document' AND operation == 'getAll' THEN SHOW parameter 'projectId'",
+      "IF resource == 'document' AND operation == 'getAll' THEN SHOW parameter 'database'",
+      "IF resource == 'document' AND operation == 'getAll' THEN SHOW parameter 'collection'",
+      "IF resource == 'document' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'document' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'document' THEN SHOW parameter 'simple'",
+      "IF resource == 'document' AND operation == 'delete' THEN SHOW parameter 'projectId'",
+      "IF resource == 'document' AND operation == 'delete' THEN SHOW parameter 'database'",
+      "IF resource == 'document' AND operation == 'delete' THEN SHOW parameter 'collection'",
+      "IF operation == 'delete' AND resource == 'document' THEN SHOW parameter 'documentId'",
+      "IF resource == 'document' AND operation == 'upsert' THEN SHOW parameter 'projectId'",
+      "IF resource == 'document' AND operation == 'upsert' THEN SHOW parameter 'database'",
+      "IF resource == 'document' AND operation == 'upsert' THEN SHOW parameter 'collection'",
+      "IF resource == 'document' AND operation == 'upsert' THEN SHOW parameter 'updateKey'",
+      "IF resource == 'document' AND operation == 'upsert' THEN SHOW parameter 'columns'",
+      "IF resource == 'document' AND operation == 'query' THEN SHOW parameter 'projectId'",
+      "IF resource == 'document' AND operation == 'query' THEN SHOW parameter 'database'",
+      "IF resource == 'document' AND operation == 'query' THEN SHOW parameter 'query'",
+      "IF operation == 'query' AND resource == 'document' THEN SHOW parameter 'simple'",
+      "IF resource == 'collection' THEN SHOW parameter 'operation'",
+      "IF resource == 'collection' AND operation == 'getAll' THEN SHOW parameter 'projectId'",
+      "IF resource == 'collection' AND operation == 'getAll' THEN SHOW parameter 'database'",
+      "IF resource == 'collection' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'collection' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'"
+    ]
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "node_id": "n8n-nodes-base.webflowTrigger",
+  "name": "n8n-nodes-base.webflowTrigger",
+  "version": 1,
+  "semantic_context": "Handle Webflow events via webhooks",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Access Token",
+          "value": "accessToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "accessToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "site": {
+      "displayName": "Site Name or ID",
+      "name": "site",
+      "type": "options",
+      "required": true,
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "getSites"
+      },
+      "description": "Site that will trigger the events. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "Site that will trigger the events. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "event": {
+      "displayName": "Event",
+      "name": "event",
+      "type": "options",
+      "required": true,
+      "options": [
+        {
+          "name": "Collection Item Created",
+          "value": "collection_item_created"
+        },
+        {
+          "name": "Collection Item Deleted",
+          "value": "collection_item_deleted"
+        },
+        {
+          "name": "Collection Item Updated",
+          "value": "collection_item_changed"
+        },
+        {
+          "name": "Ecomm Inventory Changed",
+          "value": "ecomm_inventory_changed"
+        },
+        {
+          "name": "Ecomm New Order",
+          "value": "ecomm_new_order"
+        },
+        {
+          "name": "Ecomm Order Changed",
+          "value": "ecomm_order_changed"
+        },
+        {
+          "name": "Form Submission",
+          "value": "form_submission"
+        },
+        {
+          "name": "Site Publish",
+          "value": "site_publish"
+        }
+      ],
+      "default": "form_submission",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "site",
+      "event"
+    ],
+    "conditional_rules": []
+  }
+}

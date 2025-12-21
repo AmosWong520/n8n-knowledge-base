@@ -1,0 +1,350 @@
+{
+  "node_id": "n8n-nodes-base.rabbitmq",
+  "name": "n8n-nodes-base.rabbitmq",
+  "version": [
+    1,
+    1.1
+  ],
+  "semantic_context": "Sends messages to a RabbitMQ topic",
+  "parameters": {
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "default": "sendMessage",
+      "displayOptions": {
+        "show": {
+          "@version": [
+            1.1
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Send a Message to RabbitMQ",
+          "value": "sendMessage",
+          "action": "Send a Message to RabbitMQ"
+        },
+        {
+          "name": "Delete From Queue",
+          "value": "deleteMessage",
+          "action": "Delete From Queue"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "deleteMessage": {
+      "displayName": "Will delete an item from the queue triggered earlier in the workflow by a RabbitMQ Trigger node",
+      "name": "deleteMessage",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "deleteMessage"
+          ]
+        }
+      }
+    },
+    "mode": {
+      "displayName": "Mode",
+      "name": "mode",
+      "type": "options",
+      "displayOptions": {
+        "hide": {
+          "operation": [
+            "deleteMessage"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Queue",
+          "value": "queue",
+          "description": "Publish data to queue"
+        },
+        {
+          "name": "Exchange",
+          "value": "exchange",
+          "description": "Publish data to exchange"
+        }
+      ],
+      "default": "queue",
+      "description": "To where data should be moved",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "queue": {
+      "displayName": "Queue / Topic",
+      "name": "queue",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "mode": [
+            "queue"
+          ]
+        },
+        "hide": {
+          "operation": [
+            "deleteMessage"
+          ]
+        }
+      },
+      "default": "",
+      "placeholder": "queue-name",
+      "description": "Name of the queue to publish to",
+      "ai_hint": "Name of the queue to publish to"
+    },
+    "exchange": {
+      "displayName": "Exchange",
+      "name": "exchange",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "mode": [
+            "exchange"
+          ]
+        }
+      },
+      "default": "",
+      "placeholder": "exchange-name",
+      "description": "Name of the exchange to publish to",
+      "ai_hint": "Name of the exchange to publish to"
+    },
+    "exchangeType": {
+      "displayName": "Type",
+      "name": "exchangeType",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "mode": [
+            "exchange"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Direct",
+          "value": "direct",
+          "description": "Direct exchange type"
+        },
+        {
+          "name": "Topic",
+          "value": "topic",
+          "description": "Topic exchange type"
+        },
+        {
+          "name": "Headers",
+          "value": "headers",
+          "description": "Headers exchange type"
+        },
+        {
+          "name": "Fanout",
+          "value": "fanout",
+          "description": "Fanout exchange type"
+        }
+      ],
+      "default": "fanout",
+      "description": "Type of exchange",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "routingKey": {
+      "displayName": "Routing Key",
+      "name": "routingKey",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "mode": [
+            "exchange"
+          ]
+        }
+      },
+      "default": "",
+      "placeholder": "routing-key",
+      "description": "The routing key for the message",
+      "ai_hint": "The routing key for the message"
+    },
+    "sendInputData": {
+      "displayName": "Send Input Data",
+      "name": "sendInputData",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "sendMessage"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to send the data the node receives as JSON",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "sendInputData": [
+            false
+          ]
+        }
+      },
+      "default": "",
+      "description": "The message to be sent",
+      "ai_hint": "The message to be sent"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "sendMessage"
+          ]
+        }
+      },
+      "placeholder": "Add option",
+      "options": [
+        {
+          "displayName": "Alternate Exchange",
+          "name": "alternateExchange",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "/mode": [
+                "exchange"
+              ]
+            }
+          },
+          "default": "",
+          "description": "An exchange to send messages to if this exchange can’t route them to any queues"
+        },
+        {
+          "displayName": "Arguments",
+          "name": "arguments",
+          "placeholder": "Add Argument",
+          "description": "Arguments to add, See <a href=\"https://amqp-node.github.io/amqplib/channel_api.html#channel_publish\" target=\"_blank\">here</a> for valid options",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": {},
+          "options": [
+            {
+              "name": "argument",
+              "displayName": "Argument",
+              "values": [
+                {
+                  "displayName": "Key",
+                  "name": "key",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Auto Delete Queue",
+          "name": "autoDelete",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the queue will be deleted when the number of consumers drops to zero"
+        },
+        {
+          "displayName": "Durable",
+          "name": "durable",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether the queue will survive broker restarts"
+        },
+        {
+          "displayName": "Exclusive",
+          "name": "exclusive",
+          "type": "boolean",
+          "displayOptions": {
+            "show": {
+              "/mode": [
+                "queue"
+              ]
+            }
+          },
+          "default": false,
+          "description": "Whether to scope the queue to the connection"
+        },
+        {
+          "displayName": "Headers",
+          "name": "headers",
+          "placeholder": "Add Header",
+          "description": "Headers to add",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": {},
+          "options": [
+            {
+              "name": "header",
+              "displayName": "Header",
+              "values": [
+                {
+                  "displayName": "Key",
+                  "name": "key",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "operation",
+      "operation",
+      "deleteMessage",
+      "mode",
+      "queue",
+      "exchange",
+      "exchangeType",
+      "routingKey",
+      "sendInputData",
+      "message",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF @version == 1 THEN SHOW parameter 'operation'",
+      "IF @version == 1.1 THEN SHOW parameter 'operation'",
+      "IF operation == 'deleteMessage' THEN SHOW parameter 'deleteMessage'",
+      "IF operation == 'deleteMessage' THEN HIDE parameter 'mode'",
+      "IF mode == 'queue' THEN SHOW parameter 'queue'",
+      "IF operation == 'deleteMessage' THEN HIDE parameter 'queue'",
+      "IF mode == 'exchange' THEN SHOW parameter 'exchange'",
+      "IF mode == 'exchange' THEN SHOW parameter 'exchangeType'",
+      "IF mode == 'exchange' THEN SHOW parameter 'routingKey'",
+      "IF operation == 'sendMessage' THEN SHOW parameter 'sendInputData'",
+      "IF sendInputData == False THEN SHOW parameter 'message'",
+      "IF operation == 'sendMessage' THEN SHOW parameter 'options'",
+      "IF /mode == 'exchange' THEN SHOW parameter 'alternateExchange'",
+      "IF /mode == 'queue' THEN SHOW parameter 'exclusive'"
+    ]
+  }
+}

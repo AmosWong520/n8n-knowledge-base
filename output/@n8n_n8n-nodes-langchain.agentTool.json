@@ -1,0 +1,181 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.agentTool",
+  "name": "@n8n/n8n-nodes-langchain.agentTool",
+  "version": [
+    2.2
+  ],
+  "semantic_context": "Generates an action plan and executes it. Can use external tools.",
+  "parameters": {
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "AI Agent that can call other tools",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "text": {
+      "displayName": "Prompt (User Message)",
+      "name": "text",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "placeholder": "e.g. Hello, how can you help me?",
+      "typeOptions": {
+        "rows": 2
+      }
+    },
+    "hasOutputParser": {
+      "displayName": "Require Specific Output Format",
+      "name": "hasOutputParser",
+      "type": "boolean",
+      "default": false,
+      "noDataExpression": true,
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "notice": {
+      "displayName": "Connect an <a data-action='openSelectiveNodeCreator' data-action-parameter-connectiontype='ai_outputParser'>output parser</a> on the canvas to specify the output format you require",
+      "name": "notice",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "hasOutputParser": [
+            true
+          ]
+        }
+      }
+    },
+    "needsFallback": {
+      "displayName": "Enable Fallback Model",
+      "name": "needsFallback",
+      "type": "boolean",
+      "default": false,
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "@version": [
+            {
+              "_cnd": {
+                "gte": 2.1
+              }
+            }
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "fallbackNotice": {
+      "displayName": "Connect an additional language model on the canvas to use it as a fallback if the main model fails",
+      "name": "fallbackNotice",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "needsFallback": [
+            true
+          ]
+        }
+      }
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "default": {},
+      "placeholder": "Add Option",
+      "options": [
+        {
+          "displayName": "System Message",
+          "name": "systemMessage",
+          "type": "string",
+          "default": "You are a helpful assistant",
+          "description": "The message that will be sent to the agent before the conversation starts",
+          "typeOptions": {
+            "rows": 6
+          }
+        },
+        {
+          "displayName": "Max Iterations",
+          "name": "maxIterations",
+          "type": "number",
+          "default": 10,
+          "description": "The maximum number of iterations the agent will run before stopping"
+        },
+        {
+          "displayName": "Return Intermediate Steps",
+          "name": "returnIntermediateSteps",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether or not the output should include intermediate steps the agent took"
+        },
+        {
+          "displayName": "Automatically Passthrough Binary Images",
+          "name": "passthroughBinaryImages",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether or not binary images should be automatically passed through to the agent as image type messages"
+        },
+        {
+          "displayName": "Batch Processing",
+          "name": "batching",
+          "type": "collection",
+          "placeholder": "Add Batch Processing Option",
+          "description": "Batch processing options for rate limiting",
+          "default": {},
+          "options": [
+            {
+              "displayName": "Batch Size",
+              "name": "batchSize",
+              "default": 1,
+              "type": "number",
+              "description": "How many items to process in parallel. This is useful for rate limiting, but might impact the log output ordering."
+            },
+            {
+              "displayName": "Delay Between Batches",
+              "name": "delayBetweenBatches",
+              "default": 0,
+              "type": "number",
+              "description": "Delay in milliseconds between batches. This is useful for rate limiting."
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "@version": [
+            {
+              "_cnd": {
+                "lt": 2.2
+              }
+            }
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "toolDescription",
+      "text",
+      "hasOutputParser",
+      "notice",
+      "needsFallback",
+      "fallbackNotice",
+      "options",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF hasOutputParser == True THEN SHOW parameter 'notice'",
+      "IF @version == {'_cnd': {'gte': 2.1}} THEN SHOW parameter 'needsFallback'",
+      "IF needsFallback == True THEN SHOW parameter 'fallbackNotice'",
+      "IF @version == {'_cnd': {'lt': 2.2}} THEN HIDE parameter 'options'",
+      "IF @version == {'_cnd': {'lt': 2.2}} THEN SHOW parameter 'options'"
+    ]
+  }
+}

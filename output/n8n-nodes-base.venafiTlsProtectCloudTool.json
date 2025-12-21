@@ -1,0 +1,728 @@
+{
+  "node_id": "n8n-nodes-base.venafiTlsProtectCloudTool",
+  "name": "n8n-nodes-base.venafiTlsProtectCloudTool",
+  "version": 1,
+  "semantic_context": "Consume Venafi TLS Protect Cloud API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume Venafi TLS Protect Cloud API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "noDataExpression": true,
+      "type": "options",
+      "options": [
+        {
+          "name": "Certificate",
+          "value": "certificate"
+        },
+        {
+          "name": "Certificate Request",
+          "value": "certificateRequest"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "certificateRequest",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "noDataExpression": true,
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "certificateRequest"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a new certificate request",
+          "action": "Create a certificate request"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Retrieve a certificate request",
+          "action": "Get a certificate request"
+        },
+        {
+          "name": "Get Many",
+          "value": "getMany",
+          "description": "Retrieve many certificate requests",
+          "action": "Get many certificate requests"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "certificateId": {
+      "displayName": "Certificate ID",
+      "name": "certificateId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get",
+            "delete"
+          ],
+          "resource": [
+            "certificate"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "downloadItem": {
+      "displayName": "Download Item",
+      "name": "downloadItem",
+      "type": "options",
+      "options": [
+        {
+          "name": "Certificate",
+          "value": "certificate"
+        },
+        {
+          "name": "Keystore",
+          "value": "keystore"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "download"
+          ],
+          "resource": [
+            "certificate"
+          ]
+        }
+      },
+      "default": "certificate",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "keystoreType": {
+      "displayName": "Keystore Type",
+      "name": "keystoreType",
+      "type": "options",
+      "options": [
+        {
+          "name": "JKS",
+          "value": "JKS"
+        },
+        {
+          "name": "PKCS12",
+          "value": "PKCS12"
+        },
+        {
+          "name": "PEM",
+          "value": "PEM"
+        }
+      ],
+      "default": "PEM",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "download"
+          ],
+          "resource": [
+            "certificate"
+          ],
+          "downloadItem": [
+            "keystore"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "certificateLabel": {
+      "displayName": "Certificate Label",
+      "name": "certificateLabel",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "download"
+          ],
+          "resource": [
+            "certificate"
+          ],
+          "downloadItem": [
+            "keystore"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "privateKeyPassphrase": {
+      "displayName": "Private Key Passphrase",
+      "name": "privateKeyPassphrase",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "download"
+          ],
+          "resource": [
+            "certificate"
+          ],
+          "downloadItem": [
+            "keystore"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "keystorePassphrase": {
+      "displayName": "Keystore Passphrase",
+      "name": "keystorePassphrase",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "download"
+          ],
+          "resource": [
+            "certificate"
+          ],
+          "downloadItem": [
+            "keystore"
+          ],
+          "keystoreType": [
+            "JKS"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "binaryProperty": {
+      "displayName": "Input Data Field Name",
+      "name": "binaryProperty",
+      "type": "string",
+      "default": "data",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "download"
+          ],
+          "resource": [
+            "certificate"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The name of the input field containing the binary file data to be uploaded",
+      "ai_hint": "The name of the input field containing the binary file data to be uploaded"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "certificateRequest"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Validity Period",
+          "name": "validityPeriod",
+          "type": "string",
+          "placeholder": "P1Y",
+          "default": "P1Y",
+          "description": "Specify how long the issued certificate should be valid for. Use ISO8601 format.",
+          "hint": "e.g. 1 year -> P1Y"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getMany"
+          ],
+          "resource": [
+            "certificateRequest"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getMany"
+          ],
+          "resource": [
+            "certificateRequest"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 50,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getMany"
+          ],
+          "resource": [
+            "certificate"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Subject",
+          "name": "subject",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "applicationId": {
+      "displayName": "Application Name or ID",
+      "name": "applicationId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getApplications"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "certificateRequest"
+          ]
+        }
+      },
+      "default": "",
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "existingCertificateId": {
+      "displayName": "Existing Certificate ID",
+      "name": "existingCertificateId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "renew"
+          ],
+          "resource": [
+            "certificate"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "certificateIssuingTemplateId": {
+      "displayName": "Certificate Issuing Template Name or ID",
+      "name": "certificateIssuingTemplateId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getCertificateIssuingTemplates",
+        "loadOptionsDependsOn": [
+          "applicationId"
+        ]
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "certificateRequest"
+          ]
+        }
+      },
+      "default": "",
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "certificateSigningRequest": {
+      "displayName": "Certificate Signing Request",
+      "name": "certificateSigningRequest",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "certificateRequest"
+          ],
+          "generateCsr": [
+            false
+          ]
+        }
+      },
+      "default": ""
+    },
+    "generateCsr": {
+      "displayName": "Generate CSR",
+      "name": "generateCsr",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "certificateRequest"
+          ]
+        }
+      },
+      "default": false,
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "commonName": {
+      "displayName": "Common Name",
+      "name": "commonName",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "certificateRequest"
+          ],
+          "generateCsr": [
+            true
+          ]
+        }
+      },
+      "type": "string",
+      "default": "n8n.io",
+      "description": "The Common Name field for the certificate Subject (CN)",
+      "ai_hint": "The Common Name field for the certificate Subject (CN)"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "certificateRequest"
+          ],
+          "generateCsr": [
+            true
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Key Type",
+          "name": "keyType",
+          "type": "options",
+          "options": [
+            {
+              "name": "EC",
+              "value": "EC",
+              "description": "Elliptic Curve (EC)"
+            },
+            {
+              "name": "RSA",
+              "value": "RSA",
+              "description": "Rivest, Shamir, Adleman key (RSA)"
+            }
+          ],
+          "default": "RSA",
+          "description": "The encryption algorithm for the public key"
+        },
+        {
+          "displayName": "Key Curve",
+          "name": "keyCurve",
+          "type": "options",
+          "options": [
+            {
+              "name": "ED25519",
+              "value": "ED25519",
+              "description": "Use Edwards-curve Digital Signature Algorithm (EdDSA)"
+            },
+            {
+              "name": "P256",
+              "value": "P256",
+              "description": "Use Elliptic Prime Curve 256 bit encryption"
+            },
+            {
+              "name": "P384",
+              "value": "P384",
+              "description": "Use Elliptic Prime Curve 384 bit encryption"
+            },
+            {
+              "name": "P521",
+              "value": "P521",
+              "description": "Use Elliptic Prime Curve 521 bit encryption"
+            },
+            {
+              "name": "UNKNOWN",
+              "value": "UNKNOWN"
+            }
+          ],
+          "default": "ED25519"
+        },
+        {
+          "displayName": "Key Length",
+          "name": "keyLength",
+          "type": "number",
+          "default": 2048,
+          "description": "The number of bits to allow for key generation"
+        },
+        {
+          "displayName": "(O) Organization",
+          "name": "organization",
+          "type": "string",
+          "default": "",
+          "description": "The name of a company or organization"
+        },
+        {
+          "displayName": "(OU) Organizational Unit(s)",
+          "name": "organizationalUnits",
+          "type": "string",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": "",
+          "description": "The name of a department or section"
+        },
+        {
+          "displayName": "(L) City/Locality",
+          "name": "locality",
+          "type": "string",
+          "default": "",
+          "description": "The name of a city or town"
+        },
+        {
+          "displayName": "(ST) State",
+          "name": "state",
+          "type": "string",
+          "default": "",
+          "description": "The name of a state or province"
+        },
+        {
+          "displayName": "(C) Country",
+          "name": "country",
+          "type": "string",
+          "default": "",
+          "description": "A 2 letter country code"
+        },
+        {
+          "displayName": "Subject Alt Names",
+          "name": "SubjectAltNamesUi",
+          "placeholder": "Add Subject",
+          "type": "fixedCollection",
+          "default": {},
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "options": [
+            {
+              "name": "SubjectAltNamesValues",
+              "displayName": "Subject Alt Name",
+              "values": [
+                {
+                  "displayName": "Typename",
+                  "name": "Typename",
+                  "type": "options",
+                  "options": [
+                    {
+                      "name": "DNS",
+                      "value": "dnsNames"
+                    }
+                  ],
+                  "description": "What type of SAN is being used",
+                  "default": "dnsNames"
+                },
+                {
+                  "displayName": "Name",
+                  "name": "name",
+                  "type": "string",
+                  "default": "community.n8n.io",
+                  "description": "The SAN friendly name that corresponds to the Type or TypeName parameter. For example, if a TypeName is IPAddress, the Name value is a valid IP address."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "certificateRequestId": {
+      "displayName": "Certificate Request ID",
+      "name": "certificateRequestId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "certificateRequest"
+          ]
+        }
+      },
+      "default": ""
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "certificateId",
+      "downloadItem",
+      "keystoreType",
+      "certificateLabel",
+      "privateKeyPassphrase",
+      "keystorePassphrase",
+      "binaryProperty",
+      "options",
+      "certificateId",
+      "returnAll",
+      "limit",
+      "filters",
+      "applicationId",
+      "existingCertificateId",
+      "certificateIssuingTemplateId",
+      "certificateSigningRequest",
+      "options",
+      "operation",
+      "applicationId",
+      "certificateIssuingTemplateId",
+      "generateCsr",
+      "commonName",
+      "additionalFields",
+      "certificateSigningRequest",
+      "options",
+      "certificateRequestId",
+      "returnAll",
+      "limit"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'certificate' THEN SHOW parameter 'operation'",
+      "IF operation == 'download' AND resource == 'certificate' THEN SHOW parameter 'certificateId'",
+      "IF operation == 'download' AND resource == 'certificate' THEN SHOW parameter 'downloadItem'",
+      "IF operation == 'download' AND resource == 'certificate' AND downloadItem == 'keystore' THEN SHOW parameter 'keystoreType'",
+      "IF operation == 'download' AND resource == 'certificate' AND downloadItem == 'keystore' THEN SHOW parameter 'certificateLabel'",
+      "IF operation == 'download' AND resource == 'certificate' AND downloadItem == 'keystore' THEN SHOW parameter 'privateKeyPassphrase'",
+      "IF operation == 'download' AND resource == 'certificate' AND downloadItem == 'keystore' AND keystoreType == 'JKS' THEN SHOW parameter 'keystorePassphrase'",
+      "IF operation == 'download' AND resource == 'certificate' THEN SHOW parameter 'binaryProperty'",
+      "IF operation == 'download' AND resource == 'certificate' THEN SHOW parameter 'options'",
+      "IF operation IN [\"get\", \"delete\"] AND resource == 'certificate' THEN SHOW parameter 'certificateId'",
+      "IF operation == 'getMany' AND resource == 'certificate' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getMany' AND resource == 'certificate' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getMany' AND resource == 'certificate' THEN SHOW parameter 'filters'",
+      "IF operation == 'renew' AND resource == 'certificate' THEN SHOW parameter 'applicationId'",
+      "IF operation == 'renew' AND resource == 'certificate' THEN SHOW parameter 'existingCertificateId'",
+      "IF operation == 'renew' AND resource == 'certificate' THEN SHOW parameter 'certificateIssuingTemplateId'",
+      "IF operation == 'renew' AND resource == 'certificate' THEN SHOW parameter 'certificateSigningRequest'",
+      "IF operation == 'renew' AND resource == 'certificate' THEN SHOW parameter 'options'",
+      "IF resource == 'certificateRequest' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'certificateRequest' THEN SHOW parameter 'applicationId'",
+      "IF operation == 'create' AND resource == 'certificateRequest' THEN SHOW parameter 'certificateIssuingTemplateId'",
+      "IF operation == 'create' AND resource == 'certificateRequest' THEN SHOW parameter 'generateCsr'",
+      "IF operation == 'create' AND resource == 'certificateRequest' AND generateCsr == True THEN SHOW parameter 'commonName'",
+      "IF operation == 'create' AND resource == 'certificateRequest' AND generateCsr == True THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'create' AND resource == 'certificateRequest' AND generateCsr == False THEN SHOW parameter 'certificateSigningRequest'",
+      "IF operation == 'create' AND resource == 'certificateRequest' THEN SHOW parameter 'options'",
+      "IF operation == 'get' AND resource == 'certificateRequest' THEN SHOW parameter 'certificateRequestId'",
+      "IF operation == 'getMany' AND resource == 'certificateRequest' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getMany' AND resource == 'certificateRequest' AND returnAll == False THEN SHOW parameter 'limit'"
+    ]
+  }
+}

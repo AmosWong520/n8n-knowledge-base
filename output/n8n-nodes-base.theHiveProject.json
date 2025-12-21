@@ -1,0 +1,2528 @@
+{
+  "node_id": "n8n-nodes-base.theHiveProject",
+  "name": "n8n-nodes-base.theHiveProject",
+  "version": 1,
+  "semantic_context": "Consume TheHive 5 API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "required": true,
+      "options": [
+        {
+          "name": "Alert",
+          "value": "alert"
+        },
+        {
+          "name": "Case",
+          "value": "case"
+        },
+        {
+          "name": "Comment",
+          "value": "comment"
+        },
+        {
+          "name": "Observable",
+          "value": "observable"
+        },
+        {
+          "name": "Page",
+          "value": "page"
+        },
+        {
+          "name": "Query",
+          "value": "query"
+        },
+        {
+          "name": "Task",
+          "value": "task"
+        },
+        {
+          "name": "Task Log",
+          "value": "log"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "alert",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "default": "create",
+      "type": "options",
+      "noDataExpression": true,
+      "required": true,
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "action": "Create a task"
+        },
+        {
+          "name": "Delete",
+          "value": "deleteTask",
+          "action": "Delete an task"
+        },
+        {
+          "name": "Execute Responder",
+          "value": "executeResponder",
+          "action": "Execute responder on a task"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "action": "Get a task"
+        },
+        {
+          "name": "Search",
+          "value": "search",
+          "action": "Search tasks"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "action": "Update a task"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "alertFields": {
+      "displayName": "Fields",
+      "name": "alertFields",
+      "type": "resourceMapper",
+      "default": {
+        "mappingMode": "defineBelow",
+        "value": null
+      },
+      "noDataExpression": true,
+      "required": true,
+      "typeOptions": {
+        "resourceMapper": {
+          "resourceMapperMethod": "getAlertFields",
+          "mode": "add",
+          "valuesLabel": "Fields"
+        }
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "alert"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "observableUi": {
+      "displayName": "Observables",
+      "name": "observableUi",
+      "type": "fixedCollection",
+      "placeholder": "Add Observable",
+      "default": {},
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "options": [
+        {
+          "displayName": "Values",
+          "name": "values",
+          "values": [
+            {
+              "displayName": "Data Type",
+              "name": "dataType",
+              "type": "options",
+              "default": "",
+              "typeOptions": {
+                "loadOptionsMethod": "loadObservableTypes"
+              },
+              "description": "Type of the observable. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+            },
+            {
+              "displayName": "Data",
+              "name": "data",
+              "type": "string",
+              "displayOptions": {
+                "hide": {
+                  "dataType": [
+                    "file"
+                  ]
+                }
+              },
+              "default": ""
+            },
+            {
+              "displayName": "Input Binary Field",
+              "name": "binaryProperty",
+              "type": "string",
+              "hint": "The name of the input binary field containing the file to be written",
+              "displayOptions": {
+                "show": {
+                  "dataType": [
+                    "file"
+                  ]
+                }
+              },
+              "default": "data"
+            },
+            {
+              "displayName": "Message",
+              "name": "message",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Tags",
+              "name": "tags",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "alert"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "alertId": {
+      "displayName": "Alert",
+      "name": "alertId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a alert...",
+          "typeOptions": {
+            "searchListMethod": "alertSearch",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "Link",
+          "name": "url",
+          "type": "string",
+          "extractValue": {
+            "type": "regex",
+            "regex": "https:\\/\\/.+\\/alerts\\/(~[0-9]{1,})\\/details"
+          },
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "https:\\/\\/.+\\/alerts\\/(~[0-9]{1,})\\/details",
+                "errorMessage": "Not a valid Alert URL"
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "e.g. ~123456789",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "(~[0-9]{1,})",
+                "errorMessage": "Not a valid Alert ID"
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "searchIn": [
+            "alert"
+          ],
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      }
+    },
+    "id": {
+      "displayName": "Task",
+      "name": "id",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a task...",
+          "typeOptions": {
+            "searchListMethod": "taskSearch",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "e.g. ~123456789",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "(~[0-9]{1,})",
+                "errorMessage": "Not a valid Task ID"
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "executeResponder"
+          ]
+        }
+      }
+    },
+    "responder": {
+      "displayName": "Responder Name or ID",
+      "name": "responder",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "required": true,
+      "default": "",
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "id",
+          "id.value"
+        ],
+        "loadOptionsMethod": "loadResponders"
+      },
+      "displayOptions": {
+        "hide": {
+          "id": [
+            ""
+          ]
+        },
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "executeResponder"
+          ]
+        }
+      },
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Return Count",
+          "name": "returnCount",
+          "type": "boolean",
+          "description": "Whether to return only the count of results",
+          "default": false,
+          "displayOptions": {
+            "hide": {
+              "/returnAll": [
+                false
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Extra Data",
+          "name": "extraData",
+          "type": "multiOptions",
+          "description": "Additional data to include in the response",
+          "options": [
+            {
+              "name": "isOwner",
+              "value": "isOwner"
+            },
+            {
+              "name": "links",
+              "value": "links"
+            },
+            {
+              "name": "permissions",
+              "value": "permissions"
+            },
+            {
+              "name": "seen",
+              "value": "seen"
+            },
+            {
+              "name": "shareCount",
+              "value": "shareCount"
+            },
+            {
+              "name": "shares",
+              "value": "shares"
+            }
+          ],
+          "default": [],
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "observable"
+              ]
+            },
+            "hide": {
+              "returnCount": [
+                true
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Extra Data",
+          "name": "extraData",
+          "type": "multiOptions",
+          "description": "Additional data to include in the response",
+          "options": [
+            {
+              "name": "actionRequired",
+              "value": "actionRequired"
+            },
+            {
+              "name": "actionRequiredMap",
+              "value": "actionRequiredMap"
+            },
+            {
+              "name": "case",
+              "value": "case"
+            },
+            {
+              "name": "caseId",
+              "value": "caseId"
+            },
+            {
+              "name": "caseTemplate",
+              "value": "caseTemplate"
+            },
+            {
+              "name": "caseTemplateId",
+              "value": "caseTemplateId"
+            },
+            {
+              "name": "shareCount",
+              "value": "shareCount"
+            }
+          ],
+          "default": [],
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "task"
+              ]
+            },
+            "hide": {
+              "returnCount": [
+                true
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Extra Data",
+          "name": "extraData",
+          "type": "multiOptions",
+          "description": "Additional data to include in the response",
+          "options": [
+            {
+              "name": "caseNumber",
+              "value": "caseNumber"
+            },
+            {
+              "name": "importDate",
+              "value": "importDate"
+            },
+            {
+              "name": "procedureCount",
+              "value": "procedureCount"
+            },
+            {
+              "name": "status",
+              "value": "status"
+            }
+          ],
+          "default": [],
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "alert"
+              ]
+            },
+            "hide": {
+              "returnCount": [
+                true
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Extra Data",
+          "name": "extraData",
+          "type": "multiOptions",
+          "description": "Additional data to include in the response",
+          "options": [
+            {
+              "name": "actionRequired",
+              "value": "actionRequired"
+            },
+            {
+              "name": "alertCount",
+              "value": "alertCount"
+            },
+            {
+              "name": "alerts",
+              "value": "alerts"
+            },
+            {
+              "name": "attachmentCount",
+              "value": "attachmentCount"
+            },
+            {
+              "name": "contributors",
+              "value": "contributors"
+            },
+            {
+              "name": "handlingDuration",
+              "value": "computed.handlingDuration"
+            },
+            {
+              "name": "handlingDurationInDays",
+              "value": "computed.handlingDurationInDays"
+            },
+            {
+              "name": "handlingDurationInHours",
+              "value": "computed.handlingDurationInHours"
+            },
+            {
+              "name": "handlingDurationInMinutes",
+              "value": "computed.handlingDurationInMinutes"
+            },
+            {
+              "name": "handlingDurationInSeconds",
+              "value": "computed.handlingDurationInSeconds"
+            },
+            {
+              "name": "isOwner",
+              "value": "isOwner"
+            },
+            {
+              "name": "observableStats",
+              "value": "observableStats"
+            },
+            {
+              "name": "permissions",
+              "value": "permissions"
+            },
+            {
+              "name": "procedureCount",
+              "value": "procedureCount"
+            },
+            {
+              "name": "shareCount",
+              "value": "shareCount"
+            },
+            {
+              "name": "similarAlerts",
+              "value": "similarAlerts"
+            },
+            {
+              "name": "status",
+              "value": "status"
+            },
+            {
+              "name": "taskStats",
+              "value": "taskStats"
+            }
+          ],
+          "default": [],
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "case"
+              ]
+            },
+            "hide": {
+              "returnCount": [
+                true
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Extra Data",
+          "name": "extraData",
+          "type": "multiOptions",
+          "description": "Additional data to include in the response",
+          "options": [
+            {
+              "name": "links",
+              "value": "links"
+            }
+          ],
+          "default": [],
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "comment"
+              ]
+            },
+            "hide": {
+              "returnCount": [
+                true
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Extra Data",
+          "name": "extraData",
+          "type": "multiOptions",
+          "description": "Additional data to include in the response",
+          "options": [
+            {
+              "name": "actionCount",
+              "value": "actionCount"
+            },
+            {
+              "name": "case",
+              "value": "case"
+            },
+            {
+              "name": "task",
+              "value": "task"
+            },
+            {
+              "name": "taskId",
+              "value": "taskId"
+            }
+          ],
+          "default": [],
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "log"
+              ]
+            },
+            "hide": {
+              "returnCount": [
+                true
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Extra Data",
+          "name": "extraData",
+          "type": "string",
+          "description": "Additional data to include in the response",
+          "default": "",
+          "requiresDataPath": "multiple",
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "query"
+              ]
+            },
+            "hide": {
+              "returnCount": [
+                true
+              ]
+            }
+          }
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "default": 50,
+      "description": "Max number of results to return",
+      "displayOptions": {
+        "show": {
+          "returnAll": [
+            false
+          ],
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "fixedCollection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "options": [
+        {
+          "displayName": "Values",
+          "name": "values",
+          "values": [
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "string",
+              "default": "",
+              "requiresDataPath": "single",
+              "description": "Dot notation is also supported, e.g. customFields.field1",
+              "displayOptions": {
+                "hide": {
+                  "/resource": [
+                    "alert",
+                    "case",
+                    "comment",
+                    "task",
+                    "observable",
+                    "log",
+                    "page"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "default": "",
+              "typeOptions": {
+                "loadOptionsMethod": "loadAlertFields"
+              },
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "displayOptions": {
+                "show": {
+                  "/resource": [
+                    "alert"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "default": "",
+              "typeOptions": {
+                "loadOptionsMethod": "loadCaseFields"
+              },
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "displayOptions": {
+                "show": {
+                  "/resource": [
+                    "case"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "default": "",
+              "typeOptions": {
+                "loadOptionsMethod": "loadTaskFields"
+              },
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "displayOptions": {
+                "show": {
+                  "/resource": [
+                    "task"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "default": "",
+              "typeOptions": {
+                "loadOptionsMethod": "loadObservableFields"
+              },
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "displayOptions": {
+                "show": {
+                  "/resource": [
+                    "observable"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "default": "",
+              "options": [
+                {
+                  "name": "Message",
+                  "value": "message"
+                },
+                {
+                  "name": "Date",
+                  "value": "date"
+                }
+              ],
+              "displayOptions": {
+                "show": {
+                  "/resource": [
+                    "log"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "default": "",
+              "options": [
+                {
+                  "name": "Message",
+                  "value": "message"
+                }
+              ],
+              "displayOptions": {
+                "show": {
+                  "/resource": [
+                    "comment"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "default": "",
+              "options": [
+                {
+                  "name": "Category",
+                  "value": "category"
+                },
+                {
+                  "name": "Content",
+                  "value": "content"
+                },
+                {
+                  "name": "Title",
+                  "value": "title"
+                }
+              ],
+              "displayOptions": {
+                "show": {
+                  "/resource": [
+                    "page"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Operator",
+              "name": "operator",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Between",
+                  "value": "_between",
+                  "description": "Field is between two values ('From' is inclusive, 'To' is exclusive)"
+                },
+                {
+                  "name": "Contains",
+                  "value": "_like",
+                  "description": "Field contains the substring from value"
+                },
+                {
+                  "name": "Ends With",
+                  "value": "_endsWith",
+                  "description": "Field ends with value"
+                },
+                {
+                  "name": "Equal",
+                  "value": "_eq",
+                  "description": "Field is equal to value"
+                },
+                {
+                  "name": "Greater Than",
+                  "value": "_gt",
+                  "description": "Field is greater than value"
+                },
+                {
+                  "name": "Greater Than Or Equal To",
+                  "value": "_gte",
+                  "description": "Field is greater than or equal to value"
+                },
+                {
+                  "name": "In",
+                  "value": "_in",
+                  "description": "Field is one of the values"
+                },
+                {
+                  "name": "Less Than",
+                  "value": "_lt",
+                  "description": "Field is less than value"
+                },
+                {
+                  "name": "Less Than Or Equal To",
+                  "value": "_lte",
+                  "description": "Field is less than or equal to value"
+                },
+                {
+                  "name": "Match Word",
+                  "value": "_match",
+                  "description": "Field contains the value as a word"
+                },
+                {
+                  "name": "Not Equal",
+                  "value": "_ne",
+                  "description": "Field is not equal to value"
+                },
+                {
+                  "name": "Starts With",
+                  "value": "_startsWith",
+                  "description": "Field starts with value"
+                }
+              ],
+              "default": "_eq"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "hide": {
+                  "operator": [
+                    "_between",
+                    "_in"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Values",
+              "name": "values",
+              "type": "string",
+              "default": "",
+              "description": "Comma-separated list of values",
+              "placeholder": "e.g. value1,value2",
+              "displayOptions": {
+                "show": {
+                  "operator": [
+                    "_in"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "From",
+              "name": "from",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "operator": [
+                    "_between"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "To",
+              "name": "to",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "operator": [
+                    "_between"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "sort": {
+      "displayName": "Sort",
+      "name": "sort",
+      "type": "fixedCollection",
+      "placeholder": "Add Sort Rule",
+      "default": {},
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "options": [
+        {
+          "displayName": "Fields",
+          "name": "fields",
+          "values": [
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "string",
+              "default": "",
+              "requiresDataPath": "single",
+              "description": "Dot notation is also supported, e.g. customFields.field1",
+              "displayOptions": {
+                "hide": {
+                  "/resource": [
+                    "alert",
+                    "case",
+                    "comment",
+                    "task",
+                    "observable",
+                    "log",
+                    "page"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "default": "",
+              "typeOptions": {
+                "loadOptionsMethod": "loadAlertFields"
+              },
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "displayOptions": {
+                "show": {
+                  "/resource": [
+                    "alert"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "default": "",
+              "typeOptions": {
+                "loadOptionsMethod": "loadCaseFields"
+              },
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "displayOptions": {
+                "show": {
+                  "/resource": [
+                    "case"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "default": "",
+              "typeOptions": {
+                "loadOptionsMethod": "loadTaskFields"
+              },
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "displayOptions": {
+                "show": {
+                  "/resource": [
+                    "task"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "default": "",
+              "typeOptions": {
+                "loadOptionsMethod": "loadObservableFields"
+              },
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "displayOptions": {
+                "show": {
+                  "/resource": [
+                    "observable"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "default": "",
+              "options": [
+                {
+                  "name": "Message",
+                  "value": "message"
+                },
+                {
+                  "name": "Date",
+                  "value": "date"
+                }
+              ],
+              "displayOptions": {
+                "show": {
+                  "/resource": [
+                    "log"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "default": "",
+              "options": [
+                {
+                  "name": "Message",
+                  "value": "message"
+                }
+              ],
+              "displayOptions": {
+                "show": {
+                  "/resource": [
+                    "comment"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "default": "",
+              "options": [
+                {
+                  "name": "Category",
+                  "value": "category"
+                },
+                {
+                  "name": "Content",
+                  "value": "content"
+                },
+                {
+                  "name": "Title",
+                  "value": "title"
+                }
+              ],
+              "displayOptions": {
+                "show": {
+                  "/resource": [
+                    "page"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Direction",
+              "name": "direction",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Ascending",
+                  "value": "asc"
+                },
+                {
+                  "name": "Descending",
+                  "value": "desc"
+                }
+              ],
+              "default": "asc"
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "status": {
+      "displayName": "Status Name or ID",
+      "name": "status",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "default": "",
+      "required": true,
+      "typeOptions": {
+        "loadOptionsMethod": "loadAlertStatus"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "alert"
+          ],
+          "operation": [
+            "status"
+          ]
+        }
+      },
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "caseId": {
+      "displayName": "Case",
+      "name": "caseId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a case...",
+          "typeOptions": {
+            "searchListMethod": "caseSearch",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "Link",
+          "name": "url",
+          "type": "string",
+          "extractValue": {
+            "type": "regex",
+            "regex": "https:\\/\\/.+\\/cases\\/(~[0-9]{1,})\\/details"
+          },
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "https:\\/\\/.+\\/cases\\/(~[0-9]{1,})\\/details",
+                "errorMessage": "Not a valid Case URL"
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "e.g. ~123456789",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "(~[0-9]{1,})",
+                "errorMessage": "Not a valid Case ID"
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "allCases": [
+            false
+          ],
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      }
+    },
+    "alertUpdateFields": {
+      "displayName": "Fields",
+      "name": "alertUpdateFields",
+      "type": "resourceMapper",
+      "default": {
+        "mappingMode": "defineBelow",
+        "value": null
+      },
+      "noDataExpression": true,
+      "required": true,
+      "typeOptions": {
+        "resourceMapper": {
+          "resourceMapperMethod": "getAlertUpdateFields",
+          "mode": "update",
+          "valuesLabel": "Fields",
+          "addAllFields": true,
+          "multiKeyMatch": true
+        }
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "alert"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      }
+    },
+    "attachmentsUi": {
+      "displayName": "Attachments",
+      "name": "attachmentsUi",
+      "placeholder": "Add Attachment",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "options": [
+        {
+          "name": "values",
+          "displayName": "Values",
+          "values": [
+            {
+              "displayName": "Attachment Field Name",
+              "name": "field",
+              "type": "string",
+              "default": "data",
+              "description": "Add the field name from the input node",
+              "hint": "The name of the field with the attachment in the node input"
+            }
+          ]
+        }
+      ],
+      "default": {},
+      "description": "Array of supported attachments to add to the message",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "dataType": [
+            "file"
+          ],
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "caseFields": {
+      "displayName": "Fields",
+      "name": "caseFields",
+      "type": "resourceMapper",
+      "default": {
+        "mappingMode": "defineBelow",
+        "value": null
+      },
+      "noDataExpression": true,
+      "required": true,
+      "typeOptions": {
+        "resourceMapper": {
+          "resourceMapperMethod": "getCaseFields",
+          "mode": "add",
+          "valuesLabel": "Fields"
+        }
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "attachmentId": {
+      "displayName": "Attachment Name or ID",
+      "name": "attachmentId",
+      "type": "options",
+      "default": "",
+      "required": true,
+      "description": "ID of the attachment. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "typeOptions": {
+        "loadOptionsMethod": "loadLogAttachments",
+        "loadOptionsDependsOn": [
+          "logId.value"
+        ]
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "log"
+          ],
+          "operation": [
+            "deleteAttachment"
+          ]
+        }
+      },
+      "ai_hint": "ID of the attachment. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "caseUpdateFields": {
+      "displayName": "Fields",
+      "name": "caseUpdateFields",
+      "type": "resourceMapper",
+      "default": {
+        "mappingMode": "defineBelow",
+        "value": null
+      },
+      "noDataExpression": true,
+      "required": true,
+      "typeOptions": {
+        "resourceMapper": {
+          "resourceMapperMethod": "getCaseUpdateFields",
+          "mode": "update",
+          "valuesLabel": "Fields",
+          "addAllFields": true,
+          "multiKeyMatch": true
+        }
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      }
+    },
+    "addTo": {
+      "displayName": "Add to",
+      "name": "addTo",
+      "type": "options",
+      "options": [
+        {
+          "name": "Alert",
+          "value": "alert"
+        },
+        {
+          "name": "Case",
+          "value": "case"
+        }
+      ],
+      "default": "alert",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "comment"
+          ],
+          "operation": [
+            "add"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "comment"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      }
+    },
+    "commentId": {
+      "displayName": "Comment",
+      "name": "commentId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a comment...",
+          "typeOptions": {
+            "searchListMethod": "commentSearch",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "e.g. ~123456789",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "(~[0-9]{1,})",
+                "errorMessage": "Not a valid comment ID"
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "comment"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      }
+    },
+    "searchIn": {
+      "displayName": "Search in",
+      "name": "searchIn",
+      "type": "options",
+      "default": "all",
+      "description": "Whether to search for observables in all alerts and cases or in a specific case or alert",
+      "options": [
+        {
+          "name": "Alerts and Cases",
+          "value": "all"
+        },
+        {
+          "name": "Alert",
+          "value": "alert"
+        },
+        {
+          "name": "Case",
+          "value": "case"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "logId": {
+      "displayName": "Task Log",
+      "name": "logId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a task log...",
+          "typeOptions": {
+            "searchListMethod": "logSearch",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "e.g. ~123456789",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "(~[0-9]{1,})",
+                "errorMessage": "Not a valid task Log ID"
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "log"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      }
+    },
+    "taskId": {
+      "displayName": "Task",
+      "name": "taskId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a task...",
+          "typeOptions": {
+            "searchListMethod": "taskSearch",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "e.g. ~123456789",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "(~[0-9]{1,})",
+                "errorMessage": "Not a valid Task ID"
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      }
+    },
+    "logFields": {
+      "displayName": "Fields",
+      "name": "logFields",
+      "type": "resourceMapper",
+      "default": {
+        "mappingMode": "defineBelow",
+        "value": null
+      },
+      "noDataExpression": true,
+      "required": true,
+      "typeOptions": {
+        "resourceMapper": {
+          "resourceMapperMethod": "getLogFields",
+          "mode": "add",
+          "valuesLabel": "Fields"
+        }
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "log"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "allTasks": {
+      "displayName": "Search in All Tasks",
+      "name": "allTasks",
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to search in all tasks or only in selected task",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "log"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "createIn": {
+      "displayName": "Create in",
+      "name": "createIn",
+      "type": "options",
+      "options": [
+        {
+          "name": "Case",
+          "value": "case"
+        },
+        {
+          "name": "Alert",
+          "value": "alert"
+        }
+      ],
+      "default": "case",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "dataType": {
+      "displayName": "Data Type",
+      "name": "dataType",
+      "type": "options",
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "loadObservableTypes"
+      },
+      "description": "Type of the observable. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "executeAnalyzer"
+          ]
+        }
+      },
+      "ai_hint": "Type of the observable. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "data": {
+      "displayName": "Data",
+      "name": "data",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "hide": {
+          "dataType": [
+            "file"
+          ]
+        },
+        "show": {
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "observableFields": {
+      "displayName": "Fields",
+      "name": "observableFields",
+      "type": "resourceMapper",
+      "default": {
+        "mappingMode": "defineBelow",
+        "value": null
+      },
+      "noDataExpression": true,
+      "required": true,
+      "typeOptions": {
+        "resourceMapper": {
+          "resourceMapperMethod": "getObservableFields",
+          "mode": "add",
+          "valuesLabel": "Fields"
+        }
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "observableId": {
+      "displayName": "Observable",
+      "name": "observableId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select an observable...",
+          "typeOptions": {
+            "searchListMethod": "observableSearch",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "e.g. ~123456789",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "(~[0-9]{1,})",
+                "errorMessage": "Not a valid Log ID"
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      }
+    },
+    "analyzers": {
+      "displayName": "Analyzer Names or IDs",
+      "name": "analyzers",
+      "type": "multiOptions",
+      "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "required": true,
+      "default": [],
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "observableId.value",
+          "dataType"
+        ],
+        "loadOptionsMethod": "loadAnalyzers"
+      },
+      "displayOptions": {
+        "hide": {
+          "id": [
+            ""
+          ]
+        },
+        "show": {
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "executeAnalyzer"
+          ]
+        }
+      },
+      "ai_hint": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "observableUpdateFields": {
+      "displayName": "Fields",
+      "name": "observableUpdateFields",
+      "type": "resourceMapper",
+      "default": {
+        "mappingMode": "defineBelow",
+        "value": null
+      },
+      "noDataExpression": true,
+      "required": true,
+      "typeOptions": {
+        "resourceMapper": {
+          "resourceMapperMethod": "getObservableUpdateFields",
+          "mode": "update",
+          "valuesLabel": "Fields",
+          "addAllFields": true,
+          "multiKeyMatch": true
+        }
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      }
+    },
+    "location": {
+      "displayName": "Update in",
+      "name": "location",
+      "type": "options",
+      "options": [
+        {
+          "name": "Case",
+          "value": "case"
+        },
+        {
+          "name": "Knowledge Base",
+          "value": "knowledgeBase"
+        }
+      ],
+      "default": "case",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "page"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "page"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "category": {
+      "displayName": "Category",
+      "name": "category",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "page"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "content": {
+      "displayName": "Content",
+      "name": "content",
+      "type": "string",
+      "default": "",
+      "typeOptions": {
+        "rows": 2
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "page"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      }
+    },
+    "pageId": {
+      "displayName": "Page",
+      "name": "pageId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "caseId"
+        ]
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a page...",
+          "typeOptions": {
+            "searchListMethod": "pageSearch",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "e.g. ~123456789",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "(~[0-9]{1,})",
+                "errorMessage": "Not a valid Page ID"
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "page"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      }
+    },
+    "searchInKnowledgeBase": {
+      "displayName": "Search in Knowledge Base",
+      "name": "searchInKnowledgeBase",
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to search in knowledge base or only in the selected case",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "page"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "queryJson": {
+      "displayName": "Query",
+      "name": "queryJson",
+      "type": "json",
+      "required": true,
+      "default": "=[\n  {\n    \"_name\": \"listOrganisation\"\n  }\n]",
+      "description": "Search for objects with filtering and sorting capabilities",
+      "hint": "The query should be an array of operations with the required selection and optional filtering, sorting, and pagination. See <a href=\"https://docs.strangebee.com/thehive/api-docs/#operation/Query%20API\" target=\"_blank\">Query API</a> for more information.",
+      "typeOptions": {
+        "rows": 10
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "query"
+          ],
+          "operation": [
+            "executeQuery"
+          ]
+        }
+      },
+      "ai_hint": "Search for objects with filtering and sorting capabilities"
+    },
+    "taskFields": {
+      "displayName": "Fields",
+      "name": "taskFields",
+      "type": "resourceMapper",
+      "default": {
+        "mappingMode": "defineBelow",
+        "value": null
+      },
+      "noDataExpression": true,
+      "required": true,
+      "typeOptions": {
+        "resourceMapper": {
+          "resourceMapperMethod": "getTaskFields",
+          "mode": "add",
+          "valuesLabel": "Fields"
+        }
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "allCases": {
+      "displayName": "Search in All Cases",
+      "name": "allCases",
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to search in all cases or only in a selected case",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "taskUpdateFields": {
+      "displayName": "Fields",
+      "name": "taskUpdateFields",
+      "type": "resourceMapper",
+      "default": {
+        "mappingMode": "defineBelow",
+        "value": null
+      },
+      "noDataExpression": true,
+      "required": true,
+      "typeOptions": {
+        "resourceMapper": {
+          "resourceMapperMethod": "getTaskUpdateFields",
+          "mode": "update",
+          "valuesLabel": "Fields",
+          "addAllFields": true,
+          "multiKeyMatch": true
+        }
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      }
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "alertFields",
+      "observableUi",
+      "alertId",
+      "id",
+      "responder",
+      "alertId",
+      "options",
+      "returnAll",
+      "limit",
+      "filters",
+      "sort",
+      "options",
+      "alertId",
+      "status",
+      "alertId",
+      "caseId",
+      "alertId",
+      "options",
+      "alertUpdateFields",
+      "operation",
+      "caseId",
+      "attachmentsUi",
+      "options",
+      "caseFields",
+      "caseId",
+      "attachmentId",
+      "caseId",
+      "id",
+      "responder",
+      "caseId",
+      "caseId",
+      "attachmentId",
+      "options",
+      "returnAll",
+      "limit",
+      "filters",
+      "sort",
+      "options",
+      "caseId",
+      "caseUpdateFields",
+      "operation",
+      "addTo",
+      "id",
+      "id",
+      "message",
+      "commentId",
+      "searchIn",
+      "caseId",
+      "alertId",
+      "returnAll",
+      "limit",
+      "filters",
+      "sort",
+      "options",
+      "commentId",
+      "message",
+      "operation",
+      "logId",
+      "attachmentsUi",
+      "taskId",
+      "logFields",
+      "attachmentsUi",
+      "logId",
+      "attachmentId",
+      "logId",
+      "id",
+      "responder",
+      "logId",
+      "allTasks",
+      "taskId",
+      "returnAll",
+      "limit",
+      "filters",
+      "sort",
+      "options",
+      "operation",
+      "createIn",
+      "id",
+      "id",
+      "dataType",
+      "data",
+      "attachmentsUi",
+      "observableFields",
+      "observableId",
+      "observableId",
+      "dataType",
+      "analyzers",
+      "id",
+      "responder",
+      "observableId",
+      "searchIn",
+      "caseId",
+      "alertId",
+      "returnAll",
+      "limit",
+      "filters",
+      "sort",
+      "options",
+      "observableUpdateFields",
+      "operation",
+      "location",
+      "caseId",
+      "title",
+      "category",
+      "content",
+      "location",
+      "caseId",
+      "pageId",
+      "searchInKnowledgeBase",
+      "caseId",
+      "returnAll",
+      "limit",
+      "filters",
+      "sort",
+      "options",
+      "location",
+      "caseId",
+      "pageId",
+      "content",
+      "options",
+      "operation",
+      "queryJson",
+      "operation",
+      "caseId",
+      "taskFields",
+      "taskId",
+      "id",
+      "responder",
+      "taskId",
+      "allCases",
+      "caseId",
+      "returnAll",
+      "limit",
+      "filters",
+      "sort",
+      "options",
+      "taskUpdateFields"
+    ],
+    "conditional_rules": [
+      "IF resource == 'alert' THEN SHOW parameter 'operation'",
+      "IF resource == 'alert' AND operation == 'create' THEN SHOW parameter 'alertFields'",
+      "IF resource == 'alert' AND operation == 'create' THEN SHOW parameter 'observableUi'",
+      "IF dataType == 'file' THEN HIDE parameter 'data'",
+      "IF dataType == 'file' THEN SHOW parameter 'binaryProperty'",
+      "IF resource == 'alert' AND operation == 'deleteAlert' THEN SHOW parameter 'alertId'",
+      "IF resource == 'alert' AND operation == 'executeResponder' THEN SHOW parameter 'id'",
+      "IF resource == 'alert' AND operation == 'executeResponder' THEN SHOW parameter 'responder'",
+      "IF id == '' THEN HIDE parameter 'responder'",
+      "IF resource == 'alert' AND operation == 'get' THEN SHOW parameter 'alertId'",
+      "IF resource == 'alert' AND operation == 'get' THEN SHOW parameter 'options'",
+      "IF resource == 'alert' AND operation == 'search' THEN SHOW parameter 'returnAll'",
+      "IF returnAll == False AND resource == 'alert' AND operation == 'search' THEN SHOW parameter 'limit'",
+      "IF resource == 'alert' AND operation == 'search' THEN SHOW parameter 'filters'",
+      "IF /resource IN [\"alert\", \"case\", \"comment\", \"task\", \"observable\", \"log\", \"page\"] THEN HIDE parameter 'field'",
+      "IF /resource == 'alert' THEN SHOW parameter 'field'",
+      "IF /resource == 'case' THEN SHOW parameter 'field'",
+      "IF /resource == 'task' THEN SHOW parameter 'field'",
+      "IF /resource == 'observable' THEN SHOW parameter 'field'",
+      "IF /resource == 'log' THEN SHOW parameter 'field'",
+      "IF /resource == 'comment' THEN SHOW parameter 'field'",
+      "IF /resource == 'page' THEN SHOW parameter 'field'",
+      "IF operator IN [\"_between\", \"_in\"] THEN HIDE parameter 'value'",
+      "IF operator == '_in' THEN SHOW parameter 'values'",
+      "IF operator == '_between' THEN SHOW parameter 'from'",
+      "IF operator == '_between' THEN SHOW parameter 'to'",
+      "IF resource == 'alert' AND operation == 'search' THEN SHOW parameter 'sort'",
+      "IF resource == 'alert' AND operation == 'search' THEN SHOW parameter 'options'",
+      "IF /returnAll == False THEN HIDE parameter 'returnCount'",
+      "IF /resource == 'observable' THEN SHOW parameter 'extraData'",
+      "IF returnCount == True THEN HIDE parameter 'extraData'",
+      "IF /resource == 'task' THEN SHOW parameter 'extraData'",
+      "IF /resource == 'alert' THEN SHOW parameter 'extraData'",
+      "IF /resource == 'case' THEN SHOW parameter 'extraData'",
+      "IF /resource == 'comment' THEN SHOW parameter 'extraData'",
+      "IF /resource == 'log' THEN SHOW parameter 'extraData'",
+      "IF /resource == 'query' THEN SHOW parameter 'extraData'",
+      "IF resource == 'alert' AND operation == 'status' THEN SHOW parameter 'alertId'",
+      "IF resource == 'alert' AND operation == 'status' THEN SHOW parameter 'status'",
+      "IF resource == 'alert' AND operation == 'merge' THEN SHOW parameter 'alertId'",
+      "IF resource == 'alert' AND operation == 'merge' THEN SHOW parameter 'caseId'",
+      "IF resource == 'alert' AND operation == 'promote' THEN SHOW parameter 'alertId'",
+      "IF resource == 'alert' AND operation == 'promote' THEN SHOW parameter 'options'",
+      "IF resource == 'alert' AND operation == 'update' THEN SHOW parameter 'alertUpdateFields'",
+      "IF resource == 'case' THEN SHOW parameter 'operation'",
+      "IF resource == 'case' AND operation == 'addAttachment' THEN SHOW parameter 'caseId'",
+      "IF resource == 'case' AND operation == 'addAttachment' THEN SHOW parameter 'attachmentsUi'",
+      "IF resource == 'case' AND operation == 'addAttachment' THEN SHOW parameter 'options'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'caseFields'",
+      "IF resource == 'case' AND operation == 'deleteAttachment' THEN SHOW parameter 'caseId'",
+      "IF resource == 'case' AND operation == 'deleteAttachment' THEN SHOW parameter 'attachmentId'",
+      "IF resource == 'case' AND operation == 'deleteCase' THEN SHOW parameter 'caseId'",
+      "IF resource == 'case' AND operation == 'executeResponder' THEN SHOW parameter 'id'",
+      "IF resource == 'case' AND operation == 'executeResponder' THEN SHOW parameter 'responder'",
+      "IF resource == 'case' AND operation == 'get' THEN SHOW parameter 'caseId'",
+      "IF resource == 'case' AND operation == 'getAttachment' THEN SHOW parameter 'caseId'",
+      "IF resource == 'case' AND operation == 'getAttachment' THEN SHOW parameter 'attachmentId'",
+      "IF resource == 'case' AND operation == 'getAttachment' THEN SHOW parameter 'options'",
+      "IF resource == 'case' AND operation == 'search' THEN SHOW parameter 'returnAll'",
+      "IF returnAll == False AND resource == 'case' AND operation == 'search' THEN SHOW parameter 'limit'",
+      "IF resource == 'case' AND operation == 'search' THEN SHOW parameter 'filters'",
+      "IF resource == 'case' AND operation == 'search' THEN SHOW parameter 'sort'",
+      "IF resource == 'case' AND operation == 'search' THEN SHOW parameter 'options'",
+      "IF resource == 'case' AND operation == 'getTimeline' THEN SHOW parameter 'caseId'",
+      "IF resource == 'case' AND operation == 'update' THEN SHOW parameter 'caseUpdateFields'",
+      "IF resource == 'comment' THEN SHOW parameter 'operation'",
+      "IF resource == 'comment' AND operation == 'add' THEN SHOW parameter 'addTo'",
+      "IF addTo == 'case' AND resource == 'comment' AND operation == 'add' THEN SHOW parameter 'id'",
+      "IF addTo == 'alert' AND resource == 'comment' AND operation == 'add' THEN SHOW parameter 'id'",
+      "IF resource == 'comment' AND operation == 'add' THEN SHOW parameter 'message'",
+      "IF resource == 'comment' AND operation == 'deleteComment' THEN SHOW parameter 'commentId'",
+      "IF resource == 'comment' AND operation == 'search' THEN SHOW parameter 'searchIn'",
+      "IF searchIn == 'case' AND resource == 'comment' AND operation == 'search' THEN SHOW parameter 'caseId'",
+      "IF searchIn == 'alert' AND resource == 'comment' AND operation == 'search' THEN SHOW parameter 'alertId'",
+      "IF resource == 'comment' AND operation == 'search' THEN SHOW parameter 'returnAll'",
+      "IF returnAll == False AND resource == 'comment' AND operation == 'search' THEN SHOW parameter 'limit'",
+      "IF resource == 'comment' AND operation == 'search' THEN SHOW parameter 'filters'",
+      "IF resource == 'comment' AND operation == 'search' THEN SHOW parameter 'sort'",
+      "IF resource == 'comment' AND operation == 'search' THEN SHOW parameter 'options'",
+      "IF resource == 'comment' AND operation == 'update' THEN SHOW parameter 'commentId'",
+      "IF resource == 'comment' AND operation == 'update' THEN SHOW parameter 'message'",
+      "IF resource == 'log' THEN SHOW parameter 'operation'",
+      "IF resource == 'log' AND operation == 'addAttachment' THEN SHOW parameter 'logId'",
+      "IF resource == 'log' AND operation == 'addAttachment' THEN SHOW parameter 'attachmentsUi'",
+      "IF resource == 'log' AND operation == 'create' THEN SHOW parameter 'taskId'",
+      "IF resource == 'log' AND operation == 'create' THEN SHOW parameter 'logFields'",
+      "IF resource == 'log' AND operation == 'create' THEN SHOW parameter 'attachmentsUi'",
+      "IF resource == 'log' AND operation == 'deleteAttachment' THEN SHOW parameter 'logId'",
+      "IF resource == 'log' AND operation == 'deleteAttachment' THEN SHOW parameter 'attachmentId'",
+      "IF resource == 'log' AND operation == 'deleteLog' THEN SHOW parameter 'logId'",
+      "IF resource == 'log' AND operation == 'executeResponder' THEN SHOW parameter 'id'",
+      "IF resource == 'log' AND operation == 'executeResponder' THEN SHOW parameter 'responder'",
+      "IF resource == 'log' AND operation == 'get' THEN SHOW parameter 'logId'",
+      "IF resource == 'log' AND operation == 'search' THEN SHOW parameter 'allTasks'",
+      "IF allTasks == False AND resource == 'log' AND operation == 'search' THEN SHOW parameter 'taskId'",
+      "IF resource == 'log' AND operation == 'search' THEN SHOW parameter 'returnAll'",
+      "IF returnAll == False AND resource == 'log' AND operation == 'search' THEN SHOW parameter 'limit'",
+      "IF resource == 'log' AND operation == 'search' THEN SHOW parameter 'filters'",
+      "IF resource == 'log' AND operation == 'search' THEN SHOW parameter 'sort'",
+      "IF resource == 'log' AND operation == 'search' THEN SHOW parameter 'options'",
+      "IF resource == 'observable' THEN SHOW parameter 'operation'",
+      "IF resource == 'observable' AND operation == 'create' THEN SHOW parameter 'createIn'",
+      "IF createIn == 'case' AND resource == 'observable' AND operation == 'create' THEN SHOW parameter 'id'",
+      "IF createIn == 'alert' AND resource == 'observable' AND operation == 'create' THEN SHOW parameter 'id'",
+      "IF resource == 'observable' AND operation == 'create' THEN SHOW parameter 'dataType'",
+      "IF resource == 'observable' AND operation == 'create' THEN SHOW parameter 'data'",
+      "IF dataType == 'file' AND resource == 'observable' AND operation == 'create' THEN SHOW parameter 'attachmentsUi'",
+      "IF resource == 'observable' AND operation == 'create' THEN SHOW parameter 'observableFields'",
+      "IF resource == 'observable' AND operation == 'deleteObservable' THEN SHOW parameter 'observableId'",
+      "IF resource == 'observable' AND operation == 'executeAnalyzer' THEN SHOW parameter 'observableId'",
+      "IF resource == 'observable' AND operation == 'executeAnalyzer' THEN SHOW parameter 'dataType'",
+      "IF resource == 'observable' AND operation == 'executeAnalyzer' THEN SHOW parameter 'analyzers'",
+      "IF id == '' THEN HIDE parameter 'analyzers'",
+      "IF resource == 'observable' AND operation == 'executeResponder' THEN SHOW parameter 'id'",
+      "IF resource == 'observable' AND operation == 'executeResponder' THEN SHOW parameter 'responder'",
+      "IF resource == 'observable' AND operation == 'get' THEN SHOW parameter 'observableId'",
+      "IF resource == 'observable' AND operation == 'search' THEN SHOW parameter 'searchIn'",
+      "IF searchIn == 'case' AND resource == 'observable' AND operation == 'search' THEN SHOW parameter 'caseId'",
+      "IF searchIn == 'alert' AND resource == 'observable' AND operation == 'search' THEN SHOW parameter 'alertId'",
+      "IF resource == 'observable' AND operation == 'search' THEN SHOW parameter 'returnAll'",
+      "IF returnAll == False AND resource == 'observable' AND operation == 'search' THEN SHOW parameter 'limit'",
+      "IF resource == 'observable' AND operation == 'search' THEN SHOW parameter 'filters'",
+      "IF resource == 'observable' AND operation == 'search' THEN SHOW parameter 'sort'",
+      "IF resource == 'observable' AND operation == 'search' THEN SHOW parameter 'options'",
+      "IF resource == 'observable' AND operation == 'update' THEN SHOW parameter 'observableUpdateFields'",
+      "IF resource == 'page' THEN SHOW parameter 'operation'",
+      "IF resource == 'page' AND operation == 'create' THEN SHOW parameter 'location'",
+      "IF location == 'case' AND resource == 'page' AND operation == 'create' THEN SHOW parameter 'caseId'",
+      "IF resource == 'page' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'page' AND operation == 'create' THEN SHOW parameter 'category'",
+      "IF resource == 'page' AND operation == 'create' THEN SHOW parameter 'content'",
+      "IF resource == 'page' AND operation == 'deletePage' THEN SHOW parameter 'location'",
+      "IF location == 'case' AND resource == 'page' AND operation == 'deletePage' THEN SHOW parameter 'caseId'",
+      "IF resource == 'page' AND operation == 'deletePage' THEN SHOW parameter 'pageId'",
+      "IF resource == 'page' AND operation == 'search' THEN SHOW parameter 'searchInKnowledgeBase'",
+      "IF searchInKnowledgeBase == False AND resource == 'page' AND operation == 'search' THEN SHOW parameter 'caseId'",
+      "IF resource == 'page' AND operation == 'search' THEN SHOW parameter 'returnAll'",
+      "IF returnAll == False AND resource == 'page' AND operation == 'search' THEN SHOW parameter 'limit'",
+      "IF resource == 'page' AND operation == 'search' THEN SHOW parameter 'filters'",
+      "IF resource == 'page' AND operation == 'search' THEN SHOW parameter 'sort'",
+      "IF returnAll == True AND resource == 'page' AND operation == 'search' THEN SHOW parameter 'options'",
+      "IF resource == 'page' AND operation == 'update' THEN SHOW parameter 'location'",
+      "IF location == 'case' AND resource == 'page' AND operation == 'update' THEN SHOW parameter 'caseId'",
+      "IF resource == 'page' AND operation == 'update' THEN SHOW parameter 'pageId'",
+      "IF resource == 'page' AND operation == 'update' THEN SHOW parameter 'content'",
+      "IF resource == 'page' AND operation == 'update' THEN SHOW parameter 'options'",
+      "IF resource == 'query' THEN SHOW parameter 'operation'",
+      "IF resource == 'query' AND operation == 'executeQuery' THEN SHOW parameter 'queryJson'",
+      "IF resource == 'task' THEN SHOW parameter 'operation'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'caseId'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'taskFields'",
+      "IF resource == 'task' AND operation == 'deleteTask' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'executeResponder' THEN SHOW parameter 'id'",
+      "IF resource == 'task' AND operation == 'executeResponder' THEN SHOW parameter 'responder'",
+      "IF resource == 'task' AND operation == 'get' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'search' THEN SHOW parameter 'allCases'",
+      "IF allCases == False AND resource == 'task' AND operation == 'search' THEN SHOW parameter 'caseId'",
+      "IF resource == 'task' AND operation == 'search' THEN SHOW parameter 'returnAll'",
+      "IF returnAll == False AND resource == 'task' AND operation == 'search' THEN SHOW parameter 'limit'",
+      "IF resource == 'task' AND operation == 'search' THEN SHOW parameter 'filters'",
+      "IF resource == 'task' AND operation == 'search' THEN SHOW parameter 'sort'",
+      "IF resource == 'task' AND operation == 'search' THEN SHOW parameter 'options'",
+      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'taskUpdateFields'"
+    ]
+  }
+}

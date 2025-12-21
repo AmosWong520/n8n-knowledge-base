@@ -1,0 +1,235 @@
+{
+  "node_id": "n8n-nodes-base.postgresTrigger",
+  "name": "n8n-nodes-base.postgresTrigger",
+  "version": 1,
+  "semantic_context": "Listens to Postgres messages",
+  "parameters": {
+    "triggerMode": {
+      "displayName": "Listen For",
+      "name": "triggerMode",
+      "type": "options",
+      "options": [
+        {
+          "name": "Table Row Change Events",
+          "value": "createTrigger",
+          "description": "Insert, update or delete"
+        },
+        {
+          "name": "Advanced",
+          "value": "listenTrigger",
+          "description": "Listen to existing Postgres channel"
+        }
+      ],
+      "default": "createTrigger",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "schema": {
+      "displayName": "Schema Name",
+      "name": "schema",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": "public"
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "triggerMode": [
+            "createTrigger"
+          ]
+        }
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a schema",
+          "typeOptions": {
+            "searchListMethod": "searchSchema",
+            "searchFilterRequired": false
+          }
+        },
+        {
+          "displayName": "Name",
+          "name": "name",
+          "type": "string",
+          "placeholder": "e.g. public"
+        }
+      ]
+    },
+    "tableName": {
+      "displayName": "Table Name",
+      "name": "tableName",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "triggerMode": [
+            "createTrigger"
+          ]
+        }
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a table",
+          "typeOptions": {
+            "searchListMethod": "searchTables",
+            "searchFilterRequired": false
+          }
+        },
+        {
+          "displayName": "Name",
+          "name": "name",
+          "type": "string",
+          "placeholder": "e.g. table_name"
+        }
+      ]
+    },
+    "channelName": {
+      "displayName": "Channel Name",
+      "name": "channelName",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "placeholder": "e.g. n8n_channel",
+      "description": "Name of the channel to listen to",
+      "displayOptions": {
+        "show": {
+          "triggerMode": [
+            "listenTrigger"
+          ]
+        }
+      },
+      "ai_hint": "Name of the channel to listen to"
+    },
+    "firesOn": {
+      "displayName": "Event to listen for",
+      "name": "firesOn",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "triggerMode": [
+            "createTrigger"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Insert",
+          "value": "INSERT"
+        },
+        {
+          "name": "Update",
+          "value": "UPDATE"
+        },
+        {
+          "name": "Delete",
+          "value": "DELETE"
+        }
+      ],
+      "default": "INSERT",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "triggerMode": [
+            "createTrigger"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Channel Name",
+          "name": "channelName",
+          "type": "string",
+          "placeholder": "e.g. n8n_channel",
+          "description": "Name of the channel to listen to",
+          "default": ""
+        },
+        {
+          "displayName": "Function Name",
+          "name": "functionName",
+          "type": "string",
+          "description": "Name of the function to create",
+          "placeholder": "e.g. n8n_trigger_function()",
+          "default": ""
+        },
+        {
+          "displayName": "Replace if Exists",
+          "name": "replaceIfExists",
+          "type": "boolean",
+          "description": "Whether to replace an existing function and trigger with the same name",
+          "default": false
+        },
+        {
+          "displayName": "Trigger Name",
+          "name": "triggerName",
+          "type": "string",
+          "description": "Name of the trigger to create",
+          "placeholder": "e.g. n8n_trigger",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Connection Timeout",
+          "name": "connectionTimeout",
+          "type": "number",
+          "default": 30,
+          "description": "Number of seconds reserved for connecting to the database"
+        },
+        {
+          "displayName": "Delay Closing Idle Connection",
+          "name": "delayClosingIdleConnection",
+          "type": "number",
+          "default": 0,
+          "description": "Number of seconds to wait before idle connection would be eligible for closing",
+          "typeOptions": {
+            "minValue": 0
+          }
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "triggerMode",
+      "schema",
+      "tableName",
+      "channelName",
+      "firesOn",
+      "additionalFields",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF triggerMode == 'createTrigger' THEN SHOW parameter 'schema'",
+      "IF triggerMode == 'createTrigger' THEN SHOW parameter 'tableName'",
+      "IF triggerMode == 'listenTrigger' THEN SHOW parameter 'channelName'",
+      "IF triggerMode == 'createTrigger' THEN SHOW parameter 'firesOn'",
+      "IF triggerMode == 'createTrigger' THEN SHOW parameter 'additionalFields'"
+    ]
+  }
+}

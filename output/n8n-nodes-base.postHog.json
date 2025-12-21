@@ -1,0 +1,276 @@
+{
+  "node_id": "n8n-nodes-base.postHog",
+  "name": "n8n-nodes-base.postHog",
+  "version": 1,
+  "semantic_context": "Consume PostHog API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Alias",
+          "value": "alias"
+        },
+        {
+          "name": "Event",
+          "value": "event"
+        },
+        {
+          "name": "Identity",
+          "value": "identity"
+        },
+        {
+          "name": "Track",
+          "value": "track"
+        }
+      ],
+      "default": "event",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "track"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Page",
+          "value": "page",
+          "description": "Track a page",
+          "action": "Track a page"
+        },
+        {
+          "name": "Screen",
+          "value": "screen",
+          "description": "Track a screen",
+          "action": "Track a screen"
+        }
+      ],
+      "default": "page",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "alias": {
+      "displayName": "Alias",
+      "name": "alias",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "alias"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The name of the alias",
+      "ai_hint": "The name of the alias"
+    },
+    "distinctId": {
+      "displayName": "Distinct ID",
+      "name": "distinctId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "track"
+          ],
+          "operation": [
+            "page",
+            "screen"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The user's distinct ID",
+      "ai_hint": "The user's distinct ID"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "track"
+          ],
+          "operation": [
+            "page",
+            "screen"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Category",
+          "name": "category",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Context",
+          "name": "contextUi",
+          "type": "fixedCollection",
+          "placeholder": "Add Property",
+          "default": {},
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "options": [
+            {
+              "displayName": "Context",
+              "name": "contextValues",
+              "values": [
+                {
+                  "displayName": "Key",
+                  "name": "key",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Message ID",
+          "name": "messageId",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Properties",
+          "name": "propertiesUi",
+          "type": "fixedCollection",
+          "placeholder": "Add Property",
+          "default": {},
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "options": [
+            {
+              "displayName": "Property",
+              "name": "propertyValues",
+              "values": [
+                {
+                  "displayName": "Key",
+                  "name": "key",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Timestamp",
+          "name": "timestamp",
+          "type": "dateTime",
+          "default": "",
+          "description": "If not set, it'll automatically be set to the current time"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "eventName": {
+      "displayName": "Event",
+      "name": "eventName",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "event"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The name of the event",
+      "ai_hint": "The name of the event"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "track"
+          ],
+          "operation": [
+            "page",
+            "screen"
+          ]
+        }
+      },
+      "default": ""
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "alias",
+      "distinctId",
+      "additionalFields",
+      "operation",
+      "eventName",
+      "distinctId",
+      "additionalFields",
+      "operation",
+      "distinctId",
+      "additionalFields",
+      "operation",
+      "name",
+      "distinctId",
+      "additionalFields"
+    ],
+    "conditional_rules": [
+      "IF resource == 'alias' THEN SHOW parameter 'operation'",
+      "IF resource == 'alias' AND operation == 'create' THEN SHOW parameter 'alias'",
+      "IF resource == 'alias' AND operation == 'create' THEN SHOW parameter 'distinctId'",
+      "IF resource == 'alias' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'event' THEN SHOW parameter 'operation'",
+      "IF resource == 'event' AND operation == 'create' THEN SHOW parameter 'eventName'",
+      "IF resource == 'event' AND operation == 'create' THEN SHOW parameter 'distinctId'",
+      "IF resource == 'event' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'identity' THEN SHOW parameter 'operation'",
+      "IF resource == 'identity' AND operation == 'create' THEN SHOW parameter 'distinctId'",
+      "IF resource == 'identity' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'track' THEN SHOW parameter 'operation'",
+      "IF resource == 'track' AND operation IN [\"page\", \"screen\"] THEN SHOW parameter 'name'",
+      "IF resource == 'track' AND operation IN [\"page\", \"screen\"] THEN SHOW parameter 'distinctId'",
+      "IF resource == 'track' AND operation IN [\"page\", \"screen\"] THEN SHOW parameter 'additionalFields'"
+    ]
+  }
+}

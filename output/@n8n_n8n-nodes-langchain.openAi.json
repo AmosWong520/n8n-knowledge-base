@@ -1,0 +1,1072 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.openAi",
+  "name": "@n8n/n8n-nodes-langchain.openAi",
+  "version": [
+    1,
+    1.1,
+    1.2,
+    1.3,
+    1.4,
+    1.5,
+    1.6,
+    1.7,
+    1.8
+  ],
+  "semantic_context": "Message an assistant or GPT, analyze images, generate audio, etc.",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Assistant",
+          "value": "assistant"
+        },
+        {
+          "name": "Text",
+          "value": "text"
+        },
+        {
+          "name": "Image",
+          "value": "image"
+        },
+        {
+          "name": "Audio",
+          "value": "audio"
+        },
+        {
+          "name": "File",
+          "value": "file"
+        }
+      ],
+      "default": "text",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Message a Model",
+          "value": "message",
+          "action": "Message a model",
+          "description": "Create a completion with GPT 3, 4, etc."
+        },
+        {
+          "name": "Classify Text for Violations",
+          "value": "classify",
+          "action": "Classify text for violations",
+          "description": "Check whether content complies with usage policies"
+        }
+      ],
+      "default": "message",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "text"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "modelId": {
+      "displayName": "Model",
+      "name": "modelId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "typeOptions": {
+            "searchListMethod": "modelSearch",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "e.g. gpt-4"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "message"
+          ],
+          "resource": [
+            "text"
+          ]
+        }
+      }
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "default": "",
+      "description": "The name of the assistant. The maximum length is 256 characters.",
+      "placeholder": "e.g. My Assistant",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "assistant"
+          ]
+        }
+      },
+      "ai_hint": "The name of the assistant. The maximum length is 256 characters."
+    },
+    "description": {
+      "displayName": "Description",
+      "name": "description",
+      "type": "string",
+      "default": "",
+      "description": "The description of the assistant. The maximum length is 512 characters.",
+      "placeholder": "e.g. My personal assistant",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "assistant"
+          ]
+        }
+      },
+      "ai_hint": "The description of the assistant. The maximum length is 512 characters."
+    },
+    "instructions": {
+      "displayName": "Instructions",
+      "name": "instructions",
+      "type": "string",
+      "description": "The system instructions that the assistant uses. The maximum length is 32768 characters.",
+      "default": "",
+      "typeOptions": {
+        "rows": 2
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "assistant"
+          ]
+        }
+      },
+      "ai_hint": "The system instructions that the assistant uses. The maximum length is 32768 characters."
+    },
+    "codeInterpreter": {
+      "displayName": "Code Interpreter",
+      "name": "codeInterpreter",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to enable the code interpreter that allows the assistants to write and run Python code in a sandboxed execution environment, find more <a href=\"https://platform.openai.com/docs/assistants/tools/code-interpreter\" target=\"_blank\">here</a>",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "assistant"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "knowledgeRetrieval": {
+      "displayName": "Knowledge Retrieval",
+      "name": "knowledgeRetrieval",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to augments the assistant with knowledge from outside its model, such as proprietary product information or documents, find more <a href=\"https://platform.openai.com/docs/assistants/tools/knowledge-retrieval\" target=\"_blank\">here</a>",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "assistant"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "file_ids": {
+      "displayName": "Files",
+      "name": "file_ids",
+      "type": "multiOptions",
+      "description": "The files to be used by the assistant, there can be a maximum of 20 files attached to the assistant",
+      "typeOptions": {
+        "loadOptionsMethod": "getFiles"
+      },
+      "default": [],
+      "hint": "Add more files by using the 'Upload a File' operation",
+      "displayOptions": {
+        "show": {
+          "knowledgeRetrieval": [
+            true
+          ],
+          "codeInterpreter": [
+            true
+          ],
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "assistant"
+          ]
+        }
+      },
+      "ai_hint": "The files to be used by the assistant, there can be a maximum of 20 files attached to the assistant"
+    },
+    "noticeTools": {
+      "displayName": "Connect your own custom n8n tools to this node on the canvas",
+      "name": "noticeTools",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "hide": {
+          "hideTools": [
+            "hide"
+          ]
+        },
+        "show": {
+          "operation": [
+            "message"
+          ],
+          "resource": [
+            "text"
+          ]
+        }
+      }
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "placeholder": "Add Option",
+      "type": "collection",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Frequency Penalty",
+          "name": "frequency_penalty",
+          "default": 0,
+          "typeOptions": {
+            "maxValue": 2,
+            "minValue": -2,
+            "numberPrecision": 1
+          },
+          "description": "Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim",
+          "type": "number"
+        },
+        {
+          "displayName": "Maximum Number of Tokens",
+          "name": "maxTokens",
+          "default": 16,
+          "description": "The maximum number of tokens to generate in the completion. Most models have a context length of 2048 tokens (except for the newest models, which support 32,768).",
+          "type": "number",
+          "typeOptions": {
+            "maxValue": 32768
+          }
+        },
+        {
+          "displayName": "Number of Completions",
+          "name": "n",
+          "default": 1,
+          "description": "How many completions to generate for each prompt. Note: Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for max_tokens and stop.",
+          "type": "number"
+        },
+        {
+          "displayName": "Presence Penalty",
+          "name": "presence_penalty",
+          "default": 0,
+          "typeOptions": {
+            "maxValue": 2,
+            "minValue": -2,
+            "numberPrecision": 1
+          },
+          "description": "Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics",
+          "type": "number"
+        },
+        {
+          "displayName": "Output Randomness (Temperature)",
+          "name": "temperature",
+          "default": 1,
+          "typeOptions": {
+            "maxValue": 1,
+            "minValue": 0,
+            "numberPrecision": 1
+          },
+          "description": "Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive. We generally recommend altering this or temperature but not both.",
+          "type": "number"
+        },
+        {
+          "displayName": "Output Randomness (Top P)",
+          "name": "topP",
+          "default": 1,
+          "typeOptions": {
+            "maxValue": 1,
+            "minValue": 0,
+            "numberPrecision": 1
+          },
+          "description": "An alternative to sampling with temperature, controls diversity via nucleus sampling: 0.5 means half of all likelihood-weighted options are considered. We generally recommend altering this or temperature but not both.",
+          "type": "number"
+        },
+        {
+          "displayName": "Reasoning Effort",
+          "name": "reasoning_effort",
+          "default": "medium",
+          "description": "Controls the amount of reasoning tokens to use. A value of \"low\" will favor speed and economical token usage, \"high\" will favor more complete reasoning at the cost of more tokens generated and slower responses.",
+          "type": "options",
+          "options": [
+            {
+              "name": "Low",
+              "value": "low",
+              "description": "Favors speed and economical token usage"
+            },
+            {
+              "name": "Medium",
+              "value": "medium",
+              "description": "Balance between speed and reasoning accuracy"
+            },
+            {
+              "name": "High",
+              "value": "high",
+              "description": "Favors more complete reasoning at the cost of more tokens generated and slower responses"
+            }
+          ],
+          "displayOptions": {
+            "show": {
+              "/modelId": [
+                {
+                  "_cnd": {
+                    "regex": "(^o1([-\\d]+)?$)|(^o[3-9].*)|(^gpt-5.*)"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Max Tool Calls Iterations",
+          "name": "maxToolsIterations",
+          "type": "number",
+          "default": 15,
+          "description": "The maximum number of tool iteration cycles the LLM will run before stopping. A single iteration can contain multiple tool calls. Set to 0 for no limit.",
+          "displayOptions": {
+            "show": {
+              "@version": [
+                {
+                  "_cnd": {
+                    "gte": 1.5
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "message"
+          ],
+          "resource": [
+            "text"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "assistantId": {
+      "displayName": "Assistant",
+      "name": "assistantId",
+      "type": "resourceLocator",
+      "description": "Assistant to respond to the message. You can add, modify or remove assistants in the <a href=\"https://platform.openai.com/playground?mode=assistant\" target=\"_blank\">playground</a>.",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "typeOptions": {
+            "searchListMethod": "assistantSearch",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "e.g. asst_abc123"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "assistant"
+          ]
+        }
+      },
+      "ai_hint": "Assistant to respond to the message. You can add, modify or remove assistants in the <a href=\"https://platform.openai.com/playground?mode=assistant\" target=\"_blank\">playground</a>."
+    },
+    "prompt": {
+      "displayName": "Prompt",
+      "name": "prompt",
+      "type": "string",
+      "placeholder": "e.g. A cute cat eating a dinosaur",
+      "description": "A text description of the desired image(s). The maximum length is 1000 characters for dall-e-2 and 4000 characters for dall-e-3.",
+      "default": "",
+      "typeOptions": {
+        "rows": 2
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "generate"
+          ],
+          "resource": [
+            "image"
+          ]
+        }
+      },
+      "ai_hint": "A text description of the desired image(s). The maximum length is 1000 characters for dall-e-2 and 4000 characters for dall-e-3."
+    },
+    "text": {
+      "displayName": "Text Input",
+      "name": "text",
+      "type": "string",
+      "placeholder": "e.g. What's in this image?",
+      "default": "What's in this image?",
+      "typeOptions": {
+        "rows": 2
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "analyze"
+          ],
+          "resource": [
+            "image"
+          ]
+        }
+      }
+    },
+    "memory": {
+      "displayName": "Memory",
+      "name": "memory",
+      "type": "options",
+      "options": [
+        {
+          "name": "Use memory connector",
+          "value": "connector",
+          "description": "Connect one of the supported memory nodes"
+        },
+        {
+          "name": "Use thread ID",
+          "value": "threadId",
+          "description": "Specify the ID of the thread to continue"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "@version": [
+            {
+              "_cnd": {
+                "gte": 1.6
+              }
+            }
+          ],
+          "operation": [
+            "message"
+          ],
+          "resource": [
+            "assistant"
+          ]
+        }
+      },
+      "default": "connector",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "threadId": {
+      "displayName": "Thread ID",
+      "name": "threadId",
+      "type": "string",
+      "default": "",
+      "placeholder": "",
+      "description": "The ID of the thread to continue, a new thread will be created if not specified",
+      "hint": "If the thread ID is empty or undefined a new thread will be created and included in the response",
+      "displayOptions": {
+        "show": {
+          "@version": [
+            {
+              "_cnd": {
+                "gte": 1.6
+              }
+            }
+          ],
+          "memory": [
+            "threadId"
+          ],
+          "operation": [
+            "message"
+          ],
+          "resource": [
+            "assistant"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the thread to continue, a new thread will be created if not specified"
+    },
+    "simplify": {
+      "displayName": "Simplify Output",
+      "name": "simplify",
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to return a simplified version of the response instead of the raw data",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "message"
+          ],
+          "resource": [
+            "text"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "fileSizeLimitNotice": {
+      "displayName": "OpenAI API limits the size of the audio file to 25 MB",
+      "name": "fileSizeLimitNotice",
+      "type": "notice",
+      "default": " ",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "audio"
+          ],
+          "operation": [
+            "translate",
+            "transcribe"
+          ]
+        }
+      }
+    },
+    "model": {
+      "displayName": "Model",
+      "name": "model",
+      "type": "options",
+      "default": "dall-e-3",
+      "description": "The model to use for image generation",
+      "options": [
+        {
+          "name": "DALL·E 2",
+          "value": "dall-e-2"
+        },
+        {
+          "name": "DALL·E 3",
+          "value": "dall-e-3"
+        },
+        {
+          "name": "GPT Image 1",
+          "value": "gpt-image-1"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "generate"
+          ],
+          "resource": [
+            "image"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "input": {
+      "displayName": "Text Input",
+      "name": "input",
+      "type": "string",
+      "placeholder": "e.g. Sample text goes here",
+      "description": "The input text to classify if it is violates the moderation policy",
+      "default": "",
+      "typeOptions": {
+        "rows": 2
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "classify"
+          ],
+          "resource": [
+            "text"
+          ]
+        }
+      },
+      "ai_hint": "The input text to classify if it is violates the moderation policy"
+    },
+    "voice": {
+      "displayName": "Voice",
+      "name": "voice",
+      "type": "options",
+      "default": "alloy",
+      "description": "The voice to use when generating the audio",
+      "options": [
+        {
+          "name": "Alloy",
+          "value": "alloy"
+        },
+        {
+          "name": "Echo",
+          "value": "echo"
+        },
+        {
+          "name": "Fable",
+          "value": "fable"
+        },
+        {
+          "name": "Nova",
+          "value": "nova"
+        },
+        {
+          "name": "Onyx",
+          "value": "onyx"
+        },
+        {
+          "name": "Shimmer",
+          "value": "shimmer"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "generate"
+          ],
+          "resource": [
+            "audio"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "binaryPropertyName": {
+      "displayName": "Input Data Field Name",
+      "name": "binaryPropertyName",
+      "type": "string",
+      "default": "data",
+      "placeholder": "e.g. data",
+      "hint": "The name of the input field containing the binary file data to be processed",
+      "description": "Name of the binary property which contains the image(s)",
+      "displayOptions": {
+        "show": {
+          "inputType": [
+            "base64"
+          ],
+          "operation": [
+            "analyze"
+          ],
+          "resource": [
+            "image"
+          ]
+        }
+      },
+      "ai_hint": "Name of the binary property which contains the image(s)"
+    },
+    "fileId": {
+      "displayName": "File",
+      "name": "fileId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "typeOptions": {
+            "searchListMethod": "fileSearch",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "file-[a-zA-Z0-9]",
+                "errorMessage": "Not a valid File ID"
+              }
+            }
+          ],
+          "placeholder": "e.g. file-1234567890"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "deleteFile"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      }
+    },
+    "inputType": {
+      "displayName": "Input Type",
+      "name": "inputType",
+      "type": "options",
+      "default": "url",
+      "options": [
+        {
+          "name": "Image URL(s)",
+          "value": "url"
+        },
+        {
+          "name": "Binary File(s)",
+          "value": "base64"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "analyze"
+          ],
+          "resource": [
+            "image"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "imageUrls": {
+      "displayName": "URL(s)",
+      "name": "imageUrls",
+      "type": "string",
+      "placeholder": "e.g. https://example.com/image.jpeg",
+      "description": "URL(s) of the image(s) to analyze, multiple URLs can be added separated by comma",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "inputType": [
+            "url"
+          ],
+          "operation": [
+            "analyze"
+          ],
+          "resource": [
+            "image"
+          ]
+        }
+      },
+      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+    },
+    "messages": {
+      "displayName": "Messages",
+      "name": "messages",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "sortable": true,
+        "multipleValues": true
+      },
+      "placeholder": "Add Message",
+      "default": {
+        "values": [
+          {
+            "content": ""
+          }
+        ]
+      },
+      "options": [
+        {
+          "displayName": "Values",
+          "name": "values",
+          "values": [
+            {
+              "displayName": "Prompt",
+              "name": "content",
+              "type": "string",
+              "description": "The content of the message to be send",
+              "default": "",
+              "placeholder": "e.g. Hello, how can you help me?",
+              "typeOptions": {
+                "rows": 2
+              }
+            },
+            {
+              "displayName": "Role",
+              "name": "role",
+              "type": "options",
+              "description": "Role in shaping the model's response, it tells the model how it should behave and interact with the user",
+              "options": [
+                {
+                  "name": "User",
+                  "value": "user",
+                  "description": "Send a message as a user and get a response from the model"
+                },
+                {
+                  "name": "Assistant",
+                  "value": "assistant",
+                  "description": "Tell the model to adopt a specific tone or personality"
+                },
+                {
+                  "name": "System",
+                  "value": "system",
+                  "description": "Usually used to set the model's behavior or context for the next user message"
+                }
+              ],
+              "default": "user"
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "message"
+          ],
+          "resource": [
+            "text"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "jsonOutput": {
+      "displayName": "Output Content as JSON",
+      "name": "jsonOutput",
+      "type": "boolean",
+      "description": "Whether to attempt to return the response in JSON format. Compatible with GPT-4 Turbo and all GPT-3.5 Turbo models newer than gpt-3.5-turbo-1106.",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "message"
+          ],
+          "resource": [
+            "text"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "hideTools": {
+      "displayName": "Hide Tools",
+      "name": "hideTools",
+      "type": "hidden",
+      "default": "hide",
+      "displayOptions": {
+        "show": {
+          "modelId": [
+            "gpt-3.5-turbo-16k-0613",
+            "dall-e-3",
+            "text-embedding-3-large",
+            "dall-e-2",
+            "whisper-1",
+            "tts-1-hd-1106",
+            "tts-1-hd",
+            "gpt-4-0314",
+            "text-embedding-3-small",
+            "gpt-4-32k-0314",
+            "gpt-3.5-turbo-0301",
+            "gpt-4-vision-preview",
+            "gpt-3.5-turbo-16k",
+            "gpt-3.5-turbo-instruct-0914",
+            "tts-1",
+            "davinci-002",
+            "gpt-3.5-turbo-instruct",
+            "babbage-002",
+            "tts-1-1106",
+            "text-embedding-ada-002"
+          ],
+          "@version": [
+            {
+              "_cnd": {
+                "gte": 1.2
+              }
+            }
+          ],
+          "operation": [
+            "message"
+          ],
+          "resource": [
+            "text"
+          ]
+        }
+      }
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "modelId",
+      "name",
+      "description",
+      "instructions",
+      "codeInterpreter",
+      "knowledgeRetrieval",
+      "file_ids",
+      "file_ids",
+      "file_ids",
+      "noticeTools",
+      "options",
+      "assistantId",
+      "assistantId",
+      "prompt",
+      "text",
+      "memory",
+      "threadId",
+      "noticeTools",
+      "options",
+      "simplify",
+      "assistantId",
+      "options",
+      "operation",
+      "fileSizeLimitNotice",
+      "model",
+      "input",
+      "voice",
+      "options",
+      "binaryPropertyName",
+      "options",
+      "binaryPropertyName",
+      "options",
+      "operation",
+      "binaryPropertyName",
+      "options",
+      "fileId",
+      "options",
+      "operation",
+      "model",
+      "prompt",
+      "options",
+      "modelId",
+      "text",
+      "inputType",
+      "imageUrls",
+      "binaryPropertyName",
+      "simplify",
+      "options",
+      "operation",
+      "input",
+      "simplify",
+      "options",
+      "modelId",
+      "messages",
+      "simplify",
+      "jsonOutput",
+      "hideTools",
+      "noticeTools",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF resource == 'assistant' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'assistant' THEN SHOW parameter 'modelId'",
+      "IF operation == 'create' AND resource == 'assistant' THEN SHOW parameter 'name'",
+      "IF operation == 'create' AND resource == 'assistant' THEN SHOW parameter 'description'",
+      "IF operation == 'create' AND resource == 'assistant' THEN SHOW parameter 'instructions'",
+      "IF operation == 'create' AND resource == 'assistant' THEN SHOW parameter 'codeInterpreter'",
+      "IF operation == 'create' AND resource == 'assistant' THEN SHOW parameter 'knowledgeRetrieval'",
+      "IF codeInterpreter == True AND operation == 'create' AND resource == 'assistant' THEN SHOW parameter 'file_ids'",
+      "IF knowledgeRetrieval == True THEN HIDE parameter 'file_ids'",
+      "IF knowledgeRetrieval == True AND operation == 'create' AND resource == 'assistant' THEN SHOW parameter 'file_ids'",
+      "IF codeInterpreter == True THEN HIDE parameter 'file_ids'",
+      "IF knowledgeRetrieval == True AND codeInterpreter == True AND operation == 'create' AND resource == 'assistant' THEN SHOW parameter 'file_ids'",
+      "IF operation == 'create' AND resource == 'assistant' THEN SHOW parameter 'noticeTools'",
+      "IF operation == 'create' AND resource == 'assistant' THEN SHOW parameter 'options'",
+      "IF operation == 'deleteAssistant' AND resource == 'assistant' THEN SHOW parameter 'assistantId'",
+      "IF operation == 'message' AND resource == 'assistant' THEN SHOW parameter 'assistantId'",
+      "IF operation == 'message' AND resource == 'assistant' THEN SHOW parameter 'prompt'",
+      "IF prompt == 'define' AND operation == 'message' AND resource == 'assistant' THEN SHOW parameter 'text'",
+      "IF @version == {'_cnd': {'gte': 1.6}} AND operation == 'message' AND resource == 'assistant' THEN SHOW parameter 'memory'",
+      "IF @version == {'_cnd': {'gte': 1.6}} AND memory == 'threadId' AND operation == 'message' AND resource == 'assistant' THEN SHOW parameter 'threadId'",
+      "IF operation == 'message' AND resource == 'assistant' THEN SHOW parameter 'noticeTools'",
+      "IF operation == 'message' AND resource == 'assistant' THEN SHOW parameter 'options'",
+      "IF @version == {'_cnd': {'gte': 1.8}} THEN HIDE parameter 'baseURL'",
+      "IF @version == {'_cnd': {'gte': 1.3}} THEN SHOW parameter 'preserveOriginalTools'",
+      "IF operation == 'list' AND resource == 'assistant' THEN SHOW parameter 'simplify'",
+      "IF operation == 'update' AND resource == 'assistant' THEN SHOW parameter 'assistantId'",
+      "IF operation == 'update' AND resource == 'assistant' THEN SHOW parameter 'options'",
+      "IF resource == 'audio' THEN SHOW parameter 'operation'",
+      "IF resource == 'audio' AND operation IN [\"translate\", \"transcribe\"] THEN SHOW parameter 'fileSizeLimitNotice'",
+      "IF operation == 'generate' AND resource == 'audio' THEN SHOW parameter 'model'",
+      "IF operation == 'generate' AND resource == 'audio' THEN SHOW parameter 'input'",
+      "IF operation == 'generate' AND resource == 'audio' THEN SHOW parameter 'voice'",
+      "IF operation == 'generate' AND resource == 'audio' THEN SHOW parameter 'options'",
+      "IF operation == 'transcribe' AND resource == 'audio' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'transcribe' AND resource == 'audio' THEN SHOW parameter 'options'",
+      "IF operation == 'translate' AND resource == 'audio' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'translate' AND resource == 'audio' THEN SHOW parameter 'options'",
+      "IF resource == 'file' THEN SHOW parameter 'operation'",
+      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'options'",
+      "IF operation == 'deleteFile' AND resource == 'file' THEN SHOW parameter 'fileId'",
+      "IF operation == 'list' AND resource == 'file' THEN SHOW parameter 'options'",
+      "IF resource == 'image' THEN SHOW parameter 'operation'",
+      "IF operation == 'generate' AND resource == 'image' THEN SHOW parameter 'model'",
+      "IF operation == 'generate' AND resource == 'image' THEN SHOW parameter 'prompt'",
+      "IF operation == 'generate' AND resource == 'image' THEN SHOW parameter 'options'",
+      "IF /model == 'dall-e-2' THEN SHOW parameter 'n'",
+      "IF /model == 'dall-e-3' THEN SHOW parameter 'dalleQuality'",
+      "IF /model == 'gpt-image-1' THEN SHOW parameter 'quality'",
+      "IF /model == 'dall-e-2' THEN SHOW parameter 'size'",
+      "IF /model == 'dall-e-3' THEN SHOW parameter 'size'",
+      "IF /model == 'gpt-image-1' THEN SHOW parameter 'size'",
+      "IF /model == 'dall-e-3' THEN SHOW parameter 'style'",
+      "IF /model == 'gpt-image-1' THEN HIDE parameter 'returnImageUrls'",
+      "IF returnImageUrls == False THEN SHOW parameter 'binaryPropertyOutput'",
+      "IF @version == {'_cnd': {'gte': 1.4}} AND operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'modelId'",
+      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'text'",
+      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'inputType'",
+      "IF inputType == 'url' AND operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'imageUrls'",
+      "IF inputType == 'base64' AND operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'simplify'",
+      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'options'",
+      "IF resource == 'text' THEN SHOW parameter 'operation'",
+      "IF operation == 'classify' AND resource == 'text' THEN SHOW parameter 'input'",
+      "IF operation == 'classify' AND resource == 'text' THEN SHOW parameter 'simplify'",
+      "IF operation == 'classify' AND resource == 'text' THEN SHOW parameter 'options'",
+      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'modelId'",
+      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'messages'",
+      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'simplify'",
+      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'jsonOutput'",
+      "IF modelId IN [\"gpt-3.5-turbo-16k-0613\", \"dall-e-3\", \"text-embedding-3-large\", \"dall-e-2\", \"whisper-1\", \"tts-1-hd-1106\", \"tts-1-hd\", \"gpt-4-0314\", \"text-embedding-3-small\", \"gpt-4-32k-0314\", \"gpt-3.5-turbo-0301\", \"gpt-4-vision-preview\", \"gpt-3.5-turbo-16k\", \"gpt-3.5-turbo-instruct-0914\", \"tts-1\", \"davinci-002\", \"gpt-3.5-turbo-instruct\", \"babbage-002\", \"tts-1-1106\", \"text-embedding-ada-002\"] AND @version == {'_cnd': {'gte': 1.2}} AND operation == 'message' AND resource == 'text' THEN SHOW parameter 'hideTools'",
+      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'noticeTools'",
+      "IF hideTools == 'hide' THEN HIDE parameter 'noticeTools'",
+      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'options'",
+      "IF /modelId == {'_cnd': {'regex': '(^o1([-\\\\d]+)?$)|(^o[3-9].*)|(^gpt-5.*)'}} THEN SHOW parameter 'reasoning_effort'",
+      "IF @version == {'_cnd': {'gte': 1.5}} THEN SHOW parameter 'maxToolsIterations'"
+    ]
+  }
+}

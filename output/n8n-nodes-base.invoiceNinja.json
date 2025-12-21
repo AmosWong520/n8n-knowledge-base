@@ -1,0 +1,957 @@
+{
+  "node_id": "n8n-nodes-base.invoiceNinja",
+  "name": "n8n-nodes-base.invoiceNinja",
+  "version": [
+    1,
+    2
+  ],
+  "semantic_context": "Consume Invoice Ninja API",
+  "parameters": {
+    "apiVersion": {
+      "displayName": "API Version",
+      "name": "apiVersion",
+      "type": "options",
+      "isNodeSetting": true,
+      "displayOptions": {
+        "show": {
+          "@version": [
+            2
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Version 4",
+          "value": "v4"
+        },
+        {
+          "name": "Version 5",
+          "value": "v5"
+        }
+      ],
+      "default": "v5",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Bank Transaction",
+          "value": "bank_transaction",
+          "displayOptions": {
+            "show": {
+              "apiVersion": [
+                "v5"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Client",
+          "value": "client"
+        },
+        {
+          "name": "Expense",
+          "value": "expense"
+        },
+        {
+          "name": "Invoice",
+          "value": "invoice"
+        },
+        {
+          "name": "Payment",
+          "value": "payment"
+        },
+        {
+          "name": "Quote",
+          "value": "quote"
+        },
+        {
+          "name": "Task",
+          "value": "task"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "client",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "bank_transaction"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a new bank transaction",
+          "action": "Create a bank transaction"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a bank transaction",
+          "action": "Delete a bank transaction"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get data of a bank transaction",
+          "action": "Get a bank transaction"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get data of many bank transactions",
+          "action": "Get many bank transactions"
+        },
+        {
+          "name": "Match Payment",
+          "value": "matchPayment",
+          "description": "Match payment to a bank transaction",
+          "action": "Match payment to a bank transaction"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "bank_transaction"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Amount",
+          "name": "amount",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "displayName": "Bank Integration Name or ID",
+          "name": "bankIntegrationId",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getBankIntegrations"
+          },
+          "default": ""
+        },
+        {
+          "displayName": "Base Type",
+          "name": "baseType",
+          "type": "options",
+          "options": [
+            {
+              "name": "Deposit",
+              "value": "CREDIT"
+            },
+            {
+              "name": "Withdrawal",
+              "value": "DEBIT"
+            }
+          ],
+          "default": ""
+        },
+        {
+          "displayName": "Currency Name or ID",
+          "name": "currencyId",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getCurrencies"
+          },
+          "default": ""
+        },
+        {
+          "displayName": "Date",
+          "name": "date",
+          "type": "dateTime",
+          "default": ""
+        },
+        {
+          "displayName": "Description",
+          "name": "description",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "billingAddressUi": {
+      "displayName": "Billing Address",
+      "name": "billingAddressUi",
+      "placeholder": "Add Billing Address",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": false
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "client"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "name": "billingAddressValue",
+          "displayName": "Billing Address",
+          "values": [
+            {
+              "displayName": "Street Address",
+              "name": "streetAddress",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Apt/Suite",
+              "name": "aptSuite",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "City",
+              "name": "city",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "State",
+              "name": "state",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Postal Code",
+              "name": "postalCode",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Country Code Name or ID",
+              "name": "countryCode",
+              "type": "options",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "typeOptions": {
+                "loadOptionsMethod": "getCountryCodes"
+              },
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "contactsUi": {
+      "displayName": "Contacts",
+      "name": "contactsUi",
+      "placeholder": "Add Contact",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "client"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "name": "contacstValues",
+          "displayName": "Contact",
+          "values": [
+            {
+              "displayName": "First Name",
+              "name": "firstName",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Last Name",
+              "name": "lastName",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Email",
+              "name": "email",
+              "type": "string",
+              "placeholder": "name@email.com",
+              "default": ""
+            },
+            {
+              "displayName": "Phone",
+              "name": "phone",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "shippingAddressUi": {
+      "displayName": "Shipping Address",
+      "name": "shippingAddressUi",
+      "placeholder": "Add Shipping Address",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": false
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "client"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "name": "shippingAddressValue",
+          "displayName": "Shipping Address",
+          "values": [
+            {
+              "displayName": "Street Address",
+              "name": "streetAddress",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Apt/Suite",
+              "name": "aptSuite",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "City",
+              "name": "city",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "State",
+              "name": "state",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Postal Code",
+              "name": "postalCode",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Country Code Name or ID",
+              "name": "countryCode",
+              "type": "options",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "typeOptions": {
+                "loadOptionsMethod": "getCountryCodes"
+              },
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "clientId": {
+      "displayName": "Client ID",
+      "name": "clientId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "client"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      }
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "quote"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Quote Number",
+          "name": "quoteNumber",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Include",
+          "name": "include",
+          "type": "options",
+          "options": [
+            {
+              "name": "Client",
+              "value": "client"
+            }
+          ],
+          "default": "client"
+        },
+        {
+          "displayName": "Status",
+          "name": "status",
+          "type": "options",
+          "options": [
+            {
+              "name": "Active",
+              "value": "active"
+            },
+            {
+              "name": "Archived",
+              "value": "archived"
+            },
+            {
+              "name": "Deleted",
+              "value": "deleted"
+            }
+          ],
+          "default": "active"
+        },
+        {
+          "displayName": "Created At",
+          "name": "createdAt",
+          "type": "dateTime",
+          "default": ""
+        },
+        {
+          "displayName": "Updated At",
+          "name": "updatedAt",
+          "type": "dateTime",
+          "default": ""
+        },
+        {
+          "displayName": "Is Deleted",
+          "name": "isDeleted",
+          "type": "boolean",
+          "default": false
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "bank_transaction"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "bank_transaction"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 60
+      },
+      "default": 50,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "invoiceItemsUi": {
+      "displayName": "Invoice Items",
+      "name": "invoiceItemsUi",
+      "placeholder": "Add Invoice Item",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "quote"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "name": "invoiceItemsValues",
+          "displayName": "Invoice Item",
+          "values": [
+            {
+              "displayName": "Cost",
+              "name": "cost",
+              "type": "number",
+              "default": 0
+            },
+            {
+              "displayName": "Description",
+              "name": "description",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Service",
+              "name": "service",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Hours",
+              "name": "hours",
+              "type": "number",
+              "typeOptions": {
+                "minValue": 0
+              },
+              "default": 0
+            },
+            {
+              "displayName": "Tax Name 1",
+              "name": "taxName1",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Tax Name 2",
+              "name": "taxName2",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Tax Rate 1",
+              "name": "taxRate1",
+              "type": "number",
+              "default": 0
+            },
+            {
+              "displayName": "Tax Rate 2",
+              "name": "taxRate2",
+              "type": "number",
+              "default": 0
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "invoiceId": {
+      "displayName": "Invoice ID",
+      "name": "invoiceId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "invoice"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      }
+    },
+    "timeLogsUi": {
+      "displayName": "Time Logs",
+      "name": "timeLogsUi",
+      "placeholder": "Add Time Log",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "name": "timeLogsValues",
+          "displayName": "Time Log",
+          "values": [
+            {
+              "displayName": "Start Date",
+              "name": "startDate",
+              "type": "dateTime",
+              "default": ""
+            },
+            {
+              "displayName": "End Date",
+              "name": "endDate",
+              "type": "dateTime",
+              "default": ""
+            },
+            {
+              "displayName": "Duration (Hours)",
+              "name": "duration",
+              "type": "number",
+              "typeOptions": {
+                "minValue": 0
+              },
+              "default": 0
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "taskId": {
+      "displayName": "Task ID",
+      "name": "taskId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      }
+    },
+    "invoice": {
+      "displayName": "Invoice Name or ID",
+      "name": "invoice",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getInvoices"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "payment"
+          ]
+        }
+      },
+      "default": "",
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "amount": {
+      "displayName": "Amount",
+      "name": "amount",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "payment"
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 0
+      },
+      "default": 0
+    },
+    "paymentId": {
+      "displayName": "Payment Name or ID",
+      "name": "paymentId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getPayments"
+      },
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "bank_transaction"
+          ],
+          "operation": [
+            "matchPayment"
+          ]
+        }
+      },
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "expenseId": {
+      "displayName": "Expense ID",
+      "name": "expenseId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "expense"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      }
+    },
+    "quoteId": {
+      "displayName": "Quote ID",
+      "name": "quoteId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "quote"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      }
+    },
+    "bankTransactionId": {
+      "displayName": "Bank Transaction ID",
+      "name": "bankTransactionId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "bank_transaction"
+          ],
+          "operation": [
+            "matchPayment"
+          ]
+        }
+      }
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "apiVersion",
+      "apiVersion",
+      "resource",
+      "operation",
+      "additionalFields",
+      "billingAddressUi",
+      "contactsUi",
+      "shippingAddressUi",
+      "clientId",
+      "clientId",
+      "options",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "additionalFields",
+      "invoiceItemsUi",
+      "invoiceId",
+      "invoiceId",
+      "invoiceId",
+      "options",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "additionalFields",
+      "timeLogsUi",
+      "taskId",
+      "taskId",
+      "options",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "invoice",
+      "amount",
+      "additionalFields",
+      "additionalFields",
+      "paymentId",
+      "paymentId",
+      "options",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "additionalFields",
+      "additionalFields",
+      "expenseId",
+      "expenseId",
+      "returnAll",
+      "limit",
+      "operation",
+      "additionalFields",
+      "invoiceItemsUi",
+      "quoteId",
+      "quoteId",
+      "quoteId",
+      "options",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "additionalFields",
+      "bankTransactionId",
+      "bankTransactionId",
+      "returnAll",
+      "limit",
+      "bankTransactionId",
+      "paymentId"
+    ],
+    "conditional_rules": [
+      "IF @version == 1 THEN SHOW parameter 'apiVersion'",
+      "IF @version == 2 THEN SHOW parameter 'apiVersion'",
+      "IF resource == 'client' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'client' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'client' AND operation == 'create' THEN SHOW parameter 'billingAddressUi'",
+      "IF resource == 'client' AND operation == 'create' THEN SHOW parameter 'contactsUi'",
+      "IF resource == 'client' AND operation == 'create' THEN SHOW parameter 'shippingAddressUi'",
+      "IF resource == 'client' AND operation == 'delete' THEN SHOW parameter 'clientId'",
+      "IF resource == 'client' AND operation == 'get' THEN SHOW parameter 'clientId'",
+      "IF operation == 'get' AND resource == 'client' THEN SHOW parameter 'options'",
+      "IF resource == 'client' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'client' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'client' THEN SHOW parameter 'options'",
+      "IF resource == 'invoice' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'invoice' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'invoice' AND operation == 'create' THEN SHOW parameter 'invoiceItemsUi'",
+      "IF resource == 'invoice' AND operation == 'delete' THEN SHOW parameter 'invoiceId'",
+      "IF resource == 'invoice' AND operation == 'email' THEN SHOW parameter 'invoiceId'",
+      "IF resource == 'invoice' AND operation == 'get' THEN SHOW parameter 'invoiceId'",
+      "IF operation == 'get' AND resource == 'invoice' THEN SHOW parameter 'options'",
+      "IF resource == 'invoice' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'invoice' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'invoice' THEN SHOW parameter 'options'",
+      "IF resource == 'task' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'task' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'timeLogsUi'",
+      "IF resource == 'task' AND operation == 'delete' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'get' THEN SHOW parameter 'taskId'",
+      "IF operation == 'get' AND resource == 'task' THEN SHOW parameter 'options'",
+      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'task' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'task' THEN SHOW parameter 'options'",
+      "IF resource == 'payment' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'payment' THEN SHOW parameter 'invoice'",
+      "IF operation == 'create' AND resource == 'payment' THEN SHOW parameter 'amount'",
+      "IF apiVersion == 'v4' AND operation == 'create' AND resource == 'payment' THEN SHOW parameter 'additionalFields'",
+      "IF apiVersion == 'v5' AND operation == 'create' AND resource == 'payment' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'payment' AND operation == 'delete' THEN SHOW parameter 'paymentId'",
+      "IF resource == 'payment' AND operation == 'get' THEN SHOW parameter 'paymentId'",
+      "IF operation == 'get' AND resource == 'payment' THEN SHOW parameter 'options'",
+      "IF resource == 'payment' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'payment' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'payment' THEN SHOW parameter 'options'",
+      "IF resource == 'expense' THEN SHOW parameter 'operation'",
+      "IF apiVersion == 'v4' AND operation == 'create' AND resource == 'expense' THEN SHOW parameter 'additionalFields'",
+      "IF apiVersion == 'v5' AND operation == 'create' AND resource == 'expense' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'expense' AND operation == 'delete' THEN SHOW parameter 'expenseId'",
+      "IF resource == 'expense' AND operation == 'get' THEN SHOW parameter 'expenseId'",
+      "IF resource == 'expense' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'expense' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'quote' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'quote' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'quote' AND operation == 'create' THEN SHOW parameter 'invoiceItemsUi'",
+      "IF resource == 'quote' AND operation == 'delete' THEN SHOW parameter 'quoteId'",
+      "IF resource == 'quote' AND operation == 'email' THEN SHOW parameter 'quoteId'",
+      "IF resource == 'quote' AND operation == 'get' THEN SHOW parameter 'quoteId'",
+      "IF operation == 'get' AND resource == 'quote' THEN SHOW parameter 'options'",
+      "IF resource == 'quote' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'quote' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'quote' THEN SHOW parameter 'options'",
+      "IF resource == 'bank_transaction' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'bank_transaction' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'bank_transaction' AND operation == 'delete' THEN SHOW parameter 'bankTransactionId'",
+      "IF resource == 'bank_transaction' AND operation == 'get' THEN SHOW parameter 'bankTransactionId'",
+      "IF resource == 'bank_transaction' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'bank_transaction' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'bank_transaction' AND operation == 'matchPayment' THEN SHOW parameter 'bankTransactionId'",
+      "IF resource == 'bank_transaction' AND operation == 'matchPayment' THEN SHOW parameter 'paymentId'"
+    ]
+  }
+}

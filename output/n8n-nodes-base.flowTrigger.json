@@ -1,0 +1,82 @@
+{
+  "node_id": "n8n-nodes-base.flowTrigger",
+  "name": "n8n-nodes-base.flowTrigger",
+  "version": 1,
+  "semantic_context": "Handle Flow events via webhooks",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "default": "",
+      "options": [
+        {
+          "name": "Project",
+          "value": "list"
+        },
+        {
+          "name": "Task",
+          "value": "task"
+        }
+      ],
+      "description": "Resource that triggers the webhook",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "listIds": {
+      "displayName": "Project ID",
+      "name": "listIds",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "list"
+          ]
+        },
+        "hide": {
+          "resource": [
+            "task"
+          ]
+        }
+      },
+      "description": "Lists IDs, perhaps known better as \"Projects\" separated by a comma (,)",
+      "ai_hint": "Lists IDs, perhaps known better as \"Projects\" separated by a comma (,)"
+    },
+    "taskIds": {
+      "displayName": "Task ID",
+      "name": "taskIds",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ]
+        },
+        "hide": {
+          "resource": [
+            "list"
+          ]
+        }
+      },
+      "description": "Task IDs separated by a comma (,)",
+      "ai_hint": "Task IDs separated by a comma (,)"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "listIds",
+      "taskIds"
+    ],
+    "conditional_rules": [
+      "IF resource == 'list' THEN SHOW parameter 'listIds'",
+      "IF resource == 'task' THEN HIDE parameter 'listIds'",
+      "IF resource == 'task' THEN SHOW parameter 'taskIds'",
+      "IF resource == 'list' THEN HIDE parameter 'taskIds'"
+    ]
+  }
+}

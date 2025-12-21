@@ -1,0 +1,1082 @@
+{
+  "node_id": "n8n-nodes-base.asanaTool",
+  "name": "n8n-nodes-base.asanaTool",
+  "version": 1,
+  "semantic_context": "Consume Asana REST API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume Asana REST API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Access Token",
+          "value": "accessToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "accessToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Project",
+          "value": "project"
+        },
+        {
+          "name": "Subtask",
+          "value": "subtask"
+        },
+        {
+          "name": "Task",
+          "value": "task"
+        },
+        {
+          "name": "Task Comment",
+          "value": "taskComment"
+        },
+        {
+          "name": "Task Project",
+          "value": "taskProject"
+        },
+        {
+          "name": "Task Tag",
+          "value": "taskTag"
+        },
+        {
+          "name": "User",
+          "value": "user"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "task",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "project"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a new project",
+          "action": "Create a project"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a project",
+          "action": "Delete a project"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a project",
+          "action": "Get a project"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many projects",
+          "action": "Get many projects"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a project",
+          "action": "Update a project"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "get",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "taskId": {
+      "displayName": "Parent Task ID",
+      "name": "taskId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "subtask"
+          ]
+        }
+      },
+      "description": "The task to operate on",
+      "ai_hint": "The task to operate on"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "project"
+          ]
+        }
+      },
+      "description": "The name of the project to create",
+      "ai_hint": "The name of the project to create"
+    },
+    "otherProperties": {
+      "displayName": "Additional Fields",
+      "name": "otherProperties",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create",
+            "update"
+          ]
+        }
+      },
+      "default": {},
+      "placeholder": "Add Field",
+      "options": [
+        {
+          "displayName": "Assignee Name or ID",
+          "name": "assignee",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getUsers"
+          },
+          "default": "",
+          "description": "Set Assignee on the task. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Assignee Status",
+          "name": "assignee_status",
+          "type": "options",
+          "options": [
+            {
+              "name": "Inbox",
+              "value": "inbox"
+            },
+            {
+              "name": "Today",
+              "value": "today"
+            },
+            {
+              "name": "Upcoming",
+              "value": "upcoming"
+            },
+            {
+              "name": "Later",
+              "value": "later"
+            }
+          ],
+          "default": "inbox",
+          "description": "Set Assignee status on the task (requires Assignee)"
+        },
+        {
+          "displayName": "Completed",
+          "name": "completed",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the task should be marked completed"
+        },
+        {
+          "displayName": "Due On",
+          "name": "due_on",
+          "type": "dateTime",
+          "default": "",
+          "description": "Date on which the time is due"
+        },
+        {
+          "displayName": "Name",
+          "name": "name",
+          "type": "string",
+          "default": "",
+          "displayOptions": {
+            "show": {
+              "/operation": [
+                "update"
+              ]
+            }
+          },
+          "description": "The new name of the task"
+        },
+        {
+          "displayName": "Liked",
+          "name": "liked",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the task is liked by the authorized user"
+        },
+        {
+          "displayName": "Notes",
+          "name": "notes",
+          "type": "string",
+          "typeOptions": {
+            "rows": 5
+          },
+          "default": "",
+          "description": "The task notes"
+        },
+        {
+          "displayName": "Project Names or IDs",
+          "name": "projects",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getProjects"
+          },
+          "default": [],
+          "description": "The project to filter tasks on. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "project"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "project"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "subtask"
+          ]
+        }
+      },
+      "default": {},
+      "placeholder": "Add Field",
+      "options": [
+        {
+          "displayName": "Field Names or IDs",
+          "name": "opt_fields",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getTaskFields"
+          },
+          "default": [
+            "gid",
+            "name",
+            "resource_type"
+          ],
+          "description": "Defines fields to return. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Pretty",
+          "name": "opt_pretty",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to provide “pretty” output"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "workspace": {
+      "displayName": "Workspace Name or ID",
+      "name": "workspace",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getWorkspaces"
+      },
+      "options": [],
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "project"
+          ]
+        }
+      },
+      "description": "The workspace in which to get users. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The workspace in which to get users. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "id": {
+      "displayName": "Project ID",
+      "name": "id",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "project"
+          ]
+        }
+      },
+      "description": "The ID of the project to update the data of",
+      "ai_hint": "The ID of the project to update the data of"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "task"
+          ]
+        }
+      },
+      "default": {},
+      "description": "Properties to search for",
+      "placeholder": "Add Filter",
+      "options": [
+        {
+          "displayName": "Assignee Name or ID",
+          "name": "assignee",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getUsers"
+          },
+          "default": "",
+          "description": "The assignee to filter tasks on. Note: If you specify assignee, you must also specify the workspace to filter on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Field Names or IDs",
+          "name": "opt_fields",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getTaskFields"
+          },
+          "default": [
+            "gid",
+            "name",
+            "resource_type"
+          ],
+          "description": "Defines fields to return. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Pretty",
+          "name": "opt_pretty",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to provide “pretty” output"
+        },
+        {
+          "displayName": "Project Name or ID",
+          "name": "project",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getProjects"
+          },
+          "default": "",
+          "description": "The project to filter tasks on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Section Name or ID",
+          "name": "section",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getSections"
+          },
+          "default": "",
+          "description": "The section to filter tasks on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Workspace Name or ID",
+          "name": "workspace",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getWorkspaces"
+          },
+          "default": "",
+          "description": "The workspace to filter tasks on. Note: If you specify workspace, you must also specify the assignee to filter on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Completed Since",
+          "name": "completed_since",
+          "type": "dateTime",
+          "default": "",
+          "description": "Only return tasks that are either incomplete or that have been completed since this time"
+        },
+        {
+          "displayName": "Modified Since",
+          "name": "modified_since",
+          "type": "dateTime",
+          "default": "",
+          "description": "Only return tasks that have been modified since the given time"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "projectId": {
+      "displayName": "Project Name or ID",
+      "name": "projectId",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getProjects"
+      },
+      "options": [],
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "move"
+          ],
+          "resource": [
+            "task"
+          ]
+        }
+      },
+      "description": "Project to show the sections of. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "Project to show the sections of. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "section": {
+      "displayName": "Section Name or ID",
+      "name": "section",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "projectId"
+        ],
+        "loadOptionsMethod": "getSections"
+      },
+      "options": [],
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "move"
+          ],
+          "resource": [
+            "task"
+          ]
+        }
+      },
+      "description": "The Section to move the task to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The Section to move the task to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "searchTaskProperties": {
+      "displayName": "Filters",
+      "name": "searchTaskProperties",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ],
+          "resource": [
+            "task"
+          ]
+        }
+      },
+      "default": {},
+      "description": "Properties to search for",
+      "placeholder": "Add Filter",
+      "options": [
+        {
+          "displayName": "Completed",
+          "name": "completed",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the task is marked completed"
+        },
+        {
+          "displayName": "Text",
+          "name": "text",
+          "type": "string",
+          "typeOptions": {
+            "rows": 5
+          },
+          "default": "",
+          "description": "Text to search for in name or notes"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "isTextHtml": {
+      "displayName": "Is Text HTML",
+      "name": "isTextHtml",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "add"
+          ],
+          "resource": [
+            "taskComment"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether body is HTML or simple text",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "text": {
+      "displayName": "HTML Text",
+      "name": "text",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "add"
+          ],
+          "resource": [
+            "taskComment"
+          ],
+          "isTextHtml": [
+            true
+          ]
+        }
+      },
+      "description": "Comment as HTML string. Do not use together with plain text.",
+      "ai_hint": "Comment as HTML string. Do not use together with plain text."
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "project"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": {},
+      "description": "Other properties to set",
+      "placeholder": "Add Property",
+      "options": [
+        {
+          "displayName": "Archived",
+          "name": "archived",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to only return projects whose archived field takes on the value of this parameter"
+        },
+        {
+          "displayName": "Teams Name or ID",
+          "name": "team",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "workspace"
+            ],
+            "loadOptionsMethod": "getTeams"
+          },
+          "default": "",
+          "description": "The new name of the task. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "project": {
+      "displayName": "Project Name or ID",
+      "name": "project",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getProjects"
+      },
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "remove"
+          ],
+          "resource": [
+            "taskProject"
+          ]
+        }
+      },
+      "description": "The project where the task will be removed from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The project where the task will be removed from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "tag": {
+      "displayName": "Tags Name or ID",
+      "name": "tag",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "id"
+        ],
+        "loadOptionsMethod": "getTags"
+      },
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "remove"
+          ],
+          "resource": [
+            "taskTag"
+          ]
+        }
+      },
+      "description": "The tag that should be added. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The tag that should be added. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "userId": {
+      "displayName": "User ID",
+      "name": "userId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "user"
+          ]
+        }
+      },
+      "description": "An identifier for the user to get data of. Can be one of an email address,the globally unique identifier for the user, or the keyword me to indicate the current user making the request.",
+      "ai_hint": "An identifier for the user to get data of. Can be one of an email address,the globally unique identifier for the user, or the keyword me to indicate the current user making the request."
+    },
+    "team": {
+      "displayName": "Team Name or ID",
+      "name": "team",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "workspace"
+        ],
+        "loadOptionsMethod": "getTeams"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "project"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The team this project will be assigned to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The team this project will be assigned to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "project"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "default": {},
+      "description": "Other properties to set",
+      "placeholder": "Add Property",
+      "options": [
+        {
+          "displayName": "Color",
+          "name": "color",
+          "type": "options",
+          "options": [
+            {
+              "name": "dark-blue",
+              "value": "dark-blue"
+            },
+            {
+              "name": "dark-brown",
+              "value": "dark-brown"
+            },
+            {
+              "name": "dark-green",
+              "value": "dark-green"
+            },
+            {
+              "name": "dark-orange",
+              "value": "dark-orange"
+            },
+            {
+              "name": "dark-pink",
+              "value": "dark-pink"
+            },
+            {
+              "name": "dark-purple",
+              "value": "dark-purple"
+            },
+            {
+              "name": "dark-red",
+              "value": "dark-red"
+            },
+            {
+              "name": "dark-teal",
+              "value": "dark-teal"
+            },
+            {
+              "name": "dark-warm-gray",
+              "value": "dark-warm-gray"
+            },
+            {
+              "name": "light-blue",
+              "value": "light-blue"
+            },
+            {
+              "name": "light-green",
+              "value": "light-green"
+            },
+            {
+              "name": "light-orange",
+              "value": "light-orange"
+            },
+            {
+              "name": "light-pink",
+              "value": "light-pink"
+            },
+            {
+              "name": "light-purple",
+              "value": "light-purple"
+            },
+            {
+              "name": "light-red",
+              "value": "light-red"
+            },
+            {
+              "name": "light-teal",
+              "value": "light-teal"
+            },
+            {
+              "name": "light-warm-gray",
+              "value": "light-warm-gray"
+            },
+            {
+              "name": "light-yellow",
+              "value": "light-yellow"
+            },
+            {
+              "name": "none",
+              "value": "none"
+            }
+          ],
+          "default": "none",
+          "description": "Color of the project"
+        },
+        {
+          "displayName": "Due On",
+          "name": "due_on",
+          "type": "dateTime",
+          "default": "",
+          "description": "The day on which this project is due. This takes a date with format YYYY-MM-DD."
+        },
+        {
+          "displayName": "Name",
+          "name": "name",
+          "type": "string",
+          "default": "",
+          "description": "The name of the project"
+        },
+        {
+          "displayName": "Notes",
+          "name": "notes",
+          "type": "string",
+          "default": "",
+          "description": "Basic description or notes for the project"
+        },
+        {
+          "displayName": "Owner",
+          "name": "owner",
+          "type": "string",
+          "default": "",
+          "description": "The new assignee/cardinal for this project"
+        },
+        {
+          "displayName": "Privacy Setting",
+          "name": "privacy_setting",
+          "type": "options",
+          "options": [
+            {
+              "name": "Private",
+              "value": "private"
+            },
+            {
+              "name": "Private to Team",
+              "value": "private_to_team"
+            },
+            {
+              "name": "Public to Workspace",
+              "value": "public_to_workspace"
+            }
+          ],
+          "default": "private",
+          "description": "The privacy setting of the project"
+        },
+        {
+          "displayName": "Team Name or ID",
+          "name": "team",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "workspace"
+            ],
+            "loadOptionsMethod": "getTeams"
+          },
+          "default": "",
+          "description": "The team this project will be assigned to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "authentication",
+      "resource",
+      "operation",
+      "taskId",
+      "name",
+      "otherProperties",
+      "taskId",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "workspace",
+      "name",
+      "id",
+      "id",
+      "returnAll",
+      "limit",
+      "filters",
+      "id",
+      "projectId",
+      "section",
+      "id",
+      "workspace",
+      "searchTaskProperties",
+      "otherProperties",
+      "operation",
+      "id",
+      "isTextHtml",
+      "text",
+      "text",
+      "additionalFields",
+      "id",
+      "operation",
+      "id",
+      "project",
+      "additionalFields",
+      "id",
+      "project",
+      "operation",
+      "id",
+      "tag",
+      "id",
+      "tag",
+      "operation",
+      "userId",
+      "workspace",
+      "operation",
+      "name",
+      "workspace",
+      "team",
+      "additionalFields",
+      "id",
+      "id",
+      "workspace",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "workspace",
+      "id",
+      "updateFields"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'subtask' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'subtask' THEN SHOW parameter 'taskId'",
+      "IF operation == 'create' AND resource == 'subtask' THEN SHOW parameter 'name'",
+      "IF resource == 'subtask' AND operation == 'create' THEN SHOW parameter 'otherProperties'",
+      "IF operation == 'getAll' AND resource == 'subtask' THEN SHOW parameter 'taskId'",
+      "IF operation == 'getAll' AND resource == 'subtask' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'subtask' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'subtask' THEN SHOW parameter 'options'",
+      "IF resource == 'task' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'task' THEN SHOW parameter 'workspace'",
+      "IF operation == 'create' AND resource == 'task' THEN SHOW parameter 'name'",
+      "IF operation == 'delete' AND resource == 'task' THEN SHOW parameter 'id'",
+      "IF operation == 'get' AND resource == 'task' THEN SHOW parameter 'id'",
+      "IF operation == 'getAll' AND resource == 'task' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'task' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'task' THEN SHOW parameter 'filters'",
+      "IF operation == 'move' AND resource == 'task' THEN SHOW parameter 'id'",
+      "IF operation == 'move' AND resource == 'task' THEN SHOW parameter 'projectId'",
+      "IF operation == 'move' AND resource == 'task' THEN SHOW parameter 'section'",
+      "IF operation == 'update' AND resource == 'task' THEN SHOW parameter 'id'",
+      "IF operation == 'search' AND resource == 'task' THEN SHOW parameter 'workspace'",
+      "IF operation == 'search' AND resource == 'task' THEN SHOW parameter 'searchTaskProperties'",
+      "IF resource == 'task' AND operation IN [\"create\", \"update\"] THEN SHOW parameter 'otherProperties'",
+      "IF /operation == 'update' THEN SHOW parameter 'name'",
+      "IF resource == 'taskComment' THEN SHOW parameter 'operation'",
+      "IF operation == 'add' AND resource == 'taskComment' THEN SHOW parameter 'id'",
+      "IF operation == 'add' AND resource == 'taskComment' THEN SHOW parameter 'isTextHtml'",
+      "IF operation == 'add' AND resource == 'taskComment' AND isTextHtml == False THEN SHOW parameter 'text'",
+      "IF operation == 'add' AND resource == 'taskComment' AND isTextHtml == True THEN SHOW parameter 'text'",
+      "IF operation == 'add' AND resource == 'taskComment' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'remove' AND resource == 'taskComment' THEN SHOW parameter 'id'",
+      "IF resource == 'taskProject' THEN SHOW parameter 'operation'",
+      "IF operation == 'add' AND resource == 'taskProject' THEN SHOW parameter 'id'",
+      "IF operation == 'add' AND resource == 'taskProject' THEN SHOW parameter 'project'",
+      "IF resource == 'taskProject' AND operation == 'add' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'remove' AND resource == 'taskProject' THEN SHOW parameter 'id'",
+      "IF operation == 'remove' AND resource == 'taskProject' THEN SHOW parameter 'project'",
+      "IF resource == 'taskTag' THEN SHOW parameter 'operation'",
+      "IF operation == 'add' AND resource == 'taskTag' THEN SHOW parameter 'id'",
+      "IF operation == 'add' AND resource == 'taskTag' THEN SHOW parameter 'tag'",
+      "IF operation == 'remove' AND resource == 'taskTag' THEN SHOW parameter 'id'",
+      "IF operation == 'remove' AND resource == 'taskTag' THEN SHOW parameter 'tag'",
+      "IF resource == 'user' THEN SHOW parameter 'operation'",
+      "IF operation == 'get' AND resource == 'user' THEN SHOW parameter 'userId'",
+      "IF operation == 'getAll' AND resource == 'user' THEN SHOW parameter 'workspace'",
+      "IF resource == 'project' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'project' THEN SHOW parameter 'name'",
+      "IF operation == 'create' AND resource == 'project' THEN SHOW parameter 'workspace'",
+      "IF operation == 'create' AND resource == 'project' THEN SHOW parameter 'team'",
+      "IF resource == 'project' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'delete' AND resource == 'project' THEN SHOW parameter 'id'",
+      "IF operation == 'get' AND resource == 'project' THEN SHOW parameter 'id'",
+      "IF operation == 'getAll' AND resource == 'project' THEN SHOW parameter 'workspace'",
+      "IF operation == 'getAll' AND resource == 'project' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'project' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'project' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'update' AND resource == 'project' THEN SHOW parameter 'workspace'",
+      "IF operation == 'update' AND resource == 'project' THEN SHOW parameter 'id'",
+      "IF resource == 'project' AND operation == 'update' THEN SHOW parameter 'updateFields'"
+    ]
+  }
+}

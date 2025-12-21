@@ -1,0 +1,770 @@
+{
+  "node_id": "n8n-nodes-base.koBoToolboxTool",
+  "name": "n8n-nodes-base.koBoToolboxTool",
+  "version": 1,
+  "semantic_context": "Work with KoBoToolbox forms and submissions",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Work with KoBoToolbox forms and submissions",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "File",
+          "value": "file"
+        },
+        {
+          "name": "Form",
+          "value": "form"
+        },
+        {
+          "name": "Hook",
+          "value": "hook"
+        },
+        {
+          "name": "Submission",
+          "value": "submission"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "submission",
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a file",
+          "action": "Create a file"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete file",
+          "action": "Delete a file"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a file content",
+          "action": "Get a file content"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many files",
+          "action": "Get many files"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "get",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "formId": {
+      "displayName": "Form Name or ID",
+      "name": "formId",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "loadForms"
+      },
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "description": "Form ID (e.g. aSAvYreNzVEkrWg5Gdcvg). Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "Form ID (e.g. aSAvYreNzVEkrWg5Gdcvg). Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "required": true,
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "submission"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "typeOptions": {
+        "maxValue": 3000
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "submission"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "submission"
+          ],
+          "operation": [
+            "get",
+            "getAll"
+          ]
+        }
+      },
+      "default": {},
+      "placeholder": "Add option",
+      "options": [
+        {
+          "displayName": "Download Attachments",
+          "name": "download",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to download submitted attachments"
+        },
+        {
+          "displayName": "Attachments Naming Scheme",
+          "name": "binaryNamingScheme",
+          "type": "options",
+          "default": "sequence",
+          "displayOptions": {
+            "show": {
+              "download": [
+                true
+              ]
+            }
+          },
+          "options": [
+            {
+              "name": "Sequence (e.g. attachment_N)",
+              "value": "sequence"
+            },
+            {
+              "name": "Use Original Form Question ID",
+              "value": "question"
+            }
+          ]
+        },
+        {
+          "displayName": "Attachments Prefix",
+          "name": "dataPropertyAttachmentsPrefixName",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "download": [
+                true
+              ],
+              "binaryNamingScheme": [
+                "sequence"
+              ]
+            }
+          },
+          "default": "attachment_",
+          "description": "Prefix for name of the binary property to which to write the attachments. An index starting with 0 will be added. So if name is \"attachment_\" the first attachment is saved to \"attachment_0\""
+        },
+        {
+          "displayName": "Fields to Retrieve",
+          "name": "fields",
+          "type": "string",
+          "default": "",
+          "description": "Comma-separated list of fields to retrieve (e.g. _submission_time,_submitted_by). If left blank, all fields are retrieved."
+        },
+        {
+          "displayName": "File Size",
+          "name": "version",
+          "type": "options",
+          "displayOptions": {
+            "show": {
+              "download": [
+                true
+              ]
+            }
+          },
+          "default": "download_url",
+          "description": "Attachment size to retrieve, if multiple versions are available",
+          "options": [
+            {
+              "name": "Original",
+              "value": "download_url"
+            },
+            {
+              "name": "Small",
+              "value": "download_small_url"
+            },
+            {
+              "name": "Medium",
+              "value": "download_medium_url"
+            },
+            {
+              "name": "Large",
+              "value": "download_large_url"
+            }
+          ]
+        },
+        {
+          "displayName": "Multiselect Mask",
+          "name": "selectMask",
+          "type": "string",
+          "default": "select_*",
+          "description": "Comma-separated list of wildcard-style selectors for fields that should be treated as multiselect fields, i.e. parsed as arrays."
+        },
+        {
+          "displayName": "Number Mask",
+          "name": "numberMask",
+          "type": "string",
+          "default": "n_*, f_*",
+          "description": "Comma-separated list of wildcard-style selectors for fields that should be treated as numbers"
+        },
+        {
+          "displayName": "Reformat",
+          "name": "reformat",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to apply some reformatting to the submission data, such as parsing GeoJSON coordinates"
+        },
+        {
+          "displayName": "Sort",
+          "name": "sort",
+          "type": "json",
+          "default": "",
+          "description": "Sort predicates, in MongoDB JSON format (e.g. {\"_submission_time\":1})"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "form"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Filter",
+          "name": "filter",
+          "type": "string",
+          "default": "asset_type:survey",
+          "description": "A text search query based on form data - e.g. \"owner__username:meg AND name__icontains:quixotic\" - see <a href=\"https://github.com/kobotoolbox/kpi#searching\" target=\"_blank\">docs</a> for more details"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "hookId": {
+      "displayName": "Hook ID",
+      "name": "hookId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "hook"
+          ],
+          "operation": [
+            "get",
+            "retryOne",
+            "retryAll",
+            "getLogs"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Hook ID (starts with h, e.g. hVehywQ2oXPYGHJHKtqth4)",
+      "ai_hint": "Hook ID (starts with h, e.g. hVehywQ2oXPYGHJHKtqth4)"
+    },
+    "logId": {
+      "displayName": "Hook Log ID",
+      "name": "logId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "hook"
+          ],
+          "operation": [
+            "retryOne"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Hook log ID (starts with hl, e.g. hlSbGKaUKzTVNoWEVMYbLHe)",
+      "ai_hint": "Hook log ID (starts with hl, e.g. hlSbGKaUKzTVNoWEVMYbLHe)"
+    },
+    "status": {
+      "displayName": "Log Status",
+      "name": "status",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "hook"
+          ],
+          "operation": [
+            "getLogs"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Only retrieve logs with a specific status",
+      "options": [
+        {
+          "name": "All",
+          "value": ""
+        },
+        {
+          "name": "Failed",
+          "value": "0"
+        },
+        {
+          "name": "Pending",
+          "value": "1"
+        },
+        {
+          "name": "Success",
+          "value": "2"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "startDate": {
+      "displayName": "Start Date",
+      "name": "startDate",
+      "type": "dateTime",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "hook"
+          ],
+          "operation": [
+            "getLogs"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Minimum date for the hook log to retrieve",
+      "ai_hint": "Minimum date for the hook log to retrieve"
+    },
+    "endDate": {
+      "displayName": "End Date",
+      "name": "endDate",
+      "type": "dateTime",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "hook"
+          ],
+          "operation": [
+            "getLogs"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Maximum date for the hook log to retrieve",
+      "ai_hint": "Maximum date for the hook log to retrieve"
+    },
+    "submissionId": {
+      "displayName": "Submission ID",
+      "name": "submissionId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "submission"
+          ],
+          "operation": [
+            "get",
+            "delete",
+            "getValidation",
+            "setValidation"
+          ]
+        }
+      },
+      "description": "Submission ID (number, e.g. 245128)",
+      "ai_hint": "Submission ID (number, e.g. 245128)"
+    },
+    "validationStatus": {
+      "displayName": "Validation Status",
+      "name": "validationStatus",
+      "type": "options",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "submission"
+          ],
+          "operation": [
+            "setValidation"
+          ]
+        }
+      },
+      "default": "",
+      "options": [
+        {
+          "name": "Approved",
+          "value": "validation_status_approved"
+        },
+        {
+          "name": "Not Approved",
+          "value": "validation_status_not_approved"
+        },
+        {
+          "name": "On Hold",
+          "value": "validation_status_on_hold"
+        }
+      ],
+      "description": "Desired Validation Status",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "filterType": {
+      "displayName": "Filter",
+      "name": "filterType",
+      "type": "options",
+      "default": "none",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "submission"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "None",
+          "value": "none"
+        },
+        {
+          "name": "JSON",
+          "value": "json"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "jsonNotice": {
+      "displayName": "See <a href=\"https://github.com/SEL-Columbia/formhub/wiki/Formhub-Access-Points-(API)#api-parameters\" target=\"_blank\">Formhub API docs</a> to creating filters, using the MongoDB JSON format - e.g. {\"_submission_time\":{\"$lt\":\"2021-10-01T01:02:03\"}}",
+      "name": "jsonNotice",
+      "type": "notice",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "submission"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "filterType": [
+            "json"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "filterJson": {
+      "displayName": "Filters (JSON)",
+      "name": "filterJson",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "submission"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "filterType": [
+            "json"
+          ]
+        }
+      }
+    },
+    "fileId": {
+      "displayName": "File ID",
+      "name": "fileId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ],
+          "operation": [
+            "delete",
+            "get"
+          ]
+        }
+      },
+      "description": "Uid of the file (should start with \"af\" e.g. \"afQoJxA4kmKEXVpkH6SYbhb\"",
+      "ai_hint": "Uid of the file (should start with \"af\" e.g. \"afQoJxA4kmKEXVpkH6SYbhb\""
+    },
+    "binaryPropertyName": {
+      "displayName": "Property Name",
+      "name": "binaryPropertyName",
+      "type": "string",
+      "required": true,
+      "default": "data",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ],
+          "operation": [
+            "create"
+          ],
+          "fileMode": [
+            "binary"
+          ]
+        }
+      },
+      "description": "Name of the binary property containing the file to upload. Supported types: image, audio, video, csv, xml, zip.",
+      "ai_hint": "Name of the binary property containing the file to upload. Supported types: image, audio, video, csv, xml, zip."
+    },
+    "download": {
+      "displayName": "Download File Content",
+      "name": "download",
+      "type": "boolean",
+      "required": true,
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "description": "Whether to download the file content into a binary property",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "fileMode": {
+      "displayName": "File Upload Mode",
+      "name": "fileMode",
+      "type": "options",
+      "required": true,
+      "default": "binary",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Binary File",
+          "value": "binary"
+        },
+        {
+          "name": "URL",
+          "value": "url"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "fileUrl": {
+      "displayName": "File URL",
+      "name": "fileUrl",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ],
+          "operation": [
+            "create"
+          ],
+          "fileMode": [
+            "url"
+          ]
+        }
+      },
+      "description": "HTTP(s) link to the file to upload",
+      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "formId",
+      "returnAll",
+      "limit",
+      "options",
+      "filters",
+      "operation",
+      "formId",
+      "hookId",
+      "logId",
+      "returnAll",
+      "limit",
+      "status",
+      "startDate",
+      "endDate",
+      "operation",
+      "formId",
+      "submissionId",
+      "validationStatus",
+      "returnAll",
+      "limit",
+      "filterType",
+      "jsonNotice",
+      "filterJson",
+      "options",
+      "operation",
+      "formId",
+      "fileId",
+      "binaryPropertyName",
+      "download",
+      "fileMode",
+      "binaryPropertyName",
+      "fileUrl"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'form' THEN SHOW parameter 'operation'",
+      "IF resource == 'form' AND operation IN [\"get\", \"redeploy\"] THEN SHOW parameter 'formId'",
+      "IF resource == 'form' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'form' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'form' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'form' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'hook' THEN SHOW parameter 'operation'",
+      "IF resource == 'hook' AND operation IN [\"get\", \"retryOne\", \"retryAll\", \"getLogs\", \"getAll\"] THEN SHOW parameter 'formId'",
+      "IF resource == 'hook' AND operation IN [\"get\", \"retryOne\", \"retryAll\", \"getLogs\"] THEN SHOW parameter 'hookId'",
+      "IF resource == 'hook' AND operation == 'retryOne' THEN SHOW parameter 'logId'",
+      "IF resource == 'hook' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'hook' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'hook' AND operation == 'getLogs' THEN SHOW parameter 'status'",
+      "IF resource == 'hook' AND operation == 'getLogs' THEN SHOW parameter 'startDate'",
+      "IF resource == 'hook' AND operation == 'getLogs' THEN SHOW parameter 'endDate'",
+      "IF resource == 'submission' THEN SHOW parameter 'operation'",
+      "IF resource == 'submission' AND operation IN [\"get\", \"delete\", \"getValidation\", \"setValidation\", \"getAll\"] THEN SHOW parameter 'formId'",
+      "IF resource == 'submission' AND operation IN [\"get\", \"delete\", \"getValidation\", \"setValidation\"] THEN SHOW parameter 'submissionId'",
+      "IF resource == 'submission' AND operation == 'setValidation' THEN SHOW parameter 'validationStatus'",
+      "IF resource == 'submission' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'submission' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'submission' AND operation == 'getAll' THEN SHOW parameter 'filterType'",
+      "IF resource == 'submission' AND operation == 'getAll' AND filterType == 'json' THEN SHOW parameter 'jsonNotice'",
+      "IF resource == 'submission' AND operation == 'getAll' AND filterType == 'json' THEN SHOW parameter 'filterJson'",
+      "IF resource == 'submission' AND operation IN [\"get\", \"getAll\"] THEN SHOW parameter 'options'",
+      "IF download == True THEN SHOW parameter 'binaryNamingScheme'",
+      "IF download == True AND binaryNamingScheme == 'sequence' THEN SHOW parameter 'dataPropertyAttachmentsPrefixName'",
+      "IF download == True THEN SHOW parameter 'version'",
+      "IF resource == 'file' THEN SHOW parameter 'operation'",
+      "IF resource == 'file' THEN SHOW parameter 'formId'",
+      "IF resource == 'file' AND operation IN [\"delete\", \"get\"] THEN SHOW parameter 'fileId'",
+      "IF resource == 'file' AND operation == 'get' THEN SHOW parameter 'binaryPropertyName'",
+      "IF resource == 'file' AND operation == 'get' THEN SHOW parameter 'download'",
+      "IF resource == 'file' AND operation == 'create' THEN SHOW parameter 'fileMode'",
+      "IF resource == 'file' AND operation == 'create' AND fileMode == 'binary' THEN SHOW parameter 'binaryPropertyName'",
+      "IF resource == 'file' AND operation == 'create' AND fileMode == 'url' THEN SHOW parameter 'fileUrl'"
+    ]
+  }
+}

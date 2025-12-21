@@ -1,0 +1,1208 @@
+{
+  "node_id": "n8n-nodes-base.theHive",
+  "name": "n8n-nodes-base.theHive",
+  "version": 1,
+  "semantic_context": "Consume TheHive API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "required": true,
+      "options": [
+        {
+          "name": "Alert",
+          "value": "alert"
+        },
+        {
+          "name": "Case",
+          "value": "case"
+        },
+        {
+          "name": "Log",
+          "value": "log"
+        },
+        {
+          "name": "Observable",
+          "value": "observable"
+        },
+        {
+          "name": "Task",
+          "value": "task"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "alert",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "noDataExpression": true,
+      "type": "options",
+      "required": true,
+      "default": "getAll",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "log"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create task log",
+          "action": "Create a log"
+        },
+        {
+          "name": "Execute Responder",
+          "value": "executeResponder",
+          "description": "Execute a responder on a selected log",
+          "action": "Execute a responder"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many task logs",
+          "action": "Get many logs"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a single log",
+          "action": "Get a log"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "log"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "log"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "id": {
+      "displayName": "Log ID",
+      "name": "id",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "log"
+          ],
+          "operation": [
+            "executeResponder",
+            "get"
+          ]
+        }
+      }
+    },
+    "caseId": {
+      "displayName": "Case ID",
+      "name": "caseId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create",
+            "getAll"
+          ]
+        }
+      }
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Task details",
+      "ai_hint": "Task details"
+    },
+    "description": {
+      "displayName": "Description",
+      "name": "description",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Description of the case",
+      "ai_hint": "Description of the case"
+    },
+    "severity": {
+      "displayName": "Severity",
+      "name": "severity",
+      "type": "options",
+      "options": [
+        {
+          "name": "Low",
+          "value": 1
+        },
+        {
+          "name": "Medium",
+          "value": 2
+        },
+        {
+          "name": "High",
+          "value": 3
+        }
+      ],
+      "required": true,
+      "default": 2,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Severity of the alert. Default=Medium.",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "date": {
+      "displayName": "Date",
+      "name": "date",
+      "type": "dateTime",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "alert"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Date and time when the alert was raised default=now",
+      "ai_hint": "Date and time when the alert was raised default=now"
+    },
+    "tags": {
+      "displayName": "Tags",
+      "name": "tags",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "tlp": {
+      "displayName": "TLP",
+      "name": "tlp",
+      "type": "options",
+      "required": true,
+      "default": 2,
+      "options": [
+        {
+          "name": "White",
+          "value": 0
+        },
+        {
+          "name": "Green",
+          "value": 1
+        },
+        {
+          "name": "Amber",
+          "value": 2
+        },
+        {
+          "name": "Red",
+          "value": 3
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Traffict Light Protocol (TLP). Default=Amber.",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "status": {
+      "displayName": "Status",
+      "name": "status",
+      "type": "options",
+      "options": [
+        {
+          "name": "Ok",
+          "value": "Ok"
+        },
+        {
+          "name": "Deleted",
+          "value": "Deleted"
+        }
+      ],
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "log"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Status of the log (Ok or Deleted) default=Ok",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "type": {
+      "displayName": "Type",
+      "name": "type",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "alert"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Type of the alert",
+      "ai_hint": "Type of the alert"
+    },
+    "source": {
+      "displayName": "Source",
+      "name": "source",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "alert"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Source of the alert",
+      "ai_hint": "Source of the alert"
+    },
+    "sourceRef": {
+      "displayName": "SourceRef",
+      "name": "sourceRef",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "alert"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Source reference of the alert",
+      "ai_hint": "Source reference of the alert"
+    },
+    "follow": {
+      "displayName": "Follow",
+      "name": "follow",
+      "type": "boolean",
+      "required": true,
+      "default": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "alert"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Whether the alert becomes active when updated default=true",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "artifactUi": {
+      "displayName": "Artifacts",
+      "name": "artifactUi",
+      "type": "fixedCollection",
+      "placeholder": "Add Artifact",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "alert"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "options": [
+        {
+          "displayName": "Artifact",
+          "name": "artifactValues",
+          "values": [
+            {
+              "displayName": "Data Type Name or ID",
+              "name": "dataType",
+              "type": "options",
+              "default": "",
+              "typeOptions": {
+                "loadOptionsMethod": "loadObservableTypes"
+              },
+              "description": "Type of the observable. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+            },
+            {
+              "displayName": "Data",
+              "name": "data",
+              "type": "string",
+              "displayOptions": {
+                "hide": {
+                  "dataType": [
+                    "file"
+                  ]
+                }
+              },
+              "default": ""
+            },
+            {
+              "displayName": "Input Binary Field",
+              "name": "binaryProperty",
+              "type": "string",
+              "hint": "The name of the input binary field containing the file to be written",
+              "displayOptions": {
+                "show": {
+                  "dataType": [
+                    "file"
+                  ]
+                }
+              },
+              "default": "data"
+            },
+            {
+              "displayName": "Message",
+              "name": "message",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Case Tags",
+              "name": "tags",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "description": "Artifact attributes",
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "responder": {
+      "displayName": "Responder Name or ID",
+      "name": "responder",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "required": true,
+      "default": "",
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "id"
+        ],
+        "loadOptionsMethod": "loadResponders"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "log"
+          ],
+          "operation": [
+            "executeResponder"
+          ]
+        },
+        "hide": {
+          "id": [
+            ""
+          ]
+        }
+      },
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "jsonParameters": {
+      "displayName": "JSON Parameters",
+      "name": "jsonParameters",
+      "type": "boolean",
+      "default": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create",
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "placeholder": "Add Field",
+      "type": "collection",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "alert"
+          ],
+          "operation": [
+            "promote"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Case Template",
+          "name": "caseTemplate",
+          "type": "string",
+          "default": "",
+          "description": "Case template to use when a case is created from this alert"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "type": "collection",
+      "name": "updateFields",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Description",
+          "name": "description",
+          "type": "string",
+          "default": "",
+          "description": "Task details"
+        },
+        {
+          "displayName": "End Date",
+          "name": "endDate",
+          "type": "dateTime",
+          "default": "",
+          "description": "Date of the end of the task. This is automatically set when status is set to Completed."
+        },
+        {
+          "displayName": "Flag",
+          "name": "flag",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to flag the task. Default=false."
+        },
+        {
+          "displayName": "Owner",
+          "name": "owner",
+          "type": "string",
+          "default": "",
+          "description": "User who owns the task. This is automatically set to current user when status is set to InProgress."
+        },
+        {
+          "displayName": "Start Date",
+          "name": "startDate",
+          "type": "dateTime",
+          "default": "",
+          "description": "Date of the beginning of the task. This is automatically set when status is set to Open."
+        },
+        {
+          "displayName": "Status",
+          "name": "status",
+          "type": "options",
+          "default": "Waiting",
+          "options": [
+            {
+              "name": "Cancel",
+              "value": "Cancel"
+            },
+            {
+              "name": "Completed",
+              "value": "Completed"
+            },
+            {
+              "name": "In Progress",
+              "value": "InProgress"
+            },
+            {
+              "name": "Waiting",
+              "value": "Waiting"
+            }
+          ],
+          "description": "Status of the task. Default=Waiting."
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": "",
+          "description": "Task details"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "log"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "placeholder": "Add option",
+      "options": [
+        {
+          "displayName": "Attachment",
+          "name": "attachmentValues",
+          "placeholder": "Add Attachment",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": false
+          },
+          "default": {},
+          "options": [
+            {
+              "displayName": "Attachment",
+              "name": "attachmentValues",
+              "values": [
+                {
+                  "displayName": "Input Binary Field",
+                  "name": "binaryProperty",
+                  "type": "string",
+                  "default": "data",
+                  "description": "The name of the input binary field which holds binary data"
+                }
+              ]
+            }
+          ],
+          "description": "File attached to the log"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "default": {},
+      "placeholder": "Add Filter",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "search",
+            "count"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Description",
+          "name": "description",
+          "type": "string",
+          "default": "",
+          "description": "Task details"
+        },
+        {
+          "displayName": "End Date",
+          "name": "endDate",
+          "type": "dateTime",
+          "default": "",
+          "description": "Date of the end of the task. This is automatically set when status is set to Completed."
+        },
+        {
+          "displayName": "Flag",
+          "name": "flag",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to flag the task. Default=false."
+        },
+        {
+          "displayName": "Owner",
+          "name": "owner",
+          "type": "string",
+          "default": "",
+          "description": "User who owns the task. This is automatically set to current user when status is set to InProgress."
+        },
+        {
+          "displayName": "Start Date",
+          "name": "startDate",
+          "type": "dateTime",
+          "default": "",
+          "description": "Date of the beginning of the task. This is automatically set when status is set to Open."
+        },
+        {
+          "displayName": "Status",
+          "name": "status",
+          "type": "options",
+          "default": "Waiting",
+          "options": [
+            {
+              "name": "Cancel",
+              "value": "Cancel"
+            },
+            {
+              "name": "Completed",
+              "value": "Completed"
+            },
+            {
+              "name": "In Progress",
+              "value": "InProgress"
+            },
+            {
+              "name": "Waiting",
+              "value": "Waiting"
+            }
+          ],
+          "description": "Status of the task. Default=Waiting."
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": "",
+          "description": "Task details"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "dataType": {
+      "displayName": "Data Type Name or ID",
+      "name": "dataType",
+      "type": "options",
+      "required": true,
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "loadObservableTypes"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "create",
+            "executeAnalyzer"
+          ]
+        }
+      },
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "data": {
+      "displayName": "Data",
+      "name": "data",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "create"
+          ]
+        },
+        "hide": {
+          "dataType": [
+            "file"
+          ]
+        }
+      }
+    },
+    "binaryProperty": {
+      "displayName": "Input Binary Field",
+      "name": "binaryProperty",
+      "type": "string",
+      "required": true,
+      "default": "data",
+      "description": "The name of the input binary field that represent the attachment file",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "create"
+          ],
+          "dataType": [
+            "file"
+          ]
+        }
+      },
+      "ai_hint": "The name of the input binary field that represent the attachment file"
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "log"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Content of the Log",
+      "ai_hint": "Content of the Log"
+    },
+    "startDate": {
+      "displayName": "Start Date",
+      "name": "startDate",
+      "type": "dateTime",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "log"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Date of the log submission default=now",
+      "ai_hint": "Date of the log submission default=now"
+    },
+    "ioc": {
+      "displayName": "IOC",
+      "name": "ioc",
+      "type": "boolean",
+      "required": true,
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Whether the observable is an IOC (Indicator of compromise)",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "sighted": {
+      "displayName": "Sighted",
+      "name": "sighted",
+      "type": "boolean",
+      "required": true,
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Whether sighted previously",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "analyzers": {
+      "displayName": "Analyzer Names or IDs",
+      "name": "analyzers",
+      "type": "multiOptions",
+      "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "required": true,
+      "default": [],
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "id",
+          "dataType"
+        ],
+        "loadOptionsMethod": "loadAnalyzers"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "observable"
+          ],
+          "operation": [
+            "executeAnalyzer"
+          ]
+        },
+        "hide": {
+          "id": [
+            ""
+          ]
+        }
+      },
+      "ai_hint": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "owner": {
+      "displayName": "Owner",
+      "name": "owner",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "flag": {
+      "displayName": "Flag",
+      "name": "flag",
+      "type": "boolean",
+      "required": true,
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Whether to flag the task. Default=false.",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "taskId": {
+      "displayName": "Task ID",
+      "name": "taskId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "log"
+          ],
+          "operation": [
+            "create",
+            "getAll"
+          ]
+        }
+      },
+      "description": "ID of the task",
+      "ai_hint": "ID of the task"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "returnAll",
+      "limit",
+      "id",
+      "caseId",
+      "title",
+      "description",
+      "severity",
+      "date",
+      "tags",
+      "tlp",
+      "status",
+      "type",
+      "source",
+      "sourceRef",
+      "follow",
+      "artifactUi",
+      "responder",
+      "jsonParameters",
+      "additionalFields",
+      "additionalFields",
+      "updateFields",
+      "options",
+      "options",
+      "filters",
+      "operation",
+      "caseId",
+      "returnAll",
+      "limit",
+      "id",
+      "dataType",
+      "data",
+      "binaryProperty",
+      "message",
+      "startDate",
+      "tlp",
+      "ioc",
+      "sighted",
+      "status",
+      "analyzers",
+      "responder",
+      "options",
+      "updateFields",
+      "options",
+      "filters",
+      "operation",
+      "returnAll",
+      "limit",
+      "id",
+      "title",
+      "description",
+      "severity",
+      "startDate",
+      "owner",
+      "flag",
+      "tlp",
+      "tags",
+      "responder",
+      "jsonParameters",
+      "options",
+      "updateFields",
+      "options",
+      "filters",
+      "operation",
+      "id",
+      "caseId",
+      "returnAll",
+      "limit",
+      "title",
+      "status",
+      "flag",
+      "responder",
+      "options",
+      "updateFields",
+      "options",
+      "filters",
+      "operation",
+      "taskId",
+      "returnAll",
+      "limit",
+      "id",
+      "message",
+      "startDate",
+      "status",
+      "responder",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF resource == 'alert' THEN SHOW parameter 'operation'",
+      "IF operation == 'getAll' AND resource == 'alert' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'alert' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'alert' AND operation IN [\"promote\", \"markAsRead\", \"markAsUnread\", \"merge\", \"update\", \"executeResponder\", \"get\"] THEN SHOW parameter 'id'",
+      "IF resource == 'alert' AND operation == 'merge' THEN SHOW parameter 'caseId'",
+      "IF resource == 'alert' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'alert' AND operation == 'create' THEN SHOW parameter 'description'",
+      "IF resource == 'alert' AND operation == 'create' THEN SHOW parameter 'severity'",
+      "IF resource == 'alert' AND operation == 'create' THEN SHOW parameter 'date'",
+      "IF resource == 'alert' AND operation == 'create' THEN SHOW parameter 'tags'",
+      "IF resource == 'alert' AND operation == 'create' THEN SHOW parameter 'tlp'",
+      "IF resource == 'alert' AND operation == 'create' THEN SHOW parameter 'status'",
+      "IF resource == 'alert' AND operation == 'create' THEN SHOW parameter 'type'",
+      "IF resource == 'alert' AND operation == 'create' THEN SHOW parameter 'source'",
+      "IF resource == 'alert' AND operation == 'create' THEN SHOW parameter 'sourceRef'",
+      "IF resource == 'alert' AND operation == 'create' THEN SHOW parameter 'follow'",
+      "IF resource == 'alert' AND operation == 'create' THEN SHOW parameter 'artifactUi'",
+      "IF dataType == 'file' THEN HIDE parameter 'data'",
+      "IF dataType == 'file' THEN SHOW parameter 'binaryProperty'",
+      "IF resource == 'alert' AND operation == 'executeResponder' THEN SHOW parameter 'responder'",
+      "IF id == '' THEN HIDE parameter 'responder'",
+      "IF resource == 'alert' AND operation IN [\"create\", \"update\"] THEN SHOW parameter 'jsonParameters'",
+      "IF resource == 'alert' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF /jsonParameters == False THEN SHOW parameter 'customFieldsUi'",
+      "IF /jsonParameters == True THEN SHOW parameter 'customFieldsJson'",
+      "IF resource == 'alert' AND operation == 'promote' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'alert' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF operation == 'getAll' AND resource == 'alert' THEN SHOW parameter 'options'",
+      "IF operation == 'get' AND resource == 'alert' THEN SHOW parameter 'options'",
+      "IF resource == 'alert' AND operation IN [\"getAll\", \"count\"] THEN SHOW parameter 'filters'",
+      "IF resource == 'observable' THEN SHOW parameter 'operation'",
+      "IF resource == 'observable' AND operation IN [\"create\", \"getAll\"] THEN SHOW parameter 'caseId'",
+      "IF operation IN [\"getAll\", \"search\"] AND resource == 'observable' THEN SHOW parameter 'returnAll'",
+      "IF operation IN [\"getAll\", \"search\"] AND resource == 'observable' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'observable' AND operation IN [\"update\", \"executeResponder\", \"executeAnalyzer\", \"get\"] THEN SHOW parameter 'id'",
+      "IF resource == 'observable' AND operation IN [\"create\", \"executeAnalyzer\"] THEN SHOW parameter 'dataType'",
+      "IF resource == 'observable' AND operation == 'create' THEN SHOW parameter 'data'",
+      "IF resource == 'observable' AND operation == 'create' AND dataType == 'file' THEN SHOW parameter 'binaryProperty'",
+      "IF resource == 'observable' AND operation == 'create' THEN SHOW parameter 'message'",
+      "IF resource == 'observable' AND operation == 'create' THEN SHOW parameter 'startDate'",
+      "IF resource == 'observable' AND operation == 'create' THEN SHOW parameter 'tlp'",
+      "IF resource == 'observable' AND operation == 'create' THEN SHOW parameter 'ioc'",
+      "IF resource == 'observable' AND operation == 'create' THEN SHOW parameter 'sighted'",
+      "IF resource == 'observable' AND operation == 'create' THEN SHOW parameter 'status'",
+      "IF resource == 'observable' AND operation == 'executeAnalyzer' THEN SHOW parameter 'analyzers'",
+      "IF id == '' THEN HIDE parameter 'analyzers'",
+      "IF resource == 'observable' AND operation == 'executeResponder' THEN SHOW parameter 'responder'",
+      "IF resource == 'observable' AND operation == 'create' THEN SHOW parameter 'options'",
+      "IF resource == 'observable' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF operation IN [\"getAll\", \"search\"] AND resource == 'observable' THEN SHOW parameter 'options'",
+      "IF resource == 'observable' AND operation IN [\"search\", \"count\"] THEN SHOW parameter 'filters'",
+      "IF resource == 'case' THEN SHOW parameter 'operation'",
+      "IF operation == 'getAll' AND resource == 'case' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'case' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'case' AND operation IN [\"update\", \"executeResponder\", \"get\"] THEN SHOW parameter 'id'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'description'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'severity'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'startDate'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'owner'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'flag'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'tlp'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'tags'",
+      "IF resource == 'case' AND operation == 'executeResponder' THEN SHOW parameter 'responder'",
+      "IF resource == 'case' AND operation IN [\"create\", \"update\"] THEN SHOW parameter 'jsonParameters'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'options'",
+      "IF /jsonParameters == True THEN SHOW parameter 'metrics'",
+      "IF resource == 'case' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF operation == 'getAll' AND resource == 'case' THEN SHOW parameter 'options'",
+      "IF resource == 'case' AND operation IN [\"getAll\", \"count\"] THEN SHOW parameter 'filters'",
+      "IF resource == 'task' THEN SHOW parameter 'operation'",
+      "IF resource == 'task' AND operation IN [\"update\", \"executeResponder\", \"get\"] THEN SHOW parameter 'id'",
+      "IF resource == 'task' AND operation IN [\"create\", \"getAll\"] THEN SHOW parameter 'caseId'",
+      "IF operation IN [\"search\", \"getAll\"] AND resource == 'task' THEN SHOW parameter 'returnAll'",
+      "IF operation IN [\"search\", \"getAll\"] AND resource == 'task' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'status'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'flag'",
+      "IF resource == 'task' AND operation == 'executeResponder' THEN SHOW parameter 'responder'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'options'",
+      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF operation IN [\"getAll\", \"search\"] AND resource == 'task' THEN SHOW parameter 'options'",
+      "IF resource == 'task' AND operation IN [\"search\", \"count\"] THEN SHOW parameter 'filters'",
+      "IF resource == 'log' THEN SHOW parameter 'operation'",
+      "IF resource == 'log' AND operation IN [\"create\", \"getAll\"] THEN SHOW parameter 'taskId'",
+      "IF operation == 'getAll' AND resource == 'log' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'log' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'log' AND operation IN [\"executeResponder\", \"get\"] THEN SHOW parameter 'id'",
+      "IF resource == 'log' AND operation == 'create' THEN SHOW parameter 'message'",
+      "IF resource == 'log' AND operation == 'create' THEN SHOW parameter 'startDate'",
+      "IF resource == 'log' AND operation == 'create' THEN SHOW parameter 'status'",
+      "IF resource == 'log' AND operation == 'executeResponder' THEN SHOW parameter 'responder'",
+      "IF resource == 'log' AND operation == 'create' THEN SHOW parameter 'options'"
+    ]
+  }
+}

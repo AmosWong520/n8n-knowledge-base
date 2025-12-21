@@ -1,0 +1,66 @@
+{
+  "node_id": "n8n-nodes-base.typeformTrigger",
+  "name": "n8n-nodes-base.typeformTrigger",
+  "version": [
+    1,
+    1.1
+  ],
+  "semantic_context": "Starts the workflow on a Typeform form submission",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Access Token",
+          "value": "accessToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "accessToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "formId": {
+      "displayName": "Form Name or ID",
+      "name": "formId",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getForms"
+      },
+      "options": [],
+      "default": "",
+      "required": true,
+      "description": "Form which should trigger workflow on submission. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "Form which should trigger workflow on submission. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "simplifyAnswers": {
+      "displayName": "Simplify Answers",
+      "name": "simplifyAnswers",
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to convert the answers to a key:value pair (\"FIELD_TITLE\":\"USER_ANSER\") to be easily processable",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "onlyAnswers": {
+      "displayName": "Only Answers",
+      "name": "onlyAnswers",
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to return only the answers of the form and not any of the other data",
+      "ai_hint": "布尔值：true 或 false。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "formId",
+      "simplifyAnswers",
+      "onlyAnswers"
+    ],
+    "conditional_rules": []
+  }
+}

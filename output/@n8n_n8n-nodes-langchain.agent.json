@@ -1,0 +1,200 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.agent",
+  "name": "@n8n/n8n-nodes-langchain.agent",
+  "version": [
+    3
+  ],
+  "semantic_context": "Generates an action plan and executes it. Can use external tools.",
+  "parameters": {
+    "aiAgentStarterCallout": {
+      "displayName": "Tip: Get a feel for agents with our quick <a href=\"https://docs.n8n.io/advanced-ai/intro-tutorial/\" target=\"_blank\">tutorial</a> or see an <a href=\"/workflows/templates/1954\" target=\"_blank\">example</a> of how this node works",
+      "name": "aiAgentStarterCallout",
+      "type": "callout",
+      "default": ""
+    },
+    "promptType": {
+      "displayName": "Source for Prompt (User Message)",
+      "name": "promptType",
+      "type": "options",
+      "options": [
+        {
+          "name": "Connected Chat Trigger Node",
+          "value": "auto",
+          "description": "Looks for an input field called 'chatInput' that is coming from a directly connected Chat Trigger"
+        },
+        {
+          "name": "Connected Guardrails Node",
+          "value": "guardrails",
+          "description": "Looks for an input field called 'guardrailsInput' that is coming from a directly connected Guardrails Node"
+        },
+        {
+          "name": "Define below",
+          "value": "define",
+          "description": "Use an expression to reference data in previous nodes or enter static text"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "text": {
+      "displayName": "Prompt (User Message)",
+      "name": "text",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "placeholder": "e.g. Hello, how can you help me?",
+      "typeOptions": {
+        "rows": 2
+      },
+      "displayOptions": {
+        "show": {
+          "promptType": [
+            "define"
+          ]
+        }
+      }
+    },
+    "hasOutputParser": {
+      "displayName": "Require Specific Output Format",
+      "name": "hasOutputParser",
+      "type": "boolean",
+      "default": false,
+      "noDataExpression": true,
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "notice": {
+      "displayName": "Connect an <a data-action='openSelectiveNodeCreator' data-action-parameter-connectiontype='ai_outputParser'>output parser</a> on the canvas to specify the output format you require",
+      "name": "notice",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "hasOutputParser": [
+            true
+          ]
+        }
+      }
+    },
+    "needsFallback": {
+      "displayName": "Enable Fallback Model",
+      "name": "needsFallback",
+      "type": "boolean",
+      "default": false,
+      "noDataExpression": true,
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "fallbackNotice": {
+      "displayName": "Connect an additional language model on the canvas to use it as a fallback if the main model fails",
+      "name": "fallbackNotice",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "needsFallback": [
+            true
+          ]
+        }
+      }
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "default": {},
+      "placeholder": "Add Option",
+      "options": [
+        {
+          "displayName": "System Message",
+          "name": "systemMessage",
+          "type": "string",
+          "default": "You are a helpful assistant",
+          "description": "The message that will be sent to the agent before the conversation starts",
+          "typeOptions": {
+            "rows": 6
+          }
+        },
+        {
+          "displayName": "Max Iterations",
+          "name": "maxIterations",
+          "type": "number",
+          "default": 10,
+          "description": "The maximum number of iterations the agent will run before stopping"
+        },
+        {
+          "displayName": "Return Intermediate Steps",
+          "name": "returnIntermediateSteps",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether or not the output should include intermediate steps the agent took"
+        },
+        {
+          "displayName": "Automatically Passthrough Binary Images",
+          "name": "passthroughBinaryImages",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether or not binary images should be automatically passed through to the agent as image type messages"
+        },
+        {
+          "displayName": "Enable Streaming",
+          "name": "enableStreaming",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether this agent will stream the response in real-time as it generates text"
+        },
+        {
+          "displayName": "Batch Processing",
+          "name": "batching",
+          "type": "collection",
+          "placeholder": "Add Batch Processing Option",
+          "description": "Batch processing options for rate limiting",
+          "default": {},
+          "options": [
+            {
+              "displayName": "Batch Size",
+              "name": "batchSize",
+              "default": 1,
+              "type": "number",
+              "description": "How many items to process in parallel. This is useful for rate limiting, but might impact the log output ordering."
+            },
+            {
+              "displayName": "Delay Between Batches",
+              "name": "delayBetweenBatches",
+              "default": 0,
+              "type": "number",
+              "description": "Delay in milliseconds between batches. This is useful for rate limiting."
+            }
+          ]
+        },
+        {
+          "displayName": "Max Tokens To Read From Memory",
+          "name": "maxTokensFromMemory",
+          "type": "hidden",
+          "default": 0,
+          "description": "The maximum number of tokens to read from the chat memory history. Set to 0 to read all history."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "aiAgentStarterCallout",
+      "promptType",
+      "text",
+      "text",
+      "text",
+      "hasOutputParser",
+      "notice",
+      "needsFallback",
+      "fallbackNotice",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF promptType == 'guardrails' THEN SHOW parameter 'text'",
+      "IF promptType == 'auto' THEN SHOW parameter 'text'",
+      "IF promptType == 'define' THEN SHOW parameter 'text'",
+      "IF hasOutputParser == True THEN SHOW parameter 'notice'",
+      "IF needsFallback == True THEN SHOW parameter 'fallbackNotice'"
+    ]
+  }
+}

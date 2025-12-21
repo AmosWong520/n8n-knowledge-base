@@ -1,0 +1,660 @@
+{
+  "node_id": "n8n-nodes-base.sentryIoTool",
+  "name": "n8n-nodes-base.sentryIoTool",
+  "version": 1,
+  "semantic_context": "Consume Sentry.io API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume Sentry.io API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Access Token (Cloud)",
+          "value": "accessToken"
+        },
+        {
+          "name": "OAuth2 (Cloud)",
+          "value": "oAuth2"
+        },
+        {
+          "name": "Access Token (Self Hosted)",
+          "value": "accessTokenServer"
+        }
+      ],
+      "default": "accessToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Event",
+          "value": "event"
+        },
+        {
+          "name": "Issue",
+          "value": "issue"
+        },
+        {
+          "name": "Organization",
+          "value": "organization"
+        },
+        {
+          "name": "Project",
+          "value": "project"
+        },
+        {
+          "name": "Release",
+          "value": "release"
+        },
+        {
+          "name": "Team",
+          "value": "team"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "event",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "team"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a new team",
+          "action": "Create a team"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a team",
+          "action": "Delete a team"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get team by slug",
+          "action": "Get a team"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many teams",
+          "action": "Get many teams"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a team",
+          "action": "Update a team"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "get",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "organizationSlug": {
+      "displayName": "Organization Slug Name or ID",
+      "name": "organizationSlug",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getOrganizations"
+      },
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "team"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The slug of the organization the team belongs to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The slug of the organization the team belongs to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "projectSlug": {
+      "displayName": "Project Slug Name or ID",
+      "name": "projectSlug",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getProjects",
+        "loadOptionsDependsOn": [
+          "organizationSlug"
+        ]
+      },
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "project"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The slug of the project to delete. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The slug of the project to delete. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "full": {
+      "displayName": "Full",
+      "name": "full",
+      "type": "boolean",
+      "default": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "event"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "description": "Whether the event payload will include the full event body, including the stack trace",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "team"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "team"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "eventId": {
+      "displayName": "Event ID",
+      "name": "eventId",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "event"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The ID of the event to retrieve (either the numeric primary-key or the hexadecimal ID as reported by the raven client)",
+      "ai_hint": "The ID of the event to retrieve (either the numeric primary-key or the hexadecimal ID as reported by the raven client)"
+    },
+    "issueId": {
+      "displayName": "Issue ID",
+      "name": "issueId",
+      "type": "string",
+      "default": "",
+      "placeholder": "1234",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "issue"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "required": true,
+      "description": "ID of issue to get",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "team"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Slug",
+          "name": "slug",
+          "type": "string",
+          "default": "",
+          "description": "The optional slug for this team. If not provided it will be auto generated from the name."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "team"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The name of the team",
+      "ai_hint": "The name of the team"
+    },
+    "agreeTerms": {
+      "displayName": "Agree to Terms",
+      "name": "agreeTerms",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "organization"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Whether you agree to the applicable terms of service and privacy policy of Sentry.io",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "organization_slug": {
+      "displayName": "Slug Name or ID",
+      "name": "organization_slug",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getOrganizations"
+      },
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "organization"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The slug of the organization to update. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The slug of the organization to update. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "team"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Name",
+          "name": "name",
+          "type": "string",
+          "default": "",
+          "description": "The new name of the team"
+        },
+        {
+          "displayName": "Slug",
+          "name": "slug",
+          "type": "string",
+          "default": "",
+          "description": "The new slug of the team. Must be unique and available."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "teamSlug": {
+      "displayName": "Team Slug Name or ID",
+      "name": "teamSlug",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getTeams",
+        "loadOptionsDependsOn": [
+          "organizationSlug"
+        ]
+      },
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "team"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The slug of the team to delete. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The slug of the team to delete. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "version": {
+      "displayName": "Version",
+      "name": "version",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "release"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "required": true,
+      "description": "A version identifier for this release. Can be a version number, a commit hash etc.",
+      "ai_hint": "A version identifier for this release. Can be a version number, a commit hash etc."
+    },
+    "url": {
+      "displayName": "URL",
+      "name": "url",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "release"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "required": true,
+      "description": "A URL that points to the release. This can be the path to an online interface to the sourcecode for instance.",
+      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+    },
+    "projects": {
+      "displayName": "Project Names or IDs",
+      "name": "projects",
+      "type": "multiOptions",
+      "typeOptions": {
+        "loadOptionsMethod": "getProjects"
+      },
+      "default": [],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "release"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "required": true,
+      "description": "A list of project slugs that are involved in this release. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "A list of project slugs that are involved in this release. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "authentication",
+      "resource",
+      "operation",
+      "organizationSlug",
+      "projectSlug",
+      "full",
+      "returnAll",
+      "limit",
+      "organizationSlug",
+      "projectSlug",
+      "eventId",
+      "operation",
+      "issueId",
+      "organizationSlug",
+      "projectSlug",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "issueId",
+      "additionalFields",
+      "operation",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "organizationSlug",
+      "name",
+      "agreeTerms",
+      "additionalFields",
+      "organization_slug",
+      "updateFields",
+      "operation",
+      "organizationSlug",
+      "projectSlug",
+      "teamSlug",
+      "name",
+      "additionalFields",
+      "returnAll",
+      "limit",
+      "organizationSlug",
+      "projectSlug",
+      "updateFields",
+      "organizationSlug",
+      "projectSlug",
+      "operation",
+      "organizationSlug",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "organizationSlug",
+      "version",
+      "organizationSlug",
+      "version",
+      "url",
+      "projects",
+      "additionalFields",
+      "organizationSlug",
+      "version",
+      "updateFields",
+      "operation",
+      "organizationSlug",
+      "returnAll",
+      "limit",
+      "organizationSlug",
+      "teamSlug",
+      "organizationSlug",
+      "name",
+      "additionalFields",
+      "organizationSlug",
+      "teamSlug",
+      "updateFields",
+      "organizationSlug",
+      "teamSlug"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'event' THEN SHOW parameter 'operation'",
+      "IF resource == 'event' AND operation == 'getAll' THEN SHOW parameter 'organizationSlug'",
+      "IF resource == 'event' AND operation == 'getAll' THEN SHOW parameter 'projectSlug'",
+      "IF resource == 'event' AND operation == 'getAll' THEN SHOW parameter 'full'",
+      "IF operation == 'getAll' AND resource == 'event' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'event' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'event' AND operation == 'get' THEN SHOW parameter 'organizationSlug'",
+      "IF resource == 'event' AND operation == 'get' THEN SHOW parameter 'projectSlug'",
+      "IF resource == 'event' AND operation == 'get' THEN SHOW parameter 'eventId'",
+      "IF resource == 'issue' THEN SHOW parameter 'operation'",
+      "IF resource == 'issue' AND operation IN [\"get\", \"delete\"] THEN SHOW parameter 'issueId'",
+      "IF resource == 'issue' AND operation == 'getAll' THEN SHOW parameter 'organizationSlug'",
+      "IF resource == 'issue' AND operation == 'getAll' THEN SHOW parameter 'projectSlug'",
+      "IF operation == 'getAll' AND resource == 'issue' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'issue' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'issue' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'issue' AND operation == 'update' THEN SHOW parameter 'issueId'",
+      "IF resource == 'issue' AND operation == 'update' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'organization' THEN SHOW parameter 'operation'",
+      "IF operation == 'getAll' AND resource == 'organization' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'organization' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'organization' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'organization' AND operation == 'get' THEN SHOW parameter 'organizationSlug'",
+      "IF resource == 'organization' AND operation == 'create' THEN SHOW parameter 'name'",
+      "IF resource == 'organization' AND operation == 'create' THEN SHOW parameter 'agreeTerms'",
+      "IF resource == 'organization' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'organization' AND operation == 'update' THEN SHOW parameter 'organization_slug'",
+      "IF resource == 'organization' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'project' THEN SHOW parameter 'operation'",
+      "IF resource == 'project' AND operation IN [\"create\", \"get\"] THEN SHOW parameter 'organizationSlug'",
+      "IF resource == 'project' AND operation == 'get' THEN SHOW parameter 'projectSlug'",
+      "IF resource == 'project' AND operation == 'create' THEN SHOW parameter 'teamSlug'",
+      "IF resource == 'project' AND operation == 'create' THEN SHOW parameter 'name'",
+      "IF resource == 'project' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'getAll' AND resource == 'project' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'project' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'project' AND operation == 'update' THEN SHOW parameter 'organizationSlug'",
+      "IF resource == 'project' AND operation == 'update' THEN SHOW parameter 'projectSlug'",
+      "IF resource == 'project' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'project' AND operation == 'delete' THEN SHOW parameter 'organizationSlug'",
+      "IF resource == 'project' AND operation == 'delete' THEN SHOW parameter 'projectSlug'",
+      "IF resource == 'release' THEN SHOW parameter 'operation'",
+      "IF resource == 'release' AND operation == 'getAll' THEN SHOW parameter 'organizationSlug'",
+      "IF operation == 'getAll' AND resource == 'release' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'release' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'release' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'release' AND operation IN [\"get\", \"delete\"] THEN SHOW parameter 'organizationSlug'",
+      "IF resource == 'release' AND operation IN [\"get\", \"delete\"] THEN SHOW parameter 'version'",
+      "IF resource == 'release' AND operation == 'create' THEN SHOW parameter 'organizationSlug'",
+      "IF resource == 'release' AND operation == 'create' THEN SHOW parameter 'version'",
+      "IF resource == 'release' AND operation == 'create' THEN SHOW parameter 'url'",
+      "IF resource == 'release' AND operation == 'create' THEN SHOW parameter 'projects'",
+      "IF resource == 'release' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'release' AND operation == 'update' THEN SHOW parameter 'organizationSlug'",
+      "IF resource == 'release' AND operation == 'update' THEN SHOW parameter 'version'",
+      "IF resource == 'release' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'team' THEN SHOW parameter 'operation'",
+      "IF resource == 'team' AND operation == 'getAll' THEN SHOW parameter 'organizationSlug'",
+      "IF operation == 'getAll' AND resource == 'team' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'team' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'team' AND operation == 'get' THEN SHOW parameter 'organizationSlug'",
+      "IF resource == 'team' AND operation == 'get' THEN SHOW parameter 'teamSlug'",
+      "IF resource == 'team' AND operation == 'create' THEN SHOW parameter 'organizationSlug'",
+      "IF resource == 'team' AND operation == 'create' THEN SHOW parameter 'name'",
+      "IF resource == 'team' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'team' AND operation == 'update' THEN SHOW parameter 'organizationSlug'",
+      "IF resource == 'team' AND operation == 'update' THEN SHOW parameter 'teamSlug'",
+      "IF resource == 'team' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'team' AND operation == 'delete' THEN SHOW parameter 'organizationSlug'",
+      "IF resource == 'team' AND operation == 'delete' THEN SHOW parameter 'teamSlug'"
+    ]
+  }
+}

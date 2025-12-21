@@ -1,0 +1,65 @@
+{
+  "node_id": "n8n-nodes-base.sendInBlueTrigger",
+  "name": "n8n-nodes-base.sendInBlueTrigger",
+  "version": 1,
+  "semantic_context": "Starts the workflow when Brevo events occur",
+  "parameters": {
+    "type": {
+      "displayName": "Resource",
+      "default": "transactional",
+      "name": "type",
+      "options": [
+        {
+          "name": "Inbound",
+          "value": "inbound"
+        },
+        {
+          "name": "Marketing",
+          "value": "marketing"
+        },
+        {
+          "name": "Transactional",
+          "value": "transactional"
+        }
+      ],
+      "required": true,
+      "type": "options",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "events": {
+      "displayName": "Trigger On",
+      "displayOptions": {
+        "show": {
+          "type": [
+            "inbound"
+          ]
+        }
+      },
+      "name": "events",
+      "placeholder": "Add Event",
+      "options": [
+        {
+          "name": "Inbound Email Processed",
+          "value": "inboundEmailProcessed",
+          "description": "Triggers when inbound email is processed"
+        }
+      ],
+      "default": [],
+      "required": true,
+      "type": "multiOptions"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "type",
+      "events",
+      "events",
+      "events"
+    ],
+    "conditional_rules": [
+      "IF type == 'transactional' THEN SHOW parameter 'events'",
+      "IF type == 'marketing' THEN SHOW parameter 'events'",
+      "IF type == 'inbound' THEN SHOW parameter 'events'"
+    ]
+  }
+}

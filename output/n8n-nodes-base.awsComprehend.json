@@ -1,0 +1,222 @@
+{
+  "node_id": "n8n-nodes-base.awsComprehend",
+  "name": "n8n-nodes-base.awsComprehend",
+  "version": 1,
+  "semantic_context": "Sends data to Amazon Comprehend",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "AWS (IAM)",
+          "value": "iam"
+        },
+        {
+          "name": "AWS (Assume Role)",
+          "value": "assumeRole"
+        }
+      ],
+      "default": "iam",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Text",
+          "value": "text"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "text",
+      "description": "The resource to perform",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Detect Dominant Language",
+          "value": "detectDominantLanguage",
+          "description": "Identify the dominant language",
+          "action": "Identify the dominant language"
+        },
+        {
+          "name": "Detect Entities",
+          "value": "detectEntities",
+          "description": "Inspects text for named entities, and returns information about them",
+          "action": "Inspect text for named entities, and returns information about them"
+        },
+        {
+          "name": "Detect Sentiment",
+          "value": "detectSentiment",
+          "description": "Analyse the sentiment of the text",
+          "action": "Analyze the sentiment of the text"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "detectDominantLanguage",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "languageCode": {
+      "displayName": "Language Code",
+      "name": "languageCode",
+      "type": "options",
+      "options": [
+        {
+          "name": "Arabic",
+          "value": "ar"
+        },
+        {
+          "name": "Chinese",
+          "value": "zh"
+        },
+        {
+          "name": "Chinese (T)",
+          "value": "zh-TW"
+        },
+        {
+          "name": "English",
+          "value": "en"
+        },
+        {
+          "name": "French",
+          "value": "fr"
+        },
+        {
+          "name": "German",
+          "value": "de"
+        },
+        {
+          "name": "Hindi",
+          "value": "hi"
+        },
+        {
+          "name": "Italian",
+          "value": "it"
+        },
+        {
+          "name": "Japanese",
+          "value": "ja"
+        },
+        {
+          "name": "Korean",
+          "value": "ko"
+        },
+        {
+          "name": "Portuguese",
+          "value": "pt"
+        },
+        {
+          "name": "Spanish",
+          "value": "es"
+        }
+      ],
+      "default": "en",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "text"
+          ],
+          "operation": [
+            "detectSentiment",
+            "detectEntities"
+          ]
+        }
+      },
+      "description": "The language code for text",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "text": {
+      "displayName": "Text",
+      "name": "text",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "text"
+          ]
+        }
+      },
+      "description": "The text to send",
+      "ai_hint": "The text to send"
+    },
+    "simple": {
+      "displayName": "Simplify",
+      "name": "simple",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "text"
+          ],
+          "operation": [
+            "detectDominantLanguage"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to return a simplified version of the response instead of the raw data",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "text"
+          ],
+          "operation": [
+            "detectEntities"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Endpoint Arn",
+          "name": "endpointArn",
+          "type": "string",
+          "default": "",
+          "description": "The Amazon Resource Name of an endpoint that is associated with a custom entity recognition model"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "resource",
+      "operation",
+      "languageCode",
+      "text",
+      "simple",
+      "additionalFields"
+    ],
+    "conditional_rules": [
+      "IF resource == 'text' AND operation IN [\"detectSentiment\", \"detectEntities\"] THEN SHOW parameter 'languageCode'",
+      "IF resource == 'text' THEN SHOW parameter 'text'",
+      "IF resource == 'text' AND operation == 'detectDominantLanguage' THEN SHOW parameter 'simple'",
+      "IF resource == 'text' AND operation == 'detectEntities' THEN SHOW parameter 'additionalFields'"
+    ]
+  }
+}

@@ -1,0 +1,888 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+  "name": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+  "version": [
+    1,
+    1.1
+  ],
+  "semantic_context": "Makes an HTTP request and returns the response data",
+  "parameters": {
+    "notice": {
+      "displayName": "This node must be connected to an AI agent. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>",
+      "name": "notice",
+      "type": "notice",
+      "default": "",
+      "typeOptions": {
+        "containerClass": "ndv-connection-hint-notice"
+      }
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "description": "Explain to LLM what this tool does, better description would allow LLM to produce expected result",
+      "placeholder": "e.g. Get the current weather in the requested city",
+      "default": "",
+      "typeOptions": {
+        "rows": 3
+      },
+      "ai_hint": "Explain to LLM what this tool does, better description would allow LLM to produce expected result"
+    },
+    "method": {
+      "displayName": "Method",
+      "name": "method",
+      "type": "options",
+      "options": [
+        {
+          "name": "DELETE",
+          "value": "DELETE"
+        },
+        {
+          "name": "GET",
+          "value": "GET"
+        },
+        {
+          "name": "PATCH",
+          "value": "PATCH"
+        },
+        {
+          "name": "POST",
+          "value": "POST"
+        },
+        {
+          "name": "PUT",
+          "value": "PUT"
+        }
+      ],
+      "default": "GET",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "placeholderNotice": {
+      "displayName": "Tip: You can use a {placeholder} for any part of the request to be filled by the model. Provide more context about them in the placeholders section",
+      "name": "placeholderNotice",
+      "type": "notice",
+      "default": ""
+    },
+    "url": {
+      "displayName": "URL",
+      "name": "url",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "placeholder": "e.g. http://www.example.com/{path}",
+      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+    },
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "description": "Select the type of authentication to use if needed, authentication would be done by n8n and your credentials will not be shared with the LLM",
+      "noDataExpression": true,
+      "type": "options",
+      "options": [
+        {
+          "name": "None",
+          "value": "none"
+        },
+        {
+          "name": "Predefined Credential Type",
+          "value": "predefinedCredentialType",
+          "description": "We've already implemented auth for many services so that you don't have to set it up manually"
+        },
+        {
+          "name": "Generic Credential Type",
+          "value": "genericCredentialType",
+          "description": "Fully customizable. Choose between basic, header, OAuth2, etc."
+        }
+      ],
+      "default": "none",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "nodeCredentialType": {
+      "displayName": "Credential Type",
+      "name": "nodeCredentialType",
+      "type": "credentialsSelect",
+      "noDataExpression": true,
+      "required": true,
+      "default": "",
+      "credentialTypes": [
+        "extends:oAuth2Api",
+        "extends:oAuth1Api",
+        "has:authenticate"
+      ],
+      "displayOptions": {
+        "show": {
+          "authentication": [
+            "predefinedCredentialType"
+          ]
+        }
+      }
+    },
+    "googleApiWarning": {
+      "displayName": "Make sure you have specified the scope(s) for the Service Account in the credential",
+      "name": "googleApiWarning",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "nodeCredentialType": [
+            "googleApi"
+          ]
+        }
+      }
+    },
+    "genericAuthType": {
+      "displayName": "Generic Auth Type",
+      "name": "genericAuthType",
+      "type": "credentialsSelect",
+      "required": true,
+      "default": "",
+      "credentialTypes": [
+        "has:genericAuth"
+      ],
+      "displayOptions": {
+        "show": {
+          "authentication": [
+            "genericCredentialType"
+          ]
+        }
+      },
+      "ai_hint": "与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "sendQuery": {
+      "displayName": "Send Query Parameters",
+      "name": "sendQuery",
+      "type": "boolean",
+      "default": false,
+      "noDataExpression": true,
+      "description": "Whether the request has query params or not",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "specifyQuery": {
+      "displayName": "Specify Query Parameters",
+      "name": "specifyQuery",
+      "type": "options",
+      "options": [
+        {
+          "name": "Using Fields Below",
+          "value": "keypair"
+        },
+        {
+          "name": "Using JSON Below",
+          "value": "json"
+        },
+        {
+          "name": "Let Model Specify Entire Body",
+          "value": "model"
+        }
+      ],
+      "default": "keypair",
+      "displayOptions": {
+        "show": {
+          "sendQuery": [
+            true
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "parametersQuery": {
+      "displayName": "Query Parameters",
+      "name": "parametersQuery",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "placeholder": "Add Parameter",
+      "default": {
+        "values": [
+          {
+            "name": ""
+          }
+        ]
+      },
+      "options": [
+        {
+          "name": "values",
+          "displayName": "Values",
+          "values": [
+            {
+              "displayName": "Name",
+              "name": "name",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Value Provided",
+              "name": "valueProvider",
+              "type": "options",
+              "options": [
+                {
+                  "name": "By Model (and is required)",
+                  "value": "modelRequired"
+                },
+                {
+                  "name": "By Model (but is optional)",
+                  "value": "modelOptional"
+                },
+                {
+                  "name": "Using Field Below",
+                  "value": "fieldValue"
+                }
+              ],
+              "default": "modelRequired"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "hint": "Use a {placeholder} for any data to be filled in by the model",
+              "displayOptions": {
+                "show": {
+                  "valueProvider": [
+                    "fieldValue"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "sendQuery": [
+            true
+          ],
+          "specifyQuery": [
+            "keypair"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "jsonQuery": {
+      "displayName": "JSON",
+      "name": "jsonQuery",
+      "type": "string",
+      "typeOptions": {
+        "rows": 5
+      },
+      "hint": "Use a {placeholder} for any data to be filled in by the model",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "sendQuery": [
+            true
+          ],
+          "specifyQuery": [
+            "json"
+          ]
+        }
+      }
+    },
+    "sendHeaders": {
+      "displayName": "Send Headers",
+      "name": "sendHeaders",
+      "type": "boolean",
+      "default": false,
+      "noDataExpression": true,
+      "description": "Whether the request has headers or not",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "specifyHeaders": {
+      "displayName": "Specify Headers",
+      "name": "specifyHeaders",
+      "type": "options",
+      "options": [
+        {
+          "name": "Using Fields Below",
+          "value": "keypair"
+        },
+        {
+          "name": "Using JSON Below",
+          "value": "json"
+        },
+        {
+          "name": "Let Model Specify Entire Body",
+          "value": "model"
+        }
+      ],
+      "default": "keypair",
+      "displayOptions": {
+        "show": {
+          "sendHeaders": [
+            true
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "parametersHeaders": {
+      "displayName": "Header Parameters",
+      "name": "parametersHeaders",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "placeholder": "Add Parameter",
+      "default": {
+        "values": [
+          {
+            "name": ""
+          }
+        ]
+      },
+      "options": [
+        {
+          "name": "values",
+          "displayName": "Values",
+          "values": [
+            {
+              "displayName": "Name",
+              "name": "name",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Value Provided",
+              "name": "valueProvider",
+              "type": "options",
+              "options": [
+                {
+                  "name": "By Model (and is required)",
+                  "value": "modelRequired"
+                },
+                {
+                  "name": "By Model (but is optional)",
+                  "value": "modelOptional"
+                },
+                {
+                  "name": "Using Field Below",
+                  "value": "fieldValue"
+                }
+              ],
+              "default": "modelRequired"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "hint": "Use a {placeholder} for any data to be filled in by the model",
+              "displayOptions": {
+                "show": {
+                  "valueProvider": [
+                    "fieldValue"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "sendHeaders": [
+            true
+          ],
+          "specifyHeaders": [
+            "keypair"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "jsonHeaders": {
+      "displayName": "JSON",
+      "name": "jsonHeaders",
+      "type": "string",
+      "typeOptions": {
+        "rows": 5
+      },
+      "hint": "Use a {placeholder} for any data to be filled in by the model",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "sendHeaders": [
+            true
+          ],
+          "specifyHeaders": [
+            "json"
+          ]
+        }
+      }
+    },
+    "sendBody": {
+      "displayName": "Send Body",
+      "name": "sendBody",
+      "type": "boolean",
+      "default": false,
+      "noDataExpression": true,
+      "description": "Whether the request has body or not",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "specifyBody": {
+      "displayName": "Specify Body",
+      "name": "specifyBody",
+      "type": "options",
+      "options": [
+        {
+          "name": "Using Fields Below",
+          "value": "keypair"
+        },
+        {
+          "name": "Using JSON Below",
+          "value": "json"
+        },
+        {
+          "name": "Let Model Specify Entire Body",
+          "value": "model"
+        }
+      ],
+      "default": "keypair",
+      "displayOptions": {
+        "show": {
+          "sendBody": [
+            true
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "parametersBody": {
+      "displayName": "Body Parameters",
+      "name": "parametersBody",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "placeholder": "Add Parameter",
+      "default": {
+        "values": [
+          {
+            "name": ""
+          }
+        ]
+      },
+      "options": [
+        {
+          "name": "values",
+          "displayName": "Values",
+          "values": [
+            {
+              "displayName": "Name",
+              "name": "name",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Value Provided",
+              "name": "valueProvider",
+              "type": "options",
+              "options": [
+                {
+                  "name": "By Model (and is required)",
+                  "value": "modelRequired"
+                },
+                {
+                  "name": "By Model (but is optional)",
+                  "value": "modelOptional"
+                },
+                {
+                  "name": "Using Field Below",
+                  "value": "fieldValue"
+                }
+              ],
+              "default": "modelRequired"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "hint": "Use a {placeholder} for any data to be filled in by the model",
+              "displayOptions": {
+                "show": {
+                  "valueProvider": [
+                    "fieldValue"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "sendBody": [
+            true
+          ],
+          "specifyBody": [
+            "keypair"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "jsonBody": {
+      "displayName": "JSON",
+      "name": "jsonBody",
+      "type": "string",
+      "typeOptions": {
+        "rows": 5
+      },
+      "hint": "Use a {placeholder} for any data to be filled in by the model",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "sendBody": [
+            true
+          ],
+          "specifyBody": [
+            "json"
+          ]
+        }
+      }
+    },
+    "placeholderDefinitions": {
+      "displayName": "Placeholder Definitions",
+      "name": "placeholderDefinitions",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "placeholder": "Add Definition",
+      "default": [],
+      "options": [
+        {
+          "name": "values",
+          "displayName": "Values",
+          "values": [
+            {
+              "displayName": "Placeholder Name",
+              "name": "name",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Description",
+              "name": "description",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Type",
+              "name": "type",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Not Specified (Default)",
+                  "value": "not specified"
+                },
+                {
+                  "name": "String",
+                  "value": "string"
+                },
+                {
+                  "name": "Number",
+                  "value": "number"
+                },
+                {
+                  "name": "Boolean",
+                  "value": "boolean"
+                },
+                {
+                  "name": "JSON",
+                  "value": "json"
+                }
+              ],
+              "default": "not specified"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "optimizeResponse": {
+      "displayName": "Optimize Response",
+      "name": "optimizeResponse",
+      "type": "boolean",
+      "default": false,
+      "noDataExpression": true,
+      "description": "Whether the optimize the tool response to reduce amount of data passed to the LLM that could lead to better result and reduce cost",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "responseType": {
+      "displayName": "Expected Response Type",
+      "name": "responseType",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "optimizeResponse": [
+            true
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "JSON",
+          "value": "json"
+        },
+        {
+          "name": "HTML",
+          "value": "html"
+        },
+        {
+          "name": "Text",
+          "value": "text"
+        }
+      ],
+      "default": "json",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "dataField": {
+      "displayName": "Field Containing Data",
+      "name": "dataField",
+      "type": "string",
+      "default": "",
+      "placeholder": "e.g. records",
+      "description": "Specify the name of the field in the response containing the data",
+      "hint": "leave blank to use whole response",
+      "requiresDataPath": "single",
+      "displayOptions": {
+        "show": {
+          "optimizeResponse": [
+            true
+          ],
+          "responseType": [
+            "json"
+          ]
+        }
+      },
+      "ai_hint": "Specify the name of the field in the response containing the data"
+    },
+    "fieldsToInclude": {
+      "displayName": "Include Fields",
+      "name": "fieldsToInclude",
+      "type": "options",
+      "description": "What fields response object should include",
+      "default": "all",
+      "displayOptions": {
+        "show": {
+          "optimizeResponse": [
+            true
+          ],
+          "responseType": [
+            "json"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "All",
+          "value": "all",
+          "description": "Include all fields"
+        },
+        {
+          "name": "Selected",
+          "value": "selected",
+          "description": "Include only fields specified below"
+        },
+        {
+          "name": "Except",
+          "value": "except",
+          "description": "Exclude fields specified below"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "fields": {
+      "displayName": "Fields",
+      "name": "fields",
+      "type": "string",
+      "default": "",
+      "placeholder": "e.g. field1,field2",
+      "description": "Comma-separated list of the field names. Supports dot notation. You can drag the selected fields from the input panel.",
+      "requiresDataPath": "multiple",
+      "displayOptions": {
+        "show": {
+          "optimizeResponse": [
+            true
+          ],
+          "responseType": [
+            "json"
+          ]
+        },
+        "hide": {
+          "fieldsToInclude": [
+            "all"
+          ]
+        }
+      },
+      "ai_hint": "Comma-separated list of the field names. Supports dot notation. You can drag the selected fields from the input panel."
+    },
+    "cssSelector": {
+      "displayName": "Selector (CSS)",
+      "name": "cssSelector",
+      "type": "string",
+      "description": "Select specific element(e.g. body) or multiple elements(e.g. div) of chosen type in the response HTML.",
+      "placeholder": "e.g. body",
+      "default": "body",
+      "displayOptions": {
+        "show": {
+          "optimizeResponse": [
+            true
+          ],
+          "responseType": [
+            "html"
+          ]
+        }
+      },
+      "ai_hint": "Select specific element(e.g. body) or multiple elements(e.g. div) of chosen type in the response HTML."
+    },
+    "onlyContent": {
+      "displayName": "Return Only Content",
+      "name": "onlyContent",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return only content of html elements, stripping html tags and attributes",
+      "hint": "Uses less tokens and may be easier for model to understand",
+      "displayOptions": {
+        "show": {
+          "optimizeResponse": [
+            true
+          ],
+          "responseType": [
+            "html"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "elementsToOmit": {
+      "displayName": "Elements To Omit",
+      "name": "elementsToOmit",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "optimizeResponse": [
+            true
+          ],
+          "responseType": [
+            "html"
+          ],
+          "onlyContent": [
+            true
+          ]
+        }
+      },
+      "default": "",
+      "placeholder": "e.g. img, .className, #ItemId",
+      "description": "Comma-separated list of selectors that would be excluded when extracting content",
+      "ai_hint": "Comma-separated list of selectors that would be excluded when extracting content"
+    },
+    "truncateResponse": {
+      "displayName": "Truncate Response",
+      "name": "truncateResponse",
+      "type": "boolean",
+      "default": false,
+      "hint": "Helps save tokens",
+      "displayOptions": {
+        "show": {
+          "optimizeResponse": [
+            true
+          ],
+          "responseType": [
+            "text",
+            "html"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "maxLength": {
+      "displayName": "Max Response Characters",
+      "name": "maxLength",
+      "type": "number",
+      "default": 1000,
+      "typeOptions": {
+        "minValue": 1
+      },
+      "displayOptions": {
+        "show": {
+          "optimizeResponse": [
+            true
+          ],
+          "responseType": [
+            "text",
+            "html"
+          ],
+          "truncateResponse": [
+            true
+          ]
+        }
+      }
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "notice",
+      "toolDescription",
+      "method",
+      "placeholderNotice",
+      "url",
+      "authentication",
+      "nodeCredentialType",
+      "googleApiWarning",
+      "genericAuthType",
+      "sendQuery",
+      "specifyQuery",
+      "parametersQuery",
+      "jsonQuery",
+      "sendHeaders",
+      "specifyHeaders",
+      "parametersHeaders",
+      "jsonHeaders",
+      "sendBody",
+      "specifyBody",
+      "parametersBody",
+      "jsonBody",
+      "placeholderDefinitions",
+      "optimizeResponse",
+      "responseType",
+      "dataField",
+      "fieldsToInclude",
+      "fields",
+      "cssSelector",
+      "onlyContent",
+      "elementsToOmit",
+      "truncateResponse",
+      "maxLength"
+    ],
+    "conditional_rules": [
+      "IF authentication == 'predefinedCredentialType' THEN SHOW parameter 'nodeCredentialType'",
+      "IF nodeCredentialType == 'googleApi' THEN SHOW parameter 'googleApiWarning'",
+      "IF authentication == 'genericCredentialType' THEN SHOW parameter 'genericAuthType'",
+      "IF sendQuery == True THEN SHOW parameter 'specifyQuery'",
+      "IF sendQuery == True AND specifyQuery == 'keypair' THEN SHOW parameter 'parametersQuery'",
+      "IF valueProvider == 'fieldValue' THEN SHOW parameter 'value'",
+      "IF sendQuery == True AND specifyQuery == 'json' THEN SHOW parameter 'jsonQuery'",
+      "IF sendHeaders == True THEN SHOW parameter 'specifyHeaders'",
+      "IF sendHeaders == True AND specifyHeaders == 'keypair' THEN SHOW parameter 'parametersHeaders'",
+      "IF sendHeaders == True AND specifyHeaders == 'json' THEN SHOW parameter 'jsonHeaders'",
+      "IF sendBody == True THEN SHOW parameter 'specifyBody'",
+      "IF sendBody == True AND specifyBody == 'keypair' THEN SHOW parameter 'parametersBody'",
+      "IF sendBody == True AND specifyBody == 'json' THEN SHOW parameter 'jsonBody'",
+      "IF optimizeResponse == True THEN SHOW parameter 'responseType'",
+      "IF optimizeResponse == True AND responseType == 'json' THEN SHOW parameter 'dataField'",
+      "IF optimizeResponse == True AND responseType == 'json' THEN SHOW parameter 'fieldsToInclude'",
+      "IF optimizeResponse == True AND responseType == 'json' THEN SHOW parameter 'fields'",
+      "IF fieldsToInclude == 'all' THEN HIDE parameter 'fields'",
+      "IF optimizeResponse == True AND responseType == 'html' THEN SHOW parameter 'cssSelector'",
+      "IF optimizeResponse == True AND responseType == 'html' THEN SHOW parameter 'onlyContent'",
+      "IF optimizeResponse == True AND responseType == 'html' AND onlyContent == True THEN SHOW parameter 'elementsToOmit'",
+      "IF optimizeResponse == True AND responseType IN [\"text\", \"html\"] THEN SHOW parameter 'truncateResponse'",
+      "IF optimizeResponse == True AND responseType IN [\"text\", \"html\"] AND truncateResponse == True THEN SHOW parameter 'maxLength'"
+    ]
+  }
+}

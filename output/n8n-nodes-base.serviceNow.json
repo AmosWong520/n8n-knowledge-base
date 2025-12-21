@@ -1,0 +1,1059 @@
+{
+  "node_id": "n8n-nodes-base.serviceNow",
+  "name": "n8n-nodes-base.serviceNow",
+  "version": 1,
+  "semantic_context": "Consume ServiceNow API",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Basic Auth",
+          "value": "basicAuth"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "oAuth2",
+      "description": "Authentication method to use",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Attachment",
+          "value": "attachment"
+        },
+        {
+          "name": "Business Service",
+          "value": "businessService"
+        },
+        {
+          "name": "Configuration Item",
+          "value": "configurationItems"
+        },
+        {
+          "name": "Department",
+          "value": "department"
+        },
+        {
+          "name": "Dictionary",
+          "value": "dictionary"
+        },
+        {
+          "name": "Incident",
+          "value": "incident"
+        },
+        {
+          "name": "Table Record",
+          "value": "tableRecord"
+        },
+        {
+          "name": "User",
+          "value": "user"
+        },
+        {
+          "name": "User Group",
+          "value": "userGroup"
+        },
+        {
+          "name": "User Role",
+          "value": "userRole"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "user",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userRole"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "action": "Get many user roles"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "getAll",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "tableName": {
+      "displayName": "Table Name or ID",
+      "name": "tableName",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getTables"
+      },
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "tableRecord"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "id": {
+      "displayName": "User ID",
+      "name": "id",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "required": true,
+      "description": "Unique identifier of the user",
+      "ai_hint": "Unique identifier of the user"
+    },
+    "inputDataFieldName": {
+      "displayName": "Input Data Field Name",
+      "name": "inputDataFieldName",
+      "type": "string",
+      "default": "data",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "attachment"
+          ],
+          "operation": [
+            "upload"
+          ]
+        }
+      },
+      "description": "Name of the binary property that contains the data to upload",
+      "ai_hint": "Name of the binary property that contains the data to upload"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userRole"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Exclude Reference Link",
+          "name": "sysparm_exclude_reference_link",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to exclude Table API links for reference fields"
+        },
+        {
+          "displayName": "Field Names or IDs",
+          "name": "sysparm_fields",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getColumns"
+          },
+          "default": [],
+          "description": "A list of fields to return. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+          "hint": "String of comma separated values or an array of strings can be set in an expression"
+        },
+        {
+          "displayName": "Filter",
+          "name": "sysparm_query",
+          "type": "string",
+          "default": "",
+          "description": "An encoded query string used to filter the results. <a href=\"https://developer.servicenow.com/dev.do#!/learn/learning-plans/quebec/servicenow_application_developer/app_store_learnv2_rest_quebec_more_about_query_parameters\">More info</a>."
+        },
+        {
+          "displayName": "Return Values",
+          "name": "sysparm_display_value",
+          "type": "options",
+          "options": [
+            {
+              "name": "Actual Values",
+              "value": "false"
+            },
+            {
+              "name": "Both",
+              "value": "all"
+            },
+            {
+              "name": "Display Values",
+              "value": "true"
+            }
+          ],
+          "default": "false",
+          "description": "Choose which values to return"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "attachmentId": {
+      "displayName": "Attachment ID",
+      "name": "attachmentId",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "attachment"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "required": true,
+      "description": "Sys_id value of the attachment to delete",
+      "ai_hint": "Sys_id value of the attachment to delete"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "userRole"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "userRole"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 50,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "download": {
+      "displayName": "Download Attachments",
+      "name": "download",
+      "type": "boolean",
+      "default": false,
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "attachment"
+          ],
+          "operation": [
+            "get",
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "outputField": {
+      "displayName": "Output Field",
+      "name": "outputField",
+      "type": "string",
+      "default": "data",
+      "description": "Field name where downloaded data will be placed",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "attachment"
+          ],
+          "operation": [
+            "get",
+            "getAll"
+          ],
+          "download": [
+            true
+          ]
+        }
+      },
+      "ai_hint": "Field name where downloaded data will be placed"
+    },
+    "short_description": {
+      "displayName": "Short Description",
+      "name": "short_description",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "required": true,
+      "description": "Short description of the user",
+      "ai_hint": "Short description of the user"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Active",
+          "name": "active",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to activate the user"
+        },
+        {
+          "displayName": "Building",
+          "name": "building",
+          "type": "string",
+          "default": "",
+          "description": "The Building address"
+        },
+        {
+          "displayName": "City",
+          "name": "city",
+          "type": "string",
+          "default": "",
+          "description": "City of the user"
+        },
+        {
+          "displayName": "Company",
+          "name": "company",
+          "type": "string",
+          "default": "",
+          "description": "The name of the company for the user"
+        },
+        {
+          "displayName": "Country",
+          "name": "country",
+          "type": "string",
+          "default": "",
+          "description": "Country of the user"
+        },
+        {
+          "displayName": "Department",
+          "name": "department",
+          "type": "string",
+          "default": "",
+          "description": "Department of the user"
+        },
+        {
+          "displayName": "Email",
+          "name": "email",
+          "type": "string",
+          "placeholder": "name@email.com",
+          "default": "",
+          "description": "The email address associated with the user"
+        },
+        {
+          "displayName": "First Name",
+          "name": "first_name",
+          "type": "string",
+          "default": "",
+          "description": "The first name of the user"
+        },
+        {
+          "displayName": "Gender",
+          "name": "gender",
+          "type": "string",
+          "default": "",
+          "description": "The gender of the user"
+        },
+        {
+          "displayName": "Home Phone",
+          "name": "home_phone",
+          "type": "string",
+          "default": "",
+          "description": "Home phone of the user"
+        },
+        {
+          "displayName": "Last Name",
+          "name": "last_name",
+          "type": "string",
+          "default": "",
+          "description": "The last name of the user"
+        },
+        {
+          "displayName": "Location",
+          "name": "location",
+          "type": "string",
+          "default": "",
+          "description": "Location of the user"
+        },
+        {
+          "displayName": "Manager",
+          "name": "manager",
+          "type": "string",
+          "default": "",
+          "description": "Manager of the user"
+        },
+        {
+          "displayName": "Middle Name",
+          "name": "middle_name",
+          "type": "string",
+          "default": "",
+          "description": "The middle name of the user"
+        },
+        {
+          "displayName": "Mobile Phone",
+          "name": "mobile_phone",
+          "type": "string",
+          "default": "",
+          "description": "Mobile phone number of the user"
+        },
+        {
+          "displayName": "Password",
+          "name": "user_password",
+          "type": "string",
+          "typeOptions": {
+            "password": true
+          },
+          "default": "",
+          "description": "The user's password"
+        },
+        {
+          "displayName": "Password Needs Reset",
+          "name": "password_needs_reset",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to require a password reset when the user logs in"
+        },
+        {
+          "displayName": "Phone",
+          "name": "phone",
+          "type": "string",
+          "default": "",
+          "description": "The main phone number of the user"
+        },
+        {
+          "displayName": "Role Names or IDs",
+          "name": "roles",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getUserRoles"
+          },
+          "default": [],
+          "description": "Roles of the user. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Source",
+          "name": "source",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "State",
+          "name": "state",
+          "type": "string",
+          "default": "",
+          "description": "State for the user"
+        },
+        {
+          "displayName": "Street",
+          "name": "street",
+          "type": "string",
+          "default": "",
+          "description": "Street information for the user separated by comma"
+        },
+        {
+          "displayName": "Username",
+          "name": "user_name",
+          "type": "string",
+          "default": "",
+          "description": "A username associated with the user (e.g. user_name.123)"
+        },
+        {
+          "displayName": "Zip Code",
+          "name": "zip",
+          "type": "string",
+          "default": "",
+          "description": "Zip code for the user"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Active",
+          "name": "active",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to activate the user"
+        },
+        {
+          "displayName": "Building",
+          "name": "building",
+          "type": "string",
+          "default": "",
+          "description": "The Building address"
+        },
+        {
+          "displayName": "City",
+          "name": "city",
+          "type": "string",
+          "default": "",
+          "description": "City of the user"
+        },
+        {
+          "displayName": "Company",
+          "name": "company",
+          "type": "string",
+          "default": "",
+          "description": "The name of the company for the user"
+        },
+        {
+          "displayName": "Country",
+          "name": "country",
+          "type": "string",
+          "default": "",
+          "description": "Country of the user"
+        },
+        {
+          "displayName": "Department",
+          "name": "department",
+          "type": "string",
+          "default": "",
+          "description": "Department of the user"
+        },
+        {
+          "displayName": "Email",
+          "name": "email",
+          "type": "string",
+          "placeholder": "name@email.com",
+          "default": "",
+          "description": "The email address associated with the user"
+        },
+        {
+          "displayName": "First Name",
+          "name": "first_name",
+          "type": "string",
+          "default": "",
+          "description": "The first name of the user"
+        },
+        {
+          "displayName": "Gender",
+          "name": "gender",
+          "type": "string",
+          "default": "",
+          "description": "The gender of the user"
+        },
+        {
+          "displayName": "Home Phone",
+          "name": "home_phone",
+          "type": "string",
+          "default": "",
+          "description": "Home phone of the user"
+        },
+        {
+          "displayName": "Last Name",
+          "name": "last_name",
+          "type": "string",
+          "default": "",
+          "description": "The last name of the user"
+        },
+        {
+          "displayName": "Location",
+          "name": "location",
+          "type": "string",
+          "default": "",
+          "description": "Location of the user"
+        },
+        {
+          "displayName": "Manager",
+          "name": "manager",
+          "type": "string",
+          "default": "",
+          "description": "Manager of the user"
+        },
+        {
+          "displayName": "Middle Name",
+          "name": "middle_name",
+          "type": "string",
+          "default": "",
+          "description": "The middle name of the user"
+        },
+        {
+          "displayName": "Mobile Phone",
+          "name": "mobile_phone",
+          "type": "string",
+          "default": "",
+          "description": "Mobile phone number of the user"
+        },
+        {
+          "displayName": "Password",
+          "name": "user_password",
+          "type": "string",
+          "typeOptions": {
+            "password": true
+          },
+          "default": "",
+          "description": "The user's password"
+        },
+        {
+          "displayName": "Password Needs Reset",
+          "name": "password_needs_reset",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to require a password reset when the user logs in"
+        },
+        {
+          "displayName": "Phone",
+          "name": "phone",
+          "type": "string",
+          "default": "",
+          "description": "The main phone number of the user"
+        },
+        {
+          "displayName": "Role Names or IDs",
+          "name": "roles",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getUserRoles"
+          },
+          "default": [],
+          "description": "Roles of the user. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Source",
+          "name": "source",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "State",
+          "name": "state",
+          "type": "string",
+          "default": "",
+          "description": "State for the user"
+        },
+        {
+          "displayName": "Street",
+          "name": "street",
+          "type": "string",
+          "default": "",
+          "description": "Street information for the user separated by comma"
+        },
+        {
+          "displayName": "Username",
+          "name": "user_name",
+          "type": "string",
+          "default": "",
+          "description": "A username associated with the user (e.g. user_name.123)"
+        },
+        {
+          "displayName": "Zip Code",
+          "name": "zip",
+          "type": "string",
+          "default": "",
+          "description": "Zip code for the user"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "dataToSend": {
+      "displayName": "Data to Send",
+      "name": "dataToSend",
+      "type": "options",
+      "options": [
+        {
+          "name": "Auto-Map Input Data to Columns",
+          "value": "mapInput",
+          "description": "Use when node input names match destination field names"
+        },
+        {
+          "name": "Define Below for Each Column",
+          "value": "columns",
+          "description": "Set the value for each destination column"
+        },
+        {
+          "name": "Nothing",
+          "value": "nothing",
+          "description": "Don't send any column data"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "tableRecord"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "default": "columns",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "inputsToIgnore": {
+      "displayName": "Inputs to Ignore",
+      "name": "inputsToIgnore",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "tableRecord"
+          ],
+          "operation": [
+            "update"
+          ],
+          "dataToSend": [
+            "mapInput"
+          ]
+        }
+      },
+      "default": "",
+      "description": "List of input properties to avoid sending, separated by commas. Leave empty to send all inputs.",
+      "ai_hint": "List of input properties to avoid sending, separated by commas. Leave empty to send all inputs."
+    },
+    "fieldsToSend": {
+      "displayName": "Fields to Send",
+      "name": "fieldsToSend",
+      "type": "fixedCollection",
+      "placeholder": "Add field to send",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "tableRecord"
+          ],
+          "operation": [
+            "update"
+          ],
+          "dataToSend": [
+            "columns"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Field",
+          "name": "field",
+          "values": [
+            {
+              "displayName": "Field Name or ID",
+              "name": "column",
+              "type": "options",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "typeOptions": {
+                "loadOptionsMethod": "getColumns",
+                "loadOptionsDependsOn": [
+                  "tableName"
+                ]
+              },
+              "default": ""
+            },
+            {
+              "displayName": "Field Value",
+              "name": "value",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "getOption": {
+      "displayName": "Retrieve Identifier",
+      "name": "getOption",
+      "type": "options",
+      "default": "id",
+      "options": [
+        {
+          "name": "ID",
+          "value": "id"
+        },
+        {
+          "name": "Username",
+          "value": "user_name"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "required": true,
+      "description": "Unique identifier of the user",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "user_name": {
+      "displayName": "Username",
+      "name": "user_name",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "get"
+          ],
+          "getOption": [
+            "user_name"
+          ]
+        }
+      },
+      "required": true,
+      "description": "Unique identifier of the user",
+      "ai_hint": "Unique identifier of the user"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "resource",
+      "operation",
+      "tableName",
+      "id",
+      "inputDataFieldName",
+      "options",
+      "attachmentId",
+      "attachmentId",
+      "returnAll",
+      "limit",
+      "download",
+      "outputField",
+      "options",
+      "operation",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "short_description",
+      "additionalFields",
+      "returnAll",
+      "limit",
+      "options",
+      "id",
+      "options",
+      "id",
+      "updateFields",
+      "operation",
+      "tableName",
+      "dataToSend",
+      "inputsToIgnore",
+      "fieldsToSend",
+      "tableName",
+      "returnAll",
+      "limit",
+      "options",
+      "tableName",
+      "id",
+      "options",
+      "tableName",
+      "id",
+      "dataToSend",
+      "inputsToIgnore",
+      "fieldsToSend",
+      "operation",
+      "short_description",
+      "additionalFields",
+      "returnAll",
+      "limit",
+      "options",
+      "getOption",
+      "user_name",
+      "id",
+      "id",
+      "options",
+      "id",
+      "updateFields",
+      "operation",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "returnAll",
+      "limit",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF resource == 'attachment' THEN SHOW parameter 'operation'",
+      "IF resource == 'attachment' AND operation IN [\"upload\", \"getAll\"] THEN SHOW parameter 'tableName'",
+      "IF resource == 'attachment' AND operation == 'upload' THEN SHOW parameter 'id'",
+      "IF resource == 'attachment' AND operation == 'upload' THEN SHOW parameter 'inputDataFieldName'",
+      "IF resource == 'attachment' AND operation == 'upload' THEN SHOW parameter 'options'",
+      "IF resource == 'attachment' AND operation == 'delete' THEN SHOW parameter 'attachmentId'",
+      "IF resource == 'attachment' AND operation == 'get' THEN SHOW parameter 'attachmentId'",
+      "IF resource == 'attachment' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'attachment' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'attachment' AND operation IN [\"get\", \"getAll\"] THEN SHOW parameter 'download'",
+      "IF resource == 'attachment' AND operation IN [\"get\", \"getAll\"] AND download == True THEN SHOW parameter 'outputField'",
+      "IF resource == 'attachment' AND operation IN [\"get\", \"getAll\"] THEN SHOW parameter 'options'",
+      "IF resource == 'businessService' THEN SHOW parameter 'operation'",
+      "IF operation == 'getAll' AND resource == 'businessService' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'businessService' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'businessService' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'configurationItems' THEN SHOW parameter 'operation'",
+      "IF operation == 'getAll' AND resource == 'configurationItems' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'configurationItems' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'configurationItems' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'department' THEN SHOW parameter 'operation'",
+      "IF operation == 'getAll' AND resource == 'department' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'department' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'department' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'dictionary' THEN SHOW parameter 'operation'",
+      "IF operation == 'getAll' AND resource == 'dictionary' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'dictionary' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'dictionary' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'incident' THEN SHOW parameter 'operation'",
+      "IF resource == 'incident' AND operation == 'create' THEN SHOW parameter 'short_description'",
+      "IF resource == 'incident' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'getAll' AND resource == 'incident' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'incident' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'incident' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'incident' AND operation IN [\"delete\", \"get\"] THEN SHOW parameter 'id'",
+      "IF resource == 'incident' AND operation == 'get' THEN SHOW parameter 'options'",
+      "IF resource == 'incident' AND operation == 'update' THEN SHOW parameter 'id'",
+      "IF resource == 'incident' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'tableRecord' THEN SHOW parameter 'operation'",
+      "IF resource == 'tableRecord' AND operation == 'create' THEN SHOW parameter 'tableName'",
+      "IF resource == 'tableRecord' AND operation == 'create' THEN SHOW parameter 'dataToSend'",
+      "IF resource == 'tableRecord' AND operation == 'create' AND dataToSend == 'mapInput' THEN SHOW parameter 'inputsToIgnore'",
+      "IF resource == 'tableRecord' AND operation == 'create' AND dataToSend == 'columns' THEN SHOW parameter 'fieldsToSend'",
+      "IF resource == 'tableRecord' AND operation == 'getAll' THEN SHOW parameter 'tableName'",
+      "IF operation == 'getAll' AND resource == 'tableRecord' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'tableRecord' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'tableRecord' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'tableRecord' AND operation IN [\"delete\", \"get\"] THEN SHOW parameter 'tableName'",
+      "IF resource == 'tableRecord' AND operation IN [\"delete\", \"get\"] THEN SHOW parameter 'id'",
+      "IF resource == 'tableRecord' AND operation == 'get' THEN SHOW parameter 'options'",
+      "IF resource == 'tableRecord' AND operation == 'update' THEN SHOW parameter 'tableName'",
+      "IF resource == 'tableRecord' AND operation == 'update' THEN SHOW parameter 'id'",
+      "IF resource == 'tableRecord' AND operation == 'update' THEN SHOW parameter 'dataToSend'",
+      "IF resource == 'tableRecord' AND operation == 'update' AND dataToSend == 'mapInput' THEN SHOW parameter 'inputsToIgnore'",
+      "IF resource == 'tableRecord' AND operation == 'update' AND dataToSend == 'columns' THEN SHOW parameter 'fieldsToSend'",
+      "IF resource == 'user' THEN SHOW parameter 'operation'",
+      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'short_description'",
+      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'getAll' AND resource == 'user' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'user' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'getOption'",
+      "IF resource == 'user' AND operation == 'get' AND getOption == 'user_name' THEN SHOW parameter 'user_name'",
+      "IF resource == 'user' AND operation == 'get' AND getOption == 'id' THEN SHOW parameter 'id'",
+      "IF resource == 'user' AND operation == 'delete' THEN SHOW parameter 'id'",
+      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'options'",
+      "IF resource == 'user' AND operation == 'update' THEN SHOW parameter 'id'",
+      "IF resource == 'user' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'userGroup' THEN SHOW parameter 'operation'",
+      "IF operation == 'getAll' AND resource == 'userGroup' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'userGroup' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'userGroup' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'userRole' THEN SHOW parameter 'operation'",
+      "IF operation == 'getAll' AND resource == 'userRole' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'userRole' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'userRole' AND operation == 'getAll' THEN SHOW parameter 'options'"
+    ]
+  }
+}

@@ -1,0 +1,237 @@
+{
+  "node_id": "n8n-nodes-base.pipedriveTrigger",
+  "name": "n8n-nodes-base.pipedriveTrigger",
+  "version": [
+    1,
+    1.1
+  ],
+  "semantic_context": "Starts the workflow when Pipedrive events occur",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "API Token",
+          "value": "apiToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "apiToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "incomingAuthentication": {
+      "displayName": "Incoming Authentication",
+      "name": "incomingAuthentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Basic Auth",
+          "value": "basicAuth"
+        },
+        {
+          "name": "None",
+          "value": "none"
+        }
+      ],
+      "default": "none",
+      "description": "If authentication should be activated for the webhook (makes it more secure)",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "action": {
+      "displayName": "Action",
+      "name": "action",
+      "type": "options",
+      "displayOptions": {
+        "hide": {
+          "@version": [
+            {
+              "_cnd": {
+                "lte": 1
+              }
+            }
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "All",
+          "value": "*",
+          "description": "Any change",
+          "action": "Any change"
+        },
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Data got added",
+          "action": "Data was added"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Data got deleted",
+          "action": "Data was deleted"
+        },
+        {
+          "name": "Change",
+          "value": "change",
+          "description": "Data got changed",
+          "action": "Data was changed"
+        }
+      ],
+      "default": "*",
+      "description": "Type of action to receive notifications about",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "entity": {
+      "displayName": "Entity",
+      "name": "entity",
+      "type": "options",
+      "options": [
+        {
+          "name": "Activity",
+          "value": "activity"
+        },
+        {
+          "name": "Activity Type",
+          "value": "activityType"
+        },
+        {
+          "name": "All",
+          "value": "*"
+        },
+        {
+          "name": "Deal",
+          "value": "deal"
+        },
+        {
+          "name": "Note",
+          "value": "note"
+        },
+        {
+          "name": "Organization",
+          "value": "organization"
+        },
+        {
+          "name": "Person",
+          "value": "person"
+        },
+        {
+          "name": "Pipeline",
+          "value": "pipeline"
+        },
+        {
+          "name": "Product",
+          "value": "product"
+        },
+        {
+          "name": "Stage",
+          "value": "stage"
+        },
+        {
+          "name": "User",
+          "value": "user"
+        }
+      ],
+      "default": "*",
+      "description": "Type of object to receive notifications about",
+      "displayOptions": {
+        "hide": {
+          "@version": [
+            {
+              "_cnd": {
+                "lte": 1
+              }
+            }
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "object": {
+      "displayName": "Object",
+      "name": "object",
+      "type": "options",
+      "options": [
+        {
+          "name": "Activity",
+          "value": "activity"
+        },
+        {
+          "name": "Activity Type",
+          "value": "activityType"
+        },
+        {
+          "name": "All",
+          "value": "*"
+        },
+        {
+          "name": "Deal",
+          "value": "deal"
+        },
+        {
+          "name": "Note",
+          "value": "note"
+        },
+        {
+          "name": "Organization",
+          "value": "organization"
+        },
+        {
+          "name": "Person",
+          "value": "person"
+        },
+        {
+          "name": "Pipeline",
+          "value": "pipeline"
+        },
+        {
+          "name": "Product",
+          "value": "product"
+        },
+        {
+          "name": "Stage",
+          "value": "stage"
+        },
+        {
+          "name": "User",
+          "value": "user"
+        }
+      ],
+      "default": "*",
+      "description": "Type of object to receive notifications about",
+      "displayOptions": {
+        "hide": {
+          "@version": [
+            {
+              "_cnd": {
+                "gte": 1.1
+              }
+            }
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "incomingAuthentication",
+      "action",
+      "action",
+      "entity",
+      "object"
+    ],
+    "conditional_rules": [
+      "IF @version == {'_cnd': {'gte': 1.1}} THEN HIDE parameter 'action'",
+      "IF @version == {'_cnd': {'lte': 1}} THEN HIDE parameter 'action'",
+      "IF @version == {'_cnd': {'lte': 1}} THEN HIDE parameter 'entity'",
+      "IF @version == {'_cnd': {'gte': 1.1}} THEN HIDE parameter 'object'"
+    ]
+  }
+}

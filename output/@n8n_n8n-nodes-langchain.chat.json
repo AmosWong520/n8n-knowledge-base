@@ -1,0 +1,176 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.chat",
+  "name": "@n8n/n8n-nodes-langchain.chat",
+  "version": 1,
+  "semantic_context": "Send a message to a chat",
+  "parameters": {
+    "generalNotice": {
+      "displayName": "Verify you're using a chat trigger with the 'Response Mode' option set to 'Using Response Nodes'",
+      "name": "generalNotice",
+      "type": "notice",
+      "default": ""
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "typeOptions": {
+        "rows": 6
+      }
+    },
+    "waitUserReply": {
+      "displayName": "Wait for User Reply",
+      "name": "waitUserReply",
+      "type": "boolean",
+      "default": true,
+      "noDataExpression": true,
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add Option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Limit Wait Time",
+          "name": "limitWaitTime",
+          "type": "fixedCollection",
+          "description": "Whether to limit the time this node should wait for a user response before execution resumes",
+          "default": {
+            "values": {
+              "limitType": "afterTimeInterval",
+              "resumeAmount": 45,
+              "resumeUnit": "minutes"
+            }
+          },
+          "options": [
+            {
+              "displayName": "Values",
+              "name": "values",
+              "values": [
+                {
+                  "displayName": "Limit Type",
+                  "name": "limitType",
+                  "type": "options",
+                  "default": "afterTimeInterval",
+                  "description": "Sets the condition for the execution to resume. Can be a specified date or after some time.",
+                  "options": [
+                    {
+                      "name": "After Time Interval",
+                      "description": "Waits for a certain amount of time",
+                      "value": "afterTimeInterval"
+                    },
+                    {
+                      "name": "At Specified Time",
+                      "description": "Waits until the set date and time to continue",
+                      "value": "atSpecifiedTime"
+                    }
+                  ]
+                },
+                {
+                  "displayName": "Amount",
+                  "name": "resumeAmount",
+                  "type": "number",
+                  "displayOptions": {
+                    "show": {
+                      "limitType": [
+                        "afterTimeInterval"
+                      ]
+                    }
+                  },
+                  "typeOptions": {
+                    "minValue": 0,
+                    "numberPrecision": 2
+                  },
+                  "default": 1,
+                  "description": "The time to wait"
+                },
+                {
+                  "displayName": "Unit",
+                  "name": "resumeUnit",
+                  "type": "options",
+                  "displayOptions": {
+                    "show": {
+                      "limitType": [
+                        "afterTimeInterval"
+                      ]
+                    }
+                  },
+                  "options": [
+                    {
+                      "name": "Minutes",
+                      "value": "minutes"
+                    },
+                    {
+                      "name": "Hours",
+                      "value": "hours"
+                    },
+                    {
+                      "name": "Days",
+                      "value": "days"
+                    }
+                  ],
+                  "default": "hours",
+                  "description": "Unit of the interval value"
+                },
+                {
+                  "displayName": "Max Date and Time",
+                  "name": "maxDateAndTime",
+                  "type": "dateTime",
+                  "displayOptions": {
+                    "show": {
+                      "limitType": [
+                        "atSpecifiedTime"
+                      ]
+                    }
+                  },
+                  "default": "",
+                  "description": "Continue execution after the specified date and time"
+                }
+              ]
+            }
+          ],
+          "displayOptions": {
+            "show": {
+              "/waitUserReply": [
+                true
+              ]
+            }
+          }
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "@tool": [
+            true
+          ],
+          "/waitUserReply": [
+            true
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "generalNotice",
+      "message",
+      "waitUserReply",
+      "options",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF @tool == True THEN HIDE parameter 'options'",
+      "IF /waitUserReply == True THEN SHOW parameter 'limitWaitTime'",
+      "IF limitType == 'afterTimeInterval' THEN SHOW parameter 'resumeAmount'",
+      "IF limitType == 'afterTimeInterval' THEN SHOW parameter 'resumeUnit'",
+      "IF limitType == 'atSpecifiedTime' THEN SHOW parameter 'maxDateAndTime'",
+      "IF @tool == True AND /waitUserReply == True THEN SHOW parameter 'options'"
+    ]
+  }
+}

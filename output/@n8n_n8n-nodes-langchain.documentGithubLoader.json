@@ -1,0 +1,95 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.documentGithubLoader",
+  "name": "@n8n/n8n-nodes-langchain.documentGithubLoader",
+  "version": [
+    1,
+    1.1
+  ],
+  "semantic_context": "Use GitHub data as input to this chain",
+  "parameters": {
+    "notice": {
+      "displayName": "This node must be connected to a vector store. <a data-action='openSelectiveNodeCreator' data-action-parameter-connectiontype='ai_vectorStore'>Insert one</a>",
+      "name": "notice",
+      "type": "notice",
+      "default": "",
+      "typeOptions": {
+        "containerClass": "ndv-connection-hint-notice"
+      }
+    },
+    "repository": {
+      "displayName": "Repository Link",
+      "name": "repository",
+      "type": "string",
+      "default": ""
+    },
+    "branch": {
+      "displayName": "Branch",
+      "name": "branch",
+      "type": "string",
+      "default": "main"
+    },
+    "textSplittingMode": {
+      "displayName": "Text Splitting",
+      "name": "textSplittingMode",
+      "type": "options",
+      "default": "simple",
+      "required": true,
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "@version": [
+            1.1
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Simple",
+          "value": "simple",
+          "description": "Splits every 1000 characters with a 200 character overlap"
+        },
+        {
+          "name": "Custom",
+          "value": "custom",
+          "description": "Connect a custom text-splitting sub-node"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "additionalOptions": {
+      "displayName": "Options",
+      "name": "additionalOptions",
+      "type": "collection",
+      "placeholder": "Add Option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Recursive",
+          "name": "recursive",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "displayName": "Ignore Paths",
+          "name": "ignorePaths",
+          "type": "string",
+          "description": "Comma-separated list of paths to ignore, e.g. \"docs, src/tests",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "notice",
+      "repository",
+      "branch",
+      "textSplittingMode",
+      "additionalOptions"
+    ],
+    "conditional_rules": [
+      "IF @version == 1.1 THEN SHOW parameter 'textSplittingMode'"
+    ]
+  }
+}

@@ -1,0 +1,736 @@
+{
+  "node_id": "n8n-nodes-base.taiga",
+  "name": "n8n-nodes-base.taiga",
+  "version": 1,
+  "semantic_context": "Consume Taiga API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Epic",
+          "value": "epic"
+        },
+        {
+          "name": "Issue",
+          "value": "issue"
+        },
+        {
+          "name": "Task",
+          "value": "task"
+        },
+        {
+          "name": "User Story",
+          "value": "userStory"
+        }
+      ],
+      "default": "issue",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userStory"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a user story",
+          "action": "Create a user story"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a user story",
+          "action": "Delete a user story"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a user story",
+          "action": "Get a user story"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many user stories",
+          "action": "Get many user stories"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a user story",
+          "action": "Update a user story"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "projectId": {
+      "displayName": "Project Name or ID",
+      "name": "projectId",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getProjects"
+      },
+      "default": "",
+      "description": "ID of the project to set the user story to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userStory"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the project to set the user story to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "subject": {
+      "displayName": "Subject",
+      "name": "subject",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userStory"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userStory"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Assignee Name or ID",
+          "name": "assigned_to",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getUsers"
+          },
+          "default": "",
+          "description": "ID of the user to whom the user story is assigned. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Backlog Order",
+          "name": "backlog_order",
+          "type": "number",
+          "default": 1,
+          "typeOptions": {
+            "minValue": 1
+          },
+          "description": "Order of the user story in the backlog"
+        },
+        {
+          "displayName": "Blocked Note",
+          "name": "blocked_note",
+          "type": "string",
+          "default": "",
+          "description": "Reason why the user story is blocked. Requires \"Is Blocked\" toggle to be enabled."
+        },
+        {
+          "displayName": "Description",
+          "name": "description",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Is Blocked",
+          "name": "is_blocked",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user story is blocked"
+        },
+        {
+          "displayName": "Kanban Order",
+          "name": "kanban_order",
+          "type": "number",
+          "default": 1,
+          "typeOptions": {
+            "minValue": 1
+          },
+          "description": "Order of the user story in the kanban"
+        },
+        {
+          "displayName": "Milestone (Sprint) Name or ID",
+          "name": "milestone",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getMilestones"
+          },
+          "default": "",
+          "description": "ID of the milestone of the user story. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Sprint Order",
+          "name": "sprint_order",
+          "type": "number",
+          "default": 1,
+          "typeOptions": {
+            "minValue": 1
+          },
+          "description": "Order of the user story in the milestone"
+        },
+        {
+          "displayName": "Status Name or ID",
+          "name": "status",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getUserStoryStatuses"
+          },
+          "default": "",
+          "description": "ID of the status of the user story. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Tag Names or IDs",
+          "name": "tags",
+          "type": "multiOptions",
+          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getTags"
+          },
+          "default": []
+        },
+        {
+          "displayName": "Type Name or ID",
+          "name": "type",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getTypes"
+          },
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "epicId": {
+      "displayName": "Epic ID",
+      "name": "epicId",
+      "description": "ID of the epic to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "epic"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the epic to update"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userStory"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "default": 50,
+      "description": "Max number of results to return",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userStory"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userStory"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Assignee Name or ID",
+          "name": "assigned_to",
+          "description": "ID of the user whom the user story is assigned to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getUsers"
+          },
+          "default": ""
+        },
+        {
+          "displayName": "Epic Name or ID",
+          "name": "epic",
+          "description": "ID of the epic to which the user story belongs. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getEpics"
+          },
+          "default": ""
+        },
+        {
+          "displayName": "Is Closed",
+          "name": "statusIsClosed",
+          "description": "Whether the user story is closed",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "displayName": "Is Archived",
+          "name": "statusIsArchived",
+          "description": "Whether the user story has been archived",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "displayName": "Milestone (Sprint) Name or ID",
+          "name": "milestone",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getMilestones"
+          },
+          "default": "",
+          "description": "ID of the milestone of the user story. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Role Name or ID",
+          "name": "role",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getRoles"
+          },
+          "default": ""
+        },
+        {
+          "displayName": "Status Name or ID",
+          "name": "status",
+          "description": "ID of the status of the user story. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getUserStoryStatuses"
+          },
+          "default": ""
+        },
+        {
+          "displayName": "Tag Names or IDs",
+          "name": "tags",
+          "type": "multiOptions",
+          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getTags"
+          },
+          "default": []
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userStory"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Assignee Name or ID",
+          "name": "assigned_to",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getUsers"
+          },
+          "default": "",
+          "description": "ID of the user to assign the the user story to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Backlog Order",
+          "name": "backlog_order",
+          "type": "number",
+          "default": 1,
+          "typeOptions": {
+            "minValue": 1
+          },
+          "description": "Order of the user story in the backlog"
+        },
+        {
+          "displayName": "Blocked Note",
+          "name": "blocked_note",
+          "type": "string",
+          "default": "",
+          "description": "Reason why the user story is blocked. Requires \"Is Blocked\" toggle to be enabled."
+        },
+        {
+          "displayName": "Description",
+          "name": "description",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Is Blocked",
+          "name": "is_blocked",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user story is blocked"
+        },
+        {
+          "displayName": "Kanban Order",
+          "name": "kanban_order",
+          "type": "number",
+          "default": 1,
+          "typeOptions": {
+            "minValue": 1
+          },
+          "description": "Order of the user story in the kanban"
+        },
+        {
+          "displayName": "Milestone (Sprint) Name or ID",
+          "name": "milestone",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getMilestones"
+          },
+          "default": "",
+          "description": "ID of the milestone of the user story. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Subject",
+          "name": "subject",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Sprint Order",
+          "name": "sprint_order",
+          "type": "number",
+          "default": 1,
+          "typeOptions": {
+            "minValue": 1
+          },
+          "description": "Order of the user story in the milestone"
+        },
+        {
+          "displayName": "Status Name or ID",
+          "name": "status",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getUserStoryStatuses"
+          },
+          "default": "",
+          "description": "ID of the status of the user story. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Tag Names or IDs",
+          "name": "tags",
+          "type": "multiOptions",
+          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getTags"
+          },
+          "default": []
+        },
+        {
+          "displayName": "Type Name or ID",
+          "name": "type",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "projectId"
+            ],
+            "loadOptionsMethod": "getTypes"
+          },
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "issueId": {
+      "displayName": "Issue ID",
+      "name": "issueId",
+      "description": "ID of the issue to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "issue"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "taskId": {
+      "displayName": "Task ID",
+      "name": "taskId",
+      "description": "ID of the task to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the task to update"
+    },
+    "userStoryId": {
+      "displayName": "User Story ID",
+      "name": "userStoryId",
+      "description": "ID of the user story to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userStory"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the user story to update"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "projectId",
+      "subject",
+      "additionalFields",
+      "epicId",
+      "epicId",
+      "projectId",
+      "returnAll",
+      "limit",
+      "filters",
+      "projectId",
+      "epicId",
+      "updateFields",
+      "operation",
+      "projectId",
+      "subject",
+      "additionalFields",
+      "issueId",
+      "issueId",
+      "projectId",
+      "returnAll",
+      "limit",
+      "filters",
+      "projectId",
+      "issueId",
+      "updateFields",
+      "operation",
+      "projectId",
+      "subject",
+      "additionalFields",
+      "taskId",
+      "taskId",
+      "projectId",
+      "returnAll",
+      "limit",
+      "filters",
+      "projectId",
+      "taskId",
+      "updateFields",
+      "operation",
+      "projectId",
+      "subject",
+      "additionalFields",
+      "userStoryId",
+      "userStoryId",
+      "projectId",
+      "returnAll",
+      "limit",
+      "filters",
+      "projectId",
+      "userStoryId",
+      "updateFields"
+    ],
+    "conditional_rules": [
+      "IF resource == 'epic' THEN SHOW parameter 'operation'",
+      "IF resource == 'epic' AND operation == 'create' THEN SHOW parameter 'projectId'",
+      "IF resource == 'epic' AND operation == 'create' THEN SHOW parameter 'subject'",
+      "IF resource == 'epic' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'epic' AND operation == 'delete' THEN SHOW parameter 'epicId'",
+      "IF resource == 'epic' AND operation == 'get' THEN SHOW parameter 'epicId'",
+      "IF resource == 'epic' AND operation == 'getAll' THEN SHOW parameter 'projectId'",
+      "IF resource == 'epic' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'epic' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'epic' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'epic' AND operation == 'update' THEN SHOW parameter 'projectId'",
+      "IF resource == 'epic' AND operation == 'update' THEN SHOW parameter 'epicId'",
+      "IF resource == 'epic' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'issue' THEN SHOW parameter 'operation'",
+      "IF resource == 'issue' AND operation == 'create' THEN SHOW parameter 'projectId'",
+      "IF resource == 'issue' AND operation == 'create' THEN SHOW parameter 'subject'",
+      "IF resource == 'issue' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'issue' AND operation == 'delete' THEN SHOW parameter 'issueId'",
+      "IF resource == 'issue' AND operation == 'get' THEN SHOW parameter 'issueId'",
+      "IF resource == 'issue' AND operation == 'getAll' THEN SHOW parameter 'projectId'",
+      "IF resource == 'issue' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'issue' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'issue' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'issue' AND operation == 'update' THEN SHOW parameter 'projectId'",
+      "IF resource == 'issue' AND operation == 'update' THEN SHOW parameter 'issueId'",
+      "IF resource == 'issue' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'task' THEN SHOW parameter 'operation'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'projectId'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'subject'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'task' AND operation == 'delete' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'get' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'projectId'",
+      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'task' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'projectId'",
+      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'userStory' THEN SHOW parameter 'operation'",
+      "IF resource == 'userStory' AND operation == 'create' THEN SHOW parameter 'projectId'",
+      "IF resource == 'userStory' AND operation == 'create' THEN SHOW parameter 'subject'",
+      "IF resource == 'userStory' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'userStory' AND operation == 'delete' THEN SHOW parameter 'userStoryId'",
+      "IF resource == 'userStory' AND operation == 'get' THEN SHOW parameter 'userStoryId'",
+      "IF resource == 'userStory' AND operation == 'getAll' THEN SHOW parameter 'projectId'",
+      "IF resource == 'userStory' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'userStory' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'userStory' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'userStory' AND operation == 'update' THEN SHOW parameter 'projectId'",
+      "IF resource == 'userStory' AND operation == 'update' THEN SHOW parameter 'userStoryId'",
+      "IF resource == 'userStory' AND operation == 'update' THEN SHOW parameter 'updateFields'"
+    ]
+  }
+}

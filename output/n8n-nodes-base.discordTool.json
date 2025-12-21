@@ -1,0 +1,1852 @@
+{
+  "node_id": "n8n-nodes-base.discordTool",
+  "name": "n8n-nodes-base.discordTool",
+  "version": 2,
+  "semantic_context": "Sends data to Discord",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Sends data to Discord",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "authentication": {
+      "displayName": "Connection Type",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Bot Token",
+          "value": "botToken",
+          "description": "Manage messages, channels, and members on a server"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2",
+          "description": "Same features as 'Bot Token' with easier Bot installation"
+        },
+        {
+          "name": "Webhook",
+          "value": "webhook",
+          "description": "Send messages to a specific channel"
+        }
+      ],
+      "default": "botToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Channel",
+          "value": "channel"
+        },
+        {
+          "name": "Message",
+          "value": "message"
+        },
+        {
+          "name": "Member",
+          "value": "member"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "channel",
+      "displayOptions": {
+        "hide": {
+          "authentication": [
+            "webhook"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "authentication": [
+            "webhook"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Send a Message",
+          "value": "sendLegacy",
+          "description": "Send a message to a channel using the webhook",
+          "action": "Send a message"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "sendLegacy",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "guildId": {
+      "displayName": "Server",
+      "name": "guildId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "description": "Select the server (guild) that your bot is connected to",
+      "modes": [
+        {
+          "displayName": "By Name",
+          "name": "list",
+          "type": "list",
+          "placeholder": "e.g. my-server",
+          "typeOptions": {
+            "searchListMethod": "guildSearch"
+          }
+        },
+        {
+          "displayName": "By URL",
+          "name": "url",
+          "type": "string",
+          "placeholder": "e.g. https://discord.com/channels/[guild-id]",
+          "extractValue": {
+            "type": "regex",
+            "regex": "https:\\/\\/discord.com\\/channels\\/([0-9]+)"
+          },
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "https:\\/\\/discord.com\\/channels\\/([0-9]+)",
+                "errorMessage": "Not a valid Discord Server URL"
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "By ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "e.g. 896347036838936576",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "[0-9]+",
+                "errorMessage": "Not a valid Discord Server ID"
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "member"
+          ],
+          "authentication": [
+            "botToken",
+            "oAuth2"
+          ]
+        }
+      },
+      "ai_hint": "Select the server (guild) that your bot is connected to"
+    },
+    "channelId": {
+      "displayName": "Channel",
+      "name": "channelId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "description": "Select the channel by name, URL, or ID",
+      "modes": [
+        {
+          "displayName": "By Name",
+          "name": "list",
+          "type": "list",
+          "placeholder": "e.g. my-channel",
+          "typeOptions": {
+            "searchListMethod": "channelSearch"
+          }
+        },
+        {
+          "displayName": "By URL",
+          "name": "url",
+          "type": "string",
+          "placeholder": "e.g. https://discord.com/channels/[guild-id]/[channel-id]",
+          "extractValue": {
+            "type": "regex",
+            "regex": "https:\\/\\/discord.com\\/channels\\/[0-9]+\\/([0-9]+)"
+          },
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "https:\\/\\/discord.com\\/channels\\/[0-9]+\\/([0-9]+)",
+                "errorMessage": "Not a valid Discord Channel URL"
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "By ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "e.g. 896347036838936576",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "[0-9]+",
+                "errorMessage": "Not a valid Discord Channel ID"
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "channel"
+          ],
+          "operation": [
+            "update"
+          ]
+        },
+        "hide": {
+          "authentication": [
+            "webhook"
+          ]
+        }
+      },
+      "ai_hint": "Select the channel by name, URL, or ID"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "member"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        },
+        "hide": {
+          "authentication": [
+            "webhook"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "returnAll": [
+            false
+          ],
+          "resource": [
+            "member"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        },
+        "hide": {
+          "authentication": [
+            "webhook"
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Avatar URL",
+          "name": "avatar_url",
+          "type": "string",
+          "default": "",
+          "description": "Override the default avatar of the webhook",
+          "placeholder": "e.g. https://example.com/image.png"
+        },
+        {
+          "displayName": "Flags",
+          "name": "flags",
+          "type": "multiOptions",
+          "default": [],
+          "description": "Message flags. <a href=\"https://discord.com/developers/docs/resources/channel#message-object-message-flags\" target=\"_blank\">More info</a>.”.",
+          "options": [
+            {
+              "name": "Suppress Embeds",
+              "value": "SUPPRESS_EMBEDS"
+            },
+            {
+              "name": "Suppress Notifications",
+              "value": "SUPPRESS_NOTIFICATIONS"
+            }
+          ]
+        },
+        {
+          "displayName": "Text-to-Speech (TTS)",
+          "name": "tts",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to have a bot reading the message directly in the channel"
+        },
+        {
+          "displayName": "Username",
+          "name": "username",
+          "type": "string",
+          "default": "",
+          "description": "Override the default username of the webhook",
+          "placeholder": "e.g. My Username"
+        },
+        {
+          "displayName": "Wait",
+          "name": "wait",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether wait for the message to be created before returning its response"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "sendLegacy"
+          ]
+        },
+        "hide": {
+          "authentication": [
+            "botToken",
+            "oAuth2"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "messageId": {
+      "displayName": "Message ID",
+      "name": "messageId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "description": "The ID of the message",
+      "placeholder": "e.g. 1057576506244726804",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "get"
+          ]
+        },
+        "hide": {
+          "authentication": [
+            "webhook"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the message"
+    },
+    "emoji": {
+      "displayName": "Emoji",
+      "name": "emoji",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "description": "The emoji you want to react with",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "react"
+          ]
+        },
+        "hide": {
+          "authentication": [
+            "webhook"
+          ]
+        }
+      },
+      "ai_hint": "The emoji you want to react with"
+    },
+    "sendTo": {
+      "displayName": "Send To",
+      "name": "sendTo",
+      "type": "options",
+      "options": [
+        {
+          "name": "User",
+          "value": "user"
+        },
+        {
+          "name": "Channel",
+          "value": "channel"
+        }
+      ],
+      "default": "channel",
+      "description": "Send message to a channel or DM to a user",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "sendAndWait"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "userId": {
+      "displayName": "User",
+      "name": "userId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "description": "Select the user you want to assign a role to",
+      "modes": [
+        {
+          "displayName": "By Name",
+          "name": "list",
+          "type": "list",
+          "placeholder": "e.g. DiscordUser",
+          "typeOptions": {
+            "searchListMethod": "userSearch"
+          }
+        },
+        {
+          "displayName": "By ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "e.g. 786953432728469534",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "[0-9]+",
+                "errorMessage": "Not a valid User ID"
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "member"
+          ],
+          "operation": [
+            "roleRemove"
+          ]
+        },
+        "hide": {
+          "authentication": [
+            "webhook"
+          ]
+        }
+      },
+      "ai_hint": "Select the user you want to assign a role to"
+    },
+    "content": {
+      "displayName": "Message",
+      "name": "content",
+      "type": "string",
+      "default": "",
+      "description": "The content of the message (up to 2000 characters)",
+      "placeholder": "e.g. My message",
+      "typeOptions": {
+        "rows": 2
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "sendLegacy"
+          ]
+        },
+        "hide": {
+          "authentication": [
+            "botToken",
+            "oAuth2"
+          ]
+        }
+      },
+      "ai_hint": "The content of the message (up to 2000 characters)"
+    },
+    "embeds": {
+      "displayName": "Embeds",
+      "name": "embeds",
+      "type": "fixedCollection",
+      "placeholder": "Add Embeds",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "default": [],
+      "options": [
+        {
+          "displayName": "Values",
+          "name": "values",
+          "values": [
+            {
+              "displayName": "Input Method",
+              "name": "inputMethod",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Enter Fields",
+                  "value": "fields"
+                },
+                {
+                  "name": "Raw JSON",
+                  "value": "json"
+                }
+              ],
+              "default": "fields"
+            },
+            {
+              "displayName": "Value",
+              "name": "json",
+              "type": "json",
+              "default": "={}",
+              "typeOptions": {
+                "rows": 2
+              },
+              "displayOptions": {
+                "show": {
+                  "inputMethod": [
+                    "json"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Description",
+              "name": "description",
+              "type": "string",
+              "default": "",
+              "description": "The description of embed",
+              "placeholder": "e.g. My description",
+              "typeOptions": {
+                "rows": 2
+              },
+              "displayOptions": {
+                "show": {
+                  "inputMethod": [
+                    "fields"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Author",
+              "name": "author",
+              "type": "string",
+              "default": "",
+              "description": "The name of the author",
+              "placeholder": "e.g. John Doe",
+              "displayOptions": {
+                "show": {
+                  "inputMethod": [
+                    "fields"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Color",
+              "name": "color",
+              "type": "color",
+              "default": "",
+              "description": "Color code of the embed",
+              "placeholder": "e.g. 12123432",
+              "displayOptions": {
+                "show": {
+                  "inputMethod": [
+                    "fields"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Timestamp",
+              "name": "timestamp",
+              "type": "dateTime",
+              "default": "",
+              "description": "The time displayed at the bottom of the embed. Provide in ISO8601 format.",
+              "placeholder": "e.g. 2023-02-08 09:30:26",
+              "displayOptions": {
+                "show": {
+                  "inputMethod": [
+                    "fields"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Title",
+              "name": "title",
+              "type": "string",
+              "default": "",
+              "description": "The title of embed",
+              "placeholder": "e.g. Embed's title",
+              "displayOptions": {
+                "show": {
+                  "inputMethod": [
+                    "fields"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "URL",
+              "name": "url",
+              "type": "string",
+              "default": "",
+              "description": "The URL where you want to link the embed to",
+              "placeholder": "e.g. https://discord.com/",
+              "displayOptions": {
+                "show": {
+                  "inputMethod": [
+                    "fields"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "URL Image",
+              "name": "image",
+              "type": "string",
+              "default": "",
+              "description": "Source URL of image (only supports http(s) and attachments)",
+              "placeholder": "e.g. https://example.com/image.png",
+              "displayOptions": {
+                "show": {
+                  "inputMethod": [
+                    "fields"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "URL Thumbnail",
+              "name": "thumbnail",
+              "type": "string",
+              "default": "",
+              "description": "Source URL of thumbnail (only supports http(s) and attachments)",
+              "placeholder": "e.g. https://example.com/image.png",
+              "displayOptions": {
+                "show": {
+                  "inputMethod": [
+                    "fields"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "URL Video",
+              "name": "video",
+              "type": "string",
+              "default": "",
+              "description": "Source URL of video",
+              "placeholder": "e.g. https://example.com/video.mp4",
+              "displayOptions": {
+                "show": {
+                  "inputMethod": [
+                    "fields"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "sendLegacy"
+          ]
+        },
+        "hide": {
+          "authentication": [
+            "botToken",
+            "oAuth2"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "files": {
+      "displayName": "Files",
+      "name": "files",
+      "type": "fixedCollection",
+      "placeholder": "Add Files",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "default": [],
+      "options": [
+        {
+          "displayName": "Values",
+          "name": "values",
+          "values": [
+            {
+              "displayName": "Input Data Field Name",
+              "name": "inputFieldName",
+              "type": "string",
+              "default": "data",
+              "description": "The contents of the file being sent with the message",
+              "placeholder": "e.g. data",
+              "hint": "The name of the input field containing the binary file data to be sent"
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "sendLegacy"
+          ]
+        },
+        "hide": {
+          "authentication": [
+            "botToken",
+            "oAuth2"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "typeOptions": {
+        "rows": 4
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "sendAndWait"
+          ]
+        }
+      }
+    },
+    "responseType": {
+      "displayName": "Response Type",
+      "name": "responseType",
+      "type": "options",
+      "default": "approval",
+      "options": [
+        {
+          "name": "Approval",
+          "value": "approval",
+          "description": "User can approve/disapprove from within the message"
+        },
+        {
+          "name": "Free Text",
+          "value": "freeText",
+          "description": "User can submit a response via a form"
+        },
+        {
+          "name": "Custom Form",
+          "value": "customForm",
+          "description": "User can submit a response via a custom form"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "sendAndWait"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "defineForm": {
+      "displayName": "Define Form",
+      "name": "defineForm",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Using Fields Below",
+          "value": "fields"
+        },
+        {
+          "name": "Using JSON",
+          "value": "json"
+        }
+      ],
+      "default": "fields",
+      "displayOptions": {
+        "show": {
+          "responseType": [
+            "customForm"
+          ],
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "sendAndWait"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "jsonOutput": {
+      "displayName": "Form Fields",
+      "name": "jsonOutput",
+      "type": "json",
+      "typeOptions": {
+        "rows": 5
+      },
+      "default": "[\n  {\n    \"fieldLabel\": \"Name\",\n    \"placeholder\": \"enter your name\",\n    \"requiredField\": true\n  },\n  {\n    \"fieldLabel\": \"Age\",\n    \"fieldType\": \"number\",\n    \"placeholder\": \"enter your age\"\n  },\n  {\n    \"fieldLabel\": \"Email\",\n    \"fieldType\": \"email\",\n    \"requiredField\": true\n  },\n  {\n    \"fieldLabel\": \"Textarea\",\n    \"fieldType\": \"textarea\"\n  },\n  {\n    \"fieldLabel\": \"Dropdown Options\",\n    \"fieldType\": \"dropdown\",\n    \"fieldOptions\": {\n      \"values\": [\n        {\n          \"option\": \"option 1\"\n        },\n        {\n          \"option\": \"option 2\"\n        }\n      ]\n    },\n    \"requiredField\": true\n  },\n  {\n    \"fieldLabel\": \"Checkboxes\",\n    \"fieldType\": \"checkbox\",\n    \"fieldOptions\": {\n      \"values\": [\n        {\n          \"option\": \"option 1\"\n        },\n        {\n          \"option\": \"option 2\"\n        }\n      ]\n    }\n  },\n  {\n    \"fieldLabel\": \"Radio\",\n    \"fieldType\": \"radio\",\n    \"fieldOptions\": {\n      \"values\": [\n        {\n          \"option\": \"option 1\"\n        },\n        {\n          \"option\": \"option 2\"\n        }\n      ]\n    }\n  },\n  {\n    \"fieldLabel\": \"Email\",\n    \"fieldType\": \"email\",\n    \"placeholder\": \"me@mail.con\"\n  },\n  {\n    \"fieldLabel\": \"File\",\n    \"fieldType\": \"file\",\n    \"multipleFiles\": true,\n    \"acceptFileTypes\": \".jpg, .png\"\n  },\n  {\n    \"fieldLabel\": \"Number\",\n    \"fieldType\": \"number\"\n  },\n  {\n    \"fieldLabel\": \"Password\",\n    \"fieldType\": \"password\"\n  }\n]\n",
+      "validateType": "form-fields",
+      "ignoreValidationDuringExecution": true,
+      "hint": "<a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.form/\" target=\"_blank\">See docs</a> for field syntax",
+      "displayOptions": {
+        "show": {
+          "defineForm": [
+            "json"
+          ],
+          "responseType": [
+            "customForm"
+          ],
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "sendAndWait"
+          ]
+        }
+      }
+    },
+    "formFields": {
+      "displayName": "Form Elements",
+      "name": "formFields",
+      "placeholder": "Add Form Element",
+      "type": "fixedCollection",
+      "default": {},
+      "typeOptions": {
+        "multipleValues": true,
+        "sortable": true
+      },
+      "options": [
+        {
+          "displayName": "Values",
+          "name": "values",
+          "values": [
+            {
+              "displayName": "Field Name",
+              "name": "fieldLabel",
+              "type": "string",
+              "default": "",
+              "placeholder": "e.g. What is your name?",
+              "description": "Label that appears above the input field",
+              "required": true,
+              "displayOptions": {
+                "hide": {
+                  "fieldType": [
+                    "hiddenField",
+                    "html"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field Name",
+              "name": "fieldName",
+              "description": "The name of the field, used in input attributes and referenced by the workflow",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "hiddenField"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Element Type",
+              "name": "fieldType",
+              "type": "options",
+              "default": "text",
+              "description": "The type of field to add to the form",
+              "options": [
+                {
+                  "name": "Checkboxes",
+                  "value": "checkbox"
+                },
+                {
+                  "name": "Custom HTML",
+                  "value": "html"
+                },
+                {
+                  "name": "Date",
+                  "value": "date"
+                },
+                {
+                  "name": "Dropdown",
+                  "value": "dropdown"
+                },
+                {
+                  "name": "Email",
+                  "value": "email"
+                },
+                {
+                  "name": "File",
+                  "value": "file"
+                },
+                {
+                  "name": "Hidden Field",
+                  "value": "hiddenField"
+                },
+                {
+                  "name": "Number",
+                  "value": "number"
+                },
+                {
+                  "name": "Password",
+                  "value": "password"
+                },
+                {
+                  "name": "Radio Buttons",
+                  "value": "radio"
+                },
+                {
+                  "name": "Text",
+                  "value": "text"
+                },
+                {
+                  "name": "Textarea",
+                  "value": "textarea"
+                }
+              ],
+              "required": true
+            },
+            {
+              "displayName": "Element Name",
+              "name": "elementName",
+              "type": "string",
+              "default": "",
+              "placeholder": "e.g. content-section",
+              "description": "Optional field. It can be used to include the html in the output.",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "html"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Placeholder",
+              "name": "placeholder",
+              "description": "Sample text to display inside the field",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "hide": {
+                  "fieldType": [
+                    "dropdown",
+                    "date",
+                    "file",
+                    "html",
+                    "hiddenField",
+                    "radio",
+                    "checkbox"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Default Value",
+              "name": "defaultValue",
+              "description": "Default value that will be pre-filled in the form field",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "text",
+                    "number",
+                    "email",
+                    "textarea"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Default Value",
+              "name": "defaultValue",
+              "description": "Default date value that will be pre-filled in the form field (format: YYYY-MM-DD)",
+              "type": "dateTime",
+              "typeOptions": {
+                "dateOnly": true
+              },
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "date"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Default Value",
+              "name": "defaultValue",
+              "description": "Default value that will be pre-selected. Must match one of the option labels.",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "dropdown",
+                    "radio"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Default Value",
+              "name": "defaultValue",
+              "description": "Default value(s) that will be pre-selected. Must match one or multiple of the option labels. Separate multiple pre-selected options with a comma.",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "checkbox"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field Value",
+              "name": "fieldValue",
+              "description": "Input value can be set here or will be passed as a query parameter via Field Name if no value is set",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "hiddenField"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Field Options",
+              "name": "fieldOptions",
+              "placeholder": "Add Field Option",
+              "description": "List of options that can be selected from the dropdown",
+              "type": "fixedCollection",
+              "default": {
+                "values": [
+                  {
+                    "option": ""
+                  }
+                ]
+              },
+              "required": true,
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "dropdown"
+                  ]
+                }
+              },
+              "typeOptions": {
+                "multipleValues": true,
+                "sortable": true
+              },
+              "options": [
+                {
+                  "displayName": "Values",
+                  "name": "values",
+                  "values": [
+                    {
+                      "displayName": "Option",
+                      "name": "option",
+                      "type": "string",
+                      "default": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "displayName": "Checkboxes",
+              "name": "fieldOptions",
+              "placeholder": "Add Checkbox",
+              "type": "fixedCollection",
+              "default": {
+                "values": [
+                  {
+                    "option": ""
+                  }
+                ]
+              },
+              "required": true,
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "checkbox"
+                  ]
+                }
+              },
+              "typeOptions": {
+                "multipleValues": true,
+                "sortable": true
+              },
+              "options": [
+                {
+                  "displayName": "Values",
+                  "name": "values",
+                  "values": [
+                    {
+                      "displayName": "Checkbox Label",
+                      "name": "option",
+                      "type": "string",
+                      "default": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "displayName": "Radio Buttons",
+              "name": "fieldOptions",
+              "placeholder": "Add Radio Button",
+              "type": "fixedCollection",
+              "default": {
+                "values": [
+                  {
+                    "option": ""
+                  }
+                ]
+              },
+              "required": true,
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "radio"
+                  ]
+                }
+              },
+              "typeOptions": {
+                "multipleValues": true,
+                "sortable": true
+              },
+              "options": [
+                {
+                  "displayName": "Values",
+                  "name": "values",
+                  "values": [
+                    {
+                      "displayName": "Radio Button Label",
+                      "name": "option",
+                      "type": "string",
+                      "default": ""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "displayName": "Multiple Choice is a legacy option, please use Checkboxes or Radio Buttons field type instead",
+              "name": "multiselectLegacyNotice",
+              "type": "notice",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "multiselect": [
+                    true
+                  ],
+                  "fieldType": [
+                    "dropdown"
+                  ],
+                  "@version": [
+                    {
+                      "_cnd": {
+                        "lt": 2.3
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Multiple Choice",
+              "name": "multiselect",
+              "type": "boolean",
+              "default": false,
+              "description": "Whether to allow the user to select multiple options from the dropdown list",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "dropdown"
+                  ],
+                  "@version": [
+                    {
+                      "_cnd": {
+                        "lt": 2.3
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Limit Selection",
+              "name": "limitSelection",
+              "type": "options",
+              "default": "unlimited",
+              "options": [
+                {
+                  "name": "Exact Number",
+                  "value": "exact"
+                },
+                {
+                  "name": "Range",
+                  "value": "range"
+                },
+                {
+                  "name": "Unlimited",
+                  "value": "unlimited"
+                }
+              ],
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "checkbox"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Number of Selections",
+              "name": "numberOfSelections",
+              "type": "number",
+              "default": 1,
+              "typeOptions": {
+                "numberPrecision": 0,
+                "minValue": 1
+              },
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "checkbox"
+                  ],
+                  "limitSelection": [
+                    "exact"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Minimum Selections",
+              "name": "minSelections",
+              "type": "number",
+              "default": 0,
+              "typeOptions": {
+                "numberPrecision": 0,
+                "minValue": 0
+              },
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "checkbox"
+                  ],
+                  "limitSelection": [
+                    "range"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Maximum Selections",
+              "name": "maxSelections",
+              "type": "number",
+              "default": 1,
+              "typeOptions": {
+                "numberPrecision": 0,
+                "minValue": 1
+              },
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "checkbox"
+                  ],
+                  "limitSelection": [
+                    "range"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "HTML",
+              "name": "html",
+              "typeOptions": {
+                "editor": "htmlEditor"
+              },
+              "type": "string",
+              "noDataExpression": true,
+              "default": "<!-- Your custom HTML here --->\n\n\n",
+              "description": "HTML elements to display on the form page",
+              "hint": "Does not accept <code>&lt;script&gt;</code>, <code>&lt;style&gt;</code> or <code>&lt;input&gt;</code> tags",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "html"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Multiple Files",
+              "name": "multipleFiles",
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to allow the user to select multiple files from the file input or just one",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "file"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Accepted File Types",
+              "name": "acceptFileTypes",
+              "type": "string",
+              "default": "",
+              "description": "Comma-separated list of allowed file extensions",
+              "hint": "Leave empty to allow all file types",
+              "placeholder": "e.g. .jpg, .png",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "file"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "The displayed date is formatted based on the locale of the user's browser",
+              "name": "formatDate",
+              "type": "notice",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "fieldType": [
+                    "date"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Required Field",
+              "name": "requiredField",
+              "type": "boolean",
+              "default": false,
+              "description": "Whether to require the user to enter a value for this field before submitting the form",
+              "displayOptions": {
+                "hide": {
+                  "fieldType": [
+                    "html",
+                    "hiddenField"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "defineForm": [
+            "fields"
+          ],
+          "responseType": [
+            "customForm"
+          ],
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "sendAndWait"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "approvalOptions": {
+      "displayName": "Approval Options",
+      "name": "approvalOptions",
+      "type": "fixedCollection",
+      "placeholder": "Add option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Values",
+          "name": "values",
+          "values": [
+            {
+              "displayName": "Type of Approval",
+              "name": "approvalType",
+              "type": "options",
+              "placeholder": "Add option",
+              "default": "single",
+              "options": [
+                {
+                  "name": "Approve Only",
+                  "value": "single"
+                },
+                {
+                  "name": "Approve and Disapprove",
+                  "value": "double"
+                }
+              ]
+            },
+            {
+              "displayName": "Approve Button Label",
+              "name": "approveLabel",
+              "type": "string",
+              "default": "✓ Approve",
+              "displayOptions": {
+                "show": {
+                  "approvalType": [
+                    "single",
+                    "double"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Disapprove Button Label",
+              "name": "disapproveLabel",
+              "type": "string",
+              "default": "✗ Decline",
+              "displayOptions": {
+                "show": {
+                  "approvalType": [
+                    "double"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "responseType": [
+            "approval"
+          ],
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "sendAndWait"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "default": "",
+      "description": "The new name of the channel. Fill this field only if you want to change the channel's name.",
+      "placeholder": "e.g. new-channel-name",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "channel"
+          ],
+          "operation": [
+            "update"
+          ]
+        },
+        "hide": {
+          "authentication": [
+            "webhook"
+          ]
+        }
+      },
+      "ai_hint": "The new name of the channel. Fill this field only if you want to change the channel's name."
+    },
+    "type": {
+      "displayName": "Type",
+      "name": "type",
+      "type": "options",
+      "default": "0",
+      "required": true,
+      "description": "The type of channel to create",
+      "options": [
+        {
+          "name": "Guild Text",
+          "value": "0"
+        },
+        {
+          "name": "Guild Voice",
+          "value": "2"
+        },
+        {
+          "name": "Guild Category",
+          "value": "4"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "channel"
+          ],
+          "operation": [
+            "create"
+          ]
+        },
+        "hide": {
+          "authentication": [
+            "webhook"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "after": {
+      "displayName": "After",
+      "name": "after",
+      "type": "string",
+      "default": "",
+      "placeholder": "e.g. 786953432728469534",
+      "description": "The ID of the user after which to return the members",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "member"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        },
+        "hide": {
+          "authentication": [
+            "webhook"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the user after which to return the members"
+    },
+    "role": {
+      "displayName": "Role",
+      "name": "role",
+      "type": "multiOptions",
+      "typeOptions": {
+        "loadOptionsMethod": "getRoles",
+        "loadOptionsDependsOn": [
+          "userId.value",
+          "guildId.value",
+          "operation"
+        ]
+      },
+      "required": true,
+      "description": "Select the roles you want to add to the user",
+      "default": [],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "member"
+          ],
+          "operation": [
+            "roleRemove"
+          ]
+        },
+        "hide": {
+          "authentication": [
+            "webhook"
+          ]
+        }
+      },
+      "ai_hint": "Select the roles you want to add to the user"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "authentication",
+      "resource",
+      "operation",
+      "guildId",
+      "channelId",
+      "returnAll",
+      "limit",
+      "options",
+      "channelId",
+      "messageId",
+      "emoji",
+      "sendTo",
+      "userId",
+      "channelId",
+      "content",
+      "options",
+      "embeds",
+      "files",
+      "channelId",
+      "messageId",
+      "channelId",
+      "messageId",
+      "options",
+      "sendTo",
+      "userId",
+      "channelId",
+      "message",
+      "responseType",
+      "defineForm",
+      "jsonOutput",
+      "formFields",
+      "approvalOptions",
+      "options",
+      "options",
+      "operation",
+      "guildId",
+      "name",
+      "type",
+      "options",
+      "channelId",
+      "channelId",
+      "returnAll",
+      "limit",
+      "options",
+      "channelId",
+      "name",
+      "options",
+      "operation",
+      "guildId",
+      "returnAll",
+      "limit",
+      "after",
+      "options",
+      "userId",
+      "role",
+      "userId",
+      "role",
+      "operation",
+      "content",
+      "options",
+      "embeds",
+      "files"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'resource'",
+      "IF resource == 'message' AND authentication IN [\"botToken\", \"oAuth2\"] THEN SHOW parameter 'operation'",
+      "IF resource == 'message' AND authentication IN [\"botToken\", \"oAuth2\"] THEN SHOW parameter 'guildId'",
+      "IF resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'channelId'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'channelId'",
+      "IF resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'returnAll'",
+      "IF returnAll == False AND resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'limit'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'limit'",
+      "IF resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'options'",
+      "IF resource == 'message' AND operation == 'react' THEN SHOW parameter 'channelId'",
+      "IF resource == 'message' AND operation == 'react' THEN SHOW parameter 'messageId'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'messageId'",
+      "IF resource == 'message' AND operation == 'react' THEN SHOW parameter 'emoji'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'emoji'",
+      "IF resource == 'message' AND operation == 'send' THEN SHOW parameter 'sendTo'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'sendTo'",
+      "IF sendTo == 'user' AND resource == 'message' AND operation == 'send' THEN SHOW parameter 'userId'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'userId'",
+      "IF sendTo == 'channel' AND resource == 'message' AND operation == 'send' THEN SHOW parameter 'channelId'",
+      "IF resource == 'message' AND operation == 'send' THEN SHOW parameter 'content'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'content'",
+      "IF resource == 'message' AND operation == 'send' THEN SHOW parameter 'options'",
+      "IF resource == 'message' AND operation == 'send' THEN SHOW parameter 'embeds'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'embeds'",
+      "IF inputMethod == 'json' THEN SHOW parameter 'json'",
+      "IF inputMethod == 'fields' THEN SHOW parameter 'description'",
+      "IF inputMethod == 'fields' THEN SHOW parameter 'author'",
+      "IF inputMethod == 'fields' THEN SHOW parameter 'color'",
+      "IF inputMethod == 'fields' THEN SHOW parameter 'timestamp'",
+      "IF inputMethod == 'fields' THEN SHOW parameter 'title'",
+      "IF inputMethod == 'fields' THEN SHOW parameter 'url'",
+      "IF inputMethod == 'fields' THEN SHOW parameter 'image'",
+      "IF inputMethod == 'fields' THEN SHOW parameter 'thumbnail'",
+      "IF inputMethod == 'fields' THEN SHOW parameter 'video'",
+      "IF resource == 'message' AND operation == 'send' THEN SHOW parameter 'files'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'files'",
+      "IF resource == 'message' AND operation == 'deleteMessage' THEN SHOW parameter 'channelId'",
+      "IF resource == 'message' AND operation == 'deleteMessage' THEN SHOW parameter 'messageId'",
+      "IF resource == 'message' AND operation == 'get' THEN SHOW parameter 'channelId'",
+      "IF resource == 'message' AND operation == 'get' THEN SHOW parameter 'messageId'",
+      "IF resource == 'message' AND operation == 'get' THEN SHOW parameter 'options'",
+      "IF resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'sendTo'",
+      "IF sendTo == 'user' AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'userId'",
+      "IF sendTo == 'channel' AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'channelId'",
+      "IF resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'message'",
+      "IF resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'responseType'",
+      "IF responseType == 'customForm' AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'defineForm'",
+      "IF defineForm == 'json' AND responseType == 'customForm' AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'jsonOutput'",
+      "IF defineForm == 'fields' AND responseType == 'customForm' AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'formFields'",
+      "IF fieldType IN [\"hiddenField\", \"html\"] THEN HIDE parameter 'fieldLabel'",
+      "IF fieldType == 'hiddenField' THEN SHOW parameter 'fieldName'",
+      "IF fieldType == 'html' THEN SHOW parameter 'elementName'",
+      "IF fieldType IN [\"dropdown\", \"date\", \"file\", \"html\", \"hiddenField\", \"radio\", \"checkbox\"] THEN HIDE parameter 'placeholder'",
+      "IF fieldType IN [\"text\", \"number\", \"email\", \"textarea\"] THEN SHOW parameter 'defaultValue'",
+      "IF fieldType == 'date' THEN SHOW parameter 'defaultValue'",
+      "IF fieldType IN [\"dropdown\", \"radio\"] THEN SHOW parameter 'defaultValue'",
+      "IF fieldType == 'checkbox' THEN SHOW parameter 'defaultValue'",
+      "IF fieldType == 'hiddenField' THEN SHOW parameter 'fieldValue'",
+      "IF fieldType == 'dropdown' THEN SHOW parameter 'fieldOptions'",
+      "IF fieldType == 'checkbox' THEN SHOW parameter 'fieldOptions'",
+      "IF fieldType == 'radio' THEN SHOW parameter 'fieldOptions'",
+      "IF multiselect == True AND fieldType == 'dropdown' AND @version == {'_cnd': {'lt': 2.3}} THEN SHOW parameter 'multiselectLegacyNotice'",
+      "IF fieldType == 'dropdown' AND @version == {'_cnd': {'lt': 2.3}} THEN SHOW parameter 'multiselect'",
+      "IF fieldType == 'checkbox' THEN SHOW parameter 'limitSelection'",
+      "IF fieldType == 'checkbox' AND limitSelection == 'exact' THEN SHOW parameter 'numberOfSelections'",
+      "IF fieldType == 'checkbox' AND limitSelection == 'range' THEN SHOW parameter 'minSelections'",
+      "IF fieldType == 'checkbox' AND limitSelection == 'range' THEN SHOW parameter 'maxSelections'",
+      "IF fieldType == 'html' THEN SHOW parameter 'html'",
+      "IF fieldType == 'file' THEN SHOW parameter 'multipleFiles'",
+      "IF fieldType == 'file' THEN SHOW parameter 'acceptFileTypes'",
+      "IF fieldType == 'date' THEN SHOW parameter 'formatDate'",
+      "IF fieldType IN [\"html\", \"hiddenField\"] THEN HIDE parameter 'requiredField'",
+      "IF responseType == 'approval' AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'approvalOptions'",
+      "IF approvalType IN [\"single\", \"double\"] THEN SHOW parameter 'approveLabel'",
+      "IF approvalType == 'double' THEN SHOW parameter 'disapproveLabel'",
+      "IF responseType == 'approval' AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'options'",
+      "IF limitType == 'afterTimeInterval' THEN SHOW parameter 'resumeAmount'",
+      "IF limitType == 'afterTimeInterval' THEN SHOW parameter 'resumeUnit'",
+      "IF limitType == 'atSpecifiedTime' THEN SHOW parameter 'maxDateAndTime'",
+      "IF responseType IN [\"freeText\", \"customForm\"] AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'options'",
+      "IF resource == 'channel' AND authentication IN [\"botToken\", \"oAuth2\"] THEN SHOW parameter 'operation'",
+      "IF resource == 'channel' AND authentication IN [\"botToken\", \"oAuth2\"] THEN SHOW parameter 'guildId'",
+      "IF resource == 'channel' AND operation == 'create' THEN SHOW parameter 'name'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'name'",
+      "IF resource == 'channel' AND operation == 'create' THEN SHOW parameter 'type'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'type'",
+      "IF resource == 'channel' AND operation == 'create' THEN SHOW parameter 'options'",
+      "IF /type == '4' THEN HIDE parameter 'nsfw'",
+      "IF /type == '2' THEN SHOW parameter 'bitrate'",
+      "IF /type == '4' THEN HIDE parameter 'categoryId'",
+      "IF /type == '4' THEN HIDE parameter 'rate_limit_per_user'",
+      "IF /type == '4' THEN HIDE parameter 'topic'",
+      "IF /type == '2' THEN SHOW parameter 'user_limit'",
+      "IF resource == 'channel' AND operation == 'deleteChannel' THEN SHOW parameter 'channelId'",
+      "IF resource == 'channel' AND operation == 'get' THEN SHOW parameter 'channelId'",
+      "IF resource == 'channel' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF returnAll == False AND resource == 'channel' AND operation == 'getAll' THEN SHOW parameter 'limit'",
+      "IF resource == 'channel' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'channel' AND operation == 'update' THEN SHOW parameter 'channelId'",
+      "IF resource == 'channel' AND operation == 'update' THEN SHOW parameter 'name'",
+      "IF resource == 'channel' AND operation == 'update' THEN SHOW parameter 'options'",
+      "IF resource == 'member' AND authentication IN [\"botToken\", \"oAuth2\"] THEN SHOW parameter 'operation'",
+      "IF resource == 'member' AND authentication IN [\"botToken\", \"oAuth2\"] THEN SHOW parameter 'guildId'",
+      "IF resource == 'member' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF returnAll == False AND resource == 'member' AND operation == 'getAll' THEN SHOW parameter 'limit'",
+      "IF resource == 'member' AND operation == 'getAll' THEN SHOW parameter 'after'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'after'",
+      "IF resource == 'member' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'member' AND operation == 'roleAdd' THEN SHOW parameter 'userId'",
+      "IF resource == 'member' AND operation == 'roleAdd' THEN SHOW parameter 'role'",
+      "IF authentication == 'webhook' THEN HIDE parameter 'role'",
+      "IF resource == 'member' AND operation == 'roleRemove' THEN SHOW parameter 'userId'",
+      "IF resource == 'member' AND operation == 'roleRemove' THEN SHOW parameter 'role'",
+      "IF authentication == 'webhook' THEN SHOW parameter 'operation'",
+      "IF operation == 'sendLegacy' THEN SHOW parameter 'content'",
+      "IF authentication IN [\"botToken\", \"oAuth2\"] THEN HIDE parameter 'content'",
+      "IF operation == 'sendLegacy' THEN SHOW parameter 'options'",
+      "IF authentication IN [\"botToken\", \"oAuth2\"] THEN HIDE parameter 'options'",
+      "IF operation == 'sendLegacy' THEN SHOW parameter 'embeds'",
+      "IF authentication IN [\"botToken\", \"oAuth2\"] THEN HIDE parameter 'embeds'",
+      "IF operation == 'sendLegacy' THEN SHOW parameter 'files'",
+      "IF authentication IN [\"botToken\", \"oAuth2\"] THEN HIDE parameter 'files'"
+    ]
+  }
+}

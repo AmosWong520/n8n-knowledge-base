@@ -1,0 +1,354 @@
+{
+  "node_id": "n8n-nodes-base.bitlyTool",
+  "name": "n8n-nodes-base.bitlyTool",
+  "version": 1,
+  "semantic_context": "Consume Bitly API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume Bitly API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Access Token",
+          "value": "accessToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "accessToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Link",
+          "value": "link"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "link",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "link"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a link",
+          "action": "Create a link"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a link",
+          "action": "Get a link"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a link",
+          "action": "Update a link"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "longUrl": {
+      "displayName": "Long URL",
+      "name": "longUrl",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "link"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "placeholder": "https://example.com",
+      "required": true,
+      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "link"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Domain",
+          "name": "domain",
+          "type": "string",
+          "default": "bit.ly"
+        },
+        {
+          "displayName": "Group Name or ID",
+          "name": "group",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "default": "",
+          "typeOptions": {
+            "loadOptionsMethod": "getGroups"
+          }
+        },
+        {
+          "displayName": "Tag Names or IDs",
+          "name": "tags",
+          "type": "multiOptions",
+          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "default": [],
+          "typeOptions": {
+            "loadOptionsMethod": "getTags",
+            "loadOptionsDependsOn": [
+              "group"
+            ]
+          }
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "deeplink": {
+      "displayName": "Deeplinks",
+      "name": "deeplink",
+      "placeholder": "Add Deep Link",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "link"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "name": "deeplinkUi",
+          "displayName": "Deep Link",
+          "values": [
+            {
+              "displayName": "App ID",
+              "name": "appId",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "App URI Path",
+              "name": "appUriPath",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Install Type",
+              "name": "installType",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Install URL",
+              "name": "installUrl",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "id": {
+      "displayName": "Bitlink",
+      "name": "id",
+      "type": "string",
+      "default": "",
+      "placeholder": "bit.ly/22u3ypK",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "link"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      }
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "link"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Archived",
+          "name": "archived",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "displayName": "Group Name or ID",
+          "name": "group",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "default": "",
+          "typeOptions": {
+            "loadOptionsMethod": "getGroups"
+          }
+        },
+        {
+          "displayName": "Long URL",
+          "name": "longUrl",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Tag Names or IDs",
+          "name": "tags",
+          "type": "multiOptions",
+          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "default": [],
+          "typeOptions": {
+            "loadOptionsMethod": "getTags",
+            "loadOptionsDependsOn": [
+              "group"
+            ]
+          }
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "authentication",
+      "resource",
+      "operation",
+      "longUrl",
+      "additionalFields",
+      "deeplink",
+      "id",
+      "updateFields",
+      "deeplink",
+      "id"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'link' THEN SHOW parameter 'operation'",
+      "IF resource == 'link' AND operation == 'create' THEN SHOW parameter 'longUrl'",
+      "IF resource == 'link' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'link' AND operation == 'create' THEN SHOW parameter 'deeplink'",
+      "IF resource == 'link' AND operation == 'update' THEN SHOW parameter 'id'",
+      "IF resource == 'link' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'link' AND operation == 'update' THEN SHOW parameter 'deeplink'",
+      "IF resource == 'link' AND operation == 'get' THEN SHOW parameter 'id'"
+    ]
+  }
+}

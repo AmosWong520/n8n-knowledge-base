@@ -1,0 +1,1555 @@
+{
+  "node_id": "n8n-nodes-base.github",
+  "name": "n8n-nodes-base.github",
+  "version": [
+    1,
+    1.1
+  ],
+  "semantic_context": "Consume GitHub API",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Access Token",
+          "value": "accessToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "accessToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "File",
+          "value": "file"
+        },
+        {
+          "name": "Issue",
+          "value": "issue"
+        },
+        {
+          "name": "Organization",
+          "value": "organization"
+        },
+        {
+          "name": "Release",
+          "value": "release"
+        },
+        {
+          "name": "Repository",
+          "value": "repository"
+        },
+        {
+          "name": "Review",
+          "value": "review"
+        },
+        {
+          "name": "User",
+          "value": "user"
+        },
+        {
+          "name": "Workflow",
+          "value": "workflow"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "issue",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "workflow"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Disable",
+          "value": "disable",
+          "description": "Disable a workflow",
+          "action": "Disable a workflow"
+        },
+        {
+          "name": "Dispatch",
+          "value": "dispatch",
+          "description": "Dispatch a workflow event",
+          "action": "Dispatch a workflow event"
+        },
+        {
+          "name": "Dispatch and Wait for Completion",
+          "value": "dispatchAndWait",
+          "description": "Dispatch a workflow event and wait for a webhook to be called before proceeding",
+          "action": "Dispatch a workflow event and wait for completion"
+        },
+        {
+          "name": "Enable",
+          "value": "enable",
+          "description": "Enable a workflow",
+          "action": "Enable a workflow"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a workflow",
+          "action": "Get a workflow"
+        },
+        {
+          "name": "Get Usage",
+          "value": "getUsage",
+          "description": "Get the usage of a workflow",
+          "action": "Get the usage of a workflow"
+        },
+        {
+          "name": "List",
+          "value": "list",
+          "description": "List workflows",
+          "action": "List workflows"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "dispatch",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "webhookNotice": {
+      "displayName": "Your execution will pause until a webhook is called. This URL will be generated at runtime and passed to your Github workflow as a resumeUrl input.",
+      "name": "webhookNotice",
+      "type": "notice",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "workflow"
+          ],
+          "operation": [
+            "dispatchAndWait"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "owner": {
+      "displayName": "Repository Owner",
+      "name": "owner",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "Repository Owner",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select an owner...",
+          "typeOptions": {
+            "searchListMethod": "getUsers",
+            "searchable": true,
+            "searchFilterRequired": false
+          }
+        },
+        {
+          "displayName": "Link",
+          "name": "url",
+          "type": "string",
+          "placeholder": "e.g. https://github.com/n8n-io",
+          "extractValue": {
+            "type": "regex",
+            "regex": "https:\\/\\/(?:[^/]+)\\/([-_0-9a-zA-Z]+)"
+          },
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "https:\\/\\/([^/]+)\\/([-_0-9a-zA-Z]+)(?:.*)",
+                "errorMessage": "Not a valid Github URL"
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "By Name",
+          "name": "name",
+          "type": "string",
+          "placeholder": "e.g. n8n-io",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "[-_a-zA-Z0-9]+",
+                "errorMessage": "Not a valid Github Owner Name"
+              }
+            }
+          ],
+          "url": "=https://github.com/{{$value}}"
+        }
+      ],
+      "displayOptions": {
+        "hide": {
+          "operation": [
+            "invite",
+            "getUserIssues"
+          ]
+        }
+      }
+    },
+    "repository": {
+      "displayName": "Repository Name",
+      "name": "repository",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "Repository Name",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select an Repository...",
+          "typeOptions": {
+            "searchListMethod": "getRepositories",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "Link",
+          "name": "url",
+          "type": "string",
+          "placeholder": "e.g. https://github.com/n8n-io/n8n",
+          "extractValue": {
+            "type": "regex",
+            "regex": "https:\\/\\/(?:[^/]+)\\/(?:[-_0-9a-zA-Z]+)\\/([-_.0-9a-zA-Z]+)"
+          },
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "https:\\/\\/([^/]+)\\/(?:[-_0-9a-zA-Z]+)\\/([-_.0-9a-zA-Z]+)(?:.*)",
+                "errorMessage": "Not a valid Github Repository URL"
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "By Name",
+          "name": "name",
+          "type": "string",
+          "placeholder": "e.g. n8n",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "[-_.0-9a-zA-Z]+",
+                "errorMessage": "Not a valid Github Repository Name"
+              }
+            }
+          ],
+          "url": "=https://github.com/{{$parameter[\"owner\"]}}/{{$value}}"
+        }
+      ],
+      "displayOptions": {
+        "hide": {
+          "resource": [
+            "user",
+            "organization"
+          ],
+          "operation": [
+            "getRepositories"
+          ]
+        }
+      }
+    },
+    "workflowId": {
+      "displayName": "Workflow",
+      "name": "workflowId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "Workflow",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a workflow...",
+          "typeOptions": {
+            "searchListMethod": "getWorkflows",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By File Name",
+          "name": "filename",
+          "type": "string",
+          "placeholder": "e.g. main.yaml or main.yml",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "[a-zA-Z0-9_-]+.(yaml|yml)",
+                "errorMessage": "Not a valid Github Workflow File Name"
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "By ID",
+          "name": "name",
+          "type": "string",
+          "placeholder": "e.g. 12345678",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "\\d+",
+                "errorMessage": "Not a valid Github Workflow ID"
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "workflow"
+          ],
+          "operation": [
+            "disable",
+            "dispatch",
+            "dispatchAndWait",
+            "get",
+            "getUsage",
+            "enable"
+          ]
+        }
+      },
+      "description": "The workflow to dispatch",
+      "ai_hint": "The workflow to dispatch"
+    },
+    "ref": {
+      "displayName": "Ref",
+      "name": "ref",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a branch, tag, or commit...",
+          "typeOptions": {
+            "searchListMethod": "getRefs",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By Name",
+          "name": "name",
+          "type": "string",
+          "placeholder": "e.g. main",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "^[a-zA-Z0-9/._-]+$",
+                "errorMessage": "Not a valid branch, tag"
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "workflow"
+          ],
+          "operation": [
+            "dispatch",
+            "dispatchAndWait"
+          ],
+          "@version": [
+            {
+              "_cnd": {
+                "gte": 1.1
+              }
+            }
+          ]
+        }
+      },
+      "description": "The git reference for the workflow dispatch (branch, tag, or commit SHA)",
+      "ai_hint": "The git reference for the workflow dispatch (branch, tag, or commit SHA)"
+    },
+    "inputs": {
+      "displayName": "Inputs",
+      "name": "inputs",
+      "type": "json",
+      "default": "{}",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "workflow"
+          ],
+          "operation": [
+            "dispatch",
+            "dispatchAndWait"
+          ]
+        }
+      },
+      "description": "JSON object with input parameters for the workflow",
+      "ai_hint": "JSON object with input parameters for the workflow"
+    },
+    "filePath": {
+      "displayName": "Path",
+      "name": "filePath",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ],
+          "operation": [
+            "list"
+          ]
+        }
+      },
+      "placeholder": "docs/",
+      "description": "The path of the folder to list",
+      "ai_hint": "The path of the folder to list"
+    },
+    "binaryData": {
+      "displayName": "Binary File",
+      "name": "binaryData",
+      "type": "boolean",
+      "default": false,
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create",
+            "edit"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "description": "Whether the data to upload should be taken from binary field",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "fileContent": {
+      "displayName": "File Content",
+      "name": "fileContent",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "binaryData": [
+            false
+          ],
+          "operation": [
+            "create",
+            "edit"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "placeholder": "",
+      "description": "The text content of the file",
+      "ai_hint": "The text content of the file"
+    },
+    "binaryPropertyName": {
+      "displayName": "Put Output File in Field",
+      "name": "binaryPropertyName",
+      "type": "string",
+      "default": "data",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "asBinaryProperty": [
+            true
+          ],
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "placeholder": "",
+      "hint": "The name of the output binary field to put the file in"
+    },
+    "commitMessage": {
+      "displayName": "Commit Message",
+      "name": "commitMessage",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create",
+            "delete",
+            "edit"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      }
+    },
+    "additionalParameters": {
+      "displayName": "Additional Parameters",
+      "name": "additionalParameters",
+      "placeholder": "Add Parameter",
+      "description": "Additional fields to add",
+      "type": "collection",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Reference",
+          "name": "reference",
+          "type": "string",
+          "default": "",
+          "placeholder": "master",
+          "description": "The name of the commit/branch/tag. Default: the repository’s default branch (usually master)."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "asBinaryProperty": {
+      "displayName": "As Binary Property",
+      "name": "asBinaryProperty",
+      "type": "boolean",
+      "default": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "description": "Whether to set the data of the file as binary property instead of returning the raw API response",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "issue"
+          ]
+        }
+      },
+      "description": "The title of the issue",
+      "ai_hint": "The title of the issue"
+    },
+    "body": {
+      "displayName": "Body",
+      "name": "body",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "review"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The body of the review",
+      "ai_hint": "The body of the review"
+    },
+    "labels": {
+      "displayName": "Labels",
+      "name": "labels",
+      "type": "collection",
+      "typeOptions": {
+        "multipleValues": true,
+        "multipleValueButtonText": "Add Label"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "issue"
+          ]
+        }
+      },
+      "default": {
+        "label": ""
+      },
+      "options": [
+        {
+          "displayName": "Label",
+          "name": "label",
+          "type": "string",
+          "default": "",
+          "description": "Label to add to issue"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "assignees": {
+      "displayName": "Assignees",
+      "name": "assignees",
+      "type": "collection",
+      "typeOptions": {
+        "multipleValues": true,
+        "multipleValueButtonText": "Add Assignee"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "issue"
+          ]
+        }
+      },
+      "default": {
+        "assignee": ""
+      },
+      "options": [
+        {
+          "displayName": "Assignee",
+          "name": "assignee",
+          "type": "string",
+          "default": "",
+          "description": "User to assign issue too"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "issueNumber": {
+      "displayName": "Issue Number",
+      "name": "issueNumber",
+      "type": "number",
+      "default": 0,
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "lock"
+          ],
+          "resource": [
+            "issue"
+          ]
+        }
+      },
+      "description": "The issue number to lock",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "editFields": {
+      "displayName": "Edit Fields",
+      "name": "editFields",
+      "type": "collection",
+      "typeOptions": {
+        "multipleValueButtonText": "Add Field"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "edit"
+          ],
+          "resource": [
+            "issue"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Assignees",
+          "name": "assignees",
+          "type": "collection",
+          "typeOptions": {
+            "multipleValues": true,
+            "multipleValueButtonText": "Add Assignee"
+          },
+          "default": {
+            "assignee": ""
+          },
+          "options": [
+            {
+              "displayName": "Assignees",
+              "name": "assignee",
+              "type": "string",
+              "default": "",
+              "description": "User to assign issue to"
+            }
+          ]
+        },
+        {
+          "displayName": "Body",
+          "name": "body",
+          "type": "string",
+          "typeOptions": {
+            "rows": 5
+          },
+          "default": "",
+          "description": "The body of the issue"
+        },
+        {
+          "displayName": "Labels",
+          "name": "labels",
+          "type": "collection",
+          "typeOptions": {
+            "multipleValues": true,
+            "multipleValueButtonText": "Add Label"
+          },
+          "default": {
+            "label": ""
+          },
+          "options": [
+            {
+              "displayName": "Label",
+              "name": "label",
+              "type": "string",
+              "default": "",
+              "description": "Label to add to issue"
+            }
+          ]
+        },
+        {
+          "displayName": "State",
+          "name": "state",
+          "type": "options",
+          "options": [
+            {
+              "name": "Closed",
+              "value": "closed",
+              "description": "Set the state to \"closed\""
+            },
+            {
+              "name": "Open",
+              "value": "open",
+              "description": "Set the state to \"open\""
+            }
+          ],
+          "default": "open",
+          "description": "The state to set"
+        },
+        {
+          "displayName": "State Reason",
+          "name": "state_reason",
+          "type": "options",
+          "options": [
+            {
+              "name": "Completed",
+              "value": "completed",
+              "description": "Issue is completed"
+            },
+            {
+              "name": "Not Planned",
+              "value": "not_planned",
+              "description": "Issue is not planned"
+            },
+            {
+              "name": "Reopened",
+              "value": "reopened",
+              "description": "Issue is reopened"
+            }
+          ],
+          "default": "completed",
+          "description": "The reason for the state change"
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": "",
+          "description": "The title of the issue"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "lockReason": {
+      "displayName": "Lock Reason",
+      "name": "lockReason",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "lock"
+          ],
+          "resource": [
+            "issue"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Off-Topic",
+          "value": "off-topic",
+          "description": "The issue is Off-Topic"
+        },
+        {
+          "name": "Too Heated",
+          "value": "too heated",
+          "description": "The discussion is too heated"
+        },
+        {
+          "name": "Resolved",
+          "value": "resolved",
+          "description": "The issue got resolved"
+        },
+        {
+          "name": "Spam",
+          "value": "spam",
+          "description": "The issue is spam"
+        }
+      ],
+      "default": "resolved",
+      "description": "The reason for locking the issue",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "releaseTag": {
+      "displayName": "Tag",
+      "name": "releaseTag",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "release"
+          ]
+        }
+      },
+      "description": "The tag of the release",
+      "ai_hint": "The tag of the release"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "placeholder": "Add Field",
+      "type": "collection",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "review"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Commit ID",
+          "name": "commitId",
+          "type": "string",
+          "default": "",
+          "description": "The SHA of the commit that needs a review, if different from the latest"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "release_id": {
+      "displayName": "Release ID",
+      "name": "release_id",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "release"
+          ],
+          "operation": [
+            "get",
+            "delete",
+            "update"
+          ]
+        }
+      }
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getUserIssues"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getUserIssues"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 100
+      },
+      "default": 50,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "getRepositoryIssuesFilters": {
+      "displayName": "Filters",
+      "name": "getRepositoryIssuesFilters",
+      "type": "collection",
+      "typeOptions": {
+        "multipleValueButtonText": "Add Filter"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getIssues"
+          ],
+          "resource": [
+            "repository"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Assignee",
+          "name": "assignee",
+          "type": "string",
+          "default": "",
+          "description": "Return only issues which are assigned to a specific user"
+        },
+        {
+          "displayName": "Creator",
+          "name": "creator",
+          "type": "string",
+          "default": "",
+          "description": "Return only issues which were created by a specific user"
+        },
+        {
+          "displayName": "Mentioned",
+          "name": "mentioned",
+          "type": "string",
+          "default": "",
+          "description": "Return only issues in which a specific user was mentioned"
+        },
+        {
+          "displayName": "Labels",
+          "name": "labels",
+          "type": "string",
+          "default": "",
+          "description": "Return only issues with the given labels. Multiple labels can be separated by comma."
+        },
+        {
+          "displayName": "Updated Since",
+          "name": "since",
+          "type": "dateTime",
+          "default": "",
+          "description": "Return only issues updated at or after this time"
+        },
+        {
+          "displayName": "State",
+          "name": "state",
+          "type": "options",
+          "options": [
+            {
+              "name": "All",
+              "value": "all",
+              "description": "Returns issues with any state"
+            },
+            {
+              "name": "Closed",
+              "value": "closed",
+              "description": "Return issues with \"closed\" state"
+            },
+            {
+              "name": "Open",
+              "value": "open",
+              "description": "Return issues with \"open\" state"
+            }
+          ],
+          "default": "open",
+          "description": "The state to set"
+        },
+        {
+          "displayName": "Sort",
+          "name": "sort",
+          "type": "options",
+          "options": [
+            {
+              "name": "Created",
+              "value": "created",
+              "description": "Sort by created date"
+            },
+            {
+              "name": "Updated",
+              "value": "updated",
+              "description": "Sort by updated date"
+            },
+            {
+              "name": "Comments",
+              "value": "comments",
+              "description": "Sort by comments"
+            }
+          ],
+          "default": "created",
+          "description": "The order the issues should be returned in"
+        },
+        {
+          "displayName": "Direction",
+          "name": "direction",
+          "type": "options",
+          "options": [
+            {
+              "name": "Ascending",
+              "value": "asc",
+              "description": "Sort in ascending order"
+            },
+            {
+              "name": "Descending",
+              "value": "desc",
+              "description": "Sort in descending order"
+            }
+          ],
+          "default": "desc",
+          "description": "The sort order"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "getRepositoryPullRequestsFilters": {
+      "displayName": "Filters",
+      "name": "getRepositoryPullRequestsFilters",
+      "type": "collection",
+      "typeOptions": {
+        "multipleValueButtonText": "Add Filter"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getPullRequests"
+          ],
+          "resource": [
+            "repository"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "State",
+          "name": "state",
+          "type": "options",
+          "options": [
+            {
+              "name": "All",
+              "value": "all",
+              "description": "Returns pull requests with any state"
+            },
+            {
+              "name": "Closed",
+              "value": "closed",
+              "description": "Return pull requests with \"closed\" state"
+            },
+            {
+              "name": "Open",
+              "value": "open",
+              "description": "Return pull requests with \"open\" state"
+            }
+          ],
+          "default": "open",
+          "description": "The state to set"
+        },
+        {
+          "displayName": "Sort",
+          "name": "sort",
+          "type": "options",
+          "options": [
+            {
+              "name": "Created",
+              "value": "created",
+              "description": "Sort by created date"
+            },
+            {
+              "name": "Updated",
+              "value": "updated",
+              "description": "Sort by updated date"
+            },
+            {
+              "name": "Popularity",
+              "value": "popularity",
+              "description": "Sort by number of comments"
+            },
+            {
+              "name": "Long-Running",
+              "value": "long-running",
+              "description": "Sort by date created and will limit the results to pull requests that have been open for more than a month and have had activity within the past month"
+            }
+          ],
+          "default": "created",
+          "description": "The order the pull requests should be returned in"
+        },
+        {
+          "displayName": "Direction",
+          "name": "direction",
+          "type": "options",
+          "options": [
+            {
+              "name": "Ascending",
+              "value": "asc",
+              "description": "Sort in ascending order"
+            },
+            {
+              "name": "Descending",
+              "value": "desc",
+              "description": "Sort in descending order"
+            }
+          ],
+          "default": "desc",
+          "description": "The sort order"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "pullRequestNumber": {
+      "displayName": "PR Number",
+      "name": "pullRequestNumber",
+      "type": "number",
+      "default": 0,
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "review"
+          ]
+        }
+      },
+      "description": "The number of the pull request to review",
+      "ai_hint": "The number of the pull request to review"
+    },
+    "reviewId": {
+      "displayName": "Review ID",
+      "name": "reviewId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get",
+            "update"
+          ],
+          "resource": [
+            "review"
+          ]
+        }
+      },
+      "description": "ID of the review",
+      "ai_hint": "ID of the review"
+    },
+    "event": {
+      "displayName": "Event",
+      "name": "event",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "review"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Approve",
+          "value": "approve",
+          "description": "Approve the pull request"
+        },
+        {
+          "name": "Request Change",
+          "value": "requestChanges",
+          "description": "Request code changes"
+        },
+        {
+          "name": "Comment",
+          "value": "comment",
+          "description": "Add a comment without approval or change requests"
+        },
+        {
+          "name": "Pending",
+          "value": "pending",
+          "description": "You will need to submit the pull request review when you are ready"
+        }
+      ],
+      "default": "approve",
+      "description": "The review action you want to perform",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "organization": {
+      "displayName": "Organization",
+      "name": "organization",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "invite"
+          ],
+          "resource": [
+            "user"
+          ]
+        }
+      },
+      "description": "The GitHub organization that the user is being invited to",
+      "ai_hint": "The GitHub organization that the user is being invited to"
+    },
+    "email": {
+      "displayName": "Email",
+      "name": "email",
+      "type": "string",
+      "placeholder": "name@email.com",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "invite"
+          ],
+          "resource": [
+            "user"
+          ]
+        }
+      },
+      "description": "The email address of the invited user",
+      "ai_hint": "The email address of the invited user"
+    },
+    "getUserIssuesFilters": {
+      "displayName": "Filters",
+      "name": "getUserIssuesFilters",
+      "type": "collection",
+      "typeOptions": {
+        "multipleValueButtonText": "Add Filter"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getUserIssues"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Mentioned",
+          "name": "mentioned",
+          "type": "string",
+          "default": "",
+          "description": "Return only issues in which a specific user was mentioned"
+        },
+        {
+          "displayName": "Labels",
+          "name": "labels",
+          "type": "string",
+          "default": "",
+          "description": "Return only issues with the given labels. Multiple labels can be separated by comma."
+        },
+        {
+          "displayName": "Updated Since",
+          "name": "since",
+          "type": "dateTime",
+          "default": "",
+          "description": "Return only issues updated at or after this time"
+        },
+        {
+          "displayName": "State",
+          "name": "state",
+          "type": "options",
+          "options": [
+            {
+              "name": "All",
+              "value": "all",
+              "description": "Returns issues with any state"
+            },
+            {
+              "name": "Closed",
+              "value": "closed",
+              "description": "Return issues with \"closed\" state"
+            },
+            {
+              "name": "Open",
+              "value": "open",
+              "description": "Return issues with \"open\" state"
+            }
+          ],
+          "default": "open",
+          "description": "The state to set"
+        },
+        {
+          "displayName": "Sort",
+          "name": "sort",
+          "type": "options",
+          "options": [
+            {
+              "name": "Created",
+              "value": "created",
+              "description": "Sort by created date"
+            },
+            {
+              "name": "Updated",
+              "value": "updated",
+              "description": "Sort by updated date"
+            },
+            {
+              "name": "Comments",
+              "value": "comments",
+              "description": "Sort by comments"
+            }
+          ],
+          "default": "created",
+          "description": "The order the issues should be returned in"
+        },
+        {
+          "displayName": "Direction",
+          "name": "direction",
+          "type": "options",
+          "options": [
+            {
+              "name": "Ascending",
+              "value": "asc",
+              "description": "Sort in ascending order"
+            },
+            {
+              "name": "Descending",
+              "value": "desc",
+              "description": "Sort in descending order"
+            }
+          ],
+          "default": "desc",
+          "description": "The sort order"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "resource",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "webhookNotice",
+      "owner",
+      "repository",
+      "workflowId",
+      "ref",
+      "ref",
+      "inputs",
+      "filePath",
+      "filePath",
+      "binaryData",
+      "fileContent",
+      "binaryPropertyName",
+      "commitMessage",
+      "additionalParameters",
+      "asBinaryProperty",
+      "binaryPropertyName",
+      "additionalParameters",
+      "title",
+      "body",
+      "labels",
+      "assignees",
+      "issueNumber",
+      "body",
+      "issueNumber",
+      "editFields",
+      "issueNumber",
+      "issueNumber",
+      "lockReason",
+      "releaseTag",
+      "additionalFields",
+      "release_id",
+      "additionalFields",
+      "returnAll",
+      "limit",
+      "returnAll",
+      "limit",
+      "getRepositoryIssuesFilters",
+      "returnAll",
+      "limit",
+      "getRepositoryPullRequestsFilters",
+      "pullRequestNumber",
+      "reviewId",
+      "pullRequestNumber",
+      "returnAll",
+      "limit",
+      "pullRequestNumber",
+      "event",
+      "body",
+      "additionalFields",
+      "body",
+      "returnAll",
+      "limit",
+      "organization",
+      "email",
+      "returnAll",
+      "limit",
+      "returnAll",
+      "limit",
+      "getUserIssuesFilters"
+    ],
+    "conditional_rules": [
+      "IF resource == 'organization' THEN SHOW parameter 'operation'",
+      "IF resource == 'issue' THEN SHOW parameter 'operation'",
+      "IF resource == 'file' THEN SHOW parameter 'operation'",
+      "IF resource == 'repository' THEN SHOW parameter 'operation'",
+      "IF resource == 'user' THEN SHOW parameter 'operation'",
+      "IF resource == 'release' THEN SHOW parameter 'operation'",
+      "IF resource == 'review' THEN SHOW parameter 'operation'",
+      "IF resource == 'workflow' THEN SHOW parameter 'operation'",
+      "IF resource == 'workflow' AND operation == 'dispatchAndWait' THEN SHOW parameter 'webhookNotice'",
+      "IF operation IN [\"invite\", \"getUserIssues\"] THEN HIDE parameter 'owner'",
+      "IF resource IN [\"user\", \"organization\"] AND operation == 'getRepositories' THEN HIDE parameter 'repository'",
+      "IF resource == 'workflow' AND operation IN [\"disable\", \"dispatch\", \"dispatchAndWait\", \"get\", \"getUsage\", \"enable\"] THEN SHOW parameter 'workflowId'",
+      "IF resource == 'workflow' AND operation IN [\"dispatch\", \"dispatchAndWait\"] AND @version == {'_cnd': {'lte': 1}} THEN SHOW parameter 'ref'",
+      "IF resource == 'workflow' AND operation IN [\"dispatch\", \"dispatchAndWait\"] AND @version == {'_cnd': {'gte': 1.1}} THEN SHOW parameter 'ref'",
+      "IF resource == 'workflow' AND operation IN [\"dispatch\", \"dispatchAndWait\"] THEN SHOW parameter 'inputs'",
+      "IF resource == 'file' THEN SHOW parameter 'filePath'",
+      "IF operation == 'list' THEN HIDE parameter 'filePath'",
+      "IF resource == 'file' AND operation == 'list' THEN SHOW parameter 'filePath'",
+      "IF operation IN [\"create\", \"edit\"] AND resource == 'file' THEN SHOW parameter 'binaryData'",
+      "IF binaryData == False AND operation IN [\"create\", \"edit\"] AND resource == 'file' THEN SHOW parameter 'fileContent'",
+      "IF binaryData == True AND operation IN [\"create\", \"edit\"] AND resource == 'file' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation IN [\"create\", \"delete\", \"edit\"] AND resource == 'file' THEN SHOW parameter 'commitMessage'",
+      "IF operation IN [\"create\", \"delete\", \"edit\"] AND resource == 'file' THEN SHOW parameter 'additionalParameters'",
+      "IF operation == 'get' AND resource == 'file' THEN SHOW parameter 'asBinaryProperty'",
+      "IF asBinaryProperty == True AND operation == 'get' AND resource == 'file' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'get' AND resource == 'file' THEN SHOW parameter 'additionalParameters'",
+      "IF operation == 'create' AND resource == 'issue' THEN SHOW parameter 'title'",
+      "IF operation == 'create' AND resource == 'issue' THEN SHOW parameter 'body'",
+      "IF operation == 'create' AND resource == 'issue' THEN SHOW parameter 'labels'",
+      "IF operation == 'create' AND resource == 'issue' THEN SHOW parameter 'assignees'",
+      "IF operation == 'createComment' AND resource == 'issue' THEN SHOW parameter 'issueNumber'",
+      "IF operation == 'createComment' AND resource == 'issue' THEN SHOW parameter 'body'",
+      "IF operation == 'edit' AND resource == 'issue' THEN SHOW parameter 'issueNumber'",
+      "IF operation == 'edit' AND resource == 'issue' THEN SHOW parameter 'editFields'",
+      "IF operation == 'get' AND resource == 'issue' THEN SHOW parameter 'issueNumber'",
+      "IF operation == 'lock' AND resource == 'issue' THEN SHOW parameter 'issueNumber'",
+      "IF operation == 'lock' AND resource == 'issue' THEN SHOW parameter 'lockReason'",
+      "IF operation == 'create' AND resource == 'release' THEN SHOW parameter 'releaseTag'",
+      "IF operation == 'create' AND resource == 'release' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'release' AND operation IN [\"get\", \"delete\", \"update\"] THEN SHOW parameter 'release_id'",
+      "IF operation == 'update' AND resource == 'release' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'release' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'release' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'repository' AND operation == 'getIssues' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'repository' AND operation == 'getIssues' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getIssues' AND resource == 'repository' THEN SHOW parameter 'getRepositoryIssuesFilters'",
+      "IF resource == 'repository' AND operation == 'getPullRequests' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'repository' AND operation == 'getPullRequests' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getPullRequests' AND resource == 'repository' THEN SHOW parameter 'getRepositoryPullRequestsFilters'",
+      "IF operation IN [\"get\", \"update\"] AND resource == 'review' THEN SHOW parameter 'pullRequestNumber'",
+      "IF operation IN [\"get\", \"update\"] AND resource == 'review' THEN SHOW parameter 'reviewId'",
+      "IF operation == 'getAll' AND resource == 'review' THEN SHOW parameter 'pullRequestNumber'",
+      "IF resource == 'review' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'review' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'create' AND resource == 'review' THEN SHOW parameter 'pullRequestNumber'",
+      "IF operation == 'create' AND resource == 'review' THEN SHOW parameter 'event'",
+      "IF operation == 'create' AND resource == 'review' AND event IN [\"requestChanges\", \"comment\"] THEN SHOW parameter 'body'",
+      "IF operation == 'create' AND resource == 'review' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'update' AND resource == 'review' THEN SHOW parameter 'body'",
+      "IF resource == 'user' AND operation == 'getRepositories' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'user' AND operation == 'getRepositories' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'invite' AND resource == 'user' THEN SHOW parameter 'organization'",
+      "IF operation == 'invite' AND resource == 'user' THEN SHOW parameter 'email'",
+      "IF resource == 'organization' AND operation == 'getRepositories' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'organization' AND operation == 'getRepositories' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getUserIssues' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getUserIssues' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getUserIssues' THEN SHOW parameter 'getUserIssuesFilters'"
+    ]
+  }
+}

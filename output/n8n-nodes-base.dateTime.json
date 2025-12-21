@@ -1,0 +1,296 @@
+{
+  "node_id": "n8n-nodes-base.dateTime",
+  "name": "n8n-nodes-base.dateTime",
+  "version": 1,
+  "semantic_context": "Allows you to manipulate date and time values",
+  "parameters": {
+    "noticeDateTime": {
+      "displayName": "More powerful date functionality is available in <a href='https://docs.n8n.io/code/cookbook/luxon/' target='_blank'>expressions</a>,</br> e.g. <code>{{ $now.plus(1, 'week') }}</code>",
+      "name": "noticeDateTime",
+      "type": "notice",
+      "default": ""
+    },
+    "action": {
+      "displayName": "Action",
+      "name": "action",
+      "type": "options",
+      "options": [
+        {
+          "name": "Calculate a Date",
+          "description": "Add or subtract time from a date",
+          "value": "calculate",
+          "action": "Add or subtract time from a date"
+        },
+        {
+          "name": "Format a Date",
+          "description": "Convert a date to a different format",
+          "value": "format",
+          "action": "Convert a date to a different format"
+        }
+      ],
+      "default": "format",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "value": {
+      "displayName": "Date Value",
+      "name": "value",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "calculate"
+          ]
+        }
+      },
+      "type": "string",
+      "default": "",
+      "description": "The date string or timestamp from which you want to add/subtract time",
+      "required": true,
+      "ai_hint": "The date string or timestamp from which you want to add/subtract time"
+    },
+    "dataPropertyName": {
+      "displayName": "Property Name",
+      "name": "dataPropertyName",
+      "type": "string",
+      "default": "data",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "action": [
+            "calculate"
+          ]
+        }
+      },
+      "description": "Name of the output property to which to write the converted date",
+      "ai_hint": "Name of the output property to which to write the converted date"
+    },
+    "custom": {
+      "displayName": "Custom Format",
+      "name": "custom",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "format"
+          ]
+        }
+      },
+      "type": "boolean",
+      "default": false,
+      "description": "Whether a predefined format should be selected or custom format entered",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "toFormat": {
+      "displayName": "To Format",
+      "name": "toFormat",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "format"
+          ],
+          "custom": [
+            false
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "MM/DD/YYYY",
+          "value": "MM/DD/YYYY",
+          "description": "Example: 09/04/1986"
+        },
+        {
+          "name": "YYYY/MM/DD",
+          "value": "YYYY/MM/DD",
+          "description": "Example: 1986/04/09"
+        },
+        {
+          "name": "MMMM DD YYYY",
+          "value": "MMMM DD YYYY",
+          "description": "Example: April 09 1986"
+        },
+        {
+          "name": "MM-DD-YYYY",
+          "value": "MM-DD-YYYY",
+          "description": "Example: 09-04-1986"
+        },
+        {
+          "name": "YYYY-MM-DD",
+          "value": "YYYY-MM-DD",
+          "description": "Example: 1986-04-09"
+        },
+        {
+          "name": "Unix Timestamp",
+          "value": "X",
+          "description": "Example: 513388800.879"
+        },
+        {
+          "name": "Unix Ms Timestamp",
+          "value": "x",
+          "description": "Example: 513388800"
+        }
+      ],
+      "default": "MM/DD/YYYY",
+      "description": "The format to convert the date to",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "action": [
+            "calculate"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "From Format",
+          "name": "fromFormat",
+          "type": "string",
+          "default": "",
+          "description": "Format for parsing the value as a date. If unrecognized, specify the <a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.datetime/#faqs\">format</a> for the value."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "calculate"
+          ]
+        }
+      },
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Add",
+          "value": "add",
+          "description": "Add time to Date Value",
+          "action": "Add time to Date Value"
+        },
+        {
+          "name": "Subtract",
+          "value": "subtract",
+          "description": "Subtract time from Date Value",
+          "action": "Subtract time from Date Value"
+        }
+      ],
+      "default": "add",
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "duration": {
+      "displayName": "Duration",
+      "name": "duration",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "calculate"
+          ]
+        }
+      },
+      "type": "number",
+      "typeOptions": {
+        "minValue": 0
+      },
+      "default": 0,
+      "required": true,
+      "description": "E.g. enter “10” then select “Days” if you want to add 10 days to Date Value.",
+      "ai_hint": "E.g. enter “10” then select “Days” if you want to add 10 days to Date Value."
+    },
+    "timeUnit": {
+      "displayName": "Time Unit",
+      "name": "timeUnit",
+      "description": "Time unit for Duration parameter above",
+      "displayOptions": {
+        "show": {
+          "action": [
+            "calculate"
+          ]
+        }
+      },
+      "type": "options",
+      "options": [
+        {
+          "name": "Quarters",
+          "value": "quarters"
+        },
+        {
+          "name": "Years",
+          "value": "years"
+        },
+        {
+          "name": "Months",
+          "value": "months"
+        },
+        {
+          "name": "Weeks",
+          "value": "weeks"
+        },
+        {
+          "name": "Days",
+          "value": "days"
+        },
+        {
+          "name": "Hours",
+          "value": "hours"
+        },
+        {
+          "name": "Minutes",
+          "value": "minutes"
+        },
+        {
+          "name": "Seconds",
+          "value": "seconds"
+        },
+        {
+          "name": "Milliseconds",
+          "value": "milliseconds"
+        }
+      ],
+      "default": "days",
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "noticeDateTime",
+      "action",
+      "value",
+      "dataPropertyName",
+      "custom",
+      "toFormat",
+      "toFormat",
+      "options",
+      "value",
+      "operation",
+      "duration",
+      "timeUnit",
+      "dataPropertyName",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF action == 'format' THEN SHOW parameter 'value'",
+      "IF action == 'format' THEN SHOW parameter 'dataPropertyName'",
+      "IF action == 'format' THEN SHOW parameter 'custom'",
+      "IF action == 'format' AND custom == True THEN SHOW parameter 'toFormat'",
+      "IF action == 'format' AND custom == False THEN SHOW parameter 'toFormat'",
+      "IF action == 'format' THEN SHOW parameter 'options'",
+      "IF action == 'calculate' THEN SHOW parameter 'value'",
+      "IF action == 'calculate' THEN SHOW parameter 'operation'",
+      "IF action == 'calculate' THEN SHOW parameter 'duration'",
+      "IF action == 'calculate' THEN SHOW parameter 'timeUnit'",
+      "IF action == 'calculate' THEN SHOW parameter 'dataPropertyName'",
+      "IF action == 'calculate' THEN SHOW parameter 'options'"
+    ]
+  }
+}

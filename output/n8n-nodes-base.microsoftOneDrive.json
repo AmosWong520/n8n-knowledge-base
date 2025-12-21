@@ -1,0 +1,544 @@
+{
+  "node_id": "n8n-nodes-base.microsoftOneDrive",
+  "name": "n8n-nodes-base.microsoftOneDrive",
+  "version": 1,
+  "semantic_context": "Consume Microsoft OneDrive API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "File",
+          "value": "file"
+        },
+        {
+          "name": "Folder",
+          "value": "folder"
+        }
+      ],
+      "default": "file",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "folder"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a folder",
+          "action": "Create a folder"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a folder",
+          "action": "Delete a folder"
+        },
+        {
+          "name": "Get Children",
+          "value": "getChildren",
+          "description": "Get items inside a folder",
+          "action": "Get items in a folder"
+        },
+        {
+          "name": "Rename",
+          "value": "rename",
+          "description": "Rename a folder",
+          "action": "Rename a folder"
+        },
+        {
+          "name": "Search",
+          "value": "search",
+          "description": "Search a folder",
+          "action": "Search a folder"
+        },
+        {
+          "name": "Share",
+          "value": "share",
+          "description": "Share a folder",
+          "action": "Share a folder"
+        }
+      ],
+      "default": "getChildren",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "fileId": {
+      "displayName": "File ID",
+      "name": "fileId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "share"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "copy"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Name",
+          "name": "name",
+          "type": "string",
+          "default": "",
+          "description": "The new name for the copy. If this isn't provided, the same name will be used as the original."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "parentReference": {
+      "displayName": "Parent Reference",
+      "name": "parentReference",
+      "type": "collection",
+      "placeholder": "Add Parent Reference",
+      "description": "Reference to the parent item the copy will be created in <a href=\"https://docs.microsoft.com/en-us/onedrive/developer/rest-api/resources/itemreference?view=odsp-graph-online\"> Details </a>",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "copy"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Drive ID",
+          "name": "driveId",
+          "type": "string",
+          "default": "",
+          "description": "Identifier of the drive instance that contains the item"
+        },
+        {
+          "displayName": "Drive Type",
+          "name": "driveType",
+          "type": "string",
+          "default": "",
+          "description": "Identifies the type of drive"
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string",
+          "default": "",
+          "description": "Identifier of the item in the drive"
+        },
+        {
+          "displayName": "List ID",
+          "name": "listId",
+          "type": "string",
+          "default": "",
+          "description": "Identifier of the list"
+        },
+        {
+          "displayName": "Name",
+          "name": "name",
+          "type": "string",
+          "default": "",
+          "description": "The name of the item being referenced"
+        },
+        {
+          "displayName": "Path",
+          "name": "path",
+          "type": "string",
+          "default": "",
+          "description": "Path that can be used to navigate to the item"
+        },
+        {
+          "displayName": "Share ID",
+          "name": "shareId",
+          "type": "string",
+          "default": "",
+          "description": "Identifier for a shared resource that can be accessed via the Shares API"
+        },
+        {
+          "displayName": "Site ID",
+          "name": "siteId",
+          "type": "string",
+          "default": "",
+          "description": "Identifier of the site"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "binaryPropertyName": {
+      "displayName": "Input Binary Field",
+      "name": "binaryPropertyName",
+      "type": "string",
+      "default": "data",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "binaryData": [
+            true
+          ],
+          "operation": [
+            "upload"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "placeholder": "",
+      "hint": "The name of the input binary field containing the file to be written"
+    },
+    "itemId": {
+      "displayName": "Item ID",
+      "name": "itemId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "rename"
+          ],
+          "resource": [
+            "folder"
+          ]
+        }
+      },
+      "default": "",
+      "description": "ID of the folder",
+      "ai_hint": "ID of the folder"
+    },
+    "newName": {
+      "displayName": "New Name",
+      "name": "newName",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "rename"
+          ],
+          "resource": [
+            "folder"
+          ]
+        }
+      },
+      "default": "",
+      "description": "New name for folder",
+      "ai_hint": "New name for folder"
+    },
+    "query": {
+      "displayName": "Query",
+      "name": "query",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ],
+          "resource": [
+            "folder"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The query text used to search for items. Values may be matched across several fields including filename, metadata, and file content.",
+      "ai_hint": "The query text used to search for items. Values may be matched across several fields including filename, metadata, and file content."
+    },
+    "type": {
+      "displayName": "Type",
+      "name": "type",
+      "type": "options",
+      "options": [
+        {
+          "name": "View",
+          "value": "view"
+        },
+        {
+          "name": "Edit",
+          "value": "edit"
+        },
+        {
+          "name": "Embed",
+          "value": "embed"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "share"
+          ],
+          "resource": [
+            "folder"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The type of sharing link to create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "scope": {
+      "displayName": "Scope",
+      "name": "scope",
+      "type": "options",
+      "options": [
+        {
+          "name": "Anonymous",
+          "value": "anonymous"
+        },
+        {
+          "name": "Organization",
+          "value": "organization"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "share"
+          ],
+          "resource": [
+            "folder"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The type of sharing link to create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "fileName": {
+      "displayName": "File Name",
+      "name": "fileName",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "upload"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The name the file should be saved as",
+      "ai_hint": "The name the file should be saved as"
+    },
+    "parentId": {
+      "displayName": "Parent ID",
+      "name": "parentId",
+      "required": true,
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "upload"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "default": "",
+      "description": "ID of the parent folder that will contain the file",
+      "ai_hint": "ID of the parent folder that will contain the file"
+    },
+    "binaryData": {
+      "displayName": "Binary File",
+      "name": "binaryData",
+      "type": "boolean",
+      "default": false,
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "upload"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "description": "Whether the data to upload should be taken from binary field",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "fileContent": {
+      "displayName": "File Content",
+      "name": "fileContent",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "binaryData": [
+            false
+          ],
+          "operation": [
+            "upload"
+          ],
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "placeholder": "",
+      "description": "The text content of the file",
+      "ai_hint": "The text content of the file"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "required": true,
+      "type": "string",
+      "placeholder": "/Pictures/2021",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "folder"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The name or path of the folder",
+      "ai_hint": "The name or path of the folder"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "folder"
+          ]
+        }
+      },
+      "default": {},
+      "placeholder": "Add Field",
+      "options": [
+        {
+          "displayName": "Parent Folder ID",
+          "name": "parentFolderId",
+          "type": "string",
+          "default": "",
+          "description": "ID of the folder you want to crate the new folder in"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "folderId": {
+      "displayName": "Folder ID",
+      "name": "folderId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "share"
+          ],
+          "resource": [
+            "folder"
+          ]
+        }
+      },
+      "default": "",
+      "description": "File ID",
+      "ai_hint": "File ID"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "fileId",
+      "additionalFields",
+      "parentReference",
+      "fileId",
+      "fileId",
+      "binaryPropertyName",
+      "fileId",
+      "itemId",
+      "newName",
+      "query",
+      "fileId",
+      "type",
+      "scope",
+      "fileName",
+      "parentId",
+      "binaryData",
+      "fileContent",
+      "binaryPropertyName",
+      "operation",
+      "name",
+      "options",
+      "folderId",
+      "itemId",
+      "newName",
+      "query",
+      "folderId",
+      "type",
+      "scope"
+    ],
+    "conditional_rules": [
+      "IF resource == 'file' THEN SHOW parameter 'operation'",
+      "IF operation == 'copy' AND resource == 'file' THEN SHOW parameter 'fileId'",
+      "IF operation == 'copy' AND resource == 'file' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'copy' AND resource == 'file' THEN SHOW parameter 'parentReference'",
+      "IF operation == 'delete' AND resource == 'file' THEN SHOW parameter 'fileId'",
+      "IF operation == 'download' AND resource == 'file' THEN SHOW parameter 'fileId'",
+      "IF operation == 'download' AND resource == 'file' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'get' AND resource == 'file' THEN SHOW parameter 'fileId'",
+      "IF operation == 'rename' AND resource == 'file' THEN SHOW parameter 'itemId'",
+      "IF operation == 'rename' AND resource == 'file' THEN SHOW parameter 'newName'",
+      "IF operation == 'search' AND resource == 'file' THEN SHOW parameter 'query'",
+      "IF operation == 'share' AND resource == 'file' THEN SHOW parameter 'fileId'",
+      "IF operation == 'share' AND resource == 'file' THEN SHOW parameter 'type'",
+      "IF operation == 'share' AND resource == 'file' THEN SHOW parameter 'scope'",
+      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'fileName'",
+      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'parentId'",
+      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'binaryData'",
+      "IF binaryData == False AND operation == 'upload' AND resource == 'file' THEN SHOW parameter 'fileContent'",
+      "IF binaryData == True AND operation == 'upload' AND resource == 'file' THEN SHOW parameter 'binaryPropertyName'",
+      "IF resource == 'folder' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'folder' THEN SHOW parameter 'name'",
+      "IF operation == 'create' AND resource == 'folder' THEN SHOW parameter 'options'",
+      "IF operation IN [\"delete\", \"getChildren\"] AND resource == 'folder' THEN SHOW parameter 'folderId'",
+      "IF operation == 'rename' AND resource == 'folder' THEN SHOW parameter 'itemId'",
+      "IF operation == 'rename' AND resource == 'folder' THEN SHOW parameter 'newName'",
+      "IF operation == 'search' AND resource == 'folder' THEN SHOW parameter 'query'",
+      "IF operation == 'share' AND resource == 'folder' THEN SHOW parameter 'folderId'",
+      "IF operation == 'share' AND resource == 'folder' THEN SHOW parameter 'type'",
+      "IF operation == 'share' AND resource == 'folder' THEN SHOW parameter 'scope'"
+    ]
+  }
+}

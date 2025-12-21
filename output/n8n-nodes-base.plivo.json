@@ -1,0 +1,213 @@
+{
+  "node_id": "n8n-nodes-base.plivo",
+  "name": "n8n-nodes-base.plivo",
+  "version": 1,
+  "semantic_context": "Send SMS/MMS messages or make phone calls",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Call",
+          "value": "call"
+        },
+        {
+          "name": "MMS",
+          "value": "mms"
+        },
+        {
+          "name": "SMS",
+          "value": "sms"
+        }
+      ],
+      "default": "sms",
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "call"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Make",
+          "value": "make",
+          "description": "Make a voice call",
+          "action": "Make a call"
+        }
+      ],
+      "default": "make",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "from": {
+      "displayName": "From",
+      "name": "from",
+      "type": "string",
+      "default": "",
+      "placeholder": "+14156667777",
+      "description": "Caller ID for the call to make",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "call"
+          ],
+          "operation": [
+            "make"
+          ]
+        }
+      },
+      "ai_hint": "Caller ID for the call to make"
+    },
+    "to": {
+      "displayName": "To",
+      "name": "to",
+      "type": "string",
+      "default": "",
+      "placeholder": "+14156667778",
+      "required": true,
+      "description": "Phone number to make the call to",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "call"
+          ],
+          "operation": [
+            "make"
+          ]
+        }
+      },
+      "ai_hint": "Phone number to make the call to"
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "default": "",
+      "description": "Message to send",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "mms"
+          ],
+          "operation": [
+            "send"
+          ]
+        }
+      },
+      "ai_hint": "Message to send"
+    },
+    "media_urls": {
+      "displayName": "Media URLs",
+      "name": "media_urls",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "mms"
+          ],
+          "operation": [
+            "send"
+          ]
+        }
+      },
+      "description": "Comma-separated list of media URLs of the files from your file server",
+      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+    },
+    "answer_method": {
+      "displayName": "Answer Method",
+      "name": "answer_method",
+      "type": "options",
+      "required": true,
+      "description": "HTTP verb to be used when invoking the Answer URL",
+      "default": "POST",
+      "options": [
+        {
+          "name": "GET",
+          "value": "GET"
+        },
+        {
+          "name": "POST",
+          "value": "POST"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "call"
+          ],
+          "operation": [
+            "make"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "answer_url": {
+      "displayName": "Answer URL",
+      "name": "answer_url",
+      "type": "string",
+      "default": "",
+      "description": "URL to be invoked by Plivo once the call is answered. It should return the XML to handle the call once answered.",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "call"
+          ],
+          "operation": [
+            "make"
+          ]
+        }
+      },
+      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "from",
+      "to",
+      "message",
+      "operation",
+      "from",
+      "to",
+      "message",
+      "media_urls",
+      "operation",
+      "from",
+      "to",
+      "answer_method",
+      "answer_url"
+    ],
+    "conditional_rules": [
+      "IF resource == 'sms' THEN SHOW parameter 'operation'",
+      "IF resource == 'sms' AND operation == 'send' THEN SHOW parameter 'from'",
+      "IF resource == 'sms' AND operation == 'send' THEN SHOW parameter 'to'",
+      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'message'",
+      "IF resource == 'mms' THEN SHOW parameter 'operation'",
+      "IF resource == 'mms' AND operation == 'send' THEN SHOW parameter 'from'",
+      "IF operation == 'send' AND resource == 'mms' THEN SHOW parameter 'to'",
+      "IF resource == 'mms' AND operation == 'send' THEN SHOW parameter 'message'",
+      "IF resource == 'mms' AND operation == 'send' THEN SHOW parameter 'media_urls'",
+      "IF resource == 'call' THEN SHOW parameter 'operation'",
+      "IF resource == 'call' AND operation == 'make' THEN SHOW parameter 'from'",
+      "IF resource == 'call' AND operation == 'make' THEN SHOW parameter 'to'",
+      "IF resource == 'call' AND operation == 'make' THEN SHOW parameter 'answer_method'",
+      "IF resource == 'call' AND operation == 'make' THEN SHOW parameter 'answer_url'"
+    ]
+  }
+}

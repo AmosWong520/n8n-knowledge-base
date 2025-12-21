@@ -1,0 +1,348 @@
+{
+  "node_id": "n8n-nodes-base.lemlist",
+  "name": "n8n-nodes-base.lemlist",
+  "version": 1,
+  "semantic_context": "Consume the Lemlist API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Activity",
+          "value": "activity"
+        },
+        {
+          "name": "Campaign",
+          "value": "campaign"
+        },
+        {
+          "name": "Lead",
+          "value": "lead"
+        },
+        {
+          "name": "Team",
+          "value": "team"
+        },
+        {
+          "name": "Unsubscribe",
+          "value": "unsubscribe"
+        }
+      ],
+      "default": "activity",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "default": "add",
+      "options": [
+        {
+          "name": "Add",
+          "value": "add",
+          "action": "Add an email to an unsubscribe list"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "action": "Delete an email from an unsubscribe list"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "action": "Get many unsubscribed emails"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "unsubscribe"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "unsubscribe"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "default": 5,
+      "description": "Max number of results to return",
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 1000
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "unsubscribe"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "activity"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Campaign Name or ID",
+          "name": "campaignId",
+          "type": "options",
+          "default": "",
+          "typeOptions": {
+            "loadOptionsMethod": "getCampaigns"
+          },
+          "description": "ID of the campaign to retrieve activity for. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Type",
+          "name": "type",
+          "type": "options",
+          "default": "emailsOpened",
+          "description": "Type of activity to retrieve",
+          "options": [
+            {
+              "name": "Emails Bounced",
+              "value": "emailsBounced"
+            },
+            {
+              "name": "Emails Clicked",
+              "value": "emailsClicked"
+            },
+            {
+              "name": "Emails Opened",
+              "value": "emailsOpened"
+            },
+            {
+              "name": "Emails Replied",
+              "value": "emailsReplied"
+            },
+            {
+              "name": "Emails Send Failed",
+              "value": "emailsSendFailed"
+            },
+            {
+              "name": "Emails Sent",
+              "value": "emailsSent"
+            },
+            {
+              "name": "Emails Unsubscribed",
+              "value": "emailsUnsubscribed"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "campaignId": {
+      "displayName": "Campaign Name or ID",
+      "name": "campaignId",
+      "type": "options",
+      "required": true,
+      "default": [],
+      "typeOptions": {
+        "loadOptionsMethod": "getCampaigns"
+      },
+      "description": "ID of the campaign to unsubscribe the lead from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "lead"
+          ],
+          "operation": [
+            "unsubscribe"
+          ]
+        }
+      },
+      "ai_hint": "ID of the campaign to unsubscribe the lead from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "email": {
+      "displayName": "Email",
+      "name": "email",
+      "type": "string",
+      "placeholder": "name@email.com",
+      "default": "",
+      "description": "Email to delete from the unsubscribes",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "unsubscribe"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "ai_hint": "Email to delete from the unsubscribes"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "lead"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Company Name",
+          "name": "companyName",
+          "type": "string",
+          "default": "",
+          "description": "Company name of the lead to create"
+        },
+        {
+          "displayName": "Deduplicate",
+          "name": "deduplicate",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to do not insert if this email is already present in another campaign"
+        },
+        {
+          "displayName": "First Name",
+          "name": "firstName",
+          "type": "string",
+          "default": "",
+          "description": "First name of the lead to create"
+        },
+        {
+          "displayName": "Last Name",
+          "name": "lastName",
+          "type": "string",
+          "default": "",
+          "description": "Last name of the lead to create"
+        },
+        {
+          "displayName": "Icebreaker",
+          "name": "icebreaker",
+          "type": "string",
+          "default": "",
+          "description": "Icebreaker of the lead to create"
+        },
+        {
+          "displayName": "Phone",
+          "name": "phone",
+          "type": "string",
+          "default": "",
+          "description": "Phone number of the lead to create"
+        },
+        {
+          "displayName": "Picture URL",
+          "name": "picture",
+          "type": "string",
+          "default": "",
+          "description": "Picture URL of the lead to create"
+        },
+        {
+          "displayName": "LinkedIn URL",
+          "name": "linkedinUrl",
+          "type": "string",
+          "default": "",
+          "description": "LinkedIn URL of the lead to create"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "returnAll",
+      "limit",
+      "filters",
+      "operation",
+      "returnAll",
+      "limit",
+      "operation",
+      "campaignId",
+      "email",
+      "additionalFields",
+      "campaignId",
+      "email",
+      "email",
+      "campaignId",
+      "email",
+      "operation",
+      "operation",
+      "email",
+      "email",
+      "returnAll",
+      "limit"
+    ],
+    "conditional_rules": [
+      "IF resource == 'activity' THEN SHOW parameter 'operation'",
+      "IF resource == 'activity' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'activity' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'activity' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'campaign' THEN SHOW parameter 'operation'",
+      "IF resource == 'campaign' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'campaign' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'lead' THEN SHOW parameter 'operation'",
+      "IF resource == 'lead' AND operation == 'create' THEN SHOW parameter 'campaignId'",
+      "IF resource == 'lead' AND operation == 'create' THEN SHOW parameter 'email'",
+      "IF resource == 'lead' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'lead' AND operation == 'delete' THEN SHOW parameter 'campaignId'",
+      "IF resource == 'lead' AND operation == 'delete' THEN SHOW parameter 'email'",
+      "IF resource == 'lead' AND operation == 'get' THEN SHOW parameter 'email'",
+      "IF resource == 'lead' AND operation == 'unsubscribe' THEN SHOW parameter 'campaignId'",
+      "IF resource == 'lead' AND operation == 'unsubscribe' THEN SHOW parameter 'email'",
+      "IF resource == 'team' THEN SHOW parameter 'operation'",
+      "IF resource == 'unsubscribe' THEN SHOW parameter 'operation'",
+      "IF resource == 'unsubscribe' AND operation == 'add' THEN SHOW parameter 'email'",
+      "IF resource == 'unsubscribe' AND operation == 'delete' THEN SHOW parameter 'email'",
+      "IF resource == 'unsubscribe' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'unsubscribe' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'"
+    ]
+  }
+}

@@ -1,0 +1,517 @@
+{
+  "node_id": "n8n-nodes-base.coinGecko",
+  "name": "n8n-nodes-base.coinGecko",
+  "version": 1,
+  "semantic_context": "Consume CoinGecko API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Coin",
+          "value": "coin"
+        },
+        {
+          "name": "Event",
+          "value": "event"
+        }
+      ],
+      "default": "coin",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "event"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many events",
+          "action": "Get many events"
+        }
+      ],
+      "default": "getAll",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "searchBy": {
+      "displayName": "Search By",
+      "name": "searchBy",
+      "required": true,
+      "type": "options",
+      "options": [
+        {
+          "name": "Coin ID",
+          "value": "coinId"
+        },
+        {
+          "name": "Contract Address",
+          "value": "contractAddress"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get",
+            "marketChart",
+            "price"
+          ],
+          "resource": [
+            "coin"
+          ]
+        }
+      },
+      "default": "coinId",
+      "description": "Search by coin ID or contract address",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "coinId": {
+      "displayName": "Coin Name or ID",
+      "name": "coinId",
+      "required": true,
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getCoins"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "ticker",
+            "history"
+          ],
+          "resource": [
+            "coin"
+          ]
+        }
+      },
+      "default": "",
+      "placeholder": "bitcoin",
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "baseCurrency": {
+      "displayName": "Base Currency Name or ID",
+      "name": "baseCurrency",
+      "required": true,
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getCoins"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "marketChart"
+          ],
+          "resource": [
+            "coin"
+          ],
+          "searchBy": [
+            "coinId"
+          ]
+        },
+        "hide": {
+          "searchBy": [
+            "contractAddress"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The first currency in the pair. For BTC:ETH this is BTC. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The first currency in the pair. For BTC:ETH this is BTC. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "baseCurrencies": {
+      "displayName": "Base Currency Names or IDs",
+      "name": "baseCurrencies",
+      "required": true,
+      "type": "multiOptions",
+      "typeOptions": {
+        "loadOptionsMethod": "getCoins"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "price"
+          ],
+          "resource": [
+            "coin"
+          ],
+          "searchBy": [
+            "coinId"
+          ]
+        }
+      },
+      "default": [],
+      "placeholder": "bitcoin",
+      "description": "The first currency in the pair. For BTC:ETH this is BTC. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The first currency in the pair. For BTC:ETH this is BTC. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "platformId": {
+      "displayName": "Platform ID",
+      "name": "platformId",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get",
+            "marketChart",
+            "price"
+          ],
+          "resource": [
+            "coin"
+          ],
+          "searchBy": [
+            "contractAddress"
+          ]
+        }
+      },
+      "type": "options",
+      "options": [
+        {
+          "name": "Ethereum",
+          "value": "ethereum"
+        }
+      ],
+      "default": "ethereum",
+      "description": "The ID of the platform issuing tokens",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "contractAddress": {
+      "displayName": "Contract Address",
+      "name": "contractAddress",
+      "required": true,
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get",
+            "marketChart"
+          ],
+          "resource": [
+            "coin"
+          ],
+          "searchBy": [
+            "contractAddress"
+          ]
+        }
+      },
+      "description": "Token's contract address",
+      "ai_hint": "Token's contract address"
+    },
+    "contractAddresses": {
+      "displayName": "Contract Addresses",
+      "name": "contractAddresses",
+      "required": true,
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "price"
+          ],
+          "resource": [
+            "coin"
+          ],
+          "searchBy": [
+            "contractAddress"
+          ]
+        }
+      },
+      "description": "The contract address of tokens, comma-separated",
+      "ai_hint": "The contract address of tokens, comma-separated"
+    },
+    "quoteCurrency": {
+      "displayName": "Quote Currency Name or ID",
+      "name": "quoteCurrency",
+      "required": true,
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getCurrencies"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "candlestick",
+            "marketChart"
+          ],
+          "resource": [
+            "coin"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The second currency in the pair. For BTC:ETH this is ETH. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The second currency in the pair. For BTC:ETH this is ETH. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "quoteCurrencies": {
+      "displayName": "Quote Currency Names or IDs",
+      "name": "quoteCurrencies",
+      "type": "multiOptions",
+      "typeOptions": {
+        "loadOptionsMethod": "getCurrencies"
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "price"
+          ],
+          "resource": [
+            "coin"
+          ]
+        }
+      },
+      "default": [],
+      "description": "The second currency in the pair. For BTC:ETH this is ETH. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The second currency in the pair. For BTC:ETH this is ETH. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "days": {
+      "displayName": "Range (Days)",
+      "name": "days",
+      "required": true,
+      "type": "options",
+      "options": [
+        {
+          "name": "1",
+          "value": "1"
+        },
+        {
+          "name": "7",
+          "value": "7"
+        },
+        {
+          "name": "14",
+          "value": "14"
+        },
+        {
+          "name": "30",
+          "value": "30"
+        },
+        {
+          "name": "90",
+          "value": "90"
+        },
+        {
+          "name": "180",
+          "value": "180"
+        },
+        {
+          "name": "365",
+          "value": "365"
+        },
+        {
+          "name": "Max",
+          "value": "max"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "marketChart",
+            "candlestick"
+          ],
+          "resource": [
+            "coin"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Return data for this many days in the past from now",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "date": {
+      "displayName": "Date",
+      "name": "date",
+      "required": true,
+      "type": "dateTime",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "history"
+          ],
+          "resource": [
+            "coin"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The date of data snapshot",
+      "ai_hint": "The date of data snapshot"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "event"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "event"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "event"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Country Code",
+          "name": "country_code",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getEventCountryCodes"
+          },
+          "default": "",
+          "description": "Country code of event. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "From Date",
+          "name": "from_date",
+          "type": "dateTime",
+          "default": "",
+          "description": "Lists events after this date"
+        },
+        {
+          "displayName": "To Date",
+          "name": "to_date",
+          "type": "dateTime",
+          "default": "",
+          "description": "Lists events before this date"
+        },
+        {
+          "displayName": "Type Name or ID",
+          "name": "type",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getEventTypes"
+          },
+          "default": "",
+          "description": "Type of event. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Upcoming Events Only",
+          "name": "upcoming_events_only",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to list only upcoming events"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "searchBy",
+      "coinId",
+      "baseCurrency",
+      "baseCurrency",
+      "coinId",
+      "baseCurrencies",
+      "platformId",
+      "contractAddress",
+      "contractAddresses",
+      "baseCurrency",
+      "quoteCurrency",
+      "quoteCurrencies",
+      "days",
+      "date",
+      "returnAll",
+      "limit",
+      "options",
+      "options",
+      "options",
+      "options",
+      "options",
+      "operation",
+      "returnAll",
+      "limit",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF resource == 'coin' THEN SHOW parameter 'operation'",
+      "IF operation IN [\"get\", \"marketChart\", \"price\"] AND resource == 'coin' THEN SHOW parameter 'searchBy'",
+      "IF operation == 'get' AND resource == 'coin' THEN SHOW parameter 'coinId'",
+      "IF operation == 'candlestick' AND resource == 'coin' THEN SHOW parameter 'baseCurrency'",
+      "IF operation == 'market' AND resource == 'coin' THEN SHOW parameter 'baseCurrency'",
+      "IF operation IN [\"ticker\", \"history\"] AND resource == 'coin' THEN SHOW parameter 'coinId'",
+      "IF operation == 'price' AND resource == 'coin' AND searchBy == 'coinId' THEN SHOW parameter 'baseCurrencies'",
+      "IF operation IN [\"get\", \"marketChart\", \"price\"] AND resource == 'coin' AND searchBy == 'contractAddress' THEN SHOW parameter 'platformId'",
+      "IF operation IN [\"get\", \"marketChart\"] AND resource == 'coin' AND searchBy == 'contractAddress' THEN SHOW parameter 'contractAddress'",
+      "IF operation == 'price' AND resource == 'coin' AND searchBy == 'contractAddress' THEN SHOW parameter 'contractAddresses'",
+      "IF operation == 'marketChart' AND resource == 'coin' AND searchBy == 'coinId' THEN SHOW parameter 'baseCurrency'",
+      "IF searchBy == 'contractAddress' THEN HIDE parameter 'baseCurrency'",
+      "IF operation IN [\"candlestick\", \"marketChart\"] AND resource == 'coin' THEN SHOW parameter 'quoteCurrency'",
+      "IF operation == 'price' AND resource == 'coin' THEN SHOW parameter 'quoteCurrencies'",
+      "IF operation IN [\"marketChart\", \"candlestick\"] AND resource == 'coin' THEN SHOW parameter 'days'",
+      "IF operation == 'history' AND resource == 'coin' THEN SHOW parameter 'date'",
+      "IF operation IN [\"getAll\", \"market\", \"ticker\"] AND resource == 'coin' THEN SHOW parameter 'returnAll'",
+      "IF operation IN [\"getAll\", \"market\", \"ticker\"] AND resource == 'coin' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'coin' AND operation == 'market' THEN SHOW parameter 'options'",
+      "IF resource == 'coin' AND operation == 'price' THEN SHOW parameter 'options'",
+      "IF resource == 'coin' AND operation == 'ticker' THEN SHOW parameter 'options'",
+      "IF resource == 'coin' AND operation == 'history' THEN SHOW parameter 'options'",
+      "IF operation == 'get' AND resource == 'coin' THEN SHOW parameter 'options'",
+      "IF resource == 'event' THEN SHOW parameter 'operation'",
+      "IF operation == 'getAll' AND resource == 'event' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'event' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'event' THEN SHOW parameter 'options'"
+    ]
+  }
+}

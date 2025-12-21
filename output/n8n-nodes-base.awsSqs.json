@@ -1,0 +1,269 @@
+{
+  "node_id": "n8n-nodes-base.awsSqs",
+  "name": "n8n-nodes-base.awsSqs",
+  "version": 1,
+  "semantic_context": "Sends messages to AWS SQS",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "AWS (IAM)",
+          "value": "iam"
+        },
+        {
+          "name": "AWS (Assume Role)",
+          "value": "assumeRole"
+        }
+      ],
+      "default": "iam",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Send Message",
+          "value": "sendMessage",
+          "description": "Send a message to a queue",
+          "action": "Send a message to a queue"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "sendMessage",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "queue": {
+      "displayName": "Queue Name or ID",
+      "name": "queue",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getQueues"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "sendMessage"
+          ]
+        }
+      },
+      "options": [],
+      "default": "",
+      "required": true,
+      "description": "Queue to send a message to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "Queue to send a message to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "queueType": {
+      "displayName": "Queue Type",
+      "name": "queueType",
+      "type": "options",
+      "options": [
+        {
+          "name": "FIFO",
+          "value": "fifo",
+          "description": "FIFO SQS queue"
+        },
+        {
+          "name": "Standard",
+          "value": "standard",
+          "description": "Standard SQS queue"
+        }
+      ],
+      "default": "standard",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "sendInputData": {
+      "displayName": "Send Input Data",
+      "name": "sendInputData",
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to send the data the node receives as JSON to SQS",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "sendMessage"
+          ],
+          "sendInputData": [
+            false
+          ]
+        }
+      },
+      "required": true,
+      "default": "",
+      "description": "Message to send to the queue",
+      "ai_hint": "Message to send to the queue"
+    },
+    "messageGroupId": {
+      "displayName": "Message Group ID",
+      "name": "messageGroupId",
+      "type": "string",
+      "default": "",
+      "description": "Tag that specifies that a message belongs to a specific message group. Applies only to FIFO (first-in-first-out) queues.",
+      "displayOptions": {
+        "show": {
+          "queueType": [
+            "fifo"
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "Tag that specifies that a message belongs to a specific message group. Applies only to FIFO (first-in-first-out) queues."
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "sendMessage"
+          ]
+        }
+      },
+      "default": {},
+      "placeholder": "Add option",
+      "options": [
+        {
+          "displayName": "Delay Seconds",
+          "name": "delaySeconds",
+          "type": "number",
+          "displayOptions": {
+            "show": {
+              "/queueType": [
+                "standard"
+              ]
+            }
+          },
+          "description": "How long, in seconds, to delay a message for",
+          "default": 0,
+          "typeOptions": {
+            "minValue": 0,
+            "maxValue": 900
+          }
+        },
+        {
+          "displayName": "Message Attributes",
+          "name": "messageAttributes",
+          "placeholder": "Add Attribute",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "description": "Attributes to set",
+          "default": {},
+          "options": [
+            {
+              "name": "binary",
+              "displayName": "Binary",
+              "values": [
+                {
+                  "displayName": "Name",
+                  "name": "name",
+                  "type": "string",
+                  "default": "",
+                  "description": "Name of the attribute"
+                },
+                {
+                  "displayName": "Property Name",
+                  "name": "dataPropertyName",
+                  "type": "string",
+                  "default": "data",
+                  "description": "Name of the binary property which contains the data for the message attribute"
+                }
+              ]
+            },
+            {
+              "name": "number",
+              "displayName": "Number",
+              "values": [
+                {
+                  "displayName": "Name",
+                  "name": "name",
+                  "type": "string",
+                  "default": "",
+                  "description": "Name of the attribute"
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "number",
+                  "default": 0,
+                  "description": "Number value of the attribute"
+                }
+              ]
+            },
+            {
+              "name": "string",
+              "displayName": "String",
+              "values": [
+                {
+                  "displayName": "Name",
+                  "name": "name",
+                  "type": "string",
+                  "default": "",
+                  "description": "Name of the attribute"
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": "",
+                  "description": "String value of attribute"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Message Deduplication ID",
+          "name": "messageDeduplicationId",
+          "type": "string",
+          "default": "",
+          "description": "Token used for deduplication of sent messages. Applies only to FIFO (first-in-first-out) queues.",
+          "displayOptions": {
+            "show": {
+              "/queueType": [
+                "fifo"
+              ]
+            }
+          }
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "operation",
+      "queue",
+      "queueType",
+      "sendInputData",
+      "message",
+      "messageGroupId",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF operation == 'sendMessage' THEN SHOW parameter 'queue'",
+      "IF operation == 'sendMessage' AND sendInputData == False THEN SHOW parameter 'message'",
+      "IF queueType == 'fifo' THEN SHOW parameter 'messageGroupId'",
+      "IF operation == 'sendMessage' THEN SHOW parameter 'options'",
+      "IF /queueType == 'standard' THEN SHOW parameter 'delaySeconds'",
+      "IF /queueType == 'fifo' THEN SHOW parameter 'messageDeduplicationId'"
+    ]
+  }
+}

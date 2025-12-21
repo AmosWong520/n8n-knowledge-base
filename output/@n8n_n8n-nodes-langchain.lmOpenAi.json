@@ -1,0 +1,166 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.lmOpenAi",
+  "name": "@n8n/n8n-nodes-langchain.lmOpenAi",
+  "version": 1,
+  "semantic_context": "For advanced usage with an AI chain",
+  "parameters": {
+    "deprecated": {
+      "displayName": "This node is using OpenAI completions which are now deprecated. Please use the OpenAI Chat Model node instead.",
+      "name": "deprecated",
+      "type": "notice",
+      "default": ""
+    },
+    "model": {
+      "displayName": "Model",
+      "name": "model",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": "gpt-3.5-turbo-instruct"
+      },
+      "required": true,
+      "description": "The model which will generate the completion. <a href=\"https://beta.openai.com/docs/models/overview\">Learn more</a>.",
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "typeOptions": {
+            "searchListMethod": "openAiModelSearch"
+          }
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string"
+        }
+      ],
+      "routing": {
+        "send": {
+          "type": "body",
+          "property": "model",
+          "value": "={{$parameter.model.value}}"
+        }
+      },
+      "ai_hint": "The model which will generate the completion. <a href=\"https://beta.openai.com/docs/models/overview\">Learn more</a>."
+    },
+    "notice": {
+      "displayName": "When using non OpenAI models via Base URL override, not all models might be chat-compatible or support other features, like tools calling or JSON response format.",
+      "name": "notice",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "/options.baseURL": [
+            {
+              "_cnd": {
+                "exists": true
+              }
+            }
+          ]
+        }
+      }
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "placeholder": "Add Option",
+      "description": "Additional options to add",
+      "type": "collection",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Base URL",
+          "name": "baseURL",
+          "default": "https://api.openai.com/v1",
+          "description": "Override the default base URL for the API",
+          "type": "string"
+        },
+        {
+          "displayName": "Frequency Penalty",
+          "name": "frequencyPenalty",
+          "default": 0,
+          "typeOptions": {
+            "maxValue": 2,
+            "minValue": -2,
+            "numberPrecision": 1
+          },
+          "description": "Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim",
+          "type": "number"
+        },
+        {
+          "displayName": "Maximum Number of Tokens",
+          "name": "maxTokens",
+          "default": -1,
+          "description": "The maximum number of tokens to generate in the completion. Most models have a context length of 2048 tokens (except for the newest models, which support 32,768).",
+          "type": "number",
+          "typeOptions": {
+            "maxValue": 32768
+          }
+        },
+        {
+          "displayName": "Presence Penalty",
+          "name": "presencePenalty",
+          "default": 0,
+          "typeOptions": {
+            "maxValue": 2,
+            "minValue": -2,
+            "numberPrecision": 1
+          },
+          "description": "Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics",
+          "type": "number"
+        },
+        {
+          "displayName": "Sampling Temperature",
+          "name": "temperature",
+          "default": 0.7,
+          "typeOptions": {
+            "maxValue": 1,
+            "minValue": 0,
+            "numberPrecision": 1
+          },
+          "description": "Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.",
+          "type": "number"
+        },
+        {
+          "displayName": "Timeout",
+          "name": "timeout",
+          "default": 60000,
+          "description": "Maximum amount of time a request is allowed to take in milliseconds",
+          "type": "number"
+        },
+        {
+          "displayName": "Max Retries",
+          "name": "maxRetries",
+          "default": 2,
+          "description": "Maximum number of retries to attempt",
+          "type": "number"
+        },
+        {
+          "displayName": "Top P",
+          "name": "topP",
+          "default": 1,
+          "typeOptions": {
+            "maxValue": 1,
+            "minValue": 0,
+            "numberPrecision": 1
+          },
+          "description": "Controls diversity via nucleus sampling: 0.5 means half of all likelihood-weighted options are considered. We generally recommend altering this or temperature but not both.",
+          "type": "number"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "deprecated",
+      "model",
+      "notice",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF /options.baseURL == {'_cnd': {'exists': True}} THEN SHOW parameter 'notice'"
+    ]
+  }
+}

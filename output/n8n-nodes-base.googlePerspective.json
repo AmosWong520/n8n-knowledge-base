@@ -1,0 +1,160 @@
+{
+  "node_id": "n8n-nodes-base.googlePerspective",
+  "name": "n8n-nodes-base.googlePerspective",
+  "version": 1,
+  "semantic_context": "Consume Google Perspective API",
+  "parameters": {
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Analyze Comment",
+          "value": "analyzeComment"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "analyzeComment",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "text": {
+      "displayName": "Text",
+      "name": "text",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "analyzeComment"
+          ]
+        }
+      }
+    },
+    "requestedAttributesUi": {
+      "displayName": "Attributes to Analyze",
+      "name": "requestedAttributesUi",
+      "type": "fixedCollection",
+      "default": {},
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "placeholder": "Add Atrribute",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "analyzeComment"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Properties",
+          "name": "requestedAttributesValues",
+          "values": [
+            {
+              "displayName": "Attribute Name",
+              "name": "attributeName",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Flirtation",
+                  "value": "flirtation"
+                },
+                {
+                  "name": "Identity Attack",
+                  "value": "identity_attack"
+                },
+                {
+                  "name": "Insult",
+                  "value": "insult"
+                },
+                {
+                  "name": "Profanity",
+                  "value": "profanity"
+                },
+                {
+                  "name": "Severe Toxicity",
+                  "value": "severe_toxicity"
+                },
+                {
+                  "name": "Sexually Explicit",
+                  "value": "sexually_explicit"
+                },
+                {
+                  "name": "Threat",
+                  "value": "threat"
+                },
+                {
+                  "name": "Toxicity",
+                  "value": "toxicity"
+                }
+              ],
+              "description": "Attribute to analyze in the text. Details <a href=\"https://developers.perspectiveapi.com/s/about-the-api-attributes-and-languages\">here</a>.",
+              "default": "flirtation"
+            },
+            {
+              "displayName": "Score Threshold",
+              "name": "scoreThreshold",
+              "type": "number",
+              "typeOptions": {
+                "numberPrecision": 2,
+                "minValue": 0,
+                "maxValue": 1
+              },
+              "description": "Score above which to return results. At zero, all scores are returned.",
+              "default": 0
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "analyzeComment"
+          ]
+        }
+      },
+      "default": {},
+      "placeholder": "Add option",
+      "options": [
+        {
+          "displayName": "Language Name or ID",
+          "name": "languages",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getLanguages"
+          },
+          "default": "",
+          "description": "Languages of the text input. If unspecified, the API will auto-detect the comment language. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "operation",
+      "text",
+      "requestedAttributesUi",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF operation == 'analyzeComment' THEN SHOW parameter 'text'",
+      "IF operation == 'analyzeComment' THEN SHOW parameter 'requestedAttributesUi'",
+      "IF operation == 'analyzeComment' THEN SHOW parameter 'options'"
+    ]
+  }
+}

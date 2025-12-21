@@ -1,0 +1,815 @@
+{
+  "node_id": "n8n-nodes-base.odooTool",
+  "name": "n8n-nodes-base.odooTool",
+  "version": 1,
+  "semantic_context": "Consume Odoo API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume Odoo API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "default": "contact",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Contact",
+          "value": "contact"
+        },
+        {
+          "name": "Custom Resource",
+          "value": "custom"
+        },
+        {
+          "name": "Note",
+          "value": "note"
+        },
+        {
+          "name": "Opportunity",
+          "value": "opportunity"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "customResource": {
+      "displayName": "Custom Resource Name or ID",
+      "name": "customResource",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "getModels"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "custom"
+          ]
+        }
+      },
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "default": "create",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "note"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a new note",
+          "action": "Create a note"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a note",
+          "action": "Delete a note"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a note",
+          "action": "Get a note"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many notes",
+          "action": "Get many notes"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a note",
+          "action": "Update a note"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "fieldsToCreateOrUpdate": {
+      "displayName": "Update Fields",
+      "name": "fieldsToCreateOrUpdate",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true,
+        "multipleValueButtonText": "Add Field"
+      },
+      "default": {},
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "custom"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Field Record:",
+          "name": "fields",
+          "values": [
+            {
+              "displayName": "Field Name or ID",
+              "name": "fieldName",
+              "type": "options",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "default": "",
+              "typeOptions": {
+                "loadOptionsMethod": "getModelFields"
+              }
+            },
+            {
+              "displayName": "New Value",
+              "name": "fieldValue",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "customResourceId": {
+      "displayName": "Custom Resource ID",
+      "name": "customResourceId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "custom"
+          ]
+        }
+      }
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "note"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "default": 50,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "note"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 1000
+      },
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "default": {},
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll",
+            "get"
+          ],
+          "resource": [
+            "note"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Fields to Include",
+          "name": "fieldsList",
+          "type": "multiOptions",
+          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "default": [],
+          "typeOptions": {
+            "loadOptionsMethod": "getModelFields"
+          }
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "filterRequest": {
+      "displayName": "Filters",
+      "name": "filterRequest",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true,
+        "multipleValueButtonText": "Add Filter"
+      },
+      "default": {},
+      "description": "Filter request by applying filters",
+      "placeholder": "Add condition",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "custom"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "filter",
+          "displayName": "Filter",
+          "values": [
+            {
+              "displayName": "Field Name or ID",
+              "name": "fieldName",
+              "type": "options",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "default": "",
+              "typeOptions": {
+                "loadOptionsDependsOn": [
+                  "customResource"
+                ],
+                "loadOptionsMethod": "getModelFields"
+              }
+            },
+            {
+              "displayName": "Operator",
+              "name": "operator",
+              "type": "options",
+              "default": "equal",
+              "description": "Specify an operator",
+              "options": [
+                {
+                  "name": "!=",
+                  "value": "notEqual"
+                },
+                {
+                  "name": "<",
+                  "value": "lesserThen"
+                },
+                {
+                  "name": "<=",
+                  "value": "lesserOrEqual"
+                },
+                {
+                  "name": "=",
+                  "value": "equal"
+                },
+                {
+                  "name": ">",
+                  "value": "greaterThen"
+                },
+                {
+                  "name": ">=",
+                  "value": "greaterOrEqual"
+                },
+                {
+                  "name": "Child Of",
+                  "value": "childOf"
+                },
+                {
+                  "name": "In",
+                  "value": "in"
+                },
+                {
+                  "name": "Like",
+                  "value": "like"
+                },
+                {
+                  "name": "Not In",
+                  "value": "notIn"
+                }
+              ]
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "Specify value for comparison"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "opportunityName": {
+      "displayName": "Name",
+      "name": "opportunityName",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "opportunity"
+          ]
+        }
+      }
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "default": {},
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "contact"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Address",
+          "name": "address",
+          "type": "fixedCollection",
+          "default": {},
+          "placeholder": "Add Address",
+          "typeOptions": {
+            "multipleValues": false
+          },
+          "options": [
+            {
+              "name": "value",
+              "displayName": "Address",
+              "values": [
+                {
+                  "displayName": "City",
+                  "name": "city",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Country Name or ID",
+                  "name": "country_id",
+                  "type": "options",
+                  "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+                  "default": "",
+                  "typeOptions": {
+                    "loadOptionsMethod": "getCountries"
+                  }
+                },
+                {
+                  "displayName": "State Name or ID",
+                  "name": "state_id",
+                  "type": "options",
+                  "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+                  "default": "",
+                  "typeOptions": {
+                    "loadOptionsMethod": "getStates"
+                  }
+                },
+                {
+                  "displayName": "Street",
+                  "name": "street",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Street 2",
+                  "name": "street2",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Zip Code",
+                  "name": "zip",
+                  "type": "string",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Email",
+          "name": "email",
+          "type": "string",
+          "placeholder": "name@email.com",
+          "default": ""
+        },
+        {
+          "displayName": "Internal Notes",
+          "name": "comment",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Job Position",
+          "name": "function",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Mobile",
+          "name": "mobile",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Phone",
+          "name": "phone",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Tax ID",
+          "name": "vat",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Website",
+          "name": "website",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "opportunityId": {
+      "displayName": "Opportunity ID",
+      "name": "opportunityId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "opportunity"
+          ]
+        }
+      }
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "default": {},
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "contact"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Address",
+          "name": "address",
+          "type": "fixedCollection",
+          "default": {},
+          "placeholder": "Add Address",
+          "typeOptions": {
+            "multipleValues": false
+          },
+          "options": [
+            {
+              "name": "value",
+              "displayName": "Address",
+              "values": [
+                {
+                  "displayName": "City",
+                  "name": "city",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Country Name or ID",
+                  "name": "country_id",
+                  "type": "options",
+                  "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+                  "default": "",
+                  "typeOptions": {
+                    "loadOptionsMethod": "getCountries"
+                  }
+                },
+                {
+                  "displayName": "State Name or ID",
+                  "name": "state_id",
+                  "type": "options",
+                  "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+                  "default": "",
+                  "typeOptions": {
+                    "loadOptionsMethod": "getStates"
+                  }
+                },
+                {
+                  "displayName": "Street",
+                  "name": "street",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Street 2",
+                  "name": "street2",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Zip Code",
+                  "name": "zip",
+                  "type": "string",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Email",
+          "name": "email",
+          "type": "string",
+          "placeholder": "name@email.com",
+          "default": ""
+        },
+        {
+          "displayName": "Internal Notes",
+          "name": "comment",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Job Position",
+          "name": "function",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Mobile",
+          "name": "mobile",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Name",
+          "name": "name",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Phone",
+          "name": "phone",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Tax ID",
+          "name": "vat",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Website",
+          "name": "website",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "contactName": {
+      "displayName": "Name",
+      "name": "contactName",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "contact"
+          ]
+        }
+      }
+    },
+    "contactId": {
+      "displayName": "Contact ID",
+      "name": "contactId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "contact"
+          ]
+        }
+      }
+    },
+    "memo": {
+      "displayName": "Memo",
+      "name": "memo",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "note"
+          ]
+        }
+      }
+    },
+    "noteId": {
+      "displayName": "Note ID",
+      "name": "noteId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "note"
+          ]
+        }
+      }
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "customResource",
+      "operation",
+      "fieldsToCreateOrUpdate",
+      "customResourceId",
+      "returnAll",
+      "limit",
+      "options",
+      "filterRequest",
+      "customResourceId",
+      "fieldsToCreateOrUpdate",
+      "operation",
+      "opportunityName",
+      "additionalFields",
+      "opportunityId",
+      "returnAll",
+      "limit",
+      "options",
+      "opportunityId",
+      "updateFields",
+      "operation",
+      "contactName",
+      "additionalFields",
+      "contactId",
+      "returnAll",
+      "limit",
+      "options",
+      "contactId",
+      "updateFields",
+      "operation",
+      "memo",
+      "noteId",
+      "returnAll",
+      "limit",
+      "options",
+      "noteId",
+      "memo"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'custom' THEN SHOW parameter 'customResource'",
+      "IF resource == 'custom' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'custom' THEN SHOW parameter 'fieldsToCreateOrUpdate'",
+      "IF operation IN [\"get\", \"delete\"] AND resource == 'custom' THEN SHOW parameter 'customResourceId'",
+      "IF resource == 'custom' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'custom' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation IN [\"getAll\", \"get\"] AND resource == 'custom' THEN SHOW parameter 'options'",
+      "IF operation == 'getAll' AND resource == 'custom' THEN SHOW parameter 'filterRequest'",
+      "IF operation == 'update' AND resource == 'custom' THEN SHOW parameter 'customResourceId'",
+      "IF operation == 'update' AND resource == 'custom' THEN SHOW parameter 'fieldsToCreateOrUpdate'",
+      "IF resource == 'opportunity' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'opportunity' THEN SHOW parameter 'opportunityName'",
+      "IF operation == 'create' AND resource == 'opportunity' THEN SHOW parameter 'additionalFields'",
+      "IF operation IN [\"get\", \"delete\"] AND resource == 'opportunity' THEN SHOW parameter 'opportunityId'",
+      "IF resource == 'opportunity' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'opportunity' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation IN [\"getAll\", \"get\"] AND resource == 'opportunity' THEN SHOW parameter 'options'",
+      "IF operation == 'update' AND resource == 'opportunity' THEN SHOW parameter 'opportunityId'",
+      "IF operation == 'update' AND resource == 'opportunity' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'contact' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'contact' THEN SHOW parameter 'contactName'",
+      "IF operation == 'create' AND resource == 'contact' THEN SHOW parameter 'additionalFields'",
+      "IF operation IN [\"get\", \"delete\"] AND resource == 'contact' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'contact' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation IN [\"getAll\", \"get\"] AND resource == 'contact' THEN SHOW parameter 'options'",
+      "IF operation == 'update' AND resource == 'contact' THEN SHOW parameter 'contactId'",
+      "IF operation == 'update' AND resource == 'contact' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'note' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'note' THEN SHOW parameter 'memo'",
+      "IF operation IN [\"get\", \"delete\"] AND resource == 'note' THEN SHOW parameter 'noteId'",
+      "IF resource == 'note' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'note' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation IN [\"getAll\", \"get\"] AND resource == 'note' THEN SHOW parameter 'options'",
+      "IF operation == 'update' AND resource == 'note' THEN SHOW parameter 'noteId'",
+      "IF operation == 'update' AND resource == 'note' THEN SHOW parameter 'memo'"
+    ]
+  }
+}

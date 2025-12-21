@@ -1,0 +1,1403 @@
+{
+  "node_id": "n8n-nodes-base.hubspotTool",
+  "name": "n8n-nodes-base.hubspotTool",
+  "version": [
+    2,
+    2.1,
+    2.2
+  ],
+  "semantic_context": "Consume HubSpot API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume HubSpot API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "API Key",
+          "value": "apiKey"
+        },
+        {
+          "name": "APP Token",
+          "value": "appToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "apiKey",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Company",
+          "value": "company"
+        },
+        {
+          "name": "Contact",
+          "value": "contact"
+        },
+        {
+          "name": "Contact List",
+          "value": "contactList"
+        },
+        {
+          "name": "Deal",
+          "value": "deal"
+        },
+        {
+          "name": "Engagement",
+          "value": "engagement"
+        },
+        {
+          "name": "Ticket",
+          "value": "ticket"
+        }
+      ],
+      "default": "contact",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "ticket"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a ticket",
+          "action": "Create a ticket"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a ticket",
+          "action": "Delete a ticket"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a ticket",
+          "action": "Get a ticket"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many tickets",
+          "action": "Get many tickets"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a ticket",
+          "action": "Update a ticket"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "email": {
+      "displayName": "Email",
+      "name": "email",
+      "type": "string",
+      "placeholder": "name@email.com",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contactList"
+          ],
+          "operation": [
+            "add"
+          ],
+          "by": [
+            "email"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "additionalFields": {
+      "displayName": "Options",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "ticket"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Ticket Properties to Include",
+          "name": "properties",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getTicketProperties"
+          },
+          "default": [],
+          "description": "Whether to include specific Ticket properties in the returned results. Choose from a list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Properties With History",
+          "name": "propertiesWithHistory",
+          "type": "string",
+          "default": "",
+          "description": "Works similarly to properties=, but this parameter will include the history for the specified property, instead of just including the current value. Use this parameter when you need the full history of changes to a property's value."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "company"
+          ],
+          "operation": [
+            "searchByDomain"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Company Properties to Include",
+          "name": "properties",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getCompanyProperties"
+          },
+          "default": [],
+          "description": "Whether to include specific Company properties in the returned results. Choose from a list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "contactId": {
+      "displayName": "Contact to Delete",
+      "name": "contactId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "hint": "To lookup a user by their email, use the Search operation",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select from the list",
+          "typeOptions": {
+            "searchListMethod": "searchContacts",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By Id",
+          "name": "id",
+          "type": "string",
+          "placeholder": "58539222",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "[0-9]+",
+                "errorMessage": "Not a valid HubSpot Contact ID"
+              }
+            }
+          ]
+        }
+      ],
+      "description": "This is not a contact's email but a number like 1485",
+      "ai_hint": "This is not a contact's email but a number like 1485"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "ticket"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "ticket"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 250
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "filterGroupsUi": {
+      "displayName": "Filter Groups",
+      "name": "filterGroupsUi",
+      "type": "fixedCollection",
+      "default": {},
+      "placeholder": "Add Filter Group",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "deal"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "filterGroupsValues",
+          "displayName": "Filter Group",
+          "values": [
+            {
+              "displayName": "Filters",
+              "name": "filtersUi",
+              "type": "fixedCollection",
+              "default": {},
+              "placeholder": "Add Filter",
+              "typeOptions": {
+                "multipleValues": true
+              },
+              "options": [
+                {
+                  "name": "filterValues",
+                  "displayName": "Filter",
+                  "values": [
+                    {
+                      "displayName": "Property Name or ID",
+                      "name": "propertyName",
+                      "type": "options",
+                      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+                      "typeOptions": {
+                        "loadOptionsMethod": "getDealProperties"
+                      },
+                      "default": ""
+                    },
+                    {
+                      "displayName": "Type",
+                      "name": "type",
+                      "type": "hidden",
+                      "default": "={{$parameter[\"&propertyName\"].split(\"|\")[1]}}"
+                    },
+                    {
+                      "displayName": "Operator",
+                      "name": "operator",
+                      "type": "options",
+                      "displayOptions": {
+                        "hide": {
+                          "type": [
+                            "number"
+                          ]
+                        }
+                      },
+                      "options": [
+                        {
+                          "name": "Contains Exactly",
+                          "value": "CONTAINS_TOKEN"
+                        },
+                        {
+                          "name": "Equal",
+                          "value": "EQ"
+                        },
+                        {
+                          "name": "Is Known",
+                          "value": "HAS_PROPERTY"
+                        },
+                        {
+                          "name": "Is Unknown",
+                          "value": "NOT_HAS_PROPERTY"
+                        },
+                        {
+                          "name": "Not Equal",
+                          "value": "NEQ"
+                        }
+                      ],
+                      "default": "EQ"
+                    },
+                    {
+                      "displayName": "Operator",
+                      "name": "operator",
+                      "type": "options",
+                      "displayOptions": {
+                        "show": {
+                          "type": [
+                            "number"
+                          ]
+                        }
+                      },
+                      "options": [
+                        {
+                          "name": "Contains Exactly",
+                          "value": "CONTAINS_TOKEN"
+                        },
+                        {
+                          "name": "Equal",
+                          "value": "EQ"
+                        },
+                        {
+                          "name": "Greater Than",
+                          "value": "GT"
+                        },
+                        {
+                          "name": "Greater Than Or Equal",
+                          "value": "GTE"
+                        },
+                        {
+                          "name": "Is Known",
+                          "value": "HAS_PROPERTY"
+                        },
+                        {
+                          "name": "Is Unknown",
+                          "value": "NOT_HAS_PROPERTY"
+                        },
+                        {
+                          "name": "Less Than",
+                          "value": "LT"
+                        },
+                        {
+                          "name": "Less Than Or Equal",
+                          "value": "LTE"
+                        },
+                        {
+                          "name": "Not Equal",
+                          "value": "NEQ"
+                        }
+                      ],
+                      "default": "EQ"
+                    },
+                    {
+                      "displayName": "Value",
+                      "name": "value",
+                      "displayOptions": {
+                        "hide": {
+                          "operator": [
+                            "HAS_PROPERTY",
+                            "NOT_HAS_PROPERTY"
+                          ]
+                        }
+                      },
+                      "required": true,
+                      "type": "string",
+                      "default": ""
+                    }
+                  ]
+                }
+              ],
+              "description": "Use filters to limit the results to only CRM objects with matching property values. More info <a href=\"https://developers.hubspot.com/docs/api/crm/search\">here</a>."
+            }
+          ]
+        }
+      ],
+      "description": "When multiple filters are provided within a Filter Group, they will be combined using a logical AND operator. When multiple Filter Groups are provided, they will be combined using a logical OR operator. The system supports a maximum of three Filter Groups with up to three filters each. More info <a href=\"https://developers.hubspot.com/docs/api/crm/search\">here</a>",
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "by": {
+      "displayName": "By",
+      "name": "by",
+      "type": "options",
+      "options": [
+        {
+          "name": "Contact ID",
+          "value": "id"
+        },
+        {
+          "name": "Email",
+          "value": "email"
+        }
+      ],
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contactList"
+          ],
+          "operation": [
+            "add"
+          ]
+        }
+      },
+      "default": "email",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "id": {
+      "displayName": "Contact to Remove",
+      "name": "id",
+      "type": "number",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contactList"
+          ],
+          "operation": [
+            "remove"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "listId": {
+      "displayName": "List to Remove From",
+      "name": "listId",
+      "type": "number",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contactList"
+          ],
+          "operation": [
+            "remove"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "company"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "companyId": {
+      "displayName": "Company to Delete",
+      "name": "companyId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "company"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select from the list",
+          "typeOptions": {
+            "searchListMethod": "searchCompanies"
+          }
+        },
+        {
+          "displayName": "By Id",
+          "name": "id",
+          "type": "string",
+          "placeholder": "58539222",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "[0-9]+",
+                "errorMessage": "Not a valid HubSpot Company ID"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "ticket"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Company Names or IDs",
+          "name": "associatedCompanyIds",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getCompanies"
+          },
+          "default": [],
+          "description": "Whether to include specific Company properties in the returned results. Choose from a list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Contact Names or IDs",
+          "name": "associatedContactIds",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getContacts"
+          },
+          "default": [],
+          "description": "Whether to include specific Contact properties in the returned results. Choose from a list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Category Name or ID",
+          "name": "category",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getTicketCategories"
+          },
+          "default": "",
+          "description": "Main reason customer reached out for help. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Close Date",
+          "name": "closeDate",
+          "type": "dateTime",
+          "default": "",
+          "description": "The date the ticket was closed. When using expressions, the time should be specified in YYYY-MM-DD hh-mm-ss format."
+        },
+        {
+          "displayName": "Create Date",
+          "name": "createDate",
+          "type": "dateTime",
+          "default": "",
+          "description": "The date the ticket was created. When using expressions, the time should be specified in YYYY-MM-DD hh-mm-ss format."
+        },
+        {
+          "displayName": "Description",
+          "name": "description",
+          "type": "string",
+          "typeOptions": {
+            "alwaysOpenEditWindow": true
+          },
+          "default": "",
+          "description": "Description of the ticket"
+        },
+        {
+          "displayName": "Pipeline Name or ID",
+          "name": "pipelineId",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getTicketPipelines"
+          },
+          "default": "",
+          "description": "The ID of the pipeline the ticket is in. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Priority Name or ID",
+          "name": "priority",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getTicketPriorities"
+          },
+          "default": "",
+          "description": "The level of attention needed on the ticket. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Resolution Name or ID",
+          "name": "resolution",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getTicketResolutions"
+          },
+          "default": "",
+          "description": "The action taken to resolve the ticket. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Source Name or ID",
+          "name": "source",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getTicketSources"
+          },
+          "default": "",
+          "description": "Channel where ticket was originally submitted. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Stage Name or ID",
+          "name": "stageId",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getTicketStages",
+            "loadOptionsDependsOn": [
+              "updateFields.pipelineId"
+            ]
+          },
+          "default": "",
+          "description": "The stage ID of the pipeline the ticket is in; depends on Pipeline ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Ticket Name",
+          "name": "ticketName",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Ticket Owner Name or ID",
+          "name": "ticketOwnerId",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getOwners"
+          },
+          "default": "",
+          "description": "The user from your team that the ticket is assigned to. You can assign additional users to a ticket record by creating a custom HubSpot user property. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "domain": {
+      "displayName": "Domain",
+      "name": "domain",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "company"
+          ],
+          "operation": [
+            "searchByDomain"
+          ]
+        }
+      },
+      "required": true,
+      "default": "",
+      "description": "The company's website domain to search for, like n8n.io",
+      "ai_hint": "The company's website domain to search for, like n8n.io"
+    },
+    "stage": {
+      "displayName": "Deal Stage Name or ID",
+      "name": "stage",
+      "type": "options",
+      "required": true,
+      "typeOptions": {
+        "loadOptionsMethod": "getDealStages"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "deal"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "options": [],
+      "description": "The deal stage is required when creating a deal. See the CRM Pipelines API for details on managing pipelines and stages. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The deal stage is required when creating a deal. See the CRM Pipelines API for details on managing pipelines and stages. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "dealId": {
+      "displayName": "Deal to Delete",
+      "name": "dealId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "deal"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select from the list",
+          "typeOptions": {
+            "searchListMethod": "searchDeals",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By Id",
+          "name": "id",
+          "type": "string",
+          "placeholder": "58539222",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "[0-9]+",
+                "errorMessage": "Not a valid HubSpot Deal ID"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "filters": {
+      "displayName": "Options",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "deal"
+          ],
+          "operation": [
+            "getRecentlyCreatedUpdated"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Since",
+          "name": "since",
+          "type": "dateTime",
+          "default": "",
+          "description": "Only return deals created after timestamp x. When using expressions, the time should be specified in YYYY-MM-DD hh-mm-ss format."
+        },
+        {
+          "displayName": "Include Property Versions",
+          "name": "includePropertyVersions",
+          "type": "boolean",
+          "default": false,
+          "description": "By default, you will only get data for the most recent version of a property in the \"versions\" data. If you include this parameter, you will get data for all previous versions."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "type": {
+      "displayName": "Type",
+      "name": "type",
+      "type": "options",
+      "required": true,
+      "options": [
+        {
+          "name": "Call",
+          "value": "call"
+        },
+        {
+          "name": "Email",
+          "value": "email"
+        },
+        {
+          "name": "Meeting",
+          "value": "meeting"
+        },
+        {
+          "name": "Task",
+          "value": "task"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "engagement"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "dueDate": {
+      "displayName": "Due Date",
+      "name": "dueDate",
+      "type": "dateTime",
+      "required": true,
+      "description": "The due date for the task",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "engagement"
+          ],
+          "operation": [
+            "create"
+          ],
+          "type": [
+            "task"
+          ],
+          "@version": [
+            {
+              "_cnd": {
+                "gte": 2.2
+              }
+            }
+          ]
+        }
+      },
+      "default": "",
+      "ai_hint": "The due date for the task"
+    },
+    "metadata": {
+      "displayName": "Metadata",
+      "name": "metadata",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "engagement"
+          ],
+          "operation": [
+            "create"
+          ],
+          "type": [
+            "call"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Body",
+          "name": "body",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Duration Milliseconds",
+          "name": "durationMilliseconds",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "displayName": "From Number",
+          "name": "fromNumber",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Recording URL",
+          "name": "recordingUrl",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Status",
+          "name": "status",
+          "type": "options",
+          "options": [
+            {
+              "name": "Busy",
+              "value": "BUSY"
+            },
+            {
+              "name": "Calling CRM User",
+              "value": "CALLING_CRM_USER"
+            },
+            {
+              "name": "Canceled",
+              "value": "CANCELED"
+            },
+            {
+              "name": "Completed",
+              "value": "COMPLETED"
+            },
+            {
+              "name": "Connecting",
+              "value": "CONNECTING"
+            },
+            {
+              "name": "Failed",
+              "value": "FAILED"
+            },
+            {
+              "name": "In Progress",
+              "value": "IN_PROGRESS"
+            },
+            {
+              "name": "No Answer",
+              "value": "NO_ANSWER"
+            },
+            {
+              "name": "Queued",
+              "value": "QUEUED"
+            },
+            {
+              "name": "Ringing",
+              "value": "RINGING"
+            }
+          ],
+          "default": "QUEUED"
+        },
+        {
+          "displayName": "To Number",
+          "name": "toNumber",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "engagementId": {
+      "displayName": "Engagement to Delete",
+      "name": "engagementId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "engagement"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select from the list",
+          "typeOptions": {
+            "searchListMethod": "searchEngagements"
+          }
+        },
+        {
+          "displayName": "By Id",
+          "name": "id",
+          "type": "string",
+          "placeholder": "58539222",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "[0-9]+",
+                "errorMessage": "Not a valid HubSpot Engagement ID"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "pipelineId": {
+      "displayName": "Pipeline Name or ID",
+      "name": "pipelineId",
+      "type": "options",
+      "required": true,
+      "typeOptions": {
+        "loadOptionsMethod": "getTicketPipelines"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "ticket"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The ID of the pipeline the ticket is in. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The ID of the pipeline the ticket is in. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "stageId": {
+      "displayName": "Stage Name or ID",
+      "name": "stageId",
+      "type": "options",
+      "required": true,
+      "typeOptions": {
+        "loadOptionsMethod": "getTicketStages",
+        "loadOptionsDependsOn": [
+          "pipelineId"
+        ]
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "ticket"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The stage ID of the pipeline the ticket is in; depends on Pipeline ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The stage ID of the pipeline the ticket is in; depends on Pipeline ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "ticketName": {
+      "displayName": "Ticket Name",
+      "name": "ticketName",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "ticket"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "ticketId": {
+      "displayName": "Ticket to Delete",
+      "name": "ticketId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "ticket"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select from the list",
+          "typeOptions": {
+            "searchListMethod": "searchTickets"
+          }
+        },
+        {
+          "displayName": "By Id",
+          "name": "id",
+          "type": "string",
+          "placeholder": "58539222",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "[0-9]+",
+                "errorMessage": "Not a valid HubSpot Ticket ID"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "authentication",
+      "resource",
+      "operation",
+      "email",
+      "additionalFields",
+      "options",
+      "contactId",
+      "additionalFields",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "contactId",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "returnAll",
+      "limit",
+      "filterGroupsUi",
+      "additionalFields",
+      "operation",
+      "by",
+      "email",
+      "id",
+      "listId",
+      "id",
+      "listId",
+      "operation",
+      "name",
+      "additionalFields",
+      "companyId",
+      "updateFields",
+      "companyId",
+      "additionalFields",
+      "returnAll",
+      "limit",
+      "options",
+      "companyId",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "domain",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "stage",
+      "additionalFields",
+      "dealId",
+      "updateFields",
+      "dealId",
+      "filters",
+      "returnAll",
+      "limit",
+      "filters",
+      "dealId",
+      "returnAll",
+      "limit",
+      "filters",
+      "returnAll",
+      "limit",
+      "filterGroupsUi",
+      "additionalFields",
+      "operation",
+      "type",
+      "dueDate",
+      "metadata",
+      "metadata",
+      "metadata",
+      "metadata",
+      "additionalFields",
+      "engagementId",
+      "engagementId",
+      "returnAll",
+      "limit",
+      "operation",
+      "pipelineId",
+      "stageId",
+      "ticketName",
+      "additionalFields",
+      "ticketId",
+      "updateFields",
+      "ticketId",
+      "additionalFields",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "ticketId"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'contact' THEN SHOW parameter 'operation'",
+      "IF resource == 'contact' AND operation == 'upsert' THEN SHOW parameter 'email'",
+      "IF resource == 'contact' AND operation == 'upsert' THEN SHOW parameter 'additionalFields'",
+      "IF /resolveData == False THEN SHOW parameter 'properties'",
+      "IF resource == 'contact' AND operation == 'upsert' THEN SHOW parameter 'options'",
+      "IF resource == 'contact' AND operation == 'get' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'contact' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'contact' AND operation == 'delete' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'getRecentlyCreatedUpdated' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'contact' AND operation == 'getRecentlyCreatedUpdated' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'contact' AND operation == 'getRecentlyCreatedUpdated' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'contact' AND operation == 'search' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'contact' AND operation == 'search' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'contact' AND operation == 'search' THEN SHOW parameter 'filterGroupsUi'",
+      "IF type == 'number' THEN HIDE parameter 'operator'",
+      "IF type == 'number' THEN SHOW parameter 'operator'",
+      "IF operator IN [\"HAS_PROPERTY\", \"NOT_HAS_PROPERTY\"] THEN HIDE parameter 'value'",
+      "IF resource == 'contact' AND operation == 'search' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'contactList' THEN SHOW parameter 'operation'",
+      "IF resource == 'contactList' AND operation == 'add' THEN SHOW parameter 'by'",
+      "IF resource == 'contactList' AND operation == 'add' AND by == 'email' THEN SHOW parameter 'email'",
+      "IF resource == 'contactList' AND operation == 'add' AND by == 'id' THEN SHOW parameter 'id'",
+      "IF resource == 'contactList' AND operation == 'add' THEN SHOW parameter 'listId'",
+      "IF resource == 'contactList' AND operation == 'remove' THEN SHOW parameter 'id'",
+      "IF resource == 'contactList' AND operation == 'remove' THEN SHOW parameter 'listId'",
+      "IF resource == 'company' THEN SHOW parameter 'operation'",
+      "IF resource == 'company' AND operation == 'create' THEN SHOW parameter 'name'",
+      "IF resource == 'company' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'company' AND operation == 'update' THEN SHOW parameter 'companyId'",
+      "IF resource == 'company' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'company' AND operation == 'get' THEN SHOW parameter 'companyId'",
+      "IF resource == 'company' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'company' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'company' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'company' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'company' AND operation == 'delete' THEN SHOW parameter 'companyId'",
+      "IF resource == 'company' AND operation == 'getRecentlyCreatedUpdated' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'company' AND operation == 'getRecentlyCreatedUpdated' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'company' AND operation == 'getRecentlyCreatedUpdated' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'company' AND operation == 'searchByDomain' THEN SHOW parameter 'domain'",
+      "IF resource == 'company' AND operation == 'searchByDomain' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'company' AND operation == 'searchByDomain' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'company' AND operation == 'searchByDomain' THEN SHOW parameter 'options'",
+      "IF resource == 'deal' THEN SHOW parameter 'operation'",
+      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'stage'",
+      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'deal' AND operation == 'update' THEN SHOW parameter 'dealId'",
+      "IF resource == 'deal' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'deal' AND operation == 'get' THEN SHOW parameter 'dealId'",
+      "IF resource == 'deal' AND operation == 'get' THEN SHOW parameter 'filters'",
+      "IF resource == 'deal' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'deal' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'deal' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF @version == {'_cnd': {'gt': 2}} THEN SHOW parameter 'properties'",
+      "IF @version == {'_cnd': {'gt': 2}} THEN SHOW parameter 'propertiesWithHistory'",
+      "IF @version == 2 THEN SHOW parameter 'propertiesCollection'",
+      "IF resource == 'deal' AND operation == 'delete' THEN SHOW parameter 'dealId'",
+      "IF resource == 'deal' AND operation == 'getRecentlyCreatedUpdated' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'deal' AND operation == 'getRecentlyCreatedUpdated' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'deal' AND operation == 'getRecentlyCreatedUpdated' THEN SHOW parameter 'filters'",
+      "IF resource == 'deal' AND operation == 'search' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'deal' AND operation == 'search' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'deal' AND operation == 'search' THEN SHOW parameter 'filterGroupsUi'",
+      "IF resource == 'deal' AND operation == 'search' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'engagement' THEN SHOW parameter 'operation'",
+      "IF resource == 'engagement' AND operation == 'create' THEN SHOW parameter 'type'",
+      "IF resource == 'engagement' AND operation == 'create' AND type == 'task' AND @version == {'_cnd': {'gte': 2.2}} THEN SHOW parameter 'dueDate'",
+      "IF resource == 'engagement' AND operation == 'create' AND type == 'task' THEN SHOW parameter 'metadata'",
+      "IF resource == 'engagement' AND operation == 'create' AND type == 'email' THEN SHOW parameter 'metadata'",
+      "IF resource == 'engagement' AND operation == 'create' AND type == 'meeting' THEN SHOW parameter 'metadata'",
+      "IF resource == 'engagement' AND operation == 'create' AND type == 'call' THEN SHOW parameter 'metadata'",
+      "IF resource == 'engagement' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF @version == {'_cnd': {'lt': 2.2}} THEN SHOW parameter 'ownerIds'",
+      "IF @version == {'_cnd': {'gte': 2.2}} THEN SHOW parameter 'ownerId'",
+      "IF resource == 'engagement' AND operation == 'get' THEN SHOW parameter 'engagementId'",
+      "IF resource == 'engagement' AND operation == 'delete' THEN SHOW parameter 'engagementId'",
+      "IF resource == 'engagement' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'engagement' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'ticket' THEN SHOW parameter 'operation'",
+      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'pipelineId'",
+      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'stageId'",
+      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'ticketName'",
+      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'ticket' AND operation == 'update' THEN SHOW parameter 'ticketId'",
+      "IF resource == 'ticket' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'ticket' AND operation == 'get' THEN SHOW parameter 'ticketId'",
+      "IF resource == 'ticket' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'ticket' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'ticket' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'ticket' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'ticket' AND operation == 'delete' THEN SHOW parameter 'ticketId'"
+    ]
+  }
+}

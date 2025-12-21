@@ -1,0 +1,89 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.vectorStorePineconeLoad",
+  "name": "@n8n/n8n-nodes-langchain.vectorStorePineconeLoad",
+  "version": 1,
+  "semantic_context": "Load data from Pinecone Vector Store index",
+  "parameters": {
+    "pineconeIndex": {
+      "displayName": "Pinecone Index",
+      "name": "pineconeIndex",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "typeOptions": {
+            "searchListMethod": "pineconeIndexSearch"
+          }
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string"
+        }
+      ]
+    },
+    "pineconeNamespace": {
+      "displayName": "Pinecone Namespace",
+      "name": "pineconeNamespace",
+      "type": "string",
+      "default": ""
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add Option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Metadata Filter",
+          "name": "metadata",
+          "type": "fixedCollection",
+          "description": "Metadata to filter the document by",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": {},
+          "placeholder": "Add filter field",
+          "options": [
+            {
+              "name": "metadataValues",
+              "displayName": "Fields to Set",
+              "values": [
+                {
+                  "displayName": "Name",
+                  "name": "name",
+                  "type": "string",
+                  "default": "",
+                  "required": true
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "pineconeIndex",
+      "pineconeNamespace",
+      "options"
+    ],
+    "conditional_rules": []
+  }
+}

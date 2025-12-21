@@ -1,0 +1,377 @@
+{
+  "node_id": "n8n-nodes-base.iterableTool",
+  "name": "n8n-nodes-base.iterableTool",
+  "version": 1,
+  "semantic_context": "Consume Iterable API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume Iterable API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Event",
+          "value": "event"
+        },
+        {
+          "name": "User",
+          "value": "user"
+        },
+        {
+          "name": "User List",
+          "value": "userList"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "user",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userList"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Add",
+          "value": "add",
+          "description": "Add user to list",
+          "action": "Add a user to a list"
+        },
+        {
+          "name": "Remove",
+          "value": "remove",
+          "description": "Remove a user from a list",
+          "action": "Remove a user from a list"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "add",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "event"
+          ],
+          "operation": [
+            "track"
+          ]
+        }
+      },
+      "description": "The name of the event to track",
+      "default": "",
+      "ai_hint": "The name of the event to track"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userList"
+          ],
+          "operation": [
+            "remove"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Campaign ID",
+          "name": "campaignId",
+          "type": "number",
+          "default": 0,
+          "description": "Attribute unsubscribe to a campaign"
+        },
+        {
+          "displayName": "Channel Unsubscribe",
+          "name": "channelUnsubscribe",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to unsubscribe email from list's associated channel - essentially a global unsubscribe"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "identifier": {
+      "displayName": "Identifier",
+      "name": "identifier",
+      "type": "options",
+      "required": true,
+      "options": [
+        {
+          "name": "Email",
+          "value": "email"
+        },
+        {
+          "name": "User ID",
+          "value": "userId"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userList"
+          ],
+          "operation": [
+            "remove"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Identifier to be used",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "value": {
+      "displayName": "Value",
+      "name": "value",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userList"
+          ],
+          "operation": [
+            "remove"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "preferUserId": {
+      "displayName": "Create If Doesn't Exist",
+      "name": "preferUserId",
+      "type": "boolean",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "upsert"
+          ],
+          "identifier": [
+            "userId"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to create a new user if the idetifier does not exist",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "by": {
+      "displayName": "By",
+      "name": "by",
+      "type": "options",
+      "required": true,
+      "options": [
+        {
+          "name": "Email",
+          "value": "email"
+        },
+        {
+          "name": "User ID",
+          "value": "userId"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "default": "email",
+      "description": "Identifier to be used",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "userId": {
+      "displayName": "User ID",
+      "name": "userId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "get"
+          ],
+          "by": [
+            "userId"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Unique identifier for a particular user",
+      "ai_hint": "Unique identifier for a particular user"
+    },
+    "email": {
+      "displayName": "Email",
+      "name": "email",
+      "type": "string",
+      "placeholder": "name@email.com",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "get"
+          ],
+          "by": [
+            "email"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Email for a particular user",
+      "ai_hint": "Email for a particular user"
+    },
+    "listId": {
+      "displayName": "List Name or ID",
+      "name": "listId",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getLists"
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userList"
+          ],
+          "operation": [
+            "remove"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Identifier to be used. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "Identifier to be used. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "name",
+      "additionalFields",
+      "operation",
+      "identifier",
+      "value",
+      "preferUserId",
+      "additionalFields",
+      "by",
+      "userId",
+      "email",
+      "by",
+      "userId",
+      "email",
+      "operation",
+      "listId",
+      "identifier",
+      "value",
+      "listId",
+      "identifier",
+      "value",
+      "additionalFields"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'event' THEN SHOW parameter 'operation'",
+      "IF resource == 'event' AND operation == 'track' THEN SHOW parameter 'name'",
+      "IF resource == 'event' AND operation == 'track' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'user' THEN SHOW parameter 'operation'",
+      "IF resource == 'user' AND operation == 'upsert' THEN SHOW parameter 'identifier'",
+      "IF resource == 'user' AND operation == 'upsert' THEN SHOW parameter 'value'",
+      "IF resource == 'user' AND operation == 'upsert' AND identifier == 'userId' THEN SHOW parameter 'preferUserId'",
+      "IF resource == 'user' AND operation == 'upsert' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'user' AND operation == 'delete' THEN SHOW parameter 'by'",
+      "IF resource == 'user' AND operation == 'delete' AND by == 'userId' THEN SHOW parameter 'userId'",
+      "IF resource == 'user' AND operation == 'delete' AND by == 'email' THEN SHOW parameter 'email'",
+      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'by'",
+      "IF resource == 'user' AND operation == 'get' AND by == 'userId' THEN SHOW parameter 'userId'",
+      "IF resource == 'user' AND operation == 'get' AND by == 'email' THEN SHOW parameter 'email'",
+      "IF resource == 'userList' THEN SHOW parameter 'operation'",
+      "IF resource == 'userList' AND operation == 'add' THEN SHOW parameter 'listId'",
+      "IF resource == 'userList' AND operation == 'add' THEN SHOW parameter 'identifier'",
+      "IF resource == 'userList' AND operation == 'add' THEN SHOW parameter 'value'",
+      "IF resource == 'userList' AND operation == 'remove' THEN SHOW parameter 'listId'",
+      "IF resource == 'userList' AND operation == 'remove' THEN SHOW parameter 'identifier'",
+      "IF resource == 'userList' AND operation == 'remove' THEN SHOW parameter 'value'",
+      "IF resource == 'userList' AND operation == 'remove' THEN SHOW parameter 'additionalFields'"
+    ]
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+  "name": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+  "version": [
+    1,
+    1.1,
+    1.2,
+    1.3
+  ],
+  "semantic_context": "Stores in n8n memory, so no credentials required",
+  "parameters": {
+    "notice": {
+      "displayName": "This node must be connected to an AI agent. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>",
+      "name": "notice",
+      "type": "notice",
+      "default": "",
+      "typeOptions": {
+        "containerClass": "ndv-connection-hint-notice"
+      }
+    },
+    "sessionKey": {
+      "displayName": "Key",
+      "name": "sessionKey",
+      "type": "string",
+      "default": "",
+      "description": "The key to use to store session ID in the memory",
+      "displayOptions": {
+        "show": {
+          "sessionIdType": [
+            "customKey"
+          ]
+        }
+      },
+      "ai_hint": "The key to use to store session ID in the memory"
+    },
+    "sessionIdType": {
+      "displayName": "Session ID",
+      "name": "sessionIdType",
+      "type": "options",
+      "options": [
+        {
+          "name": "Connected Chat Trigger Node",
+          "value": "fromInput",
+          "description": "Looks for an input field called 'sessionId' that is coming from a directly connected Chat Trigger"
+        },
+        {
+          "name": "Define below",
+          "value": "customKey",
+          "description": "Use an expression to reference data in previous nodes or enter static text"
+        }
+      ],
+      "default": "fromInput",
+      "displayOptions": {
+        "show": {
+          "@version": [
+            {
+              "_cnd": {
+                "gte": 1.2
+              }
+            }
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "contextWindowLength": {
+      "displayName": "Context Window Length",
+      "name": "contextWindowLength",
+      "type": "number",
+      "default": 5,
+      "hint": "How many past interactions the model receives as context"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "notice",
+      "sessionKey",
+      "sessionKey",
+      "sessionIdType",
+      "sessionKey",
+      "sessionKey",
+      "contextWindowLength"
+    ],
+    "conditional_rules": [
+      "IF @version == 1 THEN SHOW parameter 'sessionKey'",
+      "IF @version == 1.1 THEN SHOW parameter 'sessionKey'",
+      "IF @version == {'_cnd': {'gte': 1.2}} THEN SHOW parameter 'sessionIdType'",
+      "IF sessionIdType == 'fromInput' AND @version == {'_cnd': {'gte': 1.3}} THEN SHOW parameter 'sessionKey'",
+      "IF sessionIdType == 'customKey' THEN SHOW parameter 'sessionKey'"
+    ]
+  }
+}

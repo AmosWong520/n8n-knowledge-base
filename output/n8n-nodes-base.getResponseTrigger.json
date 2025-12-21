@@ -1,0 +1,96 @@
+{
+  "node_id": "n8n-nodes-base.getResponseTrigger",
+  "name": "n8n-nodes-base.getResponseTrigger",
+  "version": 1,
+  "semantic_context": "Starts the workflow when GetResponse events occur",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "API Key",
+          "value": "apiKey"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "apiKey",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "events": {
+      "displayName": "Events",
+      "name": "events",
+      "type": "multiOptions",
+      "options": [
+        {
+          "name": "Customer Subscribed",
+          "value": "subscribe",
+          "description": "Receive notifications when a customer is subscribed to a list"
+        },
+        {
+          "name": "Customer Unsubscribed",
+          "value": "unsubscribe",
+          "description": "Receive notifications when a customer is unsubscribed from a list"
+        },
+        {
+          "name": "Email Clicked",
+          "value": "click",
+          "description": "Receive notifications when a email is clicked"
+        },
+        {
+          "name": "Email Opened",
+          "value": "open",
+          "description": "Receive notifications when a email is opened"
+        },
+        {
+          "name": "Survey Submitted",
+          "value": "survey",
+          "description": "Receive notifications when a survey is submitted"
+        }
+      ],
+      "default": [],
+      "required": true
+    },
+    "listIds": {
+      "displayName": "List Names or IDs",
+      "name": "listIds",
+      "type": "multiOptions",
+      "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getLists"
+      },
+      "default": [],
+      "ai_hint": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "placeholder": "Add option",
+      "type": "collection",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Delete Current Subscription",
+          "name": "delete",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to delete the current subscription"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "events",
+      "listIds",
+      "options"
+    ],
+    "conditional_rules": []
+  }
+}

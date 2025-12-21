@@ -1,0 +1,91 @@
+{
+  "node_id": "n8n-nodes-base.postmarkTrigger",
+  "name": "n8n-nodes-base.postmarkTrigger",
+  "version": 1,
+  "semantic_context": "Starts the workflow when Postmark events occur",
+  "parameters": {
+    "events": {
+      "displayName": "Events",
+      "name": "events",
+      "type": "multiOptions",
+      "options": [
+        {
+          "name": "Bounce",
+          "value": "bounce",
+          "description": "Trigger on bounce"
+        },
+        {
+          "name": "Click",
+          "value": "click",
+          "description": "Trigger on click"
+        },
+        {
+          "name": "Delivery",
+          "value": "delivery",
+          "description": "Trigger on delivery"
+        },
+        {
+          "name": "Open",
+          "value": "open",
+          "description": "Trigger webhook on open"
+        },
+        {
+          "name": "Spam Complaint",
+          "value": "spamComplaint",
+          "description": "Trigger on spam complaint"
+        },
+        {
+          "name": "Subscription Change",
+          "value": "subscriptionChange",
+          "description": "Trigger on subscription change"
+        }
+      ],
+      "default": [],
+      "required": true,
+      "description": "Webhook events that will be enabled for that endpoint",
+      "ai_hint": "Webhook events that will be enabled for that endpoint"
+    },
+    "firstOpen": {
+      "displayName": "First Open",
+      "name": "firstOpen",
+      "description": "Only fires on first open for event \"Open\"",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "events": [
+            "open"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "includeContent": {
+      "displayName": "Include Content",
+      "name": "includeContent",
+      "description": "Whether to include message content for events \"Bounce\" and \"Spam Complaint\"",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "events": [
+            "bounce",
+            "spamComplaint"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "events",
+      "firstOpen",
+      "includeContent"
+    ],
+    "conditional_rules": [
+      "IF events == 'open' THEN SHOW parameter 'firstOpen'",
+      "IF events IN [\"bounce\", \"spamComplaint\"] THEN SHOW parameter 'includeContent'"
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.embeddingsAwsBedrock",
+  "name": "@n8n/n8n-nodes-langchain.embeddingsAwsBedrock",
+  "version": 1,
+  "semantic_context": "Use Embeddings AWS Bedrock",
+  "parameters": {
+    "notice": {
+      "displayName": "This node must be connected to a vector store. <a data-action='openSelectiveNodeCreator' data-action-parameter-connectiontype='ai_vectorStore'>Insert one</a>",
+      "name": "notice",
+      "type": "notice",
+      "default": "",
+      "typeOptions": {
+        "containerClass": "ndv-connection-hint-notice"
+      }
+    },
+    "model": {
+      "displayName": "Model",
+      "name": "model",
+      "type": "options",
+      "description": "The model which will generate the completion. <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/foundation-models.html\">Learn more</a>.",
+      "typeOptions": {
+        "loadOptions": {
+          "routing": {
+            "request": {
+              "method": "GET",
+              "url": "/foundation-models?byInferenceType=ON_DEMAND&byOutputModality=EMBEDDING"
+            },
+            "output": {
+              "postReceive": [
+                {
+                  "type": "rootProperty",
+                  "properties": {
+                    "property": "modelSummaries"
+                  }
+                },
+                {
+                  "type": "setKeyValue",
+                  "properties": {
+                    "name": "={{$responseItem.modelName}}",
+                    "description": "={{$responseItem.modelArn}}",
+                    "value": "={{$responseItem.modelId}}"
+                  }
+                },
+                {
+                  "type": "sort",
+                  "properties": {
+                    "key": "name"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "routing": {
+        "send": {
+          "type": "body",
+          "property": "model"
+        }
+      },
+      "default": "",
+      "ai_hint": "The model which will generate the completion. <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/foundation-models.html\">Learn more</a>."
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "notice",
+      "model"
+    ],
+    "conditional_rules": []
+  }
+}

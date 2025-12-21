@@ -1,0 +1,467 @@
+{
+  "node_id": "n8n-nodes-base.awsElb",
+  "name": "n8n-nodes-base.awsElb",
+  "version": 1,
+  "semantic_context": "Sends data to AWS ELB API",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "AWS (IAM)",
+          "value": "iam"
+        },
+        {
+          "name": "AWS (Assume Role)",
+          "value": "assumeRole"
+        }
+      ],
+      "default": "iam",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Listener Certificate",
+          "value": "listenerCertificate"
+        },
+        {
+          "name": "Load Balancer",
+          "value": "loadBalancer"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "loadBalancer",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "listenerCertificate"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Add",
+          "value": "add",
+          "description": "Add the specified SSL server certificate to the certificate list for the specified HTTPS or TLS listener",
+          "action": "Add a listener certificate"
+        },
+        {
+          "name": "Get Many",
+          "value": "getMany",
+          "description": "Get many listener certificates",
+          "action": "Get many listener certificates"
+        },
+        {
+          "name": "Remove",
+          "value": "remove",
+          "description": "Remove the specified certificate from the certificate list for the specified HTTPS or TLS listener",
+          "action": "Remove a listener certificate"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "add",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "ipAddressType": {
+      "displayName": "IP Address Type",
+      "name": "ipAddressType",
+      "type": "options",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "loadBalancer"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Ipv4",
+          "value": "ipv4"
+        },
+        {
+          "name": "Dualstack",
+          "value": "dualstack"
+        }
+      ],
+      "default": "ipv4",
+      "description": "The type of IP addresses used by the subnets for your load balancer",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "loadBalancer"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "description": "This name must be unique per region per account, can have a maximum of 32 characters",
+      "ai_hint": "This name must be unique per region per account, can have a maximum of 32 characters"
+    },
+    "schema": {
+      "displayName": "Schema",
+      "name": "schema",
+      "type": "options",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "loadBalancer"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Internal",
+          "value": "internal"
+        },
+        {
+          "name": "Internet Facing",
+          "value": "internet-facing"
+        }
+      ],
+      "default": "internet-facing",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "type": {
+      "displayName": "Type",
+      "name": "type",
+      "type": "options",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "loadBalancer"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Application",
+          "value": "application"
+        },
+        {
+          "name": "Network",
+          "value": "network"
+        }
+      ],
+      "default": "application",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "subnets": {
+      "displayName": "Subnet ID Names or IDs",
+      "name": "subnets",
+      "type": "multiOptions",
+      "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "loadBalancer"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "typeOptions": {
+        "loadOptionsMethod": "getSubnets"
+      },
+      "required": true,
+      "default": [],
+      "ai_hint": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "loadBalancer"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Security Group IDs",
+          "name": "securityGroups",
+          "type": "multiOptions",
+          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getSecurityGroups"
+          },
+          "default": []
+        },
+        {
+          "displayName": "Tags",
+          "name": "tagsUi",
+          "placeholder": "Add Tag",
+          "type": "fixedCollection",
+          "default": {},
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "options": [
+            {
+              "name": "tagValues",
+              "displayName": "Tag",
+              "values": [
+                {
+                  "displayName": "Key",
+                  "name": "key",
+                  "type": "string",
+                  "default": "",
+                  "description": "The key of the tag"
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": "",
+                  "description": "The value of the tag"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "loadBalancerId": {
+      "displayName": "Load Balancer ARN Name or ID",
+      "name": "loadBalancerId",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getLoadBalancers"
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "listenerCertificate"
+          ],
+          "operation": [
+            "remove"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Unique identifier for a particular loadBalancer. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "Unique identifier for a particular loadBalancer. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "listenerCertificate"
+          ],
+          "operation": [
+            "getMany"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "description": "Max number of results to return",
+      "default": 100,
+      "typeOptions": {
+        "maxValue": 400,
+        "minValue": 1
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "listenerCertificate"
+          ],
+          "operation": [
+            "getMany"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getMany"
+          ],
+          "resource": [
+            "loadBalancer"
+          ],
+          "returnAll": [
+            true
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Names",
+          "name": "names",
+          "type": "string",
+          "default": "",
+          "description": "The names of the load balancers. Multiples can be defined separated by comma."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "listenerId": {
+      "displayName": "Listener ARN Name or ID",
+      "name": "listenerId",
+      "type": "options",
+      "required": true,
+      "typeOptions": {
+        "loadOptionsMethod": "getLoadBalancerListeners",
+        "loadOptionsDependsOn": [
+          "loadBalancerId"
+        ]
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "listenerCertificate"
+          ],
+          "operation": [
+            "remove"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Unique identifier for a particular loadBalancer. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "Unique identifier for a particular loadBalancer. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "certificateId": {
+      "displayName": "Certificate ARN",
+      "name": "certificateId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "listenerCertificate"
+          ],
+          "operation": [
+            "remove"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Unique identifier for a particular loadBalancer",
+      "ai_hint": "Unique identifier for a particular loadBalancer"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "resource",
+      "operation",
+      "ipAddressType",
+      "name",
+      "schema",
+      "type",
+      "subnets",
+      "additionalFields",
+      "loadBalancerId",
+      "returnAll",
+      "limit",
+      "filters",
+      "loadBalancerId",
+      "operation",
+      "loadBalancerId",
+      "listenerId",
+      "certificateId",
+      "loadBalancerId",
+      "listenerId",
+      "returnAll",
+      "limit",
+      "loadBalancerId",
+      "listenerId",
+      "certificateId"
+    ],
+    "conditional_rules": [
+      "IF resource == 'loadBalancer' THEN SHOW parameter 'operation'",
+      "IF resource == 'loadBalancer' AND operation == 'create' THEN SHOW parameter 'ipAddressType'",
+      "IF resource == 'loadBalancer' AND operation == 'create' THEN SHOW parameter 'name'",
+      "IF resource == 'loadBalancer' AND operation == 'create' THEN SHOW parameter 'schema'",
+      "IF resource == 'loadBalancer' AND operation == 'create' THEN SHOW parameter 'type'",
+      "IF resource == 'loadBalancer' AND operation == 'create' THEN SHOW parameter 'subnets'",
+      "IF operation == 'create' AND resource == 'loadBalancer' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'loadBalancer' AND operation == 'get' THEN SHOW parameter 'loadBalancerId'",
+      "IF resource == 'loadBalancer' AND operation == 'getMany' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'loadBalancer' AND operation == 'getMany' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getMany' AND resource == 'loadBalancer' AND returnAll == True THEN SHOW parameter 'filters'",
+      "IF resource == 'loadBalancer' AND operation == 'delete' THEN SHOW parameter 'loadBalancerId'",
+      "IF resource == 'listenerCertificate' THEN SHOW parameter 'operation'",
+      "IF resource == 'listenerCertificate' AND operation == 'add' THEN SHOW parameter 'loadBalancerId'",
+      "IF resource == 'listenerCertificate' AND operation == 'add' THEN SHOW parameter 'listenerId'",
+      "IF resource == 'listenerCertificate' AND operation == 'add' THEN SHOW parameter 'certificateId'",
+      "IF resource == 'listenerCertificate' AND operation == 'getMany' THEN SHOW parameter 'loadBalancerId'",
+      "IF resource == 'listenerCertificate' AND operation == 'getMany' THEN SHOW parameter 'listenerId'",
+      "IF resource == 'listenerCertificate' AND operation == 'getMany' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'listenerCertificate' AND operation == 'getMany' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'listenerCertificate' AND operation == 'remove' THEN SHOW parameter 'loadBalancerId'",
+      "IF resource == 'listenerCertificate' AND operation == 'remove' THEN SHOW parameter 'listenerId'",
+      "IF resource == 'listenerCertificate' AND operation == 'remove' THEN SHOW parameter 'certificateId'"
+    ]
+  }
+}

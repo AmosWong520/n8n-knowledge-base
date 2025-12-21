@@ -1,0 +1,365 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.chainLlm",
+  "name": "@n8n/n8n-nodes-langchain.chainLlm",
+  "version": [
+    1,
+    1.1,
+    1.2,
+    1.3,
+    1.4,
+    1.5,
+    1.6,
+    1.7
+  ],
+  "semantic_context": "A simple chain to prompt a large language model",
+  "parameters": {
+    "notice": {
+      "displayName": "Connect an <a data-action='openSelectiveNodeCreator' data-action-parameter-connectiontype='ai_outputParser'>output parser</a> on the canvas to specify the output format you require",
+      "name": "notice",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "hasOutputParser": [
+            true
+          ]
+        }
+      }
+    },
+    "prompt": {
+      "displayName": "Prompt",
+      "name": "prompt",
+      "type": "string",
+      "required": true,
+      "default": "={{ $json.chatInput }}",
+      "displayOptions": {
+        "show": {
+          "@version": [
+            1.3
+          ]
+        }
+      }
+    },
+    "promptType": {
+      "displayName": "Source for Prompt (User Message)",
+      "name": "promptType",
+      "type": "options",
+      "options": [
+        {
+          "name": "Connected Chat Trigger Node",
+          "value": "auto",
+          "description": "Looks for an input field called 'chatInput' that is coming from a directly connected Chat Trigger"
+        },
+        {
+          "name": "Connected Guardrails Node",
+          "value": "guardrails",
+          "description": "Looks for an input field called 'guardrailsInput' that is coming from a directly connected Guardrails Node"
+        },
+        {
+          "name": "Define below",
+          "value": "define",
+          "description": "Use an expression to reference data in previous nodes or enter static text"
+        }
+      ],
+      "default": "auto",
+      "displayOptions": {
+        "hide": {
+          "@version": [
+            1,
+            1.1,
+            1.2,
+            1.3
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "text": {
+      "displayName": "Prompt (User Message)",
+      "name": "text",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "placeholder": "e.g. Hello, how can you help me?",
+      "typeOptions": {
+        "rows": 2
+      },
+      "displayOptions": {
+        "show": {
+          "promptType": [
+            "define"
+          ]
+        }
+      }
+    },
+    "hasOutputParser": {
+      "displayName": "Require Specific Output Format",
+      "name": "hasOutputParser",
+      "type": "boolean",
+      "default": false,
+      "noDataExpression": true,
+      "displayOptions": {
+        "hide": {
+          "@version": [
+            1,
+            1.1,
+            1.3
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "needsFallback": {
+      "displayName": "Enable Fallback Model",
+      "name": "needsFallback",
+      "type": "boolean",
+      "default": false,
+      "noDataExpression": true,
+      "displayOptions": {
+        "hide": {
+          "@version": [
+            1,
+            1.1,
+            1.3
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "messages": {
+      "displayName": "Chat Messages (if Using a Chat Model)",
+      "name": "messages",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "default": {},
+      "placeholder": "Add prompt",
+      "options": [
+        {
+          "name": "messageValues",
+          "displayName": "Prompt",
+          "values": [
+            {
+              "displayName": "Type Name or ID",
+              "name": "type",
+              "type": "options",
+              "options": [
+                {
+                  "name": "AI",
+                  "value": "AIMessagePromptTemplate"
+                },
+                {
+                  "name": "System",
+                  "value": "SystemMessagePromptTemplate"
+                },
+                {
+                  "name": "User",
+                  "value": "HumanMessagePromptTemplate"
+                }
+              ],
+              "default": "SystemMessagePromptTemplate"
+            },
+            {
+              "displayName": "Message Type",
+              "name": "messageType",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "type": [
+                    "HumanMessagePromptTemplate"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Text",
+                  "value": "text",
+                  "description": "Simple text message"
+                },
+                {
+                  "name": "Image (Binary)",
+                  "value": "imageBinary",
+                  "description": "Process the binary input from the previous node"
+                },
+                {
+                  "name": "Image (URL)",
+                  "value": "imageUrl",
+                  "description": "Process the image from the specified URL"
+                }
+              ],
+              "default": "text"
+            },
+            {
+              "displayName": "Image Data Field Name",
+              "name": "binaryImageDataKey",
+              "type": "string",
+              "default": "data",
+              "required": true,
+              "description": "The name of the field in the chain's input that contains the binary image file to be processed",
+              "displayOptions": {
+                "show": {
+                  "messageType": [
+                    "imageBinary"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Image URL",
+              "name": "imageUrl",
+              "type": "string",
+              "default": "",
+              "required": true,
+              "description": "URL to the image to be processed",
+              "displayOptions": {
+                "show": {
+                  "messageType": [
+                    "imageUrl"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Image Details",
+              "description": "Control how the model processes the image and generates its textual understanding",
+              "name": "imageDetail",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "type": [
+                    "HumanMessagePromptTemplate"
+                  ],
+                  "messageType": [
+                    "imageBinary",
+                    "imageUrl"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Auto",
+                  "value": "auto",
+                  "description": "Model will use the auto setting which will look at the image input size and decide if it should use the low or high setting"
+                },
+                {
+                  "name": "Low",
+                  "value": "low",
+                  "description": "The model will receive a low-res 512px x 512px version of the image, and represent the image with a budget of 65 tokens. This allows the API to return faster responses and consume fewer input tokens for use cases that do not require high detail."
+                },
+                {
+                  "name": "High",
+                  "value": "high",
+                  "description": "Allows the model to see the low res image and then creates detailed crops of input images as 512px squares based on the input image size. Each of the detailed crops uses twice the token budget (65 tokens) for a total of 129 tokens."
+                }
+              ],
+              "default": "auto"
+            },
+            {
+              "displayName": "Message",
+              "name": "message",
+              "type": "string",
+              "required": true,
+              "displayOptions": {
+                "hide": {
+                  "messageType": [
+                    "imageBinary",
+                    "imageUrl"
+                  ]
+                }
+              },
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "batching": {
+      "displayName": "Batch Processing",
+      "name": "batching",
+      "type": "collection",
+      "placeholder": "Add Batch Processing Option",
+      "description": "Batch processing options for rate limiting",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Batch Size",
+          "name": "batchSize",
+          "default": 5,
+          "type": "number",
+          "description": "How many items to process in parallel. This is useful for rate limiting, but might impact the log output ordering."
+        },
+        {
+          "displayName": "Delay Between Batches",
+          "name": "delayBetweenBatches",
+          "default": 0,
+          "type": "number",
+          "description": "Delay in milliseconds between batches. This is useful for rate limiting."
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "@version": [
+            {
+              "_cnd": {
+                "gte": 1.7
+              }
+            }
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "fallbackNotice": {
+      "displayName": "Connect an additional language model on the canvas to use it as a fallback if the main model fails",
+      "name": "fallbackNotice",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "needsFallback": [
+            true
+          ]
+        }
+      }
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "notice",
+      "prompt",
+      "prompt",
+      "prompt",
+      "promptType",
+      "text",
+      "text",
+      "text",
+      "hasOutputParser",
+      "needsFallback",
+      "messages",
+      "batching",
+      "notice",
+      "fallbackNotice"
+    ],
+    "conditional_rules": [
+      "IF @version == 1 THEN SHOW parameter 'prompt'",
+      "IF @version IN [1.1, 1.2] THEN SHOW parameter 'prompt'",
+      "IF @version == 1.3 THEN SHOW parameter 'prompt'",
+      "IF @version IN [1, 1.1, 1.2, 1.3] THEN HIDE parameter 'promptType'",
+      "IF promptType == 'guardrails' AND @version == {'_cnd': {'gte': 1.5}} THEN SHOW parameter 'text'",
+      "IF promptType == 'auto' AND @version == {'_cnd': {'gte': 1.5}} THEN SHOW parameter 'text'",
+      "IF promptType == 'define' THEN SHOW parameter 'text'",
+      "IF @version IN [1, 1.1, 1.3] THEN HIDE parameter 'hasOutputParser'",
+      "IF @version IN [1, 1.1, 1.3] THEN HIDE parameter 'needsFallback'",
+      "IF type == 'HumanMessagePromptTemplate' THEN SHOW parameter 'messageType'",
+      "IF messageType == 'imageBinary' THEN SHOW parameter 'binaryImageDataKey'",
+      "IF messageType == 'imageUrl' THEN SHOW parameter 'imageUrl'",
+      "IF type == 'HumanMessagePromptTemplate' AND messageType IN [\"imageBinary\", \"imageUrl\"] THEN SHOW parameter 'imageDetail'",
+      "IF messageType IN [\"imageBinary\", \"imageUrl\"] THEN HIDE parameter 'message'",
+      "IF @version == {'_cnd': {'gte': 1.7}} THEN SHOW parameter 'batching'",
+      "IF hasOutputParser == True THEN SHOW parameter 'notice'",
+      "IF needsFallback == True THEN SHOW parameter 'fallbackNotice'"
+    ]
+  }
+}

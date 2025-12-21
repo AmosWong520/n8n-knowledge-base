@@ -1,0 +1,152 @@
+{
+  "node_id": "n8n-nodes-base.Brandfetch",
+  "name": "n8n-nodes-base.Brandfetch",
+  "version": 1,
+  "semantic_context": "Consume Brandfetch API",
+  "parameters": {
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Color",
+          "value": "color",
+          "description": "Return a company's colors",
+          "action": "Return a company's colors"
+        },
+        {
+          "name": "Company",
+          "value": "company",
+          "description": "Return a company's data",
+          "action": "Return a company's data"
+        },
+        {
+          "name": "Font",
+          "value": "font",
+          "description": "Return a company's fonts",
+          "action": "Return a company's fonts"
+        },
+        {
+          "name": "Industry",
+          "value": "industry",
+          "description": "Return a company's industry",
+          "action": "Return a company's industry"
+        },
+        {
+          "name": "Logo",
+          "value": "logo",
+          "description": "Return a company's logo & icon",
+          "action": "Return a company's logo & icon"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "logo",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "domain": {
+      "displayName": "Domain",
+      "name": "domain",
+      "type": "string",
+      "default": "",
+      "description": "The domain name of the company",
+      "required": true,
+      "ai_hint": "The domain name of the company"
+    },
+    "download": {
+      "displayName": "Download",
+      "name": "download",
+      "type": "boolean",
+      "default": false,
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "logo"
+          ]
+        }
+      },
+      "description": "Name of the binary property to which to write the data of the read file",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "imageTypes": {
+      "displayName": "Image Type",
+      "name": "imageTypes",
+      "type": "multiOptions",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "logo"
+          ],
+          "download": [
+            true
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Icon",
+          "value": "icon"
+        },
+        {
+          "name": "Logo",
+          "value": "logo"
+        }
+      ],
+      "default": [
+        "logo",
+        "icon"
+      ],
+      "required": true
+    },
+    "imageFormats": {
+      "displayName": "Image Format",
+      "name": "imageFormats",
+      "type": "multiOptions",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "logo"
+          ],
+          "download": [
+            true
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "PNG",
+          "value": "png"
+        },
+        {
+          "name": "SVG",
+          "value": "svg"
+        }
+      ],
+      "default": [
+        "png"
+      ],
+      "description": "The image format in which the logo should be returned as",
+      "required": true,
+      "ai_hint": "The image format in which the logo should be returned as"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "operation",
+      "domain",
+      "download",
+      "imageTypes",
+      "imageFormats"
+    ],
+    "conditional_rules": [
+      "IF operation == 'logo' THEN SHOW parameter 'download'",
+      "IF operation == 'logo' AND download == True THEN SHOW parameter 'imageTypes'",
+      "IF operation == 'logo' AND download == True THEN SHOW parameter 'imageFormats'"
+    ]
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "node_id": "n8n-nodes-base.questDbTool",
+  "name": "n8n-nodes-base.questDbTool",
+  "version": 1,
+  "semantic_context": "Get, add and update data in QuestDB",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Get, add and update data in QuestDB",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Execute Query",
+          "value": "executeQuery",
+          "description": "Executes a SQL query",
+          "action": "Execute a SQL query"
+        },
+        {
+          "name": "Insert",
+          "value": "insert",
+          "description": "Insert rows in database",
+          "action": "Insert rows in database"
+        }
+      ],
+      "default": "insert",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "query": {
+      "displayName": "Query",
+      "name": "query",
+      "type": "string",
+      "noDataExpression": true,
+      "typeOptions": {
+        "editor": "sqlEditor",
+        "sqlDialect": "PostgreSQL"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "executeQuery"
+          ]
+        }
+      },
+      "default": "",
+      "placeholder": "SELECT id, name FROM product WHERE quantity > $1 AND price <= $2",
+      "required": true,
+      "description": "The SQL query to execute. You can use n8n expressions or $1 and $2 in conjunction with query parameters.",
+      "ai_hint": "The SQL query to execute. You can use n8n expressions or $1 and $2 in conjunction with query parameters."
+    },
+    "schema": {
+      "displayName": "Schema",
+      "name": "schema",
+      "type": "hidden",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "insert"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Name of the schema the table belongs to",
+      "ai_hint": "Name of the schema the table belongs to"
+    },
+    "table": {
+      "displayName": "Table",
+      "name": "table",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "insert"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "description": "Name of the table in which to insert data to",
+      "ai_hint": "Name of the table in which to insert data to"
+    },
+    "columns": {
+      "displayName": "Columns",
+      "name": "columns",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "insert"
+          ]
+        }
+      },
+      "default": "",
+      "placeholder": "id,name,description",
+      "description": "Comma-separated list of the properties which should used as columns for the new rows",
+      "ai_hint": "Comma-separated list of the properties which should used as columns for the new rows"
+    },
+    "returnFields": {
+      "displayName": "Return Fields",
+      "name": "returnFields",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "insert"
+          ]
+        }
+      },
+      "default": "*",
+      "description": "Comma-separated list of the fields that the operation will return",
+      "ai_hint": "Comma-separated list of the fields that the operation will return"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "hidden",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "insert"
+          ]
+        }
+      }
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "operation",
+      "query",
+      "schema",
+      "table",
+      "columns",
+      "returnFields",
+      "additionalFields",
+      "additionalFields"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF operation == 'executeQuery' THEN SHOW parameter 'query'",
+      "IF operation == 'insert' THEN SHOW parameter 'schema'",
+      "IF operation == 'insert' THEN SHOW parameter 'table'",
+      "IF operation == 'insert' THEN SHOW parameter 'columns'",
+      "IF operation == 'insert' THEN SHOW parameter 'returnFields'",
+      "IF operation == 'executeQuery' THEN SHOW parameter 'additionalFields'",
+      "IF /operation == 'executeQuery' THEN SHOW parameter 'queryParams'",
+      "IF operation == 'insert' THEN SHOW parameter 'additionalFields'"
+    ]
+  }
+}

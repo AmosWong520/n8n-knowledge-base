@@ -1,0 +1,240 @@
+{
+  "node_id": "n8n-nodes-base.googleAnalytics",
+  "name": "n8n-nodes-base.googleAnalytics",
+  "version": 1,
+  "semantic_context": "Use the Google Analytics API",
+  "parameters": {
+    "oldVersionNotice": {
+      "displayName": "<strong>New node version available:</strong> get the latest version with added features from the nodes panel.",
+      "name": "oldVersionNotice",
+      "type": "notice",
+      "default": ""
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Report",
+          "value": "report"
+        },
+        {
+          "name": "User Activity",
+          "value": "userActivity"
+        }
+      ],
+      "default": "report",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userActivity"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Search",
+          "value": "search",
+          "description": "Return user activity data",
+          "action": "Search user activity data"
+        }
+      ],
+      "default": "search",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "viewId": {
+      "displayName": "View Name or ID",
+      "name": "viewId",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getViews"
+      },
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userActivity"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "placeholder": "123456",
+      "description": "The View ID of Google Analytics. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The View ID of Google Analytics. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ],
+          "resource": [
+            "userActivity"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ],
+          "resource": [
+            "userActivity"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "simple": {
+      "displayName": "Simplify",
+      "name": "simple",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "report"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to return a simplified version of the response instead of the raw data",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ],
+          "resource": [
+            "userActivity"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Activity Types",
+          "name": "activityTypes",
+          "type": "multiOptions",
+          "options": [
+            {
+              "name": "Ecommerce",
+              "value": "ECOMMERCE"
+            },
+            {
+              "name": "Event",
+              "value": "EVENT"
+            },
+            {
+              "name": "Goal",
+              "value": "GOAL"
+            },
+            {
+              "name": "Pageview",
+              "value": "PAGEVIEW"
+            },
+            {
+              "name": "Screenview",
+              "value": "SCREENVIEW"
+            }
+          ],
+          "description": "Type of activites requested",
+          "default": []
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "userId": {
+      "displayName": "User ID",
+      "name": "userId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userActivity"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "placeholder": "123456",
+      "description": "ID of a user",
+      "ai_hint": "ID of a user"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "oldVersionNotice",
+      "resource",
+      "operation",
+      "viewId",
+      "returnAll",
+      "limit",
+      "simple",
+      "additionalFields",
+      "operation",
+      "viewId",
+      "userId",
+      "returnAll",
+      "limit",
+      "additionalFields"
+    ],
+    "conditional_rules": [
+      "IF resource == 'report' THEN SHOW parameter 'operation'",
+      "IF resource == 'report' AND operation == 'get' THEN SHOW parameter 'viewId'",
+      "IF operation == 'get' AND resource == 'report' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'get' AND resource == 'report' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'get' AND resource == 'report' THEN SHOW parameter 'simple'",
+      "IF resource == 'report' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'userActivity' THEN SHOW parameter 'operation'",
+      "IF resource == 'userActivity' AND operation == 'search' THEN SHOW parameter 'viewId'",
+      "IF resource == 'userActivity' AND operation == 'search' THEN SHOW parameter 'userId'",
+      "IF operation == 'search' AND resource == 'userActivity' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'search' AND resource == 'userActivity' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'search' AND resource == 'userActivity' THEN SHOW parameter 'additionalFields'"
+    ]
+  }
+}

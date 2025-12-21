@@ -1,0 +1,169 @@
+{
+  "node_id": "n8n-nodes-base.stackby",
+  "name": "n8n-nodes-base.stackby",
+  "version": 1,
+  "semantic_context": "Read, write, and delete data in Stackby",
+  "parameters": {
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Append",
+          "value": "append"
+        },
+        {
+          "name": "Delete",
+          "value": "delete"
+        },
+        {
+          "name": "List",
+          "value": "list"
+        },
+        {
+          "name": "Read",
+          "value": "read"
+        }
+      ],
+      "default": "append",
+      "placeholder": "Action to perform",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "stackId": {
+      "displayName": "Stack ID",
+      "name": "stackId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "description": "The ID of the stack to access",
+      "ai_hint": "The ID of the stack to access"
+    },
+    "table": {
+      "displayName": "Table",
+      "name": "table",
+      "type": "string",
+      "default": "",
+      "placeholder": "Stories",
+      "required": true,
+      "description": "Enter Table Name",
+      "ai_hint": "Enter Table Name"
+    },
+    "id": {
+      "displayName": "ID",
+      "name": "id",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "read",
+            "delete"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "description": "ID of the record to return",
+      "ai_hint": "ID of the record to return"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "list"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "list"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 1000
+      },
+      "default": 1000,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "list"
+          ]
+        }
+      },
+      "default": {},
+      "placeholder": "Add Field",
+      "options": [
+        {
+          "displayName": "View",
+          "name": "view",
+          "type": "string",
+          "default": "",
+          "placeholder": "All Stories",
+          "description": "The name or ID of a view in the Stories table. If set, only the records in that view will be returned. The records will be sorted according to the order of the view."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "columns": {
+      "displayName": "Columns",
+      "name": "columns",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "append"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "placeholder": "id,name,description",
+      "description": "Comma-separated list of the properties which should used as columns for the new rows",
+      "ai_hint": "Comma-separated list of the properties which should used as columns for the new rows"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "operation",
+      "stackId",
+      "table",
+      "id",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "columns"
+    ],
+    "conditional_rules": [
+      "IF operation IN [\"read\", \"delete\"] THEN SHOW parameter 'id'",
+      "IF operation == 'list' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'list' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'list' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'append' THEN SHOW parameter 'columns'"
+    ]
+  }
+}

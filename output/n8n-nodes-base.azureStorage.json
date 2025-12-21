@@ -1,0 +1,655 @@
+{
+  "node_id": "n8n-nodes-base.azureStorage",
+  "name": "n8n-nodes-base.azureStorage",
+  "version": 1,
+  "semantic_context": "Interact with Azure Storage API",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        },
+        {
+          "name": "Shared Key",
+          "value": "sharedKey"
+        }
+      ],
+      "default": "sharedKey",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Blob",
+          "value": "blob"
+        },
+        {
+          "name": "Container",
+          "value": "container"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "container",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "container"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a container",
+          "routing": {
+            "request": {
+              "ignoreHttpStatusErrors": true,
+              "method": "PUT",
+              "qs": {
+                "restype": "container"
+              },
+              "url": "=/{{ $parameter[\"containerCreate\"] }}",
+              "headers": {
+                "x-ms-date": "={{ new Date().toUTCString() }}",
+                "x-ms-version": "2021-12-02"
+              }
+            },
+            "output": {
+              "postReceive": [
+                null,
+                null
+              ]
+            }
+          },
+          "action": "Create container"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a container",
+          "routing": {
+            "request": {
+              "ignoreHttpStatusErrors": true,
+              "method": "DELETE",
+              "qs": {
+                "restype": "container"
+              },
+              "url": "=/{{ $parameter[\"container\"] }}",
+              "headers": {
+                "x-ms-date": "={{ new Date().toUTCString() }}",
+                "x-ms-version": "2021-12-02"
+              }
+            },
+            "output": {
+              "postReceive": [
+                null,
+                null
+              ]
+            }
+          },
+          "action": "Delete container"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Retrieve data for a specific container",
+          "routing": {
+            "request": {
+              "ignoreHttpStatusErrors": true,
+              "method": "GET",
+              "qs": {
+                "restype": "container"
+              },
+              "url": "=/{{ $parameter[\"container\"] }}",
+              "headers": {
+                "x-ms-date": "={{ new Date().toUTCString() }}",
+                "x-ms-version": "2021-12-02"
+              }
+            },
+            "output": {
+              "postReceive": [
+                null,
+                null
+              ]
+            }
+          },
+          "action": "Get container"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Retrieve a list of containers",
+          "routing": {
+            "request": {
+              "ignoreHttpStatusErrors": true,
+              "method": "GET",
+              "qs": {
+                "comp": "list"
+              },
+              "url": "/",
+              "headers": {
+                "x-ms-date": "={{ new Date().toUTCString() }}",
+                "x-ms-version": "2021-12-02"
+              }
+            },
+            "output": {
+              "postReceive": [
+                null,
+                null
+              ]
+            }
+          },
+          "action": "Get many container"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "getAll",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "container": {
+      "displayName": "Container",
+      "name": "container",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "description": "Select the container to get",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "container"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "typeOptions": {
+            "searchListMethod": "getContainers",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By Name",
+          "name": "id",
+          "placeholder": "e.g. mycontainer",
+          "type": "string"
+        }
+      ],
+      "required": true,
+      "type": "resourceLocator",
+      "ai_hint": "Select the container to get"
+    },
+    "blobCreate": {
+      "displayName": "Blob Name",
+      "name": "blobCreate",
+      "default": "",
+      "description": "The name of the new or existing blob",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "blob"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "placeholder": "e.g. myblob",
+      "required": true,
+      "type": "string",
+      "validateType": "string",
+      "ai_hint": "The name of the new or existing blob"
+    },
+    "from": {
+      "displayName": "From",
+      "name": "from",
+      "default": "binary",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "blob"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Binary",
+          "value": "binary"
+        },
+        {
+          "name": "URL",
+          "value": "url"
+        }
+      ],
+      "required": true,
+      "type": "options",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "binaryPropertyName": {
+      "displayName": "Binary Contents",
+      "name": "binaryPropertyName",
+      "default": "data",
+      "description": "The name of the input binary field containing the file to be written",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "blob"
+          ],
+          "operation": [
+            "create"
+          ],
+          "from": [
+            "binary"
+          ]
+        }
+      },
+      "required": true,
+      "routing": {
+        "send": {
+          "preSend": [
+            null
+          ]
+        }
+      },
+      "type": "string",
+      "ai_hint": "The name of the input binary field containing the file to be written"
+    },
+    "url": {
+      "displayName": "URL",
+      "name": "url",
+      "default": "",
+      "description": "URL where to read of the blob contents from",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "blob"
+          ],
+          "operation": [
+            "create"
+          ],
+          "from": [
+            "url"
+          ]
+        }
+      },
+      "required": true,
+      "routing": {
+        "send": {
+          "preSend": [
+            null
+          ]
+        }
+      },
+      "placeholder": "e.g. https://example.com/image.jpg",
+      "type": "string",
+      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "container"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Fields",
+          "name": "fields",
+          "default": [],
+          "description": "The fields to add to the output",
+          "options": [
+            {
+              "name": "Metadata",
+              "value": "metadata"
+            },
+            {
+              "name": "Deleted",
+              "value": "deleted"
+            },
+            {
+              "name": "System",
+              "value": "system"
+            }
+          ],
+          "routing": {
+            "send": {
+              "property": "include",
+              "type": "query",
+              "value": "={{ $value.join(\",\") || undefined }}"
+            }
+          },
+          "type": "multiOptions"
+        },
+        {
+          "displayName": "Filter",
+          "name": "filter",
+          "default": "",
+          "description": "Filters the results to return only containers with a name that begins with the specified prefix",
+          "placeholder": "e.g. mycontainer",
+          "routing": {
+            "send": {
+              "property": "prefix",
+              "type": "query",
+              "value": "={{ $value ? $value : undefined }}"
+            }
+          },
+          "type": "string",
+          "validateType": "string"
+        }
+      ],
+      "placeholder": "Add option",
+      "type": "collection",
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "blob": {
+      "displayName": "Blob",
+      "name": "blob",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "description": "Blob to get",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "blob"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "typeOptions": {
+            "searchListMethod": "getBlobs",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By Name",
+          "name": "id",
+          "placeholder": "e.g. myblob",
+          "type": "string"
+        }
+      ],
+      "required": true,
+      "type": "resourceLocator",
+      "ai_hint": "Blob to get"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "container"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "routing": {
+        "send": {
+          "paginate": "={{ $value }}"
+        },
+        "operations": {}
+      },
+      "type": "boolean",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "default": 50,
+      "description": "Max number of results to return",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "container"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "routing": {
+        "send": {
+          "property": "maxresults",
+          "type": "query",
+          "value": "={{ $value }}"
+        },
+        "output": {
+          "postReceive": [
+            null
+          ]
+        }
+      },
+      "type": "number",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "validateType": "number",
+      "ai_hint": "Max number of results to return"
+    },
+    "containerCreate": {
+      "displayName": "Container Name",
+      "name": "containerCreate",
+      "default": "",
+      "description": "The name of the new container",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "container"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "placeholder": "e.g. mycontainer",
+      "required": true,
+      "routing": {
+        "send": {
+          "preSend": [
+            null
+          ]
+        }
+      },
+      "type": "string",
+      "validateType": "string",
+      "ai_hint": "The name of the new container"
+    },
+    "requestOptions": {
+      "displayName": "Request Options",
+      "name": "requestOptions",
+      "type": "collection",
+      "isNodeSetting": true,
+      "placeholder": "Add Option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Batching",
+          "name": "batching",
+          "placeholder": "Add Batching",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": false
+          },
+          "default": {
+            "batch": {}
+          },
+          "options": [
+            {
+              "displayName": "Batching",
+              "name": "batch",
+              "values": [
+                {
+                  "displayName": "Items per Batch",
+                  "name": "batchSize",
+                  "type": "number",
+                  "typeOptions": {
+                    "minValue": -1
+                  },
+                  "default": 50,
+                  "description": "Input will be split in batches to throttle requests. -1 for disabled. 0 will be treated as 1."
+                },
+                {
+                  "displayName": "Batch Interval (ms)",
+                  "name": "batchInterval",
+                  "type": "number",
+                  "typeOptions": {
+                    "minValue": 0
+                  },
+                  "default": 1000,
+                  "description": "Time (in milliseconds) between each batch of requests. 0 for disabled."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Ignore SSL Issues (Insecure)",
+          "name": "allowUnauthorizedCerts",
+          "type": "boolean",
+          "noDataExpression": true,
+          "default": false,
+          "description": "Whether to accept the response even if SSL certificate validation is not possible"
+        },
+        {
+          "displayName": "Proxy",
+          "name": "proxy",
+          "type": "string",
+          "default": "",
+          "placeholder": "e.g. http://myproxy:3128",
+          "description": "HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128"
+        },
+        {
+          "displayName": "Timeout",
+          "name": "timeout",
+          "type": "number",
+          "typeOptions": {
+            "minValue": 1
+          },
+          "default": 10000,
+          "description": "Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "resource",
+      "operation",
+      "container",
+      "blobCreate",
+      "from",
+      "binaryPropertyName",
+      "url",
+      "options",
+      "container",
+      "blob",
+      "options",
+      "container",
+      "blob",
+      "options",
+      "container",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "containerCreate",
+      "options",
+      "container",
+      "container",
+      "options",
+      "returnAll",
+      "limit",
+      "options",
+      "requestOptions"
+    ],
+    "conditional_rules": [
+      "IF resource == 'blob' THEN SHOW parameter 'operation'",
+      "IF resource == 'blob' AND operation == 'create' THEN SHOW parameter 'container'",
+      "IF resource == 'blob' AND operation == 'create' THEN SHOW parameter 'blobCreate'",
+      "IF resource == 'blob' AND operation == 'create' THEN SHOW parameter 'from'",
+      "IF resource == 'blob' AND operation == 'create' AND from == 'binary' THEN SHOW parameter 'binaryPropertyName'",
+      "IF resource == 'blob' AND operation == 'create' AND from == 'url' THEN SHOW parameter 'url'",
+      "IF resource == 'blob' AND operation == 'create' THEN SHOW parameter 'options'",
+      "IF /from == 'binary' THEN SHOW parameter 'blobType'",
+      "IF /from == 'binary' THEN SHOW parameter 'encryptionContext'",
+      "IF /options.expiryOption == 'NeverExpire' THEN HIDE parameter 'expiryTime'",
+      "IF /from == 'binary' THEN SHOW parameter 'immutabilityPolicyUntilDate'",
+      "IF /from == 'binary' THEN SHOW parameter 'immutabilityPolicyMode'",
+      "IF /from == 'binary' THEN SHOW parameter 'legalHold'",
+      "IF resource == 'blob' AND operation == 'delete' THEN SHOW parameter 'container'",
+      "IF resource == 'blob' AND operation == 'delete' THEN SHOW parameter 'blob'",
+      "IF resource == 'blob' AND operation == 'delete' THEN SHOW parameter 'options'",
+      "IF resource == 'blob' AND operation == 'get' THEN SHOW parameter 'container'",
+      "IF resource == 'blob' AND operation == 'get' THEN SHOW parameter 'blob'",
+      "IF resource == 'blob' AND operation == 'get' THEN SHOW parameter 'options'",
+      "IF resource == 'blob' AND operation == 'getAll' THEN SHOW parameter 'container'",
+      "IF resource == 'blob' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'blob' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'blob' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'container' THEN SHOW parameter 'operation'",
+      "IF resource == 'container' AND operation == 'create' THEN SHOW parameter 'containerCreate'",
+      "IF resource == 'container' AND operation == 'create' THEN SHOW parameter 'options'",
+      "IF resource == 'container' AND operation == 'delete' THEN SHOW parameter 'container'",
+      "IF resource == 'container' AND operation == 'get' THEN SHOW parameter 'container'",
+      "IF resource == 'container' AND operation == 'get' THEN SHOW parameter 'options'",
+      "IF resource == 'container' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'container' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'container' AND operation == 'getAll' THEN SHOW parameter 'options'"
+    ]
+  }
+}

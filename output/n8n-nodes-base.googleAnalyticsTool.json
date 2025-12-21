@@ -1,0 +1,1077 @@
+{
+  "node_id": "n8n-nodes-base.googleAnalyticsTool",
+  "name": "n8n-nodes-base.googleAnalyticsTool",
+  "version": 2,
+  "semantic_context": "Use the Google Analytics API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Use the Google Analytics API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Report",
+          "value": "report"
+        },
+        {
+          "name": "User Activity",
+          "value": "userActivity"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "report",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userActivity"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Search",
+          "value": "search",
+          "description": "Return user activity data",
+          "action": "Search user activity data"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "search",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "propertyType": {
+      "displayName": "Property Type",
+      "name": "propertyType",
+      "type": "options",
+      "noDataExpression": true,
+      "description": "Google Analytics 4 is the latest version. Universal Analytics is an older version that is not fully functional after the end of June 2023.",
+      "options": [
+        {
+          "name": "Google Analytics 4",
+          "value": "ga4"
+        },
+        {
+          "name": "Universal Analytics",
+          "value": "universal"
+        }
+      ],
+      "default": "ga4",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "propertyId": {
+      "displayName": "Property",
+      "name": "propertyId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "description": "The Property of Google Analytics",
+      "hint": "If this doesn't work, try changing the 'Property Type' field above",
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a property...",
+          "typeOptions": {
+            "searchListMethod": "searchProperties",
+            "searchFilterRequired": false,
+            "searchable": false
+          }
+        },
+        {
+          "displayName": "By URL",
+          "name": "url",
+          "type": "string",
+          "placeholder": "https://analytics.google.com/analytics/...",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": ".*analytics\\.google\\.com\\/analytics.*\\/p([0-9]{1,})(?:\\/.*|)*",
+                "errorMessage": "Not a valid Google Analytics URL"
+              }
+            }
+          ],
+          "extractValue": {
+            "type": "regex",
+            "regex": ".*analytics\\.google\\.com\\/analytics.*\\/p([0-9]{1,})(?:\\/.*|)"
+          }
+        },
+        {
+          "displayName": "By ID",
+          "name": "id",
+          "type": "string",
+          "placeholder": "123456",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "[0-9]{1,}",
+                "errorMessage": "Not a valid Google Analytics Property ID"
+              }
+            }
+          ],
+          "url": "=https://analytics.google.com/analytics/web/#/p{{$value}}/"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "get"
+          ],
+          "propertyType": [
+            "ga4"
+          ]
+        }
+      },
+      "ai_hint": "The Property of Google Analytics"
+    },
+    "dateRange": {
+      "displayName": "Date Range",
+      "name": "dateRange",
+      "type": "options",
+      "required": true,
+      "options": [
+        {
+          "name": "Last 7 Days",
+          "value": "last7days"
+        },
+        {
+          "name": "Last 30 Days",
+          "value": "last30days"
+        },
+        {
+          "name": "Today",
+          "value": "today"
+        },
+        {
+          "name": "Yesterday",
+          "value": "yesterday"
+        },
+        {
+          "name": "Last Complete Calendar Week",
+          "value": "lastCalendarWeek"
+        },
+        {
+          "name": "Last Complete Calendar Month",
+          "value": "lastCalendarMonth"
+        },
+        {
+          "name": "Custom",
+          "value": "custom"
+        }
+      ],
+      "default": "last7days",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "get"
+          ],
+          "propertyType": [
+            "universal"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "startDate": {
+      "displayName": "Start",
+      "name": "startDate",
+      "type": "dateTime",
+      "required": true,
+      "default": "2025-12-02T00:00:00.000+00:00",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "get"
+          ],
+          "propertyType": [
+            "universal"
+          ],
+          "dateRange": [
+            "custom"
+          ]
+        }
+      }
+    },
+    "endDate": {
+      "displayName": "End",
+      "name": "endDate",
+      "type": "dateTime",
+      "required": true,
+      "default": "2025-12-09T00:00:00.000+00:00",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "get"
+          ],
+          "propertyType": [
+            "universal"
+          ],
+          "dateRange": [
+            "custom"
+          ]
+        }
+      }
+    },
+    "metricsGA4": {
+      "displayName": "Metrics",
+      "name": "metricsGA4",
+      "type": "fixedCollection",
+      "default": {
+        "metricValues": [
+          {
+            "listName": "totalUsers"
+          }
+        ]
+      },
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "placeholder": "Add Metric",
+      "description": "The quantitative measurements of a report. For example, the metric eventCount is the total number of events. Requests are allowed up to 10 metrics.",
+      "options": [
+        {
+          "displayName": "Values",
+          "name": "metricValues",
+          "values": [
+            {
+              "displayName": "Metric",
+              "name": "listName",
+              "type": "options",
+              "default": "totalUsers",
+              "options": [
+                {
+                  "name": "1 Day Active Users",
+                  "value": "active1DayUsers"
+                },
+                {
+                  "name": "28 Day Active Users",
+                  "value": "active28DayUsers"
+                },
+                {
+                  "name": "7 Day Active Users",
+                  "value": "active7DayUsers"
+                },
+                {
+                  "name": "Checkouts",
+                  "value": "checkouts"
+                },
+                {
+                  "name": "Events",
+                  "value": "eventCount"
+                },
+                {
+                  "name": "Page Views",
+                  "value": "screenPageViews"
+                },
+                {
+                  "name": "Session Duration",
+                  "value": "userEngagementDuration"
+                },
+                {
+                  "name": "Sessions",
+                  "value": "sessions"
+                },
+                {
+                  "name": "Sessions per User",
+                  "value": "sessionsPerUser"
+                },
+                {
+                  "name": "Total Users",
+                  "value": "totalUsers"
+                },
+                {
+                  "name": "Other metrics…",
+                  "value": "other"
+                },
+                {
+                  "name": "Custom metric…",
+                  "value": "custom"
+                }
+              ]
+            },
+            {
+              "displayName": "Name or ID",
+              "name": "name",
+              "type": "options",
+              "typeOptions": {
+                "loadOptionsMethod": "getMetricsGA4",
+                "loadOptionsDependsOn": [
+                  "propertyId.value"
+                ]
+              },
+              "default": "totalUsers",
+              "hint": "If expression is specified, name can be any string that you would like",
+              "description": "The name of the metric. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+              "displayOptions": {
+                "show": {
+                  "listName": [
+                    "other"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Name",
+              "name": "name",
+              "type": "string",
+              "default": "custom_metric",
+              "displayOptions": {
+                "show": {
+                  "listName": [
+                    "custom"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Expression",
+              "name": "expression",
+              "type": "string",
+              "default": "",
+              "description": "A mathematical expression for derived metrics. For example, the metric Event count per user is eventCount/totalUsers.",
+              "placeholder": "e.g. eventCount/totalUsers",
+              "displayOptions": {
+                "show": {
+                  "listName": [
+                    "custom"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Invisible",
+              "name": "invisible",
+              "type": "boolean",
+              "default": false,
+              "displayOptions": {
+                "show": {
+                  "listName": [
+                    "custom"
+                  ]
+                }
+              },
+              "description": "Whether a metric is invisible in the report response. If a metric is invisible, the metric will not produce a column in the response, but can be used in metricFilter, orderBys, or a metric expression."
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "get"
+          ],
+          "propertyType": [
+            "ga4"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "dimensionsGA4": {
+      "displayName": "Dimensions to split by",
+      "name": "dimensionsGA4",
+      "type": "fixedCollection",
+      "default": {
+        "dimensionValues": [
+          {
+            "listName": "date"
+          }
+        ]
+      },
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "placeholder": "Add Dimension",
+      "description": "Dimensions are attributes of your data. For example, the dimension city indicates the city from which an event originates. Dimension values in report responses are strings; for example, the city could be \"Paris\" or \"New York\". Requests are allowed up to 9 dimensions.",
+      "options": [
+        {
+          "displayName": "Values",
+          "name": "dimensionValues",
+          "values": [
+            {
+              "displayName": "Dimension",
+              "name": "listName",
+              "type": "options",
+              "default": "date",
+              "options": [
+                {
+                  "name": "Browser",
+                  "value": "browser"
+                },
+                {
+                  "name": "Campaign",
+                  "value": "campaignName"
+                },
+                {
+                  "name": "City",
+                  "value": "city"
+                },
+                {
+                  "name": "Country",
+                  "value": "country"
+                },
+                {
+                  "name": "Date",
+                  "value": "date"
+                },
+                {
+                  "name": "Device Category",
+                  "value": "deviceCategory"
+                },
+                {
+                  "name": "Item Name",
+                  "value": "itemName"
+                },
+                {
+                  "name": "Language",
+                  "value": "language"
+                },
+                {
+                  "name": "Page Location",
+                  "value": "pageLocation"
+                },
+                {
+                  "name": "Source / Medium",
+                  "value": "sourceMedium"
+                },
+                {
+                  "name": "Other dimensions…",
+                  "value": "other"
+                }
+              ]
+            },
+            {
+              "displayName": "Name or ID",
+              "name": "name",
+              "type": "options",
+              "typeOptions": {
+                "loadOptionsMethod": "getDimensionsGA4",
+                "loadOptionsDependsOn": [
+                  "propertyId.value"
+                ]
+              },
+              "default": "date",
+              "description": "The name of the dimension. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+              "displayOptions": {
+                "show": {
+                  "listName": [
+                    "other"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "get"
+          ],
+          "propertyType": [
+            "ga4"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ],
+          "resource": [
+            "userActivity"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ],
+          "resource": [
+            "userActivity"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "simple": {
+      "displayName": "Simplify Output",
+      "name": "simple",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "report"
+          ],
+          "propertyType": [
+            "universal"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to return a simplified version of the response instead of the raw data",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ],
+          "resource": [
+            "userActivity"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Activity Types",
+          "name": "activityTypes",
+          "type": "multiOptions",
+          "options": [
+            {
+              "name": "Ecommerce",
+              "value": "ECOMMERCE"
+            },
+            {
+              "name": "Event",
+              "value": "EVENT"
+            },
+            {
+              "name": "Goal",
+              "value": "GOAL"
+            },
+            {
+              "name": "Pageview",
+              "value": "PAGEVIEW"
+            },
+            {
+              "name": "Screenview",
+              "value": "SCREENVIEW"
+            }
+          ],
+          "description": "Type of activites requested",
+          "default": []
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "viewId": {
+      "displayName": "View Name or ID",
+      "name": "viewId",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getViews"
+      },
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userActivity"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "placeholder": "123456",
+      "description": "The view from Google Analytics. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "hint": "If there's nothing here, try changing the 'Property type' field above",
+      "ai_hint": "The view from Google Analytics. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "metricsUA": {
+      "displayName": "Metrics",
+      "name": "metricsUA",
+      "type": "fixedCollection",
+      "default": {
+        "metricValues": [
+          {
+            "listName": "ga:users"
+          }
+        ]
+      },
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "placeholder": "Add metric",
+      "description": "Metrics in the request",
+      "options": [
+        {
+          "displayName": "Metric",
+          "name": "metricValues",
+          "values": [
+            {
+              "displayName": "Metric",
+              "name": "listName",
+              "type": "options",
+              "default": "ga:users",
+              "options": [
+                {
+                  "name": "Checkouts",
+                  "value": "ga:productCheckouts"
+                },
+                {
+                  "name": "Events",
+                  "value": "ga:totalEvents"
+                },
+                {
+                  "name": "Page Views",
+                  "value": "ga:pageviews"
+                },
+                {
+                  "name": "Session Duration",
+                  "value": "ga:sessionDuration"
+                },
+                {
+                  "name": "Sessions",
+                  "value": "ga:sessions"
+                },
+                {
+                  "name": "Sessions per User",
+                  "value": "ga:sessionsPerUser"
+                },
+                {
+                  "name": "Total Users",
+                  "value": "ga:users"
+                },
+                {
+                  "name": "Other metrics…",
+                  "value": "other"
+                },
+                {
+                  "name": "Custom metric…",
+                  "value": "custom"
+                }
+              ]
+            },
+            {
+              "displayName": "Name or ID",
+              "name": "name",
+              "type": "options",
+              "typeOptions": {
+                "loadOptionsMethod": "getMetrics",
+                "loadOptionsDependsOn": [
+                  "viewId.value"
+                ]
+              },
+              "default": "ga:users",
+              "hint": "If expression is specified, name can be any string that you would like",
+              "description": "The name of the metric. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+              "displayOptions": {
+                "show": {
+                  "listName": [
+                    "other"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Name",
+              "name": "name",
+              "type": "string",
+              "default": "custom_metric",
+              "displayOptions": {
+                "show": {
+                  "listName": [
+                    "custom"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Expression",
+              "name": "expression",
+              "type": "string",
+              "default": "",
+              "placeholder": "e.g. ga:totalRefunds/ga:users",
+              "description": "Learn more about Google Analytics <a href=\"https://developers.google.com/analytics/devguides/reporting/core/v4/rest/v4/reports/batchGet#Metric\">metric expressions</a>",
+              "displayOptions": {
+                "show": {
+                  "listName": [
+                    "custom"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Formatting Type",
+              "name": "formattingType",
+              "type": "options",
+              "default": "INTEGER",
+              "description": "Specifies how the metric expression should be formatted",
+              "options": [
+                {
+                  "name": "Currency",
+                  "value": "CURRENCY"
+                },
+                {
+                  "name": "Float",
+                  "value": "FLOAT"
+                },
+                {
+                  "name": "Integer",
+                  "value": "INTEGER"
+                },
+                {
+                  "name": "Percent",
+                  "value": "PERCENT"
+                },
+                {
+                  "name": "Time",
+                  "value": "TIME"
+                }
+              ],
+              "displayOptions": {
+                "show": {
+                  "listName": [
+                    "custom"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "get"
+          ],
+          "propertyType": [
+            "universal"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "dimensionsUA": {
+      "displayName": "Dimensions to split by",
+      "name": "dimensionsUA",
+      "type": "fixedCollection",
+      "default": {
+        "dimensionValues": [
+          {
+            "listName": "ga:date"
+          }
+        ]
+      },
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "placeholder": "Add Dimension",
+      "description": "Dimensions are attributes of your data. For example, the dimension ga:city indicates the city, for example, \"Paris\" or \"New York\", from which a session originates.",
+      "options": [
+        {
+          "displayName": "Values",
+          "name": "dimensionValues",
+          "values": [
+            {
+              "displayName": "Dimension",
+              "name": "listName",
+              "type": "options",
+              "default": "ga:date",
+              "options": [
+                {
+                  "name": "Browser",
+                  "value": "ga:browser"
+                },
+                {
+                  "name": "Campaign",
+                  "value": "ga:campaign"
+                },
+                {
+                  "name": "City",
+                  "value": "ga:city"
+                },
+                {
+                  "name": "Country",
+                  "value": "ga:country"
+                },
+                {
+                  "name": "Date",
+                  "value": "ga:date"
+                },
+                {
+                  "name": "Device Category",
+                  "value": "ga:deviceCategory"
+                },
+                {
+                  "name": "Item Name",
+                  "value": "ga:productName"
+                },
+                {
+                  "name": "Language",
+                  "value": "ga:language"
+                },
+                {
+                  "name": "Page",
+                  "value": "ga:pagePath"
+                },
+                {
+                  "name": "Source / Medium",
+                  "value": "ga:sourceMedium"
+                },
+                {
+                  "name": "Other dimensions…",
+                  "value": "other"
+                }
+              ]
+            },
+            {
+              "displayName": "Name or ID",
+              "name": "name",
+              "type": "options",
+              "typeOptions": {
+                "loadOptionsMethod": "getDimensions",
+                "loadOptionsDependsOn": [
+                  "viewId.value"
+                ]
+              },
+              "default": "ga:date",
+              "description": "Name of the dimension to fetch, for example ga:browser. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+              "displayOptions": {
+                "show": {
+                  "listName": [
+                    "other"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "get"
+          ],
+          "propertyType": [
+            "universal"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "userId": {
+      "displayName": "User ID",
+      "name": "userId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "userActivity"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      },
+      "placeholder": "123456",
+      "description": "ID of a user",
+      "ai_hint": "ID of a user"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "propertyType",
+      "propertyId",
+      "dateRange",
+      "startDate",
+      "endDate",
+      "metricsGA4",
+      "dimensionsGA4",
+      "returnAll",
+      "limit",
+      "simple",
+      "additionalFields",
+      "viewId",
+      "dateRange",
+      "startDate",
+      "endDate",
+      "metricsUA",
+      "dimensionsUA",
+      "returnAll",
+      "limit",
+      "simple",
+      "additionalFields",
+      "operation",
+      "viewId",
+      "userId",
+      "returnAll",
+      "limit",
+      "additionalFields"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'report' THEN SHOW parameter 'operation'",
+      "IF resource == 'report' AND operation == 'get' THEN SHOW parameter 'propertyType'",
+      "IF resource == 'report' AND operation == 'get' AND propertyType == 'ga4' THEN SHOW parameter 'propertyId'",
+      "IF resource == 'report' AND operation == 'get' AND propertyType == 'ga4' THEN SHOW parameter 'dateRange'",
+      "IF resource == 'report' AND operation == 'get' AND dateRange == 'custom' AND propertyType == 'ga4' THEN SHOW parameter 'startDate'",
+      "IF resource == 'report' AND operation == 'get' AND dateRange == 'custom' AND propertyType == 'ga4' THEN SHOW parameter 'endDate'",
+      "IF resource == 'report' AND operation == 'get' AND propertyType == 'ga4' THEN SHOW parameter 'metricsGA4'",
+      "IF listName == 'other' THEN SHOW parameter 'name'",
+      "IF listName == 'custom' THEN SHOW parameter 'name'",
+      "IF listName == 'custom' THEN SHOW parameter 'expression'",
+      "IF listName == 'custom' THEN SHOW parameter 'invisible'",
+      "IF resource == 'report' AND operation == 'get' AND propertyType == 'ga4' THEN SHOW parameter 'dimensionsGA4'",
+      "IF operation == 'get' AND resource == 'report' AND propertyType == 'ga4' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'get' AND resource == 'report' AND propertyType == 'ga4' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'get' AND resource == 'report' AND propertyType == 'ga4' THEN SHOW parameter 'simple'",
+      "IF resource == 'report' AND operation == 'get' AND propertyType == 'ga4' THEN SHOW parameter 'additionalFields'",
+      "IF /simple == False THEN SHOW parameter 'metricAggregations'",
+      "IF /simple == False THEN SHOW parameter 'returnPropertyQuota'",
+      "IF resource == 'report' AND operation == 'get' AND propertyType == 'universal' THEN SHOW parameter 'viewId'",
+      "IF resource == 'report' AND operation == 'get' AND propertyType == 'universal' THEN SHOW parameter 'dateRange'",
+      "IF resource == 'report' AND operation == 'get' AND propertyType == 'universal' AND dateRange == 'custom' THEN SHOW parameter 'startDate'",
+      "IF resource == 'report' AND operation == 'get' AND propertyType == 'universal' AND dateRange == 'custom' THEN SHOW parameter 'endDate'",
+      "IF resource == 'report' AND operation == 'get' AND propertyType == 'universal' THEN SHOW parameter 'metricsUA'",
+      "IF listName == 'custom' THEN SHOW parameter 'formattingType'",
+      "IF resource == 'report' AND operation == 'get' AND propertyType == 'universal' THEN SHOW parameter 'dimensionsUA'",
+      "IF operation == 'get' AND resource == 'report' AND propertyType == 'universal' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'get' AND resource == 'report' AND propertyType == 'universal' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'get' AND resource == 'report' AND propertyType == 'universal' THEN SHOW parameter 'simple'",
+      "IF resource == 'report' AND operation == 'get' AND propertyType == 'universal' THEN SHOW parameter 'additionalFields'",
+      "IF /simple == False THEN SHOW parameter 'hideTotals'",
+      "IF /simple == False THEN SHOW parameter 'hideValueRanges'",
+      "IF /simple == False THEN SHOW parameter 'useResourceQuotas'",
+      "IF resource == 'userActivity' THEN SHOW parameter 'operation'",
+      "IF resource == 'userActivity' AND operation == 'search' THEN SHOW parameter 'viewId'",
+      "IF resource == 'userActivity' AND operation == 'search' THEN SHOW parameter 'userId'",
+      "IF operation == 'search' AND resource == 'userActivity' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'search' AND resource == 'userActivity' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'search' AND resource == 'userActivity' THEN SHOW parameter 'additionalFields'"
+    ]
+  }
+}

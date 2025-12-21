@@ -1,0 +1,518 @@
+{
+  "node_id": "n8n-nodes-base.affinity",
+  "name": "n8n-nodes-base.affinity",
+  "version": 1,
+  "semantic_context": "Consume Affinity API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "List",
+          "value": "list"
+        },
+        {
+          "name": "List Entry",
+          "value": "listEntry"
+        },
+        {
+          "name": "Organization",
+          "value": "organization"
+        },
+        {
+          "name": "Person",
+          "value": "person"
+        }
+      ],
+      "default": "organization",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "person"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a person",
+          "action": "Create a person"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a person",
+          "action": "Delete a person"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a person",
+          "action": "Get a person"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many persons",
+          "action": "Get many people"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a person",
+          "action": "Update a person"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "listId": {
+      "displayName": "List Name or ID",
+      "name": "listId",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getLists"
+      },
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "listEntry"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "description": "The unique ID of the list that contains the specified list_entry_id. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The unique ID of the list that contains the specified list_entry_id. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "person"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "person"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 10
+      },
+      "default": 5,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "entityId": {
+      "displayName": "Entity ID",
+      "name": "entityId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "listEntry"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "The unique ID of the entity (person, organization, or opportunity) to add to this list",
+      "ai_hint": "The unique ID of the entity (person, organization, or opportunity) to add to this list"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "person"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Organization Names or IDs",
+          "name": "organizations",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getOrganizations"
+          },
+          "default": [],
+          "description": "Organizations that the person is associated with. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "listEntryId": {
+      "displayName": "List Entry ID",
+      "name": "listEntryId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "listEntry"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "description": "The unique ID of the list entry object to be deleted",
+      "ai_hint": "The unique ID of the list entry object to be deleted"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "organization"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "The name of the organization",
+      "ai_hint": "The name of the organization"
+    },
+    "domain": {
+      "displayName": "Domain",
+      "name": "domain",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "organization"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "The domain name of the organization",
+      "ai_hint": "The domain name of the organization"
+    },
+    "organizationId": {
+      "displayName": "Organization ID",
+      "name": "organizationId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "organization"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "description": "Unique identifier for the organization",
+      "ai_hint": "Unique identifier for the organization"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "person"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "First Name",
+          "name": "firstName",
+          "type": "string",
+          "default": "",
+          "description": "The first name of the person"
+        },
+        {
+          "displayName": "Last Name",
+          "name": "lastName",
+          "type": "string",
+          "default": "",
+          "description": "The last name of the person"
+        },
+        {
+          "displayName": "Organization Names or IDs",
+          "name": "organizations",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getOrganizations"
+          },
+          "default": [],
+          "description": "Organizations that the person is associated with. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "person"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Term",
+          "name": "term",
+          "type": "string",
+          "default": "",
+          "description": "A string used to search all the persons in your team’s address book. This could be an email address, a first name or a last name."
+        },
+        {
+          "displayName": "With Interaction Dates",
+          "name": "withInteractionDates",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether interaction dates will be present on the returned resources"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "firstName": {
+      "displayName": "First Name",
+      "name": "firstName",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "person"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "The first name of the person",
+      "ai_hint": "The first name of the person"
+    },
+    "lastName": {
+      "displayName": "Last Name",
+      "name": "lastName",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "person"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "The last name of the person",
+      "ai_hint": "The last name of the person"
+    },
+    "emails": {
+      "displayName": "Emails",
+      "name": "emails",
+      "type": "string",
+      "description": "The email addresses of the person",
+      "typeOptions": {
+        "multipleValues": true,
+        "multipleValueButtonText": "Add To Email"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "person"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "placeholder": "info@example.com",
+      "default": [],
+      "ai_hint": "The email addresses of the person"
+    },
+    "personId": {
+      "displayName": "Person ID",
+      "name": "personId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "person"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "description": "Unique identifier for the person",
+      "ai_hint": "Unique identifier for the person"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "listId",
+      "returnAll",
+      "limit",
+      "operation",
+      "listId",
+      "entityId",
+      "additionalFields",
+      "listId",
+      "listEntryId",
+      "listId",
+      "returnAll",
+      "limit",
+      "listId",
+      "listEntryId",
+      "operation",
+      "name",
+      "domain",
+      "additionalFields",
+      "organizationId",
+      "updateFields",
+      "organizationId",
+      "options",
+      "returnAll",
+      "limit",
+      "options",
+      "organizationId",
+      "operation",
+      "firstName",
+      "lastName",
+      "additionalFields",
+      "emails",
+      "personId",
+      "updateFields",
+      "emails",
+      "personId",
+      "options",
+      "returnAll",
+      "limit",
+      "options",
+      "personId"
+    ],
+    "conditional_rules": [
+      "IF resource == 'list' THEN SHOW parameter 'operation'",
+      "IF resource == 'list' AND operation == 'get' THEN SHOW parameter 'listId'",
+      "IF resource == 'list' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'list' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'listEntry' THEN SHOW parameter 'operation'",
+      "IF resource == 'listEntry' AND operation == 'create' THEN SHOW parameter 'listId'",
+      "IF resource == 'listEntry' AND operation == 'create' THEN SHOW parameter 'entityId'",
+      "IF resource == 'listEntry' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'listEntry' AND operation == 'get' THEN SHOW parameter 'listId'",
+      "IF resource == 'listEntry' AND operation == 'get' THEN SHOW parameter 'listEntryId'",
+      "IF resource == 'listEntry' AND operation == 'getAll' THEN SHOW parameter 'listId'",
+      "IF resource == 'listEntry' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'listEntry' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'listEntry' AND operation == 'delete' THEN SHOW parameter 'listId'",
+      "IF resource == 'listEntry' AND operation == 'delete' THEN SHOW parameter 'listEntryId'",
+      "IF resource == 'organization' THEN SHOW parameter 'operation'",
+      "IF resource == 'organization' AND operation == 'create' THEN SHOW parameter 'name'",
+      "IF resource == 'organization' AND operation == 'create' THEN SHOW parameter 'domain'",
+      "IF resource == 'organization' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'organization' AND operation == 'update' THEN SHOW parameter 'organizationId'",
+      "IF resource == 'organization' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'organization' AND operation == 'get' THEN SHOW parameter 'organizationId'",
+      "IF resource == 'organization' AND operation == 'get' THEN SHOW parameter 'options'",
+      "IF resource == 'organization' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'organization' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'organization' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'organization' AND operation == 'delete' THEN SHOW parameter 'organizationId'",
+      "IF resource == 'person' THEN SHOW parameter 'operation'",
+      "IF resource == 'person' AND operation == 'create' THEN SHOW parameter 'firstName'",
+      "IF resource == 'person' AND operation == 'create' THEN SHOW parameter 'lastName'",
+      "IF resource == 'person' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'person' AND operation == 'create' THEN SHOW parameter 'emails'",
+      "IF resource == 'person' AND operation == 'update' THEN SHOW parameter 'personId'",
+      "IF resource == 'person' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'person' AND operation == 'update' THEN SHOW parameter 'emails'",
+      "IF resource == 'person' AND operation == 'get' THEN SHOW parameter 'personId'",
+      "IF resource == 'person' AND operation == 'get' THEN SHOW parameter 'options'",
+      "IF resource == 'person' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'person' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'person' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'person' AND operation == 'delete' THEN SHOW parameter 'personId'"
+    ]
+  }
+}

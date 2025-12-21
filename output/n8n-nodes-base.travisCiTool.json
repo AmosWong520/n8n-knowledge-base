@@ -1,0 +1,294 @@
+{
+  "node_id": "n8n-nodes-base.travisCiTool",
+  "name": "n8n-nodes-base.travisCiTool",
+  "version": 1,
+  "semantic_context": "Consume TravisCI API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume TravisCI API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Build",
+          "value": "build"
+        }
+      ],
+      "default": "build",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "build"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Cancel",
+          "value": "cancel",
+          "description": "Cancel a build",
+          "action": "Cancel a build"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a build",
+          "action": "Get a build"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many builds",
+          "action": "Get many builds"
+        },
+        {
+          "name": "Restart",
+          "value": "restart",
+          "description": "Restart a build",
+          "action": "Restart a build"
+        },
+        {
+          "name": "Trigger",
+          "value": "trigger",
+          "description": "Trigger a build",
+          "action": "Trigger a build"
+        }
+      ],
+      "default": "cancel",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "buildId": {
+      "displayName": "Build ID",
+      "name": "buildId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "restart"
+          ],
+          "resource": [
+            "build"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Value uniquely identifying the build",
+      "ai_hint": "Value uniquely identifying the build"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "build"
+          ],
+          "operation": [
+            "trigger"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Message",
+          "name": "message",
+          "type": "string",
+          "default": "",
+          "description": "Travis-ci status message attached to the request"
+        },
+        {
+          "displayName": "Merge Mode",
+          "name": "mergeMode",
+          "type": "options",
+          "options": [
+            {
+              "name": "Deep Merge",
+              "value": "deep_merge"
+            },
+            {
+              "name": "Deep Merge Append",
+              "value": "deep_merge_append"
+            },
+            {
+              "name": "Deep Merge Prepend",
+              "value": "deep_merge_prepend"
+            },
+            {
+              "name": "Merge",
+              "value": "merge"
+            },
+            {
+              "name": "Replace",
+              "value": "replace"
+            }
+          ],
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "build"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "build"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "slug": {
+      "displayName": "Slug",
+      "name": "slug",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "trigger"
+          ],
+          "resource": [
+            "build"
+          ]
+        }
+      },
+      "placeholder": "n8n-io/n8n",
+      "default": "",
+      "description": "Same as {ownerName}/{repositoryName}",
+      "ai_hint": "Same as {ownerName}/{repositoryName}"
+    },
+    "branch": {
+      "displayName": "Branch",
+      "name": "branch",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "trigger"
+          ],
+          "resource": [
+            "build"
+          ]
+        }
+      },
+      "default": "",
+      "placeholder": "master",
+      "description": "Branch requested to be built",
+      "ai_hint": "Branch requested to be built"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "buildId",
+      "buildId",
+      "additionalFields",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "buildId",
+      "slug",
+      "branch",
+      "additionalFields"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'build' THEN SHOW parameter 'operation'",
+      "IF operation == 'cancel' AND resource == 'build' THEN SHOW parameter 'buildId'",
+      "IF operation == 'get' AND resource == 'build' THEN SHOW parameter 'buildId'",
+      "IF resource == 'build' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'getAll' AND resource == 'build' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'build' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'build' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'restart' AND resource == 'build' THEN SHOW parameter 'buildId'",
+      "IF operation == 'trigger' AND resource == 'build' THEN SHOW parameter 'slug'",
+      "IF operation == 'trigger' AND resource == 'build' THEN SHOW parameter 'branch'",
+      "IF resource == 'build' AND operation == 'trigger' THEN SHOW parameter 'additionalFields'"
+    ]
+  }
+}

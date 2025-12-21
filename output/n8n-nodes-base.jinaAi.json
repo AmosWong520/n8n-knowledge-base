@@ -1,0 +1,330 @@
+{
+  "node_id": "n8n-nodes-base.jinaAi",
+  "name": "n8n-nodes-base.jinaAi",
+  "version": 1,
+  "semantic_context": "Interact with Jina AI API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Reader",
+          "value": "reader"
+        },
+        {
+          "name": "Research",
+          "value": "research"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "reader",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "research"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Deep Research",
+          "value": "deepResearch",
+          "action": "Perform deep research",
+          "description": "Research a topic and generate a structured research report",
+          "routing": {
+            "request": {
+              "method": "POST",
+              "url": "https://deepsearch.jina.ai/v1/chat/completions",
+              "body": {
+                "messages": [
+                  {
+                    "role": "user",
+                    "content": "={{ $parameter[\"researchQuery\"] }}"
+                  }
+                ],
+                "max_returned_urls": "={{ $parameter[\"options\"][\"maxReturnedSources\"] }}",
+                "boost_hostnames": "={{ $parameter[\"options\"][\"prioritizeSources\"].split(/,\\s*/) }}",
+                "bad_hostnames": "={{ $parameter[\"options\"][\"excludeSources\"].split(/,\\s*/) }}",
+                "only_hostnames": "={{ $parameter[\"options\"][\"siteFilter\"].split(/,\\s*/) }}"
+              }
+            },
+            "output": {
+              "postReceive": [
+                {
+                  "type": "setKeyValue",
+                  "enabled": "={{ $parameter[\"simplify\"] }}",
+                  "properties": {
+                    "content": "={{ $responseItem[\"choices\"][0][\"message\"][\"content\"] }}",
+                    "annotations": "={{ $responseItem[\"choices\"][0][\"message\"][\"annotations\"] }}",
+                    "usage": "={{ $responseItem[\"usage\"] }}"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "deepResearch",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "url": {
+      "displayName": "URL",
+      "name": "url",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "placeholder": "https://jina.ai/",
+      "description": "The URL to fetch content from",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "reader"
+          ],
+          "operation": [
+            "read"
+          ]
+        }
+      },
+      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+    },
+    "simplify": {
+      "displayName": "Simplify",
+      "name": "simplify",
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to return a simplified version of the response instead of the raw data",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "research"
+          ],
+          "operation": [
+            "deepResearch"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add Option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "research"
+          ],
+          "operation": [
+            "deepResearch"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Max Returned Sources",
+          "name": "maxReturnedSources",
+          "description": "The maximum number of URLs to include in the final answer",
+          "type": "number",
+          "typeOptions": {
+            "minValue": 1,
+            "numberPrecision": 0
+          },
+          "default": "",
+          "placeholder": "e.g. 5"
+        },
+        {
+          "displayName": "Prioritize Sources",
+          "name": "prioritizeSources",
+          "type": "string",
+          "description": "A list of domains that are given a higher priority for content retrieval",
+          "default": "",
+          "placeholder": "e.g. jina.ai, github.com"
+        },
+        {
+          "displayName": "Exclude Sources",
+          "name": "excludeSources",
+          "type": "string",
+          "description": "A list of domains to be strictly excluded from content retrieval",
+          "default": "",
+          "placeholder": "e.g. jina.ai, github.com"
+        },
+        {
+          "displayName": "Site Filter",
+          "name": "siteFilter",
+          "type": "string",
+          "description": "Restrict search to specific websites",
+          "default": "",
+          "placeholder": "e.g. jina.ai, github.com"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "searchQuery": {
+      "displayName": "Search Query",
+      "name": "searchQuery",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "placeholder": "e.g. Jina AI",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "reader"
+          ],
+          "operation": [
+            "search"
+          ]
+        }
+      }
+    },
+    "researchQuery": {
+      "displayName": "Research Query",
+      "name": "researchQuery",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "The topic or question for the AI to research",
+      "placeholder": "e.g. Analyze the impact of renewable energy sources on climate change mitigation",
+      "typeOptions": {
+        "rows": 2
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "research"
+          ],
+          "operation": [
+            "deepResearch"
+          ]
+        }
+      },
+      "ai_hint": "The topic or question for the AI to research"
+    },
+    "requestOptions": {
+      "displayName": "Request Options",
+      "name": "requestOptions",
+      "type": "collection",
+      "isNodeSetting": true,
+      "placeholder": "Add Option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Batching",
+          "name": "batching",
+          "placeholder": "Add Batching",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": false
+          },
+          "default": {
+            "batch": {}
+          },
+          "options": [
+            {
+              "displayName": "Batching",
+              "name": "batch",
+              "values": [
+                {
+                  "displayName": "Items per Batch",
+                  "name": "batchSize",
+                  "type": "number",
+                  "typeOptions": {
+                    "minValue": -1
+                  },
+                  "default": 50,
+                  "description": "Input will be split in batches to throttle requests. -1 for disabled. 0 will be treated as 1."
+                },
+                {
+                  "displayName": "Batch Interval (ms)",
+                  "name": "batchInterval",
+                  "type": "number",
+                  "typeOptions": {
+                    "minValue": 0
+                  },
+                  "default": 1000,
+                  "description": "Time (in milliseconds) between each batch of requests. 0 for disabled."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Ignore SSL Issues (Insecure)",
+          "name": "allowUnauthorizedCerts",
+          "type": "boolean",
+          "noDataExpression": true,
+          "default": false,
+          "description": "Whether to accept the response even if SSL certificate validation is not possible"
+        },
+        {
+          "displayName": "Proxy",
+          "name": "proxy",
+          "type": "string",
+          "default": "",
+          "placeholder": "e.g. http://myproxy:3128",
+          "description": "HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128"
+        },
+        {
+          "displayName": "Timeout",
+          "name": "timeout",
+          "type": "number",
+          "typeOptions": {
+            "minValue": 1
+          },
+          "default": 10000,
+          "description": "Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "operation",
+      "url",
+      "simplify",
+      "options",
+      "searchQuery",
+      "simplify",
+      "options",
+      "researchQuery",
+      "simplify",
+      "options",
+      "requestOptions"
+    ],
+    "conditional_rules": [
+      "IF resource == 'reader' THEN SHOW parameter 'operation'",
+      "IF resource == 'research' THEN SHOW parameter 'operation'",
+      "IF resource == 'reader' AND operation == 'read' THEN SHOW parameter 'url'",
+      "IF resource == 'reader' AND operation == 'read' THEN SHOW parameter 'simplify'",
+      "IF resource == 'reader' AND operation == 'read' THEN SHOW parameter 'options'",
+      "IF resource == 'reader' AND operation == 'search' THEN SHOW parameter 'searchQuery'",
+      "IF resource == 'reader' AND operation == 'search' THEN SHOW parameter 'simplify'",
+      "IF resource == 'reader' AND operation == 'search' THEN SHOW parameter 'options'",
+      "IF resource == 'research' AND operation == 'deepResearch' THEN SHOW parameter 'researchQuery'",
+      "IF resource == 'research' AND operation == 'deepResearch' THEN SHOW parameter 'simplify'",
+      "IF resource == 'research' AND operation == 'deepResearch' THEN SHOW parameter 'options'"
+    ]
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "node_id": "n8n-nodes-base.mqtt",
+  "name": "n8n-nodes-base.mqtt",
+  "version": 1,
+  "semantic_context": "Push messages to MQTT",
+  "parameters": {
+    "topic": {
+      "displayName": "Topic",
+      "name": "topic",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "The topic to publish to",
+      "ai_hint": "The topic to publish to"
+    },
+    "sendInputData": {
+      "displayName": "Send Input Data",
+      "name": "sendInputData",
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to send the data the node receives as JSON",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "sendInputData": [
+            false
+          ]
+        }
+      },
+      "default": "",
+      "description": "The message to publish",
+      "ai_hint": "The message to publish"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "QoS",
+          "name": "qos",
+          "type": "options",
+          "options": [
+            {
+              "name": "Received at Most Once",
+              "value": 0
+            },
+            {
+              "name": "Received at Least Once",
+              "value": 1
+            },
+            {
+              "name": "Exactly Once",
+              "value": 2
+            }
+          ],
+          "default": 0,
+          "description": "QoS subscription level"
+        },
+        {
+          "displayName": "Retain",
+          "name": "retain",
+          "type": "boolean",
+          "default": false,
+          "description": "Normally if a publisher publishes a message to a topic, and no one is subscribed to that topic the message is simply discarded by the broker. However the publisher can tell the broker to keep the last message on that topic by setting the retain flag to true."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "topic",
+      "sendInputData",
+      "message",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF sendInputData == False THEN SHOW parameter 'message'"
+    ]
+  }
+}

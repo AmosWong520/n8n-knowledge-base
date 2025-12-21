@@ -1,0 +1,577 @@
+{
+  "node_id": "n8n-nodes-base.gmail",
+  "name": "n8n-nodes-base.gmail",
+  "version": 1,
+  "semantic_context": "Consume the Gmail API",
+  "parameters": {
+    "oldVersionNotice": {
+      "displayName": "<strong>New node version available:</strong> get the latest version with added features from the nodes panel.",
+      "name": "oldVersionNotice",
+      "type": "notice",
+      "default": ""
+    },
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "OAuth2 (recommended)",
+          "value": "oAuth2"
+        },
+        {
+          "name": "Service Account",
+          "value": "serviceAccount"
+        }
+      ],
+      "default": "oAuth2",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Draft",
+          "value": "draft"
+        },
+        {
+          "name": "Label",
+          "value": "label"
+        },
+        {
+          "name": "Message",
+          "value": "message"
+        },
+        {
+          "name": "Message Label",
+          "value": "messageLabel"
+        }
+      ],
+      "default": "draft",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "messageLabel"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Add",
+          "value": "add",
+          "action": "Add a label to a message"
+        },
+        {
+          "name": "Remove",
+          "value": "remove",
+          "action": "Remove a label from a message"
+        }
+      ],
+      "default": "add",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "messageId": {
+      "displayName": "Message ID",
+      "name": "messageId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "messageLabel"
+          ],
+          "operation": [
+            "add",
+            "remove"
+          ]
+        }
+      },
+      "placeholder": "172ce2c4a72cc243"
+    },
+    "subject": {
+      "displayName": "Subject",
+      "name": "subject",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "reply",
+            "send"
+          ]
+        }
+      },
+      "placeholder": "Hello World!"
+    },
+    "includeHtml": {
+      "displayName": "HTML",
+      "name": "includeHtml",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "send",
+            "reply"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether the message should also be included as HTML",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "htmlMessage": {
+      "displayName": "HTML Message",
+      "name": "htmlMessage",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "includeHtml": [
+            true
+          ],
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "reply",
+            "send"
+          ]
+        }
+      },
+      "description": "The HTML message body",
+      "ai_hint": "The HTML message body"
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "reply",
+            "send"
+          ]
+        }
+      },
+      "description": "Plain text message body",
+      "ai_hint": "Plain text message body"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "message"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Attachment Prefix",
+          "name": "dataPropertyAttachmentsPrefixName",
+          "type": "string",
+          "default": "attachment_",
+          "displayOptions": {
+            "hide": {
+              "format": [
+                "full",
+                "ids",
+                "metadata",
+                "minimal",
+                "raw"
+              ]
+            }
+          },
+          "description": "Prefix for name of the binary property to which to write the attachment. An index starting with 0 will be added. So if name is \"attachment_\" the first attachment is saved to \"attachment_0\"."
+        },
+        {
+          "displayName": "Format",
+          "name": "format",
+          "type": "options",
+          "options": [
+            {
+              "name": "Full",
+              "value": "full",
+              "description": "Returns the full email message data with body content parsed in the payload field"
+            },
+            {
+              "name": "IDs",
+              "value": "ids",
+              "description": "Returns only the IDs of the emails"
+            },
+            {
+              "name": "Metadata",
+              "value": "metadata",
+              "description": "Returns only email message ID, labels, and email headers"
+            },
+            {
+              "name": "Minimal",
+              "value": "minimal",
+              "description": "Returns only email message ID and labels; does not return the email headers, body, or payload"
+            },
+            {
+              "name": "RAW",
+              "value": "raw",
+              "description": "Returns the full email message data with body content in the raw field as a base64url encoded string; the payload field is not used"
+            },
+            {
+              "name": "Resolved",
+              "value": "resolved",
+              "description": "Returns the full email with all data resolved and attachments saved as binary data"
+            }
+          ],
+          "default": "resolved",
+          "description": "The format to return the message in"
+        },
+        {
+          "displayName": "Include Spam and Trash",
+          "name": "includeSpamTrash",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to include messages from SPAM and TRASH in the results"
+        },
+        {
+          "displayName": "Label Names or IDs",
+          "name": "labelIds",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getLabels"
+          },
+          "default": [],
+          "description": "Only return messages with labels that match all of the specified label IDs. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Query",
+          "name": "q",
+          "type": "string",
+          "default": "",
+          "description": "Only return messages matching the specified query. Supports the same query format as the Gmail search box. For example, \"from:someuser@example.com rfc822msgid:&lt;somemsgid@example.com&gt; is:unread\". Parameter cannot be used when accessing the api using the gmail.metadata scope."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "message"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "message"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 10,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "label"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "placeholder": "invoices",
+      "description": "Label Name",
+      "ai_hint": "Label Name"
+    },
+    "labelId": {
+      "displayName": "Label ID",
+      "name": "labelId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "label"
+          ],
+          "operation": [
+            "get",
+            "delete"
+          ]
+        }
+      },
+      "description": "The ID of the label",
+      "ai_hint": "The ID of the label"
+    },
+    "labelListVisibility": {
+      "displayName": "Label List Visibility",
+      "name": "labelListVisibility",
+      "type": "options",
+      "options": [
+        {
+          "name": "Hide",
+          "value": "labelHide"
+        },
+        {
+          "name": "Show",
+          "value": "labelShow"
+        },
+        {
+          "name": "Show If Unread",
+          "value": "labelShowIfUnread"
+        }
+      ],
+      "default": "labelShow",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "label"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "The visibility of the label in the label list in the Gmail web interface",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "messageListVisibility": {
+      "displayName": "Message List Visibility",
+      "name": "messageListVisibility",
+      "type": "options",
+      "options": [
+        {
+          "name": "Hide",
+          "value": "hide"
+        },
+        {
+          "name": "Show",
+          "value": "show"
+        }
+      ],
+      "default": "show",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "label"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "The visibility of messages with this label in the message list in the Gmail web interface",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "threadId": {
+      "displayName": "Thread ID",
+      "name": "threadId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "reply"
+          ]
+        }
+      },
+      "placeholder": "172ce2c4a72cc243"
+    },
+    "toList": {
+      "displayName": "To Email",
+      "name": "toList",
+      "type": "string",
+      "default": [],
+      "required": true,
+      "typeOptions": {
+        "multipleValues": true,
+        "multipleValueButtonText": "Add To Email"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "reply",
+            "send"
+          ]
+        }
+      },
+      "placeholder": "info@example.com",
+      "description": "The email addresses of the recipients",
+      "ai_hint": "The email addresses of the recipients"
+    },
+    "labelIds": {
+      "displayName": "Label Names or IDs",
+      "name": "labelIds",
+      "type": "multiOptions",
+      "typeOptions": {
+        "loadOptionsMethod": "getLabels"
+      },
+      "default": [],
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "messageLabel"
+          ],
+          "operation": [
+            "add",
+            "remove"
+          ]
+        }
+      },
+      "description": "The ID of the label. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The ID of the label. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "oldVersionNotice",
+      "authentication",
+      "resource",
+      "operation",
+      "messageId",
+      "subject",
+      "includeHtml",
+      "htmlMessage",
+      "message",
+      "additionalFields",
+      "additionalFields",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "operation",
+      "name",
+      "labelId",
+      "labelListVisibility",
+      "messageListVisibility",
+      "returnAll",
+      "limit",
+      "operation",
+      "messageId",
+      "threadId",
+      "messageId",
+      "subject",
+      "includeHtml",
+      "htmlMessage",
+      "message",
+      "toList",
+      "additionalFields",
+      "additionalFields",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "operation",
+      "messageId",
+      "labelIds"
+    ],
+    "conditional_rules": [
+      "IF resource == 'draft' THEN SHOW parameter 'operation'",
+      "IF resource == 'draft' AND operation IN [\"delete\", \"get\"] THEN SHOW parameter 'messageId'",
+      "IF resource == 'draft' AND operation == 'create' THEN SHOW parameter 'subject'",
+      "IF resource == 'draft' AND operation == 'create' THEN SHOW parameter 'includeHtml'",
+      "IF includeHtml == True AND resource == 'draft' AND operation == 'create' THEN SHOW parameter 'htmlMessage'",
+      "IF resource == 'draft' AND operation == 'create' THEN SHOW parameter 'message'",
+      "IF resource == 'draft' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'draft' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
+      "IF format IN [\"full\", \"metadata\", \"minimal\", \"raw\"] THEN HIDE parameter 'dataPropertyAttachmentsPrefixName'",
+      "IF operation == 'getAll' AND resource == 'draft' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'draft' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'draft' THEN SHOW parameter 'additionalFields'",
+      "IF format IN [\"full\", \"ids\", \"metadata\", \"minimal\", \"raw\"] THEN HIDE parameter 'dataPropertyAttachmentsPrefixName'",
+      "IF resource == 'label' THEN SHOW parameter 'operation'",
+      "IF resource == 'label' AND operation == 'create' THEN SHOW parameter 'name'",
+      "IF resource == 'label' AND operation IN [\"get\", \"delete\"] THEN SHOW parameter 'labelId'",
+      "IF resource == 'label' AND operation == 'create' THEN SHOW parameter 'labelListVisibility'",
+      "IF resource == 'label' AND operation == 'create' THEN SHOW parameter 'messageListVisibility'",
+      "IF operation == 'getAll' AND resource == 'label' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'label' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'message' THEN SHOW parameter 'operation'",
+      "IF resource == 'message' AND operation IN [\"get\", \"delete\"] THEN SHOW parameter 'messageId'",
+      "IF resource == 'message' AND operation == 'reply' THEN SHOW parameter 'threadId'",
+      "IF resource == 'message' AND operation == 'reply' THEN SHOW parameter 'messageId'",
+      "IF resource == 'message' AND operation IN [\"reply\", \"send\"] THEN SHOW parameter 'subject'",
+      "IF resource == 'message' AND operation IN [\"send\", \"reply\"] THEN SHOW parameter 'includeHtml'",
+      "IF includeHtml == True AND resource == 'message' AND operation IN [\"reply\", \"send\"] THEN SHOW parameter 'htmlMessage'",
+      "IF resource == 'message' AND operation IN [\"reply\", \"send\"] THEN SHOW parameter 'message'",
+      "IF resource == 'message' AND operation IN [\"reply\", \"send\"] THEN SHOW parameter 'toList'",
+      "IF resource == 'message' AND operation IN [\"send\", \"reply\"] THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'message' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'getAll' AND resource == 'message' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'message' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'message' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'messageLabel' THEN SHOW parameter 'operation'",
+      "IF resource == 'messageLabel' AND operation IN [\"add\", \"remove\"] THEN SHOW parameter 'messageId'",
+      "IF resource == 'messageLabel' AND operation IN [\"add\", \"remove\"] THEN SHOW parameter 'labelIds'"
+    ]
+  }
+}

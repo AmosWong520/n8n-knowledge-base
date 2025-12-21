@@ -1,0 +1,1027 @@
+{
+  "node_id": "n8n-nodes-base.harvestTool",
+  "name": "n8n-nodes-base.harvestTool",
+  "version": 1,
+  "semantic_context": "Access data on Harvest",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Access data on Harvest",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Access Token",
+          "value": "accessToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "accessToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Client",
+          "value": "client"
+        },
+        {
+          "name": "Company",
+          "value": "company"
+        },
+        {
+          "name": "Contact",
+          "value": "contact"
+        },
+        {
+          "name": "Estimate",
+          "value": "estimate"
+        },
+        {
+          "name": "Expense",
+          "value": "expense"
+        },
+        {
+          "name": "Invoice",
+          "value": "invoice"
+        },
+        {
+          "name": "Project",
+          "value": "project"
+        },
+        {
+          "name": "Task",
+          "value": "task"
+        },
+        {
+          "name": "Time Entry",
+          "value": "timeEntry"
+        },
+        {
+          "name": "User",
+          "value": "user"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "task",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a user",
+          "action": "Create a user"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a user",
+          "action": "Delete a user"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get data of a user",
+          "action": "Get data of a user"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get data of many users",
+          "action": "Get data of all users"
+        },
+        {
+          "name": "Me",
+          "value": "me",
+          "description": "Get data of authenticated user",
+          "action": "Get data of authenticated user"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a user",
+          "action": "Update a user"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "me",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "accountId": {
+      "displayName": "Account Name or ID",
+      "name": "accountId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "required": true,
+      "typeOptions": {
+        "loadOptionsMethod": "getAccounts"
+      },
+      "default": "",
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 100
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Is Active",
+          "name": "is_active",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to only return active users and false to return inactive users"
+        },
+        {
+          "displayName": "Updated Since",
+          "name": "updated_since",
+          "type": "dateTime",
+          "default": "",
+          "description": "Only return users belonging to the user with the given ID"
+        },
+        {
+          "displayName": "Page",
+          "name": "page",
+          "type": "number",
+          "typeOptions": {
+            "minValue": 1
+          },
+          "default": 1,
+          "description": "The page number to use in pagination"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "id": {
+      "displayName": "Time Entry ID",
+      "name": "id",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "user"
+          ]
+        }
+      },
+      "description": "The ID of the time entry to update",
+      "ai_hint": "The ID of the time entry to update"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "task"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "description": "The name of the task",
+      "ai_hint": "The name of the task"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "user"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Can Create Invoices",
+          "name": "can_create_invoices",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user can create invoices. Only applicable to Project Managers."
+        },
+        {
+          "displayName": "Can Create Projects",
+          "name": "can_create_projects",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user can create projects. Only applicable to Project Managers."
+        },
+        {
+          "displayName": "Can See Rates",
+          "name": "can_see_rates",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user can see billable rates on projects. Only applicable to Project Managers."
+        },
+        {
+          "displayName": "Cost Rate",
+          "name": "cost_rate",
+          "type": "number",
+          "typeOptions": {
+            "minValue": 0
+          },
+          "default": 0,
+          "description": "The cost rate to use for this user when calculating a project’s costs vs billable amount"
+        },
+        {
+          "displayName": "Default Hourly Rate",
+          "name": "default_hourly_rate",
+          "type": "string",
+          "default": "0",
+          "description": "The billable rate to use for this user when they are added to a project"
+        },
+        {
+          "displayName": "Has Access To All Future Projects",
+          "name": "has_access_to_all_future_projects",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user should be automatically added to future projects"
+        },
+        {
+          "displayName": "Is Active",
+          "name": "is_active",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether the user is active or archived"
+        },
+        {
+          "displayName": "Is Admin",
+          "name": "is_admin",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user has Admin permissions"
+        },
+        {
+          "displayName": "Is Contractor",
+          "name": "is_contractor",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user is a contractor or an employee"
+        },
+        {
+          "displayName": "Is Project Manager",
+          "name": "is_project_manager",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user has Project Manager permissions"
+        },
+        {
+          "displayName": "Roles",
+          "name": "roles",
+          "type": "string",
+          "default": "",
+          "description": "The role names assigned to this person"
+        },
+        {
+          "displayName": "Timezone",
+          "name": "timezone",
+          "type": "string",
+          "default": "",
+          "description": "The user’s timezone. Defaults to the company’s timezone. See a list of <a href=\"/api-v2/introduction/overview/supported-timezones/\">supported time zones</a>."
+        },
+        {
+          "displayName": "Weekly Capacity",
+          "name": "weekly_capacity",
+          "type": "number",
+          "typeOptions": {
+            "minValue": 0
+          },
+          "default": 126000,
+          "description": "The number of hours per week this person is available to work in seconds. Defaults to <code class=\"language-plaintext highlighter-rouge\">126000</code> seconds (35 hours)."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "user"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Can Create Invoices",
+          "name": "can_create_invoices",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user can create invoices. Only applicable to Project Managers."
+        },
+        {
+          "displayName": "Can Create Projects",
+          "name": "can_create_projects",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user can create projects. Only applicable to Project Managers."
+        },
+        {
+          "displayName": "Can See Rates",
+          "name": "can_see_rates",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user can see billable rates on projects. Only applicable to Project Managers."
+        },
+        {
+          "displayName": "Cost Rate",
+          "name": "cost_rate",
+          "type": "number",
+          "typeOptions": {
+            "minValue": 0
+          },
+          "default": 0,
+          "description": "The cost rate to use for this user when calculating a project’s costs vs billable amount"
+        },
+        {
+          "displayName": "Default Hourly Rate",
+          "name": "default_hourly_rate",
+          "type": "string",
+          "default": "0",
+          "description": "The billable rate to use for this user when they are added to a project"
+        },
+        {
+          "displayName": "Email",
+          "name": "email",
+          "type": "string",
+          "placeholder": "name@email.com",
+          "default": "",
+          "description": "The user email"
+        },
+        {
+          "displayName": "First Name",
+          "name": "first_name",
+          "type": "string",
+          "default": "",
+          "description": "The user first name"
+        },
+        {
+          "displayName": "Has Access To All Future Projects",
+          "name": "has_access_to_all_future_projects",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user should be automatically added to future projects"
+        },
+        {
+          "displayName": "Is Active",
+          "name": "is_active",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether the user is active or archived"
+        },
+        {
+          "displayName": "Is Admin",
+          "name": "is_admin",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user has Admin permissions"
+        },
+        {
+          "displayName": "Is Contractor",
+          "name": "is_contractor",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user is a contractor or an employee"
+        },
+        {
+          "displayName": "Is Project Manager",
+          "name": "is_project_manager",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the user has Project Manager permissions"
+        },
+        {
+          "displayName": "Last Name",
+          "name": "last_name",
+          "type": "string",
+          "default": "",
+          "description": "The user last name"
+        },
+        {
+          "displayName": "Roles",
+          "name": "roles",
+          "type": "string",
+          "default": "",
+          "description": "The role names assigned to this person"
+        },
+        {
+          "displayName": "Timezone",
+          "name": "timezone",
+          "type": "string",
+          "default": "",
+          "description": "The user’s timezone. Defaults to the company’s timezone. See a list of <a href=\"/api-v2/introduction/overview/supported-timezones/\">supported time zones</a>."
+        },
+        {
+          "displayName": "Weekly Capacity",
+          "name": "weekly_capacity",
+          "type": "number",
+          "typeOptions": {
+            "minValue": 0
+          },
+          "default": 126000,
+          "description": "The number of hours per week this person is available to work in seconds. Defaults to <code class=\"language-plaintext highlighter-rouge\">126000</code> seconds (35 hours)."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "firstName": {
+      "displayName": "First Name",
+      "name": "firstName",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "user"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "description": "The first name of the user",
+      "ai_hint": "The first name of the user"
+    },
+    "clientId": {
+      "displayName": "Client ID",
+      "name": "clientId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "project"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "description": "The ID of the client to associate this project with",
+      "ai_hint": "The ID of the client to associate this project with"
+    },
+    "projectId": {
+      "displayName": "Project ID",
+      "name": "projectId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "createByStartEnd"
+          ],
+          "resource": [
+            "timeEntry"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "description": "The ID of the project to associate with the time entry",
+      "ai_hint": "The ID of the project to associate with the time entry"
+    },
+    "expenseCategoryId": {
+      "displayName": "Expense Category ID",
+      "name": "expenseCategoryId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "expense"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "description": "The ID of the expense category this expense is being tracked against",
+      "ai_hint": "The ID of the expense category this expense is being tracked against"
+    },
+    "spentDate": {
+      "displayName": "Spent Date",
+      "name": "spentDate",
+      "type": "dateTime",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "createByStartEnd"
+          ],
+          "resource": [
+            "timeEntry"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "description": "The ISO 8601 formatted date the time entry was spent",
+      "ai_hint": "The ISO 8601 formatted date the time entry was spent"
+    },
+    "isBillable": {
+      "displayName": "Is Billable",
+      "name": "isBillable",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "project"
+          ]
+        }
+      },
+      "default": true,
+      "required": true,
+      "description": "Whether the project is billable or not",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "billBy": {
+      "displayName": "Bill By",
+      "name": "billBy",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "project"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "None",
+          "value": "none"
+        },
+        {
+          "name": "People",
+          "value": "People"
+        },
+        {
+          "name": "Project",
+          "value": "Project"
+        },
+        {
+          "name": "Tasks",
+          "value": "Tasks"
+        }
+      ],
+      "default": "none",
+      "required": true,
+      "description": "The method by which the project is invoiced",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "budgetBy": {
+      "displayName": "Budget By",
+      "name": "budgetBy",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "project"
+          ]
+        }
+      },
+      "default": "none",
+      "placeholder": "",
+      "required": true,
+      "description": "The email of the user or \"none\"",
+      "ai_hint": "The email of the user or \"none\""
+    },
+    "taskId": {
+      "displayName": "Task ID",
+      "name": "taskId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "createByStartEnd"
+          ],
+          "resource": [
+            "timeEntry"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "description": "The ID of the task to associate with the time entry",
+      "ai_hint": "The ID of the task to associate with the time entry"
+    },
+    "lastName": {
+      "displayName": "Last Name",
+      "name": "lastName",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "user"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "description": "The last name of the user",
+      "ai_hint": "The last name of the user"
+    },
+    "email": {
+      "displayName": "Email",
+      "name": "email",
+      "type": "string",
+      "placeholder": "name@email.com",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "user"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "description": "The email of the user",
+      "ai_hint": "The email of the user"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "authentication",
+      "resource",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "accountId",
+      "returnAll",
+      "limit",
+      "filters",
+      "id",
+      "id",
+      "name",
+      "additionalFields",
+      "id",
+      "updateFields",
+      "returnAll",
+      "limit",
+      "filters",
+      "id",
+      "id",
+      "firstName",
+      "clientId",
+      "additionalFields",
+      "id",
+      "updateFields",
+      "returnAll",
+      "limit",
+      "filters",
+      "id",
+      "id",
+      "clientId",
+      "additionalFields",
+      "id",
+      "updateFields",
+      "returnAll",
+      "limit",
+      "filters",
+      "id",
+      "id",
+      "projectId",
+      "expenseCategoryId",
+      "spentDate",
+      "additionalFields",
+      "id",
+      "updateFields",
+      "returnAll",
+      "limit",
+      "filters",
+      "id",
+      "id",
+      "clientId",
+      "additionalFields",
+      "id",
+      "updateFields",
+      "returnAll",
+      "limit",
+      "filters",
+      "id",
+      "id",
+      "name",
+      "clientId",
+      "isBillable",
+      "billBy",
+      "budgetBy",
+      "additionalFields",
+      "id",
+      "updateFields",
+      "returnAll",
+      "limit",
+      "filters",
+      "id",
+      "id",
+      "name",
+      "additionalFields",
+      "id",
+      "updateFields",
+      "returnAll",
+      "limit",
+      "filters",
+      "id",
+      "id",
+      "id",
+      "id",
+      "id",
+      "id",
+      "updateFields",
+      "projectId",
+      "taskId",
+      "spentDate",
+      "additionalFields",
+      "projectId",
+      "taskId",
+      "spentDate",
+      "additionalFields",
+      "returnAll",
+      "limit",
+      "filters",
+      "id",
+      "id",
+      "firstName",
+      "lastName",
+      "email",
+      "additionalFields",
+      "id",
+      "updateFields"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'client' THEN SHOW parameter 'operation'",
+      "IF resource == 'company' THEN SHOW parameter 'operation'",
+      "IF resource == 'contact' THEN SHOW parameter 'operation'",
+      "IF resource == 'estimate' THEN SHOW parameter 'operation'",
+      "IF resource == 'expense' THEN SHOW parameter 'operation'",
+      "IF resource == 'invoice' THEN SHOW parameter 'operation'",
+      "IF resource == 'project' THEN SHOW parameter 'operation'",
+      "IF resource == 'task' THEN SHOW parameter 'operation'",
+      "IF resource == 'timeEntry' THEN SHOW parameter 'operation'",
+      "IF resource == 'user' THEN SHOW parameter 'operation'",
+      "IF resource == 'client' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'client' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'client' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF operation == 'get' AND resource == 'client' THEN SHOW parameter 'id'",
+      "IF operation == 'delete' AND resource == 'client' THEN SHOW parameter 'id'",
+      "IF operation == 'create' AND resource == 'client' THEN SHOW parameter 'name'",
+      "IF operation == 'create' AND resource == 'client' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'update' AND resource == 'client' THEN SHOW parameter 'id'",
+      "IF operation == 'update' AND resource == 'client' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'contact' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF operation == 'get' AND resource == 'contact' THEN SHOW parameter 'id'",
+      "IF operation == 'delete' AND resource == 'contact' THEN SHOW parameter 'id'",
+      "IF operation == 'create' AND resource == 'contact' THEN SHOW parameter 'firstName'",
+      "IF operation == 'create' AND resource == 'contact' THEN SHOW parameter 'clientId'",
+      "IF operation == 'create' AND resource == 'contact' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'update' AND resource == 'contact' THEN SHOW parameter 'id'",
+      "IF operation == 'update' AND resource == 'contact' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'estimate' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'estimate' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'estimate' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF operation == 'get' AND resource == 'estimate' THEN SHOW parameter 'id'",
+      "IF operation == 'delete' AND resource == 'estimate' THEN SHOW parameter 'id'",
+      "IF operation == 'create' AND resource == 'estimate' THEN SHOW parameter 'clientId'",
+      "IF operation == 'create' AND resource == 'estimate' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'update' AND resource == 'estimate' THEN SHOW parameter 'id'",
+      "IF operation == 'update' AND resource == 'estimate' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'expense' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'expense' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'expense' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF operation == 'get' AND resource == 'expense' THEN SHOW parameter 'id'",
+      "IF operation == 'delete' AND resource == 'expense' THEN SHOW parameter 'id'",
+      "IF operation == 'create' AND resource == 'expense' THEN SHOW parameter 'projectId'",
+      "IF operation == 'create' AND resource == 'expense' THEN SHOW parameter 'expenseCategoryId'",
+      "IF operation == 'create' AND resource == 'expense' THEN SHOW parameter 'spentDate'",
+      "IF operation == 'create' AND resource == 'expense' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'update' AND resource == 'expense' THEN SHOW parameter 'id'",
+      "IF operation == 'update' AND resource == 'expense' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'invoice' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'invoice' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'invoice' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF operation == 'get' AND resource == 'invoice' THEN SHOW parameter 'id'",
+      "IF operation == 'delete' AND resource == 'invoice' THEN SHOW parameter 'id'",
+      "IF operation == 'create' AND resource == 'invoice' THEN SHOW parameter 'clientId'",
+      "IF operation == 'create' AND resource == 'invoice' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'update' AND resource == 'invoice' THEN SHOW parameter 'id'",
+      "IF operation == 'update' AND resource == 'invoice' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'project' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'project' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'project' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF operation == 'get' AND resource == 'project' THEN SHOW parameter 'id'",
+      "IF operation == 'delete' AND resource == 'project' THEN SHOW parameter 'id'",
+      "IF operation == 'create' AND resource == 'project' THEN SHOW parameter 'name'",
+      "IF operation == 'create' AND resource == 'project' THEN SHOW parameter 'clientId'",
+      "IF operation == 'create' AND resource == 'project' THEN SHOW parameter 'isBillable'",
+      "IF operation == 'create' AND resource == 'project' THEN SHOW parameter 'billBy'",
+      "IF operation == 'create' AND resource == 'project' THEN SHOW parameter 'budgetBy'",
+      "IF operation == 'create' AND resource == 'project' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'update' AND resource == 'project' THEN SHOW parameter 'id'",
+      "IF operation == 'update' AND resource == 'project' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'task' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF operation == 'get' AND resource == 'task' THEN SHOW parameter 'id'",
+      "IF operation == 'delete' AND resource == 'task' THEN SHOW parameter 'id'",
+      "IF operation == 'create' AND resource == 'task' THEN SHOW parameter 'name'",
+      "IF operation == 'create' AND resource == 'task' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'update' AND resource == 'task' THEN SHOW parameter 'id'",
+      "IF operation == 'update' AND resource == 'task' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'timeEntry' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'timeEntry' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'timeEntry' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF operation == 'get' AND resource == 'timeEntry' THEN SHOW parameter 'id'",
+      "IF operation == 'delete' AND resource == 'timeEntry' THEN SHOW parameter 'id'",
+      "IF operation == 'deleteExternal' AND resource == 'timeEntry' THEN SHOW parameter 'id'",
+      "IF operation == 'stopTime' AND resource == 'timeEntry' THEN SHOW parameter 'id'",
+      "IF operation == 'restartTime' AND resource == 'timeEntry' THEN SHOW parameter 'id'",
+      "IF operation == 'update' AND resource == 'timeEntry' THEN SHOW parameter 'id'",
+      "IF operation == 'update' AND resource == 'timeEntry' THEN SHOW parameter 'updateFields'",
+      "IF operation == 'createByDuration' AND resource == 'timeEntry' THEN SHOW parameter 'projectId'",
+      "IF operation == 'createByDuration' AND resource == 'timeEntry' THEN SHOW parameter 'taskId'",
+      "IF operation == 'createByDuration' AND resource == 'timeEntry' THEN SHOW parameter 'spentDate'",
+      "IF operation == 'createByDuration' AND resource == 'timeEntry' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'createByStartEnd' AND resource == 'timeEntry' THEN SHOW parameter 'projectId'",
+      "IF operation == 'createByStartEnd' AND resource == 'timeEntry' THEN SHOW parameter 'taskId'",
+      "IF operation == 'createByStartEnd' AND resource == 'timeEntry' THEN SHOW parameter 'spentDate'",
+      "IF operation == 'createByStartEnd' AND resource == 'timeEntry' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'user' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF operation == 'get' AND resource == 'user' THEN SHOW parameter 'id'",
+      "IF operation == 'delete' AND resource == 'user' THEN SHOW parameter 'id'",
+      "IF operation == 'create' AND resource == 'user' THEN SHOW parameter 'firstName'",
+      "IF operation == 'create' AND resource == 'user' THEN SHOW parameter 'lastName'",
+      "IF operation == 'create' AND resource == 'user' THEN SHOW parameter 'email'",
+      "IF operation == 'create' AND resource == 'user' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'update' AND resource == 'user' THEN SHOW parameter 'id'",
+      "IF operation == 'update' AND resource == 'user' THEN SHOW parameter 'updateFields'"
+    ]
+  }
+}

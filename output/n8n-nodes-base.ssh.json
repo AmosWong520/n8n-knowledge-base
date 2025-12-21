@@ -1,0 +1,200 @@
+{
+  "node_id": "n8n-nodes-base.ssh",
+  "name": "n8n-nodes-base.ssh",
+  "version": 1,
+  "semantic_context": "Execute commands via SSH",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Password",
+          "value": "password"
+        },
+        {
+          "name": "Private Key",
+          "value": "privateKey"
+        }
+      ],
+      "default": "password",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Command",
+          "value": "command"
+        },
+        {
+          "name": "File",
+          "value": "file"
+        }
+      ],
+      "default": "command",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Download",
+          "value": "download",
+          "description": "Download a file",
+          "action": "Download a file"
+        },
+        {
+          "name": "Upload",
+          "value": "upload",
+          "description": "Upload a file",
+          "action": "Upload a file"
+        }
+      ],
+      "default": "upload",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "command": {
+      "displayName": "Command",
+      "name": "command",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "command"
+          ],
+          "operation": [
+            "execute"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The command to be executed on a remote device",
+      "ai_hint": "The command to be executed on a remote device"
+    },
+    "cwd": {
+      "displayName": "Working Directory",
+      "name": "cwd",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "command"
+          ],
+          "operation": [
+            "execute"
+          ]
+        }
+      },
+      "default": "/",
+      "required": true
+    },
+    "binaryPropertyName": {
+      "displayName": "File Property",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ],
+          "operation": [
+            "download"
+          ]
+        }
+      },
+      "name": "binaryPropertyName",
+      "type": "string",
+      "default": "data",
+      "description": "Object property name which holds binary data",
+      "required": true,
+      "ai_hint": "Object property name which holds binary data"
+    },
+    "path": {
+      "displayName": "Path",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ],
+          "operation": [
+            "download"
+          ]
+        }
+      },
+      "name": "path",
+      "type": "string",
+      "default": "",
+      "placeholder": "/home/user/invoice.txt",
+      "description": "The file path of the file to download. Has to contain the full path including file name.",
+      "required": true,
+      "ai_hint": "The file path of the file to download. Has to contain the full path including file name."
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "file"
+          ],
+          "operation": [
+            "upload",
+            "download"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "File Name",
+          "name": "fileName",
+          "type": "string",
+          "default": "",
+          "description": "Overrides the binary data file name"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "resource",
+      "operation",
+      "command",
+      "cwd",
+      "operation",
+      "binaryPropertyName",
+      "path",
+      "path",
+      "binaryPropertyName",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF resource == 'command' THEN SHOW parameter 'operation'",
+      "IF resource == 'command' AND operation == 'execute' THEN SHOW parameter 'command'",
+      "IF resource == 'command' AND operation == 'execute' THEN SHOW parameter 'cwd'",
+      "IF resource == 'file' THEN SHOW parameter 'operation'",
+      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'binaryPropertyName'",
+      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'path'",
+      "IF resource == 'file' AND operation == 'download' THEN SHOW parameter 'path'",
+      "IF resource == 'file' AND operation == 'download' THEN SHOW parameter 'binaryPropertyName'",
+      "IF resource == 'file' AND operation IN [\"upload\", \"download\"] THEN SHOW parameter 'options'"
+    ]
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "node_id": "n8n-nodes-base.unleashedSoftwareTool",
+  "name": "n8n-nodes-base.unleashedSoftwareTool",
+  "version": 1,
+  "semantic_context": "Consume Unleashed Software API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume Unleashed Software API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Sales Order",
+          "value": "salesOrder"
+        },
+        {
+          "name": "Stock On Hand",
+          "value": "stockOnHand"
+        }
+      ],
+      "default": "salesOrder",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "stockOnHand"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a stock on hand",
+          "action": "Get a stock on hand"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many stocks on hand",
+          "action": "Get many stocks on hand"
+        }
+      ],
+      "default": "getAll",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "stockOnHand"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "stockOnHand"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 1000
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "stockOnHand"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "As at Date",
+          "name": "asAtDate",
+          "type": "dateTime",
+          "default": "",
+          "description": "Returns the stock on hand for a specific date"
+        },
+        {
+          "displayName": "Is Assembled",
+          "name": "IsAssembled",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the AvailableQty will also include the quantity that can be assembled"
+        },
+        {
+          "displayName": "Modified Since",
+          "name": "modifiedSince",
+          "type": "dateTime",
+          "default": "",
+          "description": "Returns stock on hand values modified after a specific date"
+        },
+        {
+          "displayName": "Order By",
+          "name": "orderBy",
+          "type": "string",
+          "default": "",
+          "description": "Orders the list by a specific column, by default the list is ordered by productCode"
+        },
+        {
+          "displayName": "Product ID",
+          "name": "productId",
+          "type": "string",
+          "default": "",
+          "description": "Returns products with the specific Product Guid. You can enter multiple product IDs separated by commas."
+        },
+        {
+          "displayName": "Warehouse Code",
+          "name": "warehouseCode",
+          "type": "string",
+          "default": "",
+          "description": "Returns stock on hand for a specific warehouse code"
+        },
+        {
+          "displayName": "Warehouse Name",
+          "name": "warehouseName",
+          "type": "string",
+          "default": "",
+          "description": "Returns stock on hand for a specific warehouse name"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "productId": {
+      "displayName": "Product ID",
+      "name": "productId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "stockOnHand"
+          ]
+        }
+      },
+      "default": ""
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "returnAll",
+      "limit",
+      "filters",
+      "operation",
+      "productId",
+      "returnAll",
+      "limit",
+      "filters"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'salesOrder' THEN SHOW parameter 'operation'",
+      "IF operation == 'getAll' AND resource == 'salesOrder' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'salesOrder' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'salesOrder' THEN SHOW parameter 'filters'",
+      "IF resource == 'stockOnHand' THEN SHOW parameter 'operation'",
+      "IF operation == 'get' AND resource == 'stockOnHand' THEN SHOW parameter 'productId'",
+      "IF operation == 'getAll' AND resource == 'stockOnHand' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'stockOnHand' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' AND resource == 'stockOnHand' THEN SHOW parameter 'filters'"
+    ]
+  }
+}

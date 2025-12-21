@@ -1,0 +1,268 @@
+{
+  "node_id": "n8n-nodes-base.signl4Tool",
+  "name": "n8n-nodes-base.signl4Tool",
+  "version": 1,
+  "semantic_context": "Consume SIGNL4 API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume SIGNL4 API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Alert",
+          "value": "alert"
+        }
+      ],
+      "default": "alert",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "alert"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Send",
+          "value": "send",
+          "description": "Send an alert",
+          "action": "Send an alert"
+        },
+        {
+          "name": "Resolve",
+          "value": "resolve",
+          "description": "Resolve an alert",
+          "action": "Resolve an alert"
+        }
+      ],
+      "default": "send",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "send"
+          ],
+          "resource": [
+            "alert"
+          ]
+        }
+      },
+      "description": "A more detailed description for the alert",
+      "ai_hint": "A more detailed description for the alert"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "send"
+          ],
+          "resource": [
+            "alert"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Alerting Scenario",
+          "name": "alertingScenario",
+          "type": "options",
+          "options": [
+            {
+              "name": "Single ACK",
+              "value": "single_ack",
+              "description": "In case only one person needs to confirm this Signl"
+            },
+            {
+              "name": "Multi ACK",
+              "value": "multi_ack",
+              "description": "In case this alert must be confirmed by the number of people who are on duty at the time this Singl is raised"
+            }
+          ],
+          "default": "single_ack"
+        },
+        {
+          "displayName": "Attachments",
+          "name": "attachmentsUi",
+          "placeholder": "Add Attachments",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": false
+          },
+          "options": [
+            {
+              "name": "attachmentsBinary",
+              "displayName": "Attachments Binary",
+              "values": [
+                {
+                  "displayName": "Property Name",
+                  "name": "property",
+                  "type": "string",
+                  "placeholder": "data",
+                  "default": "",
+                  "description": "Name of the binary properties which contain data which should be added as attachment"
+                }
+              ]
+            }
+          ],
+          "default": {}
+        },
+        {
+          "displayName": "External ID",
+          "name": "externalId",
+          "type": "string",
+          "default": "",
+          "description": "If the event originates from a record in a 3rd party system, use this parameter to pass the unique ID of that record. That ID will be communicated in outbound webhook notifications from SIGNL4, which is great for correlation/synchronization of that record with the alert. If you resolve / close an alert you must use the same External ID as in the original alert."
+        },
+        {
+          "displayName": "Filtering",
+          "name": "filtering",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to apply event filtering for this event, or not. If set to true, the event will only trigger a notification to the team, if it contains at least one keyword from one of your services and system categories (i.e. it is whitelisted)"
+        },
+        {
+          "displayName": "Location",
+          "name": "locationFieldsUi",
+          "type": "fixedCollection",
+          "placeholder": "Add Location",
+          "default": {},
+          "description": "Transmit location information ('latitude, longitude') with your event and display a map in the mobile app",
+          "options": [
+            {
+              "name": "locationFieldsValues",
+              "displayName": "Location",
+              "values": [
+                {
+                  "displayName": "Latitude",
+                  "name": "latitude",
+                  "type": "string",
+                  "required": true,
+                  "description": "The location latitude",
+                  "default": ""
+                },
+                {
+                  "displayName": "Longitude",
+                  "name": "longitude",
+                  "type": "string",
+                  "required": true,
+                  "description": "The location longitude",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Service",
+          "name": "service",
+          "type": "string",
+          "default": "",
+          "description": "Assigns the alert to the service/system category with the specified name"
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": "",
+          "description": "The title or subject of this alert"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "externalId": {
+      "displayName": "External ID",
+      "name": "externalId",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "resolve"
+          ],
+          "resource": [
+            "alert"
+          ]
+        }
+      },
+      "description": "If the event originates from a record in a 3rd party system, use this parameter to pass the unique ID of that record. That ID will be communicated in outbound webhook notifications from SIGNL4, which is great for correlation/synchronization of that record with the alert. If you resolve / close an alert you must use the same External ID as in the original alert.",
+      "ai_hint": "If the event originates from a record in a 3rd party system, use this parameter to pass the unique ID of that record. That ID will be communicated in outbound webhook notifications from SIGNL4, which is great for correlation/synchronization of that record with the alert. If you resolve / close an alert you must use the same External ID as in the original alert."
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "message",
+      "additionalFields",
+      "externalId"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'alert' THEN SHOW parameter 'operation'",
+      "IF operation == 'send' AND resource == 'alert' THEN SHOW parameter 'message'",
+      "IF operation == 'send' AND resource == 'alert' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'resolve' AND resource == 'alert' THEN SHOW parameter 'externalId'"
+    ]
+  }
+}

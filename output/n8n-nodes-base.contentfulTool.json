@@ -1,0 +1,374 @@
+{
+  "node_id": "n8n-nodes-base.contentfulTool",
+  "name": "n8n-nodes-base.contentfulTool",
+  "version": 1,
+  "semantic_context": "Consume Contentful API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume Contentful API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "source": {
+      "displayName": "Source",
+      "name": "source",
+      "type": "options",
+      "default": "deliveryApi",
+      "description": "Pick where your data comes from, delivery or preview API",
+      "options": [
+        {
+          "name": "Delivery API",
+          "value": "deliveryApi"
+        },
+        {
+          "name": "Preview API",
+          "value": "previewApi"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Asset",
+          "value": "asset"
+        },
+        {
+          "name": "Content Type",
+          "value": "contentType"
+        },
+        {
+          "name": "Entry",
+          "value": "entry"
+        },
+        {
+          "name": "Locale",
+          "value": "locale"
+        },
+        {
+          "name": "Space",
+          "value": "space"
+        }
+      ],
+      "default": "entry",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "locale"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Get Many",
+          "value": "getAll"
+        }
+      ],
+      "default": "getAll",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "environmentId": {
+      "displayName": "Environment ID",
+      "name": "environmentId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "locale"
+          ],
+          "operation": [
+            "get",
+            "getAll"
+          ]
+        }
+      },
+      "default": "master",
+      "description": "The ID for the Contentful environment (e.g. master, staging, etc.). Depending on your plan, you might not have environments. In that case use \"master\".",
+      "ai_hint": "The ID for the Contentful environment (e.g. master, staging, etc.). Depending on your plan, you might not have environments. In that case use \"master\"."
+    },
+    "contentTypeId": {
+      "displayName": "Content Type ID",
+      "name": "contentTypeId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contentType"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      }
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "asset"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Equal",
+          "name": "equal",
+          "type": "string",
+          "default": "",
+          "placeholder": "fields.title=n8n",
+          "description": "Search for all data that matches the condition: {attribute}={value}. Attribute can use dot notation."
+        },
+        {
+          "displayName": "Exclude",
+          "name": "exclude",
+          "type": "string",
+          "default": "",
+          "placeholder": "fields.tags[nin]=accessories,flowers",
+          "description": "Search for all data that matches the condition: {attribute}[nin]={value}. Attribute can use dot notation."
+        },
+        {
+          "displayName": "Exist",
+          "name": "exist",
+          "type": "string",
+          "default": "",
+          "placeholder": "fields.tags[exists]=true",
+          "description": "Search for all data that matches the condition: {attribute}[exists]={value}. Attribute can use dot notation."
+        },
+        {
+          "displayName": "Fields",
+          "name": "select",
+          "type": "string",
+          "placeholder": "fields.title",
+          "default": "",
+          "description": "The select operator allows you to choose what fields to return from an entity. You can choose multiple values by combining comma-separated operators."
+        },
+        {
+          "displayName": "Include",
+          "name": "include",
+          "type": "string",
+          "default": "",
+          "placeholder": "fields.tags[in]=accessories,flowers",
+          "description": "Search for all data that matches the condition: {attribute}[in]={value}. Attribute can use dot notation."
+        },
+        {
+          "displayName": "Not Equal",
+          "name": "notEqual",
+          "type": "string",
+          "default": "",
+          "placeholder": "fields.title[ne]=n8n",
+          "description": "Search for all data that matches the condition: {attribute}[ne]={value}. Attribute can use dot notation."
+        },
+        {
+          "displayName": "Order",
+          "name": "order",
+          "type": "string",
+          "default": "",
+          "placeholder": "sys.createdAt",
+          "description": "You can order items in the response by specifying the order search parameter. You can use sys properties (such as sys.createdAt) or field values (such as fields.myCustomDateField) for ordering."
+        },
+        {
+          "displayName": "Query",
+          "name": "query",
+          "type": "string",
+          "default": "",
+          "description": "Full-text search is case insensitive and might return more results than expected. A query will only take values with more than 1 character."
+        },
+        {
+          "displayName": "RAW Data",
+          "name": "rawData",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the data should be returned RAW instead of parsed"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "locale"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "locale"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "entryId": {
+      "displayName": "Entry ID",
+      "name": "entryId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "entry"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      }
+    },
+    "assetId": {
+      "displayName": "Asset ID",
+      "name": "assetId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "asset"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      }
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "source",
+      "resource",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "operation",
+      "environmentId",
+      "contentTypeId",
+      "additionalFields",
+      "environmentId",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "entryId",
+      "additionalFields",
+      "environmentId",
+      "returnAll",
+      "limit",
+      "assetId",
+      "additionalFields",
+      "environmentId",
+      "returnAll",
+      "limit"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'space' THEN SHOW parameter 'operation'",
+      "IF resource == 'contentType' THEN SHOW parameter 'operation'",
+      "IF resource == 'entry' THEN SHOW parameter 'operation'",
+      "IF resource == 'asset' THEN SHOW parameter 'operation'",
+      "IF resource == 'locale' THEN SHOW parameter 'operation'",
+      "IF resource == 'contentType' AND operation == 'get' THEN SHOW parameter 'environmentId'",
+      "IF resource == 'contentType' AND operation == 'get' THEN SHOW parameter 'contentTypeId'",
+      "IF resource == 'contentType' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'entry' AND operation IN [\"get\", \"getAll\"] THEN SHOW parameter 'environmentId'",
+      "IF operation == 'getAll' AND resource == 'entry' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'entry' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'entry' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'entry' AND operation == 'get' THEN SHOW parameter 'entryId'",
+      "IF resource == 'entry' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'asset' AND operation IN [\"get\", \"getAll\"] THEN SHOW parameter 'environmentId'",
+      "IF operation == 'getAll' AND resource == 'asset' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'asset' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'asset' AND operation == 'get' THEN SHOW parameter 'assetId'",
+      "IF resource == 'asset' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'locale' AND operation IN [\"get\", \"getAll\"] THEN SHOW parameter 'environmentId'",
+      "IF operation == 'getAll' AND resource == 'locale' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'locale' AND returnAll == False THEN SHOW parameter 'limit'"
+    ]
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "node_id": "n8n-nodes-base.calTrigger",
+  "name": "n8n-nodes-base.calTrigger",
+  "version": [
+    1,
+    2
+  ],
+  "semantic_context": "Handle Cal.com events via webhooks",
+  "parameters": {
+    "events": {
+      "displayName": "Events",
+      "name": "events",
+      "type": "multiOptions",
+      "options": [
+        {
+          "name": "Booking Cancelled",
+          "value": "BOOKING_CANCELLED",
+          "description": "Receive notifications when a Cal event is canceled"
+        },
+        {
+          "name": "Booking Created",
+          "value": "BOOKING_CREATED",
+          "description": "Receive notifications when a new Cal event is created"
+        },
+        {
+          "name": "Booking Rescheduled",
+          "value": "BOOKING_RESCHEDULED",
+          "description": "Receive notifications when a Cal event is rescheduled"
+        },
+        {
+          "name": "Meeting Ended",
+          "value": "MEETING_ENDED",
+          "description": "Receive notifications when a Cal event or meeting has ended"
+        }
+      ],
+      "default": [],
+      "required": true
+    },
+    "version": {
+      "displayName": "API Version",
+      "name": "version",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "@version": [
+            2
+          ]
+        }
+      },
+      "isNodeSetting": true,
+      "options": [
+        {
+          "name": "Before v2.0",
+          "value": 1
+        },
+        {
+          "name": "v2.0 Onwards",
+          "value": 2
+        }
+      ],
+      "default": 2,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "options": [
+        {
+          "displayName": "App ID",
+          "name": "appId",
+          "type": "string",
+          "description": "The ID of the App to monitor",
+          "default": ""
+        },
+        {
+          "displayName": "EventType Name or ID",
+          "name": "eventTypeId",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getEventTypes"
+          },
+          "description": "The EventType to monitor. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+          "default": ""
+        },
+        {
+          "displayName": "Payload Template",
+          "name": "payloadTemplate",
+          "type": "string",
+          "description": "Template to customize the webhook payload",
+          "default": "",
+          "typeOptions": {
+            "rows": 4
+          }
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "events",
+      "version",
+      "version",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF @version == 1 THEN SHOW parameter 'version'",
+      "IF @version == 2 THEN SHOW parameter 'version'"
+    ]
+  }
+}

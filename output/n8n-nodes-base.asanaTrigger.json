@@ -1,0 +1,54 @@
+{
+  "node_id": "n8n-nodes-base.asanaTrigger",
+  "name": "n8n-nodes-base.asanaTrigger",
+  "version": 1,
+  "semantic_context": "Starts the workflow when Asana events occur.",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Access Token",
+          "value": "accessToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "accessToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "description": "The resource ID to subscribe to. The resource can be a task or project.",
+      "ai_hint": "The resource ID to subscribe to. The resource can be a task or project."
+    },
+    "workspace": {
+      "displayName": "Workspace Name or ID",
+      "name": "workspace",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getWorkspaces"
+      },
+      "options": [],
+      "default": "",
+      "description": "The workspace ID the resource is registered under. This is only required if you want to allow overriding existing webhooks. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The workspace ID the resource is registered under. This is only required if you want to allow overriding existing webhooks. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "resource",
+      "workspace"
+    ],
+    "conditional_rules": []
+  }
+}

@@ -1,0 +1,308 @@
+{
+  "node_id": "n8n-nodes-base.googleCloudNaturalLanguageTool",
+  "name": "n8n-nodes-base.googleCloudNaturalLanguageTool",
+  "version": 1,
+  "semantic_context": "Consume Google Cloud Natural Language API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume Google Cloud Natural Language API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Document",
+          "value": "document"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "document",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "document"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Analyze Sentiment",
+          "value": "analyzeSentiment",
+          "action": "Analyze sentiment"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "analyzeSentiment",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "source": {
+      "displayName": "Source",
+      "name": "source",
+      "type": "options",
+      "options": [
+        {
+          "name": "Content",
+          "value": "content"
+        },
+        {
+          "name": "Google Cloud Storage URI",
+          "value": "gcsContentUri"
+        }
+      ],
+      "default": "content",
+      "description": "The source of the document: a string containing the content or a Google Cloud Storage URI",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "analyzeSentiment"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "content": {
+      "displayName": "Content",
+      "name": "content",
+      "type": "string",
+      "default": "",
+      "description": "The content of the input in string format. Cloud audit logging exempt since it is based on user data.",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "analyzeSentiment"
+          ],
+          "source": [
+            "content"
+          ]
+        }
+      },
+      "ai_hint": "The content of the input in string format. Cloud audit logging exempt since it is based on user data."
+    },
+    "gcsContentUri": {
+      "displayName": "Google Cloud Storage URI",
+      "name": "gcsContentUri",
+      "type": "string",
+      "default": "",
+      "description": "The Google Cloud Storage URI where the file content is located. This URI must be of the form: <code>gs://bucket_name/object_name</code>. For more details, see <a href=\"https://cloud.google.com/storage/docs/reference-uris.\">reference</a>.",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "analyzeSentiment"
+          ],
+          "source": [
+            "gcsContentUri"
+          ]
+        }
+      },
+      "ai_hint": "The Google Cloud Storage URI where the file content is located. This URI must be of the form: <code>gs://bucket_name/object_name</code>. For more details, see <a href=\"https://cloud.google.com/storage/docs/reference-uris.\">reference</a>."
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "analyzeSentiment"
+          ]
+        }
+      },
+      "default": {},
+      "placeholder": "Add option",
+      "options": [
+        {
+          "displayName": "Document Type",
+          "name": "documentType",
+          "type": "options",
+          "options": [
+            {
+              "name": "HTML",
+              "value": "HTML"
+            },
+            {
+              "name": "Plain Text",
+              "value": "PLAIN_TEXT"
+            }
+          ],
+          "default": "PLAIN_TEXT",
+          "description": "The type of input document"
+        },
+        {
+          "displayName": "Encoding Type",
+          "name": "encodingType",
+          "type": "options",
+          "options": [
+            {
+              "name": "None",
+              "value": "NONE"
+            },
+            {
+              "name": "UTF-8",
+              "value": "UTF8"
+            },
+            {
+              "name": "UTF-16",
+              "value": "UTF16"
+            },
+            {
+              "name": "UTF-32",
+              "value": "UTF32"
+            }
+          ],
+          "default": "UTF16",
+          "description": "The encoding type used by the API to calculate sentence offsets"
+        },
+        {
+          "displayName": "Language",
+          "name": "language",
+          "type": "options",
+          "options": [
+            {
+              "name": "Arabic",
+              "value": "ar"
+            },
+            {
+              "name": "Chinese (Simplified)",
+              "value": "zh"
+            },
+            {
+              "name": "Chinese (Traditional)",
+              "value": "zh-Hant"
+            },
+            {
+              "name": "Dutch",
+              "value": "nl"
+            },
+            {
+              "name": "English",
+              "value": "en"
+            },
+            {
+              "name": "French",
+              "value": "fr"
+            },
+            {
+              "name": "German",
+              "value": "de"
+            },
+            {
+              "name": "Indonesian",
+              "value": "id"
+            },
+            {
+              "name": "Italian",
+              "value": "it"
+            },
+            {
+              "name": "Japanese",
+              "value": "ja"
+            },
+            {
+              "name": "Korean",
+              "value": "ko"
+            },
+            {
+              "name": "Portuguese (Brazilian & Continental)",
+              "value": "pt"
+            },
+            {
+              "name": "Spanish",
+              "value": "es"
+            },
+            {
+              "name": "Thai",
+              "value": "th"
+            },
+            {
+              "name": "Turkish",
+              "value": "tr"
+            },
+            {
+              "name": "Vietnamese",
+              "value": "vi"
+            }
+          ],
+          "default": "en",
+          "placeholder": "",
+          "description": "The language of the document (if not specified, the language is automatically detected). Both ISO and BCP-47 language codes are accepted."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "source",
+      "content",
+      "gcsContentUri",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'document' THEN SHOW parameter 'operation'",
+      "IF operation == 'analyzeSentiment' THEN SHOW parameter 'source'",
+      "IF operation == 'analyzeSentiment' AND source == 'content' THEN SHOW parameter 'content'",
+      "IF operation == 'analyzeSentiment' AND source == 'gcsContentUri' THEN SHOW parameter 'gcsContentUri'",
+      "IF operation == 'analyzeSentiment' THEN SHOW parameter 'options'"
+    ]
+  }
+}

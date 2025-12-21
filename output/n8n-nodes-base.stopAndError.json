@@ -1,0 +1,72 @@
+{
+  "node_id": "n8n-nodes-base.stopAndError",
+  "name": "n8n-nodes-base.stopAndError",
+  "version": 1,
+  "semantic_context": "Throw an error in the workflow",
+  "parameters": {
+    "errorType": {
+      "displayName": "Error Type",
+      "name": "errorType",
+      "type": "options",
+      "options": [
+        {
+          "name": "Error Message",
+          "value": "errorMessage"
+        },
+        {
+          "name": "Error Object",
+          "value": "errorObject"
+        }
+      ],
+      "default": "errorMessage",
+      "description": "Type of error to throw",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "errorMessage": {
+      "displayName": "Error Message",
+      "name": "errorMessage",
+      "type": "string",
+      "placeholder": "An error occurred!",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "errorType": [
+            "errorMessage"
+          ]
+        }
+      }
+    },
+    "errorObject": {
+      "displayName": "Error Object",
+      "name": "errorObject",
+      "type": "json",
+      "description": "Object containing error properties",
+      "default": "",
+      "typeOptions": {
+        "alwaysOpenEditWindow": true
+      },
+      "placeholder": "{\n\t\"code\": \"404\",\n\t\"description\": \"The resource could not be fetched\"\n}",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "errorType": [
+            "errorObject"
+          ]
+        }
+      },
+      "ai_hint": "Object containing error properties"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "errorType",
+      "errorMessage",
+      "errorObject"
+    ],
+    "conditional_rules": [
+      "IF errorType == 'errorMessage' THEN SHOW parameter 'errorMessage'",
+      "IF errorType == 'errorObject' THEN SHOW parameter 'errorObject'"
+    ]
+  }
+}

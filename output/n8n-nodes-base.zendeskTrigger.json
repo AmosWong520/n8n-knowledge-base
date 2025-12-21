@@ -1,0 +1,790 @@
+{
+  "node_id": "n8n-nodes-base.zendeskTrigger",
+  "name": "n8n-nodes-base.zendeskTrigger",
+  "version": 1,
+  "semantic_context": "Handle Zendesk events via webhooks",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "API Token",
+          "value": "apiToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "apiToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "service": {
+      "displayName": "Service",
+      "name": "service",
+      "type": "options",
+      "required": true,
+      "options": [
+        {
+          "name": "Support",
+          "value": "support"
+        }
+      ],
+      "default": "support",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "service": [
+            "support"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Field Names or IDs",
+          "name": "fields",
+          "description": "The fields to return the values of. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+          "type": "multiOptions",
+          "default": [],
+          "typeOptions": {
+            "loadOptionsMethod": "getFields"
+          }
+        }
+      ],
+      "placeholder": "Add option",
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "conditions": {
+      "displayName": "Conditions",
+      "name": "conditions",
+      "placeholder": "Add Condition",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "service": [
+            "support"
+          ]
+        }
+      },
+      "description": "The condition to set",
+      "default": {},
+      "options": [
+        {
+          "name": "all",
+          "displayName": "All",
+          "values": [
+            {
+              "displayName": "Resource",
+              "name": "resource",
+              "type": "options",
+              "noDataExpression": true,
+              "options": [
+                {
+                  "name": "Ticket",
+                  "value": "ticket"
+                }
+              ],
+              "default": "ticket"
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "ticket"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Assignee",
+                  "value": "assignee"
+                },
+                {
+                  "name": "Group",
+                  "value": "group"
+                },
+                {
+                  "name": "Priority",
+                  "value": "priority"
+                },
+                {
+                  "name": "Status",
+                  "value": "status"
+                },
+                {
+                  "name": "Type",
+                  "value": "type"
+                }
+              ],
+              "default": "status"
+            },
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Changed",
+                  "value": "changed"
+                },
+                {
+                  "name": "Changed From",
+                  "value": "value_previous"
+                },
+                {
+                  "name": "Changed To",
+                  "value": "value"
+                },
+                {
+                  "name": "Greater Than",
+                  "value": "greater_than"
+                },
+                {
+                  "name": "Is",
+                  "value": "is"
+                },
+                {
+                  "name": "Is Not",
+                  "value": "is_not"
+                },
+                {
+                  "name": "Less Than",
+                  "value": "less_than"
+                },
+                {
+                  "name": "Not Changed",
+                  "value": "not_changed"
+                },
+                {
+                  "name": "Not Changed From",
+                  "value": "not_value_previous"
+                },
+                {
+                  "name": "Not Changed To",
+                  "value": "not_value"
+                }
+              ],
+              "displayOptions": {
+                "hide": {
+                  "field": [
+                    "assignee"
+                  ]
+                }
+              },
+              "default": "is"
+            },
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Changed",
+                  "value": "changed"
+                },
+                {
+                  "name": "Changed From",
+                  "value": "value_previous"
+                },
+                {
+                  "name": "Changed To",
+                  "value": "value"
+                },
+                {
+                  "name": "Is",
+                  "value": "is"
+                },
+                {
+                  "name": "Is Not",
+                  "value": "is_not"
+                },
+                {
+                  "name": "Not Changed",
+                  "value": "not_changed"
+                },
+                {
+                  "name": "Not Changed From",
+                  "value": "not_value_previous"
+                },
+                {
+                  "name": "Not Changed To",
+                  "value": "not_value"
+                }
+              ],
+              "displayOptions": {
+                "show": {
+                  "field": [
+                    "assignee"
+                  ]
+                }
+              },
+              "default": "is"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "field": [
+                    "status"
+                  ]
+                },
+                "hide": {
+                  "operation": [
+                    "changed",
+                    "not_changed"
+                  ],
+                  "field": [
+                    "assignee",
+                    "group",
+                    "priority",
+                    "type"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Closed",
+                  "value": "closed"
+                },
+                {
+                  "name": "New",
+                  "value": "new"
+                },
+                {
+                  "name": "Open",
+                  "value": "open"
+                },
+                {
+                  "name": "Pending",
+                  "value": "pending"
+                },
+                {
+                  "name": "Solved",
+                  "value": "solved"
+                }
+              ],
+              "default": "open"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "field": [
+                    "type"
+                  ]
+                },
+                "hide": {
+                  "operation": [
+                    "changed",
+                    "not_changed"
+                  ],
+                  "field": [
+                    "assignee",
+                    "group",
+                    "priority",
+                    "status"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Question",
+                  "value": "question"
+                },
+                {
+                  "name": "Incident",
+                  "value": "incident"
+                },
+                {
+                  "name": "Problem",
+                  "value": "problem"
+                },
+                {
+                  "name": "Task",
+                  "value": "task"
+                }
+              ],
+              "default": "question"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "field": [
+                    "priority"
+                  ]
+                },
+                "hide": {
+                  "operation": [
+                    "changed",
+                    "not_changed"
+                  ],
+                  "field": [
+                    "assignee",
+                    "group",
+                    "type",
+                    "status"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Low",
+                  "value": "low"
+                },
+                {
+                  "name": "Normal",
+                  "value": "normal"
+                },
+                {
+                  "name": "High",
+                  "value": "high"
+                },
+                {
+                  "name": "Urgent",
+                  "value": "urgent"
+                }
+              ],
+              "default": "low"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "options",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "typeOptions": {
+                "loadOptionsMethod": "getGroups"
+              },
+              "displayOptions": {
+                "show": {
+                  "field": [
+                    "group"
+                  ]
+                },
+                "hide": {
+                  "field": [
+                    "assignee",
+                    "priority",
+                    "type",
+                    "status"
+                  ]
+                }
+              },
+              "default": ""
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "options",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "typeOptions": {
+                "loadOptionsMethod": "getUsers"
+              },
+              "displayOptions": {
+                "show": {
+                  "field": [
+                    "assignee"
+                  ]
+                },
+                "hide": {
+                  "field": [
+                    "group",
+                    "priority",
+                    "type",
+                    "status"
+                  ]
+                }
+              },
+              "default": ""
+            }
+          ]
+        },
+        {
+          "name": "any",
+          "displayName": "Any",
+          "values": [
+            {
+              "displayName": "Resource",
+              "name": "resource",
+              "type": "options",
+              "noDataExpression": true,
+              "options": [
+                {
+                  "name": "Ticket",
+                  "value": "ticket"
+                }
+              ],
+              "default": "ticket"
+            },
+            {
+              "displayName": "Field",
+              "name": "field",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "resource": [
+                    "ticket"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Assignee",
+                  "value": "assignee"
+                },
+                {
+                  "name": "Group",
+                  "value": "group"
+                },
+                {
+                  "name": "Priority",
+                  "value": "priority"
+                },
+                {
+                  "name": "Status",
+                  "value": "status"
+                },
+                {
+                  "name": "Type",
+                  "value": "type"
+                }
+              ],
+              "default": "status"
+            },
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Changed",
+                  "value": "changed"
+                },
+                {
+                  "name": "Changed From",
+                  "value": "value_previous"
+                },
+                {
+                  "name": "Changed To",
+                  "value": "value"
+                },
+                {
+                  "name": "Greater Than",
+                  "value": "greater_than"
+                },
+                {
+                  "name": "Is",
+                  "value": "is"
+                },
+                {
+                  "name": "Is Not",
+                  "value": "is_not"
+                },
+                {
+                  "name": "Less Than",
+                  "value": "less_than"
+                },
+                {
+                  "name": "Not Changed",
+                  "value": "not_changed"
+                },
+                {
+                  "name": "Not Changed From",
+                  "value": "not_value_previous"
+                },
+                {
+                  "name": "Not Changed To",
+                  "value": "not_value"
+                }
+              ],
+              "displayOptions": {
+                "hide": {
+                  "field": [
+                    "assignee"
+                  ]
+                }
+              },
+              "default": "is"
+            },
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Changed",
+                  "value": "changed"
+                },
+                {
+                  "name": "Changed From",
+                  "value": "value_previous"
+                },
+                {
+                  "name": "Changed To",
+                  "value": "value"
+                },
+                {
+                  "name": "Is",
+                  "value": "is"
+                },
+                {
+                  "name": "Is Not",
+                  "value": "is_not"
+                },
+                {
+                  "name": "Not Changed",
+                  "value": "not_changed"
+                },
+                {
+                  "name": "Not Changed From",
+                  "value": "not_value_previous"
+                },
+                {
+                  "name": "Not Changed To",
+                  "value": "not_value"
+                }
+              ],
+              "displayOptions": {
+                "show": {
+                  "field": [
+                    "assignee"
+                  ]
+                }
+              },
+              "default": "is"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "field": [
+                    "status"
+                  ]
+                },
+                "hide": {
+                  "operation": [
+                    "changed",
+                    "not_changed"
+                  ],
+                  "field": [
+                    "assignee",
+                    "group",
+                    "priority",
+                    "type"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Closed",
+                  "value": "closed"
+                },
+                {
+                  "name": "New",
+                  "value": "new"
+                },
+                {
+                  "name": "Open",
+                  "value": "open"
+                },
+                {
+                  "name": "Pending",
+                  "value": "pending"
+                },
+                {
+                  "name": "Solved",
+                  "value": "solved"
+                }
+              ],
+              "default": "open"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "field": [
+                    "type"
+                  ]
+                },
+                "hide": {
+                  "operation": [
+                    "changed",
+                    "not_changed"
+                  ],
+                  "field": [
+                    "assignee",
+                    "group",
+                    "priority",
+                    "status"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Question",
+                  "value": "question"
+                },
+                {
+                  "name": "Incident",
+                  "value": "incident"
+                },
+                {
+                  "name": "Problem",
+                  "value": "problem"
+                },
+                {
+                  "name": "Task",
+                  "value": "task"
+                }
+              ],
+              "default": "question"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "field": [
+                    "priority"
+                  ]
+                },
+                "hide": {
+                  "operation": [
+                    "changed",
+                    "not_changed"
+                  ],
+                  "field": [
+                    "assignee",
+                    "group",
+                    "type",
+                    "status"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "Low",
+                  "value": "low"
+                },
+                {
+                  "name": "Normal",
+                  "value": "normal"
+                },
+                {
+                  "name": "High",
+                  "value": "high"
+                },
+                {
+                  "name": "Urgent",
+                  "value": "urgent"
+                }
+              ],
+              "default": "low"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "options",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "typeOptions": {
+                "loadOptionsMethod": "getGroups"
+              },
+              "displayOptions": {
+                "show": {
+                  "field": [
+                    "group"
+                  ]
+                },
+                "hide": {
+                  "field": [
+                    "assignee",
+                    "priority",
+                    "type",
+                    "status"
+                  ]
+                }
+              },
+              "default": ""
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "options",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "typeOptions": {
+                "loadOptionsMethod": "getUsers"
+              },
+              "displayOptions": {
+                "show": {
+                  "field": [
+                    "assignee"
+                  ]
+                },
+                "hide": {
+                  "field": [
+                    "group",
+                    "priority",
+                    "type",
+                    "status"
+                  ]
+                }
+              },
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "service",
+      "options",
+      "conditions"
+    ],
+    "conditional_rules": [
+      "IF service == 'support' THEN SHOW parameter 'options'",
+      "IF service == 'support' THEN SHOW parameter 'conditions'",
+      "IF resource == 'ticket' THEN SHOW parameter 'field'",
+      "IF field == 'assignee' THEN HIDE parameter 'operation'",
+      "IF field == 'assignee' THEN SHOW parameter 'operation'",
+      "IF field == 'status' THEN SHOW parameter 'value'",
+      "IF operation IN [\"changed\", \"not_changed\"] AND field IN [\"assignee\", \"group\", \"priority\", \"type\"] THEN HIDE parameter 'value'",
+      "IF field == 'type' THEN SHOW parameter 'value'",
+      "IF operation IN [\"changed\", \"not_changed\"] AND field IN [\"assignee\", \"group\", \"priority\", \"status\"] THEN HIDE parameter 'value'",
+      "IF field == 'priority' THEN SHOW parameter 'value'",
+      "IF operation IN [\"changed\", \"not_changed\"] AND field IN [\"assignee\", \"group\", \"type\", \"status\"] THEN HIDE parameter 'value'",
+      "IF field == 'group' THEN SHOW parameter 'value'",
+      "IF field IN [\"assignee\", \"priority\", \"type\", \"status\"] THEN HIDE parameter 'value'",
+      "IF field == 'assignee' THEN SHOW parameter 'value'",
+      "IF field IN [\"group\", \"priority\", \"type\", \"status\"] THEN HIDE parameter 'value'"
+    ]
+  }
+}

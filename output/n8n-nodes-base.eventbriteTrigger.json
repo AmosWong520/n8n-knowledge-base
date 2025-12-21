@@ -1,0 +1,141 @@
+{
+  "node_id": "n8n-nodes-base.eventbriteTrigger",
+  "name": "n8n-nodes-base.eventbriteTrigger",
+  "version": 1,
+  "semantic_context": "Handle Eventbrite events via webhooks",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Private Key",
+          "value": "privateKey"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "privateKey",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "organization": {
+      "displayName": "Organization Name or ID",
+      "name": "organization",
+      "type": "options",
+      "required": true,
+      "typeOptions": {
+        "loadOptionsMethod": "getOrganizations"
+      },
+      "default": "",
+      "description": "The Eventbrite Organization to work on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The Eventbrite Organization to work on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "event": {
+      "displayName": "Event Name or ID",
+      "name": "event",
+      "type": "options",
+      "required": true,
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "organization"
+        ],
+        "loadOptionsMethod": "getEvents"
+      },
+      "default": "",
+      "description": "Limit the triggers to this event. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "Limit the triggers to this event. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "actions": {
+      "displayName": "Actions",
+      "name": "actions",
+      "type": "multiOptions",
+      "options": [
+        {
+          "name": "attendee.checked_in",
+          "value": "attendee.checked_in"
+        },
+        {
+          "name": "attendee.checked_out",
+          "value": "attendee.checked_out"
+        },
+        {
+          "name": "attendee.updated",
+          "value": "attendee.updated"
+        },
+        {
+          "name": "event.created",
+          "value": "event.created"
+        },
+        {
+          "name": "event.published",
+          "value": "event.published"
+        },
+        {
+          "name": "event.unpublished",
+          "value": "event.unpublished"
+        },
+        {
+          "name": "event.updated",
+          "value": "event.updated"
+        },
+        {
+          "name": "order.placed",
+          "value": "order.placed"
+        },
+        {
+          "name": "order.refunded",
+          "value": "order.refunded"
+        },
+        {
+          "name": "order.updated",
+          "value": "order.updated"
+        },
+        {
+          "name": "organizer.updated",
+          "value": "organizer.updated"
+        },
+        {
+          "name": "ticket_class.created",
+          "value": "ticket_class.created"
+        },
+        {
+          "name": "ticket_class.deleted",
+          "value": "ticket_class.deleted"
+        },
+        {
+          "name": "ticket_class.updated",
+          "value": "ticket_class.updated"
+        },
+        {
+          "name": "venue.updated",
+          "value": "venue.updated"
+        }
+      ],
+      "required": true,
+      "default": [],
+      "description": "One or more action to subscribe to",
+      "ai_hint": "One or more action to subscribe to"
+    },
+    "resolveData": {
+      "displayName": "Resolve Data",
+      "name": "resolveData",
+      "type": "boolean",
+      "default": true,
+      "description": "By default does the webhook-data only contain the URL to receive the object data manually. If this option gets activated, it will resolve the data automatically.",
+      "ai_hint": "布尔值：true 或 false。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "organization",
+      "event",
+      "actions",
+      "resolveData"
+    ],
+    "conditional_rules": []
+  }
+}

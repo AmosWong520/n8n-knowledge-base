@@ -1,0 +1,673 @@
+{
+  "node_id": "n8n-nodes-base.googleSheets",
+  "name": "n8n-nodes-base.googleSheets",
+  "version": [
+    1,
+    2
+  ],
+  "semantic_context": "Read, update and write data to Google Sheets",
+  "parameters": {
+    "oldVersionNotice": {
+      "displayName": "<strong>New node version available:</strong> get the latest version with added features from the nodes panel.",
+      "name": "oldVersionNotice",
+      "type": "notice",
+      "default": ""
+    },
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "OAuth2 (recommended)",
+          "value": "oAuth2"
+        },
+        {
+          "name": "Service Account",
+          "value": "serviceAccount"
+        }
+      ],
+      "default": "oAuth2",
+      "displayOptions": {
+        "show": {
+          "@version": [
+            2
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Spreadsheet",
+          "value": "spreadsheet"
+        },
+        {
+          "name": "Sheet",
+          "value": "sheet"
+        }
+      ],
+      "default": "sheet",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "spreadsheet"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a spreadsheet",
+          "action": "Create a spreadsheet"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "sheetId": {
+      "displayName": "Spreadsheet ID",
+      "name": "sheetId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "description": "The ID of the Google Spreadsheet. Found as part of the sheet URL https://docs.google.com/spreadsheets/d/{ID}/.",
+      "ai_hint": "The ID of the Google Spreadsheet. Found as part of the sheet URL https://docs.google.com/spreadsheets/d/{ID}/."
+    },
+    "range": {
+      "displayName": "Range",
+      "name": "range",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ]
+        },
+        "hide": {
+          "operation": [
+            "create",
+            "delete",
+            "remove"
+          ]
+        }
+      },
+      "default": "A:F",
+      "required": true,
+      "description": "The table range to read from or to append data to. See the Google <a href=\"https://developers.google.com/sheets/api/guides/values#writing\">documentation</a> for the details. If it contains multiple sheets it can also be added like this: \"MySheet!A:F\"",
+      "ai_hint": "The table range to read from or to append data to. See the Google <a href=\"https://developers.google.com/sheets/api/guides/values#writing\">documentation</a> for the details. If it contains multiple sheets it can also be added like this: \"MySheet!A:F\""
+    },
+    "toDelete": {
+      "displayName": "To Delete",
+      "name": "toDelete",
+      "placeholder": "Add Columns/Rows to delete",
+      "description": "Deletes columns and rows from a sheet",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Columns",
+          "name": "columns",
+          "values": [
+            {
+              "displayName": "Sheet Name or ID",
+              "name": "sheetId",
+              "type": "options",
+              "typeOptions": {
+                "loadOptionsMethod": "getSheets"
+              },
+              "options": [],
+              "default": "",
+              "required": true,
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+            },
+            {
+              "displayName": "Start Index",
+              "name": "startIndex",
+              "type": "number",
+              "typeOptions": {
+                "minValue": 0
+              },
+              "default": 0,
+              "description": "The start index (0 based and inclusive) of column to delete"
+            },
+            {
+              "displayName": "Amount",
+              "name": "amount",
+              "type": "number",
+              "typeOptions": {
+                "minValue": 1
+              },
+              "default": 1,
+              "description": "Number of columns to delete"
+            }
+          ]
+        },
+        {
+          "displayName": "Rows",
+          "name": "rows",
+          "values": [
+            {
+              "displayName": "Sheet Name or ID",
+              "name": "sheetId",
+              "type": "options",
+              "typeOptions": {
+                "loadOptionsMethod": "getSheets"
+              },
+              "options": [],
+              "default": "",
+              "required": true,
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+            },
+            {
+              "displayName": "Start Index",
+              "name": "startIndex",
+              "type": "number",
+              "typeOptions": {
+                "minValue": 0
+              },
+              "default": 0,
+              "description": "The start index (0 based and inclusive) of row to delete"
+            },
+            {
+              "displayName": "Amount",
+              "name": "amount",
+              "type": "number",
+              "typeOptions": {
+                "minValue": 1
+              },
+              "default": 1,
+              "description": "Number of rows to delete"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "rawData": {
+      "displayName": "RAW Data",
+      "name": "rawData",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "update",
+            "upsert"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether the data supplied is RAW instead of parsed into keys",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "dataProperty": {
+      "displayName": "Data Property",
+      "name": "dataProperty",
+      "type": "string",
+      "default": "data",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "update",
+            "upsert"
+          ],
+          "rawData": [
+            true
+          ]
+        }
+      },
+      "description": "The name of the property from which to read the RAW data",
+      "ai_hint": "The name of the property from which to read the RAW data"
+    },
+    "dataStartRow": {
+      "displayName": "Data Start Row",
+      "name": "dataStartRow",
+      "type": "number",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "default": 1,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ]
+        },
+        "hide": {
+          "operation": [
+            "append",
+            "create",
+            "clear",
+            "delete",
+            "remove"
+          ],
+          "rawData": [
+            true
+          ]
+        }
+      },
+      "description": "Index of the first row which contains the actual data and not the keys. Starts with 0.",
+      "ai_hint": "Index of the first row which contains the actual data and not the keys. Starts with 0."
+    },
+    "keyRow": {
+      "displayName": "Key Row",
+      "name": "keyRow",
+      "type": "number",
+      "typeOptions": {
+        "minValue": 0
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ]
+        },
+        "hide": {
+          "operation": [
+            "clear",
+            "create",
+            "delete",
+            "remove"
+          ],
+          "rawData": [
+            true
+          ]
+        }
+      },
+      "default": 0,
+      "description": "Index of the row which contains the keys. Starts at 0. The incoming node data is matched to the keys for assignment. The matching is case sensitive.",
+      "ai_hint": "Index of the row which contains the keys. Starts at 0. The incoming node data is matched to the keys for assignment. The matching is case sensitive."
+    },
+    "lookupColumn": {
+      "displayName": "Lookup Column",
+      "name": "lookupColumn",
+      "type": "string",
+      "default": "",
+      "placeholder": "Email",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "lookup"
+          ]
+        }
+      },
+      "description": "The name of the column in which to look for value",
+      "ai_hint": "The name of the column in which to look for value"
+    },
+    "lookupValue": {
+      "displayName": "Lookup Value",
+      "name": "lookupValue",
+      "type": "string",
+      "default": "",
+      "placeholder": "frank@example.com",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "lookup"
+          ]
+        }
+      },
+      "description": "The value to look for in column",
+      "ai_hint": "The value to look for in column"
+    },
+    "key": {
+      "displayName": "Key",
+      "name": "key",
+      "type": "string",
+      "default": "id",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "update",
+            "upsert"
+          ],
+          "rawData": [
+            false
+          ]
+        }
+      },
+      "description": "The name of the key to identify which data should be updated in the sheet",
+      "ai_hint": "The name of the key to identify which data should be updated in the sheet"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Grid Properties",
+          "name": "gridProperties",
+          "type": "collection",
+          "placeholder": "Add Property",
+          "default": {},
+          "options": [
+            {
+              "displayName": "Column Count",
+              "name": "columnCount",
+              "type": "number",
+              "default": 0,
+              "description": "The number of columns in the grid"
+            },
+            {
+              "displayName": "Column Group Control After",
+              "name": "columnGroupControlAfter",
+              "type": "boolean",
+              "default": false,
+              "description": "Whether the column grouping control toggle is shown after the group"
+            },
+            {
+              "displayName": "Frozen Column Count",
+              "name": "frozenColumnCount",
+              "type": "number",
+              "default": 0,
+              "description": "The number of columns that are frozen in the grid"
+            },
+            {
+              "displayName": "Frozen Row Count",
+              "name": "frozenRowCount",
+              "type": "number",
+              "default": 0,
+              "description": "The number of rows that are frozen in the grid"
+            },
+            {
+              "displayName": "Hide Gridlines",
+              "name": "hideGridlines",
+              "type": "boolean",
+              "default": false,
+              "description": "Whether the grid isn't showing gridlines in the UI"
+            },
+            {
+              "displayName": "Row Count",
+              "name": "rowCount",
+              "type": "number",
+              "default": 0,
+              "description": "The number of rows in the grid"
+            },
+            {
+              "displayName": "Row Group Control After",
+              "name": "rowGroupControlAfter",
+              "type": "boolean",
+              "default": false,
+              "description": "Whether the row grouping control toggle is shown after the group"
+            }
+          ],
+          "description": "The type of the sheet"
+        },
+        {
+          "displayName": "Hidden",
+          "name": "hidden",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the sheet is hidden in the UI, false if it's visible"
+        },
+        {
+          "displayName": "Right To Left",
+          "name": "rightToLeft",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the sheet is an RTL sheet instead of an LTR sheet"
+        },
+        {
+          "displayName": "Sheet ID",
+          "name": "sheetId",
+          "type": "number",
+          "default": 0,
+          "description": "The ID of the sheet. Must be non-negative. This field cannot be changed once set."
+        },
+        {
+          "displayName": "Sheet Index",
+          "name": "index",
+          "type": "number",
+          "default": 0,
+          "description": "The index of the sheet within the spreadsheet"
+        },
+        {
+          "displayName": "Tab Color",
+          "name": "tabColor",
+          "type": "color",
+          "default": "0aa55c",
+          "description": "The color of the tab in the UI"
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": "",
+          "description": "The Sheet name"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "spreadsheet"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "The title of the spreadsheet",
+      "ai_hint": "The title of the spreadsheet"
+    },
+    "sheetsUi": {
+      "displayName": "Sheets",
+      "name": "sheetsUi",
+      "placeholder": "Add Sheet",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "spreadsheet"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "sheetValues",
+          "displayName": "Sheet",
+          "values": [
+            {
+              "displayName": "Sheet Properties",
+              "name": "propertiesUi",
+              "placeholder": "Add Property",
+              "type": "collection",
+              "default": {},
+              "options": [
+                {
+                  "displayName": "Hidden",
+                  "name": "hidden",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Whether the Sheet should be hidden in the UI"
+                },
+                {
+                  "displayName": "Title",
+                  "name": "title",
+                  "type": "string",
+                  "default": "",
+                  "description": "Title of the property to create"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "simple": {
+      "displayName": "Simplify",
+      "name": "simple",
+      "type": "boolean",
+      "default": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Whether to return a simplified version of the response instead of the raw data",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "id": {
+      "displayName": "Sheet ID",
+      "name": "id",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "remove"
+          ]
+        }
+      },
+      "description": "The ID of the sheet to delete",
+      "ai_hint": "The ID of the sheet to delete"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "oldVersionNotice",
+      "authentication",
+      "authentication",
+      "resource",
+      "operation",
+      "sheetId",
+      "range",
+      "toDelete",
+      "rawData",
+      "dataProperty",
+      "rawData",
+      "dataProperty",
+      "dataStartRow",
+      "keyRow",
+      "lookupColumn",
+      "lookupValue",
+      "key",
+      "options",
+      "operation",
+      "title",
+      "sheetsUi",
+      "options",
+      "simple",
+      "options",
+      "id"
+    ],
+    "conditional_rules": [
+      "IF @version == 1 THEN SHOW parameter 'authentication'",
+      "IF @version == 2 THEN SHOW parameter 'authentication'",
+      "IF resource == 'sheet' THEN SHOW parameter 'operation'",
+      "IF resource == 'sheet' THEN SHOW parameter 'sheetId'",
+      "IF resource == 'sheet' THEN SHOW parameter 'range'",
+      "IF operation IN [\"create\", \"delete\", \"remove\"] THEN HIDE parameter 'range'",
+      "IF resource == 'sheet' AND operation == 'delete' THEN SHOW parameter 'toDelete'",
+      "IF resource == 'sheet' AND operation == 'read' THEN SHOW parameter 'rawData'",
+      "IF resource == 'sheet' AND operation == 'read' AND rawData == True THEN SHOW parameter 'dataProperty'",
+      "IF resource == 'sheet' AND operation IN [\"update\", \"upsert\"] THEN SHOW parameter 'rawData'",
+      "IF resource == 'sheet' AND operation IN [\"update\", \"upsert\"] AND rawData == True THEN SHOW parameter 'dataProperty'",
+      "IF resource == 'sheet' THEN SHOW parameter 'dataStartRow'",
+      "IF operation IN [\"append\", \"create\", \"clear\", \"delete\", \"remove\"] AND rawData == True THEN HIDE parameter 'dataStartRow'",
+      "IF resource == 'sheet' THEN SHOW parameter 'keyRow'",
+      "IF operation IN [\"clear\", \"create\", \"delete\", \"remove\"] AND rawData == True THEN HIDE parameter 'keyRow'",
+      "IF resource == 'sheet' AND operation == 'lookup' THEN SHOW parameter 'lookupColumn'",
+      "IF resource == 'sheet' AND operation == 'lookup' THEN SHOW parameter 'lookupValue'",
+      "IF resource == 'sheet' AND operation IN [\"update\", \"upsert\"] AND rawData == False THEN SHOW parameter 'key'",
+      "IF resource == 'sheet' AND operation IN [\"append\", \"lookup\", \"read\", \"update\", \"upsert\"] THEN SHOW parameter 'options'",
+      "IF /operation IN [\"lookup\", \"read\"] THEN SHOW parameter 'continue'",
+      "IF /operation == 'lookup' THEN SHOW parameter 'returnAllMatches'",
+      "IF /operation == 'append' THEN SHOW parameter 'usePathForKeyRow'",
+      "IF /operation IN [\"append\", \"update\", \"upsert\"] THEN SHOW parameter 'valueInputMode'",
+      "IF /operation IN [\"lookup\", \"read\"] THEN SHOW parameter 'valueRenderMode'",
+      "IF /operation IN [\"update\", \"upsert\"] AND /rawData == False THEN SHOW parameter 'valueRenderMode'",
+      "IF resource == 'spreadsheet' THEN SHOW parameter 'operation'",
+      "IF resource == 'spreadsheet' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'spreadsheet' AND operation == 'create' THEN SHOW parameter 'sheetsUi'",
+      "IF resource == 'spreadsheet' AND operation == 'create' THEN SHOW parameter 'options'",
+      "IF resource == 'sheet' AND operation == 'create' THEN SHOW parameter 'simple'",
+      "IF resource == 'sheet' AND operation == 'create' THEN SHOW parameter 'options'",
+      "IF resource == 'sheet' AND operation == 'remove' THEN SHOW parameter 'id'"
+    ]
+  }
+}

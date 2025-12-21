@@ -1,0 +1,154 @@
+{
+  "node_id": "n8n-nodes-base.lingvaNexTool",
+  "name": "n8n-nodes-base.lingvaNexTool",
+  "version": 1,
+  "semantic_context": "Consume LingvaNex API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume LingvaNex API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Translate",
+          "value": "translate",
+          "description": "Translate data",
+          "action": "Translate data"
+        }
+      ],
+      "default": "translate",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "text": {
+      "displayName": "Text",
+      "name": "text",
+      "type": "string",
+      "default": "",
+      "description": "The input text to translate",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "translate"
+          ]
+        }
+      },
+      "ai_hint": "The input text to translate"
+    },
+    "translateTo": {
+      "displayName": "Translate To",
+      "name": "translateTo",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getLanguages"
+      },
+      "default": "",
+      "description": "The language to use for translation of the input text, set to one of the language codes listed in <a href=\"https://cloud.google.com/translate/docs/languages\">Language Support</a>. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "translate"
+          ]
+        }
+      },
+      "ai_hint": "The language to use for translation of the input text, set to one of the language codes listed in <a href=\"https://cloud.google.com/translate/docs/languages\">Language Support</a>. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "options": {
+      "displayName": "Additional Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "translate"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "From",
+          "name": "from",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getLanguages"
+          },
+          "default": "",
+          "description": "The language code in the format “language code_code of the country”. If this parameter is not present, the auto-detect language mode is enabled. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Platform",
+          "name": "platform",
+          "type": "string",
+          "default": "api"
+        },
+        {
+          "displayName": "Translate Mode",
+          "name": "translateMode",
+          "type": "string",
+          "default": "",
+          "description": "Describe the input text format. Possible value is \"html\" for translating and preserving html structure. If value is not specified or is other than \"html\" than plain text is translating."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "operation",
+      "text",
+      "translateTo",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF operation == 'translate' THEN SHOW parameter 'text'",
+      "IF operation == 'translate' THEN SHOW parameter 'translateTo'",
+      "IF operation == 'translate' THEN SHOW parameter 'options'"
+    ]
+  }
+}

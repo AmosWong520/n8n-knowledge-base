@@ -1,0 +1,158 @@
+{
+  "node_id": "n8n-nodes-base.htmlExtract",
+  "name": "n8n-nodes-base.htmlExtract",
+  "version": 1,
+  "semantic_context": "Extracts data from HTML",
+  "parameters": {
+    "sourceData": {
+      "displayName": "Source Data",
+      "name": "sourceData",
+      "type": "options",
+      "options": [
+        {
+          "name": "Binary",
+          "value": "binary"
+        },
+        {
+          "name": "JSON",
+          "value": "json"
+        }
+      ],
+      "default": "json",
+      "description": "If HTML should be read from binary or JSON data",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "dataPropertyName": {
+      "displayName": "JSON Property",
+      "name": "dataPropertyName",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "sourceData": [
+            "json"
+          ]
+        }
+      },
+      "default": "data",
+      "required": true,
+      "description": "Name of the JSON property in which the HTML to extract the data from can be found. The property can either contain a string or an array of strings.",
+      "ai_hint": "Name of the JSON property in which the HTML to extract the data from can be found. The property can either contain a string or an array of strings."
+    },
+    "extractionValues": {
+      "displayName": "Extraction Values",
+      "name": "extractionValues",
+      "placeholder": "Add Value",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "default": {},
+      "options": [
+        {
+          "name": "values",
+          "displayName": "Values",
+          "values": [
+            {
+              "displayName": "Key",
+              "name": "key",
+              "type": "string",
+              "default": "",
+              "description": "The key under which the extracted value should be saved"
+            },
+            {
+              "displayName": "CSS Selector",
+              "name": "cssSelector",
+              "type": "string",
+              "default": "",
+              "placeholder": ".price",
+              "description": "The CSS selector to use"
+            },
+            {
+              "displayName": "Return Value",
+              "name": "returnValue",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Attribute",
+                  "value": "attribute",
+                  "description": "Get an attribute value like \"class\" from an element"
+                },
+                {
+                  "name": "HTML",
+                  "value": "html",
+                  "description": "Get the HTML the element contains"
+                },
+                {
+                  "name": "Text",
+                  "value": "text",
+                  "description": "Get only the text content of the element"
+                },
+                {
+                  "name": "Value",
+                  "value": "value",
+                  "description": "Get value of an input, select or textarea"
+                }
+              ],
+              "default": "text",
+              "description": "What kind of data should be returned"
+            },
+            {
+              "displayName": "Attribute",
+              "name": "attribute",
+              "type": "string",
+              "displayOptions": {
+                "show": {
+                  "returnValue": [
+                    "attribute"
+                  ]
+                }
+              },
+              "default": "",
+              "placeholder": "class",
+              "description": "The name of the attribute to return the value off"
+            },
+            {
+              "displayName": "Return Array",
+              "name": "returnArray",
+              "type": "boolean",
+              "default": false,
+              "description": "Whether to return the values as an array so if multiple ones get found they also get returned separately. If not set all will be returned as a single string."
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Trim Values",
+          "name": "trimValues",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to remove automatically all spaces and newlines from the beginning and end of the values"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "sourceData",
+      "dataPropertyName",
+      "dataPropertyName",
+      "extractionValues",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF sourceData == 'binary' THEN SHOW parameter 'dataPropertyName'",
+      "IF sourceData == 'json' THEN SHOW parameter 'dataPropertyName'",
+      "IF returnValue == 'attribute' THEN SHOW parameter 'attribute'"
+    ]
+  }
+}

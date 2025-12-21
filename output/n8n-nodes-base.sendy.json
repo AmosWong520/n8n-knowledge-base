@@ -1,0 +1,374 @@
+{
+  "node_id": "n8n-nodes-base.sendy",
+  "name": "n8n-nodes-base.sendy",
+  "version": 1,
+  "semantic_context": "Consume Sendy API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Campaign",
+          "value": "campaign"
+        },
+        {
+          "name": "Subscriber",
+          "value": "subscriber"
+        }
+      ],
+      "default": "subscriber",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "subscriber"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Add",
+          "value": "add",
+          "description": "Add a subscriber to a list",
+          "action": "Add a subscriber"
+        },
+        {
+          "name": "Count",
+          "value": "count",
+          "description": "Count subscribers",
+          "action": "Count a subscriber"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a subscriber from a list",
+          "action": "Delete a subscriber"
+        },
+        {
+          "name": "Remove",
+          "value": "remove",
+          "description": "Unsubscribe user from a list",
+          "action": "Remove a subscriber"
+        },
+        {
+          "name": "Status",
+          "value": "status",
+          "description": "Get the status of subscriber",
+          "action": "Get subscriber's status"
+        }
+      ],
+      "default": "add",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "fromName": {
+      "displayName": "From Name",
+      "name": "fromName",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "campaign"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The 'From name' of your campaign",
+      "ai_hint": "The 'From name' of your campaign"
+    },
+    "fromEmail": {
+      "displayName": "From Email",
+      "name": "fromEmail",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "campaign"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The 'From email' of your campaign",
+      "ai_hint": "The 'From email' of your campaign"
+    },
+    "replyTo": {
+      "displayName": "Reply To",
+      "name": "replyTo",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "campaign"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The 'Reply to' of your campaign",
+      "ai_hint": "The 'Reply to' of your campaign"
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "campaign"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The 'Title' of your campaign",
+      "ai_hint": "The 'Title' of your campaign"
+    },
+    "subject": {
+      "displayName": "Subject",
+      "name": "subject",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "campaign"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The 'Subject' of your campaign",
+      "ai_hint": "The 'Subject' of your campaign"
+    },
+    "htmlText": {
+      "displayName": "HTML Text",
+      "name": "htmlText",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "campaign"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The 'HTML version' of your campaign",
+      "ai_hint": "The 'HTML version' of your campaign"
+    },
+    "sendCampaign": {
+      "displayName": "Send Campaign",
+      "name": "sendCampaign",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "campaign"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to send the campaign as well and not just create a draft. Default is false.",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "brandId": {
+      "displayName": "Brand ID",
+      "name": "brandId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "campaign"
+          ],
+          "sendCampaign": [
+            false
+          ]
+        }
+      },
+      "required": true,
+      "default": ""
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "subscriber"
+          ],
+          "operation": [
+            "add"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Country",
+          "name": "country",
+          "type": "string",
+          "default": "",
+          "description": "User's 2 letter country code"
+        },
+        {
+          "displayName": "GDPR",
+          "name": "gdpr",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether you're signing up EU users in a GDPR compliant manner"
+        },
+        {
+          "displayName": "Honeypot",
+          "name": "hp",
+          "type": "boolean",
+          "default": false,
+          "description": "Include this 'honeypot' field to prevent spambots from signing up via this API call. When spambots fills in this field, this API call will exit, preventing them from signing up fake addresses to your form. This parameter is only supported in Sendy 3.0 onwards."
+        },
+        {
+          "displayName": "IP Address",
+          "name": "ipaddress",
+          "type": "string",
+          "default": "",
+          "description": "User's IP address"
+        },
+        {
+          "displayName": "Name",
+          "name": "name",
+          "type": "string",
+          "default": "",
+          "description": "User's name"
+        },
+        {
+          "displayName": "Referrer",
+          "name": "referrer",
+          "type": "string",
+          "default": "",
+          "description": "The URL where the user signed up from"
+        },
+        {
+          "displayName": "Silent",
+          "name": "silent",
+          "type": "boolean",
+          "default": false,
+          "description": "Set to \"true\" if your list is 'Double opt-in' but you want to bypass that and signup the user to the list as 'Single Opt-in instead' (optional)"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "email": {
+      "displayName": "Email",
+      "name": "email",
+      "type": "string",
+      "placeholder": "name@email.com",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "subscriber"
+          ],
+          "operation": [
+            "status"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Email address of the subscriber",
+      "ai_hint": "Email address of the subscriber"
+    },
+    "listId": {
+      "displayName": "List ID",
+      "name": "listId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "subscriber"
+          ],
+          "operation": [
+            "status"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The list ID you want to subscribe a user to. This encrypted & hashed ID can be found under View all lists section named ID.",
+      "ai_hint": "The list ID you want to subscribe a user to. This encrypted & hashed ID can be found under View all lists section named ID."
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "fromName",
+      "fromEmail",
+      "replyTo",
+      "title",
+      "subject",
+      "htmlText",
+      "sendCampaign",
+      "brandId",
+      "additionalFields",
+      "operation",
+      "email",
+      "listId",
+      "additionalFields",
+      "listId",
+      "email",
+      "listId",
+      "email",
+      "listId",
+      "email",
+      "listId"
+    ],
+    "conditional_rules": [
+      "IF resource == 'campaign' THEN SHOW parameter 'operation'",
+      "IF resource == 'campaign' AND operation == 'create' THEN SHOW parameter 'fromName'",
+      "IF resource == 'campaign' AND operation == 'create' THEN SHOW parameter 'fromEmail'",
+      "IF resource == 'campaign' AND operation == 'create' THEN SHOW parameter 'replyTo'",
+      "IF resource == 'campaign' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'campaign' AND operation == 'create' THEN SHOW parameter 'subject'",
+      "IF resource == 'campaign' AND operation == 'create' THEN SHOW parameter 'htmlText'",
+      "IF resource == 'campaign' AND operation == 'create' THEN SHOW parameter 'sendCampaign'",
+      "IF operation == 'create' AND resource == 'campaign' AND sendCampaign == False THEN SHOW parameter 'brandId'",
+      "IF resource == 'campaign' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'subscriber' THEN SHOW parameter 'operation'",
+      "IF resource == 'subscriber' AND operation == 'add' THEN SHOW parameter 'email'",
+      "IF resource == 'subscriber' AND operation == 'add' THEN SHOW parameter 'listId'",
+      "IF resource == 'subscriber' AND operation == 'add' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'subscriber' AND operation == 'count' THEN SHOW parameter 'listId'",
+      "IF resource == 'subscriber' AND operation == 'delete' THEN SHOW parameter 'email'",
+      "IF resource == 'subscriber' AND operation == 'delete' THEN SHOW parameter 'listId'",
+      "IF resource == 'subscriber' AND operation == 'remove' THEN SHOW parameter 'email'",
+      "IF resource == 'subscriber' AND operation == 'remove' THEN SHOW parameter 'listId'",
+      "IF resource == 'subscriber' AND operation == 'status' THEN SHOW parameter 'email'",
+      "IF resource == 'subscriber' AND operation == 'status' THEN SHOW parameter 'listId'"
+    ]
+  }
+}

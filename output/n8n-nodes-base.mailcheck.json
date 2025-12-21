@@ -1,0 +1,74 @@
+{
+  "node_id": "n8n-nodes-base.mailcheck",
+  "name": "n8n-nodes-base.mailcheck",
+  "version": 1,
+  "semantic_context": "Consume Mailcheck API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Email",
+          "value": "email"
+        }
+      ],
+      "default": "email",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "email"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Check",
+          "value": "check",
+          "action": "Check an email"
+        }
+      ],
+      "default": "check",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "email": {
+      "displayName": "Email",
+      "name": "email",
+      "type": "string",
+      "placeholder": "name@email.com",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "email"
+          ],
+          "operation": [
+            "check"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Email address to check",
+      "ai_hint": "Email address to check"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "email"
+    ],
+    "conditional_rules": [
+      "IF resource == 'email' THEN SHOW parameter 'operation'",
+      "IF resource == 'email' AND operation == 'check' THEN SHOW parameter 'email'"
+    ]
+  }
+}

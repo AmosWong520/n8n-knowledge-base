@@ -1,0 +1,727 @@
+{
+  "node_id": "n8n-nodes-base.microsoftOutlook",
+  "name": "n8n-nodes-base.microsoftOutlook",
+  "version": 1,
+  "semantic_context": "Consume Microsoft Outlook API",
+  "parameters": {
+    "oldVersionNotice": {
+      "displayName": "<strong>New node version available:</strong> get the latest version with added features from the nodes panel.",
+      "name": "oldVersionNotice",
+      "type": "notice",
+      "default": ""
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "default": "message",
+      "options": [
+        {
+          "name": "Draft",
+          "value": "draft"
+        },
+        {
+          "name": "Folder",
+          "value": "folder"
+        },
+        {
+          "name": "Folder Message",
+          "value": "folderMessage"
+        },
+        {
+          "name": "Message",
+          "value": "message"
+        },
+        {
+          "name": "Message Attachment",
+          "value": "messageAttachment"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "folderMessage"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many messages in a folder",
+          "action": "Get many folder messages"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "messageId": {
+      "displayName": "Message ID",
+      "name": "messageId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "messageAttachment"
+          ],
+          "operation": [
+            "add",
+            "download",
+            "get",
+            "getAll"
+          ]
+        }
+      }
+    },
+    "subject": {
+      "displayName": "Subject",
+      "name": "subject",
+      "description": "The subject of the message",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "create",
+            "send"
+          ]
+        }
+      },
+      "type": "string",
+      "default": "",
+      "ai_hint": "The subject of the message"
+    },
+    "bodyContent": {
+      "displayName": "Body Content",
+      "name": "bodyContent",
+      "description": "Message body content",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "create",
+            "send"
+          ]
+        }
+      },
+      "default": "",
+      "ai_hint": "Message body content"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "draft",
+            "message"
+          ],
+          "operation": [
+            "get",
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Attachments Prefix",
+          "name": "dataPropertyAttachmentsPrefixName",
+          "type": "string",
+          "default": "attachment_",
+          "description": "Prefix for name of the binary property to which to write the attachments. An index starting with 0 will be added. So if name is \"attachment_\" the first attachment is saved to \"attachment_0\""
+        },
+        {
+          "displayName": "Fields",
+          "name": "fields",
+          "type": "string",
+          "default": "",
+          "description": "Fields the response will contain. Multiple can be added separated by comma."
+        },
+        {
+          "displayName": "Filter",
+          "name": "filter",
+          "type": "string",
+          "default": "",
+          "placeholder": "isRead eq false",
+          "description": "Microsoft Graph API OData $filter query. Information about the syntax can be found <a href=\"https://docs.microsoft.com/en-us/graph/query-parameters#filter-parameter\">here</a>."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "replyType": {
+      "displayName": "Reply Type",
+      "name": "replyType",
+      "type": "options",
+      "options": [
+        {
+          "name": "Reply",
+          "value": "reply"
+        },
+        {
+          "name": "Reply All",
+          "value": "replyAll"
+        }
+      ],
+      "default": "reply",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "reply"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "comment": {
+      "displayName": "Comment",
+      "name": "comment",
+      "description": "A comment to include. Can be an empty string.",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "reply"
+          ]
+        }
+      },
+      "type": "string",
+      "default": "",
+      "ai_hint": "A comment to include. Can be an empty string."
+    },
+    "send": {
+      "displayName": "Send",
+      "name": "send",
+      "description": "Whether to send the reply message directly. If not set, it will be saved as draft.",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "reply"
+          ]
+        }
+      },
+      "type": "boolean",
+      "default": true,
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "folderMessage"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "folderMessage"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "toRecipients": {
+      "displayName": "Recipients",
+      "name": "toRecipients",
+      "description": "Email addresses of recipients. Multiple can be added separated by comma.",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "send"
+          ]
+        }
+      },
+      "required": true,
+      "default": "",
+      "ai_hint": "Email addresses of recipients. Multiple can be added separated by comma."
+    },
+    "binaryPropertyName": {
+      "displayName": "Put Output File in Field",
+      "name": "binaryPropertyName",
+      "hint": "The name of the output binary field to put the file in",
+      "type": "string",
+      "required": true,
+      "default": "data",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "messageAttachment"
+          ],
+          "operation": [
+            "add",
+            "download"
+          ]
+        }
+      }
+    },
+    "folderId": {
+      "displayName": "Folder ID",
+      "name": "folderId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "folderMessage"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      }
+    },
+    "attachmentId": {
+      "displayName": "Attachment ID",
+      "name": "attachmentId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "messageAttachment"
+          ],
+          "operation": [
+            "download",
+            "get"
+          ]
+        }
+      }
+    },
+    "folderType": {
+      "displayName": "Type",
+      "name": "folderType",
+      "description": "Folder Type",
+      "type": "options",
+      "options": [
+        {
+          "name": "Folder",
+          "value": "folder"
+        },
+        {
+          "name": "Search Folder",
+          "value": "searchFolder"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "folder"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "folder",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "displayName": {
+      "displayName": "Display Name",
+      "name": "displayName",
+      "description": "Name of the folder",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "folder"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Name of the folder"
+    },
+    "includeNestedFolders": {
+      "displayName": "Include Nested Folders",
+      "name": "includeNestedFolders",
+      "description": "Whether to include child folders in the search",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "folder"
+          ],
+          "operation": [
+            "create"
+          ],
+          "folderType": [
+            "searchFolder"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "sourceFolderIds": {
+      "displayName": "Source Folder IDs",
+      "name": "sourceFolderIds",
+      "description": "The mailbox folders that should be mined",
+      "type": "string",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "default": [],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "folder"
+          ],
+          "operation": [
+            "create"
+          ],
+          "folderType": [
+            "searchFolder"
+          ]
+        }
+      },
+      "ai_hint": "The mailbox folders that should be mined"
+    },
+    "filterQuery": {
+      "displayName": "Filter Query",
+      "name": "filterQuery",
+      "description": "The OData query to filter the messages",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "folder"
+          ],
+          "operation": [
+            "create"
+          ],
+          "folderType": [
+            "searchFolder"
+          ]
+        }
+      },
+      "ai_hint": "The OData query to filter the messages"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "draft",
+            "message"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "BCC Recipients",
+          "name": "bccRecipients",
+          "description": "Email addresses of BCC recipients",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Body Content",
+          "name": "bodyContent",
+          "description": "Message body content",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Body Content Type",
+          "name": "bodyContentType",
+          "description": "Message body content type",
+          "type": "options",
+          "options": [
+            {
+              "name": "HTML",
+              "value": "html"
+            },
+            {
+              "name": "Text",
+              "value": "Text"
+            }
+          ],
+          "default": "html"
+        },
+        {
+          "displayName": "Category Names or IDs",
+          "name": "categories",
+          "type": "multiOptions",
+          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getCategories"
+          },
+          "default": []
+        },
+        {
+          "displayName": "CC Recipients",
+          "name": "ccRecipients",
+          "description": "Email addresses of CC recipients",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Custom Headers",
+          "name": "internetMessageHeaders",
+          "placeholder": "Add Header",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": {},
+          "options": [
+            {
+              "name": "headers",
+              "displayName": "Header",
+              "values": [
+                {
+                  "displayName": "Name",
+                  "name": "name",
+                  "type": "string",
+                  "default": "",
+                  "description": "Name of the header"
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": "",
+                  "description": "Value to set for the header"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "From",
+          "name": "from",
+          "description": "The owner of the mailbox which the message is sent. Must correspond to the actual mailbox used.",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Importance",
+          "name": "importance",
+          "description": "The importance of the message",
+          "type": "options",
+          "options": [
+            {
+              "name": "Low",
+              "value": "Low"
+            },
+            {
+              "name": "Normal",
+              "value": "Normal"
+            },
+            {
+              "name": "High",
+              "value": "High"
+            }
+          ],
+          "default": "Low"
+        },
+        {
+          "displayName": "Is Read",
+          "name": "isRead",
+          "description": "Whether the message has been read",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "displayName": "Read Receipt Requested",
+          "name": "isReadReceiptRequested",
+          "description": "Whether a read receipt is requested for the message",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "displayName": "Recipients",
+          "name": "toRecipients",
+          "description": "Email addresses of recipients. Multiple can be added separated by comma.",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Reply To",
+          "name": "replyTo",
+          "description": "Email addresses to use when replying",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Subject",
+          "name": "subject",
+          "description": "The subject of the message",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "oldVersionNotice",
+      "resource",
+      "operation",
+      "messageId",
+      "subject",
+      "bodyContent",
+      "additionalFields",
+      "additionalFields",
+      "operation",
+      "messageId",
+      "replyType",
+      "comment",
+      "send",
+      "additionalFields",
+      "returnAll",
+      "limit",
+      "subject",
+      "bodyContent",
+      "toRecipients",
+      "additionalFields",
+      "binaryPropertyName",
+      "folderId",
+      "operation",
+      "messageId",
+      "attachmentId",
+      "returnAll",
+      "limit",
+      "binaryPropertyName",
+      "additionalFields",
+      "additionalFields",
+      "operation",
+      "folderId",
+      "returnAll",
+      "limit",
+      "folderType",
+      "displayName",
+      "includeNestedFolders",
+      "sourceFolderIds",
+      "filterQuery",
+      "additionalFields",
+      "updateFields",
+      "operation",
+      "folderId",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "additionalFields",
+      "updateFields"
+    ],
+    "conditional_rules": [
+      "IF resource == 'draft' THEN SHOW parameter 'operation'",
+      "IF resource == 'draft' AND operation IN [\"delete\", \"get\", \"send\", \"update\"] THEN SHOW parameter 'messageId'",
+      "IF resource == 'draft' AND operation == 'create' THEN SHOW parameter 'subject'",
+      "IF resource == 'draft' AND operation == 'create' THEN SHOW parameter 'bodyContent'",
+      "IF resource == 'draft' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'draft' AND operation == 'send' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'message' THEN SHOW parameter 'operation'",
+      "IF resource == 'message' AND operation IN [\"addAttachment\", \"delete\", \"get\", \"getAttachment\", \"getMime\", \"move\", \"update\", \"reply\"] THEN SHOW parameter 'messageId'",
+      "IF resource == 'message' AND operation == 'reply' THEN SHOW parameter 'replyType'",
+      "IF resource == 'message' AND operation == 'reply' THEN SHOW parameter 'comment'",
+      "IF resource == 'message' AND operation == 'reply' THEN SHOW parameter 'send'",
+      "IF resource == 'message' AND operation == 'reply' AND replyType == 'reply' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'message' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'message' AND operation IN [\"create\", \"send\"] THEN SHOW parameter 'subject'",
+      "IF resource == 'message' AND operation IN [\"create\", \"send\"] THEN SHOW parameter 'bodyContent'",
+      "IF resource == 'message' AND operation == 'send' THEN SHOW parameter 'toRecipients'",
+      "IF resource == 'message' AND operation == 'send' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'message' AND operation == 'getMime' THEN SHOW parameter 'binaryPropertyName'",
+      "IF resource == 'message' AND operation == 'move' THEN SHOW parameter 'folderId'",
+      "IF resource == 'messageAttachment' THEN SHOW parameter 'operation'",
+      "IF resource == 'messageAttachment' AND operation IN [\"add\", \"download\", \"get\", \"getAll\"] THEN SHOW parameter 'messageId'",
+      "IF resource == 'messageAttachment' AND operation IN [\"download\", \"get\"] THEN SHOW parameter 'attachmentId'",
+      "IF resource == 'messageAttachment' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'messageAttachment' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'messageAttachment' AND operation IN [\"add\", \"download\"] THEN SHOW parameter 'binaryPropertyName'",
+      "IF resource == 'messageAttachment' AND operation == 'add' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'messageAttachment' AND operation IN [\"get\", \"getAll\"] THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'folder' THEN SHOW parameter 'operation'",
+      "IF resource == 'folder' AND operation IN [\"delete\", \"get\", \"getChildren\", \"update\"] THEN SHOW parameter 'folderId'",
+      "IF resource == 'folder' AND operation IN [\"getAll\", \"getChildren\"] THEN SHOW parameter 'returnAll'",
+      "IF resource == 'folder' AND operation IN [\"getAll\", \"getChildren\"] AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'folder' AND operation == 'create' THEN SHOW parameter 'folderType'",
+      "IF resource == 'folder' AND operation == 'create' THEN SHOW parameter 'displayName'",
+      "IF resource == 'folder' AND operation == 'create' AND folderType == 'searchFolder' THEN SHOW parameter 'includeNestedFolders'",
+      "IF resource == 'folder' AND operation == 'create' AND folderType == 'searchFolder' THEN SHOW parameter 'sourceFolderIds'",
+      "IF resource == 'folder' AND operation == 'create' AND folderType == 'searchFolder' THEN SHOW parameter 'filterQuery'",
+      "IF resource == 'folder' AND operation IN [\"get\", \"getAll\", \"getChildren\"] THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'folder' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'folderMessage' THEN SHOW parameter 'operation'",
+      "IF resource == 'folderMessage' AND operation == 'getAll' THEN SHOW parameter 'folderId'",
+      "IF resource == 'folderMessage' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'folderMessage' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'folderMessage' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
+      "IF resource IN [\"draft\", \"message\"] AND operation IN [\"get\", \"getAll\"] THEN SHOW parameter 'additionalFields'",
+      "IF resource IN [\"draft\", \"message\"] AND operation == 'update' THEN SHOW parameter 'updateFields'"
+    ]
+  }
+}

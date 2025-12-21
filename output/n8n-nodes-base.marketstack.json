@@ -1,0 +1,252 @@
+{
+  "node_id": "n8n-nodes-base.marketstack",
+  "name": "n8n-nodes-base.marketstack",
+  "version": 1,
+  "semantic_context": "Consume Marketstack API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "End-of-Day Data",
+          "value": "endOfDayData",
+          "description": "Stock market closing data"
+        },
+        {
+          "name": "Exchange",
+          "value": "exchange",
+          "description": "Stock market exchange"
+        },
+        {
+          "name": "Ticker",
+          "value": "ticker",
+          "description": "Stock market symbol"
+        }
+      ],
+      "default": "endOfDayData",
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Get",
+          "value": "get",
+          "action": "Get a ticker"
+        }
+      ],
+      "default": "get",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "ticker"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "symbols": {
+      "displayName": "Ticker",
+      "name": "symbols",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "endOfDayData"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": "",
+      "description": "One or multiple comma-separated stock symbols (tickers) to retrieve, e.g. <code>AAPL</code> or <code>AAPL,MSFT</code>",
+      "ai_hint": "One or multiple comma-separated stock symbols (tickers) to retrieve, e.g. <code>AAPL</code> or <code>AAPL,MSFT</code>"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "endOfDayData"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "default": 50,
+      "description": "Max number of results to return",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "endOfDayData"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "endOfDayData"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Exchange",
+          "name": "exchange",
+          "type": "string",
+          "default": "",
+          "description": "Stock exchange to filter results by, specified by <a href=\"https://en.wikipedia.org/wiki/Market_Identifier_Code\">Market Identifier Code</a>, e.g. <code>XNAS</code>"
+        },
+        {
+          "displayName": "Latest",
+          "name": "latest",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to fetch the most recent stock market data"
+        },
+        {
+          "displayName": "Sort Order",
+          "name": "sort",
+          "description": "Order to sort results in",
+          "type": "options",
+          "options": [
+            {
+              "name": "Ascending",
+              "value": "ASC"
+            },
+            {
+              "name": "Descending",
+              "value": "DESC"
+            }
+          ],
+          "default": "DESC"
+        },
+        {
+          "displayName": "Specific Date",
+          "name": "specificDate",
+          "type": "dateTime",
+          "default": "",
+          "description": "Date in YYYY-MM-DD format, e.g. <code>2020-01-01</code>, or in ISO-8601 date format, e.g. <code>2020-05-21T00:00:00+0000</code>"
+        },
+        {
+          "displayName": "Timeframe Start Date",
+          "name": "dateFrom",
+          "type": "dateTime",
+          "default": "",
+          "description": "Timeframe start date in YYYY-MM-DD format, e.g. <code>2020-01-01</code>, or in ISO-8601 date format, e.g. <code>2020-05-21T00:00:00+0000</code>"
+        },
+        {
+          "displayName": "Timeframe End Date",
+          "name": "dateTo",
+          "type": "dateTime",
+          "default": "",
+          "description": "Timeframe end date in YYYY-MM-DD format, e.g. <code>2020-01-01</code>, or in ISO-8601 date format, e.g. <code>2020-05-21T00:00:00+0000</code>"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "exchange": {
+      "displayName": "Exchange",
+      "name": "exchange",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "exchange"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Stock exchange to retrieve, specified by <a href=\"https://en.wikipedia.org/wiki/Market_Identifier_Code\">Market Identifier Code</a>, e.g. <code>XNAS</code>",
+      "ai_hint": "Stock exchange to retrieve, specified by <a href=\"https://en.wikipedia.org/wiki/Market_Identifier_Code\">Market Identifier Code</a>, e.g. <code>XNAS</code>"
+    },
+    "symbol": {
+      "displayName": "Ticker",
+      "name": "symbol",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "ticker"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Stock symbol (ticker) to retrieve, e.g. <code>AAPL</code>",
+      "ai_hint": "Stock symbol (ticker) to retrieve, e.g. <code>AAPL</code>"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "symbols",
+      "returnAll",
+      "limit",
+      "filters",
+      "operation",
+      "exchange",
+      "operation",
+      "symbol"
+    ],
+    "conditional_rules": [
+      "IF resource == 'endOfDayData' THEN SHOW parameter 'operation'",
+      "IF resource == 'endOfDayData' AND operation == 'getAll' THEN SHOW parameter 'symbols'",
+      "IF resource == 'endOfDayData' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'endOfDayData' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'endOfDayData' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'exchange' THEN SHOW parameter 'operation'",
+      "IF resource == 'exchange' AND operation == 'get' THEN SHOW parameter 'exchange'",
+      "IF resource == 'ticker' THEN SHOW parameter 'operation'",
+      "IF resource == 'ticker' AND operation == 'get' THEN SHOW parameter 'symbol'"
+    ]
+  }
+}

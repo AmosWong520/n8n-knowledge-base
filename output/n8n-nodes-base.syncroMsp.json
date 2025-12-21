@@ -1,0 +1,565 @@
+{
+  "node_id": "n8n-nodes-base.syncroMsp",
+  "name": "n8n-nodes-base.syncroMsp",
+  "version": 1,
+  "semantic_context": "Gets data from SyncroMSP",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Contact",
+          "value": "contact"
+        },
+        {
+          "name": "Customer",
+          "value": "customer"
+        },
+        {
+          "name": "RMM",
+          "value": "rmm"
+        },
+        {
+          "name": "Ticket",
+          "value": "ticket"
+        }
+      ],
+      "default": "contact",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "rmm"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create new RMM Alert",
+          "action": "Create an RMM alert"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete RMM Alert",
+          "action": "Delete an RMM alert"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Retrieve RMM Alert",
+          "action": "Get an RMM alert"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Retrieve many RMM Alerts",
+          "action": "Get many RMM alerts"
+        },
+        {
+          "name": "Mute",
+          "value": "mute",
+          "description": "Mute RMM Alert",
+          "action": "Mute an RMM alert"
+        }
+      ],
+      "default": "getAll",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "rmm"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "noDataExpression": true,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "rmm"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "default": 25,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "rmm"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Status",
+          "name": "status",
+          "type": "options",
+          "options": [
+            {
+              "name": "Active",
+              "value": "active"
+            },
+            {
+              "name": "All",
+              "value": "all"
+            },
+            {
+              "name": "Resolved",
+              "value": "resolved"
+            }
+          ],
+          "default": "all"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "customerId": {
+      "displayName": "Customer ID",
+      "name": "customerId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "rmm"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "email": {
+      "displayName": "Email",
+      "name": "email",
+      "type": "string",
+      "placeholder": "name@email.com",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "rmm"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Resolved",
+          "name": "resolved",
+          "type": "boolean",
+          "default": false
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Address",
+          "name": "address",
+          "placeholder": "Add Address Fields",
+          "type": "fixedCollection",
+          "default": {},
+          "options": [
+            {
+              "displayName": "Address Fields",
+              "name": "addressFields",
+              "values": [
+                {
+                  "displayName": "Line 1",
+                  "name": "address",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Line 2",
+                  "name": "address2",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "City",
+                  "name": "city",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "State",
+                  "name": "state",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "ZIP",
+                  "name": "zip",
+                  "type": "string",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Customer ID",
+          "name": "customerId",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Email",
+          "name": "email",
+          "type": "string",
+          "placeholder": "name@email.com",
+          "default": ""
+        },
+        {
+          "displayName": "Name",
+          "name": "name",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Notes",
+          "name": "notes",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Phone",
+          "name": "phone",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "subject": {
+      "displayName": "Subject",
+      "name": "subject",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "ticket"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "ticketId": {
+      "displayName": "Ticket ID",
+      "name": "ticketId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "ticket"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "contactId": {
+      "displayName": "Contact ID",
+      "name": "contactId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Delete a specific contact by ID",
+      "ai_hint": "Delete a specific contact by ID"
+    },
+    "alertId": {
+      "displayName": "RMM Alert ID",
+      "name": "alertId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "rmm"
+          ],
+          "operation": [
+            "mute"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Mute the RMM alert by ID",
+      "ai_hint": "Mute the RMM alert by ID"
+    },
+    "assetId": {
+      "displayName": "Asset ID",
+      "name": "assetId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "rmm"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "description": {
+      "displayName": "Description",
+      "name": "description",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "rmm"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "muteFor": {
+      "displayName": "Mute Period",
+      "name": "muteFor",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "rmm"
+          ],
+          "operation": [
+            "mute"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "1 Hour",
+          "value": "1-hour"
+        },
+        {
+          "name": "1 Day",
+          "value": "1-day"
+        },
+        {
+          "name": "2 Days",
+          "value": "2-days"
+        },
+        {
+          "name": "1 Week",
+          "value": "1-week"
+        },
+        {
+          "name": "2 Weeks",
+          "value": "2-weeks"
+        },
+        {
+          "name": "1 Month",
+          "value": "1-month"
+        },
+        {
+          "name": "Forever",
+          "value": "forever"
+        }
+      ],
+      "default": "",
+      "description": "Length of time to mute alert for",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "returnAll",
+      "limit",
+      "filters",
+      "customerId",
+      "email",
+      "additionalFields",
+      "customerId",
+      "customerId",
+      "updateFields",
+      "operation",
+      "returnAll",
+      "limit",
+      "filters",
+      "customerId",
+      "subject",
+      "additionalFields",
+      "ticketId",
+      "ticketId",
+      "ticketId",
+      "updateFields",
+      "operation",
+      "returnAll",
+      "limit",
+      "customerId",
+      "email",
+      "additionalFields",
+      "contactId",
+      "contactId",
+      "updateFields",
+      "contactId",
+      "operation",
+      "returnAll",
+      "limit",
+      "filters",
+      "alertId",
+      "assetId",
+      "customerId",
+      "description",
+      "additionalFields",
+      "alertId",
+      "alertId",
+      "muteFor"
+    ],
+    "conditional_rules": [
+      "IF resource == 'customer' THEN SHOW parameter 'operation'",
+      "IF resource == 'customer' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'customer' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'customer' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'customer' AND operation == 'get' THEN SHOW parameter 'customerId'",
+      "IF resource == 'customer' AND operation == 'create' THEN SHOW parameter 'email'",
+      "IF resource == 'customer' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF noEmail == False THEN SHOW parameter 'notificationEmail'",
+      "IF resource == 'customer' AND operation == 'delete' THEN SHOW parameter 'customerId'",
+      "IF resource == 'customer' AND operation == 'update' THEN SHOW parameter 'customerId'",
+      "IF resource == 'customer' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'ticket' THEN SHOW parameter 'operation'",
+      "IF resource == 'ticket' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'ticket' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'ticket' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'customerId'",
+      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'subject'",
+      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'ticket' AND operation == 'get' THEN SHOW parameter 'ticketId'",
+      "IF resource == 'ticket' AND operation == 'delete' THEN SHOW parameter 'ticketId'",
+      "IF resource == 'ticket' AND operation == 'update' THEN SHOW parameter 'ticketId'",
+      "IF resource == 'ticket' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'contact' THEN SHOW parameter 'operation'",
+      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'contact' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'customerId'",
+      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'email'",
+      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'contact' AND operation == 'get' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'update' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'contact' AND operation == 'delete' THEN SHOW parameter 'contactId'",
+      "IF resource == 'rmm' THEN SHOW parameter 'operation'",
+      "IF resource == 'rmm' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'rmm' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'rmm' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'rmm' AND operation == 'get' THEN SHOW parameter 'alertId'",
+      "IF resource == 'rmm' AND operation == 'create' THEN SHOW parameter 'assetId'",
+      "IF resource == 'rmm' AND operation == 'create' THEN SHOW parameter 'customerId'",
+      "IF resource == 'rmm' AND operation == 'create' THEN SHOW parameter 'description'",
+      "IF resource == 'rmm' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'rmm' AND operation == 'delete' THEN SHOW parameter 'alertId'",
+      "IF resource == 'rmm' AND operation == 'mute' THEN SHOW parameter 'alertId'",
+      "IF resource == 'rmm' AND operation == 'mute' THEN SHOW parameter 'muteFor'"
+    ]
+  }
+}

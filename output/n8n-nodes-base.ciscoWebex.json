@@ -1,0 +1,1568 @@
+{
+  "node_id": "n8n-nodes-base.ciscoWebex",
+  "name": "n8n-nodes-base.ciscoWebex",
+  "version": 1,
+  "semantic_context": "Consume the Cisco Webex API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Meeting",
+          "value": "meeting"
+        },
+        {
+          "name": "Message",
+          "value": "message"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "message",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "action": "Create a message"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "action": "Delete a message"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "action": "Get a message"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "action": "Get many messages"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "action": "Update a message"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "meeting"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Meeting title. The title can be a maximum of 128 characters long.",
+      "ai_hint": "Meeting title. The title can be a maximum of 128 characters long."
+    },
+    "start": {
+      "displayName": "Start",
+      "name": "start",
+      "type": "dateTime",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "meeting"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Date and time for the start of the meeting. Acceptable <a href=\"https://datatracker.ietf.org/doc/html/rfc2445\"> format</a>.",
+      "ai_hint": "Date and time for the start of the meeting. Acceptable <a href=\"https://datatracker.ietf.org/doc/html/rfc2445\"> format</a>."
+    },
+    "end": {
+      "displayName": "End",
+      "name": "end",
+      "type": "dateTime",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "meeting"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Date and time for the end of the meeting. Acceptable <a href=\"https://datatracker.ietf.org/doc/html/rfc2445\"> format</a>.",
+      "ai_hint": "Date and time for the end of the meeting. Acceptable <a href=\"https://datatracker.ietf.org/doc/html/rfc2445\"> format</a>."
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": {},
+      "placeholder": "Add Field",
+      "options": [
+        {
+          "displayName": "Attachments",
+          "name": "attachmentsUi",
+          "type": "fixedCollection",
+          "default": {},
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "placeholder": "Add Attachment",
+          "options": [
+            {
+              "displayName": "Attachment",
+              "name": "attachmentValues",
+              "values": [
+                {
+                  "displayName": "Elements",
+                  "name": "elementsUi",
+                  "type": "fixedCollection",
+                  "typeOptions": {
+                    "multipleValues": true
+                  },
+                  "default": {},
+                  "placeholder": "Add Element",
+                  "options": [
+                    {
+                      "displayName": "Element",
+                      "name": "elementValues",
+                      "values": [
+                        {
+                          "displayName": "Type",
+                          "name": "type",
+                          "type": "options",
+                          "options": [
+                            {
+                              "name": "Text Block",
+                              "value": "textBlock"
+                            },
+                            {
+                              "name": "Input Text",
+                              "value": "inputText"
+                            }
+                          ],
+                          "default": "textBlock"
+                        },
+                        {
+                          "displayName": "Text",
+                          "name": "text",
+                          "type": "string",
+                          "default": "",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "textBlock"
+                              ]
+                            }
+                          },
+                          "required": true,
+                          "description": "Text to display. A subset of markdown is supported (https://aka.ms/ACTextFeatures)."
+                        },
+                        {
+                          "displayName": "Color",
+                          "name": "color",
+                          "type": "options",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "textBlock"
+                              ]
+                            }
+                          },
+                          "options": [
+                            {
+                              "name": "Accent",
+                              "value": "accent"
+                            },
+                            {
+                              "name": "Attention",
+                              "value": "attention"
+                            },
+                            {
+                              "name": "Dark",
+                              "value": "dark"
+                            },
+                            {
+                              "name": "Default",
+                              "value": "default"
+                            },
+                            {
+                              "name": "Good",
+                              "value": "good"
+                            },
+                            {
+                              "name": "Light",
+                              "value": "light"
+                            },
+                            {
+                              "name": "Warning",
+                              "value": "warning"
+                            }
+                          ],
+                          "default": "default",
+                          "description": "Color of the TextBlock element"
+                        },
+                        {
+                          "displayName": "Font Type",
+                          "name": "fontType",
+                          "type": "options",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "textBlock"
+                              ]
+                            }
+                          },
+                          "options": [
+                            {
+                              "name": "Default",
+                              "value": "default"
+                            },
+                            {
+                              "name": "Monospace",
+                              "value": "monospace"
+                            }
+                          ],
+                          "default": "default",
+                          "description": "Type of font to use for rendering"
+                        },
+                        {
+                          "displayName": "Horizontal Alignment",
+                          "name": "horizontalAlignment",
+                          "type": "options",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "textBlock"
+                              ]
+                            }
+                          },
+                          "options": [
+                            {
+                              "name": "Left",
+                              "value": "left"
+                            },
+                            {
+                              "name": "Center",
+                              "value": "center"
+                            },
+                            {
+                              "name": "Right",
+                              "value": "right"
+                            }
+                          ],
+                          "default": "left",
+                          "description": "Controls the horizontal text alignment"
+                        },
+                        {
+                          "displayName": "Is Subtle",
+                          "name": "isSubtle",
+                          "type": "boolean",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "textBlock"
+                              ]
+                            }
+                          },
+                          "default": false,
+                          "description": "Whether to display text slightly toned down to appear less prominent"
+                        },
+                        {
+                          "displayName": "Max Lines",
+                          "name": "maxLines",
+                          "type": "number",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "textBlock"
+                              ]
+                            }
+                          },
+                          "default": 1,
+                          "description": "Specifies the maximum number of lines to display"
+                        },
+                        {
+                          "displayName": "Size",
+                          "name": "size",
+                          "type": "options",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "textBlock"
+                              ]
+                            }
+                          },
+                          "options": [
+                            {
+                              "name": "Default",
+                              "value": "default"
+                            },
+                            {
+                              "name": "Extra Large",
+                              "value": "extraLarge"
+                            },
+                            {
+                              "name": "Large",
+                              "value": "large"
+                            },
+                            {
+                              "name": "Medium",
+                              "value": "medium"
+                            },
+                            {
+                              "name": "Small",
+                              "value": "small"
+                            }
+                          ],
+                          "default": "default",
+                          "description": "Controls size of text"
+                        },
+                        {
+                          "displayName": "Weight",
+                          "name": "weight",
+                          "type": "options",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "textBlock"
+                              ]
+                            }
+                          },
+                          "options": [
+                            {
+                              "name": "Default",
+                              "value": "default"
+                            },
+                            {
+                              "name": "Lighter",
+                              "value": "lighter"
+                            },
+                            {
+                              "name": "Bolder",
+                              "value": "bolder"
+                            }
+                          ],
+                          "default": "default",
+                          "description": "Controls the weight of TextBlock elements"
+                        },
+                        {
+                          "displayName": "Wrap",
+                          "name": "wrap",
+                          "type": "boolean",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "textBlock"
+                              ]
+                            }
+                          },
+                          "default": true,
+                          "description": "Whether to allow text to wrap. Otherwise, text is clipped."
+                        },
+                        {
+                          "displayName": "Height",
+                          "name": "height",
+                          "type": "options",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "textBlock"
+                              ]
+                            }
+                          },
+                          "options": [
+                            {
+                              "name": "Auto",
+                              "value": "auto"
+                            },
+                            {
+                              "name": "Stretch",
+                              "value": "stretch"
+                            }
+                          ],
+                          "default": "auto",
+                          "description": "Specifies the height of the element"
+                        },
+                        {
+                          "displayName": "Separator",
+                          "name": "separator",
+                          "type": "boolean",
+                          "default": false,
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "textBlock"
+                              ]
+                            }
+                          },
+                          "description": "Whether to draw a separating line at the top of the element"
+                        },
+                        {
+                          "displayName": "Spacing",
+                          "name": "spacing",
+                          "type": "options",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "textBlock"
+                              ]
+                            }
+                          },
+                          "options": [
+                            {
+                              "name": "Default",
+                              "value": "default"
+                            },
+                            {
+                              "name": "Extra Large",
+                              "value": "extraLarge"
+                            },
+                            {
+                              "name": "Large",
+                              "value": "large"
+                            },
+                            {
+                              "name": "Medium",
+                              "value": "medium"
+                            },
+                            {
+                              "name": "None",
+                              "value": "none"
+                            },
+                            {
+                              "name": "Padding",
+                              "value": "padding"
+                            },
+                            {
+                              "name": "Small",
+                              "value": "small"
+                            }
+                          ],
+                          "default": "default",
+                          "description": "Controls the amount of spacing between this element and the preceding element"
+                        },
+                        {
+                          "displayName": "ID",
+                          "name": "id",
+                          "type": "string",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "textBlock"
+                              ]
+                            }
+                          },
+                          "default": "",
+                          "description": "A unique identifier associated with the item"
+                        },
+                        {
+                          "displayName": "Is Visible",
+                          "name": "isVisible",
+                          "type": "boolean",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "textBlock"
+                              ]
+                            }
+                          },
+                          "default": true,
+                          "description": "Whether this item will be removed from the visual trees"
+                        },
+                        {
+                          "displayName": "ID",
+                          "name": "id",
+                          "type": "string",
+                          "required": true,
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "inputText"
+                              ]
+                            }
+                          },
+                          "default": "",
+                          "description": "Unique identifier for the value. Used to identify collected input when the Submit action is performed."
+                        },
+                        {
+                          "displayName": "Is Multiline",
+                          "name": "isMultiline",
+                          "type": "boolean",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "inputText"
+                              ]
+                            }
+                          },
+                          "default": false,
+                          "description": "Whether to allow multiple lines of input"
+                        },
+                        {
+                          "displayName": "Max Length",
+                          "name": "maxLength",
+                          "type": "number",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "inputText"
+                              ]
+                            }
+                          },
+                          "default": 1,
+                          "description": "Hint of maximum length characters to collect (may be ignored by some clients)"
+                        },
+                        {
+                          "displayName": "Placeholder",
+                          "name": "placeholder",
+                          "type": "string",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "inputText"
+                              ]
+                            }
+                          },
+                          "default": "",
+                          "description": "Description of the input desired. Displayed when no text has been input."
+                        },
+                        {
+                          "displayName": "Regex",
+                          "name": "regex",
+                          "type": "string",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "inputText"
+                              ]
+                            }
+                          },
+                          "default": "",
+                          "description": "Regular expression indicating the required format of this text input"
+                        },
+                        {
+                          "displayName": "Style",
+                          "name": "style",
+                          "type": "options",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "inputText"
+                              ]
+                            }
+                          },
+                          "options": [
+                            {
+                              "name": "Text",
+                              "value": "text"
+                            },
+                            {
+                              "name": "Tel",
+                              "value": "tel"
+                            },
+                            {
+                              "name": "URL",
+                              "value": "url"
+                            },
+                            {
+                              "name": "Email",
+                              "value": "email"
+                            }
+                          ],
+                          "default": "text",
+                          "description": "Style hint for text input"
+                        },
+                        {
+                          "displayName": "Value",
+                          "name": "value",
+                          "type": "string",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "inputText"
+                              ]
+                            }
+                          },
+                          "default": "",
+                          "description": "The initial value for this field"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "displayName": "Actions",
+                  "name": "actionsUi",
+                  "type": "fixedCollection",
+                  "typeOptions": {
+                    "multipleValues": true
+                  },
+                  "default": {},
+                  "placeholder": "Add Action",
+                  "options": [
+                    {
+                      "displayName": "Action",
+                      "name": "actionValues",
+                      "values": [
+                        {
+                          "displayName": "Type",
+                          "name": "type",
+                          "type": "options",
+                          "options": [
+                            {
+                              "name": "Execute",
+                              "value": "execute"
+                            },
+                            {
+                              "name": "Open URL",
+                              "value": "openUrl"
+                            },
+                            {
+                              "name": "Submit",
+                              "value": "submit"
+                            }
+                          ],
+                          "default": "openUrl"
+                        },
+                        {
+                          "displayName": "URL",
+                          "name": "url",
+                          "type": "string",
+                          "default": "",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "openUrl"
+                              ]
+                            }
+                          },
+                          "description": "The URL to open"
+                        },
+                        {
+                          "displayName": "Data",
+                          "name": "data",
+                          "type": "string",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "submit",
+                                "execute"
+                              ]
+                            }
+                          },
+                          "default": "",
+                          "description": "Any extra data to pass along. These are essentially ‘hidden’ properties."
+                        },
+                        {
+                          "displayName": "Verb",
+                          "name": "verb",
+                          "type": "string",
+                          "displayOptions": {
+                            "show": {
+                              "type": [
+                                "execute"
+                              ]
+                            }
+                          },
+                          "default": "",
+                          "description": "The card author-defined verb associated with this action"
+                        },
+                        {
+                          "displayName": "Title",
+                          "name": "title",
+                          "type": "string",
+                          "default": "",
+                          "required": true,
+                          "description": "Label for button or link that represents this action"
+                        },
+                        {
+                          "displayName": "Icon URL",
+                          "name": "iconUrl",
+                          "type": "string",
+                          "default": "",
+                          "description": "Optional icon to be shown on the action in conjunction with the title. Supports data URI in version 1.2+."
+                        },
+                        {
+                          "displayName": "Style",
+                          "name": "style",
+                          "type": "options",
+                          "options": [
+                            {
+                              "name": "Default",
+                              "value": "default"
+                            },
+                            {
+                              "name": "Positive",
+                              "value": "positive"
+                            },
+                            {
+                              "name": "Destructive",
+                              "value": "destructive"
+                            }
+                          ],
+                          "default": "default",
+                          "description": "Controls the style of an Action, which influences how the action is displayed, spoken, etc"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "File",
+          "name": "fileUi",
+          "placeholder": "Add File",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": false
+          },
+          "default": {},
+          "options": [
+            {
+              "name": "fileValue",
+              "displayName": "File",
+              "values": [
+                {
+                  "displayName": "File Location",
+                  "name": "fileLocation",
+                  "type": "options",
+                  "options": [
+                    {
+                      "name": "URL",
+                      "value": "url"
+                    },
+                    {
+                      "name": "Binary File",
+                      "value": "binaryData"
+                    }
+                  ],
+                  "default": "url"
+                },
+                {
+                  "displayName": "Input Field With File",
+                  "name": "binaryPropertyName",
+                  "type": "string",
+                  "default": "data",
+                  "required": true,
+                  "displayOptions": {
+                    "show": {
+                      "fileLocation": [
+                        "binaryData"
+                      ]
+                    }
+                  },
+                  "description": "The field in the node input containing the binary file data"
+                },
+                {
+                  "displayName": "URL",
+                  "name": "url",
+                  "type": "string",
+                  "default": "",
+                  "displayOptions": {
+                    "show": {
+                      "fileLocation": [
+                        "url"
+                      ]
+                    }
+                  },
+                  "description": "The public URL of the file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Markdown",
+          "name": "markdown",
+          "type": "string",
+          "default": "",
+          "description": "The message in markdown format. When used the text parameter is used to provide alternate text for UI clients that do not support rich text."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "meetingId": {
+      "displayName": "Meeting ID",
+      "name": "meetingId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "meeting"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "description": "ID of the meeting",
+      "ai_hint": "ID of the meeting"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "meeting"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Host Email",
+          "name": "hostEmail",
+          "type": "string",
+          "default": "",
+          "description": "Email address for the meeting host. This parameter is only used if the user or application calling the API has the admin-level scopes."
+        },
+        {
+          "displayName": "Password",
+          "name": "password",
+          "type": "string",
+          "typeOptions": {
+            "password": true
+          },
+          "default": "",
+          "description": "Meeting password. It's required when the meeting is protected by a password and the current user is not privileged to view it if they are not a host, co-host or invitee of the meeting."
+        },
+        {
+          "displayName": "Send Email",
+          "name": "sendEmail",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether or not to send emails to host and invitees. It is an optional field and default value is true."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "default": 50,
+      "description": "Max number of results to return",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Before",
+          "name": "before",
+          "description": "List messages sent before a date and time",
+          "type": "dateTime",
+          "default": ""
+        },
+        {
+          "displayName": "Before Message",
+          "name": "beforeMessage",
+          "description": "List messages sent before a message, by ID",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Parent Message ID",
+          "name": "parentId",
+          "description": "List messages with a parent, by ID",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Mentioned Person",
+          "name": "mentionedPeople",
+          "type": "string",
+          "default": "",
+          "description": "List only messages with certain person mentioned. Enter their ID. You can use 'me' as a shorthand for yourself"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "meeting"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "default": {},
+      "placeholder": "Add Field",
+      "options": [
+        {
+          "displayName": "Agenda",
+          "name": "agenda",
+          "type": "string",
+          "default": "",
+          "description": "The meeting's agenda. Cannot be longer that 1300 characters."
+        },
+        {
+          "displayName": "Allow Any User To Be Co-Host",
+          "name": "allowAnyUserToBeCoHost",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether or not to allow any attendee with a host account on the target site to become a co-host when joining the meeting"
+        },
+        {
+          "displayName": "Allow Authenticated Devices",
+          "name": "allowAuthenticatedDevices",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether or not to allow authenticated video devices in the meeting's organization to start or join the meeting without a prompt"
+        },
+        {
+          "displayName": "Allow First User To Be Co-Host",
+          "name": "allowFirstUserToBeCoHost",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether or not to allow the first attendee of the meeting with a host account on the target site to become a co-host"
+        },
+        {
+          "displayName": "Enable Connect Audio Before Host",
+          "name": "enableConnectAudioBeforeHost",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether or not to allow any attendee to connect audio in the meeting before the host joins the meeting"
+        },
+        {
+          "displayName": "Enabled Auto Record Meeting",
+          "name": "enabledAutoRecordMeeting",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether or not meeting is recorded automatically"
+        },
+        {
+          "displayName": "Enabled Join Before Host",
+          "name": "enabledJoinBeforeHost",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether or not to allow any attendee to join the meeting before the host joins the meeting"
+        },
+        {
+          "displayName": "End",
+          "name": "end",
+          "type": "dateTime",
+          "default": "",
+          "description": "Date and time for the end of the meeting. Acceptable <a href=\"https://datatracker.ietf.org/doc/html/rfc2445\"> format</a>."
+        },
+        {
+          "displayName": "Exclude Password",
+          "name": "excludePassword",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether or not to exclude password from the meeting email invitation"
+        },
+        {
+          "displayName": "Host Email",
+          "name": "hostEmail",
+          "type": "string",
+          "default": "",
+          "description": "Email address for the meeting host. This attribute should only be set if the user or application calling the API has the admin-level scopes."
+        },
+        {
+          "displayName": "Invitees",
+          "name": "inviteesUi",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": {},
+          "placeholder": "Add Invitee",
+          "options": [
+            {
+              "displayName": "Invitee",
+              "name": "inviteeValues",
+              "values": [
+                {
+                  "displayName": "Email",
+                  "name": "email",
+                  "type": "string",
+                  "placeholder": "name@email.com",
+                  "required": true,
+                  "default": "",
+                  "description": "Email address of meeting invitee"
+                },
+                {
+                  "displayName": "Display Name",
+                  "name": "displayName",
+                  "type": "string",
+                  "default": "",
+                  "description": "Display name of meeting invitee"
+                },
+                {
+                  "displayName": "Co-Host",
+                  "name": "coHost",
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Whether or not invitee is allowed to be a co-host for the meeting"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Join Before Host Minutes",
+          "name": "joinBeforeHostMinutes",
+          "type": "options",
+          "options": [
+            {
+              "name": "0",
+              "value": 0
+            },
+            {
+              "name": "5",
+              "value": 5
+            },
+            {
+              "name": "10",
+              "value": 10
+            },
+            {
+              "name": "15",
+              "value": 15
+            }
+          ],
+          "default": 0,
+          "description": "The number of minutes an attendee can join the meeting before the meeting start time and the host joins"
+        },
+        {
+          "displayName": "Password",
+          "name": "password",
+          "type": "string",
+          "typeOptions": {
+            "password": true
+          },
+          "default": "",
+          "description": "Meeting password. Must conform to the site's password complexity settings. If not specified, a random password conforming to the site's password rules will be generated automatically"
+        },
+        {
+          "displayName": "Public Meeting",
+          "name": "publicMeeting",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether or not to allow the meeting to be listed on the public calendar"
+        },
+        {
+          "displayName": "Recurrence",
+          "name": "recurrence",
+          "type": "string",
+          "default": "",
+          "description": "Meeting series recurrence rule (conforming with RFC 2445), applying only to meeting series"
+        },
+        {
+          "displayName": "Required Registration Info",
+          "name": "requireRegistrationInfo",
+          "type": "multiOptions",
+          "options": [
+            {
+              "name": "Require First Name",
+              "value": "requireFirstName"
+            },
+            {
+              "name": "Require Last Name",
+              "value": "requireLastName"
+            },
+            {
+              "name": "Require Email",
+              "value": "requireEmail"
+            },
+            {
+              "name": "Require Job Title",
+              "value": "requireJobTitle"
+            },
+            {
+              "name": "Require Company Name",
+              "value": "requireCompanyName"
+            },
+            {
+              "name": "Require Address 1",
+              "value": "requireAddress1"
+            },
+            {
+              "name": "Require Address 2",
+              "value": "requireAddress2"
+            },
+            {
+              "name": "Require City",
+              "value": "requireCity"
+            },
+            {
+              "name": "Require State",
+              "value": "requireState"
+            },
+            {
+              "name": "Require Zip Code",
+              "value": "requireZipCode"
+            },
+            {
+              "name": "Require Country Region",
+              "value": "requireCountryRegion"
+            },
+            {
+              "name": "Require Work Phone",
+              "value": "requireWorkPhone"
+            },
+            {
+              "name": "Require Fax",
+              "value": "requireFax"
+            }
+          ],
+          "default": [],
+          "description": "Data required for meeting registration"
+        },
+        {
+          "displayName": "Reminder Time",
+          "name": "reminderTime",
+          "type": "number",
+          "default": 1,
+          "description": "The number of minutes before the meeting begins, for sending an email reminder to the host"
+        },
+        {
+          "displayName": "Send Email",
+          "name": "sendEmail",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether or not to send emails to host and invitees. It is an optional field and default value is true."
+        },
+        {
+          "displayName": "Site URL",
+          "name": "siteUrl",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getSites"
+          },
+          "default": "",
+          "description": "URL of the Webex site which the meeting is created on. If not specified, the meeting is created on user's preferred site. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Start",
+          "name": "start",
+          "type": "dateTime",
+          "default": "",
+          "description": "Date and time for the start of the meeting. Acceptable <a href=\"https://datatracker.ietf.org/doc/html/rfc2445\"> format</a>."
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": "",
+          "description": "Meeting title"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "destination": {
+      "displayName": "Destination",
+      "name": "destination",
+      "type": "options",
+      "options": [
+        {
+          "name": "Room",
+          "value": "room"
+        },
+        {
+          "name": "Person",
+          "value": "person"
+        }
+      ],
+      "required": true,
+      "default": "room",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "roomId": {
+      "displayName": "Room Name or ID",
+      "name": "roomId",
+      "description": "List messages in a room, by ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getRooms"
+      },
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "List messages in a room, by ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "specifyPersonBy": {
+      "displayName": "Specify Person By",
+      "name": "specifyPersonBy",
+      "type": "options",
+      "options": [
+        {
+          "name": "Email",
+          "value": "email"
+        },
+        {
+          "name": "ID",
+          "value": "id"
+        }
+      ],
+      "required": true,
+      "default": "email",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "create"
+          ],
+          "destination": [
+            "person"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toPersonId": {
+      "displayName": "Person ID",
+      "name": "toPersonId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "create"
+          ],
+          "specifyPersonBy": [
+            "id"
+          ]
+        }
+      }
+    },
+    "toPersonEmail": {
+      "displayName": "Person Email",
+      "name": "toPersonEmail",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "create"
+          ],
+          "specifyPersonBy": [
+            "email"
+          ]
+        }
+      }
+    },
+    "text": {
+      "displayName": "Text",
+      "name": "text",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "update"
+          ],
+          "markdown": [
+            false
+          ]
+        }
+      },
+      "description": "The message, in plain text",
+      "ai_hint": "The message, in plain text"
+    },
+    "messageId": {
+      "displayName": "Message ID",
+      "name": "messageId",
+      "description": "ID of the message to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the message to update"
+    },
+    "markdown": {
+      "displayName": "Is Markdown",
+      "name": "markdown",
+      "description": "Whether the message uses markdown",
+      "type": "boolean",
+      "required": true,
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "markdownText": {
+      "displayName": "Markdown",
+      "name": "markdownText",
+      "description": "The message, in Markdown format. The maximum message length is 7439 bytes.",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "update"
+          ],
+          "markdown": [
+            true
+          ]
+        }
+      },
+      "ai_hint": "The message, in Markdown format. The maximum message length is 7439 bytes."
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "title",
+      "start",
+      "end",
+      "additionalFields",
+      "meetingId",
+      "options",
+      "meetingId",
+      "options",
+      "returnAll",
+      "limit",
+      "filters",
+      "meetingId",
+      "updateFields",
+      "operation",
+      "destination",
+      "roomId",
+      "specifyPersonBy",
+      "toPersonId",
+      "toPersonEmail",
+      "text",
+      "additionalFields",
+      "messageId",
+      "messageId",
+      "roomId",
+      "returnAll",
+      "limit",
+      "filters",
+      "messageId",
+      "markdown",
+      "text",
+      "markdownText"
+    ],
+    "conditional_rules": [
+      "IF resource == 'meeting' THEN SHOW parameter 'operation'",
+      "IF resource == 'meeting' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'meeting' AND operation == 'create' THEN SHOW parameter 'start'",
+      "IF resource == 'meeting' AND operation == 'create' THEN SHOW parameter 'end'",
+      "IF resource == 'meeting' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'meeting' AND operation == 'delete' THEN SHOW parameter 'meetingId'",
+      "IF resource == 'meeting' AND operation == 'delete' THEN SHOW parameter 'options'",
+      "IF resource == 'meeting' AND operation == 'get' THEN SHOW parameter 'meetingId'",
+      "IF resource == 'meeting' AND operation == 'get' THEN SHOW parameter 'options'",
+      "IF resource == 'meeting' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'meeting' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'meeting' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'meeting' AND operation == 'update' THEN SHOW parameter 'meetingId'",
+      "IF resource == 'meeting' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'message' THEN SHOW parameter 'operation'",
+      "IF resource == 'message' AND operation == 'create' THEN SHOW parameter 'destination'",
+      "IF resource == 'message' AND operation == 'create' AND destination == 'room' THEN SHOW parameter 'roomId'",
+      "IF resource == 'message' AND operation == 'create' AND destination == 'person' THEN SHOW parameter 'specifyPersonBy'",
+      "IF resource == 'message' AND operation == 'create' AND specifyPersonBy == 'id' THEN SHOW parameter 'toPersonId'",
+      "IF resource == 'message' AND operation == 'create' AND specifyPersonBy == 'email' THEN SHOW parameter 'toPersonEmail'",
+      "IF resource == 'message' AND operation == 'create' THEN SHOW parameter 'text'",
+      "IF resource == 'message' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF type == 'textBlock' THEN SHOW parameter 'text'",
+      "IF type == 'textBlock' THEN SHOW parameter 'color'",
+      "IF type == 'textBlock' THEN SHOW parameter 'fontType'",
+      "IF type == 'textBlock' THEN SHOW parameter 'horizontalAlignment'",
+      "IF type == 'textBlock' THEN SHOW parameter 'isSubtle'",
+      "IF type == 'textBlock' THEN SHOW parameter 'maxLines'",
+      "IF type == 'textBlock' THEN SHOW parameter 'size'",
+      "IF type == 'textBlock' THEN SHOW parameter 'weight'",
+      "IF type == 'textBlock' THEN SHOW parameter 'wrap'",
+      "IF type == 'textBlock' THEN SHOW parameter 'height'",
+      "IF type == 'textBlock' THEN SHOW parameter 'separator'",
+      "IF type == 'textBlock' THEN SHOW parameter 'spacing'",
+      "IF type == 'textBlock' THEN SHOW parameter 'id'",
+      "IF type == 'textBlock' THEN SHOW parameter 'isVisible'",
+      "IF type == 'inputText' THEN SHOW parameter 'id'",
+      "IF type == 'inputText' THEN SHOW parameter 'isMultiline'",
+      "IF type == 'inputText' THEN SHOW parameter 'maxLength'",
+      "IF type == 'inputText' THEN SHOW parameter 'placeholder'",
+      "IF type == 'inputText' THEN SHOW parameter 'regex'",
+      "IF type == 'inputText' THEN SHOW parameter 'style'",
+      "IF type == 'inputText' THEN SHOW parameter 'value'",
+      "IF type == 'openUrl' THEN SHOW parameter 'url'",
+      "IF type IN [\"submit\", \"execute\"] THEN SHOW parameter 'data'",
+      "IF type == 'execute' THEN SHOW parameter 'verb'",
+      "IF fileLocation == 'binaryData' THEN SHOW parameter 'binaryPropertyName'",
+      "IF fileLocation == 'url' THEN SHOW parameter 'url'",
+      "IF resource == 'message' AND operation == 'delete' THEN SHOW parameter 'messageId'",
+      "IF resource == 'message' AND operation == 'get' THEN SHOW parameter 'messageId'",
+      "IF resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'roomId'",
+      "IF resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'message' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'message' AND operation == 'update' THEN SHOW parameter 'messageId'",
+      "IF resource == 'message' AND operation == 'update' THEN SHOW parameter 'markdown'",
+      "IF resource == 'message' AND operation == 'update' AND markdown == False THEN SHOW parameter 'text'",
+      "IF resource == 'message' AND operation == 'update' AND markdown == True THEN SHOW parameter 'markdownText'"
+    ]
+  }
+}

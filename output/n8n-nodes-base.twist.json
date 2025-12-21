@@ -1,0 +1,770 @@
+{
+  "node_id": "n8n-nodes-base.twist",
+  "name": "n8n-nodes-base.twist",
+  "version": 1,
+  "semantic_context": "Consume Twist API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Channel",
+          "value": "channel"
+        },
+        {
+          "name": "Comment",
+          "value": "comment"
+        },
+        {
+          "name": "Message Conversation",
+          "value": "messageConversation"
+        },
+        {
+          "name": "Thread",
+          "value": "thread"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "messageConversation",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "thread"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a new thread in a channel",
+          "action": "Create a thread"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a thread",
+          "action": "Delete a thread"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get information about a thread",
+          "action": "Get a thread"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many threads",
+          "action": "Get many threads"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a thread",
+          "action": "Update a thread"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "workspaceId": {
+      "displayName": "Workspace Name or ID",
+      "name": "workspaceId",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getWorkspaces"
+      },
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "messageConversation"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The ID of the workspace. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The ID of the workspace. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "channel"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The name of the channel",
+      "ai_hint": "The name of the channel"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "thread"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Actions",
+          "name": "actionsUi",
+          "type": "fixedCollection",
+          "default": {},
+          "placeholder": "Add Action",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "options": [
+            {
+              "displayName": "Action",
+              "name": "actionValues",
+              "values": [
+                {
+                  "displayName": "Action",
+                  "name": "action",
+                  "type": "options",
+                  "description": "The action of the button",
+                  "options": [
+                    {
+                      "name": "Open URL",
+                      "value": "open_url"
+                    },
+                    {
+                      "name": "Prefill Message",
+                      "value": "prefill_message"
+                    },
+                    {
+                      "name": "Send Reply",
+                      "value": "send_reply"
+                    }
+                  ],
+                  "default": ""
+                },
+                {
+                  "displayName": "Button Text",
+                  "name": "button_text",
+                  "type": "string",
+                  "description": "The text for the action button",
+                  "default": ""
+                },
+                {
+                  "displayName": "Message",
+                  "name": "message",
+                  "type": "string",
+                  "displayOptions": {
+                    "show": {
+                      "action": [
+                        "send_reply",
+                        "prefill_message"
+                      ]
+                    }
+                  },
+                  "description": "The text for the action button",
+                  "default": ""
+                },
+                {
+                  "displayName": "Type",
+                  "name": "type",
+                  "type": "options",
+                  "description": "The type of the button. (Currently only <code>action</code> is available).",
+                  "options": [
+                    {
+                      "name": "Action",
+                      "value": "action"
+                    }
+                  ],
+                  "default": ""
+                },
+                {
+                  "displayName": "URL",
+                  "name": "url",
+                  "type": "string",
+                  "displayOptions": {
+                    "show": {
+                      "action": [
+                        "open_url"
+                      ]
+                    }
+                  },
+                  "description": "URL to redirect",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Attachments",
+          "name": "binaryProperties",
+          "type": "string",
+          "default": "data",
+          "description": "Name of the property that holds the binary data. Multiple can be defined separated by comma."
+        },
+        {
+          "displayName": "Direct Mention Names or IDs",
+          "name": "direct_mentions",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getUsers",
+            "loadOptionsDependsOn": [
+              "workspaceId"
+            ]
+          },
+          "default": [],
+          "description": "The users that are directly mentioned. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Recipient Names or IDs",
+          "name": "recipients",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getUsers",
+            "loadOptionsDependsOn": [
+              "workspaceId"
+            ]
+          },
+          "default": [],
+          "description": "The users that will attached to the thread. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Send as Integration",
+          "name": "send_as_integration",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to display the integration as the thread creator"
+        },
+        {
+          "displayName": "Temporary ID",
+          "name": "temp_id",
+          "type": "number",
+          "default": 0,
+          "description": "The temporary ID of the thread"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "channelId": {
+      "displayName": "Channel ID",
+      "name": "channelId",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "thread"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The ID of the channel",
+      "ai_hint": "The ID of the channel"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "thread"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "thread"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 100
+      },
+      "default": 50,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "thread"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "As IDs",
+          "name": "as_ids",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether only the IDs of the threads are returned"
+        },
+        {
+          "displayName": "Filter By",
+          "name": "filter_by",
+          "type": "options",
+          "options": [
+            {
+              "name": "Attached to Me",
+              "value": "attached_to_me"
+            },
+            {
+              "name": "Everyone",
+              "value": "everyone"
+            },
+            {
+              "name": "Starred",
+              "value": "is_starred"
+            }
+          ],
+          "default": "",
+          "description": "A filter can be one of <code>attached_to_me</code>, <code>everyone</code> and <code>is_starred</code>"
+        },
+        {
+          "displayName": "Newer Than",
+          "name": "newer_than_ts",
+          "type": "dateTime",
+          "default": "",
+          "description": "Limits threads to those newer when the specified Unix time"
+        },
+        {
+          "displayName": "Older Than",
+          "name": "older_than_ts",
+          "type": "dateTime",
+          "default": "",
+          "description": "Limits threads to those older than the specified Unix time"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "thread"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Actions",
+          "name": "actionsUi",
+          "type": "fixedCollection",
+          "default": {},
+          "placeholder": "Add Action",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "options": [
+            {
+              "displayName": "Action",
+              "name": "actionValues",
+              "values": [
+                {
+                  "displayName": "Action",
+                  "name": "action",
+                  "type": "options",
+                  "description": "The action of the button",
+                  "options": [
+                    {
+                      "name": "Open URL",
+                      "value": "open_url"
+                    },
+                    {
+                      "name": "Prefill Message",
+                      "value": "prefill_message"
+                    },
+                    {
+                      "name": "Send Reply",
+                      "value": "send_reply"
+                    }
+                  ],
+                  "default": ""
+                },
+                {
+                  "displayName": "Button Text",
+                  "name": "button_text",
+                  "type": "string",
+                  "description": "The text for the action button",
+                  "default": ""
+                },
+                {
+                  "displayName": "Message",
+                  "name": "message",
+                  "type": "string",
+                  "displayOptions": {
+                    "show": {
+                      "action": [
+                        "send_reply",
+                        "prefill_message"
+                      ]
+                    }
+                  },
+                  "description": "The text for the action button",
+                  "default": ""
+                },
+                {
+                  "displayName": "Type",
+                  "name": "type",
+                  "type": "options",
+                  "description": "The type of the button. (Currently only <code>action</code> is available).",
+                  "options": [
+                    {
+                      "name": "Action",
+                      "value": "action"
+                    }
+                  ],
+                  "default": ""
+                },
+                {
+                  "displayName": "URL",
+                  "name": "url",
+                  "type": "string",
+                  "displayOptions": {
+                    "show": {
+                      "action": [
+                        "open_url"
+                      ]
+                    }
+                  },
+                  "description": "URL to redirect",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Attachments",
+          "name": "binaryProperties",
+          "type": "string",
+          "default": "data",
+          "description": "Name of the property that holds the binary data. Multiple can be defined separated by comma."
+        },
+        {
+          "displayName": "Content",
+          "name": "content",
+          "type": "string",
+          "default": "",
+          "description": "The content of the thread"
+        },
+        {
+          "displayName": "Direct Mention Names or IDs",
+          "name": "direct_mentions",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getUsers",
+            "loadOptionsDependsOn": [
+              "workspaceId"
+            ]
+          },
+          "default": [],
+          "description": "The users that are directly mentioned. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": "",
+          "description": "The title of the thread (1 < length < 300)"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "threadId": {
+      "displayName": "Thread ID",
+      "name": "threadId",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "thread"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The ID of the thread",
+      "ai_hint": "The ID of the thread"
+    },
+    "content": {
+      "displayName": "Content",
+      "name": "content",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "thread"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The content of the thread",
+      "ai_hint": "The content of the thread"
+    },
+    "commentId": {
+      "displayName": "Comment ID",
+      "name": "commentId",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "comment"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The ID of the comment",
+      "ai_hint": "The ID of the comment"
+    },
+    "conversationId": {
+      "displayName": "Conversation Name or ID",
+      "name": "conversationId",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getConversations",
+        "loadOptionsDependsOn": [
+          "workspaceId"
+        ]
+      },
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "messageConversation"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The ID of the conversation. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The ID of the conversation. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "id": {
+      "displayName": "Conversation Message ID",
+      "name": "id",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "messageConversation"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The ID of the conversation message",
+      "ai_hint": "The ID of the conversation message"
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "thread"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The title of the new thread (1 < length < 300)",
+      "ai_hint": "The title of the new thread (1 < length < 300)"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "workspaceId",
+      "name",
+      "additionalFields",
+      "channelId",
+      "workspaceId",
+      "returnAll",
+      "limit",
+      "filters",
+      "channelId",
+      "updateFields",
+      "operation",
+      "threadId",
+      "content",
+      "additionalFields",
+      "commentId",
+      "threadId",
+      "returnAll",
+      "limit",
+      "filters",
+      "commentId",
+      "updateFields",
+      "operation",
+      "workspaceId",
+      "conversationId",
+      "content",
+      "additionalFields",
+      "workspaceId",
+      "conversationId",
+      "additionalFields",
+      "id",
+      "id",
+      "updateFields",
+      "operation",
+      "channelId",
+      "title",
+      "content",
+      "additionalFields",
+      "threadId",
+      "channelId",
+      "returnAll",
+      "limit",
+      "filters",
+      "threadId",
+      "updateFields"
+    ],
+    "conditional_rules": [
+      "IF resource == 'channel' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'channel' THEN SHOW parameter 'workspaceId'",
+      "IF operation == 'create' AND resource == 'channel' THEN SHOW parameter 'name'",
+      "IF resource == 'channel' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF operation IN [\"archive\", \"delete\", \"get\", \"unarchive\"] AND resource == 'channel' THEN SHOW parameter 'channelId'",
+      "IF operation == 'getAll' AND resource == 'channel' THEN SHOW parameter 'workspaceId'",
+      "IF resource == 'channel' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'channel' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'channel' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF operation == 'update' AND resource == 'channel' THEN SHOW parameter 'channelId'",
+      "IF resource == 'channel' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'comment' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'comment' THEN SHOW parameter 'threadId'",
+      "IF operation == 'create' AND resource == 'comment' THEN SHOW parameter 'content'",
+      "IF resource == 'comment' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF action IN [\"send_reply\", \"prefill_message\"] THEN SHOW parameter 'message'",
+      "IF action == 'open_url' THEN SHOW parameter 'url'",
+      "IF operation IN [\"get\", \"delete\"] AND resource == 'comment' THEN SHOW parameter 'commentId'",
+      "IF operation == 'getAll' AND resource == 'comment' THEN SHOW parameter 'threadId'",
+      "IF resource == 'comment' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'comment' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'comment' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF operation == 'update' AND resource == 'comment' THEN SHOW parameter 'commentId'",
+      "IF resource == 'comment' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'messageConversation' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'messageConversation' THEN SHOW parameter 'workspaceId'",
+      "IF operation == 'create' AND resource == 'messageConversation' THEN SHOW parameter 'conversationId'",
+      "IF operation == 'create' AND resource == 'messageConversation' THEN SHOW parameter 'content'",
+      "IF operation == 'create' AND resource == 'messageConversation' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'getAll' AND resource == 'messageConversation' THEN SHOW parameter 'workspaceId'",
+      "IF operation == 'getAll' AND resource == 'messageConversation' THEN SHOW parameter 'conversationId'",
+      "IF operation == 'getAll' AND resource == 'messageConversation' THEN SHOW parameter 'additionalFields'",
+      "IF operation IN [\"delete\", \"get\"] AND resource == 'messageConversation' THEN SHOW parameter 'id'",
+      "IF operation == 'update' AND resource == 'messageConversation' THEN SHOW parameter 'id'",
+      "IF operation == 'update' AND resource == 'messageConversation' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'thread' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'thread' THEN SHOW parameter 'channelId'",
+      "IF operation == 'create' AND resource == 'thread' THEN SHOW parameter 'title'",
+      "IF operation == 'create' AND resource == 'thread' THEN SHOW parameter 'content'",
+      "IF resource == 'thread' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF operation IN [\"get\", \"delete\"] AND resource == 'thread' THEN SHOW parameter 'threadId'",
+      "IF operation == 'getAll' AND resource == 'thread' THEN SHOW parameter 'channelId'",
+      "IF resource == 'thread' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'thread' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'thread' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF operation == 'update' AND resource == 'thread' THEN SHOW parameter 'threadId'",
+      "IF resource == 'thread' AND operation == 'update' THEN SHOW parameter 'updateFields'"
+    ]
+  }
+}

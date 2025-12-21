@@ -1,0 +1,1108 @@
+{
+  "node_id": "n8n-nodes-base.googleSheetsTool",
+  "name": "n8n-nodes-base.googleSheetsTool",
+  "version": [
+    3,
+    4,
+    4.1,
+    4.2,
+    4.3,
+    4.4,
+    4.5,
+    4.6,
+    4.7
+  ],
+  "semantic_context": "Read, update and write data to Google Sheets",
+  "parameters": {
+    "preBuiltAgentsCalloutGoogleSheets": {
+      "displayName": "Manage tasks in Google Sheets using our pre-built",
+      "name": "preBuiltAgentsCalloutGoogleSheets",
+      "type": "callout",
+      "typeOptions": {
+        "calloutAction": {
+          "label": "Task management agent",
+          "icon": "bot",
+          "type": "openSampleWorkflowTemplate",
+          "templateId": "task_management_agent_with_google_sheets"
+        }
+      },
+      "default": ""
+    },
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Read, update and write data to Google Sheets",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Service Account",
+          "value": "serviceAccount"
+        },
+        {
+          "name": "OAuth2 (recommended)",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "oAuth2",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Document",
+          "value": "spreadsheet"
+        },
+        {
+          "name": "Sheet Within Document",
+          "value": "sheet"
+        }
+      ],
+      "default": "sheet",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "spreadsheet"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a spreadsheet",
+          "action": "Create spreadsheet"
+        },
+        {
+          "name": "Delete",
+          "value": "deleteSpreadsheet",
+          "description": "Delete a spreadsheet",
+          "action": "Delete spreadsheet"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "documentId": {
+      "displayName": "Document",
+      "name": "documentId",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "typeOptions": {
+            "searchListMethod": "spreadSheetsSearch",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By URL",
+          "name": "url",
+          "type": "string",
+          "extractValue": {
+            "type": "regex",
+            "regex": "https:\\/\\/(?:drive|docs)\\.google\\.com(?:\\/.*|)\\/d\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
+          },
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "https:\\/\\/(?:drive|docs)\\.google\\.com(?:\\/.*|)\\/d\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)",
+                "errorMessage": "Not a valid Google Drive File URL"
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "By ID",
+          "name": "id",
+          "type": "string",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "[a-zA-Z0-9\\-_]{2,}",
+                "errorMessage": "Not a valid Google Drive File ID"
+              }
+            }
+          ],
+          "url": "=https://docs.google.com/spreadsheets/d/{{$value}}/edit"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "spreadsheet"
+          ],
+          "operation": [
+            "deleteSpreadsheet"
+          ]
+        }
+      }
+    },
+    "sheetName": {
+      "displayName": "Sheet",
+      "name": "sheetName",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "documentId.value"
+        ]
+      },
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "typeOptions": {
+            "searchListMethod": "sheetsSearch",
+            "searchable": false
+          }
+        },
+        {
+          "displayName": "By URL",
+          "name": "url",
+          "type": "string",
+          "extractValue": {
+            "type": "regex",
+            "regex": "https:\\/\\/docs\\.google\\.com\\/spreadsheets\\/d\\/[0-9a-zA-Z\\-_]+.*\\#gid=([0-9]+)"
+          },
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "https:\\/\\/docs\\.google\\.com\\/spreadsheets\\/d\\/[0-9a-zA-Z\\-_]+.*\\#gid=([0-9]+)",
+                "errorMessage": "Not a valid Sheet URL"
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "By ID",
+          "name": "id",
+          "type": "string",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "((gid=)?[0-9]{1,})",
+                "errorMessage": "Not a valid Sheet ID"
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "By Name",
+          "name": "name",
+          "type": "string",
+          "placeholder": "Sheet1"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "append",
+            "appendOrUpdate",
+            "clear",
+            "delete",
+            "read",
+            "remove",
+            "update"
+          ]
+        }
+      }
+    },
+    "dataMode": {
+      "displayName": "Data Mode",
+      "name": "dataMode",
+      "type": "options",
+      "options": [
+        {
+          "name": "Auto-Map Input Data to Columns",
+          "value": "autoMapInputData",
+          "description": "Use when node input properties match destination column names"
+        },
+        {
+          "name": "Map Each Column Below",
+          "value": "defineBelow",
+          "description": "Set the value for each destination column"
+        },
+        {
+          "name": "Nothing",
+          "value": "nothing",
+          "description": "Do not send anything"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "appendOrUpdate"
+          ],
+          "@version": [
+            3
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      },
+      "default": "defineBelow",
+      "description": "Whether to insert the input data this node receives in the new row",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "autoMapNotice": {
+      "displayName": "In this mode, make sure the incoming data is named the same as the columns in your Sheet. (Use an 'Edit Fields' node before this node to change it if required.)",
+      "name": "autoMapNotice",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "append"
+          ],
+          "dataMode": [
+            "autoMapInputData"
+          ],
+          "@version": [
+            3
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      }
+    },
+    "fieldsUi": {
+      "displayName": "Values to Send",
+      "name": "fieldsUi",
+      "placeholder": "Add Field",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "appendOrUpdate"
+          ],
+          "dataMode": [
+            "defineBelow"
+          ],
+          "@version": [
+            3
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Field",
+          "name": "values",
+          "values": [
+            {
+              "displayName": "Column",
+              "name": "column",
+              "type": "options",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "typeOptions": {
+                "loadOptionsDependsOn": [
+                  "sheetName.value",
+                  "columnToMatchOn"
+                ],
+                "loadOptionsMethod": "getSheetHeaderRowAndAddColumn"
+              },
+              "default": ""
+            },
+            {
+              "displayName": "Column Name",
+              "name": "columnName",
+              "type": "string",
+              "default": "",
+              "displayOptions": {
+                "show": {
+                  "column": [
+                    "newColumn"
+                  ]
+                }
+              }
+            },
+            {
+              "displayName": "Value",
+              "name": "fieldValue",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "columns": {
+      "displayName": "Columns",
+      "name": "columns",
+      "type": "resourceMapper",
+      "noDataExpression": true,
+      "default": {
+        "mappingMode": "defineBelow",
+        "value": null
+      },
+      "required": true,
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "sheetName.value"
+        ],
+        "resourceMapper": {
+          "resourceMapperMethod": "getMappingColumns",
+          "mode": "upsert",
+          "fieldWords": {
+            "singular": "column",
+            "plural": "columns"
+          },
+          "addAllFields": true,
+          "multiKeyMatch": false
+        }
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "appendOrUpdate"
+          ],
+          "@version": [
+            {
+              "_cnd": {
+                "between": {
+                  "from": 4,
+                  "to": 4.6
+                }
+              }
+            }
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      }
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "spreadsheet"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Locale",
+          "name": "locale",
+          "type": "string",
+          "default": "",
+          "placeholder": "en_US",
+          "description": "The locale of the spreadsheet in one of the following formats:\n\t\t\t\t<ul>\n\t\t\t\t\t<li>en (639-1)</li>\n\t\t\t\t\t<li>fil (639-2 if no 639-1 format exists)</li>\n\t\t\t\t\t<li>en_US (combination of ISO language an country)</li>\n\t\t\t\t<ul>"
+        },
+        {
+          "displayName": "Recalculation Interval",
+          "name": "autoRecalc",
+          "type": "options",
+          "options": [
+            {
+              "name": "Default",
+              "value": "",
+              "description": "Default value"
+            },
+            {
+              "name": "On Change",
+              "value": "ON_CHANGE",
+              "description": "Volatile functions are updated on every change"
+            },
+            {
+              "name": "Minute",
+              "value": "MINUTE",
+              "description": "Volatile functions are updated on every change and every minute"
+            },
+            {
+              "name": "Hour",
+              "value": "HOUR",
+              "description": "Volatile functions are updated on every change and hourly"
+            }
+          ],
+          "default": "",
+          "description": "Cell recalculation interval options"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "clear": {
+      "displayName": "Clear",
+      "name": "clear",
+      "type": "options",
+      "options": [
+        {
+          "name": "Whole Sheet",
+          "value": "wholeSheet"
+        },
+        {
+          "name": "Specific Rows",
+          "value": "specificRows"
+        },
+        {
+          "name": "Specific Columns",
+          "value": "specificColumns"
+        },
+        {
+          "name": "Specific Range",
+          "value": "specificRange"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "clear"
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      },
+      "default": "wholeSheet",
+      "description": "What to clear",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "keepFirstRow": {
+      "displayName": "Keep First Row",
+      "name": "keepFirstRow",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "clear"
+          ],
+          "clear": [
+            "wholeSheet"
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      },
+      "default": false,
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "startIndex": {
+      "displayName": "Start Column",
+      "name": "startIndex",
+      "type": "string",
+      "default": "A",
+      "description": "The column to delete",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "delete"
+          ],
+          "toDelete": [
+            "columns"
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      },
+      "ai_hint": "The column to delete"
+    },
+    "rowsToDelete": {
+      "displayName": "Number of Rows to Delete",
+      "name": "rowsToDelete",
+      "type": "number",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "default": 1,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "clear"
+          ],
+          "clear": [
+            "specificRows"
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      }
+    },
+    "columnsToDelete": {
+      "displayName": "Number of Columns to Delete",
+      "name": "columnsToDelete",
+      "type": "number",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "default": 1,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "clear"
+          ],
+          "clear": [
+            "specificColumns"
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      }
+    },
+    "range": {
+      "displayName": "Range",
+      "name": "range",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "clear"
+          ],
+          "clear": [
+            "specificRange"
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      },
+      "default": "A:F",
+      "required": true,
+      "description": "The table range to read from or to append data to. See the Google <a href=\"https://developers.google.com/sheets/api/guides/values#writing\">documentation</a> for the details. If it contains multiple sheets it can also be added like this: \"MySheet!A:F\"",
+      "ai_hint": "The table range to read from or to append data to. See the Google <a href=\"https://developers.google.com/sheets/api/guides/values#writing\">documentation</a> for the details. If it contains multiple sheets it can also be added like this: \"MySheet!A:F\""
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "spreadsheet"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "The title of the spreadsheet",
+      "ai_hint": "The title of the spreadsheet"
+    },
+    "toDelete": {
+      "displayName": "To Delete",
+      "name": "toDelete",
+      "type": "options",
+      "options": [
+        {
+          "name": "Rows",
+          "value": "rows",
+          "description": "Rows to delete"
+        },
+        {
+          "name": "Columns",
+          "value": "columns",
+          "description": "Columns to delete"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "delete"
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      },
+      "default": "rows",
+      "description": "What to delete",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "numberToDelete": {
+      "displayName": "Number of Columns to Delete",
+      "name": "numberToDelete",
+      "type": "number",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "default": 1,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "delete"
+          ],
+          "toDelete": [
+            "columns"
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      }
+    },
+    "filtersUI": {
+      "displayName": "Filters",
+      "name": "filtersUI",
+      "placeholder": "Add Filter",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValueButtonText": "Add Filter",
+        "multipleValues": true
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Filter",
+          "name": "values",
+          "values": [
+            {
+              "displayName": "Column",
+              "name": "lookupColumn",
+              "type": "options",
+              "typeOptions": {
+                "loadOptionsDependsOn": [
+                  "sheetName.value"
+                ],
+                "loadOptionsMethod": "getSheetHeaderRowWithGeneratedColumnNames"
+              },
+              "default": "",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+            },
+            {
+              "displayName": "Value",
+              "name": "lookupValue",
+              "type": "string",
+              "default": "",
+              "hint": "The column must have this value to be matched"
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "read"
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "combineFilters": {
+      "displayName": "Combine Filters",
+      "name": "combineFilters",
+      "type": "options",
+      "description": "How to combine the conditions defined in \"Filters\": AND requires all conditions to be true, OR requires at least one condition to be true",
+      "options": [
+        {
+          "name": "AND",
+          "value": "AND",
+          "description": "Only rows that meet all the conditions are selected"
+        },
+        {
+          "name": "OR",
+          "value": "OR",
+          "description": "Rows that meet at least one condition are selected"
+        }
+      ],
+      "default": "AND",
+      "displayOptions": {
+        "show": {
+          "@version": [
+            {
+              "_cnd": {
+                "gte": 4.3
+              }
+            }
+          ],
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "read"
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "columnToMatchOn": {
+      "displayName": "Column to match on",
+      "name": "columnToMatchOn",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "sheetName.value"
+        ],
+        "loadOptionsMethod": "getSheetHeaderRowAndSkipEmpty"
+      },
+      "default": "",
+      "hint": "Used to find the correct row to update. Doesn't get changed.",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "appendOrUpdate"
+          ],
+          "@version": [
+            3
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      },
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "valueToMatchOn": {
+      "displayName": "Value of Column to Match On",
+      "name": "valueToMatchOn",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sheet"
+          ],
+          "operation": [
+            "appendOrUpdate"
+          ],
+          "dataMode": [
+            "defineBelow"
+          ],
+          "@version": [
+            3
+          ]
+        },
+        "hide": {
+          "sheetName": [
+            ""
+          ]
+        }
+      }
+    },
+    "sheetsUi": {
+      "displayName": "Sheets",
+      "name": "sheetsUi",
+      "placeholder": "Add Sheet",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "default": {},
+      "options": [
+        {
+          "name": "sheetValues",
+          "displayName": "Sheet",
+          "values": [
+            {
+              "displayName": "Title",
+              "name": "title",
+              "type": "string",
+              "default": "",
+              "description": "Title of the property to create"
+            },
+            {
+              "displayName": "Hidden",
+              "name": "hidden",
+              "type": "boolean",
+              "default": false,
+              "description": "Whether the Sheet should be hidden in the UI"
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "spreadsheet"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "preBuiltAgentsCalloutGoogleSheets",
+      "descriptionType",
+      "toolDescription",
+      "authentication",
+      "resource",
+      "operation",
+      "documentId",
+      "sheetName",
+      "dataMode",
+      "autoMapNotice",
+      "fieldsUi",
+      "columns",
+      "options",
+      "clear",
+      "keepFirstRow",
+      "startIndex",
+      "rowsToDelete",
+      "startIndex",
+      "columnsToDelete",
+      "range",
+      "title",
+      "options",
+      "toDelete",
+      "startIndex",
+      "numberToDelete",
+      "startIndex",
+      "numberToDelete",
+      "filtersUI",
+      "combineFilters",
+      "combineFilters",
+      "options",
+      "dataMode",
+      "columnToMatchOn",
+      "valueToMatchOn",
+      "fieldsUi",
+      "columns",
+      "columns",
+      "options",
+      "dataMode",
+      "columnToMatchOn",
+      "valueToMatchOn",
+      "fieldsUi",
+      "columns",
+      "columns",
+      "options",
+      "operation",
+      "title",
+      "sheetsUi",
+      "options",
+      "documentId"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'sheet' THEN SHOW parameter 'operation'",
+      "IF resource == 'sheet' THEN SHOW parameter 'documentId'",
+      "IF resource == 'sheet' AND operation IN [\"append\", \"appendOrUpdate\", \"clear\", \"delete\", \"read\", \"remove\", \"update\"] THEN SHOW parameter 'sheetName'",
+      "IF resource == 'sheet' AND operation == 'append' AND @version == 3 THEN SHOW parameter 'dataMode'",
+      "IF sheetName == '' THEN HIDE parameter 'dataMode'",
+      "IF operation == 'append' AND dataMode == 'autoMapInputData' AND @version == 3 THEN SHOW parameter 'autoMapNotice'",
+      "IF sheetName == '' THEN HIDE parameter 'autoMapNotice'",
+      "IF resource == 'sheet' AND operation == 'append' AND dataMode == 'defineBelow' AND @version == 3 THEN SHOW parameter 'fieldsUi'",
+      "IF sheetName == '' THEN HIDE parameter 'fieldsUi'",
+      "IF resource == 'sheet' AND operation == 'append' AND @version == {'_cnd': {'gte': 4}} THEN SHOW parameter 'columns'",
+      "IF sheetName == '' THEN HIDE parameter 'columns'",
+      "IF resource == 'sheet' AND operation == 'append' THEN SHOW parameter 'options'",
+      "IF sheetName == '' THEN HIDE parameter 'options'",
+      "IF /dataMode == 'autoMapInputData' THEN SHOW parameter 'handlingExtraData'",
+      "IF /columns.mappingMode == 'autoMapInputData' THEN SHOW parameter 'handlingExtraData'",
+      "IF resource == 'sheet' AND operation == 'clear' THEN SHOW parameter 'clear'",
+      "IF sheetName == '' THEN HIDE parameter 'clear'",
+      "IF resource == 'sheet' AND operation == 'clear' AND clear == 'wholeSheet' THEN SHOW parameter 'keepFirstRow'",
+      "IF sheetName == '' THEN HIDE parameter 'keepFirstRow'",
+      "IF resource == 'sheet' AND operation == 'clear' AND clear == 'specificRows' THEN SHOW parameter 'startIndex'",
+      "IF sheetName == '' THEN HIDE parameter 'startIndex'",
+      "IF resource == 'sheet' AND operation == 'clear' AND clear == 'specificRows' THEN SHOW parameter 'rowsToDelete'",
+      "IF sheetName == '' THEN HIDE parameter 'rowsToDelete'",
+      "IF resource == 'sheet' AND operation == 'clear' AND clear == 'specificColumns' THEN SHOW parameter 'startIndex'",
+      "IF resource == 'sheet' AND operation == 'clear' AND clear == 'specificColumns' THEN SHOW parameter 'columnsToDelete'",
+      "IF sheetName == '' THEN HIDE parameter 'columnsToDelete'",
+      "IF resource == 'sheet' AND operation == 'clear' AND clear == 'specificRange' THEN SHOW parameter 'range'",
+      "IF sheetName == '' THEN HIDE parameter 'range'",
+      "IF resource == 'sheet' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'sheet' AND operation == 'create' THEN SHOW parameter 'options'",
+      "IF resource == 'sheet' AND operation == 'delete' THEN SHOW parameter 'toDelete'",
+      "IF sheetName == '' THEN HIDE parameter 'toDelete'",
+      "IF resource == 'sheet' AND operation == 'delete' AND toDelete == 'rows' THEN SHOW parameter 'startIndex'",
+      "IF resource == 'sheet' AND operation == 'delete' AND toDelete == 'rows' THEN SHOW parameter 'numberToDelete'",
+      "IF sheetName == '' THEN HIDE parameter 'numberToDelete'",
+      "IF resource == 'sheet' AND operation == 'delete' AND toDelete == 'columns' THEN SHOW parameter 'startIndex'",
+      "IF resource == 'sheet' AND operation == 'delete' AND toDelete == 'columns' THEN SHOW parameter 'numberToDelete'",
+      "IF resource == 'sheet' AND operation == 'read' THEN SHOW parameter 'filtersUI'",
+      "IF sheetName == '' THEN HIDE parameter 'filtersUI'",
+      "IF @version == {'_cnd': {'lt': 4.3}} AND resource == 'sheet' AND operation == 'read' THEN SHOW parameter 'combineFilters'",
+      "IF sheetName == '' THEN HIDE parameter 'combineFilters'",
+      "IF @version == {'_cnd': {'gte': 4.3}} AND resource == 'sheet' AND operation == 'read' THEN SHOW parameter 'combineFilters'",
+      "IF resource == 'sheet' AND operation == 'read' THEN SHOW parameter 'options'",
+      "IF rangeDefinition == 'detectAutomatically' THEN SHOW parameter 'readRowsUntil'",
+      "IF rangeDefinition == 'specifyRange' THEN SHOW parameter 'headerRow'",
+      "IF rangeDefinition == 'specifyRange' THEN SHOW parameter 'firstDataRow'",
+      "IF rangeDefinition == 'specifyRangeA1' THEN SHOW parameter 'range'",
+      "IF @version == {'_cnd': {'gte': 4.5}} THEN SHOW parameter 'returnFirstMatch'",
+      "IF @version == {'_cnd': {'lt': 4.5}} THEN SHOW parameter 'returnAllMatches'",
+      "IF resource == 'sheet' AND operation == 'update' AND @version == 3 THEN SHOW parameter 'dataMode'",
+      "IF resource == 'sheet' AND operation == 'update' AND @version == 3 THEN SHOW parameter 'columnToMatchOn'",
+      "IF sheetName == '' THEN HIDE parameter 'columnToMatchOn'",
+      "IF resource == 'sheet' AND operation == 'update' AND dataMode == 'defineBelow' AND @version == 3 THEN SHOW parameter 'valueToMatchOn'",
+      "IF sheetName == '' THEN HIDE parameter 'valueToMatchOn'",
+      "IF resource == 'sheet' AND operation == 'update' AND dataMode == 'defineBelow' AND @version == 3 THEN SHOW parameter 'fieldsUi'",
+      "IF column == 'newColumn' THEN SHOW parameter 'columnName'",
+      "IF resource == 'sheet' AND operation == 'update' AND @version == {'_cnd': {'gte': 4.7}} THEN SHOW parameter 'columns'",
+      "IF resource == 'sheet' AND operation == 'update' AND @version == {'_cnd': {'between': {'from': 4, 'to': 4.6}}} THEN SHOW parameter 'columns'",
+      "IF resource == 'sheet' AND operation == 'update' THEN SHOW parameter 'options'",
+      "IF resource == 'sheet' AND operation == 'appendOrUpdate' AND @version == 3 THEN SHOW parameter 'dataMode'",
+      "IF resource == 'sheet' AND operation == 'appendOrUpdate' AND @version == 3 THEN SHOW parameter 'columnToMatchOn'",
+      "IF resource == 'sheet' AND operation == 'appendOrUpdate' AND dataMode == 'defineBelow' AND @version == 3 THEN SHOW parameter 'valueToMatchOn'",
+      "IF resource == 'sheet' AND operation == 'appendOrUpdate' AND dataMode == 'defineBelow' AND @version == 3 THEN SHOW parameter 'fieldsUi'",
+      "IF resource == 'sheet' AND operation == 'appendOrUpdate' AND @version == {'_cnd': {'gte': 4.7}} THEN SHOW parameter 'columns'",
+      "IF resource == 'sheet' AND operation == 'appendOrUpdate' AND @version == {'_cnd': {'between': {'from': 4, 'to': 4.6}}} THEN SHOW parameter 'columns'",
+      "IF resource == 'sheet' AND operation == 'appendOrUpdate' THEN SHOW parameter 'options'",
+      "IF resource == 'spreadsheet' THEN SHOW parameter 'operation'",
+      "IF resource == 'spreadsheet' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'spreadsheet' AND operation == 'create' THEN SHOW parameter 'sheetsUi'",
+      "IF resource == 'spreadsheet' AND operation == 'create' THEN SHOW parameter 'options'",
+      "IF resource == 'spreadsheet' AND operation == 'deleteSpreadsheet' THEN SHOW parameter 'documentId'"
+    ]
+  }
+}

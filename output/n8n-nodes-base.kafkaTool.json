@@ -1,0 +1,234 @@
+{
+  "node_id": "n8n-nodes-base.kafkaTool",
+  "name": "n8n-nodes-base.kafkaTool",
+  "version": 1,
+  "semantic_context": "Sends messages to a Kafka topic",
+  "parameters": {
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Sends messages to a Kafka topic",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "topic": {
+      "displayName": "Topic",
+      "name": "topic",
+      "type": "string",
+      "default": "",
+      "placeholder": "topic-name",
+      "description": "Name of the queue of topic to publish to",
+      "ai_hint": "Name of the queue of topic to publish to"
+    },
+    "sendInputData": {
+      "displayName": "Send Input Data",
+      "name": "sendInputData",
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to send the data the node receives as JSON to Kafka",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "sendInputData": [
+            false
+          ]
+        }
+      },
+      "default": "",
+      "description": "The message to be sent",
+      "ai_hint": "The message to be sent"
+    },
+    "jsonParameters": {
+      "displayName": "JSON Parameters",
+      "name": "jsonParameters",
+      "type": "boolean",
+      "default": false,
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "useSchemaRegistry": {
+      "displayName": "Use Schema Registry",
+      "name": "useSchemaRegistry",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to use Confluent Schema Registry",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "schemaRegistryUrl": {
+      "displayName": "Schema Registry URL",
+      "name": "schemaRegistryUrl",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "useSchemaRegistry": [
+            true
+          ]
+        }
+      },
+      "placeholder": "https://schema-registry-domain:8081",
+      "default": "",
+      "description": "URL of the schema registry",
+      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+    },
+    "useKey": {
+      "displayName": "Use Key",
+      "name": "useKey",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to use a message key",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "key": {
+      "displayName": "Key",
+      "name": "key",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "useKey": [
+            true
+          ]
+        }
+      },
+      "placeholder": "",
+      "default": "",
+      "description": "The message key",
+      "ai_hint": "The message key"
+    },
+    "eventName": {
+      "displayName": "Event Name",
+      "name": "eventName",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "useSchemaRegistry": [
+            true
+          ]
+        }
+      },
+      "default": "",
+      "description": "Namespace and Name of Schema in Schema Registry (namespace.name)",
+      "ai_hint": "Namespace and Name of Schema in Schema Registry (namespace.name)"
+    },
+    "headersUi": {
+      "displayName": "Headers",
+      "name": "headersUi",
+      "placeholder": "Add Header",
+      "type": "fixedCollection",
+      "displayOptions": {
+        "show": {
+          "jsonParameters": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "default": {},
+      "options": [
+        {
+          "name": "headerValues",
+          "displayName": "Header",
+          "values": [
+            {
+              "displayName": "Key",
+              "name": "key",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "headerParametersJson": {
+      "displayName": "Headers (JSON)",
+      "name": "headerParametersJson",
+      "type": "json",
+      "displayOptions": {
+        "show": {
+          "jsonParameters": [
+            true
+          ]
+        }
+      },
+      "default": "",
+      "description": "Header parameters as JSON (flat object)",
+      "ai_hint": "Header parameters as JSON (flat object)"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "default": {},
+      "placeholder": "Add option",
+      "options": [
+        {
+          "displayName": "Acks",
+          "name": "acks",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether or not producer must wait for acknowledgement from all replicas"
+        },
+        {
+          "displayName": "Compression",
+          "name": "compression",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to send the data in a compressed format using the GZIP codec"
+        },
+        {
+          "displayName": "Timeout",
+          "name": "timeout",
+          "type": "number",
+          "default": 30000,
+          "description": "The time to await a response in ms"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "toolDescription",
+      "topic",
+      "sendInputData",
+      "message",
+      "jsonParameters",
+      "useSchemaRegistry",
+      "schemaRegistryUrl",
+      "useKey",
+      "key",
+      "eventName",
+      "headersUi",
+      "headerParametersJson",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF sendInputData == False THEN SHOW parameter 'message'",
+      "IF useSchemaRegistry == True THEN SHOW parameter 'schemaRegistryUrl'",
+      "IF useKey == True THEN SHOW parameter 'key'",
+      "IF useSchemaRegistry == True THEN SHOW parameter 'eventName'",
+      "IF jsonParameters == False THEN SHOW parameter 'headersUi'",
+      "IF jsonParameters == True THEN SHOW parameter 'headerParametersJson'"
+    ]
+  }
+}

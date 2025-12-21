@@ -1,0 +1,139 @@
+{
+  "node_id": "n8n-nodes-base.awsLambda",
+  "name": "n8n-nodes-base.awsLambda",
+  "version": 1,
+  "semantic_context": "Invoke functions on AWS Lambda",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "AWS (IAM)",
+          "value": "iam"
+        },
+        {
+          "name": "AWS (Assume Role)",
+          "value": "assumeRole"
+        }
+      ],
+      "default": "iam",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Invoke",
+          "value": "invoke",
+          "description": "Invoke a function",
+          "action": "Invoke a function"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "invoke",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "function": {
+      "displayName": "Function Name or ID",
+      "name": "function",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getFunctions"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "invoke"
+          ]
+        }
+      },
+      "options": [],
+      "default": "",
+      "required": true,
+      "description": "The function you want to invoke. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The function you want to invoke. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "qualifier": {
+      "displayName": "Qualifier",
+      "name": "qualifier",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "invoke"
+          ]
+        }
+      },
+      "required": true,
+      "default": "$LATEST",
+      "description": "Specify a version or alias to invoke a published version of the function",
+      "ai_hint": "Specify a version or alias to invoke a published version of the function"
+    },
+    "invocationType": {
+      "displayName": "Invocation Type",
+      "name": "invocationType",
+      "type": "options",
+      "options": [
+        {
+          "name": "Wait for Results",
+          "value": "RequestResponse",
+          "description": "Invoke the function synchronously and wait for the response"
+        },
+        {
+          "name": "Continue Workflow",
+          "value": "Event",
+          "description": "Invoke the function and immediately continue the workflow"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "invoke"
+          ]
+        }
+      },
+      "default": "RequestResponse",
+      "description": "Specify if the workflow should wait for the function to return the results",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "payload": {
+      "displayName": "JSON Input",
+      "name": "payload",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "invoke"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The JSON that you want to provide to your Lambda function as input",
+      "ai_hint": "The JSON that you want to provide to your Lambda function as input"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "operation",
+      "function",
+      "qualifier",
+      "invocationType",
+      "payload"
+    ],
+    "conditional_rules": [
+      "IF operation == 'invoke' THEN SHOW parameter 'function'",
+      "IF operation == 'invoke' THEN SHOW parameter 'qualifier'",
+      "IF operation == 'invoke' THEN SHOW parameter 'invocationType'",
+      "IF operation == 'invoke' THEN SHOW parameter 'payload'"
+    ]
+  }
+}

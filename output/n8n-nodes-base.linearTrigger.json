@@ -1,0 +1,84 @@
+{
+  "node_id": "n8n-nodes-base.linearTrigger",
+  "name": "n8n-nodes-base.linearTrigger",
+  "version": 1,
+  "semantic_context": "Starts the workflow when Linear events occur",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "API Token",
+          "value": "apiToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "apiToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "notice": {
+      "displayName": "Make sure your credential has the \"Admin\" scope to create webhooks.",
+      "name": "notice",
+      "type": "notice",
+      "default": ""
+    },
+    "teamId": {
+      "displayName": "Team Name or ID",
+      "name": "teamId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getTeams"
+      },
+      "default": "",
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "resources": {
+      "displayName": "Listen to Resources",
+      "name": "resources",
+      "type": "multiOptions",
+      "options": [
+        {
+          "name": "Comment Reaction",
+          "value": "reaction"
+        },
+        {
+          "name": "Cycle",
+          "value": "cycle"
+        },
+        {
+          "name": "Issue",
+          "value": "issue"
+        },
+        {
+          "name": "Issue Comment",
+          "value": "comment"
+        },
+        {
+          "name": "Issue Label",
+          "value": "issueLabel"
+        },
+        {
+          "name": "Project",
+          "value": "project"
+        }
+      ],
+      "default": [],
+      "required": true
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "notice",
+      "teamId",
+      "resources"
+    ],
+    "conditional_rules": []
+  }
+}

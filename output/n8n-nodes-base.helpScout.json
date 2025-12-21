@@ -1,0 +1,1215 @@
+{
+  "node_id": "n8n-nodes-base.helpScout",
+  "name": "n8n-nodes-base.helpScout",
+  "version": 1,
+  "semantic_context": "Consume Help Scout API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Conversation",
+          "value": "conversation"
+        },
+        {
+          "name": "Customer",
+          "value": "customer"
+        },
+        {
+          "name": "Mailbox",
+          "value": "mailbox"
+        },
+        {
+          "name": "Thread",
+          "value": "thread"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "conversation",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "thread"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a new chat thread",
+          "action": "Create a thread"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many chat threads",
+          "action": "Get many threads"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "mailboxId": {
+      "displayName": "Mailbox ID",
+      "name": "mailboxId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "mailbox"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      }
+    },
+    "status": {
+      "displayName": "Status",
+      "name": "status",
+      "type": "options",
+      "required": true,
+      "options": [
+        {
+          "name": "Active",
+          "value": "active"
+        },
+        {
+          "name": "Closed",
+          "value": "closed"
+        },
+        {
+          "name": "Pending",
+          "value": "pending"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "conversation"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Conversation status",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "subject": {
+      "displayName": "Subject",
+      "name": "subject",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "conversation"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Conversation’s subject",
+      "ai_hint": "Conversation’s subject"
+    },
+    "type": {
+      "displayName": "Type",
+      "name": "type",
+      "type": "options",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "thread"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Chat",
+          "value": "chat"
+        },
+        {
+          "name": "Customer",
+          "value": "customer"
+        },
+        {
+          "name": "Note",
+          "value": "note"
+        },
+        {
+          "name": "Phone",
+          "value": "phone"
+        },
+        {
+          "name": "Reply",
+          "value": "reply"
+        }
+      ],
+      "default": "",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "resolveData": {
+      "displayName": "Resolve Data",
+      "name": "resolveData",
+      "type": "boolean",
+      "default": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "customer"
+          ]
+        }
+      },
+      "description": "By default the response only contain the ID to resource. If this option gets activated, it will resolve the data automatically.",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "thread"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Created At",
+          "name": "createdAt",
+          "type": "dateTime",
+          "default": ""
+        },
+        {
+          "displayName": "Customer Email",
+          "name": "customerEmail",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Customer ID",
+          "name": "customerId",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "displayName": "Draft",
+          "name": "draft",
+          "type": "boolean",
+          "default": false,
+          "displayOptions": {
+            "show": {
+              "/type": [
+                "note"
+              ]
+            }
+          },
+          "description": "Whether a draft reply is created"
+        },
+        {
+          "displayName": "Imported",
+          "name": "imported",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether no outgoing emails or notifications will be generated"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "threadsUi": {
+      "displayName": "Threads",
+      "name": "threadsUi",
+      "placeholder": "Add Thread",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "conversation"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Thread",
+          "name": "threadsValues",
+          "values": [
+            {
+              "displayName": "Type",
+              "name": "type",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Chat",
+                  "value": "chat"
+                },
+                {
+                  "name": "Customer",
+                  "value": "customer"
+                },
+                {
+                  "name": "Note",
+                  "value": "note"
+                },
+                {
+                  "name": "Phone",
+                  "value": "phone"
+                },
+                {
+                  "name": "Reply",
+                  "value": "reply"
+                }
+              ],
+              "default": ""
+            },
+            {
+              "displayName": "Text",
+              "name": "text",
+              "type": "string",
+              "default": "",
+              "description": "The message text"
+            },
+            {
+              "displayName": "Bcc",
+              "name": "bcc",
+              "displayOptions": {
+                "show": {
+                  "type": [
+                    "customer"
+                  ]
+                }
+              },
+              "type": "string",
+              "typeOptions": {
+                "multipleValues": true,
+                "multipleValueButtonText": "Add Email"
+              },
+              "default": [],
+              "description": "Email addresses"
+            },
+            {
+              "displayName": "Cc",
+              "name": "cc",
+              "displayOptions": {
+                "show": {
+                  "type": [
+                    "customer"
+                  ]
+                }
+              },
+              "type": "string",
+              "typeOptions": {
+                "multipleValues": true,
+                "multipleValueButtonText": "Add Email"
+              },
+              "default": [],
+              "description": "Email addresses"
+            },
+            {
+              "displayName": "Draft",
+              "name": "draft",
+              "displayOptions": {
+                "show": {
+                  "type": [
+                    "reply"
+                  ]
+                }
+              },
+              "type": "boolean",
+              "default": false,
+              "description": "Whether true, a draft reply is created"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "conversationId": {
+      "displayName": "Conversation ID",
+      "name": "conversationId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "thread"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      }
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "thread"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "thread"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1
+      },
+      "default": 50,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "customer"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "First Name",
+          "name": "firstName",
+          "type": "string",
+          "default": "",
+          "description": "Filters customers by first name"
+        },
+        {
+          "displayName": "Last Name",
+          "name": "lastName",
+          "type": "string",
+          "default": "",
+          "description": "Filters customers by last name"
+        },
+        {
+          "displayName": "Mailbox ID",
+          "name": "mailbox",
+          "type": "string",
+          "default": "",
+          "description": "Filters customers from a specific mailbox"
+        },
+        {
+          "displayName": "Modified Since",
+          "name": "modifiedSince",
+          "type": "dateTime",
+          "default": "",
+          "description": "Returns only customers that were modified after this date"
+        },
+        {
+          "displayName": "Sort Field",
+          "name": "sortField",
+          "type": "options",
+          "options": [
+            {
+              "name": "Score",
+              "value": "score"
+            },
+            {
+              "name": "First Name",
+              "value": "firstName"
+            },
+            {
+              "name": "Last Name",
+              "value": "lastName"
+            },
+            {
+              "name": "Modified At",
+              "value": "modifiedAt"
+            }
+          ],
+          "default": "score",
+          "description": "Sorts the result by specified field"
+        },
+        {
+          "displayName": "Sort Order",
+          "name": "sortOrder",
+          "type": "options",
+          "options": [
+            {
+              "name": "ASC",
+              "value": "asc"
+            },
+            {
+              "name": "DESC",
+              "value": "desc"
+            }
+          ],
+          "default": "desc"
+        },
+        {
+          "displayName": "Query",
+          "name": "query",
+          "type": "string",
+          "default": "",
+          "description": "Advanced search <a href=\"https://developer.helpscout.com/mailbox-api/endpoints/customers/list/#query\">Examples</a>"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "addressUi": {
+      "displayName": "Address",
+      "name": "addressUi",
+      "placeholder": "Add Address",
+      "type": "fixedCollection",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "customer"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Address",
+          "name": "addressValue",
+          "values": [
+            {
+              "displayName": "Line 1",
+              "name": "line1",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Line 2",
+              "name": "line2",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "City",
+              "name": "city",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "State",
+              "name": "state",
+              "type": "string",
+              "default": ""
+            },
+            {
+              "displayName": "Country Name or ID",
+              "name": "country",
+              "type": "options",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "typeOptions": {
+                "loadOptionsMethod": "getCountriesCodes"
+              },
+              "default": ""
+            },
+            {
+              "displayName": "Postal Code",
+              "name": "postalCode",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "chatsUi": {
+      "displayName": "Chat Handles",
+      "name": "chatsUi",
+      "placeholder": "Add Chat Handle",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "customer"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Chat Handle",
+          "name": "chatsValues",
+          "values": [
+            {
+              "displayName": "Type",
+              "name": "type",
+              "type": "options",
+              "options": [
+                {
+                  "name": "AIM",
+                  "value": "aim"
+                },
+                {
+                  "name": "Google Talk",
+                  "value": "gtalk"
+                },
+                {
+                  "name": "ICQ",
+                  "value": "icq"
+                },
+                {
+                  "name": "MSN",
+                  "value": "msn"
+                },
+                {
+                  "name": "Other",
+                  "value": "other"
+                },
+                {
+                  "name": "QQ",
+                  "value": "qq"
+                },
+                {
+                  "name": "Skype",
+                  "value": "skype"
+                },
+                {
+                  "name": "XMPP",
+                  "value": "xmpp"
+                },
+                {
+                  "name": "Yahoo",
+                  "value": "yahoo"
+                }
+              ],
+              "description": "Chat type",
+              "default": ""
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "Chat handle"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "emailsUi": {
+      "displayName": "Emails",
+      "name": "emailsUi",
+      "placeholder": "Add Email",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "customer"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Email",
+          "name": "emailsValues",
+          "values": [
+            {
+              "displayName": "Type",
+              "name": "type",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Home",
+                  "value": "home"
+                },
+                {
+                  "name": "Other",
+                  "value": "other"
+                },
+                {
+                  "name": "Work",
+                  "value": "work"
+                }
+              ],
+              "description": "Location for this email address",
+              "default": ""
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "Email"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "phonesUi": {
+      "displayName": "Phones",
+      "name": "phonesUi",
+      "placeholder": "Add Phone",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "customer"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Email",
+          "name": "phonesValues",
+          "values": [
+            {
+              "displayName": "Type",
+              "name": "type",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Fax",
+                  "value": "fax"
+                },
+                {
+                  "name": "Home",
+                  "value": "home"
+                },
+                {
+                  "name": "Other",
+                  "value": "other"
+                },
+                {
+                  "name": "Pager",
+                  "value": "pager"
+                },
+                {
+                  "name": "Work",
+                  "value": "work"
+                }
+              ],
+              "description": "Location for this phone",
+              "default": ""
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "Phone"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "socialProfilesUi": {
+      "displayName": "Social Profiles",
+      "name": "socialProfilesUi",
+      "placeholder": "Add Social Profile",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "customer"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Social Profile",
+          "name": "socialProfilesValues",
+          "values": [
+            {
+              "displayName": "Type",
+              "name": "type",
+              "type": "options",
+              "options": [
+                {
+                  "name": "About Me",
+                  "value": "aboutMe"
+                },
+                {
+                  "name": "Facebook",
+                  "value": "facebook"
+                },
+                {
+                  "name": "Flickr",
+                  "value": "flickr"
+                },
+                {
+                  "name": "Forsquare",
+                  "value": "forsquare"
+                },
+                {
+                  "name": "Google",
+                  "value": "google"
+                },
+                {
+                  "name": "Google Plus",
+                  "value": "googleplus"
+                },
+                {
+                  "name": "Linkedin",
+                  "value": "linkedin"
+                },
+                {
+                  "name": "Other",
+                  "value": "other"
+                },
+                {
+                  "name": "Quora",
+                  "value": "quora"
+                },
+                {
+                  "name": "Tungleme",
+                  "value": "tungleme"
+                },
+                {
+                  "name": "Twitter",
+                  "value": "twitter"
+                },
+                {
+                  "name": "Youtube",
+                  "value": "youtube"
+                }
+              ],
+              "description": "Type of social profile",
+              "default": ""
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "Social Profile handle (URL for example)"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "websitesUi": {
+      "displayName": "Websites",
+      "name": "websitesUi",
+      "placeholder": "Add Website",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "customer"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Website",
+          "name": "websitesValues",
+          "values": [
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "Website URL"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "customerId": {
+      "displayName": "Customer ID",
+      "name": "customerId",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "customer"
+          ]
+        }
+      }
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "update"
+          ],
+          "resource": [
+            "customer"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Age",
+          "name": "age",
+          "type": "number",
+          "typeOptions": {
+            "minValue": 1
+          },
+          "default": 1,
+          "description": "Customer’s age"
+        },
+        {
+          "displayName": "First Name",
+          "name": "firstName",
+          "type": "string",
+          "default": "",
+          "description": "First name of the customer. When defined it must be between 1 and 40 characters."
+        },
+        {
+          "displayName": "Gender",
+          "name": "gender",
+          "type": "options",
+          "options": [
+            {
+              "name": "Female",
+              "value": "female"
+            },
+            {
+              "name": "Male",
+              "value": "male"
+            },
+            {
+              "name": "Unknown",
+              "value": "unknown"
+            }
+          ],
+          "default": "",
+          "description": "Gender of this customer"
+        },
+        {
+          "displayName": "Job Title",
+          "name": "jobTitle",
+          "type": "string",
+          "default": "",
+          "description": "Job title. Max length 60 characters."
+        },
+        {
+          "displayName": "Last Name",
+          "name": "lastName",
+          "type": "string",
+          "default": "",
+          "description": "Last name of the customer"
+        },
+        {
+          "displayName": "Location",
+          "name": "location",
+          "type": "string",
+          "default": "",
+          "description": "Location of the customer"
+        },
+        {
+          "displayName": "Notes",
+          "name": "background",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Organization",
+          "name": "organization",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Photo Url",
+          "name": "photoUrl",
+          "type": "string",
+          "default": "",
+          "description": "URL of the customer’s photo"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "text": {
+      "displayName": "Text",
+      "name": "text",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "thread"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "The chat text",
+      "ai_hint": "The chat text"
+    },
+    "attachmentsUi": {
+      "displayName": "Attachments",
+      "name": "attachmentsUi",
+      "placeholder": "Add Attachments",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "thread"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "attachmentsValues",
+          "displayName": "Attachments Values",
+          "values": [
+            {
+              "displayName": "FileName",
+              "name": "fileName",
+              "type": "string",
+              "default": "",
+              "description": "Attachment’s file name"
+            },
+            {
+              "displayName": "Mime Type",
+              "name": "mimeType",
+              "type": "string",
+              "default": "",
+              "description": "Attachment’s mime type"
+            },
+            {
+              "displayName": "Data",
+              "name": "data",
+              "type": "string",
+              "default": "",
+              "placeholder": "ZXhhbXBsZSBmaWxl",
+              "description": "Base64-encoded stream of data"
+            }
+          ]
+        },
+        {
+          "name": "attachmentsBinary",
+          "displayName": "Attachments Binary",
+          "values": [
+            {
+              "displayName": "Property",
+              "name": "property",
+              "type": "string",
+              "default": "data",
+              "description": "Name of the binary properties which contain data which should be added to email as attachment"
+            }
+          ]
+        }
+      ],
+      "default": {},
+      "description": "Array of supported attachments to add to the message",
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "mailboxId",
+      "status",
+      "subject",
+      "type",
+      "resolveData",
+      "additionalFields",
+      "threadsUi",
+      "conversationId",
+      "conversationId",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "resolveData",
+      "additionalFields",
+      "addressUi",
+      "chatsUi",
+      "emailsUi",
+      "phonesUi",
+      "socialProfilesUi",
+      "websitesUi",
+      "returnAll",
+      "limit",
+      "options",
+      "customerId",
+      "customerId",
+      "updateFields",
+      "operation",
+      "mailboxId",
+      "returnAll",
+      "limit",
+      "operation",
+      "conversationId",
+      "type",
+      "text",
+      "additionalFields",
+      "attachmentsUi",
+      "conversationId",
+      "returnAll",
+      "limit"
+    ],
+    "conditional_rules": [
+      "IF resource == 'conversation' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'conversation' THEN SHOW parameter 'mailboxId'",
+      "IF operation == 'create' AND resource == 'conversation' THEN SHOW parameter 'status'",
+      "IF operation == 'create' AND resource == 'conversation' THEN SHOW parameter 'subject'",
+      "IF operation == 'create' AND resource == 'conversation' THEN SHOW parameter 'type'",
+      "IF operation == 'create' AND resource == 'conversation' THEN SHOW parameter 'resolveData'",
+      "IF operation == 'create' AND resource == 'conversation' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'create' AND resource == 'conversation' THEN SHOW parameter 'threadsUi'",
+      "IF type == 'customer' THEN SHOW parameter 'bcc'",
+      "IF type == 'customer' THEN SHOW parameter 'cc'",
+      "IF type == 'reply' THEN SHOW parameter 'draft'",
+      "IF resource == 'conversation' AND operation == 'get' THEN SHOW parameter 'conversationId'",
+      "IF resource == 'conversation' AND operation == 'delete' THEN SHOW parameter 'conversationId'",
+      "IF operation == 'getAll' AND resource == 'conversation' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'conversation' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'conversation' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'customer' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'resolveData'",
+      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'addressUi'",
+      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'chatsUi'",
+      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'emailsUi'",
+      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'phonesUi'",
+      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'socialProfilesUi'",
+      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'websitesUi'",
+      "IF operation == 'getAll' AND resource == 'customer' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'customer' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'customer' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'customer' AND operation == 'get' THEN SHOW parameter 'customerId'",
+      "IF operation == 'update' AND resource == 'customer' THEN SHOW parameter 'customerId'",
+      "IF operation == 'update' AND resource == 'customer' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'mailbox' THEN SHOW parameter 'operation'",
+      "IF resource == 'mailbox' AND operation == 'get' THEN SHOW parameter 'mailboxId'",
+      "IF operation == 'getAll' AND resource == 'mailbox' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'mailbox' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'thread' THEN SHOW parameter 'operation'",
+      "IF resource == 'thread' AND operation == 'create' THEN SHOW parameter 'conversationId'",
+      "IF resource == 'thread' AND operation == 'create' THEN SHOW parameter 'type'",
+      "IF resource == 'thread' AND operation == 'create' THEN SHOW parameter 'text'",
+      "IF operation == 'create' AND resource == 'thread' THEN SHOW parameter 'additionalFields'",
+      "IF /type == 'note' THEN SHOW parameter 'draft'",
+      "IF operation == 'create' AND resource == 'thread' THEN SHOW parameter 'attachmentsUi'",
+      "IF resource == 'thread' AND operation == 'getAll' THEN SHOW parameter 'conversationId'",
+      "IF operation == 'getAll' AND resource == 'thread' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'thread' AND returnAll == False THEN SHOW parameter 'limit'"
+    ]
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "node_id": "n8n-nodes-base.msg91",
+  "name": "n8n-nodes-base.msg91",
+  "version": 1,
+  "semantic_context": "Sends transactional SMS via MSG91",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "SMS",
+          "value": "sms"
+        }
+      ],
+      "default": "sms",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "sms"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Send",
+          "value": "send",
+          "description": "Send SMS",
+          "action": "Send an SMS"
+        }
+      ],
+      "default": "send",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "from": {
+      "displayName": "Sender ID",
+      "name": "from",
+      "type": "string",
+      "default": "",
+      "placeholder": "4155238886",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "send"
+          ],
+          "resource": [
+            "sms"
+          ]
+        }
+      },
+      "description": "The number from which to send the message",
+      "ai_hint": "The number from which to send the message"
+    },
+    "to": {
+      "displayName": "To",
+      "name": "to",
+      "type": "string",
+      "default": "",
+      "placeholder": "+14155238886",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "send"
+          ],
+          "resource": [
+            "sms"
+          ]
+        }
+      },
+      "description": "The number, with coutry code, to which to send the message",
+      "ai_hint": "The number, with coutry code, to which to send the message"
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "send"
+          ],
+          "resource": [
+            "sms"
+          ]
+        }
+      },
+      "description": "The message to send",
+      "ai_hint": "The message to send"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "from",
+      "to",
+      "message"
+    ],
+    "conditional_rules": [
+      "IF resource == 'sms' THEN SHOW parameter 'operation'",
+      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'from'",
+      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'to'",
+      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'message'"
+    ]
+  }
+}

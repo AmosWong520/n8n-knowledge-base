@@ -1,0 +1,346 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+  "name": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+  "version": [
+    1,
+    1.1,
+    1.2,
+    1.3
+  ],
+  "semantic_context": "Work with your data in Pinecone Vector Store",
+  "parameters": {
+    "ragStarterCallout": {
+      "displayName": "Tip: Get a feel for vector stores in n8n with our",
+      "name": "ragStarterCallout",
+      "type": "callout",
+      "typeOptions": {
+        "calloutAction": {
+          "label": "RAG starter template",
+          "type": "openSampleWorkflowTemplate",
+          "templateId": "rag-starter-template"
+        }
+      },
+      "default": ""
+    },
+    "mode": {
+      "displayName": "Operation Mode",
+      "name": "mode",
+      "type": "options",
+      "noDataExpression": true,
+      "default": "retrieve",
+      "options": [
+        {
+          "name": "Get Many",
+          "value": "load",
+          "description": "Get many ranked documents from vector store for query",
+          "action": "Get ranked documents from vector store"
+        },
+        {
+          "name": "Insert Documents",
+          "value": "insert",
+          "description": "Insert documents into vector store",
+          "action": "Add documents to vector store"
+        },
+        {
+          "name": "Retrieve Documents (As Vector Store for Chain/Tool)",
+          "value": "retrieve",
+          "description": "Retrieve documents from vector store to be used as vector store with AI nodes",
+          "action": "Retrieve documents for Chain/Tool as Vector Store",
+          "outputConnectionType": "ai_vectorStore"
+        },
+        {
+          "name": "Retrieve Documents (As Tool for AI Agent)",
+          "value": "retrieve-as-tool",
+          "description": "Retrieve documents from vector store to be used as tool with AI nodes",
+          "action": "Retrieve documents for AI Agent as Tool",
+          "outputConnectionType": "ai_tool"
+        },
+        {
+          "name": "Update Documents",
+          "value": "update",
+          "description": "Update documents in vector store by ID",
+          "action": "Update vector store documents"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "notice": {
+      "displayName": "This node must be connected to a vector store retriever. <a data-action='openSelectiveNodeCreator' data-action-parameter-connectiontype='ai_retriever'>Insert one</a>",
+      "name": "notice",
+      "type": "notice",
+      "default": "",
+      "typeOptions": {
+        "containerClass": "ndv-connection-hint-notice"
+      },
+      "displayOptions": {
+        "show": {
+          "mode": [
+            "retrieve"
+          ]
+        }
+      }
+    },
+    "toolName": {
+      "displayName": "Name",
+      "name": "toolName",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "description": "Name of the vector store",
+      "placeholder": "e.g. company_knowledge_base",
+      "validateType": "string-alphanumeric",
+      "displayOptions": {
+        "show": {
+          "@version": [
+            {
+              "_cnd": {
+                "lte": 1.2
+              }
+            }
+          ],
+          "mode": [
+            "retrieve-as-tool"
+          ]
+        }
+      },
+      "ai_hint": "Name of the vector store"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "placeholder": "e.g. Work with your data in Pinecone Vector Store",
+      "displayOptions": {
+        "show": {
+          "mode": [
+            "retrieve-as-tool"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "pineconeIndex": {
+      "displayName": "Pinecone Index",
+      "name": "pineconeIndex",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "typeOptions": {
+            "searchListMethod": "pineconeIndexSearch"
+          }
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string"
+        }
+      ]
+    },
+    "embeddingBatchSize": {
+      "displayName": "Embedding Batch Size",
+      "name": "embeddingBatchSize",
+      "type": "number",
+      "default": 200,
+      "description": "Number of documents to embed in a single batch",
+      "displayOptions": {
+        "show": {
+          "mode": [
+            "insert"
+          ],
+          "@version": [
+            {
+              "_cnd": {
+                "gte": 1.1
+              }
+            }
+          ]
+        }
+      },
+      "ai_hint": "Number of documents to embed in a single batch"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add Option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Pinecone Namespace",
+          "name": "pineconeNamespace",
+          "type": "string",
+          "description": "Partition the records in an index into namespaces. Queries and other operations are then limited to one namespace, so different requests can search different subsets of your index.",
+          "default": ""
+        },
+        {
+          "displayName": "Metadata Filter",
+          "name": "metadata",
+          "type": "fixedCollection",
+          "description": "Metadata to filter the document by",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": {},
+          "placeholder": "Add filter field",
+          "options": [
+            {
+              "name": "metadataValues",
+              "displayName": "Fields to Set",
+              "values": [
+                {
+                  "displayName": "Name",
+                  "name": "name",
+                  "type": "string",
+                  "default": "",
+                  "required": true
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "mode": [
+            "retrieve"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "prompt": {
+      "displayName": "Prompt",
+      "name": "prompt",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "description": "Search prompt to retrieve matching documents from the vector store using similarity-based ranking",
+      "displayOptions": {
+        "show": {
+          "mode": [
+            "load"
+          ]
+        }
+      },
+      "ai_hint": "Search prompt to retrieve matching documents from the vector store using similarity-based ranking"
+    },
+    "topK": {
+      "displayName": "Limit",
+      "name": "topK",
+      "type": "number",
+      "default": 4,
+      "description": "Number of top results to fetch from vector store",
+      "displayOptions": {
+        "show": {
+          "mode": [
+            "load",
+            "retrieve-as-tool"
+          ]
+        }
+      },
+      "ai_hint": "Number of top results to fetch from vector store"
+    },
+    "includeDocumentMetadata": {
+      "displayName": "Include Metadata",
+      "name": "includeDocumentMetadata",
+      "type": "boolean",
+      "default": true,
+      "description": "Whether or not to include document metadata",
+      "displayOptions": {
+        "show": {
+          "mode": [
+            "load",
+            "retrieve-as-tool"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "useReranker": {
+      "displayName": "Rerank Results",
+      "name": "useReranker",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether or not to rerank results",
+      "displayOptions": {
+        "show": {
+          "mode": [
+            "load",
+            "retrieve",
+            "retrieve-as-tool"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "id": {
+      "displayName": "ID",
+      "name": "id",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "description": "ID of an embedding entry",
+      "displayOptions": {
+        "show": {
+          "mode": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of an embedding entry"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "ragStarterCallout",
+      "mode",
+      "notice",
+      "toolName",
+      "toolDescription",
+      "pineconeIndex",
+      "embeddingBatchSize",
+      "options",
+      "prompt",
+      "topK",
+      "includeDocumentMetadata",
+      "useReranker",
+      "id",
+      "options",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF mode == 'retrieve' THEN SHOW parameter 'notice'",
+      "IF @version == {'_cnd': {'lte': 1.2}} AND mode == 'retrieve-as-tool' THEN SHOW parameter 'toolName'",
+      "IF mode == 'retrieve-as-tool' THEN SHOW parameter 'toolDescription'",
+      "IF mode == 'insert' AND @version == {'_cnd': {'gte': 1.1}} THEN SHOW parameter 'embeddingBatchSize'",
+      "IF mode == 'insert' THEN SHOW parameter 'options'",
+      "IF mode == 'load' THEN SHOW parameter 'prompt'",
+      "IF mode IN [\"load\", \"retrieve-as-tool\"] THEN SHOW parameter 'topK'",
+      "IF mode IN [\"load\", \"retrieve-as-tool\"] THEN SHOW parameter 'includeDocumentMetadata'",
+      "IF mode IN [\"load\", \"retrieve\", \"retrieve-as-tool\"] THEN SHOW parameter 'useReranker'",
+      "IF mode == 'update' THEN SHOW parameter 'id'",
+      "IF mode IN [\"load\", \"retrieve-as-tool\"] THEN SHOW parameter 'options'",
+      "IF mode == 'retrieve' THEN SHOW parameter 'options'"
+    ]
+  }
+}

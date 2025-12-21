@@ -1,0 +1,1038 @@
+{
+  "node_id": "n8n-nodes-base.elasticSecurity",
+  "name": "n8n-nodes-base.elasticSecurity",
+  "version": 1,
+  "semantic_context": "Consume the Elastic Security API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "noDataExpression": true,
+      "type": "options",
+      "options": [
+        {
+          "name": "Case",
+          "value": "case"
+        },
+        {
+          "name": "Case Comment",
+          "value": "caseComment"
+        },
+        {
+          "name": "Case Tag",
+          "value": "caseTag"
+        },
+        {
+          "name": "Connector",
+          "value": "connector"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "case",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "noDataExpression": true,
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "connector"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a connector",
+          "action": "Create a connector"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "connectorId": {
+      "displayName": "Connector Name or ID",
+      "name": "connectorId",
+      "description": "Connectors allow you to send Elastic Security cases into other systems (only ServiceNow, Jira, or IBM Resilient). Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "type": "options",
+      "required": true,
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "getConnectors"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Connectors allow you to send Elastic Security cases into other systems (only ServiceNow, Jira, or IBM Resilient). Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "connectorType": {
+      "displayName": "Connector Type",
+      "name": "connectorType",
+      "type": "options",
+      "required": true,
+      "default": ".jira",
+      "options": [
+        {
+          "name": "IBM Resilient",
+          "value": ".resilient"
+        },
+        {
+          "name": "Jira",
+          "value": ".jira"
+        },
+        {
+          "name": "ServiceNow ITSM",
+          "value": ".servicenow"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "connector"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "issueType": {
+      "displayName": "Issue Type",
+      "name": "issueType",
+      "description": "Type of the Jira issue to create for this case",
+      "type": "string",
+      "placeholder": "Task",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".jira"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "priority": {
+      "displayName": "Priority",
+      "name": "priority",
+      "description": "Priority of the Jira issue to create for this case",
+      "type": "string",
+      "placeholder": "High",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".jira"
+          ]
+        }
+      },
+      "ai_hint": "Priority of the Jira issue to create for this case"
+    },
+    "urgency": {
+      "displayName": "Urgency",
+      "name": "urgency",
+      "description": "Urgency of the ServiceNow ITSM issue to create for this case",
+      "type": "options",
+      "required": true,
+      "default": 1,
+      "options": [
+        {
+          "name": "Low",
+          "value": 1
+        },
+        {
+          "name": "Medium",
+          "value": 2
+        },
+        {
+          "name": "High",
+          "value": 3
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".servicenow"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "severity": {
+      "displayName": "Severity",
+      "name": "severity",
+      "description": "Severity of the ServiceNow ITSM issue to create for this case",
+      "type": "options",
+      "required": true,
+      "default": 1,
+      "options": [
+        {
+          "name": "Low",
+          "value": 1
+        },
+        {
+          "name": "Medium",
+          "value": 2
+        },
+        {
+          "name": "High",
+          "value": 3
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".servicenow"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "impact": {
+      "displayName": "Impact",
+      "name": "impact",
+      "description": "Impact of the ServiceNow ITSM issue to create for this case",
+      "type": "options",
+      "required": true,
+      "default": 1,
+      "options": [
+        {
+          "name": "Low",
+          "value": 1
+        },
+        {
+          "name": "Medium",
+          "value": 2
+        },
+        {
+          "name": "High",
+          "value": 3
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".servicenow"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "category": {
+      "displayName": "Category",
+      "name": "category",
+      "type": "string",
+      "description": "Category of the ServiceNow ITSM issue to create for this case",
+      "required": true,
+      "default": "",
+      "placeholder": "Helpdesk",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".servicenow"
+          ]
+        }
+      },
+      "ai_hint": "Category of the ServiceNow ITSM issue to create for this case"
+    },
+    "issueTypes": {
+      "displayName": "Issue Types",
+      "name": "issueTypes",
+      "description": "Comma-separated list of numerical types of the IBM Resilient issue to create for this case",
+      "type": "string",
+      "placeholder": "123,456",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".resilient"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "severityCode": {
+      "displayName": "Severity Code",
+      "name": "severityCode",
+      "description": "Severity code of the IBM Resilient issue to create for this case",
+      "type": "number",
+      "typeOptions": {
+        "minValue": 0
+      },
+      "required": true,
+      "default": 1,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".resilient"
+          ]
+        }
+      },
+      "ai_hint": "Severity code of the IBM Resilient issue to create for this case"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "caseComment"
+          ],
+          "operation": [
+            "add"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Owner",
+          "name": "owner",
+          "type": "string",
+          "description": "Valid application owner registered within the Cases Role Based Access Control system",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "caseId": {
+      "displayName": "Case ID",
+      "name": "caseId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "caseTag"
+          ],
+          "operation": [
+            "remove"
+          ]
+        }
+      }
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "caseComment"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "default": 50,
+      "description": "Max number of results to return",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "caseComment"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "default": {},
+      "placeholder": "Add Filter",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Status",
+          "name": "status",
+          "type": "options",
+          "options": [
+            {
+              "name": "Open",
+              "value": "open"
+            },
+            {
+              "name": "In Progress",
+              "value": "in-progress"
+            },
+            {
+              "name": "Closed",
+              "value": "closed"
+            }
+          ],
+          "default": "open"
+        },
+        {
+          "displayName": "Tag Names or IDs",
+          "name": "tags",
+          "type": "multiOptions",
+          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "default": [],
+          "typeOptions": {
+            "loadOptionsMethod": "getTags"
+          }
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "sortOptions": {
+      "displayName": "Sort",
+      "name": "sortOptions",
+      "type": "fixedCollection",
+      "placeholder": "Add Sort Options",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Sort Options",
+          "name": "sortOptionsProperties",
+          "values": [
+            {
+              "displayName": "Sort Key",
+              "name": "sortField",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Created At",
+                  "value": "createdAt"
+                },
+                {
+                  "name": "Updated At",
+                  "value": "updatedAt"
+                }
+              ],
+              "default": "createdAt"
+            },
+            {
+              "displayName": "Sort Order",
+              "name": "sortOrder",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Ascending",
+                  "value": "asc"
+                },
+                {
+                  "name": "Descending",
+                  "value": "desc"
+                }
+              ],
+              "default": "asc"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "case"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Description",
+          "name": "description",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Status",
+          "name": "status",
+          "type": "options",
+          "default": "open",
+          "options": [
+            {
+              "name": "Closed",
+              "value": "closed"
+            },
+            {
+              "name": "Open",
+              "value": "open"
+            },
+            {
+              "name": "In Progress",
+              "value": "in-progress"
+            }
+          ]
+        },
+        {
+          "displayName": "Sync Alerts",
+          "name": "syncAlerts",
+          "description": "Whether to synchronize with alerts",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Version",
+          "name": "version",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "comment": {
+      "displayName": "Comment",
+      "name": "comment",
+      "description": "Text to replace current comment message",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "caseComment"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "Text to replace current comment message"
+    },
+    "simple": {
+      "displayName": "Simplify",
+      "name": "simple",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "caseComment"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to return a simplified version of the response instead of the raw data",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "commentId": {
+      "displayName": "Comment ID",
+      "name": "commentId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "caseComment"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      }
+    },
+    "tag": {
+      "displayName": "Tag Name or ID",
+      "name": "tag",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "required": true,
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "getTags"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "caseTag"
+          ],
+          "operation": [
+            "remove"
+          ]
+        }
+      },
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "name": {
+      "displayName": "Connector Name",
+      "name": "name",
+      "description": "Connectors allow you to send Elastic Security cases into other systems (only ServiceNow, Jira, or IBM Resilient)",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "connector"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Connectors allow you to send Elastic Security cases into other systems (only ServiceNow, Jira, or IBM Resilient)"
+    },
+    "apiUrl": {
+      "displayName": "API URL",
+      "name": "apiUrl",
+      "type": "string",
+      "description": "URL of the third-party instance",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "connector"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+    },
+    "email": {
+      "displayName": "Email",
+      "name": "email",
+      "description": "Jira-registered email",
+      "type": "string",
+      "placeholder": "name@email.com",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "connector"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".jira"
+          ]
+        }
+      },
+      "ai_hint": "Jira-registered email"
+    },
+    "apiToken": {
+      "displayName": "API Token",
+      "name": "apiToken",
+      "description": "Jira API token",
+      "type": "string",
+      "typeOptions": {
+        "password": true
+      },
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "connector"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".jira"
+          ]
+        }
+      },
+      "ai_hint": "与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "projectKey": {
+      "displayName": "Project Key",
+      "name": "projectKey",
+      "description": "Jira Project Key",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "connector"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".jira"
+          ]
+        }
+      },
+      "ai_hint": "Jira Project Key"
+    },
+    "username": {
+      "displayName": "Username",
+      "name": "username",
+      "description": "ServiceNow ITSM username",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "connector"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".servicenow"
+          ]
+        }
+      },
+      "ai_hint": "ServiceNow ITSM username"
+    },
+    "password": {
+      "displayName": "Password",
+      "name": "password",
+      "description": "ServiceNow ITSM password",
+      "type": "string",
+      "typeOptions": {
+        "password": true
+      },
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "connector"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".servicenow"
+          ]
+        }
+      },
+      "ai_hint": "ServiceNow ITSM password"
+    },
+    "apiKeyId": {
+      "displayName": "API Key ID",
+      "name": "apiKeyId",
+      "description": "IBM Resilient API key ID",
+      "type": "string",
+      "typeOptions": {
+        "password": true
+      },
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "connector"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".resilient"
+          ]
+        }
+      },
+      "ai_hint": "IBM Resilient API key ID"
+    },
+    "apiKeySecret": {
+      "displayName": "API Key Secret",
+      "name": "apiKeySecret",
+      "description": "IBM Resilient API key secret",
+      "type": "string",
+      "typeOptions": {
+        "password": true
+      },
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "connector"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".resilient"
+          ]
+        }
+      },
+      "ai_hint": "IBM Resilient API key secret"
+    },
+    "orgId": {
+      "displayName": "Organization ID",
+      "name": "orgId",
+      "description": "IBM Resilient organization ID",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "connector"
+          ],
+          "operation": [
+            "create"
+          ],
+          "connectorType": [
+            ".resilient"
+          ]
+        }
+      },
+      "ai_hint": "IBM Resilient organization ID"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "title",
+      "connectorId",
+      "connectorType",
+      "issueType",
+      "priority",
+      "urgency",
+      "severity",
+      "impact",
+      "category",
+      "issueTypes",
+      "severityCode",
+      "additionalFields",
+      "caseId",
+      "caseId",
+      "returnAll",
+      "limit",
+      "filters",
+      "sortOptions",
+      "caseId",
+      "updateFields",
+      "operation",
+      "caseId",
+      "comment",
+      "simple",
+      "additionalFields",
+      "caseId",
+      "commentId",
+      "caseId",
+      "returnAll",
+      "limit",
+      "caseId",
+      "commentId",
+      "caseId",
+      "commentId",
+      "comment",
+      "simple",
+      "operation",
+      "caseId",
+      "tag",
+      "caseId",
+      "tag",
+      "operation",
+      "name",
+      "connectorType",
+      "apiUrl",
+      "email",
+      "apiToken",
+      "projectKey",
+      "username",
+      "password",
+      "apiKeyId",
+      "apiKeySecret",
+      "orgId"
+    ],
+    "conditional_rules": [
+      "IF resource == 'case' THEN SHOW parameter 'operation'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'connectorId'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'connectorType'",
+      "IF resource == 'case' AND operation == 'create' AND connectorType == '.jira' THEN SHOW parameter 'issueType'",
+      "IF resource == 'case' AND operation == 'create' AND connectorType == '.jira' THEN SHOW parameter 'priority'",
+      "IF resource == 'case' AND operation == 'create' AND connectorType == '.servicenow' THEN SHOW parameter 'urgency'",
+      "IF resource == 'case' AND operation == 'create' AND connectorType == '.servicenow' THEN SHOW parameter 'severity'",
+      "IF resource == 'case' AND operation == 'create' AND connectorType == '.servicenow' THEN SHOW parameter 'impact'",
+      "IF resource == 'case' AND operation == 'create' AND connectorType == '.servicenow' THEN SHOW parameter 'category'",
+      "IF resource == 'case' AND operation == 'create' AND connectorType == '.resilient' THEN SHOW parameter 'issueTypes'",
+      "IF resource == 'case' AND operation == 'create' AND connectorType == '.resilient' THEN SHOW parameter 'severityCode'",
+      "IF resource == 'case' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'case' AND operation == 'delete' THEN SHOW parameter 'caseId'",
+      "IF resource == 'case' AND operation == 'get' THEN SHOW parameter 'caseId'",
+      "IF resource == 'case' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'case' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'case' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'case' AND operation == 'getAll' THEN SHOW parameter 'sortOptions'",
+      "IF resource == 'case' AND operation == 'update' THEN SHOW parameter 'caseId'",
+      "IF resource == 'case' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'caseComment' THEN SHOW parameter 'operation'",
+      "IF resource == 'caseComment' AND operation == 'add' THEN SHOW parameter 'caseId'",
+      "IF resource == 'caseComment' AND operation == 'add' THEN SHOW parameter 'comment'",
+      "IF resource == 'caseComment' AND operation == 'add' THEN SHOW parameter 'simple'",
+      "IF resource == 'caseComment' AND operation == 'add' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'caseComment' AND operation == 'get' THEN SHOW parameter 'caseId'",
+      "IF resource == 'caseComment' AND operation == 'get' THEN SHOW parameter 'commentId'",
+      "IF resource == 'caseComment' AND operation == 'getAll' THEN SHOW parameter 'caseId'",
+      "IF resource == 'caseComment' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'caseComment' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'caseComment' AND operation == 'remove' THEN SHOW parameter 'caseId'",
+      "IF resource == 'caseComment' AND operation == 'remove' THEN SHOW parameter 'commentId'",
+      "IF resource == 'caseComment' AND operation == 'update' THEN SHOW parameter 'caseId'",
+      "IF resource == 'caseComment' AND operation == 'update' THEN SHOW parameter 'commentId'",
+      "IF resource == 'caseComment' AND operation == 'update' THEN SHOW parameter 'comment'",
+      "IF resource == 'caseComment' AND operation == 'update' THEN SHOW parameter 'simple'",
+      "IF resource == 'caseTag' THEN SHOW parameter 'operation'",
+      "IF resource == 'caseTag' AND operation == 'add' THEN SHOW parameter 'caseId'",
+      "IF resource == 'caseTag' AND operation == 'add' THEN SHOW parameter 'tag'",
+      "IF resource == 'caseTag' AND operation == 'remove' THEN SHOW parameter 'caseId'",
+      "IF resource == 'caseTag' AND operation == 'remove' THEN SHOW parameter 'tag'",
+      "IF resource == 'connector' THEN SHOW parameter 'operation'",
+      "IF resource == 'connector' AND operation == 'create' THEN SHOW parameter 'name'",
+      "IF resource == 'connector' AND operation == 'create' THEN SHOW parameter 'connectorType'",
+      "IF resource == 'connector' AND operation == 'create' THEN SHOW parameter 'apiUrl'",
+      "IF resource == 'connector' AND operation == 'create' AND connectorType == '.jira' THEN SHOW parameter 'email'",
+      "IF resource == 'connector' AND operation == 'create' AND connectorType == '.jira' THEN SHOW parameter 'apiToken'",
+      "IF resource == 'connector' AND operation == 'create' AND connectorType == '.jira' THEN SHOW parameter 'projectKey'",
+      "IF resource == 'connector' AND operation == 'create' AND connectorType == '.servicenow' THEN SHOW parameter 'username'",
+      "IF resource == 'connector' AND operation == 'create' AND connectorType == '.servicenow' THEN SHOW parameter 'password'",
+      "IF resource == 'connector' AND operation == 'create' AND connectorType == '.resilient' THEN SHOW parameter 'apiKeyId'",
+      "IF resource == 'connector' AND operation == 'create' AND connectorType == '.resilient' THEN SHOW parameter 'apiKeySecret'",
+      "IF resource == 'connector' AND operation == 'create' AND connectorType == '.resilient' THEN SHOW parameter 'orgId'"
+    ]
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.embeddingsLemonade",
+  "name": "@n8n/n8n-nodes-langchain.embeddingsLemonade",
+  "version": 1,
+  "semantic_context": "Use Lemonade Embeddings",
+  "parameters": {
+    "notice": {
+      "displayName": "This node must be connected to a vector store. <a data-action='openSelectiveNodeCreator' data-action-parameter-connectiontype='ai_vectorStore'>Insert one</a>",
+      "name": "notice",
+      "type": "notice",
+      "default": "",
+      "typeOptions": {
+        "containerClass": "ndv-connection-hint-notice"
+      }
+    },
+    "model": {
+      "displayName": "Model",
+      "name": "model",
+      "type": "options",
+      "default": "",
+      "description": "The model which will generate the completion. Models are loaded and managed through the Lemonade server.",
+      "typeOptions": {
+        "loadOptions": {
+          "routing": {
+            "request": {
+              "method": "GET",
+              "url": "/models"
+            },
+            "output": {
+              "postReceive": [
+                {
+                  "type": "rootProperty",
+                  "properties": {
+                    "property": "data"
+                  }
+                },
+                {
+                  "type": "setKeyValue",
+                  "properties": {
+                    "name": "={{$responseItem.id}}",
+                    "value": "={{$responseItem.id}}"
+                  }
+                },
+                {
+                  "type": "sort",
+                  "properties": {
+                    "key": "name"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "routing": {
+        "send": {
+          "type": "body",
+          "property": "model"
+        }
+      },
+      "required": true,
+      "ai_hint": "The model which will generate the completion. Models are loaded and managed through the Lemonade server."
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "notice",
+      "model"
+    ],
+    "conditional_rules": []
+  }
+}

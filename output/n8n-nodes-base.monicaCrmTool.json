@@ -1,0 +1,1220 @@
+{
+  "node_id": "n8n-nodes-base.monicaCrmTool",
+  "name": "n8n-nodes-base.monicaCrmTool",
+  "version": 1,
+  "semantic_context": "Consume the Monica CRM API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume the Monica CRM API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Activity",
+          "value": "activity"
+        },
+        {
+          "name": "Call",
+          "value": "call"
+        },
+        {
+          "name": "Contact",
+          "value": "contact"
+        },
+        {
+          "name": "Contact Field",
+          "value": "contactField"
+        },
+        {
+          "name": "Contact Tag",
+          "value": "contactTag"
+        },
+        {
+          "name": "Conversation",
+          "value": "conversation"
+        },
+        {
+          "name": "Conversation Message",
+          "value": "conversationMessage"
+        },
+        {
+          "name": "Journal Entry",
+          "value": "journalEntry"
+        },
+        {
+          "name": "Note",
+          "value": "note"
+        },
+        {
+          "name": "Reminder",
+          "value": "reminder"
+        },
+        {
+          "name": "Tag",
+          "value": "tag"
+        },
+        {
+          "name": "Task",
+          "value": "task"
+        }
+      ],
+      "default": "contact",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a task",
+          "action": "Create a task"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a task",
+          "action": "Delete a task"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Retrieve a task",
+          "action": "Get a task"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Retrieve many tasks",
+          "action": "Get many tasks"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a task",
+          "action": "Update a task"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "activityTypeId": {
+      "displayName": "Activity Type Name or ID",
+      "name": "activityTypeId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "required": true,
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "getActivityTypes"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "activity"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "contacts": {
+      "displayName": "Contacts",
+      "name": "contacts",
+      "description": "Comma-separated list of IDs of the contacts to associate the activity with",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "activity"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Comma-separated list of IDs of the contacts to associate the activity with"
+    },
+    "happenedAt": {
+      "displayName": "Happened At",
+      "name": "happenedAt",
+      "description": "Date when the conversation happened",
+      "type": "dateTime",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "conversation"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "Date when the conversation happened"
+    },
+    "summary": {
+      "displayName": "Summary",
+      "name": "summary",
+      "description": "Brief description of the activity - max 255 characters",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "activity"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Brief description of the activity - max 255 characters"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Description",
+          "name": "description",
+          "type": "string",
+          "default": "",
+          "description": "Description of the task - max 100,000 characters"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "activityId": {
+      "displayName": "Activity ID",
+      "name": "activityId",
+      "description": "ID of the activity to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "activity"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the activity to update"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "default": 50,
+      "description": "Max number of results to return",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Contact ID",
+          "name": "contactId",
+          "description": "ID of the contact to associate the task with",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Completed",
+          "name": "completed",
+          "description": "Whether the task has been completed",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "displayName": "Description",
+          "name": "description",
+          "type": "string",
+          "default": "",
+          "description": "Description of the task - max 100,000 characters"
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "description": "Title of the task entry - max 250 characters",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "contactId": {
+      "displayName": "Contact ID",
+      "name": "contactId",
+      "description": "ID of the contact to associate the task with",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "ID of the contact to associate the task with"
+    },
+    "calledAt": {
+      "displayName": "Called At",
+      "name": "calledAt",
+      "description": "Date when the call happened",
+      "type": "dateTime",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "call"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Date when the call happened"
+    },
+    "content": {
+      "displayName": "Content",
+      "name": "content",
+      "description": "Content of the message",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "conversationMessage"
+          ],
+          "operation": [
+            "add"
+          ]
+        }
+      },
+      "ai_hint": "Content of the message"
+    },
+    "callId": {
+      "displayName": "Call ID",
+      "name": "callId",
+      "description": "ID of the call to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "call"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the call to update"
+    },
+    "firstName": {
+      "displayName": "First Name",
+      "name": "firstName",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "genderId": {
+      "displayName": "Gender Name or ID",
+      "name": "genderId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "required": true,
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "getGenders"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Search Term",
+          "name": "query",
+          "type": "string",
+          "default": "",
+          "description": "Search term to filter results by"
+        },
+        {
+          "displayName": "Sort",
+          "name": "sort",
+          "type": "options",
+          "options": [
+            {
+              "name": "Ascended Created At",
+              "value": "created_at"
+            },
+            {
+              "name": "Descended Created At",
+              "value": "-created_at"
+            },
+            {
+              "name": "Ascended Updated At",
+              "value": "updated_at"
+            },
+            {
+              "name": "Descended Updated At",
+              "value": "-updated_at"
+            }
+          ],
+          "default": ""
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "contactFieldTypeId": {
+      "displayName": "Contact Field Type Name or ID",
+      "name": "contactFieldTypeId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "required": true,
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "getContactFieldTypes"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "conversation"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "data": {
+      "displayName": "Content",
+      "name": "data",
+      "description": "Content of the contact field - max 255 characters",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contactField"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "Content of the contact field - max 255 characters"
+    },
+    "contactFieldId": {
+      "displayName": "Contact Field ID",
+      "name": "contactFieldId",
+      "description": "ID of the contact field to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contactField"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the contact field to update"
+    },
+    "tagsToAdd": {
+      "displayName": "Tag Names or IDs",
+      "name": "tagsToAdd",
+      "description": "Tags to add to the contact. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "type": "multiOptions",
+      "typeOptions": {
+        "loadOptionsMethod": "getTagsToAdd"
+      },
+      "required": true,
+      "default": [],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contactTag"
+          ],
+          "operation": [
+            "add"
+          ]
+        }
+      },
+      "ai_hint": "Tags to add to the contact. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "tagsToRemove": {
+      "displayName": "Tag Names or IDs",
+      "name": "tagsToRemove",
+      "description": "Tags to remove from the contact. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "type": "multiOptions",
+      "required": true,
+      "typeOptions": {
+        "loadOptionsMethod": "getTagsToRemove"
+      },
+      "default": [],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contactTag"
+          ],
+          "operation": [
+            "remove"
+          ]
+        }
+      },
+      "ai_hint": "Tags to remove from the contact. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "conversationId": {
+      "displayName": "Conversation ID",
+      "name": "conversationId",
+      "description": "ID of the conversation whose message to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "conversationMessage"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the conversation whose message to update"
+    },
+    "writtenAt": {
+      "displayName": "Written At",
+      "name": "writtenAt",
+      "description": "Date when the message was written",
+      "type": "dateTime",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "conversationMessage"
+          ],
+          "operation": [
+            "add"
+          ]
+        }
+      },
+      "ai_hint": "Date when the message was written"
+    },
+    "writtenByMe": {
+      "displayName": "Written By",
+      "name": "writtenByMe",
+      "description": "Author of the message",
+      "type": "options",
+      "required": true,
+      "default": true,
+      "options": [
+        {
+          "name": "User",
+          "value": true
+        },
+        {
+          "name": "Contact",
+          "value": false
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "conversationMessage"
+          ],
+          "operation": [
+            "add"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "messageId": {
+      "displayName": "Message ID",
+      "name": "messageId",
+      "description": "ID of the message to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "conversationMessage"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the message to update"
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "description": "Title of the task entry - max 250 characters",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Title of the task entry - max 250 characters"
+    },
+    "post": {
+      "displayName": "Content",
+      "name": "post",
+      "description": "Content of the journal entry - max 100,000 characters",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "journalEntry"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Content of the journal entry - max 100,000 characters"
+    },
+    "journalId": {
+      "displayName": "Journal Entry ID",
+      "name": "journalId",
+      "description": "ID of the journal entry to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "journalEntry"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the journal entry to update"
+    },
+    "body": {
+      "displayName": "Body",
+      "name": "body",
+      "description": "Body of the note - max 100,000 characters",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "note"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Body of the note - max 100,000 characters"
+    },
+    "noteId": {
+      "displayName": "Note ID",
+      "name": "noteId",
+      "description": "ID of the note to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "note"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the note to update"
+    },
+    "frequencyType": {
+      "displayName": "Frequency Type",
+      "name": "frequencyType",
+      "description": "Type of frequency of the reminder",
+      "type": "options",
+      "required": true,
+      "default": "one_time",
+      "options": [
+        {
+          "name": "Once",
+          "value": "one_time"
+        },
+        {
+          "name": "Weekly",
+          "value": "week"
+        },
+        {
+          "name": "Monthly",
+          "value": "month"
+        },
+        {
+          "name": "Yearly",
+          "value": "year"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "reminder"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "frequencyNumber": {
+      "displayName": "Recurring Interval",
+      "name": "frequencyNumber",
+      "type": "number",
+      "default": 0,
+      "description": "Interval for the reminder",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "reminder"
+          ],
+          "operation": [
+            "create"
+          ],
+          "frequencyType": [
+            "week",
+            "month",
+            "year"
+          ]
+        }
+      },
+      "ai_hint": "Interval for the reminder"
+    },
+    "initialDate": {
+      "displayName": "Initial Date",
+      "name": "initialDate",
+      "description": "Date of the reminder",
+      "type": "dateTime",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "reminder"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Date of the reminder"
+    },
+    "reminderId": {
+      "displayName": "Reminder ID",
+      "name": "reminderId",
+      "description": "ID of the reminder to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "reminder"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the reminder to update"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "description": "Name of the tag - max 250 characters",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "tag"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "Name of the tag - max 250 characters"
+    },
+    "tagId": {
+      "displayName": "Tag ID",
+      "name": "tagId",
+      "description": "ID of the tag to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "tag"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the tag to update"
+    },
+    "taskId": {
+      "displayName": "Task ID",
+      "name": "taskId",
+      "description": "ID of the task to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the task to update"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "activityTypeId",
+      "contacts",
+      "happenedAt",
+      "summary",
+      "additionalFields",
+      "activityId",
+      "activityId",
+      "returnAll",
+      "limit",
+      "activityId",
+      "updateFields",
+      "operation",
+      "contactId",
+      "calledAt",
+      "content",
+      "callId",
+      "callId",
+      "returnAll",
+      "limit",
+      "callId",
+      "updateFields",
+      "operation",
+      "firstName",
+      "genderId",
+      "additionalFields",
+      "contactId",
+      "contactId",
+      "returnAll",
+      "limit",
+      "filters",
+      "contactId",
+      "updateFields",
+      "operation",
+      "contactId",
+      "contactFieldTypeId",
+      "data",
+      "contactFieldId",
+      "contactFieldId",
+      "contactId",
+      "returnAll",
+      "limit",
+      "contactId",
+      "contactFieldId",
+      "contactFieldTypeId",
+      "data",
+      "operation",
+      "contactId",
+      "tagsToAdd",
+      "contactId",
+      "tagsToRemove",
+      "operation",
+      "contactId",
+      "contactFieldTypeId",
+      "happenedAt",
+      "conversationId",
+      "conversationId",
+      "conversationId",
+      "contactFieldTypeId",
+      "happenedAt",
+      "operation",
+      "conversationId",
+      "content",
+      "writtenAt",
+      "writtenByMe",
+      "messageId",
+      "conversationId",
+      "updateFields",
+      "operation",
+      "title",
+      "post",
+      "journalId",
+      "journalId",
+      "returnAll",
+      "limit",
+      "journalId",
+      "updateFields",
+      "operation",
+      "contactId",
+      "body",
+      "additionalFields",
+      "noteId",
+      "noteId",
+      "returnAll",
+      "limit",
+      "noteId",
+      "updateFields",
+      "operation",
+      "contactId",
+      "frequencyType",
+      "frequencyNumber",
+      "initialDate",
+      "title",
+      "additionalFields",
+      "reminderId",
+      "reminderId",
+      "returnAll",
+      "limit",
+      "reminderId",
+      "updateFields",
+      "operation",
+      "name",
+      "tagId",
+      "tagId",
+      "returnAll",
+      "limit",
+      "tagId",
+      "name",
+      "operation",
+      "contactId",
+      "title",
+      "additionalFields",
+      "taskId",
+      "taskId",
+      "returnAll",
+      "limit",
+      "taskId",
+      "updateFields"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'activity' THEN SHOW parameter 'operation'",
+      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'activityTypeId'",
+      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'contacts'",
+      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'happenedAt'",
+      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'summary'",
+      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'activity' AND operation == 'delete' THEN SHOW parameter 'activityId'",
+      "IF resource == 'activity' AND operation == 'get' THEN SHOW parameter 'activityId'",
+      "IF resource == 'activity' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'activity' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'activity' AND operation == 'update' THEN SHOW parameter 'activityId'",
+      "IF resource == 'activity' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'call' THEN SHOW parameter 'operation'",
+      "IF resource == 'call' AND operation == 'create' THEN SHOW parameter 'contactId'",
+      "IF resource == 'call' AND operation == 'create' THEN SHOW parameter 'calledAt'",
+      "IF resource == 'call' AND operation == 'create' THEN SHOW parameter 'content'",
+      "IF resource == 'call' AND operation == 'delete' THEN SHOW parameter 'callId'",
+      "IF resource == 'call' AND operation == 'get' THEN SHOW parameter 'callId'",
+      "IF resource == 'call' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'call' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'call' AND operation == 'update' THEN SHOW parameter 'callId'",
+      "IF resource == 'call' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'contact' THEN SHOW parameter 'operation'",
+      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'firstName'",
+      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'genderId'",
+      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'contact' AND operation == 'delete' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'get' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'contact' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'contact' AND operation == 'update' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'contactField' THEN SHOW parameter 'operation'",
+      "IF resource == 'contactField' AND operation == 'create' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contactField' AND operation == 'create' THEN SHOW parameter 'contactFieldTypeId'",
+      "IF resource == 'contactField' AND operation == 'create' THEN SHOW parameter 'data'",
+      "IF resource == 'contactField' AND operation == 'delete' THEN SHOW parameter 'contactFieldId'",
+      "IF resource == 'contactField' AND operation == 'get' THEN SHOW parameter 'contactFieldId'",
+      "IF resource == 'contactField' AND operation == 'getAll' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contactField' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'contactField' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'contactField' AND operation == 'update' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contactField' AND operation == 'update' THEN SHOW parameter 'contactFieldId'",
+      "IF resource == 'contactField' AND operation == 'update' THEN SHOW parameter 'contactFieldTypeId'",
+      "IF resource == 'contactField' AND operation == 'update' THEN SHOW parameter 'data'",
+      "IF resource == 'contactTag' THEN SHOW parameter 'operation'",
+      "IF resource == 'contactTag' AND operation == 'add' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contactTag' AND operation == 'add' THEN SHOW parameter 'tagsToAdd'",
+      "IF resource == 'contactTag' AND operation == 'remove' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contactTag' AND operation == 'remove' THEN SHOW parameter 'tagsToRemove'",
+      "IF resource == 'conversation' THEN SHOW parameter 'operation'",
+      "IF resource == 'conversation' AND operation == 'create' THEN SHOW parameter 'contactId'",
+      "IF resource == 'conversation' AND operation == 'create' THEN SHOW parameter 'contactFieldTypeId'",
+      "IF resource == 'conversation' AND operation == 'create' THEN SHOW parameter 'happenedAt'",
+      "IF resource == 'conversation' AND operation == 'delete' THEN SHOW parameter 'conversationId'",
+      "IF resource == 'conversation' AND operation == 'get' THEN SHOW parameter 'conversationId'",
+      "IF resource == 'conversation' AND operation == 'update' THEN SHOW parameter 'conversationId'",
+      "IF resource == 'conversation' AND operation == 'update' THEN SHOW parameter 'contactFieldTypeId'",
+      "IF resource == 'conversation' AND operation == 'update' THEN SHOW parameter 'happenedAt'",
+      "IF resource == 'conversationMessage' THEN SHOW parameter 'operation'",
+      "IF resource == 'conversationMessage' AND operation == 'add' THEN SHOW parameter 'conversationId'",
+      "IF resource == 'conversationMessage' AND operation == 'add' THEN SHOW parameter 'content'",
+      "IF resource == 'conversationMessage' AND operation == 'add' THEN SHOW parameter 'writtenAt'",
+      "IF resource == 'conversationMessage' AND operation == 'add' THEN SHOW parameter 'writtenByMe'",
+      "IF resource == 'conversationMessage' AND operation == 'update' THEN SHOW parameter 'messageId'",
+      "IF resource == 'conversationMessage' AND operation == 'update' THEN SHOW parameter 'conversationId'",
+      "IF resource == 'conversationMessage' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'journalEntry' THEN SHOW parameter 'operation'",
+      "IF resource == 'journalEntry' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'journalEntry' AND operation == 'create' THEN SHOW parameter 'post'",
+      "IF resource == 'journalEntry' AND operation == 'delete' THEN SHOW parameter 'journalId'",
+      "IF resource == 'journalEntry' AND operation == 'get' THEN SHOW parameter 'journalId'",
+      "IF resource == 'journalEntry' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'journalEntry' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'journalEntry' AND operation == 'update' THEN SHOW parameter 'journalId'",
+      "IF resource == 'journalEntry' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'note' THEN SHOW parameter 'operation'",
+      "IF resource == 'note' AND operation == 'create' THEN SHOW parameter 'contactId'",
+      "IF resource == 'note' AND operation == 'create' THEN SHOW parameter 'body'",
+      "IF resource == 'note' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'note' AND operation == 'delete' THEN SHOW parameter 'noteId'",
+      "IF resource == 'note' AND operation == 'get' THEN SHOW parameter 'noteId'",
+      "IF resource == 'note' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'note' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'note' AND operation == 'update' THEN SHOW parameter 'noteId'",
+      "IF resource == 'note' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'reminder' THEN SHOW parameter 'operation'",
+      "IF resource == 'reminder' AND operation == 'create' THEN SHOW parameter 'contactId'",
+      "IF resource == 'reminder' AND operation == 'create' THEN SHOW parameter 'frequencyType'",
+      "IF resource == 'reminder' AND operation == 'create' AND frequencyType IN [\"week\", \"month\", \"year\"] THEN SHOW parameter 'frequencyNumber'",
+      "IF resource == 'reminder' AND operation == 'create' THEN SHOW parameter 'initialDate'",
+      "IF resource == 'reminder' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'reminder' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'reminder' AND operation == 'delete' THEN SHOW parameter 'reminderId'",
+      "IF resource == 'reminder' AND operation == 'get' THEN SHOW parameter 'reminderId'",
+      "IF resource == 'reminder' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'reminder' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'reminder' AND operation == 'update' THEN SHOW parameter 'reminderId'",
+      "IF resource == 'reminder' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF frequency_type IN [\"week\", \"month\", \"year\"] THEN SHOW parameter 'frequency_number'",
+      "IF resource == 'tag' THEN SHOW parameter 'operation'",
+      "IF resource == 'tag' AND operation == 'create' THEN SHOW parameter 'name'",
+      "IF resource == 'tag' AND operation == 'delete' THEN SHOW parameter 'tagId'",
+      "IF resource == 'tag' AND operation == 'get' THEN SHOW parameter 'tagId'",
+      "IF resource == 'tag' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'tag' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'tag' AND operation == 'update' THEN SHOW parameter 'tagId'",
+      "IF resource == 'tag' AND operation == 'update' THEN SHOW parameter 'name'",
+      "IF resource == 'task' THEN SHOW parameter 'operation'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'contactId'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'task' AND operation == 'delete' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'get' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'task' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'updateFields'"
+    ]
+  }
+}

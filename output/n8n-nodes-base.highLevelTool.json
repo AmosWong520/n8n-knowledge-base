@@ -1,0 +1,1144 @@
+{
+  "node_id": "n8n-nodes-base.highLevelTool",
+  "name": "n8n-nodes-base.highLevelTool",
+  "version": 2,
+  "semantic_context": "Consume HighLevel API v2",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume HighLevel API v2",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Contact",
+          "value": "contact"
+        },
+        {
+          "name": "Opportunity",
+          "value": "opportunity"
+        },
+        {
+          "name": "Task",
+          "value": "task"
+        },
+        {
+          "name": "Calendar",
+          "value": "calendar"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "contact",
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "calendar"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Book Appointment",
+          "value": "bookAppointment",
+          "action": "Book appointment in a calendar",
+          "routing": {
+            "request": {
+              "method": "POST",
+              "url": "=/calendars/events/appointments"
+            }
+          }
+        },
+        {
+          "name": "Get Free Slots",
+          "value": "getFreeSlots",
+          "action": "Get free slots of a calendar",
+          "routing": {
+            "request": {
+              "method": "GET",
+              "url": "=/calendars/{{$parameter.calendarId}}/free-slots"
+            }
+          }
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "bookAppointment",
+      "noDataExpression": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "contactCreateNotice": {
+      "displayName": "Create a new contact or update an existing one if email or phone matches (upsert)",
+      "name": "contactCreateNotice",
+      "type": "notice",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "email": {
+      "displayName": "Email",
+      "name": "email",
+      "type": "string",
+      "placeholder": "name@email.com",
+      "description": "Lookup Contact by Email. If Email is not found it will try to find a contact by phone.",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "lookup"
+          ]
+        }
+      },
+      "default": "",
+      "ai_hint": "Lookup Contact by Email. If Email is not found it will try to find a contact by phone."
+    },
+    "phone": {
+      "displayName": "Phone",
+      "name": "phone",
+      "type": "string",
+      "description": "Lookup Contact by Phone. It will first try to find a contact by Email and than by Phone.",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "lookup"
+          ]
+        }
+      },
+      "default": "",
+      "ai_hint": "Lookup Contact by Phone. It will first try to find a contact by Email and than by Phone."
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "calendar"
+          ],
+          "operation": [
+            "getFreeSlots"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Timezone",
+          "name": "timezone",
+          "type": "string",
+          "default": "",
+          "description": "The timezone to use for the returned slots. Example: America/Chihuahua.",
+          "routing": {
+            "send": {
+              "type": "query",
+              "property": "timezone"
+            }
+          }
+        },
+        {
+          "displayName": "User ID",
+          "name": "userId",
+          "type": "string",
+          "default": "",
+          "description": "User ID to filter the slots (optional)",
+          "routing": {
+            "send": {
+              "type": "query",
+              "property": "userId"
+            }
+          }
+        },
+        {
+          "displayName": "User IDs",
+          "name": "userIds",
+          "type": "collection",
+          "default": {},
+          "options": [
+            {
+              "displayName": "User IDs",
+              "name": "userIds",
+              "type": "string",
+              "default": "",
+              "description": "Comma-separated list of user IDs to filter the slots",
+              "routing": {
+                "send": {
+                  "type": "query",
+                  "property": "userIds"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "displayName": "Apply Look Busy",
+          "name": "enableLookBusy",
+          "type": "boolean",
+          "default": false,
+          "description": "Apply Look Busy to the slots",
+          "routing": {
+            "send": {
+              "type": "query",
+              "property": "enableLookBusy"
+            }
+          }
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "contactId": {
+      "displayName": "Contact ID",
+      "name": "contactId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "calendar"
+          ],
+          "operation": [
+            "bookAppointment"
+          ]
+        }
+      },
+      "default": "",
+      "routing": {
+        "send": {
+          "type": "body",
+          "property": "contactId"
+        }
+      }
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Assigned To",
+          "name": "assignedTo",
+          "type": "options",
+          "default": "",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getUsers"
+          },
+          "routing": {
+            "send": {
+              "type": "body",
+              "property": "assignedTo"
+            }
+          }
+        },
+        {
+          "displayName": "Completed",
+          "name": "completed",
+          "type": "boolean",
+          "default": false,
+          "routing": {
+            "send": {
+              "type": "body",
+              "property": "completed"
+            }
+          }
+        },
+        {
+          "displayName": "Body",
+          "name": "body",
+          "type": "string",
+          "default": "",
+          "routing": {
+            "send": {
+              "type": "body",
+              "property": "body"
+            }
+          }
+        },
+        {
+          "displayName": "Due Date",
+          "name": "dueDate",
+          "type": "dateTime",
+          "default": "",
+          "routing": {
+            "send": {
+              "type": "body",
+              "property": "dueDate",
+              "preSend": [
+                null
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": "",
+          "routing": {
+            "send": {
+              "type": "body",
+              "property": "title"
+            }
+          }
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 100
+      },
+      "default": 20,
+      "routing": {
+        "send": {
+          "type": "query",
+          "property": "limit"
+        }
+      },
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "opportunity"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Assigned To",
+          "name": "assignedTo",
+          "type": "options",
+          "default": "",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getUsers"
+          },
+          "routing": {
+            "send": {
+              "type": "query",
+              "property": "assigned_to"
+            }
+          }
+        },
+        {
+          "displayName": "Campaign ID",
+          "name": "campaignId",
+          "type": "string",
+          "default": "",
+          "routing": {
+            "send": {
+              "type": "query",
+              "property": "campaignId"
+            }
+          }
+        },
+        {
+          "displayName": "End Date",
+          "name": "endDate",
+          "type": "dateTime",
+          "default": "",
+          "routing": {
+            "send": {
+              "type": "query",
+              "property": "endDate",
+              "preSend": [
+                null
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Pipeline Name or ID",
+          "name": "pipelineId",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getPipelines"
+          },
+          "routing": {
+            "send": {
+              "type": "query",
+              "property": "pipeline_id"
+            }
+          },
+          "default": ""
+        },
+        {
+          "displayName": "Stage Name or ID",
+          "name": "stageId",
+          "type": "options",
+          "default": "",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "hint": "Select 'Pipeline Name or ID' first to see stages",
+          "typeOptions": {
+            "loadOptionsDependsOn": [
+              "pipelineId"
+            ],
+            "loadOptionsMethod": "getPipelineStages"
+          },
+          "routing": {
+            "send": {
+              "type": "query",
+              "property": "pipeline_stage_id"
+            }
+          }
+        },
+        {
+          "displayName": "Start Date",
+          "name": "startDate",
+          "type": "dateTime",
+          "default": "",
+          "routing": {
+            "send": {
+              "type": "query",
+              "property": "date",
+              "preSend": [
+                null
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Status",
+          "name": "status",
+          "type": "options",
+          "options": [
+            {
+              "name": "Open",
+              "value": "open"
+            },
+            {
+              "name": "Won",
+              "value": "won"
+            },
+            {
+              "name": "Lost",
+              "value": "lost"
+            },
+            {
+              "name": "Abandoned",
+              "value": "abandoned"
+            }
+          ],
+          "default": "open",
+          "routing": {
+            "send": {
+              "type": "query",
+              "property": "status"
+            }
+          }
+        },
+        {
+          "displayName": "Query",
+          "name": "query",
+          "type": "string",
+          "default": "",
+          "description": "Query will search on these fields: Name, Phone, Email, Tags, and Company Name",
+          "routing": {
+            "send": {
+              "type": "query",
+              "property": "q"
+            }
+          }
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "contact"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Order",
+          "name": "order",
+          "type": "options",
+          "options": [
+            {
+              "name": "Descending",
+              "value": "desc"
+            },
+            {
+              "name": "Ascending",
+              "value": "asc"
+            }
+          ],
+          "default": "desc",
+          "routing": {
+            "send": {
+              "type": "query",
+              "property": "order"
+            }
+          }
+        },
+        {
+          "displayName": "Sort By",
+          "name": "sortBy",
+          "type": "options",
+          "options": [
+            {
+              "name": "Date Added",
+              "value": "date_added"
+            },
+            {
+              "name": "Date Updated",
+              "value": "date_updated"
+            }
+          ],
+          "default": "date_added",
+          "routing": {
+            "send": {
+              "type": "query",
+              "property": "sortBy"
+            }
+          }
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "pipelineId": {
+      "displayName": "Pipeline Name or ID",
+      "name": "pipelineId",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "opportunity"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getPipelines"
+      },
+      "routing": {
+        "send": {
+          "type": "body",
+          "property": "pipelineId"
+        }
+      },
+      "default": "",
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "opportunity"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "routing": {
+        "send": {
+          "type": "body",
+          "property": "name"
+        }
+      }
+    },
+    "status": {
+      "displayName": "Status",
+      "name": "status",
+      "type": "options",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "opportunity"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Open",
+          "value": "open"
+        },
+        {
+          "name": "Won",
+          "value": "won"
+        },
+        {
+          "name": "Lost",
+          "value": "lost"
+        },
+        {
+          "name": "Abandoned",
+          "value": "abandoned"
+        }
+      ],
+      "default": "open",
+      "routing": {
+        "send": {
+          "type": "body",
+          "property": "status"
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "opportunityId": {
+      "displayName": "Opportunity ID",
+      "name": "opportunityId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "opportunity"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "routing": {
+        "send": {
+          "type": "body",
+          "property": "title"
+        }
+      }
+    },
+    "dueDate": {
+      "displayName": "Due Date",
+      "name": "dueDate",
+      "type": "dateTime",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "routing": {
+        "send": {
+          "type": "body",
+          "property": "dueDate",
+          "preSend": [
+            null
+          ]
+        }
+      }
+    },
+    "completed": {
+      "displayName": "Completed",
+      "name": "completed",
+      "type": "boolean",
+      "required": true,
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "routing": {
+        "send": {
+          "type": "body",
+          "property": "completed"
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "taskId": {
+      "displayName": "Task ID",
+      "name": "taskId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "task"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "calendarId": {
+      "displayName": "Calendar ID",
+      "name": "calendarId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "calendar"
+          ],
+          "operation": [
+            "getFreeSlots"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "locationId": {
+      "displayName": "Location ID",
+      "name": "locationId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "calendar"
+          ],
+          "operation": [
+            "bookAppointment"
+          ]
+        }
+      },
+      "default": "",
+      "routing": {
+        "send": {
+          "type": "body",
+          "property": "locationId"
+        }
+      }
+    },
+    "startTime": {
+      "displayName": "Start Time",
+      "name": "startTime",
+      "type": "string",
+      "required": true,
+      "description": "Example: 2021-06-23T03:30:00+05:30",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "calendar"
+          ],
+          "operation": [
+            "bookAppointment"
+          ]
+        }
+      },
+      "default": "",
+      "routing": {
+        "send": {
+          "type": "body",
+          "property": "startTime"
+        }
+      },
+      "ai_hint": "Example: 2021-06-23T03:30:00+05:30"
+    },
+    "startDate": {
+      "displayName": "Start Date",
+      "name": "startDate",
+      "type": "number",
+      "default": "",
+      "required": true,
+      "description": "The start date for fetching free calendar slots. Example: 1548898600000.",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "calendar"
+          ],
+          "operation": [
+            "getFreeSlots"
+          ]
+        }
+      },
+      "routing": {
+        "send": {
+          "type": "query",
+          "property": "startDate"
+        }
+      },
+      "ai_hint": "The start date for fetching free calendar slots. Example: 1548898600000."
+    },
+    "endDate": {
+      "displayName": "End Date",
+      "name": "endDate",
+      "type": "number",
+      "default": "",
+      "required": true,
+      "description": "The end date for fetching free calendar slots. Example: 1601490599999.",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "calendar"
+          ],
+          "operation": [
+            "getFreeSlots"
+          ]
+        }
+      },
+      "routing": {
+        "send": {
+          "type": "query",
+          "property": "endDate"
+        }
+      },
+      "ai_hint": "The end date for fetching free calendar slots. Example: 1601490599999."
+    },
+    "requestOptions": {
+      "displayName": "Request Options",
+      "name": "requestOptions",
+      "type": "collection",
+      "isNodeSetting": true,
+      "placeholder": "Add Option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Batching",
+          "name": "batching",
+          "placeholder": "Add Batching",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": false
+          },
+          "default": {
+            "batch": {}
+          },
+          "options": [
+            {
+              "displayName": "Batching",
+              "name": "batch",
+              "values": [
+                {
+                  "displayName": "Items per Batch",
+                  "name": "batchSize",
+                  "type": "number",
+                  "typeOptions": {
+                    "minValue": -1
+                  },
+                  "default": 50,
+                  "description": "Input will be split in batches to throttle requests. -1 for disabled. 0 will be treated as 1."
+                },
+                {
+                  "displayName": "Batch Interval (ms)",
+                  "name": "batchInterval",
+                  "type": "number",
+                  "typeOptions": {
+                    "minValue": 0
+                  },
+                  "default": 1000,
+                  "description": "Time (in milliseconds) between each batch of requests. 0 for disabled."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Ignore SSL Issues (Insecure)",
+          "name": "allowUnauthorizedCerts",
+          "type": "boolean",
+          "noDataExpression": true,
+          "default": false,
+          "description": "Whether to accept the response even if SSL certificate validation is not possible"
+        },
+        {
+          "displayName": "Proxy",
+          "name": "proxy",
+          "type": "string",
+          "default": "",
+          "placeholder": "e.g. http://myproxy:3128",
+          "description": "HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128"
+        },
+        {
+          "displayName": "Timeout",
+          "name": "timeout",
+          "type": "number",
+          "typeOptions": {
+            "minValue": 1
+          },
+          "default": 10000,
+          "description": "Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "contactCreateNotice",
+      "email",
+      "phone",
+      "additionalFields",
+      "contactId",
+      "updateFields",
+      "contactId",
+      "contactId",
+      "returnAll",
+      "limit",
+      "filters",
+      "options",
+      "email",
+      "phone",
+      "operation",
+      "pipelineId",
+      "contactId",
+      "name",
+      "status",
+      "additionalFields",
+      "opportunityId",
+      "updateFields",
+      "opportunityId",
+      "opportunityId",
+      "returnAll",
+      "limit",
+      "filters",
+      "operation",
+      "contactId",
+      "title",
+      "dueDate",
+      "completed",
+      "additionalFields",
+      "contactId",
+      "taskId",
+      "updateFields",
+      "contactId",
+      "taskId",
+      "contactId",
+      "taskId",
+      "contactId",
+      "returnAll",
+      "limit",
+      "operation",
+      "calendarId",
+      "locationId",
+      "contactId",
+      "startTime",
+      "additionalFields",
+      "calendarId",
+      "startDate",
+      "endDate",
+      "additionalFields",
+      "requestOptions"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'contact' THEN SHOW parameter 'operation'",
+      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'contactCreateNotice'",
+      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'email'",
+      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'phone'",
+      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'contact' AND operation == 'update' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'contact' AND operation == 'delete' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'get' THEN SHOW parameter 'contactId'",
+      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'contact' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'contact' AND operation == 'lookup' THEN SHOW parameter 'email'",
+      "IF resource == 'contact' AND operation == 'lookup' THEN SHOW parameter 'phone'",
+      "IF resource == 'opportunity' THEN SHOW parameter 'operation'",
+      "IF resource == 'opportunity' AND operation == 'create' THEN SHOW parameter 'pipelineId'",
+      "IF resource == 'opportunity' AND operation == 'create' THEN SHOW parameter 'contactId'",
+      "IF resource == 'opportunity' AND operation == 'create' THEN SHOW parameter 'name'",
+      "IF resource == 'opportunity' AND operation == 'create' THEN SHOW parameter 'status'",
+      "IF resource == 'opportunity' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'opportunity' AND operation == 'update' THEN SHOW parameter 'opportunityId'",
+      "IF resource == 'opportunity' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'opportunity' AND operation == 'delete' THEN SHOW parameter 'opportunityId'",
+      "IF resource == 'opportunity' AND operation == 'get' THEN SHOW parameter 'opportunityId'",
+      "IF resource == 'opportunity' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'opportunity' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'opportunity' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'task' THEN SHOW parameter 'operation'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'contactId'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'dueDate'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'completed'",
+      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'contactId'",
+      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'task' AND operation == 'delete' THEN SHOW parameter 'contactId'",
+      "IF resource == 'task' AND operation == 'delete' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'get' THEN SHOW parameter 'contactId'",
+      "IF resource == 'task' AND operation == 'get' THEN SHOW parameter 'taskId'",
+      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'contactId'",
+      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'task' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'calendar' THEN SHOW parameter 'operation'",
+      "IF resource == 'calendar' AND operation == 'bookAppointment' THEN SHOW parameter 'calendarId'",
+      "IF resource == 'calendar' AND operation == 'bookAppointment' THEN SHOW parameter 'locationId'",
+      "IF resource == 'calendar' AND operation == 'bookAppointment' THEN SHOW parameter 'contactId'",
+      "IF resource == 'calendar' AND operation == 'bookAppointment' THEN SHOW parameter 'startTime'",
+      "IF resource == 'calendar' AND operation == 'bookAppointment' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'calendar' AND operation == 'getFreeSlots' THEN SHOW parameter 'calendarId'",
+      "IF resource == 'calendar' AND operation == 'getFreeSlots' THEN SHOW parameter 'startDate'",
+      "IF resource == 'calendar' AND operation == 'getFreeSlots' THEN SHOW parameter 'endDate'",
+      "IF resource == 'calendar' AND operation == 'getFreeSlots' THEN SHOW parameter 'additionalFields'"
+    ]
+  }
+}

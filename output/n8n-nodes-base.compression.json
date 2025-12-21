@@ -1,0 +1,173 @@
+{
+  "node_id": "n8n-nodes-base.compression",
+  "name": "n8n-nodes-base.compression",
+  "version": [
+    1,
+    1.1
+  ],
+  "semantic_context": "Compress and decompress files",
+  "parameters": {
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Compress",
+          "value": "compress",
+          "action": "Compress file(s)",
+          "description": "Compress files into a zip or gzip archive"
+        },
+        {
+          "name": "Decompress",
+          "value": "decompress",
+          "action": "Decompress file(s)",
+          "description": "Decompress zip or gzip archives"
+        }
+      ],
+      "default": "decompress",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "binaryPropertyName": {
+      "displayName": "Input Binary Field(s)",
+      "name": "binaryPropertyName",
+      "type": "string",
+      "default": "data",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "decompress"
+          ]
+        }
+      },
+      "placeholder": "e.g. data",
+      "hint": "The name of the input binary field(s) containing the file(s) to decompress",
+      "description": "To process more than one file, use a comma-separated list of the binary fields names",
+      "ai_hint": "To process more than one file, use a comma-separated list of the binary fields names"
+    },
+    "outputFormat": {
+      "displayName": "Output Format",
+      "name": "outputFormat",
+      "type": "options",
+      "default": "zip",
+      "options": [
+        {
+          "name": "Gzip",
+          "value": "gzip"
+        },
+        {
+          "name": "Zip",
+          "value": "zip"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "compress"
+          ]
+        },
+        "hide": {
+          "@version": [
+            1
+          ]
+        }
+      },
+      "description": "Format of the output",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "fileName": {
+      "displayName": "File Name",
+      "name": "fileName",
+      "type": "string",
+      "default": "",
+      "placeholder": "e.g. data.txt",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "compress"
+          ],
+          "outputFormat": [
+            "gzip"
+          ]
+        },
+        "hide": {
+          "@version": [
+            1
+          ]
+        }
+      },
+      "description": "Name of the output file",
+      "ai_hint": "Name of the output file"
+    },
+    "binaryPropertyOutput": {
+      "displayName": "Put Output File in Field",
+      "name": "binaryPropertyOutput",
+      "type": "string",
+      "default": "data",
+      "displayOptions": {
+        "show": {
+          "outputFormat": [
+            "gzip"
+          ],
+          "operation": [
+            "compress"
+          ]
+        },
+        "hide": {
+          "@version": [
+            1
+          ]
+        }
+      },
+      "hint": "The name of the output binary field to put the file in"
+    },
+    "outputPrefix": {
+      "displayName": "Output Prefix",
+      "name": "outputPrefix",
+      "type": "string",
+      "default": "file_",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "decompress"
+          ]
+        }
+      },
+      "description": "Prefix to add to the decompressed files",
+      "ai_hint": "Prefix to add to the decompressed files"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "operation",
+      "binaryPropertyName",
+      "binaryPropertyName",
+      "outputFormat",
+      "outputFormat",
+      "fileName",
+      "binaryPropertyOutput",
+      "fileName",
+      "binaryPropertyOutput",
+      "outputPrefix",
+      "outputPrefix"
+    ],
+    "conditional_rules": [
+      "IF operation == 'compress' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'decompress' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'compress' AND @version == 1 THEN SHOW parameter 'outputFormat'",
+      "IF operation == 'compress' THEN SHOW parameter 'outputFormat'",
+      "IF @version == 1 THEN HIDE parameter 'outputFormat'",
+      "IF operation == 'compress' AND outputFormat == 'zip' THEN SHOW parameter 'fileName'",
+      "IF outputFormat == 'zip' AND operation == 'compress' THEN SHOW parameter 'binaryPropertyOutput'",
+      "IF operation == 'compress' AND outputFormat == 'gzip' THEN SHOW parameter 'fileName'",
+      "IF @version == 1 THEN HIDE parameter 'fileName'",
+      "IF outputFormat == 'gzip' AND operation == 'compress' THEN SHOW parameter 'binaryPropertyOutput'",
+      "IF @version == 1 THEN HIDE parameter 'binaryPropertyOutput'",
+      "IF operation == 'compress' AND outputFormat == 'gzip' AND @version == 1 THEN SHOW parameter 'outputPrefix'",
+      "IF operation == 'decompress' THEN SHOW parameter 'outputPrefix'"
+    ]
+  }
+}

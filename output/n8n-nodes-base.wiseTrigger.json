@@ -1,0 +1,57 @@
+{
+  "node_id": "n8n-nodes-base.wiseTrigger",
+  "name": "n8n-nodes-base.wiseTrigger",
+  "version": 1,
+  "semantic_context": "Handle Wise events via webhooks",
+  "parameters": {
+    "profileId": {
+      "displayName": "Profile Name or ID",
+      "name": "profileId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "required": true,
+      "typeOptions": {
+        "loadOptionsMethod": "getProfiles"
+      },
+      "default": "",
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "event": {
+      "displayName": "Event",
+      "name": "event",
+      "type": "options",
+      "required": true,
+      "default": "",
+      "options": [
+        {
+          "name": "Balance Credit",
+          "value": "balanceCredit",
+          "description": "Triggered every time a balance account is credited"
+        },
+        {
+          "name": "Balance Update",
+          "value": "balanceUpdate",
+          "description": "Triggered every time a balance account is credited or debited"
+        },
+        {
+          "name": "Transfer Active Case",
+          "value": "transferActiveCases",
+          "description": "Triggered every time a transfer's list of active cases is updated"
+        },
+        {
+          "name": "Transfer State Changed",
+          "value": "tranferStateChange",
+          "description": "Triggered every time a transfer's status is updated"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "profileId",
+      "event"
+    ],
+    "conditional_rules": []
+  }
+}

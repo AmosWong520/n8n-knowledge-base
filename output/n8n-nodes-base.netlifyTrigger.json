@@ -1,0 +1,92 @@
+{
+  "node_id": "n8n-nodes-base.netlifyTrigger",
+  "name": "n8n-nodes-base.netlifyTrigger",
+  "version": 1,
+  "semantic_context": "Handle netlify events via webhooks",
+  "parameters": {
+    "siteId": {
+      "displayName": "Site Name or ID",
+      "name": "siteId",
+      "required": true,
+      "type": "options",
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "getSites"
+      },
+      "description": "Select the Site ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "Select the Site ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "event": {
+      "displayName": "Event",
+      "name": "event",
+      "type": "options",
+      "required": true,
+      "default": "",
+      "options": [
+        {
+          "name": "Deploy Building",
+          "value": "deployBuilding"
+        },
+        {
+          "name": "Deploy Failed",
+          "value": "deployFailed"
+        },
+        {
+          "name": "Deploy Created",
+          "value": "deployCreated"
+        },
+        {
+          "name": "Form Submitted",
+          "value": "submissionCreated"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "formId": {
+      "displayName": "Form Name or ID",
+      "name": "formId",
+      "type": "options",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "event": [
+            "submissionCreated"
+          ]
+        }
+      },
+      "default": "",
+      "typeOptions": {
+        "loadOptionsMethod": "getForms"
+      },
+      "description": "Select a form. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "Select a form. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "simple": {
+      "displayName": "Simplify",
+      "name": "simple",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "event": [
+            "submissionCreated"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to return a simplified version of the response instead of the raw data",
+      "ai_hint": "布尔值：true 或 false。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "siteId",
+      "event",
+      "formId",
+      "simple"
+    ],
+    "conditional_rules": [
+      "IF event == 'submissionCreated' THEN SHOW parameter 'formId'",
+      "IF event == 'submissionCreated' THEN SHOW parameter 'simple'"
+    ]
+  }
+}

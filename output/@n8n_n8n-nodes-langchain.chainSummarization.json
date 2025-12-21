@@ -1,0 +1,147 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.chainSummarization",
+  "name": "@n8n/n8n-nodes-langchain.chainSummarization",
+  "version": 1,
+  "semantic_context": "Transforms text into a concise summary",
+  "parameters": {
+    "notice": {
+      "displayName": "Save time with an <a href=\"/templates/1951\" target=\"_blank\">example</a> of how this node works",
+      "name": "notice",
+      "type": "notice",
+      "default": ""
+    },
+    "type": {
+      "displayName": "Type",
+      "name": "type",
+      "type": "options",
+      "description": "The type of summarization to run",
+      "default": "map_reduce",
+      "options": [
+        {
+          "name": "Map Reduce (Recommended)",
+          "value": "map_reduce",
+          "description": "Summarize each document (or chunk) individually, then summarize those summaries"
+        },
+        {
+          "name": "Refine",
+          "value": "refine",
+          "description": "Summarize the first document (or chunk). Then update that summary based on the next document (or chunk), and repeat."
+        },
+        {
+          "name": "Stuff",
+          "value": "stuff",
+          "description": "Pass all documents (or chunks) at once. Ideal for small datasets."
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "default": {},
+      "placeholder": "Add Option",
+      "options": [
+        {
+          "displayName": "Final Prompt to Combine",
+          "name": "combineMapPrompt",
+          "type": "string",
+          "hint": "The prompt to combine individual summaries",
+          "displayOptions": {
+            "show": {
+              "/type": [
+                "map_reduce"
+              ]
+            }
+          },
+          "default": "Write a concise summary of the following:\n\n\n\"{text}\"\n\n\nCONCISE SUMMARY:",
+          "typeOptions": {
+            "rows": 6
+          }
+        },
+        {
+          "displayName": "Individual Summary Prompt",
+          "name": "prompt",
+          "type": "string",
+          "default": "Write a concise summary of the following:\n\n\n\"{text}\"\n\n\nCONCISE SUMMARY:",
+          "hint": "The prompt to summarize an individual document (or chunk)",
+          "displayOptions": {
+            "show": {
+              "/type": [
+                "map_reduce"
+              ]
+            }
+          },
+          "typeOptions": {
+            "rows": 6
+          }
+        },
+        {
+          "displayName": "Prompt",
+          "name": "prompt",
+          "type": "string",
+          "default": "Write a concise summary of the following:\n\n\n\"{text}\"\n\n\nCONCISE SUMMARY:",
+          "displayOptions": {
+            "show": {
+              "/type": [
+                "stuff"
+              ]
+            }
+          },
+          "typeOptions": {
+            "rows": 6
+          }
+        },
+        {
+          "displayName": "Subsequent (Refine) Prompt",
+          "name": "refinePrompt",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "/type": [
+                "refine"
+              ]
+            }
+          },
+          "default": "Your job is to produce a final summary\nWe have provided an existing summary up to a certain point: \"{existing_answer}\"\nWe have the opportunity to refine the existing summary\n(only if needed) with some more context below.\n------------\n\"{text}\"\n------------\n\nGiven the new context, refine the original summary\nIf the context isn't useful, return the original summary.\n\nREFINED SUMMARY:",
+          "hint": "The prompt to refine the summary based on the next document (or chunk)",
+          "typeOptions": {
+            "rows": 6
+          }
+        },
+        {
+          "displayName": "Initial Prompt",
+          "name": "refineQuestionPrompt",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "/type": [
+                "refine"
+              ]
+            }
+          },
+          "default": "Write a concise summary of the following:\n\n\n\"{text}\"\n\n\nCONCISE SUMMARY:",
+          "hint": "The prompt for the first document (or chunk)",
+          "typeOptions": {
+            "rows": 6
+          }
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "notice",
+      "type",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF /type == 'map_reduce' THEN SHOW parameter 'combineMapPrompt'",
+      "IF /type == 'map_reduce' THEN SHOW parameter 'prompt'",
+      "IF /type == 'stuff' THEN SHOW parameter 'prompt'",
+      "IF /type == 'refine' THEN SHOW parameter 'refinePrompt'",
+      "IF /type == 'refine' THEN SHOW parameter 'refineQuestionPrompt'"
+    ]
+  }
+}

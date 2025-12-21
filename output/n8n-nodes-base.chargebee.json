@@ -1,0 +1,374 @@
+{
+  "node_id": "n8n-nodes-base.chargebee",
+  "name": "n8n-nodes-base.chargebee",
+  "version": 1,
+  "semantic_context": "Retrieve data from Chargebee API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Customer",
+          "value": "customer"
+        },
+        {
+          "name": "Invoice",
+          "value": "invoice"
+        },
+        {
+          "name": "Subscription",
+          "value": "subscription"
+        }
+      ],
+      "default": "invoice",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "subscription"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Cancel",
+          "value": "cancel",
+          "description": "Cancel a subscription",
+          "action": "Cancel a subscription"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a subscription",
+          "action": "Delete a subscription"
+        }
+      ],
+      "default": "delete",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "properties": {
+      "displayName": "Properties",
+      "name": "properties",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "customer"
+          ]
+        }
+      },
+      "default": {},
+      "description": "Properties to set on the new user",
+      "placeholder": "Add Property",
+      "options": [
+        {
+          "displayName": "User ID",
+          "name": "id",
+          "type": "string",
+          "default": "",
+          "description": "ID for the new customer. If not given, this will be auto-generated."
+        },
+        {
+          "displayName": "First Name",
+          "name": "first_name",
+          "type": "string",
+          "default": "",
+          "description": "The first name of the customer"
+        },
+        {
+          "displayName": "Last Name",
+          "name": "last_name",
+          "type": "string",
+          "default": "",
+          "description": "The last name of the customer"
+        },
+        {
+          "displayName": "Email",
+          "name": "email",
+          "type": "string",
+          "placeholder": "name@email.com",
+          "default": "",
+          "description": "The email address of the customer"
+        },
+        {
+          "displayName": "Phone",
+          "name": "phone",
+          "type": "string",
+          "default": "",
+          "description": "The phone number of the customer"
+        },
+        {
+          "displayName": "Company",
+          "name": "company",
+          "type": "string",
+          "default": "",
+          "description": "The company of the customer"
+        },
+        {
+          "displayName": "Custom Properties",
+          "name": "customProperties",
+          "placeholder": "Add Custom Property",
+          "description": "Adds a custom property to set also values which have not been predefined",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": {},
+          "options": [
+            {
+              "name": "property",
+              "displayName": "Property",
+              "values": [
+                {
+                  "displayName": "Property Name",
+                  "name": "name",
+                  "type": "string",
+                  "default": "",
+                  "description": "Name of the property to set"
+                },
+                {
+                  "displayName": "Property Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": "",
+                  "description": "Value of the property to set"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "maxResults": {
+      "displayName": "Max Results",
+      "name": "maxResults",
+      "type": "number",
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 100
+      },
+      "default": 10,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "list"
+          ],
+          "resource": [
+            "invoice"
+          ]
+        }
+      },
+      "description": "Max. amount of results to return(< 100).",
+      "ai_hint": "Max. amount of results to return(< 100)."
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "placeholder": "Add Filter",
+      "description": "Filter for invoices",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "list"
+          ],
+          "resource": [
+            "invoice"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "date",
+          "displayName": "Invoice Date",
+          "values": [
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "noDataExpression": true,
+              "options": [
+                {
+                  "name": "Is",
+                  "value": "is"
+                },
+                {
+                  "name": "Is Not",
+                  "value": "is_not"
+                },
+                {
+                  "name": "After",
+                  "value": "after"
+                },
+                {
+                  "name": "Before",
+                  "value": "before"
+                }
+              ],
+              "default": "after",
+              "description": "Operation to decide where the data should be mapped to"
+            },
+            {
+              "displayName": "Date",
+              "name": "value",
+              "type": "dateTime",
+              "default": "",
+              "description": "Query date"
+            }
+          ]
+        },
+        {
+          "name": "total",
+          "displayName": "Invoice Amount",
+          "values": [
+            {
+              "displayName": "Operation",
+              "name": "operation",
+              "type": "options",
+              "noDataExpression": true,
+              "options": [
+                {
+                  "name": "Greater Equal Than",
+                  "value": "gte"
+                },
+                {
+                  "name": "Greater Than",
+                  "value": "gt"
+                },
+                {
+                  "name": "Is",
+                  "value": "is"
+                },
+                {
+                  "name": "Is Not",
+                  "value": "is_not"
+                },
+                {
+                  "name": "Less Equal Than",
+                  "value": "lte"
+                },
+                {
+                  "name": "Less Than",
+                  "value": "lt"
+                }
+              ],
+              "default": "gt",
+              "description": "Operation to decide where the data should be mapped to"
+            },
+            {
+              "displayName": "Amount",
+              "name": "value",
+              "type": "number",
+              "typeOptions": {
+                "numberPrecision": 2
+              },
+              "default": 0,
+              "description": "Query amount"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "invoiceId": {
+      "displayName": "Invoice ID",
+      "name": "invoiceId",
+      "description": "The ID of the invoice to get",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "pdfUrl"
+          ],
+          "resource": [
+            "invoice"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the invoice to get"
+    },
+    "subscriptionId": {
+      "displayName": "Subscription ID",
+      "name": "subscriptionId",
+      "description": "The ID of the subscription to delete",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "delete"
+          ],
+          "resource": [
+            "subscription"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the subscription to delete"
+    },
+    "endOfTerm": {
+      "displayName": "Schedule End of Term",
+      "name": "endOfTerm",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "cancel"
+          ],
+          "resource": [
+            "subscription"
+          ]
+        }
+      },
+      "description": "Whether it will not cancel it directly in will instead schedule the cancelation for the end of the term",
+      "ai_hint": "布尔值：true 或 false。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "properties",
+      "operation",
+      "maxResults",
+      "filters",
+      "invoiceId",
+      "operation",
+      "subscriptionId",
+      "endOfTerm",
+      "subscriptionId"
+    ],
+    "conditional_rules": [
+      "IF resource == 'customer' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'properties'",
+      "IF resource == 'invoice' THEN SHOW parameter 'operation'",
+      "IF operation == 'list' AND resource == 'invoice' THEN SHOW parameter 'maxResults'",
+      "IF operation == 'list' AND resource == 'invoice' THEN SHOW parameter 'filters'",
+      "IF operation == 'pdfUrl' AND resource == 'invoice' THEN SHOW parameter 'invoiceId'",
+      "IF resource == 'subscription' THEN SHOW parameter 'operation'",
+      "IF operation == 'cancel' AND resource == 'subscription' THEN SHOW parameter 'subscriptionId'",
+      "IF operation == 'cancel' AND resource == 'subscription' THEN SHOW parameter 'endOfTerm'",
+      "IF operation == 'delete' AND resource == 'subscription' THEN SHOW parameter 'subscriptionId'"
+    ]
+  }
+}

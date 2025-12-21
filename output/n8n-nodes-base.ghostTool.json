@@ -1,0 +1,817 @@
+{
+  "node_id": "n8n-nodes-base.ghostTool",
+  "name": "n8n-nodes-base.ghostTool",
+  "version": 1,
+  "semantic_context": "Consume Ghost API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume Ghost API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "source": {
+      "displayName": "Source",
+      "name": "source",
+      "type": "options",
+      "description": "Pick where your data comes from, Content or Admin API",
+      "options": [
+        {
+          "name": "Admin API",
+          "value": "adminApi"
+        },
+        {
+          "name": "Content API",
+          "value": "contentApi"
+        }
+      ],
+      "default": "contentApi",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "options": [
+        {
+          "name": "Post",
+          "value": "post"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "noDataExpression": true,
+      "default": "post",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "noDataExpression": true,
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "source": [
+            "adminApi"
+          ],
+          "resource": [
+            "post"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a post",
+          "action": "Create a post"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a post",
+          "action": "Delete a post"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a post",
+          "action": "Get a post"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many posts",
+          "action": "Get many posts"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a post",
+          "action": "Update a post"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "get",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "source": [
+            "adminApi"
+          ],
+          "resource": [
+            "post"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "description": "Post's title",
+      "ai_hint": "Post's title"
+    },
+    "contentFormat": {
+      "displayName": "Content Format",
+      "name": "contentFormat",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "source": [
+            "adminApi"
+          ],
+          "resource": [
+            "post"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "HTML",
+          "value": "html"
+        },
+        {
+          "name": "Mobile Doc",
+          "value": "mobileDoc"
+        },
+        {
+          "name": "Lexical",
+          "value": "lexical"
+        }
+      ],
+      "default": "html",
+      "description": "The format of the post",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "content": {
+      "displayName": "Content (JSON)",
+      "name": "content",
+      "type": "json",
+      "displayOptions": {
+        "show": {
+          "source": [
+            "adminApi"
+          ],
+          "resource": [
+            "post"
+          ],
+          "operation": [
+            "create"
+          ],
+          "contentFormat": [
+            "lexical"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Lexical is the JSON format returned by the Ghost Default editor",
+      "ai_hint": "Lexical is the JSON format returned by the Ghost Default editor"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "source": [
+            "adminApi"
+          ],
+          "resource": [
+            "post"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Author Names or IDs",
+          "name": "authors",
+          "type": "multiOptions",
+          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getAuthors"
+          },
+          "default": []
+        },
+        {
+          "displayName": "Cannonical URL",
+          "name": "canonical_url",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Code Injection Foot",
+          "name": "codeinjection_foot",
+          "type": "string",
+          "default": "",
+          "description": "The Code Injection allows you inject a small snippet into your Ghost site"
+        },
+        {
+          "displayName": "Code Injection Head",
+          "name": "codeinjection_head",
+          "type": "string",
+          "default": "",
+          "description": "The Code Injection allows you inject a small snippet into your Ghost site"
+        },
+        {
+          "displayName": "Featured",
+          "name": "featured",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "displayName": "Meta Description",
+          "name": "meta_description",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Meta Title",
+          "name": "meta_title",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Open Graph Description",
+          "name": "og_description",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Open Graph Image",
+          "name": "og_image",
+          "type": "string",
+          "default": "",
+          "description": "URL of the image"
+        },
+        {
+          "displayName": "Open Graph Title",
+          "name": "og_title",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Published At",
+          "name": "published_at",
+          "type": "dateTime",
+          "default": ""
+        },
+        {
+          "displayName": "Slug",
+          "name": "slug",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Status",
+          "name": "status",
+          "type": "options",
+          "options": [
+            {
+              "name": "Draft",
+              "value": "draft"
+            },
+            {
+              "name": "Published",
+              "value": "published"
+            },
+            {
+              "name": "Scheduled",
+              "value": "scheduled"
+            }
+          ],
+          "default": "draft"
+        },
+        {
+          "displayName": "Tag Names or IDs",
+          "name": "tags",
+          "type": "multiOptions",
+          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getTags"
+          },
+          "default": []
+        },
+        {
+          "displayName": "Twitter Description",
+          "name": "twitter_description",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Twitter Image",
+          "name": "twitter_image",
+          "type": "string",
+          "default": "",
+          "description": "URL of the image"
+        },
+        {
+          "displayName": "Twitter Title",
+          "name": "twitter_title",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "postId": {
+      "displayName": "Post ID",
+      "name": "postId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "source": [
+            "adminApi"
+          ],
+          "resource": [
+            "post"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The ID of the post to update",
+      "ai_hint": "The ID of the post to update"
+    },
+    "by": {
+      "displayName": "By",
+      "name": "by",
+      "type": "options",
+      "default": "id",
+      "required": true,
+      "options": [
+        {
+          "name": "ID",
+          "value": "id"
+        },
+        {
+          "name": "Slug",
+          "value": "slug"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "source": [
+            "contentApi",
+            "adminApi"
+          ],
+          "resource": [
+            "post"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "description": "Get the post either by slug or ID",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "identifier": {
+      "displayName": "Identifier",
+      "name": "identifier",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "source": [
+            "contentApi",
+            "adminApi"
+          ],
+          "resource": [
+            "post"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "description": "The ID or slug of the post to get",
+      "ai_hint": "The ID or slug of the post to get"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "source": [
+            "adminApi"
+          ],
+          "resource": [
+            "post"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Include",
+          "name": "include",
+          "type": "multiOptions",
+          "options": [
+            {
+              "name": "Authors",
+              "value": "authors"
+            },
+            {
+              "name": "Tags",
+              "value": "tags"
+            }
+          ],
+          "default": [],
+          "description": "Tells the API to return additional data related to the resource you have requested"
+        },
+        {
+          "displayName": "Fields",
+          "name": "fields",
+          "type": "string",
+          "default": "",
+          "description": "Limit the fields returned in the response object. E.g. for posts fields=title,url."
+        },
+        {
+          "displayName": "Formats",
+          "name": "formats",
+          "type": "multiOptions",
+          "options": [
+            {
+              "name": "HTML",
+              "value": "html"
+            },
+            {
+              "name": "Mobile Doc",
+              "value": "mobiledoc"
+            },
+            {
+              "name": "Lexical",
+              "value": "lexical"
+            }
+          ],
+          "default": [
+            "mobiledoc"
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "source": [
+            "contentApi",
+            "adminApi"
+          ],
+          "resource": [
+            "post"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "source": [
+            "adminApi",
+            "contentApi"
+          ],
+          "resource": [
+            "post"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 100
+      },
+      "default": 50,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "source": [
+            "adminApi"
+          ],
+          "resource": [
+            "post"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Author Names or IDs",
+          "name": "authors",
+          "type": "multiOptions",
+          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getAuthors"
+          },
+          "default": []
+        },
+        {
+          "displayName": "Cannonical URL",
+          "name": "canonical_url",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Code Injection Foot",
+          "name": "codeinjection_foot",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Code Injection Head",
+          "name": "codeinjection_head",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Content",
+          "name": "content",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "/contentFormat": [
+                "html"
+              ]
+            }
+          },
+          "default": ""
+        },
+        {
+          "displayName": "Content (JSON)",
+          "name": "contentJson",
+          "type": "json",
+          "displayOptions": {
+            "show": {
+              "/contentFormat": [
+                "mobileDoc"
+              ]
+            }
+          },
+          "default": "",
+          "description": "Mobiledoc is the raw JSON format that Ghost uses to store post contents. <a href=\"https://ghost.org/docs/concepts/posts/#document-storage\">Info.</a>."
+        },
+        {
+          "displayName": "Content (JSON)",
+          "name": "contentJson",
+          "type": "json",
+          "displayOptions": {
+            "show": {
+              "/contentFormat": [
+                "lexical"
+              ]
+            }
+          },
+          "default": "",
+          "description": "Lexical is the JSON format returned by the Ghost Default editor"
+        },
+        {
+          "displayName": "Featured",
+          "name": "featured",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "displayName": "Meta Description",
+          "name": "meta_description",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Meta Title",
+          "name": "meta_title",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Open Graph Description",
+          "name": "og_description",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Open Graph Image",
+          "name": "og_image",
+          "type": "string",
+          "default": "",
+          "description": "URL of the image"
+        },
+        {
+          "displayName": "Open Graph Title",
+          "name": "og_title",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Published At",
+          "name": "published_at",
+          "type": "dateTime",
+          "default": ""
+        },
+        {
+          "displayName": "Slug",
+          "name": "slug",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Status",
+          "name": "status",
+          "type": "options",
+          "options": [
+            {
+              "name": "Draft",
+              "value": "draft"
+            },
+            {
+              "name": "Published",
+              "value": "published"
+            },
+            {
+              "name": "Scheduled",
+              "value": "scheduled"
+            }
+          ],
+          "default": "draft"
+        },
+        {
+          "displayName": "Tag Names or IDs",
+          "name": "tags",
+          "type": "multiOptions",
+          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getTags"
+          },
+          "default": []
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": "",
+          "description": "Post's title"
+        },
+        {
+          "displayName": "Twitter Description",
+          "name": "twitter_description",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Twitter Image",
+          "name": "twitter_image",
+          "type": "string",
+          "default": "",
+          "description": "URL of the image"
+        },
+        {
+          "displayName": "Twitter Title",
+          "name": "twitter_title",
+          "type": "string",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "source",
+      "resource",
+      "operation",
+      "operation",
+      "title",
+      "contentFormat",
+      "content",
+      "content",
+      "content",
+      "additionalFields",
+      "postId",
+      "by",
+      "identifier",
+      "options",
+      "options",
+      "returnAll",
+      "limit",
+      "options",
+      "options",
+      "postId",
+      "contentFormat",
+      "updateFields"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF source == 'contentApi' AND resource == 'post' THEN SHOW parameter 'operation'",
+      "IF source == 'adminApi' AND resource == 'post' THEN SHOW parameter 'operation'",
+      "IF source == 'adminApi' AND resource == 'post' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF source == 'adminApi' AND resource == 'post' AND operation == 'create' THEN SHOW parameter 'contentFormat'",
+      "IF source == 'adminApi' AND resource == 'post' AND operation == 'create' AND contentFormat == 'html' THEN SHOW parameter 'content'",
+      "IF source == 'adminApi' AND resource == 'post' AND operation == 'create' AND contentFormat == 'mobileDoc' THEN SHOW parameter 'content'",
+      "IF source == 'adminApi' AND resource == 'post' AND operation == 'create' AND contentFormat == 'lexical' THEN SHOW parameter 'content'",
+      "IF source == 'adminApi' AND resource == 'post' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF source == 'adminApi' AND resource == 'post' AND operation == 'delete' THEN SHOW parameter 'postId'",
+      "IF source IN [\"contentApi\", \"adminApi\"] AND resource == 'post' AND operation == 'get' THEN SHOW parameter 'by'",
+      "IF source IN [\"contentApi\", \"adminApi\"] AND resource == 'post' AND operation == 'get' THEN SHOW parameter 'identifier'",
+      "IF source == 'adminApi' AND resource == 'post' AND operation == 'get' THEN SHOW parameter 'options'",
+      "IF source == 'contentApi' AND resource == 'post' AND operation == 'get' THEN SHOW parameter 'options'",
+      "IF source IN [\"contentApi\", \"adminApi\"] AND resource == 'post' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF source IN [\"adminApi\", \"contentApi\"] AND resource == 'post' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF source == 'contentApi' AND resource == 'post' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF source == 'adminApi' AND resource == 'post' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF source == 'adminApi' AND resource == 'post' AND operation == 'update' THEN SHOW parameter 'postId'",
+      "IF source == 'adminApi' AND resource == 'post' AND operation == 'update' THEN SHOW parameter 'contentFormat'",
+      "IF source == 'adminApi' AND resource == 'post' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF /contentFormat == 'html' THEN SHOW parameter 'content'",
+      "IF /contentFormat == 'mobileDoc' THEN SHOW parameter 'contentJson'",
+      "IF /contentFormat == 'lexical' THEN SHOW parameter 'contentJson'"
+    ]
+  }
+}

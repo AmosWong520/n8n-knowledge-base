@@ -1,0 +1,572 @@
+{
+  "node_id": "n8n-nodes-base.supabase",
+  "name": "n8n-nodes-base.supabase",
+  "version": 1,
+  "semantic_context": "Add, get, delete and update data in a table",
+  "parameters": {
+    "useCustomSchema": {
+      "displayName": "Use Custom Schema",
+      "name": "useCustomSchema",
+      "type": "boolean",
+      "default": false,
+      "noDataExpression": true,
+      "description": "Whether to use a database schema different from the default \"public\" schema (requires schema exposure in the <a href=\"https://supabase.com/docs/guides/api/using-custom-schemas?queryGroups=language&language=curl#exposing-custom-schemas\">Supabase API</a>)",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "schema": {
+      "displayName": "Schema",
+      "name": "schema",
+      "type": "string",
+      "default": "public",
+      "description": "Name of database schema to use for table",
+      "noDataExpression": false,
+      "displayOptions": {
+        "show": {
+          "useCustomSchema": [
+            true
+          ]
+        }
+      },
+      "ai_hint": "Name of database schema to use for table"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Row",
+          "value": "row"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "row",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "row"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a new row",
+          "action": "Create a row"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a row",
+          "action": "Delete a row"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a row",
+          "action": "Get a row"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many rows",
+          "action": "Get many rows"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a row",
+          "action": "Update a row"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "tableId": {
+      "displayName": "Table Name or ID",
+      "name": "tableId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsDependsOn": [
+          "useCustomSchema",
+          "schema"
+        ],
+        "loadOptionsMethod": "getTables"
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "row"
+          ],
+          "operation": [
+            "create",
+            "delete",
+            "get",
+            "getAll",
+            "update"
+          ]
+        }
+      },
+      "default": "",
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "filterType": {
+      "displayName": "Filter",
+      "name": "filterType",
+      "type": "options",
+      "options": [
+        {
+          "name": "None",
+          "value": "none"
+        },
+        {
+          "name": "Build Manually",
+          "value": "manual"
+        },
+        {
+          "name": "String",
+          "value": "string"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "row"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": "manual",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "matchType": {
+      "displayName": "Must Match",
+      "name": "matchType",
+      "type": "options",
+      "options": [
+        {
+          "name": "Any Filter",
+          "value": "anyFilter"
+        },
+        {
+          "name": "All Filters",
+          "value": "allFilters"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "row"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "filterType": [
+            "manual"
+          ]
+        }
+      },
+      "default": "anyFilter",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "row"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "filterType": [
+            "manual"
+          ]
+        }
+      },
+      "default": {},
+      "placeholder": "Add Condition",
+      "options": [
+        {
+          "displayName": "Conditions",
+          "name": "conditions",
+          "values": [
+            {
+              "displayName": "Field Name or ID",
+              "name": "keyName",
+              "type": "options",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "typeOptions": {
+                "loadOptionsDependsOn": [
+                  "tableId"
+                ],
+                "loadOptionsMethod": "getTableColumns"
+              },
+              "default": ""
+            },
+            {
+              "displayName": "Condition",
+              "name": "condition",
+              "type": "options",
+              "options": [
+                {
+                  "name": "Equals",
+                  "value": "eq"
+                },
+                {
+                  "name": "Full-Text",
+                  "value": "fullText"
+                },
+                {
+                  "name": "Greater Than",
+                  "value": "gt"
+                },
+                {
+                  "name": "Greater Than or Equal",
+                  "value": "gte"
+                },
+                {
+                  "name": "ILIKE operator",
+                  "value": "ilike",
+                  "description": "Use * in place of %"
+                },
+                {
+                  "name": "Is",
+                  "value": "is",
+                  "description": "Checking for exact equality (null,true,false,unknown)"
+                },
+                {
+                  "name": "Less Than",
+                  "value": "lt"
+                },
+                {
+                  "name": "Less Than or Equal",
+                  "value": "lte"
+                },
+                {
+                  "name": "LIKE operator",
+                  "value": "like",
+                  "description": "Use * in place of %"
+                },
+                {
+                  "name": "Not Equals",
+                  "value": "neq"
+                }
+              ],
+              "default": ""
+            },
+            {
+              "displayName": "Search Function",
+              "name": "searchFunction",
+              "type": "options",
+              "displayOptions": {
+                "show": {
+                  "condition": [
+                    "fullText"
+                  ]
+                }
+              },
+              "options": [
+                {
+                  "name": "to_tsquery",
+                  "value": "fts"
+                },
+                {
+                  "name": "plainto_tsquery",
+                  "value": "plfts"
+                },
+                {
+                  "name": "phraseto_tsquery",
+                  "value": "phfts"
+                },
+                {
+                  "name": "websearch_to_tsquery",
+                  "value": "wfts"
+                }
+              ],
+              "default": ""
+            },
+            {
+              "displayName": "Field Value",
+              "name": "keyValue",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "description": "Filter to decide which rows get retrieved",
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "jsonNotice": {
+      "displayName": "See <a href=\"https://postgrest.org/en/stable/references/api/tables_views.html#horizontal-filtering\" target=\"_blank\">PostgREST guide</a> to creating filters",
+      "name": "jsonNotice",
+      "type": "notice",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "row"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "filterType": [
+            "string"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "filterString": {
+      "displayName": "Filters (String)",
+      "name": "filterString",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "row"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "filterType": [
+            "string"
+          ]
+        }
+      },
+      "default": "",
+      "placeholder": "name=eq.jhon"
+    },
+    "dataToSend": {
+      "displayName": "Data to Send",
+      "name": "dataToSend",
+      "type": "options",
+      "options": [
+        {
+          "name": "Auto-Map Input Data to Columns",
+          "value": "autoMapInputData",
+          "description": "Use when node input properties match destination column names"
+        },
+        {
+          "name": "Define Below for Each Column",
+          "value": "defineBelow",
+          "description": "Set the value for each destination column"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "row"
+          ],
+          "operation": [
+            "create",
+            "update"
+          ]
+        }
+      },
+      "default": "defineBelow",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "inputsToIgnore": {
+      "displayName": "Inputs to Ignore",
+      "name": "inputsToIgnore",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "row"
+          ],
+          "operation": [
+            "create",
+            "update"
+          ],
+          "dataToSend": [
+            "autoMapInputData"
+          ]
+        }
+      },
+      "default": "",
+      "description": "List of input properties to avoid sending, separated by commas. Leave empty to send all properties.",
+      "placeholder": "Enter properties...",
+      "ai_hint": "List of input properties to avoid sending, separated by commas. Leave empty to send all properties."
+    },
+    "fieldsUi": {
+      "displayName": "Fields to Send",
+      "name": "fieldsUi",
+      "placeholder": "Add Field",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValueButtonText": "Add Field to Send",
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "row"
+          ],
+          "operation": [
+            "create",
+            "update"
+          ],
+          "dataToSend": [
+            "defineBelow"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Field",
+          "name": "fieldValues",
+          "values": [
+            {
+              "displayName": "Field Name or ID",
+              "name": "fieldId",
+              "type": "options",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "typeOptions": {
+                "loadOptionsDependsOn": [
+                  "tableId"
+                ],
+                "loadOptionsMethod": "getTableColumns"
+              },
+              "default": ""
+            },
+            {
+              "displayName": "Field Value",
+              "name": "fieldValue",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "row"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "row"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1
+      },
+      "default": 50,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "useCustomSchema",
+      "schema",
+      "resource",
+      "operation",
+      "tableId",
+      "filterType",
+      "matchType",
+      "filters",
+      "jsonNotice",
+      "filterString",
+      "dataToSend",
+      "inputsToIgnore",
+      "fieldsUi",
+      "filterType",
+      "matchType",
+      "filters",
+      "jsonNotice",
+      "filterString",
+      "filters",
+      "returnAll",
+      "limit",
+      "filterType",
+      "matchType",
+      "filters",
+      "jsonNotice",
+      "filterString"
+    ],
+    "conditional_rules": [
+      "IF useCustomSchema == True THEN SHOW parameter 'schema'",
+      "IF resource == 'row' THEN SHOW parameter 'operation'",
+      "IF resource == 'row' AND operation IN [\"create\", \"delete\", \"get\", \"getAll\", \"update\"] THEN SHOW parameter 'tableId'",
+      "IF resource == 'row' AND operation == 'update' THEN SHOW parameter 'filterType'",
+      "IF resource == 'row' AND operation == 'update' AND filterType == 'manual' THEN SHOW parameter 'matchType'",
+      "IF resource == 'row' AND operation == 'update' AND filterType == 'manual' THEN SHOW parameter 'filters'",
+      "IF condition == 'fullText' THEN SHOW parameter 'searchFunction'",
+      "IF resource == 'row' AND operation == 'update' AND filterType == 'string' THEN SHOW parameter 'jsonNotice'",
+      "IF resource == 'row' AND operation == 'update' AND filterType == 'string' THEN SHOW parameter 'filterString'",
+      "IF resource == 'row' AND operation IN [\"create\", \"update\"] THEN SHOW parameter 'dataToSend'",
+      "IF resource == 'row' AND operation IN [\"create\", \"update\"] AND dataToSend == 'autoMapInputData' THEN SHOW parameter 'inputsToIgnore'",
+      "IF resource == 'row' AND operation IN [\"create\", \"update\"] AND dataToSend == 'defineBelow' THEN SHOW parameter 'fieldsUi'",
+      "IF resource == 'row' AND operation == 'delete' THEN SHOW parameter 'filterType'",
+      "IF resource == 'row' AND operation == 'delete' AND filterType == 'manual' THEN SHOW parameter 'matchType'",
+      "IF resource == 'row' AND operation == 'delete' AND filterType == 'manual' THEN SHOW parameter 'filters'",
+      "IF resource == 'row' AND operation == 'delete' AND filterType == 'string' THEN SHOW parameter 'jsonNotice'",
+      "IF resource == 'row' AND operation == 'delete' AND filterType == 'string' THEN SHOW parameter 'filterString'",
+      "IF resource == 'row' AND operation == 'get' THEN SHOW parameter 'filters'",
+      "IF resource == 'row' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'row' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'row' AND operation == 'getAll' THEN SHOW parameter 'filterType'",
+      "IF resource == 'row' AND operation == 'getAll' AND filterType == 'manual' THEN SHOW parameter 'matchType'",
+      "IF resource == 'row' AND operation == 'getAll' AND filterType == 'manual' THEN SHOW parameter 'filters'",
+      "IF resource == 'row' AND operation == 'getAll' AND filterType == 'string' THEN SHOW parameter 'jsonNotice'",
+      "IF resource == 'row' AND operation == 'getAll' AND filterType == 'string' THEN SHOW parameter 'filterString'"
+    ]
+  }
+}

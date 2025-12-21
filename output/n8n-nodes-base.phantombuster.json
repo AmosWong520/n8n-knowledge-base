@@ -1,0 +1,359 @@
+{
+  "node_id": "n8n-nodes-base.phantombuster",
+  "name": "n8n-nodes-base.phantombuster",
+  "version": 1,
+  "semantic_context": "Consume Phantombuster API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Agent",
+          "value": "agent"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "agent",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "agent"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete an agent by ID",
+          "action": "Delete an agent"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get an agent by ID",
+          "action": "Get an agent"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many agents of the current user's organization",
+          "action": "Get many agents"
+        },
+        {
+          "name": "Get Output",
+          "value": "getOutput",
+          "description": "Get the output of the most recent container of an agent",
+          "action": "Get the output of an agent"
+        },
+        {
+          "name": "Launch",
+          "value": "launch",
+          "description": "Add an agent to the launch queue",
+          "action": "Add an agent to the launch queue"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "launch",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "agentId": {
+      "displayName": "Agent Name or ID",
+      "name": "agentId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getAgents"
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "launch"
+          ],
+          "resource": [
+            "agent"
+          ]
+        }
+      },
+      "default": "",
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "agent"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "agent"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 50
+      },
+      "default": 25,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "resolveData": {
+      "displayName": "Resolve Data",
+      "name": "resolveData",
+      "type": "boolean",
+      "default": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "launch"
+          ],
+          "resource": [
+            "agent"
+          ]
+        }
+      },
+      "description": "By default the launch just include the container ID. If this option gets activated, it will resolve the data automatically.",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "agent"
+          ],
+          "operation": [
+            "launch"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Arguments (JSON)",
+          "name": "argumentsJson",
+          "type": "json",
+          "displayOptions": {
+            "show": {
+              "/jsonParameters": [
+                true
+              ]
+            }
+          },
+          "default": "",
+          "description": "Agent argument. Can either be a JSON string or a plain object. The argument can be retrieved with buster.argument in the agent’s script."
+        },
+        {
+          "displayName": "Arguments",
+          "name": "argumentsUi",
+          "placeholder": "Add Argument",
+          "type": "fixedCollection",
+          "default": {},
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "displayOptions": {
+            "show": {
+              "/jsonParameters": [
+                false
+              ]
+            }
+          },
+          "options": [
+            {
+              "name": "argumentValues",
+              "displayName": "Argument",
+              "values": [
+                {
+                  "displayName": "Key",
+                  "name": "key",
+                  "type": "string",
+                  "default": "",
+                  "description": "Name of the argument key to add"
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": "",
+                  "description": "Value to set for the argument key"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Bonus Argument",
+          "name": "bonusArgumentUi",
+          "placeholder": "Add Bonus Argument",
+          "type": "fixedCollection",
+          "default": {},
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "displayOptions": {
+            "show": {
+              "/jsonParameters": [
+                false
+              ]
+            }
+          },
+          "options": [
+            {
+              "name": "bonusArgumentValue",
+              "displayName": "Bonus Argument",
+              "values": [
+                {
+                  "displayName": "Key",
+                  "name": "key",
+                  "type": "string",
+                  "default": "",
+                  "description": "Name of the argument key to add"
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": "",
+                  "description": "Value to set for the argument key"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Bonus Argument (JSON)",
+          "name": "bonusArgumentJson",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "/jsonParameters": [
+                true
+              ]
+            }
+          },
+          "default": "",
+          "description": "Agent bonus argument. Can either be a JSON string or a plain object. This bonus argument is single-use, it will only be used for the current launch. If present, it will be merged with the original argument, resulting in an effective argument that can be retrieved with buster.argument in the agent’s script."
+        },
+        {
+          "displayName": "Manual Launch",
+          "name": "manualLaunch",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the agent will be considered as \"launched manually\""
+        },
+        {
+          "displayName": "Max Instance Count",
+          "name": "maxInstanceCount",
+          "type": "number",
+          "default": 0,
+          "description": "If set, the agent will only be launched if the number of already running instances is below the specified number"
+        },
+        {
+          "displayName": "Save Argument",
+          "name": "saveArgument",
+          "type": "string",
+          "default": "",
+          "description": "If true, argument will be saved as the default launch options for the agent"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "jsonParameters": {
+      "displayName": "JSON Parameters",
+      "name": "jsonParameters",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "launch"
+          ],
+          "resource": [
+            "agent"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "agentId",
+      "agentId",
+      "returnAll",
+      "limit",
+      "agentId",
+      "resolveData",
+      "additionalFields",
+      "agentId",
+      "resolveData",
+      "jsonParameters",
+      "additionalFields"
+    ],
+    "conditional_rules": [
+      "IF resource == 'agent' THEN SHOW parameter 'operation'",
+      "IF operation == 'delete' AND resource == 'agent' THEN SHOW parameter 'agentId'",
+      "IF operation == 'get' AND resource == 'agent' THEN SHOW parameter 'agentId'",
+      "IF operation == 'getAll' AND resource == 'agent' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'agent' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getOutput' AND resource == 'agent' THEN SHOW parameter 'agentId'",
+      "IF operation == 'getOutput' AND resource == 'agent' THEN SHOW parameter 'resolveData'",
+      "IF resource == 'agent' AND operation == 'getOutput' THEN SHOW parameter 'additionalFields'",
+      "IF operation == 'launch' AND resource == 'agent' THEN SHOW parameter 'agentId'",
+      "IF operation == 'launch' AND resource == 'agent' THEN SHOW parameter 'resolveData'",
+      "IF operation == 'launch' AND resource == 'agent' THEN SHOW parameter 'jsonParameters'",
+      "IF resource == 'agent' AND operation == 'launch' THEN SHOW parameter 'additionalFields'",
+      "IF /jsonParameters == True THEN SHOW parameter 'argumentsJson'",
+      "IF /jsonParameters == False THEN SHOW parameter 'argumentsUi'",
+      "IF /jsonParameters == False THEN SHOW parameter 'bonusArgumentUi'",
+      "IF /jsonParameters == True THEN SHOW parameter 'bonusArgumentJson'"
+    ]
+  }
+}

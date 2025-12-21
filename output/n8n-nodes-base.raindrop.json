@@ -1,0 +1,481 @@
+{
+  "node_id": "n8n-nodes-base.raindrop",
+  "name": "n8n-nodes-base.raindrop",
+  "version": 1,
+  "semantic_context": "Consume the Raindrop API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Bookmark",
+          "value": "bookmark"
+        },
+        {
+          "name": "Collection",
+          "value": "collection"
+        },
+        {
+          "name": "Tag",
+          "value": "tag"
+        },
+        {
+          "name": "User",
+          "value": "user"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "collection",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "default": "get",
+      "options": [
+        {
+          "name": "Get",
+          "value": "get",
+          "action": "Get a user"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "collectionId": {
+      "displayName": "Collection ID",
+      "name": "collectionId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "description": "The ID of the collection to update",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "collection"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the collection to update"
+    },
+    "link": {
+      "displayName": "Link",
+      "name": "link",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "Link of the bookmark to be created",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "bookmark"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Link of the bookmark to be created"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "tag"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Collection Name or ID",
+          "name": "collectionId",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getCollections"
+          },
+          "default": "",
+          "description": "It's possible to restrict remove action to just one collection. It's optional. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "bookmarkId": {
+      "displayName": "Bookmark ID",
+      "name": "bookmarkId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "description": "The ID of the bookmark to update",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "bookmark"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the bookmark to update"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "tag"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "tag"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 10
+      },
+      "default": 5,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "collection"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Cover",
+          "name": "cover",
+          "type": "string",
+          "default": "data",
+          "placeholder": "",
+          "description": "Name of the binary property containing the data for the image to upload as a cover"
+        },
+        {
+          "displayName": "Public",
+          "name": "public",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the collection will be accessible without authentication"
+        },
+        {
+          "displayName": "Parent ID",
+          "name": "parentId",
+          "type": "string",
+          "default": "",
+          "description": "ID of this collection's parent collection, if it is a child collection"
+        },
+        {
+          "displayName": "Sort Order",
+          "name": "sort",
+          "type": "number",
+          "default": 1,
+          "description": "Descending sort order of this collection. The number is the position of the collection among all the collections with the same parent ID."
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": "",
+          "description": "Title of the collection to update"
+        },
+        {
+          "displayName": "View",
+          "name": "view",
+          "type": "options",
+          "default": "list",
+          "description": "View style of this collection",
+          "options": [
+            {
+              "name": "List",
+              "value": "list"
+            },
+            {
+              "name": "Simple",
+              "value": "simple"
+            },
+            {
+              "name": "Grid",
+              "value": "grid"
+            },
+            {
+              "name": "Masonry",
+              "value": "Masonry"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "title": {
+      "displayName": "Title",
+      "name": "title",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "Title of the collection to create",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "collection"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Title of the collection to create"
+    },
+    "type": {
+      "displayName": "Type",
+      "name": "type",
+      "type": "options",
+      "required": true,
+      "default": "parent",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "collection"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Parent",
+          "value": "parent",
+          "description": "Root-level collections"
+        },
+        {
+          "name": "Children",
+          "value": "children",
+          "description": "Nested collections"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "tags": {
+      "displayName": "Tags",
+      "name": "tags",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "tag"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "description": "One or more tags to delete. Enter comma-separated values to delete multiple tags.",
+      "ai_hint": "One or more tags to delete. Enter comma-separated values to delete multiple tags."
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "tag"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Collection Name or ID",
+          "name": "collectionId",
+          "type": "options",
+          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getCollections"
+          },
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "self": {
+      "displayName": "Self",
+      "name": "self",
+      "type": "boolean",
+      "default": true,
+      "required": true,
+      "description": "Whether to return details on the logged-in user",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "userId": {
+      "displayName": "User ID",
+      "name": "userId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "description": "The ID of the user to retrieve",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "get"
+          ],
+          "self": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "The ID of the user to retrieve"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "collectionId",
+      "link",
+      "additionalFields",
+      "bookmarkId",
+      "bookmarkId",
+      "collectionId",
+      "returnAll",
+      "limit",
+      "bookmarkId",
+      "updateFields",
+      "operation",
+      "title",
+      "additionalFields",
+      "collectionId",
+      "collectionId",
+      "type",
+      "returnAll",
+      "limit",
+      "collectionId",
+      "updateFields",
+      "operation",
+      "tags",
+      "additionalFields",
+      "returnAll",
+      "limit",
+      "filters",
+      "operation",
+      "self",
+      "userId"
+    ],
+    "conditional_rules": [
+      "IF resource == 'bookmark' THEN SHOW parameter 'operation'",
+      "IF resource == 'bookmark' AND operation == 'create' THEN SHOW parameter 'collectionId'",
+      "IF resource == 'bookmark' AND operation == 'create' THEN SHOW parameter 'link'",
+      "IF resource == 'bookmark' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'bookmark' AND operation == 'delete' THEN SHOW parameter 'bookmarkId'",
+      "IF resource == 'bookmark' AND operation == 'get' THEN SHOW parameter 'bookmarkId'",
+      "IF resource == 'bookmark' AND operation == 'getAll' THEN SHOW parameter 'collectionId'",
+      "IF resource == 'bookmark' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'bookmark' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'bookmark' AND operation == 'update' THEN SHOW parameter 'bookmarkId'",
+      "IF resource == 'bookmark' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'collection' THEN SHOW parameter 'operation'",
+      "IF resource == 'collection' AND operation == 'create' THEN SHOW parameter 'title'",
+      "IF resource == 'collection' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'collection' AND operation == 'delete' THEN SHOW parameter 'collectionId'",
+      "IF resource == 'collection' AND operation == 'get' THEN SHOW parameter 'collectionId'",
+      "IF resource == 'collection' AND operation == 'getAll' THEN SHOW parameter 'type'",
+      "IF resource == 'collection' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'collection' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'collection' AND operation == 'update' THEN SHOW parameter 'collectionId'",
+      "IF resource == 'collection' AND operation == 'update' THEN SHOW parameter 'updateFields'",
+      "IF resource == 'tag' THEN SHOW parameter 'operation'",
+      "IF resource == 'tag' AND operation == 'delete' THEN SHOW parameter 'tags'",
+      "IF resource == 'tag' AND operation == 'delete' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'tag' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'tag' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'tag' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'user' THEN SHOW parameter 'operation'",
+      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'self'",
+      "IF resource == 'user' AND operation == 'get' AND self == False THEN SHOW parameter 'userId'"
+    ]
+  }
+}

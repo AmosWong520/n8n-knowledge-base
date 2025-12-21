@@ -1,0 +1,201 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+  "name": "@n8n/n8n-nodes-langchain.chainRetrievalQa",
+  "version": [
+    1,
+    1.1,
+    1.2,
+    1.3,
+    1.4,
+    1.5,
+    1.6
+  ],
+  "semantic_context": "Answer questions about retrieved documents",
+  "parameters": {
+    "notice": {
+      "displayName": "Save time with an <a href=\"/templates/1960\" target=\"_blank\">example</a> of how this node works",
+      "name": "notice",
+      "type": "notice",
+      "default": ""
+    },
+    "query": {
+      "displayName": "Query",
+      "name": "query",
+      "type": "string",
+      "required": true,
+      "default": "={{ $json.chatInput }}",
+      "displayOptions": {
+        "show": {
+          "@version": [
+            1.2
+          ]
+        }
+      }
+    },
+    "promptType": {
+      "displayName": "Source for Prompt (User Message)",
+      "name": "promptType",
+      "type": "options",
+      "options": [
+        {
+          "name": "Connected Chat Trigger Node",
+          "value": "auto",
+          "description": "Looks for an input field called 'chatInput' that is coming from a directly connected Chat Trigger"
+        },
+        {
+          "name": "Connected Guardrails Node",
+          "value": "guardrails",
+          "description": "Looks for an input field called 'guardrailsInput' that is coming from a directly connected Guardrails Node"
+        },
+        {
+          "name": "Define below",
+          "value": "define",
+          "description": "Use an expression to reference data in previous nodes or enter static text"
+        }
+      ],
+      "default": "auto",
+      "displayOptions": {
+        "hide": {
+          "@version": [
+            {
+              "_cnd": {
+                "lte": 1.2
+              }
+            }
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "text": {
+      "displayName": "Prompt (User Message)",
+      "name": "text",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "placeholder": "e.g. Hello, how can you help me?",
+      "typeOptions": {
+        "rows": 2
+      },
+      "displayOptions": {
+        "show": {
+          "promptType": [
+            "define"
+          ]
+        }
+      }
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "default": {},
+      "placeholder": "Add Option",
+      "options": [
+        {
+          "displayName": "System Prompt Template",
+          "name": "systemPromptTemplate",
+          "type": "string",
+          "default": "You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question.\nIf you don't know the answer, just say that you don't know, don't try to make up an answer.\n----------------\nContext: {context}",
+          "typeOptions": {
+            "rows": 6
+          },
+          "description": "Template string used for the system prompt. This should include the variable `{context}` for the provided context. For text completion models, you should also include the variable `{question}` for the user’s query.",
+          "displayOptions": {
+            "show": {
+              "@version": [
+                {
+                  "_cnd": {
+                    "lt": 1.5
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "System Prompt Template",
+          "name": "systemPromptTemplate",
+          "type": "string",
+          "default": "You are an assistant for question-answering tasks. Use the following pieces of retrieved context to answer the question.\nIf you don't know the answer, just say that you don't know, don't try to make up an answer.\n----------------\nContext: {context}",
+          "typeOptions": {
+            "rows": 6
+          },
+          "description": "Template string used for the system prompt. This should include the variable `{context}` for the provided context. For text completion models, you should also include the variable `{input}` for the user’s query.",
+          "displayOptions": {
+            "show": {
+              "@version": [
+                {
+                  "_cnd": {
+                    "gte": 1.5
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "displayName": "Batch Processing",
+          "name": "batching",
+          "type": "collection",
+          "placeholder": "Add Batch Processing Option",
+          "description": "Batch processing options for rate limiting",
+          "default": {},
+          "options": [
+            {
+              "displayName": "Batch Size",
+              "name": "batchSize",
+              "default": 5,
+              "type": "number",
+              "description": "How many items to process in parallel. This is useful for rate limiting, but might impact the log output ordering."
+            },
+            {
+              "displayName": "Delay Between Batches",
+              "name": "delayBetweenBatches",
+              "default": 0,
+              "type": "number",
+              "description": "Delay in milliseconds between batches. This is useful for rate limiting."
+            }
+          ],
+          "displayOptions": {
+            "show": {
+              "@version": [
+                {
+                  "_cnd": {
+                    "gte": 1.6
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "notice",
+      "query",
+      "query",
+      "query",
+      "promptType",
+      "text",
+      "text",
+      "text",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF @version == 1 THEN SHOW parameter 'query'",
+      "IF @version == 1.1 THEN SHOW parameter 'query'",
+      "IF @version == 1.2 THEN SHOW parameter 'query'",
+      "IF @version == {'_cnd': {'lte': 1.2}} THEN HIDE parameter 'promptType'",
+      "IF promptType == 'guardrails' AND @version == {'_cnd': {'gte': 1.4}} THEN SHOW parameter 'text'",
+      "IF promptType == 'auto' AND @version == {'_cnd': {'gte': 1.4}} THEN SHOW parameter 'text'",
+      "IF promptType == 'define' THEN SHOW parameter 'text'",
+      "IF @version == {'_cnd': {'lt': 1.5}} THEN SHOW parameter 'systemPromptTemplate'",
+      "IF @version == {'_cnd': {'gte': 1.5}} THEN SHOW parameter 'systemPromptTemplate'",
+      "IF @version == {'_cnd': {'gte': 1.6}} THEN SHOW parameter 'batching'"
+    ]
+  }
+}

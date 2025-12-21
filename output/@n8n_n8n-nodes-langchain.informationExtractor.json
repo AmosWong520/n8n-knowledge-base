@@ -1,0 +1,259 @@
+{
+  "node_id": "@n8n/n8n-nodes-langchain.informationExtractor",
+  "name": "@n8n/n8n-nodes-langchain.informationExtractor",
+  "version": [
+    1,
+    1.1,
+    1.2
+  ],
+  "semantic_context": "Extract information from text in a structured format",
+  "parameters": {
+    "text": {
+      "displayName": "Text",
+      "name": "text",
+      "type": "string",
+      "default": "",
+      "description": "The text to extract information from",
+      "typeOptions": {
+        "rows": 2
+      },
+      "ai_hint": "The text to extract information from"
+    },
+    "schemaType": {
+      "displayName": "Schema Type",
+      "name": "schemaType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "From Attribute Descriptions",
+          "value": "fromAttributes",
+          "description": "Extract specific attributes from the text based on types and descriptions"
+        },
+        {
+          "name": "Generate From JSON Example",
+          "value": "fromJson",
+          "description": "Generate a schema from an example JSON object"
+        },
+        {
+          "name": "Define using JSON Schema",
+          "value": "manual",
+          "description": "Define the JSON schema manually"
+        }
+      ],
+      "default": "fromAttributes",
+      "description": "How to specify the schema for the desired output",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "jsonSchemaExample": {
+      "displayName": "JSON Example",
+      "name": "jsonSchemaExample",
+      "type": "json",
+      "default": "{\n\t\"state\": \"California\",\n\t\"cities\": [\"Los Angeles\", \"San Francisco\", \"San Diego\"]\n}",
+      "noDataExpression": true,
+      "typeOptions": {
+        "rows": 10
+      },
+      "displayOptions": {
+        "show": {
+          "schemaType": [
+            "fromJson"
+          ]
+        }
+      },
+      "description": "Example JSON object to use to generate the schema",
+      "ai_hint": "Example JSON object to use to generate the schema"
+    },
+    "notice": {
+      "displayName": "All properties will be required. To make them optional, use the 'JSON Schema' schema type instead",
+      "name": "notice",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "@version": [
+            {
+              "_cnd": {
+                "gte": 1.2
+              }
+            }
+          ],
+          "schemaType": [
+            "fromJson"
+          ]
+        }
+      }
+    },
+    "inputSchema": {
+      "displayName": "Input Schema",
+      "name": "inputSchema",
+      "type": "json",
+      "default": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"state\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"cities\": {\n\t\t\t\"type\": \"array\",\n\t\t\t\"items\": {\n\t\t\t\t\"type\": \"string\"\n\t\t\t}\n\t\t}\n\t}\n}",
+      "noDataExpression": false,
+      "typeOptions": {
+        "rows": 10
+      },
+      "displayOptions": {
+        "show": {
+          "schemaType": [
+            "manual"
+          ]
+        }
+      },
+      "description": "Schema to use for the function",
+      "hint": "Use <a target=\"_blank\" href=\"https://json-schema.org/\">JSON Schema</a> format (<a target=\"_blank\" href=\"https://json-schema.org/learn/miscellaneous-examples.html\">examples</a>). $refs syntax is currently not supported.",
+      "ai_hint": "Schema to use for the function"
+    },
+    "attributes": {
+      "displayName": "Attributes",
+      "name": "attributes",
+      "placeholder": "Add Attribute",
+      "type": "fixedCollection",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "schemaType": [
+            "fromAttributes"
+          ]
+        }
+      },
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "options": [
+        {
+          "name": "attributes",
+          "displayName": "Attribute List",
+          "values": [
+            {
+              "displayName": "Name",
+              "name": "name",
+              "type": "string",
+              "default": "",
+              "description": "Attribute to extract",
+              "placeholder": "e.g. company_name",
+              "required": true
+            },
+            {
+              "displayName": "Type",
+              "name": "type",
+              "type": "options",
+              "description": "Data type of the attribute",
+              "required": true,
+              "options": [
+                {
+                  "name": "Boolean",
+                  "value": "boolean"
+                },
+                {
+                  "name": "Date",
+                  "value": "date"
+                },
+                {
+                  "name": "Number",
+                  "value": "number"
+                },
+                {
+                  "name": "String",
+                  "value": "string"
+                }
+              ],
+              "default": "string"
+            },
+            {
+              "displayName": "Description",
+              "name": "description",
+              "type": "string",
+              "default": "",
+              "description": "Describe your attribute",
+              "placeholder": "Add description for the attribute",
+              "required": true
+            },
+            {
+              "displayName": "Required",
+              "name": "required",
+              "type": "boolean",
+              "default": false,
+              "description": "Whether attribute is required",
+              "required": true
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "default": {},
+      "placeholder": "Add Option",
+      "options": [
+        {
+          "displayName": "System Prompt Template",
+          "name": "systemPromptTemplate",
+          "type": "string",
+          "default": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nIf you do not know the value of an attribute asked to extract, you may omit the attribute's value.",
+          "description": "String to use directly as the system prompt template",
+          "typeOptions": {
+            "rows": 6
+          }
+        },
+        {
+          "displayName": "Batch Processing",
+          "name": "batching",
+          "type": "collection",
+          "placeholder": "Add Batch Processing Option",
+          "description": "Batch processing options for rate limiting",
+          "default": {},
+          "options": [
+            {
+              "displayName": "Batch Size",
+              "name": "batchSize",
+              "default": 5,
+              "type": "number",
+              "description": "How many items to process in parallel. This is useful for rate limiting, but might impact the log output ordering."
+            },
+            {
+              "displayName": "Delay Between Batches",
+              "name": "delayBetweenBatches",
+              "default": 0,
+              "type": "number",
+              "description": "Delay in milliseconds between batches. This is useful for rate limiting."
+            }
+          ],
+          "displayOptions": {
+            "show": {
+              "@version": [
+                {
+                  "_cnd": {
+                    "gte": 1.1
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "text",
+      "schemaType",
+      "jsonSchemaExample",
+      "notice",
+      "inputSchema",
+      "attributes",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF schemaType == 'fromJson' THEN SHOW parameter 'jsonSchemaExample'",
+      "IF @version == {'_cnd': {'gte': 1.2}} AND schemaType == 'fromJson' THEN SHOW parameter 'notice'",
+      "IF schemaType == 'manual' THEN SHOW parameter 'inputSchema'",
+      "IF schemaType == 'fromAttributes' THEN SHOW parameter 'attributes'",
+      "IF @version == {'_cnd': {'gte': 1.1}} THEN SHOW parameter 'batching'"
+    ]
+  }
+}

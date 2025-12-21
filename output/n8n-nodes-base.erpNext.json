@@ -1,0 +1,349 @@
+{
+  "node_id": "n8n-nodes-base.erpNext",
+  "name": "n8n-nodes-base.erpNext",
+  "version": 1,
+  "semantic_context": "Consume ERPNext API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Document",
+          "value": "document"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "document",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "document"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a document",
+          "action": "Create a document"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a document",
+          "action": "Delete a document"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Retrieve a document",
+          "action": "Get a document"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Retrieve many documents",
+          "action": "Get many documents"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a document",
+          "action": "Update a document"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "docType": {
+      "displayName": "DocType Name or ID",
+      "name": "docType",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getDocTypes"
+      },
+      "default": "",
+      "description": "The type of document you would like to update. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "document"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "The type of document you would like to update. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "document"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "default": 10,
+      "description": "Max number of results to return",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "document"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "document"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Field Names or IDs",
+          "name": "fields",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getDocFilters",
+            "loadOptionsDependsOn": [
+              "docType"
+            ]
+          },
+          "default": [],
+          "description": "Comma-separated list of fields to return. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+          "placeholder": "name,country"
+        },
+        {
+          "displayName": "Filters",
+          "name": "filters",
+          "type": "fixedCollection",
+          "default": {},
+          "placeholder": "Add Filter",
+          "description": "Custom Properties",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "options": [
+            {
+              "displayName": "Property",
+              "name": "customProperty",
+              "values": [
+                {
+                  "displayName": "Field Name or ID",
+                  "name": "field",
+                  "type": "options",
+                  "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+                  "typeOptions": {
+                    "loadOptionsMethod": "getDocFields",
+                    "loadOptionsDependsOn": [
+                      "docType"
+                    ]
+                  },
+                  "default": ""
+                },
+                {
+                  "displayName": "Operator",
+                  "name": "operator",
+                  "type": "options",
+                  "default": "is",
+                  "options": [
+                    {
+                      "name": "EQUALS, or GREATER",
+                      "value": "equalsGreater"
+                    },
+                    {
+                      "name": "EQUALS, or LESS",
+                      "value": "equalsLess"
+                    },
+                    {
+                      "name": "IS",
+                      "value": "is"
+                    },
+                    {
+                      "name": "IS GREATER",
+                      "value": "greater"
+                    },
+                    {
+                      "name": "IS LESS",
+                      "value": "less"
+                    },
+                    {
+                      "name": "IS NOT",
+                      "value": "isNot"
+                    }
+                  ]
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": "",
+                  "description": "Value of the operator condition"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "properties": {
+      "displayName": "Properties",
+      "name": "properties",
+      "type": "fixedCollection",
+      "placeholder": "Add Property",
+      "description": "Properties of request body",
+      "default": {},
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "document"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Property",
+          "name": "customProperty",
+          "values": [
+            {
+              "displayName": "Field Name or ID",
+              "name": "field",
+              "type": "options",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "typeOptions": {
+                "loadOptionsMethod": "getDocFields",
+                "loadOptionsDependsOn": [
+                  "docType"
+                ]
+              },
+              "default": ""
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "documentName": {
+      "displayName": "Document Name",
+      "name": "documentName",
+      "type": "string",
+      "default": "",
+      "description": "The name (ID) of document you would like to get",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "document"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "required": true,
+      "ai_hint": "The name (ID) of document you would like to get"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "docType",
+      "returnAll",
+      "limit",
+      "options",
+      "docType",
+      "properties",
+      "docType",
+      "documentName",
+      "docType",
+      "documentName",
+      "docType",
+      "documentName",
+      "properties"
+    ],
+    "conditional_rules": [
+      "IF resource == 'document' THEN SHOW parameter 'operation'",
+      "IF resource == 'document' AND operation == 'getAll' THEN SHOW parameter 'docType'",
+      "IF resource == 'document' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'document' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'document' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'docType'",
+      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'properties'",
+      "IF resource == 'document' AND operation == 'get' THEN SHOW parameter 'docType'",
+      "IF resource == 'document' AND operation == 'get' THEN SHOW parameter 'documentName'",
+      "IF resource == 'document' AND operation == 'delete' THEN SHOW parameter 'docType'",
+      "IF resource == 'document' AND operation == 'delete' THEN SHOW parameter 'documentName'",
+      "IF resource == 'document' AND operation == 'update' THEN SHOW parameter 'docType'",
+      "IF resource == 'document' AND operation == 'update' THEN SHOW parameter 'documentName'",
+      "IF resource == 'document' AND operation == 'update' THEN SHOW parameter 'properties'"
+    ]
+  }
+}

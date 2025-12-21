@@ -1,0 +1,1074 @@
+{
+  "node_id": "n8n-nodes-base.mattermostTool",
+  "name": "n8n-nodes-base.mattermostTool",
+  "version": 1,
+  "semantic_context": "Sends data to Mattermost",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Sends data to Mattermost",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Channel",
+          "value": "channel"
+        },
+        {
+          "name": "Message",
+          "value": "message"
+        },
+        {
+          "name": "Reaction",
+          "value": "reaction"
+        },
+        {
+          "name": "User",
+          "value": "user"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "message",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a new user",
+          "action": "Create a user"
+        },
+        {
+          "name": "Deactive",
+          "value": "deactive",
+          "description": "Deactivates the user and revokes all its sessions by archiving its user object",
+          "action": "Deactivate a user"
+        },
+        {
+          "name": "Get By Email",
+          "value": "getByEmail",
+          "description": "Get a user by email",
+          "action": "Get a user by email"
+        },
+        {
+          "name": "Get By ID",
+          "value": "getById",
+          "description": "Get a user by ID",
+          "action": "Get a user by ID"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Retrieve many users",
+          "action": "Get many users"
+        },
+        {
+          "name": "Invite",
+          "value": "invite",
+          "description": "Invite user to team",
+          "action": "Invite a user"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "teamId": {
+      "displayName": "Team Name or ID",
+      "name": "teamId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getTeams"
+      },
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "invite"
+          ]
+        }
+      },
+      "default": "",
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "displayName": {
+      "displayName": "Display Name",
+      "name": "displayName",
+      "type": "string",
+      "default": "",
+      "placeholder": "Announcements",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "channel"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The non-unique UI name for the channel",
+      "ai_hint": "The non-unique UI name for the channel"
+    },
+    "channel": {
+      "displayName": "Name",
+      "name": "channel",
+      "type": "string",
+      "default": "",
+      "placeholder": "announcements",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "channel"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The unique handle for the channel, will be present in the channel URL",
+      "ai_hint": "The unique handle for the channel, will be present in the channel URL"
+    },
+    "type": {
+      "displayName": "Type",
+      "name": "type",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "channel"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Private",
+          "value": "private"
+        },
+        {
+          "name": "Public",
+          "value": "public"
+        }
+      ],
+      "default": "public",
+      "description": "The type of channel to create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "channelId": {
+      "displayName": "Channel Name or ID",
+      "name": "channelId",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getChannels"
+      },
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "postEphemeral"
+          ],
+          "resource": [
+            "message"
+          ]
+        }
+      },
+      "description": "ID of the channel to send the ephemeral message in. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "ID of the channel to send the ephemeral message in. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "resolveData": {
+      "displayName": "Resolve Data",
+      "name": "resolveData",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "channel"
+          ],
+          "operation": [
+            "members"
+          ]
+        }
+      },
+      "default": true,
+      "description": "By default the response only contain the ID of the user. If this option gets activated, it will resolve the user automatically.",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 100
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "userId": {
+      "displayName": "User ID",
+      "name": "userId",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "deactive"
+          ]
+        }
+      },
+      "default": "",
+      "description": "User GUID",
+      "ai_hint": "User GUID"
+    },
+    "term": {
+      "displayName": "Search Term",
+      "name": "term",
+      "type": "string",
+      "default": "",
+      "placeholder": "General",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "search"
+          ],
+          "resource": [
+            "channel"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The search term for Channels in a Team",
+      "ai_hint": "The search term for Channels in a Team"
+    },
+    "postId": {
+      "displayName": "Post ID",
+      "name": "postId",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "reaction"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "description": "One or more (comma-separated) posts to retrieve reactions from",
+      "ai_hint": "One or more (comma-separated) posts to retrieve reactions from"
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "postEphemeral"
+          ],
+          "resource": [
+            "message"
+          ]
+        }
+      },
+      "description": "Text to send in the ephemeral message",
+      "ai_hint": "Text to send in the ephemeral message"
+    },
+    "attachments": {
+      "displayName": "Attachments",
+      "name": "attachments",
+      "type": "collection",
+      "typeOptions": {
+        "multipleValues": true,
+        "multipleValueButtonText": "Add attachment"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "post"
+          ],
+          "resource": [
+            "message"
+          ]
+        }
+      },
+      "default": {},
+      "description": "The attachment to add",
+      "placeholder": "Add attachment item",
+      "options": [
+        {
+          "displayName": "Actions",
+          "name": "actions",
+          "placeholder": "Add Actions",
+          "description": "Actions to add to message. More information can be found <a href=\"https://docs.mattermost.com/developer/interactive-messages.html\" target=\"_blank\">here</a>.",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": {},
+          "options": [
+            {
+              "displayName": "Item",
+              "name": "item",
+              "values": [
+                {
+                  "displayName": "Type",
+                  "name": "type",
+                  "type": "options",
+                  "options": [
+                    {
+                      "name": "Button",
+                      "value": "button"
+                    },
+                    {
+                      "name": "Select",
+                      "value": "select"
+                    }
+                  ],
+                  "default": "button",
+                  "description": "The type of the action"
+                },
+                {
+                  "displayName": "Data Source",
+                  "name": "data_source",
+                  "type": "options",
+                  "displayOptions": {
+                    "show": {
+                      "type": [
+                        "select"
+                      ]
+                    }
+                  },
+                  "options": [
+                    {
+                      "name": "Channels",
+                      "value": "channels"
+                    },
+                    {
+                      "name": "Custom",
+                      "value": "custom"
+                    },
+                    {
+                      "name": "Users",
+                      "value": "users"
+                    }
+                  ],
+                  "default": "custom",
+                  "description": "The type of the action"
+                },
+                {
+                  "displayName": "Options",
+                  "name": "options",
+                  "placeholder": "Add option",
+                  "description": "Adds a new option to select field",
+                  "type": "fixedCollection",
+                  "typeOptions": {
+                    "multipleValues": true
+                  },
+                  "displayOptions": {
+                    "show": {
+                      "data_source": [
+                        "custom"
+                      ],
+                      "type": [
+                        "select"
+                      ]
+                    }
+                  },
+                  "default": {},
+                  "options": [
+                    {
+                      "name": "option",
+                      "displayName": "Option",
+                      "default": {},
+                      "values": [
+                        {
+                          "displayName": "Option Text",
+                          "name": "text",
+                          "type": "string",
+                          "default": "",
+                          "description": "Text of the option"
+                        },
+                        {
+                          "displayName": "Option Value",
+                          "name": "value",
+                          "type": "string",
+                          "default": "",
+                          "description": "Value of the option"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "displayName": "Name",
+                  "name": "name",
+                  "type": "string",
+                  "default": "",
+                  "description": "Name of the Action"
+                },
+                {
+                  "displayName": "Integration",
+                  "name": "integration",
+                  "placeholder": "Add Integration",
+                  "description": "Integration to add to message",
+                  "type": "fixedCollection",
+                  "typeOptions": {
+                    "multipleValues": false
+                  },
+                  "default": {},
+                  "options": [
+                    {
+                      "displayName": "Item",
+                      "name": "item",
+                      "default": {},
+                      "values": [
+                        {
+                          "displayName": "URL",
+                          "name": "url",
+                          "type": "string",
+                          "default": "",
+                          "description": "URL of the Integration"
+                        },
+                        {
+                          "displayName": "Context",
+                          "name": "context",
+                          "placeholder": "Add Context to Integration",
+                          "description": "Adds a Context values set",
+                          "type": "fixedCollection",
+                          "typeOptions": {
+                            "multipleValues": true
+                          },
+                          "default": {},
+                          "options": [
+                            {
+                              "name": "property",
+                              "displayName": "Property",
+                              "default": {},
+                              "values": [
+                                {
+                                  "displayName": "Property Name",
+                                  "name": "name",
+                                  "type": "string",
+                                  "default": "",
+                                  "description": "Name of the property to set"
+                                },
+                                {
+                                  "displayName": "Property Value",
+                                  "name": "value",
+                                  "type": "string",
+                                  "default": "",
+                                  "description": "Value of the property to set"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Author Icon",
+          "name": "author_icon",
+          "type": "string",
+          "default": "",
+          "description": "Icon which should appear for the user"
+        },
+        {
+          "displayName": "Author Link",
+          "name": "author_link",
+          "type": "string",
+          "default": "",
+          "description": "Link for the author"
+        },
+        {
+          "displayName": "Author Name",
+          "name": "author_name",
+          "type": "string",
+          "default": "",
+          "description": "Name that should appear"
+        },
+        {
+          "displayName": "Color",
+          "name": "color",
+          "type": "color",
+          "default": "#ff0000",
+          "description": "Color of the line left of text"
+        },
+        {
+          "displayName": "Fallback Text",
+          "name": "fallback",
+          "type": "string",
+          "default": "",
+          "description": "Required plain-text summary of the attachment"
+        },
+        {
+          "displayName": "Fields",
+          "name": "fields",
+          "placeholder": "Add Fields",
+          "description": "Fields to add to message",
+          "type": "fixedCollection",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": {},
+          "options": [
+            {
+              "name": "item",
+              "displayName": "Item",
+              "values": [
+                {
+                  "displayName": "Title",
+                  "name": "title",
+                  "type": "string",
+                  "default": "",
+                  "description": "Title of the item"
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "type": "string",
+                  "default": "",
+                  "description": "Value of the item"
+                },
+                {
+                  "displayName": "Short",
+                  "name": "short",
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Whether items can be displayed next to each other"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Footer",
+          "name": "footer",
+          "type": "string",
+          "default": "",
+          "description": "Text of footer to add"
+        },
+        {
+          "displayName": "Footer Icon",
+          "name": "footer_icon",
+          "type": "string",
+          "default": "",
+          "description": "Icon which should appear next to footer"
+        },
+        {
+          "displayName": "Image URL",
+          "name": "image_url",
+          "type": "string",
+          "default": "",
+          "description": "URL of image"
+        },
+        {
+          "displayName": "Pretext",
+          "name": "pretext",
+          "type": "string",
+          "default": "",
+          "description": "Text which appears before the message block"
+        },
+        {
+          "displayName": "Text",
+          "name": "text",
+          "type": "string",
+          "default": "",
+          "description": "Text to send"
+        },
+        {
+          "displayName": "Thumbnail URL",
+          "name": "thumb_url",
+          "type": "string",
+          "default": "",
+          "description": "URL of thumbnail"
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": "",
+          "description": "Title of the message"
+        },
+        {
+          "displayName": "Title Link",
+          "name": "title_link",
+          "type": "string",
+          "default": "",
+          "description": "Link of the title"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "otherOptions": {
+      "displayName": "Other Options",
+      "name": "otherOptions",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "post"
+          ],
+          "resource": [
+            "message"
+          ]
+        }
+      },
+      "default": {},
+      "description": "Other options to set",
+      "placeholder": "Add option",
+      "options": [
+        {
+          "displayName": "Parent Post ID",
+          "name": "root_id",
+          "type": "string",
+          "default": "",
+          "description": "If set, the created message will be a threaded reply to the specified parent post ID"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "emojiName": {
+      "displayName": "Emoji Name",
+      "name": "emojiName",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "reaction"
+          ],
+          "operation": [
+            "delete"
+          ]
+        }
+      },
+      "description": "Name of the emoji to delete",
+      "ai_hint": "Name of the emoji to delete"
+    },
+    "username": {
+      "displayName": "Username",
+      "name": "username",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "authService": {
+      "displayName": "Auth Service",
+      "name": "authService",
+      "type": "options",
+      "options": [
+        {
+          "name": "Email",
+          "value": "email"
+        },
+        {
+          "name": "Gitlab",
+          "value": "gitlab"
+        },
+        {
+          "name": "Google",
+          "value": "google"
+        },
+        {
+          "name": "LDAP",
+          "value": "ldap"
+        },
+        {
+          "name": "Office365",
+          "value": "office365"
+        },
+        {
+          "name": "SAML",
+          "value": "saml"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "authData": {
+      "displayName": "Auth Data",
+      "name": "authData",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "create"
+          ]
+        },
+        "hide": {
+          "authService": [
+            "email"
+          ]
+        }
+      },
+      "type": "string",
+      "default": "",
+      "ai_hint": "与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "email": {
+      "displayName": "Email",
+      "name": "email",
+      "type": "string",
+      "placeholder": "name@email.com",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "getByEmail"
+          ]
+        }
+      },
+      "default": "",
+      "description": "User's email",
+      "ai_hint": "User's email"
+    },
+    "password": {
+      "displayName": "Password",
+      "name": "password",
+      "type": "string",
+      "typeOptions": {
+        "password": true
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "create"
+          ],
+          "authService": [
+            "email"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The password used for email authentication",
+      "ai_hint": "The password used for email authentication"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "getById"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Since",
+          "name": "since",
+          "type": "dateTime",
+          "default": "",
+          "description": "Only return users that have been modified since the given Unix timestamp (in milliseconds)"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "userIds": {
+      "displayName": "User IDs",
+      "name": "userIds",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "getById"
+          ]
+        }
+      },
+      "default": "",
+      "description": "User's ID",
+      "ai_hint": "User's ID"
+    },
+    "emails": {
+      "displayName": "Emails",
+      "name": "emails",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "invite"
+          ]
+        }
+      },
+      "default": "",
+      "description": "User's email. Multiple emails can be set separated by comma.",
+      "ai_hint": "User's email. Multiple emails can be set separated by comma."
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "teamId",
+      "displayName",
+      "channel",
+      "type",
+      "channelId",
+      "teamId",
+      "channelId",
+      "resolveData",
+      "returnAll",
+      "limit",
+      "channelId",
+      "channelId",
+      "userId",
+      "channelId",
+      "teamId",
+      "term",
+      "returnAll",
+      "limit",
+      "operation",
+      "postId",
+      "channelId",
+      "message",
+      "attachments",
+      "otherOptions",
+      "userId",
+      "channelId",
+      "message",
+      "operation",
+      "userId",
+      "postId",
+      "emojiName",
+      "userId",
+      "postId",
+      "emojiName",
+      "postId",
+      "returnAll",
+      "limit",
+      "operation",
+      "username",
+      "authService",
+      "authData",
+      "email",
+      "password",
+      "additionalFields",
+      "userId",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "email",
+      "userIds",
+      "additionalFields",
+      "teamId",
+      "emails"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF resource == 'channel' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'channel' THEN SHOW parameter 'teamId'",
+      "IF operation == 'create' AND resource == 'channel' THEN SHOW parameter 'displayName'",
+      "IF operation == 'create' AND resource == 'channel' THEN SHOW parameter 'channel'",
+      "IF operation == 'create' AND resource == 'channel' THEN SHOW parameter 'type'",
+      "IF operation == 'delete' AND resource == 'channel' THEN SHOW parameter 'channelId'",
+      "IF operation == 'members' AND resource == 'channel' THEN SHOW parameter 'teamId'",
+      "IF operation == 'members' AND resource == 'channel' THEN SHOW parameter 'channelId'",
+      "IF resource == 'channel' AND operation == 'members' THEN SHOW parameter 'resolveData'",
+      "IF operation == 'members' AND resource == 'channel' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'members' AND resource == 'channel' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'restore' AND resource == 'channel' THEN SHOW parameter 'channelId'",
+      "IF operation == 'addUser' AND resource == 'channel' THEN SHOW parameter 'channelId'",
+      "IF operation == 'addUser' AND resource == 'channel' THEN SHOW parameter 'userId'",
+      "IF operation == 'statistics' AND resource == 'channel' THEN SHOW parameter 'channelId'",
+      "IF operation == 'search' AND resource == 'channel' THEN SHOW parameter 'teamId'",
+      "IF operation == 'search' AND resource == 'channel' THEN SHOW parameter 'term'",
+      "IF operation == 'search' AND resource == 'channel' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'search' AND resource == 'channel' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'message' THEN SHOW parameter 'operation'",
+      "IF resource == 'message' AND operation == 'delete' THEN SHOW parameter 'postId'",
+      "IF operation == 'post' AND resource == 'message' THEN SHOW parameter 'channelId'",
+      "IF operation == 'post' AND resource == 'message' THEN SHOW parameter 'message'",
+      "IF operation == 'post' AND resource == 'message' THEN SHOW parameter 'attachments'",
+      "IF type == 'select' THEN SHOW parameter 'data_source'",
+      "IF data_source == 'custom' AND type == 'select' THEN SHOW parameter 'options'",
+      "IF operation == 'post' AND resource == 'message' THEN SHOW parameter 'otherOptions'",
+      "IF operation == 'postEphemeral' AND resource == 'message' THEN SHOW parameter 'userId'",
+      "IF operation == 'postEphemeral' AND resource == 'message' THEN SHOW parameter 'channelId'",
+      "IF operation == 'postEphemeral' AND resource == 'message' THEN SHOW parameter 'message'",
+      "IF resource == 'reaction' THEN SHOW parameter 'operation'",
+      "IF resource == 'reaction' AND operation == 'create' THEN SHOW parameter 'userId'",
+      "IF resource == 'reaction' AND operation == 'create' THEN SHOW parameter 'postId'",
+      "IF resource == 'reaction' AND operation == 'create' THEN SHOW parameter 'emojiName'",
+      "IF resource == 'reaction' AND operation == 'delete' THEN SHOW parameter 'userId'",
+      "IF resource == 'reaction' AND operation == 'delete' THEN SHOW parameter 'postId'",
+      "IF resource == 'reaction' AND operation == 'delete' THEN SHOW parameter 'emojiName'",
+      "IF resource == 'reaction' AND operation == 'getAll' THEN SHOW parameter 'postId'",
+      "IF operation == 'getAll' AND resource == 'reaction' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND resource == 'reaction' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'user' THEN SHOW parameter 'operation'",
+      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'username'",
+      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'authService'",
+      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'authData'",
+      "IF authService == 'email' THEN HIDE parameter 'authData'",
+      "IF resource == 'user' AND operation == 'create' AND authService == 'email' THEN SHOW parameter 'email'",
+      "IF resource == 'user' AND operation == 'create' AND authService == 'email' THEN SHOW parameter 'password'",
+      "IF operation == 'create' AND resource == 'user' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'user' AND operation == 'deactive' THEN SHOW parameter 'userId'",
+      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'user' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'user' AND operation == 'getByEmail' THEN SHOW parameter 'email'",
+      "IF resource == 'user' AND operation == 'getById' THEN SHOW parameter 'userIds'",
+      "IF resource == 'user' AND operation == 'getById' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'user' AND operation == 'invite' THEN SHOW parameter 'teamId'",
+      "IF resource == 'user' AND operation == 'invite' THEN SHOW parameter 'emails'"
+    ]
+  }
+}

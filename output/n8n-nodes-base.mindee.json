@@ -1,0 +1,126 @@
+{
+  "node_id": "n8n-nodes-base.mindee",
+  "name": "n8n-nodes-base.mindee",
+  "version": [
+    1,
+    2,
+    3
+  ],
+  "semantic_context": "Consume Mindee API",
+  "parameters": {
+    "apiVersion": {
+      "displayName": "API Version",
+      "name": "apiVersion",
+      "type": "options",
+      "isNodeSetting": true,
+      "displayOptions": {
+        "show": {
+          "@version": [
+            3
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "1",
+          "value": 1
+        },
+        {
+          "name": "3",
+          "value": 3
+        },
+        {
+          "name": "4",
+          "value": 4
+        }
+      ],
+      "default": 4,
+      "description": "Which Mindee API Version to use",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Invoice",
+          "value": "invoice"
+        },
+        {
+          "name": "Receipt",
+          "value": "receipt"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "receipt",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Predict",
+          "value": "predict"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "predict",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "binaryPropertyName": {
+      "displayName": "Input Binary Field",
+      "name": "binaryPropertyName",
+      "type": "string",
+      "required": true,
+      "default": "data",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "predict"
+          ],
+          "resource": [
+            "receipt",
+            "invoice"
+          ]
+        }
+      },
+      "hint": "The name of the input binary field containing the file to be uploaded"
+    },
+    "rawData": {
+      "displayName": "RAW Data",
+      "name": "rawData",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return the data exactly in the way it got received from the API",
+      "ai_hint": "布尔值：true 或 false。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "apiVersion",
+      "apiVersion",
+      "apiVersion",
+      "resource",
+      "operation",
+      "binaryPropertyName",
+      "rawData"
+    ],
+    "conditional_rules": [
+      "IF @version == 1 THEN SHOW parameter 'apiVersion'",
+      "IF @version == 2 THEN SHOW parameter 'apiVersion'",
+      "IF @version == 3 THEN SHOW parameter 'apiVersion'",
+      "IF operation == 'predict' AND resource IN [\"receipt\", \"invoice\"] THEN SHOW parameter 'binaryPropertyName'"
+    ]
+  }
+}

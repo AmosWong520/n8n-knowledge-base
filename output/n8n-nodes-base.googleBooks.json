@@ -1,0 +1,293 @@
+{
+  "node_id": "n8n-nodes-base.googleBooks",
+  "name": "n8n-nodes-base.googleBooks",
+  "version": [
+    1,
+    2
+  ],
+  "semantic_context": "Read data from Google Books",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "OAuth2 (recommended)",
+          "value": "oAuth2"
+        },
+        {
+          "name": "Service Account",
+          "value": "serviceAccount"
+        }
+      ],
+      "default": "oAuth2",
+      "displayOptions": {
+        "show": {
+          "@version": [
+            2
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Bookshelf",
+          "value": "bookshelf"
+        },
+        {
+          "name": "Bookshelf Volume",
+          "value": "bookshelfVolume"
+        },
+        {
+          "name": "Volume",
+          "value": "volume"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "bookshelf",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a volume resource based on ID",
+          "action": "Get a volume"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many volumes filtered by query",
+          "action": "Get many volumes"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "volume"
+          ]
+        }
+      },
+      "default": "get",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "myLibrary": {
+      "displayName": "My Library",
+      "name": "myLibrary",
+      "type": "boolean",
+      "default": false,
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get",
+            "getAll"
+          ],
+          "resource": [
+            "bookshelf",
+            "bookshelfVolume"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "searchQuery": {
+      "displayName": "Search Query",
+      "name": "searchQuery",
+      "type": "string",
+      "description": "Full-text search query string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "volume"
+          ]
+        }
+      },
+      "ai_hint": "Full-text search query string"
+    },
+    "userId": {
+      "displayName": "User ID",
+      "name": "userId",
+      "type": "string",
+      "description": "ID of user",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get",
+            "getAll"
+          ],
+          "resource": [
+            "bookshelf",
+            "bookshelfVolume"
+          ]
+        },
+        "hide": {
+          "myLibrary": [
+            true
+          ]
+        }
+      },
+      "ai_hint": "ID of user"
+    },
+    "shelfId": {
+      "displayName": "Bookshelf ID",
+      "name": "shelfId",
+      "type": "string",
+      "description": "ID of the bookshelf",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "resource": [
+            "bookshelfVolume"
+          ]
+        }
+      },
+      "ai_hint": "ID of the bookshelf"
+    },
+    "volumeId": {
+      "displayName": "Volume ID",
+      "name": "volumeId",
+      "type": "string",
+      "description": "ID of the volume",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "add",
+            "move",
+            "remove",
+            "get"
+          ],
+          "resource": [
+            "bookshelfVolume",
+            "volume"
+          ]
+        }
+      },
+      "ai_hint": "ID of the volume"
+    },
+    "volumePosition": {
+      "displayName": "Volume Position",
+      "name": "volumePosition",
+      "type": "string",
+      "description": "Position on shelf to move the item (0 puts the item before the current first item, 1 puts it between the first and the second and so on)",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "move"
+          ],
+          "resource": [
+            "bookshelfVolume"
+          ]
+        }
+      },
+      "ai_hint": "Position on shelf to move the item (0 puts the item before the current first item, 1 puts it between the first and the second and so on)"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 40
+      },
+      "default": 40,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "authentication",
+      "resource",
+      "operation",
+      "operation",
+      "operation",
+      "myLibrary",
+      "searchQuery",
+      "userId",
+      "shelfId",
+      "shelfId",
+      "volumeId",
+      "volumePosition",
+      "returnAll",
+      "limit"
+    ],
+    "conditional_rules": [
+      "IF @version == 1 THEN SHOW parameter 'authentication'",
+      "IF @version == 2 THEN SHOW parameter 'authentication'",
+      "IF resource == 'bookshelf' THEN SHOW parameter 'operation'",
+      "IF resource == 'bookshelfVolume' THEN SHOW parameter 'operation'",
+      "IF resource == 'volume' THEN SHOW parameter 'operation'",
+      "IF operation IN [\"get\", \"getAll\"] AND resource IN [\"bookshelf\", \"bookshelfVolume\"] THEN SHOW parameter 'myLibrary'",
+      "IF operation == 'getAll' AND resource == 'volume' THEN SHOW parameter 'searchQuery'",
+      "IF operation IN [\"get\", \"getAll\"] AND resource IN [\"bookshelf\", \"bookshelfVolume\"] THEN SHOW parameter 'userId'",
+      "IF myLibrary == True THEN HIDE parameter 'userId'",
+      "IF operation IN [\"get\", \"add\", \"clear\", \"move\", \"remove\"] AND resource IN [\"bookshelf\", \"bookshelfVolume\"] THEN SHOW parameter 'shelfId'",
+      "IF operation == 'getAll' AND resource == 'bookshelfVolume' THEN SHOW parameter 'shelfId'",
+      "IF operation IN [\"add\", \"move\", \"remove\", \"get\"] AND resource IN [\"bookshelfVolume\", \"volume\"] THEN SHOW parameter 'volumeId'",
+      "IF operation == 'move' AND resource == 'bookshelfVolume' THEN SHOW parameter 'volumePosition'",
+      "IF operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'"
+    ]
+  }
+}

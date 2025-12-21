@@ -1,0 +1,130 @@
+{
+  "node_id": "n8n-nodes-base.pushcut",
+  "name": "n8n-nodes-base.pushcut",
+  "version": 1,
+  "semantic_context": "Consume Pushcut API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Notification",
+          "value": "notification"
+        }
+      ],
+      "default": "notification",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "notification"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Send",
+          "value": "send",
+          "description": "Send a notification",
+          "action": "Send a notification"
+        }
+      ],
+      "default": "send",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "notificationName": {
+      "displayName": "Notification Name or ID",
+      "name": "notificationName",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getNotifications"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "notification"
+          ],
+          "operation": [
+            "send"
+          ]
+        }
+      },
+      "default": "",
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "send"
+          ],
+          "resource": [
+            "notification"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Device Names or IDs",
+          "name": "devices",
+          "type": "multiOptions",
+          "typeOptions": {
+            "loadOptionsMethod": "getDevices"
+          },
+          "default": [],
+          "description": "List of devices this notification is sent to. (default is all devices). Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+        },
+        {
+          "displayName": "Input",
+          "name": "input",
+          "type": "string",
+          "default": "",
+          "description": "Value that is passed as input to the notification action"
+        },
+        {
+          "displayName": "Text",
+          "name": "text",
+          "type": "string",
+          "default": "",
+          "description": "Text that is used instead of the one defined in the app"
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": "",
+          "description": "Title that is used instead of the one defined in the app"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "notificationName",
+      "additionalFields"
+    ],
+    "conditional_rules": [
+      "IF resource == 'notification' THEN SHOW parameter 'operation'",
+      "IF resource == 'notification' AND operation == 'send' THEN SHOW parameter 'notificationName'",
+      "IF operation == 'send' AND resource == 'notification' THEN SHOW parameter 'additionalFields'"
+    ]
+  }
+}

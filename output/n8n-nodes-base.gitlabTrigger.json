@@ -1,0 +1,130 @@
+{
+  "node_id": "n8n-nodes-base.gitlabTrigger",
+  "name": "n8n-nodes-base.gitlabTrigger",
+  "version": 1,
+  "semantic_context": "Starts the workflow when GitLab events occur",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Access Token",
+          "value": "accessToken"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "accessToken",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "owner": {
+      "displayName": "Repository Owner",
+      "name": "owner",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "placeholder": "n8n-io",
+      "description": "Owner of the repository",
+      "ai_hint": "Owner of the repository"
+    },
+    "repository": {
+      "displayName": "Repository Name",
+      "name": "repository",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "placeholder": "n8n",
+      "description": "The name of the repository",
+      "ai_hint": "The name of the repository"
+    },
+    "events": {
+      "displayName": "Events",
+      "name": "events",
+      "type": "multiOptions",
+      "options": [
+        {
+          "name": "Comment",
+          "value": "note",
+          "description": "Triggered when a new comment is made on commits, merge requests, issues, and code snippets"
+        },
+        {
+          "name": "Confidential Issues",
+          "value": "confidential_issues",
+          "description": "Triggered on confidential issues' events"
+        },
+        {
+          "name": "Confidential Comments",
+          "value": "confidential_note",
+          "description": "Triggered when a confidential comment is made"
+        },
+        {
+          "name": "Deployments",
+          "value": "deployment",
+          "description": "Triggered when a deployment starts/succeeds/fails/is cancelled"
+        },
+        {
+          "name": "Issue",
+          "value": "issues",
+          "description": "Triggered when a new issue is created or an existing issue was updated/closed/reopened"
+        },
+        {
+          "name": "Job",
+          "value": "job",
+          "description": "Triggered on status change of a job"
+        },
+        {
+          "name": "Merge Request",
+          "value": "merge_requests",
+          "description": "Triggered when a new merge request is created, an existing merge request was updated/merged/closed or a commit is added in the source branch"
+        },
+        {
+          "name": "Pipeline",
+          "value": "pipeline",
+          "description": "Triggered on status change of Pipeline"
+        },
+        {
+          "name": "Push",
+          "value": "push",
+          "description": "Triggered when you push to the repository except when pushing tags"
+        },
+        {
+          "name": "Release",
+          "value": "releases",
+          "description": "Release events are triggered when a release is created or updated"
+        },
+        {
+          "name": "Tag",
+          "value": "tag_push",
+          "description": "Triggered when you create (or delete) tags to the repository"
+        },
+        {
+          "name": "Wiki Page",
+          "value": "wiki_page",
+          "description": "Triggered when a wiki page is created, updated or deleted"
+        },
+        {
+          "name": "*",
+          "value": "*",
+          "description": "Any time any event is triggered (Wildcard Event)"
+        }
+      ],
+      "required": true,
+      "default": [],
+      "description": "The events to listen to",
+      "ai_hint": "The events to listen to"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "owner",
+      "repository",
+      "events"
+    ],
+    "conditional_rules": []
+  }
+}

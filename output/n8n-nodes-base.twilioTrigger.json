@@ -1,0 +1,51 @@
+{
+  "node_id": "n8n-nodes-base.twilioTrigger",
+  "name": "n8n-nodes-base.twilioTrigger",
+  "version": [
+    1
+  ],
+  "semantic_context": "Starts the workflow on a Twilio update",
+  "parameters": {
+    "updates": {
+      "displayName": "Trigger On",
+      "name": "updates",
+      "type": "multiOptions",
+      "options": [
+        {
+          "name": "New SMS",
+          "value": "com.twilio.messaging.inbound-message.received",
+          "description": "When an SMS message is received"
+        },
+        {
+          "name": "New Call",
+          "value": "com.twilio.voice.insights.call-summary.complete",
+          "description": "When a call is received"
+        }
+      ],
+      "required": true,
+      "default": []
+    },
+    "callTriggerNotice": {
+      "displayName": "The 'New Call' event may take up to thirty minutes to be triggered",
+      "name": "callTriggerNotice",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "updates": [
+            "com.twilio.voice.insights.call-summary.complete"
+          ]
+        }
+      }
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "updates",
+      "callTriggerNotice"
+    ],
+    "conditional_rules": [
+      "IF updates == 'com.twilio.voice.insights.call-summary.complete' THEN SHOW parameter 'callTriggerNotice'"
+    ]
+  }
+}

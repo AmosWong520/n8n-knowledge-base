@@ -1,0 +1,76 @@
+{
+  "node_id": "n8n-nodes-base.acuitySchedulingTrigger",
+  "name": "n8n-nodes-base.acuitySchedulingTrigger",
+  "version": 1,
+  "semantic_context": "Handle Acuity Scheduling events via webhooks",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "API Key",
+          "value": "apiKey"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        }
+      ],
+      "default": "apiKey",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "event": {
+      "displayName": "Event",
+      "name": "event",
+      "type": "options",
+      "required": true,
+      "default": "",
+      "options": [
+        {
+          "name": "appointment.canceled",
+          "value": "appointment.canceled",
+          "description": "Is called whenever an appointment is canceled"
+        },
+        {
+          "name": "appointment.changed",
+          "value": "appointment.changed",
+          "description": "Is called when the appointment is changed in any way"
+        },
+        {
+          "name": "appointment.rescheduled",
+          "value": "appointment.rescheduled",
+          "description": "Is called when the appointment is rescheduled to a new time"
+        },
+        {
+          "name": "appointment.scheduled",
+          "value": "appointment.scheduled",
+          "description": "Is called once when an appointment is initially booked"
+        },
+        {
+          "name": "order.completed",
+          "value": "order.completed",
+          "description": "Is called when an order is completed"
+        }
+      ],
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "resolveData": {
+      "displayName": "Resolve Data",
+      "name": "resolveData",
+      "type": "boolean",
+      "default": true,
+      "description": "By default does the webhook-data only contain the ID of the object. If this option gets activated, it will resolve the data automatically.",
+      "ai_hint": "布尔值：true 或 false。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "event",
+      "resolveData"
+    ],
+    "conditional_rules": []
+  }
+}

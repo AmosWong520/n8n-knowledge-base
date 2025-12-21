@@ -1,0 +1,54 @@
+{
+  "node_id": "n8n-nodes-base.aiTransform",
+  "name": "n8n-nodes-base.aiTransform",
+  "version": 1,
+  "semantic_context": "Modify data based on instructions written in plain english",
+  "parameters": {
+    "instructions": {
+      "displayName": "Instructions",
+      "name": "instructions",
+      "type": "button",
+      "default": "",
+      "description": "Provide instructions on how you want to transform the data, then click 'Generate code'. Use dot notation to refer to nested fields (e.g. address.street).",
+      "placeholder": "Example: Merge 'firstname' and 'lastname' into a field 'details.name' and sort by 'email'",
+      "typeOptions": {
+        "buttonConfig": {
+          "label": "Generate code",
+          "hasInputField": true,
+          "inputFieldMaxLength": 500,
+          "action": {
+            "type": "askAiCodeGeneration",
+            "target": "jsCode"
+          }
+        }
+      },
+      "ai_hint": "Provide instructions on how you want to transform the data, then click 'Generate code'. Use dot notation to refer to nested fields (e.g. address.street)."
+    },
+    "codeGeneratedForPrompt": {
+      "displayName": "Code Generated For Prompt",
+      "name": "codeGeneratedForPrompt",
+      "type": "hidden",
+      "default": ""
+    },
+    "jsCode": {
+      "displayName": "Generated JavaScript",
+      "name": "jsCode",
+      "type": "string",
+      "typeOptions": {
+        "editor": "jsEditor",
+        "editorIsReadOnly": true
+      },
+      "default": "",
+      "hint": "Read-only. To edit this code, adjust the instructions or copy and paste it into a Code node.",
+      "noDataExpression": true
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "instructions",
+      "codeGeneratedForPrompt",
+      "jsCode"
+    ],
+    "conditional_rules": []
+  }
+}

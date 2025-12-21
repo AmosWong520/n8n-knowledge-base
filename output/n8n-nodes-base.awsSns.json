@@ -1,0 +1,216 @@
+{
+  "node_id": "n8n-nodes-base.awsSns",
+  "name": "n8n-nodes-base.awsSns",
+  "version": 1,
+  "semantic_context": "Sends data to AWS SNS",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "AWS (IAM)",
+          "value": "iam"
+        },
+        {
+          "name": "AWS (Assume Role)",
+          "value": "assumeRole"
+        }
+      ],
+      "default": "iam",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a topic",
+          "action": "Create a topic"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a topic",
+          "action": "Delete a topic"
+        },
+        {
+          "name": "Publish",
+          "value": "publish",
+          "description": "Publish a message to a topic",
+          "action": "Publish a message to a topic"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "publish",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Display Name",
+          "name": "displayName",
+          "type": "string",
+          "default": "",
+          "description": "The display name to use for a topic with SMS subscriptions"
+        },
+        {
+          "displayName": "Fifo Topic",
+          "name": "fifoTopic",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the topic you want to create is a FIFO (first-in-first-out) topic"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "topic": {
+      "displayName": "Topic",
+      "name": "topic",
+      "type": "resourceLocator",
+      "default": {
+        "mode": "list",
+        "value": ""
+      },
+      "required": true,
+      "modes": [
+        {
+          "displayName": "From List",
+          "name": "list",
+          "type": "list",
+          "placeholder": "Select a topic...",
+          "typeOptions": {
+            "searchListMethod": "listTopics",
+            "searchable": true
+          }
+        },
+        {
+          "displayName": "By URL",
+          "name": "url",
+          "type": "string",
+          "placeholder": "https://us-east-1.console.aws.amazon.com/sns/v3/home?region=us-east-1#/topic/arn:aws:sns:us-east-1:777777777777:your_topic",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "https:\\/\\/[0-9a-zA-Z\\-_]+\\.console\\.aws\\.amazon\\.com\\/sns\\/v3\\/home\\?region\\=[0-9a-zA-Z\\-_]+\\#\\/topic\\/arn:aws:sns:[0-9a-zA-Z\\-_]+:[0-9]+:[0-9a-zA-Z\\-_]+(?:\\/.*|)",
+                "errorMessage": "Not a valid AWS SNS Topic URL"
+              }
+            }
+          ],
+          "extractValue": {
+            "type": "regex",
+            "regex": "https:\\/\\/[0-9a-zA-Z\\-_]+\\.console\\.aws\\.amazon\\.com\\/sns\\/v3\\/home\\?region\\=[0-9a-zA-Z\\-_]+\\#\\/topic\\/(arn:aws:sns:[0-9a-zA-Z\\-_]+:[0-9]+:[0-9a-zA-Z\\-_]+)(?:\\/.*|)"
+          }
+        },
+        {
+          "displayName": "ID",
+          "name": "id",
+          "type": "string",
+          "validation": [
+            {
+              "type": "regex",
+              "properties": {
+                "regex": "arn:aws:sns:[0-9a-zA-Z\\-_]+:[0-9]+:[0-9a-zA-Z\\-_]+",
+                "errorMessage": "Not a valid AWS SNS Topic ARN"
+              }
+            }
+          ],
+          "placeholder": "arn:aws:sns:your-aws-region:777777777777:your_topic"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "publish",
+            "delete"
+          ]
+        }
+      }
+    },
+    "subject": {
+      "displayName": "Subject",
+      "name": "subject",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "publish"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "description": "Subject when the message is delivered to email endpoints",
+      "ai_hint": "Subject when the message is delivered to email endpoints"
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "publish"
+          ]
+        }
+      },
+      "required": true,
+      "default": "",
+      "description": "The message you want to send",
+      "ai_hint": "The message you want to send"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "operation",
+      "name",
+      "options",
+      "topic",
+      "subject",
+      "message"
+    ],
+    "conditional_rules": [
+      "IF operation == 'create' THEN SHOW parameter 'name'",
+      "IF operation == 'create' THEN SHOW parameter 'options'",
+      "IF operation IN [\"publish\", \"delete\"] THEN SHOW parameter 'topic'",
+      "IF operation == 'publish' THEN SHOW parameter 'subject'",
+      "IF operation == 'publish' THEN SHOW parameter 'message'"
+    ]
+  }
+}

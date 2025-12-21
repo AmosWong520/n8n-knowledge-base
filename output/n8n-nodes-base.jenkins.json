@@ -1,0 +1,304 @@
+{
+  "node_id": "n8n-nodes-base.jenkins",
+  "name": "n8n-nodes-base.jenkins",
+  "version": 1,
+  "semantic_context": "Consume Jenkins API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "options": [
+        {
+          "name": "Build",
+          "value": "build"
+        },
+        {
+          "name": "Instance",
+          "value": "instance"
+        },
+        {
+          "name": "Job",
+          "value": "job"
+        }
+      ],
+      "default": "job",
+      "noDataExpression": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "build"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "List Builds",
+          "action": "Get many builds"
+        }
+      ],
+      "default": "getAll",
+      "noDataExpression": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "triggerParamsNotice": {
+      "displayName": "Make sure the job is setup to support triggering with parameters. <a href=\"https://wiki.jenkins.io/display/JENKINS/Parameterized+Build\" target=\"_blank\">More info</a>",
+      "name": "triggerParamsNotice",
+      "type": "notice",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "job"
+          ],
+          "operation": [
+            "triggerParams"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "job": {
+      "displayName": "Job Name or ID",
+      "name": "job",
+      "type": "options",
+      "typeOptions": {
+        "loadOptionsMethod": "getJobs"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "build"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "required": true,
+      "default": "",
+      "description": "Name of the job. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "Name of the job. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "param": {
+      "displayName": "Parameters",
+      "name": "param",
+      "type": "fixedCollection",
+      "placeholder": "Add Parameter",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "job"
+          ],
+          "operation": [
+            "triggerParams"
+          ]
+        }
+      },
+      "required": true,
+      "default": {},
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "options": [
+        {
+          "name": "params",
+          "displayName": "Parameters",
+          "values": [
+            {
+              "displayName": "Name or ID",
+              "name": "name",
+              "type": "options",
+              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+              "typeOptions": {
+                "loadOptionsMethod": "getJobParameters",
+                "loadOptionsDependsOn": [
+                  "job"
+                ]
+              },
+              "default": ""
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "description": "Parameters for Jenkins job",
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "newJob": {
+      "displayName": "New Job Name",
+      "name": "newJob",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "job"
+          ],
+          "operation": [
+            "copy",
+            "create"
+          ]
+        }
+      },
+      "required": true,
+      "default": "",
+      "description": "Name of the new Jenkins job",
+      "ai_hint": "Name of the new Jenkins job"
+    },
+    "xml": {
+      "displayName": "XML",
+      "name": "xml",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "job"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "required": true,
+      "default": "",
+      "description": "XML of Jenkins config",
+      "ai_hint": "XML of Jenkins config"
+    },
+    "createNotice": {
+      "displayName": "To get the XML of an existing job, add ‘config.xml’ to the end of the job URL",
+      "name": "createNotice",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "job"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "reason": {
+      "displayName": "Reason",
+      "name": "reason",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "instance"
+          ],
+          "operation": [
+            "quietDown"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Freeform reason for quiet down mode",
+      "ai_hint": "Freeform reason for quiet down mode"
+    },
+    "instanceNotice": {
+      "displayName": "Instance operation can shutdown Jenkins instance and make it unresponsive. Some commands may not be available depending on instance implementation.",
+      "name": "instanceNotice",
+      "type": "notice",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "instance"
+          ]
+        }
+      }
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "build"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "default": 50,
+      "typeOptions": {
+        "minValue": 1
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "build"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "triggerParamsNotice",
+      "job",
+      "param",
+      "newJob",
+      "xml",
+      "createNotice",
+      "operation",
+      "reason",
+      "instanceNotice",
+      "operation",
+      "job",
+      "returnAll",
+      "limit"
+    ],
+    "conditional_rules": [
+      "IF resource == 'job' THEN SHOW parameter 'operation'",
+      "IF resource == 'job' AND operation == 'triggerParams' THEN SHOW parameter 'triggerParamsNotice'",
+      "IF resource == 'job' AND operation IN [\"trigger\", \"triggerParams\", \"copy\"] THEN SHOW parameter 'job'",
+      "IF resource == 'job' AND operation == 'triggerParams' THEN SHOW parameter 'param'",
+      "IF resource == 'job' AND operation IN [\"copy\", \"create\"] THEN SHOW parameter 'newJob'",
+      "IF resource == 'job' AND operation == 'create' THEN SHOW parameter 'xml'",
+      "IF resource == 'job' AND operation == 'create' THEN SHOW parameter 'createNotice'",
+      "IF resource == 'instance' THEN SHOW parameter 'operation'",
+      "IF resource == 'instance' AND operation == 'quietDown' THEN SHOW parameter 'reason'",
+      "IF resource == 'instance' THEN SHOW parameter 'instanceNotice'",
+      "IF resource == 'build' THEN SHOW parameter 'operation'",
+      "IF resource == 'build' AND operation == 'getAll' THEN SHOW parameter 'job'",
+      "IF resource == 'build' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'build' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'"
+    ]
+  }
+}

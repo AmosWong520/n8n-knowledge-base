@@ -1,0 +1,77 @@
+{
+  "node_id": "n8n-nodes-base.invoiceNinjaTrigger",
+  "name": "n8n-nodes-base.invoiceNinjaTrigger",
+  "version": [
+    1,
+    2
+  ],
+  "semantic_context": "Starts the workflow when Invoice Ninja events occur",
+  "parameters": {
+    "apiVersion": {
+      "displayName": "API Version",
+      "name": "apiVersion",
+      "type": "options",
+      "isNodeSetting": true,
+      "displayOptions": {
+        "show": {
+          "@version": [
+            2
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Version 4",
+          "value": "v4"
+        },
+        {
+          "name": "Version 5",
+          "value": "v5"
+        }
+      ],
+      "default": "v5",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "event": {
+      "displayName": "Event",
+      "name": "event",
+      "type": "options",
+      "options": [
+        {
+          "name": "Client Created",
+          "value": "create_client"
+        },
+        {
+          "name": "Invoice Created",
+          "value": "create_invoice"
+        },
+        {
+          "name": "Payment Created",
+          "value": "create_payment"
+        },
+        {
+          "name": "Quote Created",
+          "value": "create_quote"
+        },
+        {
+          "name": "Vendor Created",
+          "value": "create_vendor"
+        }
+      ],
+      "default": "",
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "apiVersion",
+      "apiVersion",
+      "event"
+    ],
+    "conditional_rules": [
+      "IF @version == 1 THEN SHOW parameter 'apiVersion'",
+      "IF @version == 2 THEN SHOW parameter 'apiVersion'"
+    ]
+  }
+}

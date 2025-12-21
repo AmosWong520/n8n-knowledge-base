@@ -1,0 +1,654 @@
+{
+  "node_id": "n8n-nodes-base.matrix",
+  "name": "n8n-nodes-base.matrix",
+  "version": 1,
+  "semantic_context": "Consume Matrix API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Account",
+          "value": "account"
+        },
+        {
+          "name": "Event",
+          "value": "event"
+        },
+        {
+          "name": "Media",
+          "value": "media"
+        },
+        {
+          "name": "Message",
+          "value": "message"
+        },
+        {
+          "name": "Room",
+          "value": "room"
+        },
+        {
+          "name": "Room Member",
+          "value": "roomMember"
+        }
+      ],
+      "default": "message",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "roomMember"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many members",
+          "action": "Get many room members"
+        }
+      ],
+      "default": "getAll",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "roomId": {
+      "displayName": "Room Name or ID",
+      "name": "roomId",
+      "type": "options",
+      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
+      "typeOptions": {
+        "loadOptionsMethod": "getChannels"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "roomMember"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": "",
+      "required": true,
+      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+    },
+    "eventId": {
+      "displayName": "Event ID",
+      "name": "eventId",
+      "type": "string",
+      "default": "",
+      "placeholder": "$1234abcd:matrix.org",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ],
+          "resource": [
+            "event"
+          ]
+        }
+      },
+      "required": true,
+      "description": "The room related to the event",
+      "ai_hint": "The room related to the event"
+    },
+    "binaryPropertyName": {
+      "displayName": "Input Binary Field",
+      "name": "binaryPropertyName",
+      "type": "string",
+      "default": "data",
+      "required": true,
+      "hint": "The name of the input binary field containing the file to be uploaded",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "media"
+          ],
+          "operation": [
+            "upload"
+          ]
+        }
+      }
+    },
+    "mediaType": {
+      "displayName": "Media Type",
+      "name": "mediaType",
+      "type": "options",
+      "default": "image",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "media"
+          ],
+          "operation": [
+            "upload"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "File",
+          "value": "file",
+          "description": "General file"
+        },
+        {
+          "name": "Image",
+          "value": "image",
+          "description": "Image media type"
+        },
+        {
+          "name": "Audio",
+          "value": "audio",
+          "description": "Audio media type"
+        },
+        {
+          "name": "Video",
+          "value": "video",
+          "description": "Video media type"
+        }
+      ],
+      "description": "Type of file being uploaded",
+      "placeholder": "mxc://matrix.org/uploaded-media-uri",
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "media"
+          ],
+          "operation": [
+            "upload"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "File Name",
+          "name": "fileName",
+          "type": "string",
+          "default": "",
+          "description": "Name of the file being uploaded"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "text": {
+      "displayName": "Text",
+      "name": "text",
+      "type": "string",
+      "default": "",
+      "placeholder": "Hello from n8n!",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "message"
+          ]
+        }
+      },
+      "description": "The text to send",
+      "ai_hint": "The text to send"
+    },
+    "messageType": {
+      "displayName": "Message Type",
+      "name": "messageType",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "message"
+          ]
+        }
+      },
+      "type": "options",
+      "options": [
+        {
+          "name": "Emote",
+          "value": "m.emote",
+          "description": "Perform an action (similar to /me in IRC)"
+        },
+        {
+          "name": "Notice",
+          "value": "m.notice",
+          "description": "Send a notice"
+        },
+        {
+          "name": "Text",
+          "value": "m.text",
+          "description": "Send a text message"
+        }
+      ],
+      "default": "m.text",
+      "description": "The type of message to send",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "messageFormat": {
+      "displayName": "Message Format",
+      "name": "messageFormat",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create"
+          ],
+          "resource": [
+            "message"
+          ]
+        }
+      },
+      "type": "options",
+      "options": [
+        {
+          "name": "Plain Text",
+          "value": "plain",
+          "description": "Text only"
+        },
+        {
+          "name": "HTML",
+          "value": "org.matrix.custom.html",
+          "description": "HTML-formatted text"
+        }
+      ],
+      "default": "plain",
+      "description": "The format of the message's body",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "fallbackText": {
+      "displayName": "Fallback Text",
+      "name": "fallbackText",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "create"
+          ],
+          "messageFormat": [
+            "org.matrix.custom.html"
+          ]
+        }
+      },
+      "type": "string",
+      "description": "A plain text message to display in case the HTML cannot be rendered by the Matrix client",
+      "ai_hint": "A plain text message to display in case the HTML cannot be rendered by the Matrix client"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "description": "Whether to return all results or only up to a given limit",
+      "required": true,
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 500
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "otherOptions": {
+      "displayName": "Other Options",
+      "name": "otherOptions",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "message"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": {},
+      "placeholder": "Add option",
+      "options": [
+        {
+          "displayName": "Filter",
+          "name": "filter",
+          "type": "string",
+          "default": "",
+          "description": "A JSON RoomEventFilter to filter returned events with. More information can be found on this <a href=\"https://matrix.org/docs/spec/client_server/r0.6.0\">page</a>.",
+          "placeholder": "{\"contains_url\":true,\"types\":[\"m.room.message\", \"m.sticker\"]}"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "roomName": {
+      "displayName": "Room Name",
+      "name": "roomName",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "room"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "placeholder": "My new room",
+      "required": true
+    },
+    "preset": {
+      "displayName": "Preset",
+      "name": "preset",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "room"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Private Chat",
+          "value": "private_chat"
+        },
+        {
+          "name": "Public Chat",
+          "value": "public_chat",
+          "description": "Open and public chat"
+        }
+      ],
+      "default": "public_chat",
+      "placeholder": "My new room",
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "roomAlias": {
+      "displayName": "Room Alias",
+      "name": "roomAlias",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "room"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": "",
+      "placeholder": "coolest-room-around"
+    },
+    "roomIdOrAlias": {
+      "displayName": "Room ID or Alias",
+      "name": "roomIdOrAlias",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "room"
+          ],
+          "operation": [
+            "join"
+          ]
+        }
+      },
+      "default": "",
+      "required": true
+    },
+    "userId": {
+      "displayName": "User ID",
+      "name": "userId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "room"
+          ],
+          "operation": [
+            "kick"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The fully qualified user ID",
+      "placeholder": "@cheeky_monkey:matrix.org",
+      "required": true,
+      "ai_hint": "The fully qualified user ID"
+    },
+    "reason": {
+      "displayName": "Reason",
+      "name": "reason",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "room"
+          ],
+          "operation": [
+            "kick"
+          ]
+        }
+      },
+      "default": "",
+      "description": "Reason for kick",
+      "placeholder": "Telling unfunny jokes",
+      "ai_hint": "Reason for kick"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "roomMember"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": {},
+      "description": "Filtering options",
+      "placeholder": "Add filter",
+      "options": [
+        {
+          "displayName": "Exclude Membership",
+          "name": "notMembership",
+          "type": "options",
+          "default": "",
+          "description": "Excludes members whose membership is other than selected (uses OR filter with membership)",
+          "options": [
+            {
+              "name": "Any",
+              "value": "",
+              "description": "Any user membership"
+            },
+            {
+              "name": "Ban",
+              "value": "ban",
+              "description": "Users removed from the room"
+            },
+            {
+              "name": "Invite",
+              "value": "invite",
+              "description": "Users invited to join"
+            },
+            {
+              "name": "Join",
+              "value": "join",
+              "description": "Users currently in the room"
+            },
+            {
+              "name": "Leave",
+              "value": "leave",
+              "description": "Users who left"
+            }
+          ]
+        },
+        {
+          "displayName": "Membership",
+          "name": "membership",
+          "type": "options",
+          "default": "",
+          "description": "Only fetch users with selected membership status (uses OR filter with exclude membership)",
+          "options": [
+            {
+              "name": "Any",
+              "value": "",
+              "description": "Any user membership"
+            },
+            {
+              "name": "Ban",
+              "value": "ban",
+              "description": "Users removed from the room"
+            },
+            {
+              "name": "Invite",
+              "value": "invite",
+              "description": "Users invited to join"
+            },
+            {
+              "name": "Join",
+              "value": "join",
+              "description": "Users currently in the room"
+            },
+            {
+              "name": "Leave",
+              "value": "leave",
+              "description": "Users who left"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "operation",
+      "roomId",
+      "eventId",
+      "operation",
+      "roomId",
+      "binaryPropertyName",
+      "mediaType",
+      "additionalFields",
+      "operation",
+      "roomId",
+      "text",
+      "messageType",
+      "messageFormat",
+      "fallbackText",
+      "roomId",
+      "returnAll",
+      "limit",
+      "otherOptions",
+      "operation",
+      "roomName",
+      "preset",
+      "roomAlias",
+      "roomIdOrAlias",
+      "roomId",
+      "roomId",
+      "userId",
+      "roomId",
+      "userId",
+      "reason",
+      "operation",
+      "roomId",
+      "filters"
+    ],
+    "conditional_rules": [
+      "IF resource == 'account' THEN SHOW parameter 'operation'",
+      "IF resource == 'event' THEN SHOW parameter 'operation'",
+      "IF operation == 'get' AND resource == 'event' THEN SHOW parameter 'roomId'",
+      "IF operation == 'get' AND resource == 'event' THEN SHOW parameter 'eventId'",
+      "IF resource == 'media' THEN SHOW parameter 'operation'",
+      "IF resource == 'media' AND operation == 'upload' THEN SHOW parameter 'roomId'",
+      "IF resource == 'media' AND operation == 'upload' THEN SHOW parameter 'binaryPropertyName'",
+      "IF resource == 'media' AND operation == 'upload' THEN SHOW parameter 'mediaType'",
+      "IF resource == 'media' AND operation == 'upload' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'message' THEN SHOW parameter 'operation'",
+      "IF operation == 'create' AND resource == 'message' THEN SHOW parameter 'roomId'",
+      "IF operation == 'create' AND resource == 'message' THEN SHOW parameter 'text'",
+      "IF operation == 'create' AND resource == 'message' THEN SHOW parameter 'messageType'",
+      "IF operation == 'create' AND resource == 'message' THEN SHOW parameter 'messageFormat'",
+      "IF resource == 'message' AND operation == 'create' AND messageFormat == 'org.matrix.custom.html' THEN SHOW parameter 'fallbackText'",
+      "IF resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'roomId'",
+      "IF resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'message' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'otherOptions'",
+      "IF resource == 'room' THEN SHOW parameter 'operation'",
+      "IF resource == 'room' AND operation == 'create' THEN SHOW parameter 'roomName'",
+      "IF resource == 'room' AND operation == 'create' THEN SHOW parameter 'preset'",
+      "IF resource == 'room' AND operation == 'create' THEN SHOW parameter 'roomAlias'",
+      "IF resource == 'room' AND operation == 'join' THEN SHOW parameter 'roomIdOrAlias'",
+      "IF resource == 'room' AND operation == 'leave' THEN SHOW parameter 'roomId'",
+      "IF resource == 'room' AND operation == 'invite' THEN SHOW parameter 'roomId'",
+      "IF resource == 'room' AND operation == 'invite' THEN SHOW parameter 'userId'",
+      "IF resource == 'room' AND operation == 'kick' THEN SHOW parameter 'roomId'",
+      "IF resource == 'room' AND operation == 'kick' THEN SHOW parameter 'userId'",
+      "IF resource == 'room' AND operation == 'kick' THEN SHOW parameter 'reason'",
+      "IF resource == 'roomMember' THEN SHOW parameter 'operation'",
+      "IF resource == 'roomMember' AND operation == 'getAll' THEN SHOW parameter 'roomId'",
+      "IF resource == 'roomMember' AND operation == 'getAll' THEN SHOW parameter 'filters'"
+    ]
+  }
+}

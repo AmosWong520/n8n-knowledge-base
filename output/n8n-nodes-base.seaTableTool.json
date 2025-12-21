@@ -1,0 +1,403 @@
+{
+  "node_id": "n8n-nodes-base.seaTableTool",
+  "name": "n8n-nodes-base.seaTableTool",
+  "version": 1,
+  "semantic_context": "Consume the SeaTable API",
+  "parameters": {
+    "descriptionType": {
+      "displayName": "Tool Description",
+      "name": "descriptionType",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Set Automatically",
+          "value": "auto",
+          "description": "Automatically set based on resource and operation"
+        },
+        {
+          "name": "Set Manually",
+          "value": "manual",
+          "description": "Manually set the description"
+        }
+      ],
+      "default": "auto",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "toolDescription": {
+      "displayName": "Description",
+      "name": "toolDescription",
+      "type": "string",
+      "default": "Consume the SeaTable API",
+      "required": true,
+      "typeOptions": {
+        "rows": 2
+      },
+      "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
+      "displayOptions": {
+        "show": {
+          "descriptionType": [
+            "manual"
+          ]
+        }
+      },
+      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Row",
+          "value": "row"
+        }
+      ],
+      "default": "row",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create a row",
+          "action": "Create a row"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete a row",
+          "action": "Delete a row"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a row",
+          "action": "Get a row"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get many rows",
+          "action": "Get many rows"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update a row",
+          "action": "Update a row"
+        }
+      ],
+      "default": "create",
+      "description": "The operation being performed",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "tableName": {
+      "displayName": "Table Name",
+      "name": "tableName",
+      "type": "options",
+      "placeholder": "Name of the table",
+      "required": true,
+      "typeOptions": {
+        "loadOptionsMethod": "getTableNames"
+      },
+      "displayOptions": {
+        "hide": {
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The name of SeaTable table to access. Choose from the list, or specify the name using an <a href=\"https://docs.n8n.io/code-examples/expressions/\">expression</a>.",
+      "ai_hint": "The name of SeaTable table to access. Choose from the list, or specify the name using an <a href=\"https://docs.n8n.io/code-examples/expressions/\">expression</a>."
+    },
+    "tableId": {
+      "displayName": "Table ID",
+      "name": "tableId",
+      "type": "options",
+      "placeholder": "ID of the table",
+      "required": true,
+      "typeOptions": {
+        "loadOptionsMethod": "getTableIds"
+      },
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The name of SeaTable table to access. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "ai_hint": "The name of SeaTable table to access. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "rowId": {
+      "displayName": "Row ID",
+      "name": "rowId",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "default": ""
+    },
+    "fieldsToSend": {
+      "displayName": "Data to Send",
+      "name": "fieldsToSend",
+      "type": "options",
+      "options": [
+        {
+          "name": "Auto-Map Input Data to Columns",
+          "value": "autoMapInputData",
+          "description": "Use when node input properties match destination column names"
+        },
+        {
+          "name": "Define Below for Each Column",
+          "value": "defineBelow",
+          "description": "Set the value for each destination column"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create",
+            "update"
+          ]
+        }
+      },
+      "default": "defineBelow",
+      "description": "Whether to insert the input data this node receives in the new row",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "inputsToIgnore": {
+      "displayName": "Inputs to Ignore",
+      "name": "inputsToIgnore",
+      "type": "string",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create",
+            "update"
+          ],
+          "fieldsToSend": [
+            "autoMapInputData"
+          ]
+        }
+      },
+      "default": "",
+      "description": "List of input properties to avoid sending, separated by commas. Leave empty to send all properties.",
+      "placeholder": "Enter properties...",
+      "ai_hint": "List of input properties to avoid sending, separated by commas. Leave empty to send all properties."
+    },
+    "columnsUi": {
+      "displayName": "Columns to Send",
+      "name": "columnsUi",
+      "placeholder": "Add Column",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValueButtonText": "Add Column to Send",
+        "multipleValues": true
+      },
+      "options": [
+        {
+          "displayName": "Column",
+          "name": "columnValues",
+          "values": [
+            {
+              "displayName": "Column Name",
+              "name": "columnName",
+              "type": "options",
+              "description": "Choose from the list, or specify the name using an <a href=\"https://docs.n8n.io/code-examples/expressions/\">expression</a>",
+              "typeOptions": {
+                "loadOptionsDependsOn": [
+                  "table"
+                ],
+                "loadOptionsMethod": "getTableUpdateAbleColumns"
+              },
+              "default": ""
+            },
+            {
+              "displayName": "Column Value",
+              "name": "columnValue",
+              "type": "string",
+              "default": ""
+            }
+          ]
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "create",
+            "update"
+          ],
+          "fieldsToSend": [
+            "defineBelow"
+          ]
+        }
+      },
+      "default": {},
+      "description": "Add destination column with its value",
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1
+      },
+      "default": 50,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "View Name",
+          "name": "view_name",
+          "type": "options",
+          "description": "Choose from the list, or specify an View Name using an <a href=\"https://docs.n8n.io/code-examples/expressions/\">expression</a>",
+          "typeOptions": {
+            "loadOptionsMethod": "getViews"
+          },
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Convert Link ID",
+          "name": "convert_link_id",
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the ID of the linked row is returned in the link column (true). Otherwise, it return the name of the linked row (false)."
+        },
+        {
+          "displayName": "Direction",
+          "name": "direction",
+          "type": "options",
+          "options": [
+            {
+              "name": "Ascending",
+              "value": "asc"
+            },
+            {
+              "name": "Descending",
+              "value": "desc"
+            }
+          ],
+          "default": "asc",
+          "description": "The direction of the sort, ascending (asc) or descending (desc)"
+        },
+        {
+          "displayName": "Order By Column",
+          "name": "order_by",
+          "type": "options",
+          "typeOptions": {
+            "loadOptionsMethod": "getAllSortableColumns"
+          },
+          "default": "",
+          "description": "Choose from the list, or specify a Column using an <a href=\"https://docs.n8n.io/code-examples/expressions/\">expression</a>"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "descriptionType",
+      "toolDescription",
+      "resource",
+      "operation",
+      "tableName",
+      "tableId",
+      "rowId",
+      "fieldsToSend",
+      "inputsToIgnore",
+      "columnsUi",
+      "rowId",
+      "rowId",
+      "returnAll",
+      "limit",
+      "filters",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
+      "IF operation == 'get' THEN HIDE parameter 'tableName'",
+      "IF operation == 'get' THEN SHOW parameter 'tableId'",
+      "IF operation == 'update' THEN SHOW parameter 'rowId'",
+      "IF operation IN [\"create\", \"update\"] THEN SHOW parameter 'fieldsToSend'",
+      "IF operation IN [\"create\", \"update\"] AND fieldsToSend == 'autoMapInputData' THEN SHOW parameter 'inputsToIgnore'",
+      "IF operation IN [\"create\", \"update\"] AND fieldsToSend == 'defineBelow' THEN SHOW parameter 'columnsUi'",
+      "IF operation == 'delete' THEN SHOW parameter 'rowId'",
+      "IF operation == 'get' THEN SHOW parameter 'rowId'",
+      "IF operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF operation == 'getAll' THEN SHOW parameter 'options'"
+    ]
+  }
+}

@@ -1,0 +1,455 @@
+{
+  "node_id": "n8n-nodes-base.ciscoWebexTrigger",
+  "name": "n8n-nodes-base.ciscoWebexTrigger",
+  "version": 1,
+  "semantic_context": "Starts the workflow when Cisco Webex events occur.",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "[All]",
+          "value": "all"
+        },
+        {
+          "name": "Attachment Action",
+          "value": "attachmentAction"
+        },
+        {
+          "name": "Meeting",
+          "value": "meeting"
+        },
+        {
+          "name": "Membership",
+          "value": "membership"
+        },
+        {
+          "name": "Message",
+          "value": "message"
+        },
+        {
+          "name": "Recording",
+          "value": "recording"
+        },
+        {
+          "name": "Room",
+          "value": "room"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "meeting",
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "event": {
+      "displayName": "Event",
+      "name": "event",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "all"
+          ]
+        }
+      },
+      "options": [
+        {
+          "value": "created",
+          "name": "Created"
+        },
+        {
+          "value": "updated",
+          "name": "Updated"
+        },
+        {
+          "value": "deleted",
+          "name": "Deleted"
+        },
+        {
+          "value": "all",
+          "name": "*"
+        }
+      ],
+      "default": "",
+      "required": true,
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "resolveData": {
+      "displayName": "Resolve Data",
+      "name": "resolveData",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "attachmentAction"
+          ]
+        }
+      },
+      "default": true,
+      "description": "By default the response only contain a reference to the data the user inputed. If this option gets activated, it will resolve the data automatically.",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Has Files",
+          "name": "hasFiles",
+          "type": "boolean",
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "message"
+              ],
+              "/event": [
+                "created",
+                "deleted"
+              ]
+            }
+          },
+          "default": false,
+          "description": "Whether to limit to messages which contain file content attachments"
+        },
+        {
+          "displayName": "Is Locked",
+          "name": "isLocked",
+          "type": "boolean",
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "room"
+              ],
+              "/event": [
+                "created",
+                "updated"
+              ]
+            }
+          },
+          "default": false,
+          "description": "Whether to limit to rooms that are locked"
+        },
+        {
+          "displayName": "Is Moderator",
+          "name": "isModerator",
+          "type": "boolean",
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "membership"
+              ],
+              "/event": [
+                "created",
+                "updated",
+                "deleted"
+              ]
+            }
+          },
+          "default": false,
+          "description": "Whether to limit to moderators of a room"
+        },
+        {
+          "displayName": "Mentioned People",
+          "name": "mentionedPeople",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "message"
+              ],
+              "/event": [
+                "created",
+                "deleted"
+              ]
+            }
+          },
+          "default": "",
+          "description": "Limit to messages which contain these mentioned people, by person ID; accepts me as a shorthand for your own person ID; separate multiple values with commas"
+        },
+        {
+          "displayName": "Message ID",
+          "name": "messageId",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "attachmentAction"
+              ],
+              "/event": [
+                "created"
+              ]
+            }
+          },
+          "default": "",
+          "description": "Limit to a particular message, by ID"
+        },
+        {
+          "displayName": "Owned By",
+          "name": "ownedBy",
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "meeting"
+              ]
+            }
+          },
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Person Email",
+          "name": "personEmail",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "membership"
+              ],
+              "/event": [
+                "created",
+                "updated",
+                "deleted"
+              ]
+            }
+          },
+          "default": "",
+          "description": "Limit to a particular person, by email"
+        },
+        {
+          "displayName": "Person Email",
+          "name": "personEmail",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "message"
+              ],
+              "/event": [
+                "created",
+                "deleted"
+              ]
+            }
+          },
+          "default": "",
+          "description": "Limit to a particular person, by email"
+        },
+        {
+          "displayName": "Person ID",
+          "name": "personId",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "attachmentAction"
+              ],
+              "/event": [
+                "created"
+              ]
+            }
+          },
+          "default": "",
+          "description": "Limit to a particular person, by ID"
+        },
+        {
+          "displayName": "Person ID",
+          "name": "personId",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "membership"
+              ],
+              "/event": [
+                "created",
+                "updated",
+                "deleted"
+              ]
+            }
+          },
+          "default": "",
+          "description": "Limit to a particular person, by ID"
+        },
+        {
+          "displayName": "Person ID",
+          "name": "personId",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "message"
+              ],
+              "/event": [
+                "created",
+                "deleted"
+              ]
+            }
+          },
+          "default": "",
+          "description": "Limit to a particular person, by ID"
+        },
+        {
+          "displayName": "Room ID",
+          "name": "roomId",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "attachmentAction"
+              ],
+              "/event": [
+                "created"
+              ]
+            }
+          },
+          "default": "",
+          "description": "Limit to a particular room, by ID"
+        },
+        {
+          "displayName": "Room ID",
+          "name": "roomId",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "membership"
+              ],
+              "/event": [
+                "created",
+                "updated",
+                "deleted"
+              ]
+            }
+          },
+          "default": "",
+          "description": "Limit to a particular room, by ID"
+        },
+        {
+          "displayName": "Room ID",
+          "name": "roomId",
+          "type": "string",
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "message"
+              ],
+              "/event": [
+                "created",
+                "updated"
+              ]
+            }
+          },
+          "default": "",
+          "description": "Limit to a particular room, by ID"
+        },
+        {
+          "displayName": "Room Type",
+          "name": "roomType",
+          "type": "options",
+          "options": [
+            {
+              "name": "Direct",
+              "value": "direct"
+            },
+            {
+              "name": "Group",
+              "value": "group"
+            }
+          ],
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "message"
+              ],
+              "/event": [
+                "created",
+                "deleted"
+              ]
+            }
+          },
+          "default": "",
+          "description": "Limit to a particular room type"
+        },
+        {
+          "displayName": "Type",
+          "name": "type",
+          "type": "options",
+          "options": [
+            {
+              "name": "Direct",
+              "value": "direct"
+            },
+            {
+              "name": "Group",
+              "value": "group"
+            }
+          ],
+          "displayOptions": {
+            "show": {
+              "/resource": [
+                "room"
+              ],
+              "/event": [
+                "created",
+                "updated"
+              ]
+            }
+          },
+          "default": "",
+          "description": "Limit to a particular room type"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "event",
+      "event",
+      "event",
+      "event",
+      "event",
+      "event",
+      "event",
+      "event",
+      "resolveData",
+      "filters"
+    ],
+    "conditional_rules": [
+      "IF resource == 'attachmentAction' THEN SHOW parameter 'event'",
+      "IF resource == 'membership' THEN SHOW parameter 'event'",
+      "IF resource == 'message' THEN SHOW parameter 'event'",
+      "IF resource == 'room' THEN SHOW parameter 'event'",
+      "IF resource == 'meeting' THEN SHOW parameter 'event'",
+      "IF resource == 'recording' THEN SHOW parameter 'event'",
+      "IF resource == 'telephonyCall' THEN SHOW parameter 'event'",
+      "IF resource == 'all' THEN SHOW parameter 'event'",
+      "IF resource == 'attachmentAction' THEN SHOW parameter 'resolveData'",
+      "IF /resource == 'message' AND /event IN [\"created\", \"deleted\"] THEN SHOW parameter 'hasFiles'",
+      "IF /resource == 'room' AND /event IN [\"created\", \"updated\"] THEN SHOW parameter 'isLocked'",
+      "IF /resource == 'membership' AND /event IN [\"created\", \"updated\", \"deleted\"] THEN SHOW parameter 'isModerator'",
+      "IF /resource == 'message' AND /event IN [\"created\", \"deleted\"] THEN SHOW parameter 'mentionedPeople'",
+      "IF /resource == 'attachmentAction' AND /event == 'created' THEN SHOW parameter 'messageId'",
+      "IF /resource == 'meeting' THEN SHOW parameter 'ownedBy'",
+      "IF /resource == 'membership' AND /event IN [\"created\", \"updated\", \"deleted\"] THEN SHOW parameter 'personEmail'",
+      "IF /resource == 'message' AND /event IN [\"created\", \"deleted\"] THEN SHOW parameter 'personEmail'",
+      "IF /resource == 'attachmentAction' AND /event == 'created' THEN SHOW parameter 'personId'",
+      "IF /resource == 'membership' AND /event IN [\"created\", \"updated\", \"deleted\"] THEN SHOW parameter 'personId'",
+      "IF /resource == 'message' AND /event IN [\"created\", \"deleted\"] THEN SHOW parameter 'personId'",
+      "IF /resource == 'attachmentAction' AND /event == 'created' THEN SHOW parameter 'roomId'",
+      "IF /resource == 'membership' AND /event IN [\"created\", \"updated\", \"deleted\"] THEN SHOW parameter 'roomId'",
+      "IF /resource == 'message' AND /event IN [\"created\", \"updated\"] THEN SHOW parameter 'roomId'",
+      "IF /resource == 'message' AND /event IN [\"created\", \"deleted\"] THEN SHOW parameter 'roomType'",
+      "IF /resource == 'room' AND /event IN [\"created\", \"updated\"] THEN SHOW parameter 'type'"
+    ]
+  }
+}

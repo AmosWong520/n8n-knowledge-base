@@ -1,0 +1,506 @@
+{
+  "node_id": "n8n-nodes-base.splunk",
+  "name": "n8n-nodes-base.splunk",
+  "version": 1,
+  "semantic_context": "Consume the Splunk Enterprise API",
+  "parameters": {
+    "oldVersionNotice": {
+      "displayName": "<strong>New node version available:</strong> get the latest version with added features from the nodes panel.",
+      "name": "oldVersionNotice",
+      "type": "notice",
+      "default": ""
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Fired Alert",
+          "value": "firedAlert"
+        },
+        {
+          "name": "Search Configuration",
+          "value": "searchConfiguration"
+        },
+        {
+          "name": "Search Job",
+          "value": "searchJob"
+        },
+        {
+          "name": "Search Result",
+          "value": "searchResult"
+        },
+        {
+          "name": "User",
+          "value": "user"
+        }
+      ],
+      "default": "searchJob",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Create",
+          "value": "create",
+          "description": "Create an user",
+          "action": "Create a user"
+        },
+        {
+          "name": "Delete",
+          "value": "delete",
+          "description": "Delete an user",
+          "action": "Delete a user"
+        },
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Retrieve an user",
+          "action": "Get a user"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Retrieve many users",
+          "action": "Get many users"
+        },
+        {
+          "name": "Update",
+          "value": "update",
+          "description": "Update an user",
+          "action": "Update a user"
+        }
+      ],
+      "default": "create",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "searchConfigurationId": {
+      "displayName": "Search Configuration ID",
+      "name": "searchConfigurationId",
+      "description": "ID of the search configuration to retrieve",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "searchConfiguration"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "ai_hint": "ID of the search configuration to retrieve"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "default": 50,
+      "description": "Max number of results to return",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "searchResult"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Add Summary to Metadata",
+          "name": "add_summary_to_metadata",
+          "description": "Whether to include field summary statistics in the response",
+          "type": "boolean",
+          "default": false
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "search": {
+      "displayName": "Query",
+      "name": "search",
+      "description": "Search language string to execute, in Splunk's <a href=\"https://docs.splunk.com/Documentation/Splunk/latest/SearchReference/WhatsInThisManual\">Search Processing Language</a>",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "searchJob"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Search language string to execute, in Splunk's <a href=\"https://docs.splunk.com/Documentation/Splunk/latest/SearchReference/WhatsInThisManual\">Search Processing Language</a>"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Email",
+          "name": "email",
+          "type": "string",
+          "placeholder": "name@email.com",
+          "default": ""
+        },
+        {
+          "displayName": "Full Name",
+          "name": "realname",
+          "type": "string",
+          "default": "",
+          "description": "Full name of the user"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "searchJobId": {
+      "displayName": "Search ID",
+      "name": "searchJobId",
+      "description": "ID of the search whose results to retrieve",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "searchResult"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "ID of the search whose results to retrieve"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "searchResult"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Key-Value Match",
+          "name": "keyValueMatch",
+          "description": "Key-value pair to match against. Example: if \"Key\" is set to <code>user</code> and \"Field\" is set to <code>john</code>, only the results where <code>user</code> is <code>john</code> will be returned.",
+          "type": "fixedCollection",
+          "default": {},
+          "placeholder": "Add Key-Value Pair",
+          "options": [
+            {
+              "displayName": "Key-Value Pair",
+              "name": "keyValuePair",
+              "values": [
+                {
+                  "displayName": "Key",
+                  "name": "key",
+                  "description": "Key to match against",
+                  "type": "string",
+                  "default": ""
+                },
+                {
+                  "displayName": "Value",
+                  "name": "value",
+                  "description": "Value to match against",
+                  "type": "string",
+                  "default": ""
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "description": "Login name of the user",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Login name of the user"
+    },
+    "roles": {
+      "displayName": "Role Names or IDs",
+      "name": "roles",
+      "type": "multiOptions",
+      "description": "Comma-separated list of roles to assign to the user. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+      "required": true,
+      "default": [],
+      "typeOptions": {
+        "loadOptionsMethod": "getRoles"
+      },
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Comma-separated list of roles to assign to the user. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+    },
+    "password": {
+      "displayName": "Password",
+      "name": "password",
+      "type": "string",
+      "typeOptions": {
+        "password": true
+      },
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "userId": {
+      "displayName": "User ID",
+      "name": "userId",
+      "description": "ID of the user to update",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "ai_hint": "ID of the user to update"
+    },
+    "updateFields": {
+      "displayName": "Update Fields",
+      "name": "updateFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Email",
+          "name": "email",
+          "type": "string",
+          "placeholder": "name@email.com",
+          "default": ""
+        },
+        {
+          "displayName": "Full Name",
+          "name": "realname",
+          "type": "string",
+          "default": "",
+          "description": "Full name of the user"
+        },
+        {
+          "displayName": "Password",
+          "name": "password",
+          "type": "string",
+          "typeOptions": {
+            "password": true
+          },
+          "default": ""
+        },
+        {
+          "displayName": "Role Names or IDs",
+          "name": "roles",
+          "type": "multiOptions",
+          "description": "Comma-separated list of roles to assign to the user. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
+          "default": [],
+          "typeOptions": {
+            "loadOptionsMethod": "getRoles"
+          }
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "oldVersionNotice",
+      "resource",
+      "operation",
+      "operation",
+      "searchConfigurationId",
+      "searchConfigurationId",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "search",
+      "additionalFields",
+      "searchJobId",
+      "searchJobId",
+      "returnAll",
+      "limit",
+      "options",
+      "operation",
+      "searchJobId",
+      "returnAll",
+      "limit",
+      "filters",
+      "options",
+      "operation",
+      "name",
+      "roles",
+      "password",
+      "additionalFields",
+      "userId",
+      "userId",
+      "returnAll",
+      "limit",
+      "userId",
+      "updateFields"
+    ],
+    "conditional_rules": [
+      "IF resource == 'firedAlert' THEN SHOW parameter 'operation'",
+      "IF resource == 'searchConfiguration' THEN SHOW parameter 'operation'",
+      "IF resource == 'searchConfiguration' AND operation == 'delete' THEN SHOW parameter 'searchConfigurationId'",
+      "IF resource == 'searchConfiguration' AND operation == 'get' THEN SHOW parameter 'searchConfigurationId'",
+      "IF resource == 'searchConfiguration' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'searchConfiguration' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'searchConfiguration' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'searchJob' THEN SHOW parameter 'operation'",
+      "IF resource == 'searchJob' AND operation == 'create' THEN SHOW parameter 'search'",
+      "IF resource == 'searchJob' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'searchJob' AND operation == 'delete' THEN SHOW parameter 'searchJobId'",
+      "IF resource == 'searchJob' AND operation == 'get' THEN SHOW parameter 'searchJobId'",
+      "IF resource == 'searchJob' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'searchJob' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'searchJob' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'searchResult' THEN SHOW parameter 'operation'",
+      "IF resource == 'searchResult' AND operation == 'getAll' THEN SHOW parameter 'searchJobId'",
+      "IF resource == 'searchResult' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'searchResult' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'searchResult' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'searchResult' AND operation == 'getAll' THEN SHOW parameter 'options'",
+      "IF resource == 'user' THEN SHOW parameter 'operation'",
+      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'name'",
+      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'roles'",
+      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'password'",
+      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'user' AND operation == 'delete' THEN SHOW parameter 'userId'",
+      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'userId'",
+      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'user' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'user' AND operation == 'update' THEN SHOW parameter 'userId'",
+      "IF resource == 'user' AND operation == 'update' THEN SHOW parameter 'updateFields'"
+    ]
+  }
+}

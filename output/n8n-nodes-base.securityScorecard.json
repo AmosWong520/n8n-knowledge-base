@@ -1,0 +1,868 @@
+{
+  "node_id": "n8n-nodes-base.securityScorecard",
+  "name": "n8n-nodes-base.securityScorecard",
+  "version": 1,
+  "semantic_context": "Consume SecurityScorecard API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "required": true,
+      "options": [
+        {
+          "name": "Company",
+          "value": "company"
+        },
+        {
+          "name": "Industry",
+          "value": "industry"
+        },
+        {
+          "name": "Invite",
+          "value": "invite"
+        },
+        {
+          "name": "Portfolio",
+          "value": "portfolio"
+        },
+        {
+          "name": "Portfolio Company",
+          "value": "portfolioCompany"
+        },
+        {
+          "name": "Report",
+          "value": "report"
+        }
+      ],
+      "default": "company",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Download",
+          "value": "download",
+          "description": "Download a generated report",
+          "action": "Download a report"
+        },
+        {
+          "name": "Generate",
+          "value": "generate",
+          "description": "Generate a report",
+          "action": "Generate a report"
+        },
+        {
+          "name": "Get Many",
+          "value": "getAll",
+          "description": "Get list of recently generated report",
+          "action": "Get many reports"
+        }
+      ],
+      "default": "getAll",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "scorecardIdentifier": {
+      "displayName": "Scorecard Identifier",
+      "name": "scorecardIdentifier",
+      "description": "Primary identifier of a company or scorecard, i.e. domain.",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "generate"
+          ],
+          "report": [
+            "detailed",
+            "events-json",
+            "full-scorecard-json",
+            "issues",
+            "partnership",
+            "scorecard-footprint",
+            "summary"
+          ]
+        }
+      },
+      "ai_hint": "Primary identifier of a company or scorecard, i.e. domain."
+    },
+    "score": {
+      "displayName": "Score",
+      "name": "score",
+      "description": "Score target",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "company"
+          ],
+          "operation": [
+            "getScorePlan"
+          ]
+        }
+      },
+      "required": true,
+      "default": 0,
+      "ai_hint": "Score target"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "typeOptions": {
+        "minValue": 1,
+        "maxValue": 100
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "ai_hint": "Max number of results to return"
+    },
+    "simple": {
+      "displayName": "Simplify",
+      "name": "simple",
+      "type": "boolean",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "industry"
+          ],
+          "operation": [
+            "getFactor",
+            "getFactorHistorical"
+          ]
+        }
+      },
+      "default": true,
+      "description": "Whether to return a simplified version of the response instead of the raw data",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "filters": {
+      "displayName": "Filters",
+      "name": "filters",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "portfolioCompany"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "type": "collection",
+      "placeholder": "Add Filter",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Grade",
+          "name": "grade",
+          "type": "string",
+          "placeholder": "",
+          "default": "",
+          "description": "Company score grade filter"
+        },
+        {
+          "displayName": "Industry",
+          "name": "industry",
+          "type": "string",
+          "placeholder": "",
+          "default": "",
+          "description": "Industry filter"
+        },
+        {
+          "displayName": "Issue Type",
+          "name": "issueType",
+          "type": "string",
+          "placeholder": "",
+          "description": "Issue type filter",
+          "default": ""
+        },
+        {
+          "displayName": "Status",
+          "name": "status",
+          "type": "options",
+          "options": [
+            {
+              "name": "Active",
+              "value": "active"
+            },
+            {
+              "name": "Inactive",
+              "value": "inactive"
+            }
+          ],
+          "default": ""
+        },
+        {
+          "displayName": "Vulnerability",
+          "name": "vulnerability",
+          "type": "string",
+          "placeholder": "",
+          "description": "CVE vulnerability filter",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "default": {},
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "generate"
+          ],
+          "report": [
+            "scorecard-footprint"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Countries",
+          "name": "countries",
+          "type": "string",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": []
+        },
+        {
+          "displayName": "Format",
+          "name": "format",
+          "type": "options",
+          "default": "pdf",
+          "options": [
+            {
+              "name": "CSV",
+              "value": "csv"
+            },
+            {
+              "name": "PDF",
+              "value": "pdf"
+            }
+          ]
+        },
+        {
+          "displayName": "IPs",
+          "name": "ips",
+          "type": "string",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": []
+        },
+        {
+          "displayName": "Subdomains",
+          "name": "subdomains",
+          "type": "string",
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "default": []
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "industry": {
+      "displayName": "Industry",
+      "name": "industry",
+      "type": "options",
+      "default": "food",
+      "options": [
+        {
+          "name": "Food",
+          "value": "food"
+        },
+        {
+          "name": "Healthcare",
+          "value": "healthcare"
+        },
+        {
+          "name": "Manofacturing",
+          "value": "manofacturing"
+        },
+        {
+          "name": "Retail",
+          "value": "retail"
+        },
+        {
+          "name": "Technology",
+          "value": "technology"
+        }
+      ],
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "industry"
+          ],
+          "operation": [
+            "getScore",
+            "getFactor",
+            "getFactorHistorical"
+          ]
+        }
+      },
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "email": {
+      "displayName": "Email",
+      "name": "email",
+      "type": "string",
+      "placeholder": "name@email.com",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "invite"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "firstName": {
+      "displayName": "First Name",
+      "name": "firstName",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "invite"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "lastName": {
+      "displayName": "Last Name",
+      "name": "lastName",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "invite"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      }
+    },
+    "message": {
+      "displayName": "Message",
+      "name": "message",
+      "description": "Message for the invitee",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "invite"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "ai_hint": "Message for the invitee"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "invite"
+          ],
+          "operation": [
+            "create"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Days to Resolve Issue",
+          "description": "Minimum days to resolve a scorecard issue",
+          "name": "days_to_resolve_issue",
+          "type": "number",
+          "default": 0
+        },
+        {
+          "displayName": "Domain",
+          "description": "Invitee company domain",
+          "name": "domain",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Grade to Maintain",
+          "description": "Request the invitee's organisation to maintain a minimum grade",
+          "name": "grade_to_maintain",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Is Organisation Point of Contact",
+          "description": "Is the invitee organisation's point of contact",
+          "name": "is_organization_point_of_contact",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "displayName": "Issue Description",
+          "name": "issue_desc",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Issue Title",
+          "name": "issue_title",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Issue Type",
+          "name": "issue_type",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Send Me a Copy",
+          "name": "sendme_copy",
+          "description": "Whether to send a copy of the invite to the requesting user",
+          "type": "boolean",
+          "default": false
+        },
+        {
+          "displayName": "Target URL",
+          "name": "target_url",
+          "type": "string",
+          "description": "Optional URL to take the invitee to when arriving to the platform",
+          "default": ""
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "portfolioId": {
+      "displayName": "Portfolio ID",
+      "name": "portfolioId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "generate"
+          ],
+          "report": [
+            "portfolio"
+          ]
+        }
+      }
+    },
+    "name": {
+      "displayName": "Portfolio Name",
+      "name": "name",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "portfolio"
+          ],
+          "operation": [
+            "create",
+            "update"
+          ]
+        }
+      },
+      "description": "Name of the portfolio",
+      "ai_hint": "Name of the portfolio"
+    },
+    "description": {
+      "displayName": "Description",
+      "name": "description",
+      "type": "string",
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "portfolio"
+          ],
+          "operation": [
+            "create",
+            "update"
+          ]
+        }
+      }
+    },
+    "privacy": {
+      "displayName": "Privacy",
+      "name": "privacy",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "portfolio"
+          ],
+          "operation": [
+            "create",
+            "update"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Private",
+          "value": "private",
+          "description": "Only visible to you"
+        },
+        {
+          "name": "Shared",
+          "value": "shared",
+          "description": "Visible to everyone in your company"
+        },
+        {
+          "name": "Team",
+          "value": "team",
+          "description": "Visible to the people on your team"
+        }
+      ],
+      "default": "shared",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "domain": {
+      "displayName": "Domain",
+      "name": "domain",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "portfolioCompany"
+          ],
+          "operation": [
+            "add",
+            "remove"
+          ]
+        }
+      },
+      "description": "Company's domain name",
+      "ai_hint": "Company's domain name"
+    },
+    "report": {
+      "displayName": "Report",
+      "name": "report",
+      "type": "options",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "generate"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Company Detailed",
+          "value": "detailed"
+        },
+        {
+          "name": "Company Events",
+          "value": "events-json"
+        },
+        {
+          "name": "Company Issues",
+          "value": "issues"
+        },
+        {
+          "name": "Company Partnership",
+          "value": "partnership"
+        },
+        {
+          "name": "Company Summary",
+          "value": "summary"
+        },
+        {
+          "name": "Full Scorecard",
+          "value": "full-scorecard-json"
+        },
+        {
+          "name": "Portfolio",
+          "value": "portfolio"
+        },
+        {
+          "name": "Scorecard Footprint",
+          "value": "scorecard-footprint"
+        }
+      ],
+      "default": "detailed",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "branding": {
+      "displayName": "Branding",
+      "name": "branding",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "generate"
+          ],
+          "report": [
+            "detailed",
+            "summary"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "SecurityScorecard",
+          "value": "securityscorecard"
+        },
+        {
+          "name": "Company and SecurityScorecard",
+          "value": "company_and_securityscorecard"
+        },
+        {
+          "name": "Company",
+          "value": "company"
+        }
+      ],
+      "default": "securityscorecard",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "date": {
+      "displayName": "Date",
+      "name": "date",
+      "type": "dateTime",
+      "default": "",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "generate"
+          ],
+          "report": [
+            "events-json"
+          ]
+        }
+      }
+    },
+    "url": {
+      "displayName": "Report URL",
+      "name": "url",
+      "type": "string",
+      "default": "",
+      "required": true,
+      "description": "URL to a generated report",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "download"
+          ]
+        }
+      },
+      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+    },
+    "binaryPropertyName": {
+      "displayName": "Put Output File in Field",
+      "name": "binaryPropertyName",
+      "type": "string",
+      "required": true,
+      "default": "data",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "report"
+          ],
+          "operation": [
+            "download"
+          ]
+        }
+      },
+      "hint": "The name of the output binary field to put the file in"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "scorecardIdentifier",
+      "score",
+      "returnAll",
+      "limit",
+      "simple",
+      "filters",
+      "options",
+      "operation",
+      "industry",
+      "returnAll",
+      "limit",
+      "simple",
+      "options",
+      "operation",
+      "email",
+      "firstName",
+      "lastName",
+      "message",
+      "additionalFields",
+      "operation",
+      "returnAll",
+      "limit",
+      "portfolioId",
+      "name",
+      "description",
+      "privacy",
+      "operation",
+      "portfolioId",
+      "returnAll",
+      "limit",
+      "filters",
+      "domain",
+      "operation",
+      "returnAll",
+      "limit",
+      "report",
+      "scorecardIdentifier",
+      "portfolioId",
+      "branding",
+      "date",
+      "options",
+      "options",
+      "url",
+      "binaryPropertyName"
+    ],
+    "conditional_rules": [
+      "IF resource == 'company' THEN SHOW parameter 'operation'",
+      "IF resource == 'company' AND operation IN [\"getScorecard\", \"getFactor\", \"getFactorHistorical\", \"getHistoricalScore\", \"getScorePlan\"] THEN SHOW parameter 'scorecardIdentifier'",
+      "IF resource == 'company' AND operation == 'getScorePlan' THEN SHOW parameter 'score'",
+      "IF resource == 'company' AND operation IN [\"getFactor\", \"getFactorHistorical\", \"getHistoricalScore\", \"getScorePlan\"] THEN SHOW parameter 'returnAll'",
+      "IF resource == 'company' AND operation IN [\"getFactor\", \"getFactorHistorical\", \"getHistoricalScore\", \"getScorePlan\"] AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'company' AND operation IN [\"getFactorHistorical\", \"getHistoricalScore\"] THEN SHOW parameter 'simple'",
+      "IF resource == 'company' AND operation == 'getFactor' THEN SHOW parameter 'filters'",
+      "IF resource == 'company' AND operation IN [\"getFactorHistorical\", \"getHistoricalScore\"] THEN SHOW parameter 'options'",
+      "IF resource == 'industry' THEN SHOW parameter 'operation'",
+      "IF resource == 'industry' AND operation IN [\"getScore\", \"getFactor\", \"getFactorHistorical\"] THEN SHOW parameter 'industry'",
+      "IF resource == 'industry' AND operation IN [\"getFactor\", \"getFactorHistorical\"] THEN SHOW parameter 'returnAll'",
+      "IF resource == 'industry' AND operation IN [\"getFactor\", \"getFactorHistorical\"] AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'industry' AND operation IN [\"getFactor\", \"getFactorHistorical\"] THEN SHOW parameter 'simple'",
+      "IF resource == 'industry' AND operation == 'getFactorHistorical' THEN SHOW parameter 'options'",
+      "IF resource == 'invite' THEN SHOW parameter 'operation'",
+      "IF resource == 'invite' AND operation == 'create' THEN SHOW parameter 'email'",
+      "IF resource == 'invite' AND operation == 'create' THEN SHOW parameter 'firstName'",
+      "IF resource == 'invite' AND operation == 'create' THEN SHOW parameter 'lastName'",
+      "IF resource == 'invite' AND operation == 'create' THEN SHOW parameter 'message'",
+      "IF resource == 'invite' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'portfolio' THEN SHOW parameter 'operation'",
+      "IF resource == 'portfolio' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'portfolio' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'portfolio' AND operation IN [\"update\", \"delete\"] THEN SHOW parameter 'portfolioId'",
+      "IF resource == 'portfolio' AND operation IN [\"create\", \"update\"] THEN SHOW parameter 'name'",
+      "IF resource == 'portfolio' AND operation IN [\"create\", \"update\"] THEN SHOW parameter 'description'",
+      "IF resource == 'portfolio' AND operation IN [\"create\", \"update\"] THEN SHOW parameter 'privacy'",
+      "IF resource == 'portfolioCompany' THEN SHOW parameter 'operation'",
+      "IF resource == 'portfolioCompany' AND operation IN [\"getAll\", \"add\", \"remove\"] THEN SHOW parameter 'portfolioId'",
+      "IF resource == 'portfolioCompany' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'portfolioCompany' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'portfolioCompany' AND operation == 'getAll' THEN SHOW parameter 'filters'",
+      "IF resource == 'portfolioCompany' AND operation IN [\"add\", \"remove\"] THEN SHOW parameter 'domain'",
+      "IF resource == 'report' THEN SHOW parameter 'operation'",
+      "IF resource == 'report' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'report' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'report' AND operation == 'generate' THEN SHOW parameter 'report'",
+      "IF resource == 'report' AND operation == 'generate' AND report IN [\"detailed\", \"events-json\", \"full-scorecard-json\", \"issues\", \"partnership\", \"scorecard-footprint\", \"summary\"] THEN SHOW parameter 'scorecardIdentifier'",
+      "IF resource == 'report' AND operation == 'generate' AND report == 'portfolio' THEN SHOW parameter 'portfolioId'",
+      "IF resource == 'report' AND operation == 'generate' AND report IN [\"detailed\", \"summary\"] THEN SHOW parameter 'branding'",
+      "IF resource == 'report' AND operation == 'generate' AND report == 'events-json' THEN SHOW parameter 'date'",
+      "IF resource == 'report' AND operation == 'generate' AND report IN [\"issues\", \"portfolio\"] THEN SHOW parameter 'options'",
+      "IF resource == 'report' AND operation == 'generate' AND report == 'scorecard-footprint' THEN SHOW parameter 'options'",
+      "IF resource == 'report' AND operation == 'download' THEN SHOW parameter 'url'",
+      "IF resource == 'report' AND operation == 'download' THEN SHOW parameter 'binaryPropertyName'"
+    ]
+  }
+}

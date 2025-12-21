@@ -1,0 +1,263 @@
+{
+  "node_id": "n8n-nodes-base.graphql",
+  "name": "n8n-nodes-base.graphql",
+  "version": [
+    1,
+    1.1
+  ],
+  "semantic_context": "Makes a GraphQL request and returns the received data",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "Basic Auth",
+          "value": "basicAuth"
+        },
+        {
+          "name": "Custom Auth",
+          "value": "customAuth"
+        },
+        {
+          "name": "Digest Auth",
+          "value": "digestAuth"
+        },
+        {
+          "name": "Header Auth",
+          "value": "headerAuth"
+        },
+        {
+          "name": "None",
+          "value": "none"
+        },
+        {
+          "name": "OAuth1",
+          "value": "oAuth1"
+        },
+        {
+          "name": "OAuth2",
+          "value": "oAuth2"
+        },
+        {
+          "name": "Query Auth",
+          "value": "queryAuth"
+        }
+      ],
+      "default": "none",
+      "description": "The way to authenticate",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "requestMethod": {
+      "displayName": "HTTP Request Method",
+      "name": "requestMethod",
+      "type": "options",
+      "options": [
+        {
+          "name": "GET",
+          "value": "GET"
+        },
+        {
+          "name": "POST",
+          "value": "POST"
+        }
+      ],
+      "default": "POST",
+      "description": "The underlying HTTP request method to use",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "endpoint": {
+      "displayName": "Endpoint",
+      "name": "endpoint",
+      "type": "string",
+      "default": "",
+      "placeholder": "http://example.com/graphql",
+      "description": "The GraphQL endpoint",
+      "required": true,
+      "ai_hint": "The GraphQL endpoint"
+    },
+    "allowUnauthorizedCerts": {
+      "displayName": "Ignore SSL Issues (Insecure)",
+      "name": "allowUnauthorizedCerts",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to download the response even if SSL certificate validation is not possible",
+      "ai_hint": "布尔值：true 或 false。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "requestFormat": {
+      "displayName": "Request Format",
+      "name": "requestFormat",
+      "type": "options",
+      "required": true,
+      "options": [
+        {
+          "name": "JSON (Recommended)",
+          "value": "json",
+          "description": "JSON object with query, variables, and operationName properties. The standard and most widely supported format for GraphQL requests."
+        },
+        {
+          "name": "GraphQL (Raw)",
+          "value": "graphql",
+          "description": "Raw GraphQL query string. Not all servers support this format. Use JSON for better compatibility."
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "requestMethod": [
+            "POST"
+          ],
+          "@version": [
+            {
+              "_cnd": {
+                "gte": 1.1
+              }
+            }
+          ]
+        }
+      },
+      "default": "json",
+      "description": "The request format for the query payload",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "query": {
+      "displayName": "Query",
+      "name": "query",
+      "type": "string",
+      "default": "",
+      "description": "GraphQL query",
+      "required": true,
+      "typeOptions": {
+        "rows": 6
+      },
+      "ai_hint": "GraphQL query"
+    },
+    "variables": {
+      "displayName": "Variables",
+      "name": "variables",
+      "type": "json",
+      "default": "",
+      "description": "Query variables as JSON object",
+      "displayOptions": {
+        "show": {
+          "requestFormat": [
+            "json"
+          ],
+          "requestMethod": [
+            "POST"
+          ]
+        }
+      },
+      "ai_hint": "Query variables as JSON object"
+    },
+    "operationName": {
+      "displayName": "Operation Name",
+      "name": "operationName",
+      "type": "string",
+      "default": "",
+      "description": "Name of operation to execute",
+      "displayOptions": {
+        "show": {
+          "requestFormat": [
+            "json"
+          ],
+          "requestMethod": [
+            "POST"
+          ]
+        }
+      },
+      "ai_hint": "Name of operation to execute"
+    },
+    "responseFormat": {
+      "displayName": "Response Format",
+      "name": "responseFormat",
+      "type": "options",
+      "options": [
+        {
+          "name": "JSON",
+          "value": "json"
+        },
+        {
+          "name": "String",
+          "value": "string"
+        }
+      ],
+      "default": "json",
+      "description": "The format in which the data gets returned from the URL",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "dataPropertyName": {
+      "displayName": "Response Data Property Name",
+      "name": "dataPropertyName",
+      "type": "string",
+      "default": "data",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "responseFormat": [
+            "string"
+          ]
+        }
+      },
+      "description": "Name of the property to which to write the response data",
+      "ai_hint": "Name of the property to which to write the response data"
+    },
+    "headerParametersUi": {
+      "displayName": "Headers",
+      "name": "headerParametersUi",
+      "placeholder": "Add Header",
+      "type": "fixedCollection",
+      "typeOptions": {
+        "multipleValues": true
+      },
+      "description": "The headers to send",
+      "default": {},
+      "options": [
+        {
+          "name": "parameter",
+          "displayName": "Header",
+          "values": [
+            {
+              "displayName": "Name",
+              "name": "name",
+              "type": "string",
+              "default": "",
+              "description": "Name of the header"
+            },
+            {
+              "displayName": "Value",
+              "name": "value",
+              "type": "string",
+              "default": "",
+              "description": "Value to set for the header"
+            }
+          ]
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "requestMethod",
+      "endpoint",
+      "allowUnauthorizedCerts",
+      "requestFormat",
+      "requestFormat",
+      "query",
+      "variables",
+      "operationName",
+      "responseFormat",
+      "dataPropertyName",
+      "headerParametersUi"
+    ],
+    "conditional_rules": [
+      "IF requestMethod == 'POST' AND @version == 1 THEN SHOW parameter 'requestFormat'",
+      "IF requestMethod == 'POST' AND @version == {'_cnd': {'gte': 1.1}} THEN SHOW parameter 'requestFormat'",
+      "IF requestFormat == 'json' AND requestMethod == 'POST' THEN SHOW parameter 'variables'",
+      "IF requestFormat == 'json' AND requestMethod == 'POST' THEN SHOW parameter 'operationName'",
+      "IF responseFormat == 'string' THEN SHOW parameter 'dataPropertyName'"
+    ]
+  }
+}

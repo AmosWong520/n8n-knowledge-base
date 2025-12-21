@@ -1,0 +1,145 @@
+{
+  "node_id": "n8n-nodes-base.yourls",
+  "name": "n8n-nodes-base.yourls",
+  "version": 1,
+  "semantic_context": "Consume Yourls API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "URL",
+          "value": "url"
+        }
+      ],
+      "default": "url",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "url"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Expand",
+          "value": "expand",
+          "description": "Expand a URL",
+          "action": "Expand a URL"
+        },
+        {
+          "name": "Shorten",
+          "value": "shorten",
+          "description": "Shorten a URL",
+          "action": "Shorten a URL"
+        },
+        {
+          "name": "Stats",
+          "value": "stats",
+          "description": "Get stats about one short URL",
+          "action": "Get stats for a URL"
+        }
+      ],
+      "default": "shorten",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "url": {
+      "displayName": "URL",
+      "name": "url",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "url"
+          ],
+          "operation": [
+            "shorten"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The URL to shorten",
+      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "url"
+          ],
+          "operation": [
+            "shorten"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Keyword",
+          "name": "keyword",
+          "type": "string",
+          "default": ""
+        },
+        {
+          "displayName": "Title",
+          "name": "title",
+          "type": "string",
+          "default": "",
+          "description": "Title for custom short URLs"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "shortUrl": {
+      "displayName": "Short URL",
+      "name": "shortUrl",
+      "type": "string",
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "url"
+          ],
+          "operation": [
+            "stats"
+          ]
+        }
+      },
+      "default": "",
+      "description": "The short URL for which to get stats",
+      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "url",
+      "additionalFields",
+      "shortUrl",
+      "shortUrl"
+    ],
+    "conditional_rules": [
+      "IF resource == 'url' THEN SHOW parameter 'operation'",
+      "IF resource == 'url' AND operation == 'shorten' THEN SHOW parameter 'url'",
+      "IF resource == 'url' AND operation == 'shorten' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'url' AND operation == 'expand' THEN SHOW parameter 'shortUrl'",
+      "IF resource == 'url' AND operation == 'stats' THEN SHOW parameter 'shortUrl'"
+    ]
+  }
+}

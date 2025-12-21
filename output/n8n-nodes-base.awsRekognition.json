@@ -1,0 +1,399 @@
+{
+  "node_id": "n8n-nodes-base.awsRekognition",
+  "name": "n8n-nodes-base.awsRekognition",
+  "version": 1,
+  "semantic_context": "Sends data to AWS Rekognition",
+  "parameters": {
+    "authentication": {
+      "displayName": "Authentication",
+      "name": "authentication",
+      "type": "options",
+      "options": [
+        {
+          "name": "AWS (IAM)",
+          "value": "iam"
+        },
+        {
+          "name": "AWS (Assume Role)",
+          "value": "assumeRole"
+        }
+      ],
+      "default": "iam",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+    },
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Image",
+          "value": "image"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "image",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Analyze",
+          "value": "analyze"
+        },
+        {
+          "name": "Custom API Call",
+          "value": "__CUSTOM_API_CALL__"
+        }
+      ],
+      "default": "analyze",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "type": {
+      "displayName": "Type",
+      "name": "type",
+      "type": "options",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "analyze"
+          ],
+          "resource": [
+            "image"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Detect Faces",
+          "value": "detectFaces"
+        },
+        {
+          "name": "Detect Labels",
+          "value": "detectLabels"
+        },
+        {
+          "name": "Detect Moderation Labels",
+          "value": "detectModerationLabels"
+        },
+        {
+          "name": "Detect Text",
+          "value": "detectText"
+        },
+        {
+          "name": "Recognize Celebrity",
+          "value": "recognizeCelebrity"
+        }
+      ],
+      "default": "detectFaces",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "binaryData": {
+      "displayName": "Binary File",
+      "name": "binaryData",
+      "type": "boolean",
+      "default": false,
+      "required": true,
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "analyze"
+          ],
+          "resource": [
+            "image"
+          ]
+        }
+      },
+      "description": "Whether the image to analyze should be taken from binary field",
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "binaryPropertyName": {
+      "displayName": "Input Binary Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "analyze"
+          ],
+          "resource": [
+            "image"
+          ],
+          "binaryData": [
+            true
+          ]
+        }
+      },
+      "name": "binaryPropertyName",
+      "type": "string",
+      "default": "data",
+      "hint": "The name of the input binary field containing the file to be written",
+      "required": true
+    },
+    "bucket": {
+      "displayName": "Bucket",
+      "name": "bucket",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "analyze"
+          ],
+          "resource": [
+            "image"
+          ],
+          "binaryData": [
+            false
+          ]
+        }
+      },
+      "type": "string",
+      "default": "",
+      "required": true,
+      "description": "Name of the S3 bucket",
+      "ai_hint": "Name of the S3 bucket"
+    },
+    "name": {
+      "displayName": "Name",
+      "name": "name",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "analyze"
+          ],
+          "resource": [
+            "image"
+          ],
+          "binaryData": [
+            false
+          ]
+        }
+      },
+      "type": "string",
+      "default": "",
+      "required": true,
+      "description": "S3 object key name",
+      "ai_hint": "S3 object key name"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "analyze"
+          ],
+          "resource": [
+            "image"
+          ]
+        }
+      },
+      "default": {},
+      "options": [
+        {
+          "displayName": "Regions of Interest",
+          "name": "regionsOfInterestUi",
+          "type": "fixedCollection",
+          "default": {},
+          "placeholder": "Add Region of Interest",
+          "displayOptions": {
+            "show": {
+              "/type": [
+                "detectText"
+              ]
+            }
+          },
+          "typeOptions": {
+            "multipleValues": true
+          },
+          "options": [
+            {
+              "name": "regionsOfInterestValues",
+              "displayName": "Region of Interest",
+              "values": [
+                {
+                  "displayName": "Height",
+                  "name": "height",
+                  "type": "number",
+                  "description": "Height of the bounding box as a ratio of the overall image height",
+                  "default": 0
+                },
+                {
+                  "displayName": "Left",
+                  "name": "left",
+                  "type": "number",
+                  "description": "Left coordinate of the bounding box as a ratio of overall image width",
+                  "default": 0
+                },
+                {
+                  "displayName": "Top",
+                  "name": "top",
+                  "type": "number",
+                  "description": "Top coordinate of the bounding box as a ratio of overall image height",
+                  "default": 0
+                },
+                {
+                  "displayName": "Width",
+                  "name": "Width",
+                  "type": "number",
+                  "description": "Width of the bounding box as a ratio of the overall image width",
+                  "default": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "displayName": "Version",
+          "name": "version",
+          "displayOptions": {
+            "show": {
+              "/binaryData": [
+                false
+              ]
+            }
+          },
+          "type": "string",
+          "default": "",
+          "description": "If the bucket is versioning enabled, you can specify the object version"
+        },
+        {
+          "displayName": "Word Filter",
+          "name": "wordFilterUi",
+          "type": "collection",
+          "default": {},
+          "placeholder": "Add Word Filter",
+          "displayOptions": {
+            "show": {
+              "/type": [
+                "detectText"
+              ]
+            }
+          },
+          "typeOptions": {
+            "multipleValues": false
+          },
+          "options": [
+            {
+              "displayName": "Min Bounding Box Height",
+              "name": "MinBoundingBoxHeight",
+              "type": "number",
+              "description": "Sets the minimum height of the word bounding box. Words with bounding box heights lesser than this value will be excluded from the result. Value is relative to the video frame height.",
+              "default": 0
+            },
+            {
+              "displayName": "Min Bounding Box Width",
+              "name": "MinBoundingBoxWidth",
+              "type": "number",
+              "description": "Sets the minimum width of the word bounding box. Words with bounding boxes widths lesser than this value will be excluded from the result. Value is relative to the video frame width.",
+              "default": 0
+            },
+            {
+              "displayName": "Min Confidence",
+              "name": "MinConfidence",
+              "type": "number",
+              "description": "Sets the confidence of word detection. Words with detection confidence below this will be excluded from the result. Values should be between 50 and 100 as Text in Video will not return any result below 50.",
+              "default": 0
+            }
+          ]
+        },
+        {
+          "displayName": "Max Labels",
+          "name": "maxLabels",
+          "type": "number",
+          "displayOptions": {
+            "show": {
+              "/type": [
+                "detectModerationLabels",
+                "detectLabels"
+              ]
+            }
+          },
+          "default": 0,
+          "typeOptions": {
+            "minValue": 0
+          },
+          "description": "Maximum number of labels you want the service to return in the response. The service returns the specified number of highest confidence labels."
+        },
+        {
+          "displayName": "Min Confidence",
+          "name": "minConfidence",
+          "type": "number",
+          "displayOptions": {
+            "show": {
+              "/type": [
+                "detectModerationLabels",
+                "detectLabels"
+              ]
+            }
+          },
+          "default": 0,
+          "typeOptions": {
+            "minValue": 0,
+            "maxValue": 100
+          },
+          "description": "Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with a confidence level lower than this specified value."
+        },
+        {
+          "displayName": "Attributes",
+          "name": "attributes",
+          "type": "multiOptions",
+          "displayOptions": {
+            "show": {
+              "/type": [
+                "detectFaces"
+              ]
+            }
+          },
+          "options": [
+            {
+              "name": "All",
+              "value": "all"
+            },
+            {
+              "name": "Default",
+              "value": "default"
+            }
+          ],
+          "default": [],
+          "description": "An array of facial attributes you want to be returned"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "authentication",
+      "resource",
+      "operation",
+      "type",
+      "binaryData",
+      "binaryPropertyName",
+      "bucket",
+      "name",
+      "additionalFields"
+    ],
+    "conditional_rules": [
+      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'type'",
+      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'binaryData'",
+      "IF operation == 'analyze' AND resource == 'image' AND binaryData == True THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'analyze' AND resource == 'image' AND binaryData == False THEN SHOW parameter 'bucket'",
+      "IF operation == 'analyze' AND resource == 'image' AND binaryData == False THEN SHOW parameter 'name'",
+      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'additionalFields'",
+      "IF /type == 'detectText' THEN SHOW parameter 'regionsOfInterestUi'",
+      "IF /binaryData == False THEN SHOW parameter 'version'",
+      "IF /type == 'detectText' THEN SHOW parameter 'wordFilterUi'",
+      "IF /type IN [\"detectModerationLabels\", \"detectLabels\"] THEN SHOW parameter 'maxLabels'",
+      "IF /type IN [\"detectModerationLabels\", \"detectLabels\"] THEN SHOW parameter 'minConfidence'",
+      "IF /type == 'detectFaces' THEN SHOW parameter 'attributes'"
+    ]
+  }
+}

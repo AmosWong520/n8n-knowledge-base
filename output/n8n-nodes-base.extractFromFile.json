@@ -1,0 +1,227 @@
+{
+  "node_id": "n8n-nodes-base.extractFromFile",
+  "name": "n8n-nodes-base.extractFromFile",
+  "version": [
+    1,
+    1.1
+  ],
+  "semantic_context": "Convert binary data to JSON",
+  "parameters": {
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "Extract From CSV",
+          "value": "csv",
+          "action": "Extract from CSV",
+          "description": "Transform a CSV file into output items"
+        },
+        {
+          "name": "Extract From HTML",
+          "value": "html",
+          "action": "Extract from HTML",
+          "description": "Transform a table in an HTML file into output items"
+        },
+        {
+          "name": "Extract From ICS",
+          "value": "fromIcs",
+          "action": "Extract from ICS",
+          "description": "Transform a ICS file into output items"
+        },
+        {
+          "name": "Extract From JSON",
+          "value": "fromJson",
+          "action": "Extract from JSON",
+          "description": "Transform a JSON file into output items"
+        },
+        {
+          "name": "Extract From ODS",
+          "value": "ods",
+          "action": "Extract from ODS",
+          "description": "Transform an ODS file into output items"
+        },
+        {
+          "name": "Extract From PDF",
+          "value": "pdf",
+          "action": "Extract from PDF",
+          "description": "Extracts the content and metadata from a PDF file"
+        },
+        {
+          "name": "Extract From RTF",
+          "value": "rtf",
+          "action": "Extract from RTF",
+          "description": "Transform a table in an RTF file into output items"
+        },
+        {
+          "name": "Extract From Text File",
+          "value": "text",
+          "action": "Extract from text file",
+          "description": "Extracts the content of a text file"
+        },
+        {
+          "name": "Extract From XML",
+          "value": "xml",
+          "action": "Extract from XML",
+          "description": "Extracts the content of an XML file"
+        },
+        {
+          "name": "Extract From XLS",
+          "value": "xls",
+          "action": "Extract from XLS",
+          "description": "Transform an Excel file into output items"
+        },
+        {
+          "name": "Extract From XLSX",
+          "value": "xlsx",
+          "action": "Extract from XLSX",
+          "description": "Transform an Excel file into output items"
+        },
+        {
+          "name": "Move File to Base64 String",
+          "value": "binaryToPropery",
+          "action": "Move file to base64 string",
+          "description": "Convert a file into a base64-encoded string"
+        }
+      ],
+      "default": "csv",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "binaryPropertyName": {
+      "displayName": "Input Binary Field",
+      "name": "binaryPropertyName",
+      "type": "string",
+      "default": "data",
+      "required": true,
+      "placeholder": "e.g data",
+      "hint": "The name of the input binary field containing the file to be extracted",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "pdf"
+          ]
+        }
+      }
+    },
+    "options": {
+      "displayName": "Options",
+      "name": "options",
+      "type": "collection",
+      "placeholder": "Add option",
+      "default": {},
+      "options": [
+        {
+          "displayName": "Join Pages",
+          "name": "joinPages",
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to join the text from all pages or return an array of text from each page"
+        },
+        {
+          "displayName": "Keep Source",
+          "name": "keepSource",
+          "type": "options",
+          "default": "json",
+          "options": [
+            {
+              "name": "JSON",
+              "value": "json",
+              "description": "Include JSON data of the input item"
+            },
+            {
+              "name": "Binary",
+              "value": "binary",
+              "description": "Include binary data of the input item"
+            },
+            {
+              "name": "Both",
+              "value": "both",
+              "description": "Include both JSON and binary data of the input item"
+            }
+          ]
+        },
+        {
+          "displayName": "Max Pages",
+          "name": "maxPages",
+          "type": "number",
+          "default": 0,
+          "description": "Maximum number of pages to include"
+        },
+        {
+          "displayName": "Password",
+          "name": "password",
+          "type": "string",
+          "typeOptions": {
+            "password": true
+          },
+          "default": "",
+          "description": "Prowide password, if the PDF is encrypted"
+        }
+      ],
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "pdf"
+          ]
+        }
+      },
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    },
+    "destinationKey": {
+      "displayName": "Destination Output Field",
+      "name": "destinationKey",
+      "type": "string",
+      "default": "data",
+      "required": true,
+      "placeholder": "e.g data",
+      "description": "The name of the output field that will contain the extracted data",
+      "displayOptions": {
+        "show": {
+          "operation": [
+            "binaryToPropery",
+            "fromJson",
+            "text",
+            "fromIcs",
+            "xml"
+          ]
+        }
+      },
+      "ai_hint": "The name of the output field that will contain the extracted data"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "operation",
+      "binaryPropertyName",
+      "options",
+      "binaryPropertyName",
+      "destinationKey",
+      "options",
+      "binaryPropertyName",
+      "options"
+    ],
+    "conditional_rules": [
+      "IF operation IN [\"csv\", \"html\", \"rtf\", \"ods\", \"xls\", \"xlsx\"] THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation IN [\"csv\", \"html\", \"rtf\", \"ods\", \"xls\", \"xlsx\"] THEN SHOW parameter 'options'",
+      "IF /operation == 'csv' THEN SHOW parameter 'delimiter'",
+      "IF /operation == 'csv' THEN SHOW parameter 'encoding'",
+      "IF /operation == 'csv' THEN SHOW parameter 'enableBOM'",
+      "IF /operation == 'csv' THEN SHOW parameter 'relaxQuotes'",
+      "IF /operation IN [\"ods\", \"xls\", \"xlsx\", \"csv\", \"html\"] THEN SHOW parameter 'headerRow'",
+      "IF /operation IN [\"ods\", \"xls\", \"xlsx\", \"csv\", \"html\"] THEN SHOW parameter 'includeEmptyCells'",
+      "IF /operation == 'csv' THEN SHOW parameter 'maxRowCount'",
+      "IF /operation IN [\"ods\", \"xls\", \"xlsx\"] THEN SHOW parameter 'range'",
+      "IF /operation IN [\"ods\", \"xls\", \"xlsx\"] THEN SHOW parameter 'sheetName'",
+      "IF /operation == 'csv' THEN SHOW parameter 'fromLine'",
+      "IF /operation == 'csv' THEN SHOW parameter 'skipRecordsWithErrors'",
+      "IF operation IN [\"binaryToPropery\", \"fromJson\", \"text\", \"fromIcs\", \"xml\"] THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation IN [\"binaryToPropery\", \"fromJson\", \"text\", \"fromIcs\", \"xml\"] THEN SHOW parameter 'destinationKey'",
+      "IF operation IN [\"binaryToPropery\", \"fromJson\", \"text\", \"fromIcs\", \"xml\"] THEN SHOW parameter 'options'",
+      "IF encoding IN [\"utf8\", \"cesu8\", \"ucs2\"] THEN SHOW parameter 'stripBOM'",
+      "IF operation == 'pdf' THEN SHOW parameter 'binaryPropertyName'",
+      "IF operation == 'pdf' THEN SHOW parameter 'options'"
+    ]
+  }
+}

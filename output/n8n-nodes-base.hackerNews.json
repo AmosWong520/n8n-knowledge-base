@@ -1,0 +1,224 @@
+{
+  "node_id": "n8n-nodes-base.hackerNews",
+  "name": "n8n-nodes-base.hackerNews",
+  "version": 1,
+  "semantic_context": "Consume Hacker News API",
+  "parameters": {
+    "resource": {
+      "displayName": "Resource",
+      "name": "resource",
+      "type": "options",
+      "noDataExpression": true,
+      "options": [
+        {
+          "name": "All",
+          "value": "all"
+        },
+        {
+          "name": "Article",
+          "value": "article"
+        },
+        {
+          "name": "User",
+          "value": "user"
+        }
+      ],
+      "default": "article",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "operation": {
+      "displayName": "Operation",
+      "name": "operation",
+      "type": "options",
+      "noDataExpression": true,
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ]
+        }
+      },
+      "options": [
+        {
+          "name": "Get",
+          "value": "get",
+          "description": "Get a Hacker News user",
+          "action": "Get a user"
+        }
+      ],
+      "default": "get",
+      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+    },
+    "articleId": {
+      "displayName": "Article ID",
+      "name": "articleId",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "The ID of the Hacker News article to be returned",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "article"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "ai_hint": "The ID of the Hacker News article to be returned"
+    },
+    "username": {
+      "displayName": "Username",
+      "name": "username",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "description": "The Hacker News user to be returned",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "user"
+          ],
+          "operation": [
+            "get"
+          ]
+        }
+      },
+      "ai_hint": "The Hacker News user to be returned"
+    },
+    "returnAll": {
+      "displayName": "Return All",
+      "name": "returnAll",
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "all"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "ai_hint": "布尔值：true 或 false。"
+    },
+    "limit": {
+      "displayName": "Limit",
+      "name": "limit",
+      "type": "number",
+      "typeOptions": {
+        "minValue": 1
+      },
+      "default": 100,
+      "description": "Max number of results to return",
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "all"
+          ],
+          "operation": [
+            "getAll"
+          ],
+          "returnAll": [
+            false
+          ]
+        }
+      },
+      "ai_hint": "Max number of results to return"
+    },
+    "additionalFields": {
+      "displayName": "Additional Fields",
+      "name": "additionalFields",
+      "type": "collection",
+      "placeholder": "Add Field",
+      "default": {},
+      "displayOptions": {
+        "show": {
+          "resource": [
+            "all"
+          ],
+          "operation": [
+            "getAll"
+          ]
+        }
+      },
+      "options": [
+        {
+          "displayName": "Keyword",
+          "name": "keyword",
+          "type": "string",
+          "default": "",
+          "description": "The keyword for filtering the results of the query"
+        },
+        {
+          "displayName": "Tags",
+          "name": "tags",
+          "type": "multiOptions",
+          "options": [
+            {
+              "name": "Ask HN",
+              "value": "ask_hn",
+              "description": "Returns query results filtered by Ask HN tag"
+            },
+            {
+              "name": "Comment",
+              "value": "comment",
+              "description": "Returns query results filtered by comment tag"
+            },
+            {
+              "name": "Front Page",
+              "value": "front_page",
+              "description": "Returns query results filtered by Front Page tag"
+            },
+            {
+              "name": "Poll",
+              "value": "poll",
+              "description": "Returns query results filtered by poll tag"
+            },
+            {
+              "name": "Show HN",
+              "value": "show_hn",
+              "description": "Returns query results filtered by Show HN tag"
+            },
+            {
+              "name": "Story",
+              "value": "story",
+              "description": "Returns query results filtered by story tag"
+            }
+          ],
+          "default": [],
+          "description": "Tags for filtering the results of the query"
+        }
+      ],
+      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+    }
+  },
+  "configuration_logic": {
+    "required_sequence": [
+      "resource",
+      "operation",
+      "operation",
+      "operation",
+      "articleId",
+      "username",
+      "returnAll",
+      "limit",
+      "additionalFields",
+      "additionalFields"
+    ],
+    "conditional_rules": [
+      "IF resource == 'all' THEN SHOW parameter 'operation'",
+      "IF resource == 'article' THEN SHOW parameter 'operation'",
+      "IF resource == 'user' THEN SHOW parameter 'operation'",
+      "IF resource == 'article' AND operation == 'get' THEN SHOW parameter 'articleId'",
+      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'username'",
+      "IF resource == 'all' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
+      "IF resource == 'all' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
+      "IF resource == 'article' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
+      "IF resource == 'all' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'"
+    ]
+  }
+}
