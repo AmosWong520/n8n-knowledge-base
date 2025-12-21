@@ -1,20 +1,18 @@
 {
   "node_id": "n8n-nodes-base.netlifyTrigger",
-  "name": "n8n-nodes-base.netlifyTrigger",
+  "name": "Netlify Trigger",
   "version": 1,
   "semantic_context": "Handle netlify events via webhooks",
+  "natural_language_description": "这是 Netlify Trigger 节点。主要用于: Handle netlify events via webhooks",
   "parameters": {
     "siteId": {
       "displayName": "Site Name or ID",
       "name": "siteId",
-      "required": true,
       "type": "options",
+      "required": true,
       "default": "",
-      "typeOptions": {
-        "loadOptionsMethod": "getSites"
-      },
-      "description": "Select the Site ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "Select the Site ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "Select the Site ID. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Site Name or ID | 作用: Select the Site ID. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "event": {
       "displayName": "Event",
@@ -22,71 +20,32 @@
       "type": "options",
       "required": true,
       "default": "",
-      "options": [
-        {
-          "name": "Deploy Building",
-          "value": "deployBuilding"
-        },
-        {
-          "name": "Deploy Failed",
-          "value": "deployFailed"
-        },
-        {
-          "name": "Deploy Created",
-          "value": "deployCreated"
-        },
-        {
-          "name": "Form Submitted",
-          "value": "submissionCreated"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Event | (必填项)",
+      "available_options": [
+        "Deploy Building (值: deployBuilding)",
+        "Deploy Failed (值: deployFailed)",
+        "Deploy Created (值: deployCreated)",
+        "Form Submitted (值: submissionCreated)"
+      ]
     },
     "formId": {
       "displayName": "Form Name or ID",
       "name": "formId",
       "type": "options",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "event": [
-            "submissionCreated"
-          ]
-        }
-      },
       "default": "",
-      "typeOptions": {
-        "loadOptionsMethod": "getForms"
-      },
-      "description": "Select a form. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "Select a form. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "Select a form. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Form Name or ID | 作用: Select a form. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "simple": {
       "displayName": "Simplify",
       "name": "simple",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "event": [
-            "submissionCreated"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether to return a simplified version of the response instead of the raw data",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Simplify | 作用: Whether to return a simplified version of the response instead of the raw data | 默认值: True"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "siteId",
-      "event",
-      "formId",
-      "simple"
-    ],
-    "conditional_rules": [
-      "IF event == 'submissionCreated' THEN SHOW parameter 'formId'",
-      "IF event == 'submissionCreated' THEN SHOW parameter 'simple'"
-    ]
   }
 }

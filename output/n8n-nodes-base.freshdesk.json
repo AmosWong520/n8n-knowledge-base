@@ -1,1069 +1,256 @@
 {
   "node_id": "n8n-nodes-base.freshdesk",
-  "name": "n8n-nodes-base.freshdesk",
+  "name": "Freshdesk",
   "version": 1,
   "semantic_context": "Consume Freshdesk API",
+  "natural_language_description": "这是 Freshdesk 节点。主要用于: Consume Freshdesk API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
       "required": true,
-      "options": [
-        {
-          "name": "Contact",
-          "value": "contact"
-        },
-        {
-          "name": "Ticket",
-          "value": "ticket"
-        }
-      ],
       "default": "ticket",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: ticket | (必填项)",
+      "available_options": [
+        "Contact (值: contact)",
+        "Ticket (值: ticket)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a new contact",
-          "action": "Create a contact"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a contact",
-          "action": "Delete a contact"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a contact",
-          "action": "Get a contact"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many contacts",
-          "action": "Get many contacts"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a contact",
-          "action": "Update a contact"
-        }
-      ],
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create | (必填项)",
+      "available_options": [
+        "Create (值: create) - Create a new contact",
+        "Delete (值: delete) - Delete a contact",
+        "Get (值: get) - Get a contact",
+        "Get Many (值: getAll) - Get many contacts",
+        "Update (值: update) - Update a contact"
+      ]
     },
     "requester": {
       "displayName": "Requester Identification",
       "name": "requester",
       "type": "options",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Email",
-          "value": "email",
-          "description": "Email address of the requester. If no contact exists with this email address in Freshdesk, it will be added as a new contact."
-        },
-        {
-          "name": "Facebook ID",
-          "value": "facebookId",
-          "description": "Facebook ID of the requester. If no contact exists with this facebook_id, then a new contact will be created."
-        },
-        {
-          "name": "Phone",
-          "value": "phone",
-          "description": "Phone number of the requester. If no contact exists with this phone number in Freshdesk, it will be added as a new contact. If the phone number is set and the email address is not, then the name attribute is mandatory."
-        },
-        {
-          "name": "Requester ID",
-          "value": "requesterId",
-          "description": "User ID of the requester. For existing contacts, the requester_id can be passed instead of the requester's email."
-        },
-        {
-          "name": "Twitter ID",
-          "value": "twitterId",
-          "description": "Twitter handle of the requester. If no contact exists with this handle in Freshdesk, it will be added as a new contact."
-        },
-        {
-          "name": "Unique External ID",
-          "value": "uniqueExternalId",
-          "description": "External ID of the requester. If no contact exists with this external ID in Freshdesk, they will be added as a new contact."
-        }
-      ],
       "default": "requesterId",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Requester Identification | 默认值: requesterId | (必填项)",
+      "available_options": [
+        "Email (值: email) - Email address of the requester. If no contact exists with this email address in Freshdesk, it will be added as a new contact.",
+        "Facebook ID (值: facebookId) - Facebook ID of the requester. If no contact exists with this facebook_id, then a new contact will be created.",
+        "Phone (值: phone) - Phone number of the requester. If no contact exists with this phone number in Freshdesk, it will be added as a new contact. If the phone number is set and the email address is not, then the name attribute is mandatory.",
+        "Requester ID (值: requesterId) - User ID of the requester. For existing contacts, the requester_id can be passed instead of the requester's email.",
+        "Twitter ID (值: twitterId) - Twitter handle of the requester. If no contact exists with this handle in Freshdesk, it will be added as a new contact.",
+        "Unique External ID (值: uniqueExternalId) - External ID of the requester. If no contact exists with this external ID in Freshdesk, they will be added as a new contact."
+      ]
     },
     "requesterIdentificationValue": {
       "displayName": "Value",
       "name": "requesterIdentificationValue",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "",
       "description": "Value of the identification selected",
-      "ai_hint": "Value of the identification selected"
+      "natural_language_description": "参数名: Value | 作用: Value of the identification selected | (必填项)"
     },
     "status": {
       "displayName": "Status",
       "name": "status",
       "type": "options",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Closed",
-          "value": "closed"
-        },
-        {
-          "name": "Open",
-          "value": "open"
-        },
-        {
-          "name": "Pending",
-          "value": "pending"
-        },
-        {
-          "name": "Resolved",
-          "value": "resolved"
-        }
-      ],
       "default": "pending",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Status | 默认值: pending | (必填项)",
+      "available_options": [
+        "Closed (值: closed)",
+        "Open (值: open)",
+        "Pending (值: pending)",
+        "Resolved (值: resolved)"
+      ]
     },
     "priority": {
       "displayName": "Priority",
       "name": "priority",
       "type": "options",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Low",
-          "value": "low"
-        },
-        {
-          "name": "Medium",
-          "value": "medium"
-        },
-        {
-          "name": "High",
-          "value": "high"
-        },
-        {
-          "name": "Urgent",
-          "value": "urgent"
-        }
-      ],
       "default": "low",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Priority | 默认值: low | (必填项)",
+      "available_options": [
+        "Low (值: low)",
+        "Medium (值: medium)",
+        "High (值: high)",
+        "Urgent (值: urgent)"
+      ]
     },
     "source": {
       "displayName": "Source",
       "name": "source",
       "type": "options",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Chat",
-          "value": "chat"
-        },
-        {
-          "name": "Email",
-          "value": "email"
-        },
-        {
-          "name": "Feedback Widget",
-          "value": "feedbackWidget"
-        },
-        {
-          "name": "Mobihelp",
-          "value": "mobileHelp"
-        },
-        {
-          "name": "Outbound Email",
-          "value": "OutboundEmail"
-        },
-        {
-          "name": "Phone",
-          "value": "phone"
-        },
-        {
-          "name": "Portal",
-          "value": "portal"
-        }
-      ],
       "default": "portal",
       "description": "The channel through which the ticket was created",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Source | 作用: The channel through which the ticket was created | 默认值: portal | (必填项)",
+      "available_options": [
+        "Chat (值: chat)",
+        "Email (值: email)",
+        "Feedback Widget (值: feedbackWidget)",
+        "Mobihelp (值: mobileHelp)",
+        "Outbound Email (值: OutboundEmail)",
+        "Phone (值: phone)",
+        "Portal (值: portal)"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Company ID",
-          "name": "companyId",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Include",
-          "name": "include",
-          "type": "multiOptions",
-          "options": [
-            {
-              "name": "Company",
-              "value": "company"
-            },
-            {
-              "name": "Description",
-              "value": "description"
-            },
-            {
-              "name": "Requester",
-              "value": "requester"
-            },
-            {
-              "name": "Stats",
-              "value": "stats"
-            }
-          ],
-          "default": []
-        },
-        {
-          "displayName": "Order",
-          "name": "order",
-          "type": "options",
-          "options": [
-            {
-              "name": "ASC",
-              "value": "asc"
-            },
-            {
-              "name": "DESC",
-              "value": "desc"
-            }
-          ],
-          "default": "desc",
-          "description": "Order sort attribute ascending or descending"
-        },
-        {
-          "displayName": "Order By",
-          "name": "orderBy",
-          "type": "options",
-          "options": [
-            {
-              "name": "Created At",
-              "value": "createdAt"
-            },
-            {
-              "name": "Due By",
-              "value": "dueBy"
-            },
-            {
-              "name": "Updated At",
-              "value": "updatedAt"
-            }
-          ],
-          "default": "",
-          "description": "Sort collection by object attribute"
-        },
-        {
-          "displayName": "Requester Email",
-          "name": "requesterEmail",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Requester ID",
-          "name": "requesterId",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Updated Since",
-          "name": "updatedSince",
-          "type": "dateTime",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "companyId (值: None)",
+        "include (值: None)",
+        "order (值: None) - Order sort attribute ascending or descending",
+        "orderBy (值: None) - Sort collection by object attribute",
+        "requesterEmail (值: None)",
+        "requesterId (值: None)",
+        "updatedSince (值: None)"
+      ]
     },
     "ticketId": {
       "displayName": "Ticket ID",
       "name": "ticketId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "delete"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Ticket ID | (必填项)"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Agent Name or ID",
-          "name": "agent",
-          "type": "options",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getAgents"
-          },
-          "description": "ID of the agent to whom the ticket has been assigned. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "CC Emails",
-          "name": "ccEmails",
-          "type": "string",
-          "default": "",
-          "description": "Separated by a comma (,) email addresses added in the 'cc' field of the incoming ticket email"
-        },
-        {
-          "displayName": "Company Name or ID",
-          "name": "company",
-          "type": "options",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getCompanies"
-          },
-          "description": "Company ID of the requester. This attribute can only be set if the Multiple Companies feature is enabled (Estate plan and above). Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Due By",
-          "name": "dueBy",
-          "type": "dateTime",
-          "default": "",
-          "description": "Timestamp that denotes when the ticket is due to be resolved"
-        },
-        {
-          "displayName": "Email Config ID",
-          "name": "emailConfigId",
-          "type": "number",
-          "default": "",
-          "description": "ID of email config which is used for this ticket. (i.e., support@yourcompany.com/sales@yourcompany.com) If product_id is given and email_config_id is not given, product's primary email_config_id will be set."
-        },
-        {
-          "displayName": "FR Due By",
-          "name": "frDueBy",
-          "type": "dateTime",
-          "default": "",
-          "description": "Timestamp that denotes when the first response is due"
-        },
-        {
-          "displayName": "Group Name or ID",
-          "name": "group",
-          "type": "options",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getGroups"
-          },
-          "description": "ID of the group to which the ticket has been assigned. The default value is the ID of the group that is associated with the given email_config_id. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": "",
-          "placeholder": "",
-          "description": "Name of the requester"
-        },
-        {
-          "displayName": "Product Name or ID",
-          "name": "product",
-          "type": "options",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getProducts"
-          },
-          "description": "ID of the product to which the ticket is associated. It will be ignored if the email_config_id attribute is set in the request. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Priority",
-          "name": "priority",
-          "type": "options",
-          "options": [
-            {
-              "name": "Low",
-              "value": "low"
-            },
-            {
-              "name": "Medium",
-              "value": "medium"
-            },
-            {
-              "name": "High",
-              "value": "high"
-            },
-            {
-              "name": "Urgent",
-              "value": "urgent"
-            }
-          ],
-          "default": "low"
-        },
-        {
-          "displayName": "Requester Identification",
-          "name": "requester",
-          "type": "options",
-          "options": [
-            {
-              "name": "Email",
-              "value": "email",
-              "description": "Email address of the requester. If no contact exists with this email address in Freshdesk, it will be added as a new contact."
-            },
-            {
-              "name": "Facebook ID",
-              "value": "facebookId",
-              "description": "Facebook ID of the requester. If no contact exists with this facebook_id, then a new contact will be created."
-            },
-            {
-              "name": "Phone",
-              "value": "phone",
-              "description": "Phone number of the requester. If no contact exists with this phone number in Freshdesk, it will be added as a new contact. If the phone number is set and the email address is not, then the name attribute is mandatory."
-            },
-            {
-              "name": "Requester ID",
-              "value": "requesterId",
-              "description": "User ID of the requester. For existing contacts, the requester_id can be passed instead of the requester's email."
-            },
-            {
-              "name": "Twitter ID",
-              "value": "twitterId",
-              "description": "Twitter handle of the requester. If no contact exists with this handle in Freshdesk, it will be added as a new contact."
-            },
-            {
-              "name": "Unique External ID",
-              "value": "uniqueExternalId",
-              "description": "External ID of the requester. If no contact exists with this external ID in Freshdesk, they will be added as a new contact."
-            }
-          ],
-          "default": "requesterId"
-        },
-        {
-          "displayName": "Requester Value",
-          "name": "requesterIdentificationValue",
-          "type": "string",
-          "default": "",
-          "description": "Value of the identification selected"
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Open",
-              "value": "open"
-            },
-            {
-              "name": "Pending",
-              "value": "pending"
-            },
-            {
-              "name": "Resolved",
-              "value": "resolved"
-            },
-            {
-              "name": "Closed",
-              "value": "closed"
-            }
-          ],
-          "default": "pending"
-        },
-        {
-          "displayName": "Source",
-          "name": "source",
-          "type": "options",
-          "options": [
-            {
-              "name": "Chat",
-              "value": "chat"
-            },
-            {
-              "name": "Email",
-              "value": "email"
-            },
-            {
-              "name": "Feedback Widget",
-              "value": "feedbackWidget"
-            },
-            {
-              "name": "Mobihelp",
-              "value": "mobileHelp"
-            },
-            {
-              "name": "Outbound Email",
-              "value": "OutboundEmail"
-            },
-            {
-              "name": "Phone",
-              "value": "phone"
-            },
-            {
-              "name": "Portal",
-              "value": "portal"
-            }
-          ],
-          "default": "portal",
-          "description": "The channel through which the ticket was created"
-        },
-        {
-          "displayName": "Tags",
-          "name": "tags",
-          "type": "string",
-          "default": "",
-          "description": "Separated by a comma (,) tags that have been associated with the ticket"
-        },
-        {
-          "displayName": "Type",
-          "name": "type",
-          "type": "options",
-          "default": "Question",
-          "description": "Helps categorize the ticket according to the different kinds of issues your support team deals with",
-          "options": [
-            {
-              "name": "Feature Request",
-              "value": "Feature Request"
-            },
-            {
-              "name": "Incident",
-              "value": "Incident"
-            },
-            {
-              "name": "Problem",
-              "value": "Problem"
-            },
-            {
-              "name": "Question",
-              "value": "Question"
-            },
-            {
-              "name": "Refund",
-              "value": "Refund"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "agent (值: None) - ID of the agent to whom the ticket has been assigned. Choose from the list, or specify an ID using an expression.",
+        "ccEmails (值: None) - Separated by a comma (,) email addresses added in the 'cc' field of the incoming ticket email",
+        "company (值: None) - Company ID of the requester. This attribute can only be set if the Multiple Companies feature is enabled (Estate plan and above). Choose from the list, or specify an ID using an expression.",
+        "dueBy (值: None) - Timestamp that denotes when the ticket is due to be resolved",
+        "emailConfigId (值: None) - ID of email config which is used for this ticket. (i.e., support@yourcompany.com/sales@yourcompany.com) If product_id is given and email_config_id is not given, product's primary email_config_id will be set.",
+        "frDueBy (值: None) - Timestamp that denotes when the first response is due",
+        "group (值: None) - ID of the group to which the ticket has been assigned. The default value is the ID of the group that is associated with the given email_config_id. Choose from the list, or specify an ID using an expression.",
+        "name (值: None) - Name of the requester",
+        "product (值: None) - ID of the product to which the ticket is associated. It will be ignored if the email_config_id attribute is set in the request. Choose from the list, or specify an ID using an expression.",
+        "priority (值: None)",
+        "requester (值: None)",
+        "requesterIdentificationValue (值: None) - Value of the identification selected",
+        "status (值: None)",
+        "source (值: None) - The channel through which the ticket was created",
+        "tags (值: None) - Separated by a comma (,) tags that have been associated with the ticket",
+        "type (值: None) - Helps categorize the ticket according to the different kinds of issues your support team deals with"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 10
-      },
+      "required": false,
       "default": 5,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 5"
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
-      "placeholder": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "contact"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
       "description": "Name of the contact",
-      "required": true,
-      "ai_hint": "Name of the contact"
+      "natural_language_description": "参数名: Name | 作用: Name of the contact | (必填项)"
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "contact"
-          ]
-        }
-      },
       "description": "Primary email address of the contact. If you want to associate additional email(s) with this contact, use the other_emails attribute.",
-      "ai_hint": "Primary email address of the contact. If you want to associate additional email(s) with this contact, use the other_emails attribute."
+      "natural_language_description": "参数名: Email | 作用: Primary email address of the contact. If you want to associate additional email(s) with this contact, use the other_emails attribute."
     },
     "contactId": {
       "displayName": "Contact ID",
       "name": "contactId",
       "type": "string",
+      "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Contact ID | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create",
-            "update"
-          ],
-          "resource": [
-            "contact"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Address",
-          "name": "address",
-          "type": "string",
-          "default": "",
-          "description": "Address of the contact"
-        },
-        {
-          "displayName": "Company ID",
-          "name": "company_id",
-          "type": "number",
-          "default": "",
-          "description": "ID of the primary company to which this contact belongs"
-        },
-        {
-          "displayName": "Custom Fields",
-          "name": "customFields",
-          "type": "fixedCollection",
-          "placeholder": "Add Custom Field",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "description": "Key value pairs containing the name and value of the custom field. Only dates in the format YYYY-MM-DD are accepted as input for custom date fields.",
-          "default": [],
-          "options": [
-            {
-              "displayName": "Custom Field",
-              "name": "customField",
-              "values": [
-                {
-                  "displayName": "Name",
-                  "name": "name",
-                  "type": "string",
-                  "default": "",
-                  "description": "Custom Field's name"
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": "",
-                  "description": "Custom Field's values"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Description",
-          "name": "description",
-          "type": "string",
-          "default": "",
-          "description": "A small description of the contact"
-        },
-        {
-          "displayName": "Email",
-          "name": "email",
-          "type": "string",
-          "placeholder": "name@email.com",
-          "default": "",
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "update"
-              ]
-            }
-          },
-          "description": "Primary email address of the contact. If you want to associate additional email(s) with this contact, use the other_emails attribute."
-        },
-        {
-          "displayName": "Job Title",
-          "name": "job_title",
-          "type": "string",
-          "default": "",
-          "description": "Job title of the contact"
-        },
-        {
-          "displayName": "Language",
-          "name": "language",
-          "type": "string",
-          "default": "",
-          "description": "Language of the contact. Default language is \"en\". This attribute can only be set if the Multiple Language feature is enabled (Garden plan and above)."
-        },
-        {
-          "displayName": "Mobile",
-          "name": "mobile",
-          "type": "string",
-          "default": "",
-          "description": "Mobile number of the contact"
-        },
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": "",
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "update"
-              ]
-            }
-          },
-          "description": "Name of the contact"
-        },
-        {
-          "displayName": "Other Companies",
-          "name": "other_companies",
-          "type": "string",
-          "default": [],
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "placeholder": "Add Company",
-          "description": "Additional companies associated with the contact. This attribute can only be set if the Multiple Companies feature is enabled (Estate plan and above)."
-        },
-        {
-          "displayName": "Other Emails",
-          "name": "other_emails",
-          "type": "string",
-          "default": [],
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "placeholder": "Add Email",
-          "description": "Additional emails associated with the contact"
-        },
-        {
-          "displayName": "Phone",
-          "name": "phone",
-          "type": "string",
-          "default": "",
-          "description": "Telephone number of the contact"
-        },
-        {
-          "displayName": "Tags",
-          "name": "tags",
-          "type": "string",
-          "default": [],
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "description": "Tags associated with this contact"
-        },
-        {
-          "displayName": "Time Zone",
-          "name": "time_zone",
-          "type": "string",
-          "default": "",
-          "description": "Time zone of the contact. Default value is the time zone of the domain. This attribute can only be set if the Multiple Time Zone feature is enabled (Garden plan and above)."
-        },
-        {
-          "displayName": "Twitter ID",
-          "name": "twitter_id",
-          "type": "string",
-          "default": "",
-          "description": "Twitter handle of the contact"
-        },
-        {
-          "displayName": "Unique External ID",
-          "name": "unique_external_id",
-          "type": "string",
-          "default": "",
-          "description": "External ID of the contact"
-        },
-        {
-          "displayName": "View All Tickets",
-          "name": "view_all_tickets",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the contact can see all the tickets that are associated with the company to which they belong"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "address (值: None) - Address of the contact",
+        "company_id (值: None) - ID of the primary company to which this contact belongs",
+        "customFields (值: None) - Key value pairs containing the name and value of the custom field. Only dates in the format YYYY-MM-DD are accepted as input for custom date fields.",
+        "description (值: None) - A small description of the contact",
+        "email (值: None) - Primary email address of the contact. If you want to associate additional email(s) with this contact, use the other_emails attribute.",
+        "job_title (值: None) - Job title of the contact",
+        "language (值: None) - Language of the contact. Default language is \"en\". This attribute can only be set if the Multiple Language feature is enabled (Garden plan and above).",
+        "mobile (值: None) - Mobile number of the contact",
+        "name (值: None) - Name of the contact",
+        "other_companies (值: None) - Additional companies associated with the contact. This attribute can only be set if the Multiple Companies feature is enabled (Estate plan and above).",
+        "other_emails (值: None) - Additional emails associated with the contact",
+        "phone (值: None) - Telephone number of the contact",
+        "tags (值: None) - Tags associated with this contact",
+        "time_zone (值: None) - Time zone of the contact. Default value is the time zone of the domain. This attribute can only be set if the Multiple Time Zone feature is enabled (Garden plan and above).",
+        "twitter_id (值: None) - Twitter handle of the contact",
+        "unique_external_id (值: None) - External ID of the contact",
+        "view_all_tickets (值: None) - Whether the contact can see all the tickets that are associated with the company to which they belong"
+      ]
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "contact"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Company ID",
-          "name": "company_id",
-          "type": "number",
-          "default": ""
-        },
-        {
-          "displayName": "Email",
-          "name": "email",
-          "type": "string",
-          "placeholder": "name@email.com",
-          "default": ""
-        },
-        {
-          "displayName": "Mobile",
-          "name": "mobile",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Phone",
-          "name": "phone",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "State",
-          "name": "state",
-          "type": "options",
-          "default": "",
-          "options": [
-            {
-              "name": "Blocked",
-              "value": "blocked"
-            },
-            {
-              "name": "Deleted",
-              "value": "deleted"
-            },
-            {
-              "name": "Unverified",
-              "value": "unverified"
-            },
-            {
-              "name": "Verified",
-              "value": "verified"
-            }
-          ]
-        },
-        {
-          "displayName": "Updated Since",
-          "name": "updated_since",
-          "type": "dateTime",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "company_id (值: None)",
+        "email (值: None)",
+        "mobile (值: None)",
+        "phone (值: None)",
+        "state (值: None)",
+        "updated_since (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "requester",
-      "requesterIdentificationValue",
-      "status",
-      "priority",
-      "source",
-      "options",
-      "ticketId",
-      "updateFields",
-      "ticketId",
-      "returnAll",
-      "limit",
-      "options",
-      "ticketId",
-      "operation",
-      "name",
-      "email",
-      "contactId",
-      "additionalFields",
-      "contactId",
-      "contactId",
-      "filters"
-    ],
-    "conditional_rules": [
-      "IF resource == 'ticket' THEN SHOW parameter 'operation'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'requester'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'requesterIdentificationValue'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'status'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'priority'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'source'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'options'",
-      "IF resource == 'ticket' AND operation == 'update' THEN SHOW parameter 'ticketId'",
-      "IF resource == 'ticket' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'ticket' AND operation == 'get' THEN SHOW parameter 'ticketId'",
-      "IF resource == 'ticket' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'ticket' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'ticket' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'ticket' AND operation == 'delete' THEN SHOW parameter 'ticketId'",
-      "IF resource == 'contact' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'contact' THEN SHOW parameter 'name'",
-      "IF operation == 'create' AND resource == 'contact' THEN SHOW parameter 'email'",
-      "IF resource == 'contact' AND operation == 'update' THEN SHOW parameter 'contactId'",
-      "IF operation IN [\"create\", \"update\"] AND resource == 'contact' THEN SHOW parameter 'additionalFields'",
-      "IF /operation == 'update' THEN SHOW parameter 'email'",
-      "IF /operation == 'update' THEN SHOW parameter 'name'",
-      "IF resource == 'contact' AND operation == 'delete' THEN SHOW parameter 'contactId'",
-      "IF resource == 'contact' AND operation == 'get' THEN SHOW parameter 'contactId'",
-      "IF operation == 'getAll' AND resource == 'contact' THEN SHOW parameter 'filters'"
-    ]
   }
 }

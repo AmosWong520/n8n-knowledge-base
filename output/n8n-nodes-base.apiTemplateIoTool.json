@@ -1,100 +1,59 @@
 {
   "node_id": "n8n-nodes-base.apiTemplateIoTool",
-  "name": "n8n-nodes-base.apiTemplateIoTool",
+  "name": "APITemplate.io Tool",
   "version": 1,
   "semantic_context": "Consume the APITemplate.io API",
+  "natural_language_description": "这是 APITemplate.io Tool 节点。主要用于: Consume the APITemplate.io API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume the APITemplate.io API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume the APITemplate.io API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume the APITemplate.io API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Account",
-          "value": "account"
-        },
-        {
-          "name": "Image",
-          "value": "image"
-        },
-        {
-          "name": "PDF",
-          "value": "pdf"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "image",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: image",
+      "available_options": [
+        "Account (值: account)",
+        "Image (值: image)",
+        "PDF (值: pdf)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "default": "get",
       "required": true,
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "action": "Get an account"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "account"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "get",
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get | (必填项)",
+      "available_options": [
+        "Get (值: get)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "imageTemplateId": {
       "displayName": "Template Name or ID",
@@ -102,21 +61,8 @@
       "type": "options",
       "required": true,
       "default": "",
-      "description": "ID of the image template to use. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "typeOptions": {
-        "loadOptionsMethod": "getImageTemplates"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "image"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "ID of the image template to use. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "ID of the image template to use. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Template Name or ID | 作用: ID of the image template to use. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "pdfTemplateId": {
       "displayName": "Template Name or ID",
@@ -124,58 +70,26 @@
       "type": "options",
       "required": true,
       "default": "",
-      "description": "ID of the PDF template to use. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "typeOptions": {
-        "loadOptionsMethod": "getPdfTemplates"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "pdf"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "ID of the PDF template to use. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "ID of the PDF template to use. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Template Name or ID | 作用: ID of the PDF template to use. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "jsonParameters": {
       "displayName": "JSON Parameters",
       "name": "jsonParameters",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "pdf",
-            "image"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: JSON Parameters | 默认值: False"
     },
     "download": {
       "displayName": "Download",
       "name": "download",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "pdf",
-            "image"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "description": "Name of the binary property to which to write the data of the read file",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Download | 作用: Name of the binary property to which to write the data of the read file | 默认值: False"
     },
     "binaryProperty": {
       "displayName": "Put Output File in Field",
@@ -183,238 +97,62 @@
       "type": "string",
       "required": true,
       "default": "data",
-      "hint": "The name of the output binary field to put the file in",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "pdf",
-            "image"
-          ],
-          "operation": [
-            "create"
-          ],
-          "download": [
-            true
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Put Output File in Field | 提示: The name of the output binary field to put the file in | 默认值: data | (必填项)"
     },
     "overridesJson": {
       "displayName": "Overrides (JSON)",
       "name": "overridesJson",
       "type": "json",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "image"
-          ],
-          "operation": [
-            "create"
-          ],
-          "jsonParameters": [
-            true
-          ]
-        }
-      },
-      "placeholder": "[ {\"name\": \"text_1\", \"text\": \"hello world\", \"textBackgroundColor\": \"rgba(246, 243, 243, 0)\" } ]"
+      "description": "",
+      "natural_language_description": "参数名: Overrides (JSON)"
     },
     "propertiesJson": {
       "displayName": "Properties (JSON)",
       "name": "propertiesJson",
       "type": "json",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "pdf"
-          ],
-          "operation": [
-            "create"
-          ],
-          "jsonParameters": [
-            true
-          ]
-        }
-      },
-      "placeholder": "{ \"name\": \"text_1\" }"
+      "description": "",
+      "natural_language_description": "参数名: Properties (JSON)"
     },
     "overridesUi": {
       "displayName": "Overrides",
       "name": "overridesUi",
-      "placeholder": "Add Override",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "image"
-          ],
-          "operation": [
-            "create"
-          ],
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "overrideValues",
-          "displayName": "Override",
-          "values": [
-            {
-              "displayName": "Properties",
-              "name": "propertiesUi",
-              "placeholder": "Add Property",
-              "type": "fixedCollection",
-              "typeOptions": {
-                "multipleValues": true
-              },
-              "default": {},
-              "options": [
-                {
-                  "name": "propertyValues",
-                  "displayName": "Property",
-                  "values": [
-                    {
-                      "displayName": "Key",
-                      "name": "key",
-                      "type": "string",
-                      "default": "",
-                      "description": "Name of the property"
-                    },
-                    {
-                      "displayName": "Value",
-                      "name": "value",
-                      "type": "string",
-                      "default": "",
-                      "description": "Value to the property"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Overrides | 默认值: {}",
+      "available_options": [
+        "overrideValues (值: None)"
+      ]
     },
     "propertiesUi": {
       "displayName": "Properties",
       "name": "propertiesUi",
-      "placeholder": "Add Property",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "pdf"
-          ],
-          "operation": [
-            "create"
-          ],
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "propertyValues",
-          "displayName": "Property",
-          "values": [
-            {
-              "displayName": "Key",
-              "name": "key",
-              "type": "string",
-              "default": "",
-              "description": "Name of the property"
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Value to the property"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Properties | 默认值: {}",
+      "available_options": [
+        "propertyValues (值: None)"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "pdf",
-            "image"
-          ],
-          "download": [
-            true
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "File Name",
-          "name": "fileName",
-          "type": "string",
-          "default": "",
-          "description": "The name of the downloaded image/pdf. It has to include the extension. For example: report.pdf"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "fileName (值: None) - The name of the downloaded image/pdf. It has to include the extension. For example: report.pdf"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "operation",
-      "operation",
-      "imageTemplateId",
-      "pdfTemplateId",
-      "jsonParameters",
-      "download",
-      "binaryProperty",
-      "overridesJson",
-      "propertiesJson",
-      "overridesUi",
-      "propertiesUi",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'image' THEN SHOW parameter 'operation'",
-      "IF resource == 'pdf' THEN SHOW parameter 'operation'",
-      "IF resource == 'account' THEN SHOW parameter 'operation'",
-      "IF resource == 'image' AND operation == 'create' THEN SHOW parameter 'imageTemplateId'",
-      "IF resource == 'pdf' AND operation == 'create' THEN SHOW parameter 'pdfTemplateId'",
-      "IF resource IN [\"pdf\", \"image\"] AND operation == 'create' THEN SHOW parameter 'jsonParameters'",
-      "IF resource IN [\"pdf\", \"image\"] AND operation == 'create' THEN SHOW parameter 'download'",
-      "IF resource IN [\"pdf\", \"image\"] AND operation == 'create' AND download == True THEN SHOW parameter 'binaryProperty'",
-      "IF resource == 'image' AND operation == 'create' AND jsonParameters == True THEN SHOW parameter 'overridesJson'",
-      "IF resource == 'pdf' AND operation == 'create' AND jsonParameters == True THEN SHOW parameter 'propertiesJson'",
-      "IF resource == 'image' AND operation == 'create' AND jsonParameters == False THEN SHOW parameter 'overridesUi'",
-      "IF resource == 'pdf' AND operation == 'create' AND jsonParameters == False THEN SHOW parameter 'propertiesUi'",
-      "IF operation == 'create' AND resource IN [\"pdf\", \"image\"] AND download == True THEN SHOW parameter 'options'"
-    ]
   }
 }

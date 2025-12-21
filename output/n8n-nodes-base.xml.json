@@ -1,154 +1,60 @@
 {
   "node_id": "n8n-nodes-base.xml",
-  "name": "n8n-nodes-base.xml",
+  "name": "XML",
   "version": 1,
   "semantic_context": "Convert data from and to XML",
+  "natural_language_description": "这是 XML 节点。主要用于: Convert data from and to XML",
   "parameters": {
     "mode": {
       "displayName": "Mode",
       "name": "mode",
       "type": "options",
-      "options": [
-        {
-          "name": "JSON to XML",
-          "value": "jsonToxml",
-          "description": "Converts data from JSON to XML"
-        },
-        {
-          "name": "XML to JSON",
-          "value": "xmlToJson",
-          "description": "Converts data from XML to JSON"
-        }
-      ],
+      "required": false,
       "default": "xmlToJson",
       "description": "From and to what format the data should be converted",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Mode | 作用: From and to what format the data should be converted | 默认值: xmlToJson",
+      "available_options": [
+        "JSON to XML (值: jsonToxml) - Converts data from JSON to XML",
+        "XML to JSON (值: xmlToJson) - Converts data from XML to JSON"
+      ]
     },
     "xmlNotice": {
       "displayName": "If your XML is inside a binary file, use the 'Extract from File' node to convert it to text first",
       "name": "xmlNotice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "mode": [
-            "xmlToJson"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: If your XML is inside a binary file, use the 'Extract from File' node to convert it to text first"
     },
     "dataPropertyName": {
       "displayName": "Property Name",
       "name": "dataPropertyName",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "mode": [
-            "xmlToJson"
-          ]
-        }
-      },
-      "default": "data",
       "required": true,
+      "default": "data",
       "description": "Name of the property which contains the XML data to convert",
-      "ai_hint": "Name of the property which contains the XML data to convert"
+      "natural_language_description": "参数名: Property Name | 作用: Name of the property which contains the XML data to convert | 默认值: data | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
-      "displayOptions": {
-        "show": {
-          "mode": [
-            "xmlToJson"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Attribute Key",
-          "name": "attrkey",
-          "type": "string",
-          "default": "$",
-          "description": "Prefix that is used to access the attributes"
-        },
-        {
-          "displayName": "Character Key",
-          "name": "charkey",
-          "type": "string",
-          "default": "_",
-          "description": "Prefix that is used to access the character content"
-        },
-        {
-          "displayName": "Explicit Array",
-          "name": "explicitArray",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to always put child nodes in an array if true; otherwise an array is created only if there is more than one"
-        },
-        {
-          "displayName": "Explicit Root",
-          "name": "explicitRoot",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to set this if you want to get the root node in the resulting object"
-        },
-        {
-          "displayName": "Ignore Attributes",
-          "name": "ignoreAttrs",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to ignore all XML attributes and only create text nodes"
-        },
-        {
-          "displayName": "Merge Attributes",
-          "name": "mergeAttrs",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to merge attributes and child elements as properties of the parent, instead of keying attributes off a child attribute object. This option is ignored if ignoreAttrs is true."
-        },
-        {
-          "displayName": "Normalize",
-          "name": "normalize",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to trim whitespaces inside text nodes"
-        },
-        {
-          "displayName": "Normalize Tags",
-          "name": "normalizeTags",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to normalize all tag names to lowercase"
-        },
-        {
-          "displayName": "Trim",
-          "name": "trim",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to trim the whitespace at the beginning and end of text nodes"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "attrkey (值: None) - Prefix that is used to access the attributes",
+        "charkey (值: None) - Prefix that is used to access the character content",
+        "explicitArray (值: None) - Whether to always put child nodes in an array if true; otherwise an array is created only if there is more than one",
+        "explicitRoot (值: None) - Whether to set this if you want to get the root node in the resulting object",
+        "ignoreAttrs (值: None) - Whether to ignore all XML attributes and only create text nodes",
+        "mergeAttrs (值: None) - Whether to merge attributes and child elements as properties of the parent, instead of keying attributes off a child attribute object. This option is ignored if ignoreAttrs is true.",
+        "normalize (值: None) - Whether to trim whitespaces inside text nodes",
+        "normalizeTags (值: None) - Whether to normalize all tag names to lowercase",
+        "trim (值: None) - Whether to trim the whitespace at the beginning and end of text nodes"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "mode",
-      "xmlNotice",
-      "dataPropertyName",
-      "options",
-      "dataPropertyName",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF mode == 'xmlToJson' THEN SHOW parameter 'xmlNotice'",
-      "IF mode == 'jsonToxml' THEN SHOW parameter 'dataPropertyName'",
-      "IF mode == 'jsonToxml' THEN SHOW parameter 'options'",
-      "IF mode == 'xmlToJson' THEN SHOW parameter 'dataPropertyName'",
-      "IF mode == 'xmlToJson' THEN SHOW parameter 'options'"
-    ]
   }
 }

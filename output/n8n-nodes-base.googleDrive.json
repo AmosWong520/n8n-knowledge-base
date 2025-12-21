@@ -1,981 +1,230 @@
 {
   "node_id": "n8n-nodes-base.googleDrive",
-  "name": "n8n-nodes-base.googleDrive",
-  "version": [
-    1,
-    2
-  ],
+  "name": "Google Drive",
+  "version": 1,
   "semantic_context": "Access data on Google Drive",
+  "natural_language_description": "这是 Google Drive 节点。主要用于: Access data on Google Drive",
   "parameters": {
     "oldVersionNotice": {
       "displayName": "<strong>New node version available:</strong> get the latest version with added features from the nodes panel.",
       "name": "oldVersionNotice",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: <strong>New node version available:</strong> get the latest version with added features from the nodes panel."
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "OAuth2 (recommended)",
-          "value": "oAuth2"
-        },
-        {
-          "name": "Service Account",
-          "value": "serviceAccount"
-        }
-      ],
+      "required": false,
       "default": "oAuth2",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            2
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: oAuth2",
+      "available_options": [
+        "OAuth2 (recommended) (值: oAuth2)",
+        "Service Account (值: serviceAccount)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Drive",
-          "value": "drive"
-        },
-        {
-          "name": "File",
-          "value": "file"
-        },
-        {
-          "name": "Folder",
-          "value": "folder"
-        }
-      ],
+      "required": false,
       "default": "file",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: file",
+      "available_options": [
+        "Drive (值: drive)",
+        "File (值: file)",
+        "Folder (值: folder)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "drive"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a drive",
-          "action": "Create a drive"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a drive",
-          "action": "Delete a drive"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a drive",
-          "action": "Get a drive"
-        },
-        {
-          "name": "List",
-          "value": "list",
-          "description": "List all drives",
-          "action": "List all drives"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a drive",
-          "action": "Update a drive"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a drive",
+        "Delete (值: delete) - Delete a drive",
+        "Get (值: get) - Get a drive",
+        "List (值: list) - List all drives",
+        "Update (值: update) - Update a drive"
+      ]
     },
     "fileId": {
       "displayName": "Folder",
       "name": "fileId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "Folder",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a folder...",
-          "typeOptions": {
-            "searchListMethod": "folderSearch",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "Link",
-          "name": "url",
-          "type": "string",
-          "placeholder": "https://drive.google.com/drive/folders/1Tx9WHbA3wBpPB4C_HcoZDH9WZFWYxAMU",
-          "extractValue": {
-            "type": "regex",
-            "regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
-          },
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)",
-                "errorMessage": "Not a valid Google Drive Folder URL"
-              }
-            }
-          ]
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "placeholder": "1anGBg0b5re2VtF2bKu201_a-Vnz5BHq9Y4r-yBDAj5A",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9\\-_]{2,}",
-                "errorMessage": "Not a valid Google Drive Folder ID"
-              }
-            }
-          ],
-          "url": "=https://drive.google.com/drive/folders/{{$value}}"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "delete",
-            "share"
-          ],
-          "resource": [
-            "folder"
-          ]
-        }
-      },
       "description": "The ID of the folder",
-      "ai_hint": "The ID of the folder"
+      "natural_language_description": "参数名: Folder | 作用: The ID of the folder | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "binaryPropertyName": {
       "displayName": "Input Binary Field",
       "name": "binaryPropertyName",
       "type": "string",
-      "default": "data",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upload"
-          ],
-          "resource": [
-            "file"
-          ],
-          "binaryData": [
-            true
-          ]
-        }
-      },
-      "placeholder": "",
-      "hint": "The name of the input binary field containing the file to be uploaded"
+      "default": "data",
+      "description": "",
+      "natural_language_description": "参数名: Input Binary Field | 提示: The name of the input binary field containing the file to be uploaded | 默认值: data | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upload"
-          ],
-          "resource": [
-            "file"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "APP Properties",
-          "name": "appPropertiesUi",
-          "placeholder": "Add Property",
-          "type": "fixedCollection",
-          "default": {},
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "description": "A collection of arbitrary key-value pairs which are private to the requesting app",
-          "options": [
-            {
-              "name": "appPropertyValues",
-              "displayName": "APP Property",
-              "values": [
-                {
-                  "displayName": "Key",
-                  "name": "key",
-                  "type": "string",
-                  "default": "",
-                  "description": "Name of the key to add"
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": "",
-                  "description": "Value to set for the key"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Properties",
-          "name": "propertiesUi",
-          "placeholder": "Add Property",
-          "type": "fixedCollection",
-          "default": {},
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "description": "A collection of arbitrary key-value pairs which are visible to all apps",
-          "options": [
-            {
-              "name": "propertyValues",
-              "displayName": "Property",
-              "values": [
-                {
-                  "displayName": "Key",
-                  "name": "key",
-                  "type": "string",
-                  "default": "",
-                  "description": "Name of the key to add"
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": "",
-                  "description": "Value to set for the key"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "appPropertiesUi (值: None) - A collection of arbitrary key-value pairs which are private to the requesting app",
+        "propertiesUi (值: None) - A collection of arbitrary key-value pairs which are visible to all apps"
+      ]
     },
     "useQueryString": {
       "displayName": "Use Query String",
       "name": "useQueryString",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ],
-          "resource": [
-            "file"
-          ]
-        }
-      },
       "description": "Whether a query string should be used to filter results",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Use Query String | 作用: Whether a query string should be used to filter results | 默认值: False"
     },
     "queryString": {
       "displayName": "Query String",
       "name": "queryString",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ],
-          "useQueryString": [
-            true
-          ],
-          "resource": [
-            "file"
-          ]
-        }
-      },
-      "placeholder": "name contains 'invoice'",
       "description": "Query to use to return only specific files",
-      "ai_hint": "Query to use to return only specific files"
+      "natural_language_description": "参数名: Query String | 作用: Query to use to return only specific files"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ],
-          "resource": [
-            "drive"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 200
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "queryFilters": {
       "displayName": "Filters",
       "name": "queryFilters",
-      "placeholder": "Add Filter",
-      "description": "Filters to use to return only specific files",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ],
-          "useQueryString": [
-            false
-          ],
-          "resource": [
-            "file"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "name",
-          "displayName": "Name",
-          "values": [
-            {
-              "displayName": "Operation",
-              "name": "operation",
-              "type": "options",
-              "noDataExpression": true,
-              "options": [
-                {
-                  "name": "Contains",
-                  "value": "contains"
-                },
-                {
-                  "name": "Is",
-                  "value": "is"
-                },
-                {
-                  "name": "Is Not",
-                  "value": "isNot"
-                }
-              ],
-              "default": "contains"
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "The value for operation"
-            }
-          ]
-        },
-        {
-          "name": "mimeType",
-          "displayName": "Mime Type",
-          "values": [
-            {
-              "displayName": "Mime Type",
-              "name": "mimeType",
-              "type": "options",
-              "options": [
-                {
-                  "name": "3rd Party Shortcut",
-                  "value": "application/vnd.google-apps.drive-sdk"
-                },
-                {
-                  "name": "Audio",
-                  "value": "application/vnd.google-apps.audio"
-                },
-                {
-                  "name": "Custom Mime Type",
-                  "value": "custom"
-                },
-                {
-                  "name": "Google Apps Scripts",
-                  "value": "application/vnd.google-apps.script"
-                },
-                {
-                  "name": "Google Docs",
-                  "value": "application/vnd.google-apps.document"
-                },
-                {
-                  "name": "Google Drawing",
-                  "value": "application/vnd.google-apps.drawing"
-                },
-                {
-                  "name": "Google Drive File",
-                  "value": "application/vnd.google-apps.file"
-                },
-                {
-                  "name": "Google Drive Folder",
-                  "value": "application/vnd.google-apps.folder"
-                },
-                {
-                  "name": "Google Forms",
-                  "value": "application/vnd.google-apps.form"
-                },
-                {
-                  "name": "Google Fusion Tables",
-                  "value": "application/vnd.google-apps.fusiontable"
-                },
-                {
-                  "name": "Google My Maps",
-                  "value": "application/vnd.google-apps.map"
-                },
-                {
-                  "name": "Google Sheets",
-                  "value": "application/vnd.google-apps.spreadsheet"
-                },
-                {
-                  "name": "Google Sites",
-                  "value": "application/vnd.google-apps.site"
-                },
-                {
-                  "name": "Google Slides",
-                  "value": "application/vnd.google-apps.presentation"
-                },
-                {
-                  "name": "Photo",
-                  "value": "application/vnd.google-apps.photo"
-                },
-                {
-                  "name": "Unknown",
-                  "value": "application/vnd.google-apps.unknown"
-                },
-                {
-                  "name": "Video",
-                  "value": "application/vnd.google-apps.video"
-                }
-              ],
-              "default": "application/vnd.google-apps.file",
-              "description": "The Mime-Type of the files to return"
-            },
-            {
-              "displayName": "Custom Mime Type",
-              "name": "customMimeType",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "mimeType": [
-                    "custom"
-                  ]
-                }
-              }
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "Filters to use to return only specific files",
+      "natural_language_description": "参数名: Filters | 作用: Filters to use to return only specific files | 默认值: {}",
+      "available_options": [
+        "name (值: None)",
+        "mimeType (值: None)"
+      ]
     },
     "permissionsUi": {
       "displayName": "Permissions",
       "name": "permissionsUi",
-      "placeholder": "Add Permission",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": false
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file",
-            "folder"
-          ],
-          "operation": [
-            "share"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Permission",
-          "name": "permissionsValues",
-          "values": [
-            {
-              "displayName": "Role",
-              "name": "role",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Commenter",
-                  "value": "commenter"
-                },
-                {
-                  "name": "File Organizer",
-                  "value": "fileOrganizer"
-                },
-                {
-                  "name": "Organizer",
-                  "value": "organizer"
-                },
-                {
-                  "name": "Owner",
-                  "value": "owner"
-                },
-                {
-                  "name": "Reader",
-                  "value": "reader"
-                },
-                {
-                  "name": "Writer",
-                  "value": "writer"
-                }
-              ],
-              "default": ""
-            },
-            {
-              "displayName": "Type",
-              "name": "type",
-              "type": "options",
-              "options": [
-                {
-                  "name": "User",
-                  "value": "user"
-                },
-                {
-                  "name": "Group",
-                  "value": "group"
-                },
-                {
-                  "name": "Domain",
-                  "value": "domain"
-                },
-                {
-                  "name": "Anyone",
-                  "value": "anyone"
-                }
-              ],
-              "default": "",
-              "description": "Information about the different types can be found <a href=\"https://developers.google.com/drive/api/v3/ref-roles\">here</a>"
-            },
-            {
-              "displayName": "Email Address",
-              "name": "emailAddress",
-              "type": "string",
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "user",
-                    "group"
-                  ]
-                }
-              },
-              "default": "",
-              "description": "The email address of the user or group to which this permission refers"
-            },
-            {
-              "displayName": "Domain",
-              "name": "domain",
-              "type": "string",
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "domain"
-                  ]
-                }
-              },
-              "default": "",
-              "description": "The domain to which this permission refers"
-            },
-            {
-              "displayName": "Allow File Discovery",
-              "name": "allowFileDiscovery",
-              "type": "boolean",
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "domain",
-                    "anyone"
-                  ]
-                }
-              },
-              "default": false,
-              "description": "Whether the permission allows the file to be discovered through search"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Permissions | 默认值: {}",
+      "available_options": [
+        "permissionsValues (值: None)"
+      ]
     },
     "binaryData": {
       "displayName": "Binary File",
       "name": "binaryData",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upload"
-          ],
-          "resource": [
-            "file"
-          ]
-        }
-      },
       "description": "Whether the data to upload should be taken from binary field",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Binary File | 作用: Whether the data to upload should be taken from binary field | 默认值: False"
     },
     "fileContent": {
       "displayName": "File Content",
       "name": "fileContent",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upload"
-          ],
-          "resource": [
-            "file"
-          ],
-          "binaryData": [
-            false
-          ]
-        }
-      },
-      "placeholder": "",
       "description": "The text content of the file to upload",
-      "ai_hint": "The text content of the file to upload"
+      "natural_language_description": "参数名: File Content | 作用: The text content of the file to upload"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "file"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "File Name",
-          "name": "fileName",
-          "type": "string",
-          "default": "",
-          "description": "The name of the file"
-        },
-        {
-          "displayName": "Keep Revision Forever",
-          "name": "keepRevisionForever",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to set the 'keepForever' field in the new head revision. This is only applicable to files with binary content in Google Drive. Only 200 revisions for the file can be kept forever. If the limit is reached, try deleting pinned revisions."
-        },
-        {
-          "displayName": "Move to Trash",
-          "name": "trashed",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to move a file to the trash. Only the owner may trash a file."
-        },
-        {
-          "displayName": "OCR Language",
-          "name": "ocrLanguage",
-          "type": "string",
-          "default": "",
-          "description": "A language hint for OCR processing during image import (ISO 639-1 code)"
-        },
-        {
-          "displayName": "Parent ID",
-          "name": "parentId",
-          "type": "string",
-          "default": "",
-          "description": "The ID of the parent to set"
-        },
-        {
-          "displayName": "Use Content As Indexable Text",
-          "name": "useContentAsIndexableText",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to use the uploaded content as indexable text"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "fileName (值: None) - The name of the file",
+        "keepRevisionForever (值: None) - Whether to set the 'keepForever' field in the new head revision. This is only applicable to files with binary content in Google Drive. Only 200 revisions for the file can be kept forever. If the limit is reached, try deleting pinned revisions.",
+        "trashed (值: None) - Whether to move a file to the trash. Only the owner may trash a file.",
+        "ocrLanguage (值: None) - A language hint for OCR processing during image import (ISO 639-1 code)",
+        "parentId (值: None) - The ID of the parent to set",
+        "useContentAsIndexableText (值: None) - Whether to use the uploaded content as indexable text"
+      ]
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "drive"
-          ]
-        }
-      },
       "description": "The name of this shared drive",
-      "ai_hint": "The name of this shared drive"
+      "natural_language_description": "参数名: Name | 作用: The name of this shared drive"
     },
     "resolveData": {
       "displayName": "Resolve Data",
       "name": "resolveData",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upload"
-          ],
-          "resource": [
-            "file"
-          ]
-        }
-      },
       "description": "By default the response only contain the ID of the file. If this option gets activated, it will resolve the data automatically.",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Resolve Data | 作用: By default the response only contain the ID of the file. If this option gets activated, it will resolve the data automatically. | 默认值: False"
     },
     "parents": {
       "displayName": "Parents",
       "name": "parents",
       "type": "string",
-      "typeOptions": {
-        "multipleValues": true
-      },
+      "required": false,
       "default": [],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upload"
-          ],
-          "resource": [
-            "file"
-          ]
-        }
-      },
       "description": "The IDs of the parent folders which contain the file",
-      "ai_hint": "The IDs of the parent folders which contain the file"
+      "natural_language_description": "参数名: Parents | 作用: The IDs of the parent folders which contain the file | 默认值: []"
     },
     "driveId": {
       "displayName": "Drive",
       "name": "driveId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "hint": "The Google Drive drive to operate on",
-      "modes": [
-        {
-          "displayName": "Drive",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Drive",
-          "typeOptions": {
-            "searchListMethod": "driveSearch",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "Link",
-          "name": "url",
-          "type": "string",
-          "placeholder": "https://drive.google.com/drive/folders/0AaaaaAAAAAAAaa",
-          "extractValue": {
-            "type": "regex",
-            "regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
-          },
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)",
-                "errorMessage": "Not a valid Google Drive Drive URL"
-              }
-            }
-          ]
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "hint": "The ID of the shared drive",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9\\-_]{2,}",
-                "errorMessage": "Not a valid Google Drive Drive ID"
-              }
-            }
-          ],
-          "url": "=https://drive.google.com/drive/folders/{{$value}}"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "delete",
-            "get",
-            "update"
-          ],
-          "resource": [
-            "drive"
-          ]
-        }
-      },
       "description": "The ID of the drive",
-      "ai_hint": "The ID of the drive"
+      "natural_language_description": "参数名: Drive | 作用: The ID of the drive | 提示: The Google Drive drive to operate on | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ],
-          "resource": [
-            "drive"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "oldVersionNotice",
-      "authentication",
-      "authentication",
-      "resource",
-      "operation",
-      "operation",
-      "fileId",
-      "fileId",
-      "binaryPropertyName",
-      "options",
-      "useQueryString",
-      "queryString",
-      "limit",
-      "queryFilters",
-      "permissionsUi",
-      "binaryData",
-      "fileContent",
-      "binaryPropertyName",
-      "updateFields",
-      "options",
-      "name",
-      "resolveData",
-      "parents",
-      "name",
-      "options",
-      "operation",
-      "driveId",
-      "name",
-      "options",
-      "options",
-      "returnAll",
-      "limit",
-      "options",
-      "options",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF @version == 1 THEN SHOW parameter 'authentication'",
-      "IF @version == 2 THEN SHOW parameter 'authentication'",
-      "IF resource == 'file' THEN SHOW parameter 'operation'",
-      "IF resource == 'folder' THEN SHOW parameter 'operation'",
-      "IF operation IN [\"download\", \"copy\", \"update\", \"delete\", \"share\"] AND resource == 'file' THEN SHOW parameter 'fileId'",
-      "IF operation IN [\"delete\", \"share\"] AND resource == 'folder' THEN SHOW parameter 'fileId'",
-      "IF operation == 'download' AND resource == 'file' THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'download' AND resource == 'file' THEN SHOW parameter 'options'",
-      "IF operation == 'list' AND resource == 'file' THEN SHOW parameter 'useQueryString'",
-      "IF operation == 'list' AND useQueryString == True AND resource == 'file' THEN SHOW parameter 'queryString'",
-      "IF operation == 'list' AND resource == 'file' THEN SHOW parameter 'limit'",
-      "IF operation == 'list' AND useQueryString == False AND resource == 'file' THEN SHOW parameter 'queryFilters'",
-      "IF mimeType == 'custom' THEN SHOW parameter 'customMimeType'",
-      "IF resource IN [\"file\", \"folder\"] AND operation == 'share' THEN SHOW parameter 'permissionsUi'",
-      "IF type IN [\"user\", \"group\"] THEN SHOW parameter 'emailAddress'",
-      "IF type == 'domain' THEN SHOW parameter 'domain'",
-      "IF type IN [\"domain\", \"anyone\"] THEN SHOW parameter 'allowFileDiscovery'",
-      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'binaryData'",
-      "IF operation == 'upload' AND resource == 'file' AND binaryData == False THEN SHOW parameter 'fileContent'",
-      "IF operation == 'upload' AND resource == 'file' AND binaryData == True THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'update' AND resource == 'file' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'update' AND resource == 'file' THEN SHOW parameter 'options'",
-      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'name'",
-      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'resolveData'",
-      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'parents'",
-      "IF operation == 'create' AND resource == 'folder' THEN SHOW parameter 'name'",
-      "IF /operation IN [\"copy\", \"list\", \"share\", \"create\"] AND /resource IN [\"file\", \"folder\"] THEN SHOW parameter 'options'",
-      "IF /operation == 'share' AND /resource IN [\"file\", \"folder\"] THEN SHOW parameter 'emailMessage'",
-      "IF /operation == 'share' AND /resource IN [\"file\", \"folder\"] THEN SHOW parameter 'enforceSingleParent'",
-      "IF /operation IN [\"list\", \"copy\"] THEN SHOW parameter 'fields'",
-      "IF /operation == 'share' AND /resource IN [\"file\", \"folder\"] THEN SHOW parameter 'moveToNewOwnersRoot'",
-      "IF /operation == 'share' AND /resource IN [\"file\", \"folder\"] THEN SHOW parameter 'sendNotificationEmail'",
-      "IF /operation == 'share' AND /resource IN [\"file\", \"folder\"] THEN SHOW parameter 'supportsAllDrives'",
-      "IF /operation == 'share' AND /resource IN [\"file\", \"folder\"] THEN SHOW parameter 'transferOwnership'",
-      "IF /operation == 'share' AND /resource IN [\"file\", \"folder\"] THEN SHOW parameter 'useDomainAdminAccess'",
-      "IF /operation == 'copy' AND /resource == 'file' THEN SHOW parameter 'name'",
-      "IF /operation IN [\"copy\", \"create\"] AND /resource IN [\"file\", \"folder\"] THEN SHOW parameter 'parents'",
-      "IF /operation == 'list' AND /resource == 'file' THEN SHOW parameter 'spaces'",
-      "IF /operation == 'list' AND /resource == 'file' THEN SHOW parameter 'corpora'",
-      "IF /operation == 'list' AND /resource == 'file' AND corpora == 'drive' THEN SHOW parameter 'driveId'",
-      "IF resource == 'drive' THEN SHOW parameter 'operation'",
-      "IF operation IN [\"delete\", \"get\", \"update\"] AND resource == 'drive' THEN SHOW parameter 'driveId'",
-      "IF operation == 'create' AND resource == 'drive' THEN SHOW parameter 'name'",
-      "IF operation == 'create' AND resource == 'drive' THEN SHOW parameter 'options'",
-      "IF operation == 'get' AND resource == 'drive' THEN SHOW parameter 'options'",
-      "IF operation == 'list' AND resource == 'drive' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'list' AND resource == 'drive' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'list' AND resource == 'drive' THEN SHOW parameter 'options'",
-      "IF operation == 'update' AND resource == 'drive' THEN SHOW parameter 'options'",
-      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'options'"
-    ]
   }
 }

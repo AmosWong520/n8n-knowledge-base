@@ -1,502 +1,158 @@
 {
   "node_id": "n8n-nodes-base.elasticsearch",
-  "name": "n8n-nodes-base.elasticsearch",
+  "name": "Elasticsearch",
   "version": 1,
   "semantic_context": "Consume the Elasticsearch API",
+  "natural_language_description": "这是 Elasticsearch 节点。主要用于: Consume the Elasticsearch API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Document",
-          "value": "document"
-        },
-        {
-          "name": "Index",
-          "value": "index"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "document",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: document",
+      "available_options": [
+        "Document (值: document)",
+        "Index (值: index)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "index"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "action": "Create an index"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "action": "Delete an index"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "action": "Get an index"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "action": "Get many indices"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create)",
+        "Delete (值: delete)",
+        "Get (值: get)",
+        "Get Many (值: getAll)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "indexId": {
       "displayName": "Index ID",
       "name": "indexId",
-      "description": "ID of the index to retrieve",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "index"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "ID of the index to retrieve"
+      "description": "ID of the index to retrieve",
+      "natural_language_description": "参数名: Index ID | 作用: ID of the index to retrieve | (必填项)"
     },
     "documentId": {
       "displayName": "Document ID",
       "name": "documentId",
-      "description": "ID of the document to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the document to update"
+      "description": "ID of the document to update",
+      "natural_language_description": "参数名: Document ID | 作用: ID of the document to update | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Bulk Update",
-          "name": "bulkOperation",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to use the bulk operation to update the document/s"
-        },
-        {
-          "displayName": "Refresh",
-          "name": "refresh",
-          "description": "If true, Elasticsearch refreshes the affected shards to make this operation visible to search,if wait_for then wait for a refresh to make this operation visible to search,if false do nothing with refreshes",
-          "type": "options",
-          "default": "false",
-          "options": [
-            {
-              "name": "True",
-              "value": "true",
-              "description": "Refreshes the affected shards to make this operation visible to search"
-            },
-            {
-              "name": "Wait For",
-              "value": "wait_for",
-              "description": "Wait for a refresh to make this operation visible"
-            },
-            {
-              "name": "False",
-              "value": "false",
-              "description": "Do nothing with refreshes"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "bulkOperation (值: None) - Whether to use the bulk operation to update the document/s",
+        "refresh (值: None) - If true, Elasticsearch refreshes the affected shards to make this operation visible to search,if wait_for then wait for a refresh to make this operation visible to search,if false do nothing with refreshes"
+      ]
     },
     "simple": {
       "displayName": "Simplify",
       "name": "simple",
       "type": "boolean",
+      "required": false,
       "default": true,
       "description": "Whether to return a simplified version of the response instead of the raw data",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Simplify | 作用: Whether to return a simplified version of the response instead of the raw data | 默认值: True"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "index"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "paginateNotice": {
       "displayName": "By default, you cannot page through more than 10,000 hits. To page through more hits, add \"Sort\" from options.",
       "name": "paginateNotice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            true
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: By default, you cannot page through more than 10,000 hits. To page through more hits, add \"Sort\" from options."
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "index"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "dataToSend": {
       "displayName": "Data to Send",
       "name": "dataToSend",
       "type": "options",
-      "options": [
-        {
-          "name": "Define Below for Each Column",
-          "value": "defineBelow",
-          "description": "Set the value for each destination column"
-        },
-        {
-          "name": "Auto-Map Input Data to Columns",
-          "value": "autoMapInputData",
-          "description": "Use when node input properties match destination column names"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": "defineBelow",
       "description": "Whether to insert the input data this node receives in the new row",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Data to Send | 作用: Whether to insert the input data this node receives in the new row | 默认值: defineBelow",
+      "available_options": [
+        "Define Below for Each Column (值: defineBelow) - Set the value for each destination column",
+        "Auto-Map Input Data to Columns (值: autoMapInputData) - Use when node input properties match destination column names"
+      ]
     },
     "inputsToIgnore": {
       "displayName": "Inputs to Ignore",
       "name": "inputsToIgnore",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "update"
-          ],
-          "dataToSend": [
-            "autoMapInputData"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "List of input properties to avoid sending, separated by commas. Leave empty to send all properties.",
-      "placeholder": "Enter properties...",
-      "ai_hint": "List of input properties to avoid sending, separated by commas. Leave empty to send all properties."
+      "natural_language_description": "参数名: Inputs to Ignore | 作用: List of input properties to avoid sending, separated by commas. Leave empty to send all properties."
     },
     "fieldsUi": {
       "displayName": "Fields to Send",
       "name": "fieldsUi",
-      "placeholder": "Add Field",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValueButtonText": "Add Field to Send",
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "update"
-          ],
-          "dataToSend": [
-            "defineBelow"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Field",
-          "name": "fieldValues",
-          "values": [
-            {
-              "displayName": "Field Name",
-              "name": "fieldId",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Field Value",
-              "name": "fieldValue",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Fields to Send | 默认值: {}",
+      "available_options": [
+        "fieldValues (值: None)"
+      ]
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "index"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Allow No Indices",
-          "name": "allow_no_indices",
-          "description": "If false, return an error if any of the following targets only missing/closed indices: wildcard expression, index alias, or <code>_all</code> value. Defaults to true.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "displayName": "Expand Wildcards",
-          "name": "expand_wildcards",
-          "description": "Type of index that wildcard expressions can match. Defaults to <code>open</code>",
-          "type": "options",
-          "options": [
-            {
-              "name": "All",
-              "value": "all"
-            },
-            {
-              "name": "Closed",
-              "value": "closed"
-            },
-            {
-              "name": "Hidden",
-              "value": "hidden"
-            },
-            {
-              "name": "None",
-              "value": "none"
-            },
-            {
-              "name": "Open",
-              "value": "open"
-            }
-          ],
-          "default": "all"
-        },
-        {
-          "displayName": "Flat Settings",
-          "name": "flat_settings",
-          "description": "Whether to return settings in flat format. Defaults to false.",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "Ignore Unavailable",
-          "name": "ignore_unavailable",
-          "description": "Whether to request that target a missing index return an error. Defaults to false.",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "Include Defaults",
-          "name": "include_defaults",
-          "description": "Whether to return all default settings in the response. Defaults to false.",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "Local",
-          "name": "local",
-          "description": "Whether to retrieve information from the local node only. Defaults to false.",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "Master Timeout",
-          "name": "master_timeout",
-          "description": "Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. Defaults to <code>1m</code>. See the <a href=\"https://www.elastic.co/guide/en/elasticsearch/reference/current/common-options.html#time-units\">Elasticsearch time units reference</a>",
-          "type": "string",
-          "default": "1m"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "allow_no_indices (值: None) - If false, return an error if any of the following targets only missing/closed indices: wildcard expression, index alias, or `_all` value. Defaults to true.",
+        "expand_wildcards (值: None) - Type of index that wildcard expressions can match. Defaults to `open`",
+        "flat_settings (值: None) - Whether to return settings in flat format. Defaults to false.",
+        "ignore_unavailable (值: None) - Whether to request that target a missing index return an error. Defaults to false.",
+        "include_defaults (值: None) - Whether to return all default settings in the response. Defaults to false.",
+        "local (值: None) - Whether to retrieve information from the local node only. Defaults to false.",
+        "master_timeout (值: None) - Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. Defaults to `1m`. See the Elasticsearch time units reference"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "indexId",
-      "documentId",
-      "options",
-      "indexId",
-      "documentId",
-      "simple",
-      "options",
-      "indexId",
-      "returnAll",
-      "paginateNotice",
-      "limit",
-      "simple",
-      "options",
-      "indexId",
-      "dataToSend",
-      "inputsToIgnore",
-      "fieldsUi",
-      "additionalFields",
-      "options",
-      "indexId",
-      "documentId",
-      "dataToSend",
-      "inputsToIgnore",
-      "fieldsUi",
-      "options",
-      "operation",
-      "indexId",
-      "additionalFields",
-      "indexId",
-      "indexId",
-      "additionalFields",
-      "returnAll",
-      "limit"
-    ],
-    "conditional_rules": [
-      "IF resource == 'document' THEN SHOW parameter 'operation'",
-      "IF resource == 'document' AND operation == 'delete' THEN SHOW parameter 'indexId'",
-      "IF resource == 'document' AND operation == 'delete' THEN SHOW parameter 'documentId'",
-      "IF resource == 'document' AND operation == 'delete' THEN SHOW parameter 'options'",
-      "IF resource == 'document' AND operation == 'get' THEN SHOW parameter 'indexId'",
-      "IF resource == 'document' AND operation == 'get' THEN SHOW parameter 'documentId'",
-      "IF resource == 'document' AND operation == 'get' THEN SHOW parameter 'simple'",
-      "IF resource == 'document' AND operation == 'get' THEN SHOW parameter 'options'",
-      "IF resource == 'document' AND operation == 'getAll' THEN SHOW parameter 'indexId'",
-      "IF resource == 'document' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'document' AND operation == 'getAll' AND returnAll == True THEN SHOW parameter 'paginateNotice'",
-      "IF resource == 'document' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'document' AND operation == 'getAll' THEN SHOW parameter 'simple'",
-      "IF resource == 'document' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'indexId'",
-      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'dataToSend'",
-      "IF resource == 'document' AND operation == 'create' AND dataToSend == 'autoMapInputData' THEN SHOW parameter 'inputsToIgnore'",
-      "IF resource == 'document' AND operation == 'create' AND dataToSend == 'defineBelow' THEN SHOW parameter 'fieldsUi'",
-      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'options'",
-      "IF resource == 'document' AND operation == 'update' THEN SHOW parameter 'indexId'",
-      "IF resource == 'document' AND operation == 'update' THEN SHOW parameter 'documentId'",
-      "IF resource == 'document' AND operation == 'update' THEN SHOW parameter 'dataToSend'",
-      "IF resource == 'document' AND operation == 'update' AND dataToSend == 'autoMapInputData' THEN SHOW parameter 'inputsToIgnore'",
-      "IF resource == 'document' AND operation == 'update' AND dataToSend == 'defineBelow' THEN SHOW parameter 'fieldsUi'",
-      "IF resource == 'document' AND operation == 'update' THEN SHOW parameter 'options'",
-      "IF resource == 'index' THEN SHOW parameter 'operation'",
-      "IF resource == 'index' AND operation == 'create' THEN SHOW parameter 'indexId'",
-      "IF resource == 'index' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'index' AND operation == 'delete' THEN SHOW parameter 'indexId'",
-      "IF resource == 'index' AND operation == 'get' THEN SHOW parameter 'indexId'",
-      "IF resource == 'index' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'index' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'index' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'"
-    ]
   }
 }

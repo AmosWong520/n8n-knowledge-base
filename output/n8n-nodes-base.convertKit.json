@@ -1,335 +1,116 @@
 {
   "node_id": "n8n-nodes-base.convertKit",
-  "name": "n8n-nodes-base.convertKit",
+  "name": "ConvertKit",
   "version": 1,
   "semantic_context": "Consume ConvertKit API",
+  "natural_language_description": "这是 ConvertKit 节点。主要用于: Consume ConvertKit API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Custom Field",
-          "value": "customField"
-        },
-        {
-          "name": "Form",
-          "value": "form"
-        },
-        {
-          "name": "Sequence",
-          "value": "sequence"
-        },
-        {
-          "name": "Tag",
-          "value": "tag"
-        },
-        {
-          "name": "Tag Subscriber",
-          "value": "tagSubscriber"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "form",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: form",
+      "available_options": [
+        "Custom Field (值: customField)",
+        "Form (值: form)",
+        "Sequence (值: sequence)",
+        "Tag (值: tag)",
+        "Tag Subscriber (值: tagSubscriber)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "tagSubscriber"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Add",
-          "value": "add",
-          "description": "Add a tag to a subscriber",
-          "action": "Add a tag to a subscriber"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "List subscriptions to a tag including subscriber data",
-          "action": "Get many tag subscriptions"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a tag from a subscriber",
-          "action": "Delete a tag from a subscriber"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Add (值: add) - Add a tag to a subscriber",
+        "Get Many (值: getAll) - List subscriptions to a tag including subscriber data",
+        "Delete (值: delete) - Delete a tag from a subscriber",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "id": {
       "displayName": "Sequence Name or ID",
       "name": "id",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getSequences"
-      },
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "sequence"
-          ],
-          "operation": [
-            "addSubscriber",
-            "getSubscriptions"
-          ]
-        }
-      },
       "default": "",
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Sequence Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "label": {
       "displayName": "Label",
       "name": "label",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "customField"
-          ],
-          "operation": [
-            "update",
-            "create"
-          ]
-        }
-      },
       "default": "",
       "description": "The label of the custom field",
-      "ai_hint": "The label of the custom field"
+      "natural_language_description": "参数名: Label | 作用: The label of the custom field | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "tagSubscriber"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "tagSubscriber"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "tagSubscriber"
-          ],
-          "operation": [
-            "add",
-            "delete"
-          ]
-        }
-      },
       "default": "",
       "description": "Subscriber email address",
-      "ai_hint": "Subscriber email address"
+      "natural_language_description": "参数名: Email | 作用: Subscriber email address | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "tagSubscriber"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Subscriber State",
-          "name": "subscriberState",
-          "type": "options",
-          "options": [
-            {
-              "name": "Active",
-              "value": "active"
-            },
-            {
-              "name": "Cancelled",
-              "value": "cancelled"
-            }
-          ],
-          "default": "active"
-        }
-      ],
       "description": "Receive only active subscribers or cancelled subscribers",
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Additional Fields | 作用: Receive only active subscribers or cancelled subscribers | 默认值: {}",
+      "available_options": [
+        "subscriberState (值: None)"
+      ]
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "tag"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "",
       "description": "Tag name, multiple can be added separated by comma",
-      "ai_hint": "Tag name, multiple can be added separated by comma"
+      "natural_language_description": "参数名: Name | 作用: Tag name, multiple can be added separated by comma | (必填项)"
     },
     "tagId": {
       "displayName": "Tag Name or ID",
       "name": "tagId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getTags"
-      },
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "tagSubscriber"
-          ],
-          "operation": [
-            "add",
-            "getAll",
-            "delete"
-          ]
-        }
-      },
       "default": "",
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Tag Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "id",
-      "label",
-      "returnAll",
-      "limit",
-      "operation",
-      "id",
-      "email",
-      "additionalFields",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "operation",
-      "id",
-      "email",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "additionalFields",
-      "operation",
-      "name",
-      "returnAll",
-      "limit",
-      "operation",
-      "tagId",
-      "email",
-      "additionalFields",
-      "returnAll",
-      "limit",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF resource == 'customField' THEN SHOW parameter 'operation'",
-      "IF resource == 'customField' AND operation IN [\"update\", \"delete\"] THEN SHOW parameter 'id'",
-      "IF resource == 'customField' AND operation IN [\"update\", \"create\"] THEN SHOW parameter 'label'",
-      "IF operation == 'getAll' AND resource == 'customField' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'customField' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'form' THEN SHOW parameter 'operation'",
-      "IF resource == 'form' AND operation IN [\"addSubscriber\", \"getSubscriptions\"] THEN SHOW parameter 'id'",
-      "IF resource == 'form' AND operation == 'addSubscriber' THEN SHOW parameter 'email'",
-      "IF resource == 'form' AND operation == 'addSubscriber' THEN SHOW parameter 'additionalFields'",
-      "IF operation IN [\"getAll\", \"getSubscriptions\"] AND resource == 'form' THEN SHOW parameter 'returnAll'",
-      "IF operation IN [\"getAll\", \"getSubscriptions\"] AND resource == 'form' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'form' AND operation == 'getSubscriptions' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'sequence' THEN SHOW parameter 'operation'",
-      "IF resource == 'sequence' AND operation IN [\"addSubscriber\", \"getSubscriptions\"] THEN SHOW parameter 'id'",
-      "IF resource == 'sequence' AND operation == 'addSubscriber' THEN SHOW parameter 'email'",
-      "IF operation IN [\"getAll\", \"getSubscriptions\"] AND resource == 'sequence' THEN SHOW parameter 'returnAll'",
-      "IF operation IN [\"getAll\", \"getSubscriptions\"] AND resource == 'sequence' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'sequence' AND operation == 'addSubscriber' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'sequence' AND operation == 'getSubscriptions' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'tag' THEN SHOW parameter 'operation'",
-      "IF resource == 'tag' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF operation == 'getAll' AND resource == 'tag' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'tag' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'tagSubscriber' THEN SHOW parameter 'operation'",
-      "IF resource == 'tagSubscriber' AND operation IN [\"add\", \"getAll\", \"delete\"] THEN SHOW parameter 'tagId'",
-      "IF resource == 'tagSubscriber' AND operation IN [\"add\", \"delete\"] THEN SHOW parameter 'email'",
-      "IF resource == 'tagSubscriber' AND operation == 'add' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'getAll' AND resource == 'tagSubscriber' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'tagSubscriber' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'tagSubscriber' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'"
-    ]
   }
 }

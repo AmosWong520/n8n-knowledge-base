@@ -1,306 +1,120 @@
 {
   "node_id": "n8n-nodes-base.dropcontactTool",
-  "name": "n8n-nodes-base.dropcontactTool",
+  "name": "Dropcontact Tool",
   "version": 1,
   "semantic_context": "Find B2B emails and enrich contacts",
+  "natural_language_description": "这是 Dropcontact Tool 节点。主要用于: Find B2B emails and enrich contacts",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Find B2B emails and enrich contacts",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Find B2B emails and enrich contacts",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Find B2B emails and enrich contacts | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
-      "noDataExpression": true,
       "name": "resource",
       "type": "options",
-      "options": [
-        {
-          "name": "Contact",
-          "value": "contact"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
-      "default": "contact",
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "contact",
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: contact | (必填项)",
+      "available_options": [
+        "Contact (值: contact)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
-      "noDataExpression": true,
       "name": "operation",
       "type": "options",
-      "options": [
-        {
-          "name": "Enrich",
-          "value": "enrich",
-          "description": "Find B2B emails and enrich your contact from his name and his website",
-          "action": "Find B2B emails"
-        },
-        {
-          "name": "Fetch Request",
-          "value": "fetchRequest"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
-      "default": "enrich",
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "enrich",
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: enrich | (必填项)",
+      "available_options": [
+        "Enrich (值: enrich) - Find B2B emails and enrich your contact from his name and his website",
+        "Fetch Request (值: fetchRequest)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "requestId": {
       "displayName": "Request ID",
       "name": "requestId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "fetchRequest"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Request ID | (必填项)"
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "enrich"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Email"
     },
     "simplify": {
       "displayName": "Simplify Output (Faster)",
       "name": "simplify",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "enrich"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "When off, waits for the contact data before completing. Waiting time can be adjusted with Extend Wait Time option. When on, returns a request_id that can be used later in the Fetch Request operation.",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Simplify Output (Faster) | 作用: When off, waits for the contact data before completing. Waiting time can be adjusted with Extend Wait Time option. When on, returns a request_id that can be used later in the Fetch Request operation. | 默认值: False"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "enrich"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Company SIREN Number",
-          "name": "num_siren",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Company SIRET Code",
-          "name": "siret",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Company Name",
-          "name": "company",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Country",
-          "name": "country",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "First Name",
-          "name": "first_name",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Full Name",
-          "name": "full_name",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Last Name",
-          "name": "last_name",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "LinkedIn Profile",
-          "name": "linkedin",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Phone Number",
-          "name": "phone",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Website",
-          "name": "website",
-          "type": "string",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "num_siren (值: None)",
+        "siret (值: None)",
+        "company (值: None)",
+        "country (值: None)",
+        "first_name (值: None)",
+        "full_name (值: None)",
+        "last_name (值: None)",
+        "linkedin (值: None)",
+        "phone (值: None)",
+        "website (值: None)"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "enrich"
-          ]
-        }
-      },
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Data Fetch Wait Time",
-          "name": "waitTime",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 1
-          },
-          "displayOptions": {
-            "show": {
-              "/simplify": [
-                false
-              ]
-            }
-          },
-          "default": 45,
-          "description": "When not simplifying the response, data will be fetched in two steps. This parameter controls how long to wait (in seconds) before trying the second step."
-        },
-        {
-          "displayName": "French Company Enrich",
-          "name": "siren",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether you want the <a href=\"https://en.wikipedia.org/wiki/SIREN_code\" target=\"_blank\">SIREN number</a>, NAF code, TVA number, company address and informations about the company leader. Only applies to french companies."
-        },
-        {
-          "displayName": "Language",
-          "name": "language",
-          "type": "options",
-          "options": [
-            {
-              "name": "English",
-              "value": "en"
-            },
-            {
-              "name": "French",
-              "value": "fr"
-            }
-          ],
-          "default": "en",
-          "description": "Whether the response is in English or French"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "waitTime (值: None) - When not simplifying the response, data will be fetched in two steps. This parameter controls how long to wait (in seconds) before trying the second step.",
+        "siren (值: None) - Whether you want the SIREN number, NAF code, TVA number, company address and informations about the company leader. Only applies to french companies.",
+        "language (值: None) - Whether the response is in English or French"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "requestId",
-      "email",
-      "simplify",
-      "additionalFields",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'contact' AND operation == 'fetchRequest' THEN SHOW parameter 'requestId'",
-      "IF resource == 'contact' AND operation == 'enrich' THEN SHOW parameter 'email'",
-      "IF resource == 'contact' AND operation == 'enrich' THEN SHOW parameter 'simplify'",
-      "IF resource == 'contact' AND operation == 'enrich' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'contact' AND operation == 'enrich' THEN SHOW parameter 'options'",
-      "IF /simplify == False THEN SHOW parameter 'waitTime'"
-    ]
   }
 }

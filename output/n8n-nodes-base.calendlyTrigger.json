@@ -1,89 +1,57 @@
 {
   "node_id": "n8n-nodes-base.calendlyTrigger",
-  "name": "n8n-nodes-base.calendlyTrigger",
+  "name": "Calendly Trigger",
   "version": 1,
   "semantic_context": "Starts the workflow when Calendly events occur",
+  "natural_language_description": "这是 Calendly Trigger 节点。主要用于: Starts the workflow when Calendly events occur",
   "parameters": {
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "OAuth2 (recommended)",
-          "value": "oAuth2"
-        },
-        {
-          "name": "API Key or Personal Access Token",
-          "value": "apiKey"
-        }
-      ],
+      "required": false,
       "default": "apiKey",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: apiKey",
+      "available_options": [
+        "OAuth2 (recommended) (值: oAuth2)",
+        "API Key or Personal Access Token (值: apiKey)"
+      ]
     },
     "deprecationNotice": {
       "displayName": "Action required: Calendly will discontinue API Key authentication on May 31, 2025. Update node to use OAuth2 authentication now to ensure your workflows continue to work.",
       "name": "deprecationNotice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "authentication": [
-            "apiKey"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Action required: Calendly will discontinue API Key authentication on May 31, 2025. Update node to use OAuth2 authentication now to ensure your workflows continue to work."
     },
     "scope": {
       "displayName": "Scope",
       "name": "scope",
       "type": "options",
-      "default": "user",
       "required": true,
-      "hint": "Ignored if you are using an API Key",
-      "options": [
-        {
-          "name": "Organization",
-          "value": "organization",
-          "description": "Triggers the webhook for all subscribed events within the organization"
-        },
-        {
-          "name": "User",
-          "value": "user",
-          "description": "Triggers the webhook for subscribed events that belong to the current user"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "user",
+      "description": "",
+      "natural_language_description": "参数名: Scope | 提示: Ignored if you are using an API Key | 默认值: user | (必填项)",
+      "available_options": [
+        "Organization (值: organization) - Triggers the webhook for all subscribed events within the organization",
+        "User (值: user) - Triggers the webhook for subscribed events that belong to the current user"
+      ]
     },
     "events": {
       "displayName": "Events",
       "name": "events",
       "type": "multiOptions",
-      "options": [
-        {
-          "name": "Event Created",
-          "value": "invitee.created",
-          "description": "Receive notifications when a new Calendly event is created"
-        },
-        {
-          "name": "Event Canceled",
-          "value": "invitee.canceled",
-          "description": "Receive notifications when a Calendly event is canceled"
-        }
-      ],
+      "required": true,
       "default": [],
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Events | 默认值: [] | (必填项)",
+      "available_options": [
+        "Event Created (值: invitee.created) - Receive notifications when a new Calendly event is created",
+        "Event Canceled (值: invitee.canceled) - Receive notifications when a Calendly event is canceled"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "authentication",
-      "deprecationNotice",
-      "scope",
-      "events"
-    ],
-    "conditional_rules": [
-      "IF authentication == 'apiKey' THEN SHOW parameter 'deprecationNotice'"
-    ]
   }
 }

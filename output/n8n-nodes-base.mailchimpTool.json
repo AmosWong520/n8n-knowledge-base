@@ -1,1119 +1,273 @@
 {
   "node_id": "n8n-nodes-base.mailchimpTool",
-  "name": "n8n-nodes-base.mailchimpTool",
+  "name": "Mailchimp Tool",
   "version": 1,
   "semantic_context": "Consume Mailchimp API",
+  "natural_language_description": "这是 Mailchimp Tool 节点。主要用于: Consume Mailchimp API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Mailchimp API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Mailchimp API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Mailchimp API | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "API Key",
-          "value": "apiKey"
-        },
-        {
-          "name": "OAuth2",
-          "value": "oAuth2"
-        }
-      ],
+      "required": false,
       "default": "apiKey",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: apiKey",
+      "available_options": [
+        "API Key (值: apiKey)",
+        "OAuth2 (值: oAuth2)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Campaign",
-          "value": "campaign"
-        },
-        {
-          "name": "List Group",
-          "value": "listGroup"
-        },
-        {
-          "name": "Member",
-          "value": "member"
-        },
-        {
-          "name": "Member Tag",
-          "value": "memberTag"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
-      "default": "member",
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "member",
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: member | (必填项)",
+      "available_options": [
+        "Campaign (值: campaign)",
+        "List Group (值: listGroup)",
+        "Member (值: member)",
+        "Member Tag (值: memberTag)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "campaign"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a campaign",
-          "action": "Delete a campaign"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a campaign",
-          "action": "Get a campaign"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many campaigns",
-          "action": "Get many campaigns"
-        },
-        {
-          "name": "Replicate",
-          "value": "replicate",
-          "description": "Replicate a campaign",
-          "action": "Replicate a campaign"
-        },
-        {
-          "name": "Resend",
-          "value": "resend",
-          "description": "Creates a Resend to Non-Openers version of this campaign",
-          "action": "Resend a campaign"
-        },
-        {
-          "name": "Send",
-          "value": "send",
-          "description": "Send a campaign",
-          "action": "Send a campaign"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
       "default": "getAll",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getAll | (必填项)",
+      "available_options": [
+        "Delete (值: delete) - Delete a campaign",
+        "Get (值: get) - Get a campaign",
+        "Get Many (值: getAll) - Get many campaigns",
+        "Replicate (值: replicate) - Replicate a campaign",
+        "Resend (值: resend) - Creates a Resend to Non-Openers version of this campaign",
+        "Send (值: send) - Send a campaign",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "list": {
       "displayName": "List Name or ID",
       "name": "list",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getLists"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "listGroup"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "default": "",
-      "options": [],
       "required": true,
-      "description": "List of lists. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "List of lists. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "List of lists. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: List Name or ID | 作用: List of lists. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "memberTag"
-          ],
-          "operation": [
-            "create",
-            "delete"
-          ]
-        }
-      },
       "default": "",
       "description": "Email address of the subscriber",
-      "ai_hint": "Email address of the subscriber"
+      "natural_language_description": "参数名: Email | 作用: Email address of the subscriber | (必填项)"
     },
     "status": {
       "displayName": "Status",
       "name": "status",
       "type": "options",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Cleaned",
-          "value": "cleaned"
-        },
-        {
-          "name": "Pending",
-          "value": "pending"
-        },
-        {
-          "name": "Subscribed",
-          "value": "subscribed"
-        },
-        {
-          "name": "Transactional",
-          "value": "transactional"
-        },
-        {
-          "name": "Unsubscribed",
-          "value": "unsubscribed"
-        }
-      ],
       "default": "",
       "description": "Subscriber's current status",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Status | 作用: Subscriber's current status | (必填项)",
+      "available_options": [
+        "Cleaned (值: cleaned)",
+        "Pending (值: pending)",
+        "Subscribed (值: subscribed)",
+        "Transactional (值: transactional)",
+        "Unsubscribed (值: unsubscribed)"
+      ]
     },
     "jsonParameters": {
       "displayName": "JSON Parameters",
       "name": "jsonParameters",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: JSON Parameters | 默认值: False"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "campaign"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Before Create Time",
-          "name": "beforeCreateTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "Restrict the response to campaigns created before the set time"
-        },
-        {
-          "displayName": "Before Send Time",
-          "name": "beforeSendTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "Restrict the response to campaigns sent before the set time"
-        },
-        {
-          "displayName": "Exclude Field Names or IDs",
-          "name": "excludeFields",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getCampaignsFields"
-          },
-          "default": [],
-          "description": "A comma-separated list of fields to exclude. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Field Names or IDs",
-          "name": "fields",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getCampaignsFields"
-          },
-          "default": [
-            "campaigns.id",
-            "campaigns.status",
-            "campaigns.tracking",
-            "campaigns.settings.from_name",
-            "campaigns.settings.reply_to",
-            "campaigns.settings.title"
-          ],
-          "description": "A comma-separated list of fields to return. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "List Name or ID",
-          "name": "listId",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getLists"
-          },
-          "default": "",
-          "description": "List of lists. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Since Create Time",
-          "name": "sinceCreateTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "Restrict the response to campaigns created after the set time"
-        },
-        {
-          "displayName": "Since Send Time",
-          "name": "sinceSendTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "Restrict the response to campaigns sent after the set time"
-        },
-        {
-          "displayName": "Sort Direction",
-          "name": "sortDirection",
-          "type": "options",
-          "options": [
-            {
-              "name": "ASC",
-              "value": "ASC"
-            },
-            {
-              "name": "DESC",
-              "value": "DESC"
-            }
-          ],
-          "default": "",
-          "description": "Determines the order direction for sorted results"
-        },
-        {
-          "displayName": "Sort Field",
-          "name": "sortField",
-          "type": "options",
-          "options": [
-            {
-              "name": "Create Time",
-              "value": "create_time"
-            },
-            {
-              "name": "Send Time",
-              "value": "send_time"
-            }
-          ],
-          "default": "",
-          "description": "Returns files sorted by the specified field"
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Save",
-              "value": "save"
-            },
-            {
-              "name": "Sending",
-              "value": "sending"
-            },
-            {
-              "name": "Sent",
-              "value": "sent"
-            },
-            {
-              "name": "Schedule",
-              "value": "schedule"
-            }
-          ],
-          "default": "",
-          "description": "The status of the campaign"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "beforeCreateTime (值: None) - Restrict the response to campaigns created before the set time",
+        "beforeSendTime (值: None) - Restrict the response to campaigns sent before the set time",
+        "excludeFields (值: None) - A comma-separated list of fields to exclude. Choose from the list, or specify IDs using an expression.",
+        "fields (值: None) - A comma-separated list of fields to return. Choose from the list, or specify IDs using an expression.",
+        "listId (值: None) - List of lists. Choose from the list, or specify an ID using an expression.",
+        "sinceCreateTime (值: None) - Restrict the response to campaigns created after the set time",
+        "sinceSendTime (值: None) - Restrict the response to campaigns sent after the set time",
+        "sortDirection (值: None) - Determines the order direction for sorted results",
+        "sortField (值: None) - Returns files sorted by the specified field",
+        "status (值: None) - The status of the campaign"
+      ]
     },
     "locationFieldsUi": {
       "displayName": "Location",
       "name": "locationFieldsUi",
       "type": "fixedCollection",
-      "placeholder": "Add Location",
+      "required": false,
       "default": {},
       "description": "Subscriber location information.n",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "create"
-          ],
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "locationFieldsValues",
-          "displayName": "Location",
-          "values": [
-            {
-              "displayName": "Latitude",
-              "name": "latitude",
-              "type": "string",
-              "required": true,
-              "description": "The location latitude",
-              "default": ""
-            },
-            {
-              "displayName": "Longitude",
-              "name": "longitude",
-              "type": "string",
-              "required": true,
-              "description": "The location longitude",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Location | 作用: Subscriber location information.n | 默认值: {}",
+      "available_options": [
+        "locationFieldsValues (值: None)"
+      ]
     },
     "mergeFieldsUi": {
       "displayName": "Merge Fields",
       "name": "mergeFieldsUi",
-      "placeholder": "Add Merge Fields",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "create"
-          ],
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
       "description": "An individual merge var and value for a member",
-      "options": [
-        {
-          "name": "mergeFieldsValues",
-          "displayName": "Field",
-          "typeOptions": {
-            "multipleValueButtonText": "Add Field"
-          },
-          "values": [
-            {
-              "displayName": "Field Name or ID",
-              "name": "name",
-              "type": "options",
-              "typeOptions": {
-                "loadOptionsMethod": "getMergeFields",
-                "loadOptionsDependsOn": [
-                  "list"
-                ]
-              },
-              "required": true,
-              "description": "Merge Field name. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-              "default": ""
-            },
-            {
-              "displayName": "Field Value",
-              "name": "value",
-              "required": true,
-              "type": "string",
-              "default": "",
-              "description": "Merge field value"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Merge Fields | 作用: An individual merge var and value for a member | 默认值: {}",
+      "available_options": [
+        "mergeFieldsValues (值: None)"
+      ]
     },
     "mergeFieldsJson": {
       "displayName": "Merge Fields",
       "name": "mergeFieldsJson",
       "type": "json",
-      "typeOptions": {
-        "alwaysOpenEditWindow": true
-      },
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "update"
-          ],
-          "jsonParameters": [
-            true
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Merge Fields"
     },
     "locationJson": {
       "displayName": "Location",
       "name": "locationJson",
       "type": "json",
-      "typeOptions": {
-        "alwaysOpenEditWindow": true
-      },
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "update"
-          ],
-          "jsonParameters": [
-            true
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Location"
     },
     "groupsUi": {
       "displayName": "Interest Groups",
       "name": "groupsUi",
-      "placeholder": "Add Interest Group",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "create"
-          ],
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "groupsValues",
-          "displayName": "Group",
-          "typeOptions": {
-            "multipleValueButtonText": "Add Interest Group"
-          },
-          "values": [
-            {
-              "displayName": "Category Name or ID",
-              "name": "categoryId",
-              "type": "options",
-              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-              "typeOptions": {
-                "loadOptionsMethod": "getGroupCategories",
-                "loadOptionsDependsOn": [
-                  "list"
-                ]
-              },
-              "default": ""
-            },
-            {
-              "displayName": "Category Field ID",
-              "name": "categoryFieldId",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "boolean",
-              "default": false
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Interest Groups | 默认值: {}",
+      "available_options": [
+        "groupsValues (值: None)"
+      ]
     },
     "groupJson": {
       "displayName": "Interest Groups",
       "name": "groupJson",
       "type": "json",
-      "typeOptions": {
-        "alwaysOpenEditWindow": true
-      },
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "update"
-          ],
-          "jsonParameters": [
-            true
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Interest Groups"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "campaign"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "campaign"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 1000
-      },
+      "required": false,
       "default": 10,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 10"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Email Type",
-          "name": "emailType",
-          "type": "options",
-          "options": [
-            {
-              "name": "HTML",
-              "value": "html"
-            },
-            {
-              "name": "Text",
-              "value": "text"
-            }
-          ],
-          "default": "",
-          "description": "Type of email this member asked to get"
-        },
-        {
-          "displayName": "Interest Groups",
-          "name": "groupsUi",
-          "placeholder": "Add Interest Group",
-          "type": "fixedCollection",
-          "default": {},
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "displayOptions": {
-            "show": {
-              "/resource": [
-                "member"
-              ],
-              "/operation": [
-                "update"
-              ],
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "options": [
-            {
-              "name": "groupsValues",
-              "displayName": "Group",
-              "typeOptions": {
-                "multipleValueButtonText": "Add Interest Group"
-              },
-              "values": [
-                {
-                  "displayName": "Category Name or ID",
-                  "name": "categoryId",
-                  "type": "options",
-                  "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-                  "typeOptions": {
-                    "loadOptionsMethod": "getGroupCategories",
-                    "loadOptionsDependsOn": [
-                      "list"
-                    ]
-                  },
-                  "default": ""
-                },
-                {
-                  "displayName": "Category Field ID",
-                  "name": "categoryFieldId",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "boolean",
-                  "default": false
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Language",
-          "name": "language",
-          "type": "string",
-          "default": "",
-          "description": "If set/detected, the subscriber's language"
-        },
-        {
-          "displayName": "Merge Fields",
-          "name": "mergeFieldsUi",
-          "placeholder": "Add Merge Fields",
-          "type": "fixedCollection",
-          "default": {},
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "displayOptions": {
-            "show": {
-              "/resource": [
-                "member"
-              ],
-              "/operation": [
-                "update"
-              ],
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "description": "An individual merge var and value for a member",
-          "options": [
-            {
-              "name": "mergeFieldsValues",
-              "displayName": "Field",
-              "typeOptions": {
-                "multipleValueButtonText": "Add Field"
-              },
-              "values": [
-                {
-                  "displayName": "Field Name or ID",
-                  "name": "name",
-                  "type": "options",
-                  "typeOptions": {
-                    "loadOptionsMethod": "getMergeFields",
-                    "loadOptionsDependsOn": [
-                      "list"
-                    ]
-                  },
-                  "required": true,
-                  "description": "Merge Field name. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-                  "default": ""
-                },
-                {
-                  "displayName": "Field Value",
-                  "name": "value",
-                  "required": true,
-                  "type": "string",
-                  "default": "",
-                  "description": "Merge field value"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Opt-in IP",
-          "name": "ipOptIn",
-          "type": "string",
-          "default": "",
-          "description": "The IP address the subscriber used to confirm their opt-in status"
-        },
-        {
-          "displayName": "Signup IP",
-          "name": "ipSignup",
-          "type": "string",
-          "default": "",
-          "description": "IP address the subscriber signed up from"
-        },
-        {
-          "displayName": "Signup Timestamp",
-          "name": "timestampSignup",
-          "type": "dateTime",
-          "default": "",
-          "description": "The date and time the subscriber signed up for the list in ISO 8601 format"
-        },
-        {
-          "displayName": "Skip Merge Validation",
-          "name": "skipMergeValidation",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether member data will be accepted without merge field values, even if the merge field is usually required"
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Cleaned",
-              "value": "cleaned"
-            },
-            {
-              "name": "Pending",
-              "value": "pending"
-            },
-            {
-              "name": "Subscribed",
-              "value": "subscribed"
-            },
-            {
-              "name": "Transactional",
-              "value": "transactional"
-            },
-            {
-              "name": "Unsubscribed",
-              "value": "unsubscribed"
-            }
-          ],
-          "default": "",
-          "description": "Subscriber's current status"
-        },
-        {
-          "displayName": "Vip",
-          "name": "vip",
-          "type": "boolean",
-          "default": false,
-          "description": "Vip status for subscribers"
-        },
-        {
-          "displayName": "Location",
-          "name": "locationFieldsUi",
-          "type": "fixedCollection",
-          "placeholder": "Add Location",
-          "default": {},
-          "description": "Subscriber location information.n",
-          "displayOptions": {
-            "show": {
-              "/resource": [
-                "member"
-              ],
-              "/operation": [
-                "update"
-              ],
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "options": [
-            {
-              "name": "locationFieldsValues",
-              "displayName": "Location",
-              "values": [
-                {
-                  "displayName": "Latitude",
-                  "name": "latitude",
-                  "type": "string",
-                  "required": true,
-                  "description": "The location latitude",
-                  "default": ""
-                },
-                {
-                  "displayName": "Longitude",
-                  "name": "longitude",
-                  "type": "string",
-                  "required": true,
-                  "description": "The location longitude",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Opt-in Timestamp",
-          "name": "timestampOpt",
-          "type": "dateTime",
-          "default": "",
-          "description": "The date and time the subscribe confirmed their opt-in status in ISO 8601 format"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "emailType (值: None) - Type of email this member asked to get",
+        "groupsUi (值: None)",
+        "language (值: None) - If set/detected, the subscriber's language",
+        "mergeFieldsUi (值: None) - An individual merge var and value for a member",
+        "ipOptIn (值: None) - The IP address the subscriber used to confirm their opt-in status",
+        "ipSignup (值: None) - IP address the subscriber signed up from",
+        "timestampSignup (值: None) - The date and time the subscriber signed up for the list in ISO 8601 format",
+        "skipMergeValidation (值: None) - Whether member data will be accepted without merge field values, even if the merge field is usually required",
+        "status (值: None) - Subscriber's current status",
+        "vip (值: None) - Vip status for subscribers",
+        "locationFieldsUi (值: None) - Subscriber location information.n",
+        "timestampOpt (值: None) - The date and time the subscribe confirmed their opt-in status in ISO 8601 format"
+      ]
     },
     "tags": {
       "displayName": "Tags",
       "name": "tags",
       "type": "string",
-      "typeOptions": {
-        "multipleValues": true,
-        "multipleValueButtonText": "Add Tag"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "memberTag"
-          ],
-          "operation": [
-            "create",
-            "delete"
-          ]
-        }
-      },
-      "default": []
+      "required": false,
+      "default": [],
+      "description": "",
+      "natural_language_description": "参数名: Tags | 默认值: []"
     },
     "groupCategory": {
       "displayName": "Group Category Name or ID",
       "name": "groupCategory",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getGroupCategories",
-        "loadOptionsDependsOn": [
-          "list"
-        ]
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "listGroup"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "default": "",
-      "options": [],
       "required": true,
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "default": "",
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Group Category Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "campaignId": {
       "displayName": "Campaign ID",
       "name": "campaignId",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "campaign"
-          ],
-          "operation": [
-            "send",
-            "get",
-            "delete",
-            "replicate",
-            "resend"
-          ]
-        }
-      },
       "required": true,
       "default": "",
       "description": "List of Campaigns",
-      "options": [],
-      "ai_hint": "List of Campaigns"
+      "natural_language_description": "参数名: Campaign ID | 作用: List of Campaigns | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "resource",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "list",
-      "email",
-      "status",
-      "jsonParameters",
-      "options",
-      "locationFieldsUi",
-      "mergeFieldsUi",
-      "mergeFieldsJson",
-      "locationJson",
-      "groupsUi",
-      "groupJson",
-      "list",
-      "email",
-      "list",
-      "email",
-      "options",
-      "list",
-      "returnAll",
-      "limit",
-      "options",
-      "list",
-      "email",
-      "jsonParameters",
-      "updateFields",
-      "mergeFieldsJson",
-      "locationJson",
-      "groupJson",
-      "list",
-      "email",
-      "tags",
-      "options",
-      "list",
-      "groupCategory",
-      "returnAll",
-      "limit",
-      "returnAll",
-      "limit",
-      "options",
-      "campaignId"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'member' THEN SHOW parameter 'operation'",
-      "IF resource == 'memberTag' THEN SHOW parameter 'operation'",
-      "IF resource == 'listGroup' THEN SHOW parameter 'operation'",
-      "IF resource == 'campaign' THEN SHOW parameter 'operation'",
-      "IF resource == 'member' AND operation == 'create' THEN SHOW parameter 'list'",
-      "IF resource == 'member' AND operation == 'create' THEN SHOW parameter 'email'",
-      "IF resource == 'member' AND operation == 'create' THEN SHOW parameter 'status'",
-      "IF resource == 'member' AND operation == 'create' THEN SHOW parameter 'jsonParameters'",
-      "IF resource == 'member' AND operation == 'create' THEN SHOW parameter 'options'",
-      "IF resource == 'member' AND operation == 'create' AND jsonParameters == False THEN SHOW parameter 'locationFieldsUi'",
-      "IF resource == 'member' AND operation == 'create' AND jsonParameters == False THEN SHOW parameter 'mergeFieldsUi'",
-      "IF resource == 'member' AND operation == 'create' AND jsonParameters == True THEN SHOW parameter 'mergeFieldsJson'",
-      "IF resource == 'member' AND operation == 'create' AND jsonParameters == True THEN SHOW parameter 'locationJson'",
-      "IF resource == 'member' AND operation == 'create' AND jsonParameters == False THEN SHOW parameter 'groupsUi'",
-      "IF resource == 'member' AND operation == 'create' AND jsonParameters == True THEN SHOW parameter 'groupJson'",
-      "IF resource == 'member' AND operation == 'delete' THEN SHOW parameter 'list'",
-      "IF resource == 'member' AND operation == 'delete' THEN SHOW parameter 'email'",
-      "IF resource == 'member' AND operation == 'get' THEN SHOW parameter 'list'",
-      "IF resource == 'member' AND operation == 'get' THEN SHOW parameter 'email'",
-      "IF resource == 'member' AND operation == 'get' THEN SHOW parameter 'options'",
-      "IF resource == 'member' AND operation == 'getAll' THEN SHOW parameter 'list'",
-      "IF resource == 'member' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'member' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'member' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'member' AND operation == 'update' THEN SHOW parameter 'list'",
-      "IF resource == 'member' AND operation == 'update' THEN SHOW parameter 'email'",
-      "IF resource == 'member' AND operation == 'update' THEN SHOW parameter 'jsonParameters'",
-      "IF resource == 'member' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF /resource == 'member' AND /operation == 'update' AND /jsonParameters == False THEN SHOW parameter 'groupsUi'",
-      "IF /resource == 'member' AND /operation == 'update' AND /jsonParameters == False THEN SHOW parameter 'mergeFieldsUi'",
-      "IF /resource == 'member' AND /operation == 'update' AND /jsonParameters == False THEN SHOW parameter 'locationFieldsUi'",
-      "IF resource == 'member' AND operation == 'update' AND jsonParameters == True THEN SHOW parameter 'mergeFieldsJson'",
-      "IF resource == 'member' AND operation == 'update' AND jsonParameters == True THEN SHOW parameter 'locationJson'",
-      "IF resource == 'member' AND operation == 'update' AND jsonParameters == True THEN SHOW parameter 'groupJson'",
-      "IF resource == 'memberTag' AND operation IN [\"create\", \"delete\"] THEN SHOW parameter 'list'",
-      "IF resource == 'memberTag' AND operation IN [\"create\", \"delete\"] THEN SHOW parameter 'email'",
-      "IF resource == 'memberTag' AND operation IN [\"create\", \"delete\"] THEN SHOW parameter 'tags'",
-      "IF resource == 'memberTag' AND operation IN [\"create\", \"delete\"] THEN SHOW parameter 'options'",
-      "IF resource == 'listGroup' AND operation == 'getAll' THEN SHOW parameter 'list'",
-      "IF resource == 'listGroup' AND operation == 'getAll' THEN SHOW parameter 'groupCategory'",
-      "IF resource == 'listGroup' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'listGroup' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'campaign' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'campaign' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'campaign' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'campaign' AND operation IN [\"send\", \"get\", \"delete\", \"replicate\", \"resend\"] THEN SHOW parameter 'campaignId'"
-    ]
   }
 }

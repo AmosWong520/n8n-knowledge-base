@@ -1,73 +1,38 @@
 {
   "node_id": "n8n-nodes-base.twitter",
-  "name": "n8n-nodes-base.twitter",
+  "name": "X (Formerly Twitter)",
   "version": 1,
   "semantic_context": "Consume Twitter API",
+  "natural_language_description": "这是 X (Formerly Twitter) 节点。主要用于: Consume Twitter API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Direct Message",
-          "value": "directMessage"
-        },
-        {
-          "name": "Tweet",
-          "value": "tweet"
-        }
-      ],
+      "required": false,
       "default": "tweet",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: tweet",
+      "available_options": [
+        "Direct Message (值: directMessage)",
+        "Tweet (值: tweet)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "tweet"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create or reply a tweet",
-          "action": "Create a tweet"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a tweet",
-          "action": "Delete a tweet"
-        },
-        {
-          "name": "Like",
-          "value": "like",
-          "description": "Like a tweet",
-          "action": "Like a tweet"
-        },
-        {
-          "name": "Retweet",
-          "value": "retweet",
-          "description": "Retweet a tweet",
-          "action": "Retweet a tweet"
-        },
-        {
-          "name": "Search",
-          "value": "search",
-          "description": "Search tweets",
-          "action": "Search for tweets"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create or reply a tweet",
+        "Delete (值: delete) - Delete a tweet",
+        "Like (值: like) - Like a tweet",
+        "Retweet (值: retweet) - Retweet a tweet",
+        "Search (值: search) - Search tweets"
+      ]
     },
     "userId": {
       "displayName": "User ID",
@@ -75,18 +40,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "directMessage"
-          ]
-        }
-      },
       "description": "The ID of the user who should receive the direct message",
-      "ai_hint": "The ID of the user who should receive the direct message"
+      "natural_language_description": "参数名: User ID | 作用: The ID of the user who should receive the direct message | (必填项)"
     },
     "text": {
       "displayName": "Text",
@@ -94,45 +49,20 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "tweet"
-          ]
-        }
-      },
       "description": "The text of the status update. URL encode as necessary. t.co link wrapping will affect character counts.",
-      "ai_hint": "The text of the status update. URL encode as necessary. t.co link wrapping will affect character counts."
+      "natural_language_description": "参数名: Text | 作用: The text of the status update. URL encode as necessary. t.co link wrapping will affect character counts. | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "retweet"
-          ],
-          "resource": [
-            "tweet"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Trim User",
-          "name": "trimUser",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether each tweet returned in a timeline will include a user object including only the status authors numerical ID"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "trimUser (值: None) - Whether each tweet returned in a timeline will include a user object including only the status authors numerical ID"
+      ]
     },
     "tweetId": {
       "displayName": "Tweet ID",
@@ -140,18 +70,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "retweet"
-          ],
-          "resource": [
-            "tweet"
-          ]
-        }
-      },
       "description": "The ID of the tweet",
-      "ai_hint": "The ID of the tweet"
+      "natural_language_description": "参数名: Tweet ID | 作用: The ID of the tweet | (必填项)"
     },
     "searchText": {
       "displayName": "Search Text",
@@ -159,99 +79,26 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "search"
-          ],
-          "resource": [
-            "tweet"
-          ]
-        }
-      },
-      "description": "A UTF-8, URL-encoded search query of 500 characters maximum, including operators. Queries may additionally be limited by complexity. Check the searching examples <a href=\"https://developer.twitter.com/en/docs/tweets/search/guides/standard-operators\">here</a>.",
-      "ai_hint": "A UTF-8, URL-encoded search query of 500 characters maximum, including operators. Queries may additionally be limited by complexity. Check the searching examples <a href=\"https://developer.twitter.com/en/docs/tweets/search/guides/standard-operators\">here</a>."
+      "description": "A UTF-8, URL-encoded search query of 500 characters maximum, including operators. Queries may additionally be limited by complexity. Check the searching examples here.",
+      "natural_language_description": "参数名: Search Text | 作用: A UTF-8, URL-encoded search query of 500 characters maximum, including operators. Queries may additionally be limited by complexity. Check the searching examples here. | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "search"
-          ],
-          "resource": [
-            "tweet"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "search"
-          ],
-          "resource": [
-            "tweet"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1
-      },
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "userId",
-      "text",
-      "additionalFields",
-      "operation",
-      "text",
-      "additionalFields",
-      "tweetId",
-      "searchText",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "tweetId",
-      "additionalFields",
-      "tweetId",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF resource == 'directMessage' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'directMessage' THEN SHOW parameter 'userId'",
-      "IF operation == 'create' AND resource == 'directMessage' THEN SHOW parameter 'text'",
-      "IF operation == 'create' AND resource == 'directMessage' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'tweet' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'tweet' THEN SHOW parameter 'text'",
-      "IF operation == 'create' AND resource == 'tweet' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'delete' AND resource == 'tweet' THEN SHOW parameter 'tweetId'",
-      "IF operation == 'search' AND resource == 'tweet' THEN SHOW parameter 'searchText'",
-      "IF operation == 'search' AND resource == 'tweet' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'search' AND resource == 'tweet' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'search' AND resource == 'tweet' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'like' AND resource == 'tweet' THEN SHOW parameter 'tweetId'",
-      "IF operation == 'like' AND resource == 'tweet' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'retweet' AND resource == 'tweet' THEN SHOW parameter 'tweetId'",
-      "IF operation == 'retweet' AND resource == 'tweet' THEN SHOW parameter 'additionalFields'"
-    ]
   }
 }

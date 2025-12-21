@@ -1,102 +1,55 @@
 {
   "node_id": "n8n-nodes-base.splitOut",
-  "name": "n8n-nodes-base.splitOut",
+  "name": "Split Out",
   "version": 1,
   "semantic_context": "Turn a list inside item(s) into separate items",
+  "natural_language_description": "这是 Split Out 节点。主要用于: Turn a list inside item(s) into separate items",
   "parameters": {
     "fieldToSplitOut": {
       "displayName": "Fields To Split Out",
       "name": "fieldToSplitOut",
       "type": "string",
-      "default": "",
       "required": true,
-      "placeholder": "Drag fields from the left or type their names",
+      "default": "",
       "description": "The name of the input fields to break out into separate items. Separate multiple field names by commas. For binary data, use $binary.",
-      "requiresDataPath": "multiple",
-      "hint": "Use $binary to split out the input item by binary data",
-      "ai_hint": "The name of the input fields to break out into separate items. Separate multiple field names by commas. For binary data, use $binary."
+      "natural_language_description": "参数名: Fields To Split Out | 作用: The name of the input fields to break out into separate items. Separate multiple field names by commas. For binary data, use $binary. | 提示: Use $binary to split out the input item by binary data | (必填项)"
     },
     "include": {
       "displayName": "Include",
       "name": "include",
       "type": "options",
-      "options": [
-        {
-          "name": "No Other Fields",
-          "value": "noOtherFields"
-        },
-        {
-          "name": "All Other Fields",
-          "value": "allOtherFields"
-        },
-        {
-          "name": "Selected Other Fields",
-          "value": "selectedOtherFields"
-        }
-      ],
+      "required": false,
       "default": "noOtherFields",
       "description": "Whether to copy any other fields into the new items",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Include | 作用: Whether to copy any other fields into the new items | 默认值: noOtherFields",
+      "available_options": [
+        "No Other Fields (值: noOtherFields)",
+        "All Other Fields (值: allOtherFields)",
+        "Selected Other Fields (值: selectedOtherFields)"
+      ]
     },
     "fieldsToInclude": {
       "displayName": "Fields To Include",
       "name": "fieldsToInclude",
       "type": "string",
-      "placeholder": "e.g. email, name",
-      "requiresDataPath": "multiple",
-      "description": "Fields in the input items to aggregate together",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "include": [
-            "selectedOtherFields"
-          ]
-        }
-      },
-      "ai_hint": "Fields in the input items to aggregate together"
+      "description": "Fields in the input items to aggregate together",
+      "natural_language_description": "参数名: Fields To Include | 作用: Fields in the input items to aggregate together"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Disable Dot Notation",
-          "name": "disableDotNotation",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to disallow referencing child fields using `parent.child` in the field name"
-        },
-        {
-          "displayName": "Destination Field Name",
-          "name": "destinationFieldName",
-          "type": "string",
-          "requiresDataPath": "multiple",
-          "default": "",
-          "description": "The field in the output under which to put the split field contents"
-        },
-        {
-          "displayName": "Include Binary",
-          "name": "includeBinary",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to include the binary data in the new items"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "disableDotNotation (值: None) - Whether to disallow referencing child fields using `parent.child` in the field name",
+        "destinationFieldName (值: None) - The field in the output under which to put the split field contents",
+        "includeBinary (值: None) - Whether to include the binary data in the new items"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "fieldToSplitOut",
-      "include",
-      "fieldsToInclude",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF include == 'selectedOtherFields' THEN SHOW parameter 'fieldsToInclude'"
-    ]
   }
 }

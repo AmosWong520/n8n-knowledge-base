@@ -1,737 +1,218 @@
 {
   "node_id": "n8n-nodes-base.wekan",
-  "name": "n8n-nodes-base.wekan",
+  "name": "Wekan",
   "version": 1,
   "semantic_context": "Consume Wekan API",
+  "natural_language_description": "这是 Wekan 节点。主要用于: Consume Wekan API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Board",
-          "value": "board"
-        },
-        {
-          "name": "Card",
-          "value": "card"
-        },
-        {
-          "name": "Card Comment",
-          "value": "cardComment"
-        },
-        {
-          "name": "Checklist",
-          "value": "checklist"
-        },
-        {
-          "name": "Checklist Item",
-          "value": "checklistItem"
-        },
-        {
-          "name": "List",
-          "value": "list"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "card",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: card",
+      "available_options": [
+        "Board (值: board)",
+        "Card (值: card)",
+        "Card Comment (值: cardComment)",
+        "Checklist (值: checklist)",
+        "Checklist Item (值: checklistItem)",
+        "List (值: list)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "list"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a new list",
-          "action": "Create a list"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a list",
-          "action": "Delete a list"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get the data of a list",
-          "action": "Get a list"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many board lists",
-          "action": "Get many lists"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a new list",
+        "Delete (值: delete) - Delete a list",
+        "Get (值: get) - Get the data of a list",
+        "Get Many (值: getAll) - Get many board lists",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "title": {
       "displayName": "Title",
       "name": "title",
       "type": "string",
-      "default": "",
-      "placeholder": "My list",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
+      "default": "",
       "description": "The title of the list",
-      "ai_hint": "The title of the list"
+      "natural_language_description": "参数名: Title | 作用: The title of the list | (必填项)"
     },
     "owner": {
       "displayName": "Owner Name or ID",
       "name": "owner",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getUsers"
-      },
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "board"
-          ]
-        }
-      },
-      "description": "The user ID in Wekan. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The user ID in Wekan. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "The user ID in Wekan. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Owner Name or ID | 作用: The user ID in Wekan. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "card"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Assignee Names or IDs",
-          "name": "assignees",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getUsers"
-          },
-          "default": [],
-          "description": "The new list of assignee IDs attached to the card. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Description",
-          "name": "description",
-          "type": "string",
-          "default": "",
-          "description": "The new description of the card"
-        },
-        {
-          "displayName": "Member Names or IDs",
-          "name": "members",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getUsers"
-          },
-          "default": [],
-          "description": "The new list of member IDs attached to the card. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "assignees (值: None) - The new list of assignee IDs attached to the card. Choose from the list, or specify IDs using an expression.",
+        "description (值: None) - The new description of the card",
+        "members (值: None) - The new list of member IDs attached to the card. Choose from the list, or specify IDs using an expression."
+      ]
     },
     "boardId": {
       "displayName": "Board Name or ID",
       "name": "boardId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getBoards"
-      },
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
-      "description": "ID of the board where the lists are in. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "ID of the board where the lists are in. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "ID of the board where the lists are in. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Board Name or ID | 作用: ID of the board where the lists are in. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "IdUser": {
       "displayName": "User Name or ID",
       "name": "IdUser",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getUsers"
-      },
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "board"
-          ]
-        }
-      },
-      "description": "The ID of the user that boards are attached. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The ID of the user that boards are attached. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "The ID of the user that boards are attached. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: User Name or ID | 作用: The ID of the user that boards are attached. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "list"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 200
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "listId": {
       "displayName": "List ID",
       "name": "listId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the list to get",
-      "ai_hint": "The ID of the list to get"
+      "natural_language_description": "参数名: List ID | 作用: The ID of the list to get | (必填项)"
     },
     "swimlaneId": {
       "displayName": "Swimlane Name or ID",
       "name": "swimlaneId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getSwimlanes",
-        "loadOptionsDependsOn": [
-          "boardId"
-        ]
-      },
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "fromObject": [
-            "swimlane"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "card"
-          ]
-        }
-      },
-      "description": "The ID of the swimlane that card belongs to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The ID of the swimlane that card belongs to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The ID of the swimlane that card belongs to. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Swimlane Name or ID | 作用: The ID of the swimlane that card belongs to. Choose from the list, or specify an ID using an expression."
     },
     "authorId": {
       "displayName": "Author Name or ID",
       "name": "authorId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getUsers"
-      },
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "cardComment"
-          ]
-        }
-      },
-      "description": "The user who posted the comment. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "default": "",
+      "description": "The user who posted the comment. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Author Name or ID | 作用: The user who posted the comment. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "cardId": {
       "displayName": "Card Name or ID",
       "name": "cardId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getCards",
-        "loadOptionsDependsOn": [
-          "boardId",
-          "listId"
-        ]
-      },
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "checklistItem"
-          ]
-        }
-      },
-      "description": "The ID of the card that checklistItem belongs to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The ID of the card that checklistItem belongs to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "The ID of the card that checklistItem belongs to. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Card Name or ID | 作用: The ID of the card that checklistItem belongs to. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "fromObject": {
       "displayName": "From Object",
       "name": "fromObject",
       "type": "options",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "card"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "List",
-          "value": "list"
-        },
-        {
-          "name": "Swimlane",
-          "value": "swimlane"
-        }
-      ],
       "default": "",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: From Object | (必填项)",
+      "available_options": [
+        "List (值: list)",
+        "Swimlane (值: swimlane)"
+      ]
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "checklistItem"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Title",
-          "name": "title",
-          "type": "string",
-          "default": "",
-          "description": "The new title for the checklistItem item"
-        },
-        {
-          "displayName": "Finished",
-          "name": "isFinished",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the item is checked"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "title (值: None) - The new title for the checklistItem item",
+        "isFinished (值: None) - Whether the item is checked"
+      ]
     },
     "comment": {
       "displayName": "Comment",
       "name": "comment",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "cardComment"
-          ]
-        }
-      },
+      "default": "",
       "description": "The comment text",
-      "ai_hint": "The comment text"
+      "natural_language_description": "参数名: Comment | 作用: The comment text | (必填项)"
     },
     "commentId": {
       "displayName": "Comment ID",
       "name": "commentId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get"
-          ],
-          "resource": [
-            "cardComment"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the comment to get",
-      "ai_hint": "The ID of the comment to get"
+      "natural_language_description": "参数名: Comment ID | 作用: The ID of the comment to get | (必填项)"
     },
     "items": {
       "displayName": "Items",
       "name": "items",
       "type": "string",
-      "typeOptions": {
-        "multipleValues": true,
-        "multipleValueButtonText": "Add Item"
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "checklist"
-          ]
-        }
-      },
+      "required": false,
       "default": [],
       "description": "Items to be added to the checklist",
-      "ai_hint": "Items to be added to the checklist"
+      "natural_language_description": "参数名: Items | 作用: Items to be added to the checklist | 默认值: []"
     },
     "checklistId": {
       "displayName": "CheckList Name or ID",
       "name": "checklistId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getChecklists",
-        "loadOptionsDependsOn": [
-          "boardId",
-          "cardId"
-        ]
-      },
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "checklistItem"
-          ]
-        }
-      },
-      "description": "The ID of the checklistItem that card belongs to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The ID of the checklistItem that card belongs to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "The ID of the checklistItem that card belongs to. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: CheckList Name or ID | 作用: The ID of the checklistItem that card belongs to. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "checklistItemId": {
       "displayName": "Checklist Item Name or ID",
       "name": "checklistItemId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getChecklistItems",
-        "loadOptionsDependsOn": [
-          "boardId",
-          "cardId",
-          "checklistId"
-        ]
-      },
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "checklistItem"
-          ]
-        }
-      },
-      "description": "The ID of the checklistItem item to update. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The ID of the checklistItem item to update. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "The ID of the checklistItem item to update. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Checklist Item Name or ID | 作用: The ID of the checklistItem item to update. Choose from the list, or specify an ID using an expression. | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "title",
-      "owner",
-      "additionalFields",
-      "boardId",
-      "boardId",
-      "IdUser",
-      "returnAll",
-      "limit",
-      "boardId",
-      "listId",
-      "title",
-      "swimlaneId",
-      "authorId",
-      "additionalFields",
-      "boardId",
-      "listId",
-      "cardId",
-      "boardId",
-      "listId",
-      "cardId",
-      "boardId",
-      "fromObject",
-      "listId",
-      "swimlaneId",
-      "returnAll",
-      "limit",
-      "boardId",
-      "listId",
-      "cardId",
-      "updateFields",
-      "boardId",
-      "listId",
-      "cardId",
-      "authorId",
-      "comment",
-      "boardId",
-      "listId",
-      "cardId",
-      "commentId",
-      "boardId",
-      "listId",
-      "cardId",
-      "commentId",
-      "boardId",
-      "listId",
-      "cardId",
-      "returnAll",
-      "limit",
-      "boardId",
-      "listId",
-      "cardId",
-      "title",
-      "items",
-      "boardId",
-      "listId",
-      "cardId",
-      "checklistId",
-      "boardId",
-      "listId",
-      "cardId",
-      "checklistId",
-      "boardId",
-      "listId",
-      "cardId",
-      "returnAll",
-      "limit",
-      "boardId",
-      "listId",
-      "cardId",
-      "checklistId",
-      "checklistItemId",
-      "boardId",
-      "listId",
-      "cardId",
-      "checklistId",
-      "checklistItemId",
-      "boardId",
-      "listId",
-      "cardId",
-      "checklistId",
-      "checklistItemId",
-      "updateFields",
-      "boardId",
-      "title",
-      "boardId",
-      "listId",
-      "boardId",
-      "listId",
-      "boardId",
-      "returnAll",
-      "limit"
-    ],
-    "conditional_rules": [
-      "IF resource == 'board' THEN SHOW parameter 'operation'",
-      "IF resource == 'card' THEN SHOW parameter 'operation'",
-      "IF resource == 'cardComment' THEN SHOW parameter 'operation'",
-      "IF resource == 'checklist' THEN SHOW parameter 'operation'",
-      "IF resource == 'checklistItem' THEN SHOW parameter 'operation'",
-      "IF resource == 'list' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'board' THEN SHOW parameter 'title'",
-      "IF operation == 'create' AND resource == 'board' THEN SHOW parameter 'owner'",
-      "IF operation == 'create' AND resource == 'board' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'delete' AND resource == 'board' THEN SHOW parameter 'boardId'",
-      "IF operation == 'get' AND resource == 'board' THEN SHOW parameter 'boardId'",
-      "IF operation == 'getAll' AND resource == 'board' THEN SHOW parameter 'IdUser'",
-      "IF operation == 'getAll' AND resource == 'board' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'board' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'create' AND resource == 'card' THEN SHOW parameter 'boardId'",
-      "IF operation == 'create' AND resource == 'card' THEN SHOW parameter 'listId'",
-      "IF operation == 'create' AND resource == 'card' THEN SHOW parameter 'title'",
-      "IF operation == 'create' AND resource == 'card' THEN SHOW parameter 'swimlaneId'",
-      "IF operation == 'create' AND resource == 'card' THEN SHOW parameter 'authorId'",
-      "IF operation == 'create' AND resource == 'card' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'delete' AND resource == 'card' THEN SHOW parameter 'boardId'",
-      "IF operation == 'delete' AND resource == 'card' THEN SHOW parameter 'listId'",
-      "IF operation == 'delete' AND resource == 'card' THEN SHOW parameter 'cardId'",
-      "IF operation == 'get' AND resource == 'card' THEN SHOW parameter 'boardId'",
-      "IF operation == 'get' AND resource == 'card' THEN SHOW parameter 'listId'",
-      "IF operation == 'get' AND resource == 'card' THEN SHOW parameter 'cardId'",
-      "IF operation == 'getAll' AND resource == 'card' THEN SHOW parameter 'boardId'",
-      "IF operation == 'getAll' AND resource == 'card' THEN SHOW parameter 'fromObject'",
-      "IF fromObject == 'list' AND operation == 'getAll' AND resource == 'card' THEN SHOW parameter 'listId'",
-      "IF fromObject == 'swimlane' AND operation == 'getAll' AND resource == 'card' THEN SHOW parameter 'swimlaneId'",
-      "IF operation == 'getAll' AND resource == 'card' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'card' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'update' AND resource == 'card' THEN SHOW parameter 'boardId'",
-      "IF operation == 'update' AND resource == 'card' THEN SHOW parameter 'listId'",
-      "IF operation == 'update' AND resource == 'card' THEN SHOW parameter 'cardId'",
-      "IF operation == 'update' AND resource == 'card' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'create' AND resource == 'cardComment' THEN SHOW parameter 'boardId'",
-      "IF operation == 'create' AND resource == 'cardComment' THEN SHOW parameter 'listId'",
-      "IF operation == 'create' AND resource == 'cardComment' THEN SHOW parameter 'cardId'",
-      "IF operation == 'create' AND resource == 'cardComment' THEN SHOW parameter 'authorId'",
-      "IF operation == 'create' AND resource == 'cardComment' THEN SHOW parameter 'comment'",
-      "IF operation == 'delete' AND resource == 'cardComment' THEN SHOW parameter 'boardId'",
-      "IF operation == 'delete' AND resource == 'cardComment' THEN SHOW parameter 'listId'",
-      "IF operation == 'delete' AND resource == 'cardComment' THEN SHOW parameter 'cardId'",
-      "IF operation == 'delete' AND resource == 'cardComment' THEN SHOW parameter 'commentId'",
-      "IF operation == 'get' AND resource == 'cardComment' THEN SHOW parameter 'boardId'",
-      "IF operation == 'get' AND resource == 'cardComment' THEN SHOW parameter 'listId'",
-      "IF operation == 'get' AND resource == 'cardComment' THEN SHOW parameter 'cardId'",
-      "IF operation == 'get' AND resource == 'cardComment' THEN SHOW parameter 'commentId'",
-      "IF operation == 'getAll' AND resource == 'cardComment' THEN SHOW parameter 'boardId'",
-      "IF operation == 'getAll' AND resource == 'cardComment' THEN SHOW parameter 'listId'",
-      "IF operation == 'getAll' AND resource == 'cardComment' THEN SHOW parameter 'cardId'",
-      "IF operation == 'getAll' AND resource == 'cardComment' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'cardComment' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'create' AND resource == 'checklist' THEN SHOW parameter 'boardId'",
-      "IF operation == 'create' AND resource == 'checklist' THEN SHOW parameter 'listId'",
-      "IF operation == 'create' AND resource == 'checklist' THEN SHOW parameter 'cardId'",
-      "IF operation == 'create' AND resource == 'checklist' THEN SHOW parameter 'title'",
-      "IF operation == 'create' AND resource == 'checklist' THEN SHOW parameter 'items'",
-      "IF operation == 'delete' AND resource == 'checklist' THEN SHOW parameter 'boardId'",
-      "IF operation == 'delete' AND resource == 'checklist' THEN SHOW parameter 'listId'",
-      "IF operation == 'delete' AND resource == 'checklist' THEN SHOW parameter 'cardId'",
-      "IF operation == 'delete' AND resource == 'checklist' THEN SHOW parameter 'checklistId'",
-      "IF operation == 'get' AND resource == 'checklist' THEN SHOW parameter 'boardId'",
-      "IF operation == 'get' AND resource == 'checklist' THEN SHOW parameter 'listId'",
-      "IF operation == 'get' AND resource == 'checklist' THEN SHOW parameter 'cardId'",
-      "IF operation == 'get' AND resource == 'checklist' THEN SHOW parameter 'checklistId'",
-      "IF operation == 'getAll' AND resource == 'checklist' THEN SHOW parameter 'boardId'",
-      "IF operation == 'getAll' AND resource == 'checklist' THEN SHOW parameter 'listId'",
-      "IF operation == 'getAll' AND resource == 'checklist' THEN SHOW parameter 'cardId'",
-      "IF operation == 'getAll' AND resource == 'checklist' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'checklist' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'delete' AND resource == 'checklistItem' THEN SHOW parameter 'boardId'",
-      "IF operation == 'delete' AND resource == 'checklistItem' THEN SHOW parameter 'listId'",
-      "IF operation == 'delete' AND resource == 'checklistItem' THEN SHOW parameter 'cardId'",
-      "IF operation == 'delete' AND resource == 'checklistItem' THEN SHOW parameter 'checklistId'",
-      "IF operation == 'delete' AND resource == 'checklistItem' THEN SHOW parameter 'checklistItemId'",
-      "IF operation == 'get' AND resource == 'checklistItem' THEN SHOW parameter 'boardId'",
-      "IF operation == 'get' AND resource == 'checklistItem' THEN SHOW parameter 'listId'",
-      "IF operation == 'get' AND resource == 'checklistItem' THEN SHOW parameter 'cardId'",
-      "IF operation == 'get' AND resource == 'checklistItem' THEN SHOW parameter 'checklistId'",
-      "IF operation == 'get' AND resource == 'checklistItem' THEN SHOW parameter 'checklistItemId'",
-      "IF operation == 'update' AND resource == 'checklistItem' THEN SHOW parameter 'boardId'",
-      "IF operation == 'update' AND resource == 'checklistItem' THEN SHOW parameter 'listId'",
-      "IF operation == 'update' AND resource == 'checklistItem' THEN SHOW parameter 'cardId'",
-      "IF operation == 'update' AND resource == 'checklistItem' THEN SHOW parameter 'checklistId'",
-      "IF operation == 'update' AND resource == 'checklistItem' THEN SHOW parameter 'checklistItemId'",
-      "IF operation == 'update' AND resource == 'checklistItem' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'create' AND resource == 'list' THEN SHOW parameter 'boardId'",
-      "IF operation == 'create' AND resource == 'list' THEN SHOW parameter 'title'",
-      "IF operation == 'delete' AND resource == 'list' THEN SHOW parameter 'boardId'",
-      "IF operation == 'delete' AND resource == 'list' THEN SHOW parameter 'listId'",
-      "IF operation == 'get' AND resource == 'list' THEN SHOW parameter 'boardId'",
-      "IF operation == 'get' AND resource == 'list' THEN SHOW parameter 'listId'",
-      "IF operation == 'getAll' AND resource == 'list' THEN SHOW parameter 'boardId'",
-      "IF operation == 'getAll' AND resource == 'list' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'list' AND returnAll == False THEN SHOW parameter 'limit'"
-    ]
   }
 }

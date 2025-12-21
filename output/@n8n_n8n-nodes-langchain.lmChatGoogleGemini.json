@@ -1,219 +1,43 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-  "name": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+  "name": "Google Gemini Chat Model",
   "version": 1,
   "semantic_context": "Chat Model Google Gemini",
+  "natural_language_description": "这是 Google Gemini Chat Model 节点。主要用于: Chat Model Google Gemini",
   "parameters": {
     "notice": {
       "displayName": "This node must be connected to an AI chain. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "containerClass": "ndv-connection-hint-notice"
-      }
+      "description": "",
+      "natural_language_description": "参数名: This node must be connected to an AI chain. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>"
     },
     "modelName": {
       "displayName": "Model",
       "name": "modelName",
       "type": "options",
-      "description": "The model which will generate the completion. <a href=\"https://developers.generativeai.google/api/rest/generativelanguage/models/list\">Learn more</a>.",
-      "typeOptions": {
-        "loadOptions": {
-          "routing": {
-            "request": {
-              "method": "GET",
-              "url": "/v1beta/models"
-            },
-            "output": {
-              "postReceive": [
-                {
-                  "type": "rootProperty",
-                  "properties": {
-                    "property": "models"
-                  }
-                },
-                {
-                  "type": "filter",
-                  "properties": {
-                    "pass": "={{ !$responseItem.name.includes('embedding') }}"
-                  }
-                },
-                {
-                  "type": "setKeyValue",
-                  "properties": {
-                    "name": "={{$responseItem.name}}",
-                    "value": "={{$responseItem.name}}",
-                    "description": "={{$responseItem.description}}"
-                  }
-                },
-                {
-                  "type": "sort",
-                  "properties": {
-                    "key": "name"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      },
-      "routing": {
-        "send": {
-          "type": "body",
-          "property": "model"
-        }
-      },
+      "required": false,
       "default": "models/gemini-2.5-flash",
-      "ai_hint": "The model which will generate the completion. <a href=\"https://developers.generativeai.google/api/rest/generativelanguage/models/list\">Learn more</a>."
+      "description": "The model which will generate the completion. Learn more.",
+      "natural_language_description": "参数名: Model | 作用: The model which will generate the completion. Learn more. | 默认值: models/gemini-2.5-flash"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
-      "placeholder": "Add Option",
-      "description": "Additional options to add",
       "type": "collection",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Maximum Number of Tokens",
-          "name": "maxOutputTokens",
-          "default": 2048,
-          "description": "The maximum number of tokens to generate in the completion",
-          "type": "number"
-        },
-        {
-          "displayName": "Sampling Temperature",
-          "name": "temperature",
-          "default": 0.4,
-          "typeOptions": {
-            "maxValue": 1,
-            "minValue": 0,
-            "numberPrecision": 1
-          },
-          "description": "Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.",
-          "type": "number"
-        },
-        {
-          "displayName": "Top K",
-          "name": "topK",
-          "default": 32,
-          "typeOptions": {
-            "maxValue": 40,
-            "minValue": -1,
-            "numberPrecision": 1
-          },
-          "description": "Used to remove \"long tail\" low probability responses. Defaults to -1, which disables it.",
-          "type": "number"
-        },
-        {
-          "displayName": "Top P",
-          "name": "topP",
-          "default": 1,
-          "typeOptions": {
-            "maxValue": 1,
-            "minValue": 0,
-            "numberPrecision": 1
-          },
-          "description": "Controls diversity via nucleus sampling: 0.5 means half of all likelihood-weighted options are considered. We generally recommend altering this or temperature but not both.",
-          "type": "number"
-        },
-        {
-          "displayName": "Safety Settings",
-          "name": "safetySettings",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {
-            "values": {
-              "category": "HARM_CATEGORY_HARASSMENT",
-              "threshold": "HARM_BLOCK_THRESHOLD_UNSPECIFIED"
-            }
-          },
-          "placeholder": "Add Option",
-          "options": [
-            {
-              "name": "values",
-              "displayName": "Values",
-              "values": [
-                {
-                  "displayName": "Safety Category",
-                  "name": "category",
-                  "type": "options",
-                  "description": "The category of harmful content to block",
-                  "default": "HARM_CATEGORY_UNSPECIFIED",
-                  "options": [
-                    {
-                      "value": "HARM_CATEGORY_HARASSMENT",
-                      "name": "HARM_CATEGORY_HARASSMENT",
-                      "description": "Harassment content"
-                    },
-                    {
-                      "value": "HARM_CATEGORY_HATE_SPEECH",
-                      "name": "HARM_CATEGORY_HATE_SPEECH",
-                      "description": "Hate speech and content"
-                    },
-                    {
-                      "value": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                      "name": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                      "description": "Sexually explicit content"
-                    },
-                    {
-                      "value": "HARM_CATEGORY_DANGEROUS_CONTENT",
-                      "name": "HARM_CATEGORY_DANGEROUS_CONTENT",
-                      "description": "Dangerous content"
-                    }
-                  ]
-                },
-                {
-                  "displayName": "Safety Threshold",
-                  "name": "threshold",
-                  "type": "options",
-                  "description": "The threshold of harmful content to block",
-                  "default": "HARM_BLOCK_THRESHOLD_UNSPECIFIED",
-                  "options": [
-                    {
-                      "value": "HARM_BLOCK_THRESHOLD_UNSPECIFIED",
-                      "name": "HARM_BLOCK_THRESHOLD_UNSPECIFIED",
-                      "description": "Threshold is unspecified"
-                    },
-                    {
-                      "value": "BLOCK_LOW_AND_ABOVE",
-                      "name": "BLOCK_LOW_AND_ABOVE",
-                      "description": "Content with NEGLIGIBLE will be allowed"
-                    },
-                    {
-                      "value": "BLOCK_MEDIUM_AND_ABOVE",
-                      "name": "BLOCK_MEDIUM_AND_ABOVE",
-                      "description": "Content with NEGLIGIBLE and LOW will be allowed"
-                    },
-                    {
-                      "value": "BLOCK_ONLY_HIGH",
-                      "name": "BLOCK_ONLY_HIGH",
-                      "description": "Content with NEGLIGIBLE, LOW, and MEDIUM will be allowed"
-                    },
-                    {
-                      "value": "BLOCK_NONE",
-                      "name": "BLOCK_NONE",
-                      "description": "All content will be allowed"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "Additional options to add",
+      "natural_language_description": "参数名: Options | 作用: Additional options to add | 默认值: {}",
+      "available_options": [
+        "maxOutputTokens (值: None) - The maximum number of tokens to generate in the completion",
+        "temperature (值: None) - Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.",
+        "topK (值: None) - Used to remove \"long tail\" low probability responses. Defaults to -1, which disables it.",
+        "topP (值: None) - Controls diversity via nucleus sampling: 0.5 means half of all likelihood-weighted options are considered. We generally recommend altering this or temperature but not both.",
+        "safetySettings (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "notice",
-      "modelName",
-      "options"
-    ],
-    "conditional_rules": []
   }
 }

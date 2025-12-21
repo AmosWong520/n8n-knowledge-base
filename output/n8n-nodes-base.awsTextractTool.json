@@ -1,128 +1,75 @@
 {
   "node_id": "n8n-nodes-base.awsTextractTool",
-  "name": "n8n-nodes-base.awsTextractTool",
+  "name": "AWS Textract Tool",
   "version": 1,
   "semantic_context": "Sends data to Amazon Textract",
+  "natural_language_description": "这是 AWS Textract Tool 节点。主要用于: Sends data to Amazon Textract",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Sends data to Amazon Textract",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Sends data to Amazon Textract",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Sends data to Amazon Textract | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "AWS (IAM)",
-          "value": "iam"
-        },
-        {
-          "name": "AWS (Assume Role)",
-          "value": "assumeRole"
-        }
-      ],
+      "required": false,
       "default": "iam",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: iam",
+      "available_options": [
+        "AWS (IAM) (值: iam)",
+        "AWS (Assume Role) (值: assumeRole)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Analyze Receipt or Invoice",
-          "value": "analyzeExpense"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "analyzeExpense",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: analyzeExpense",
+      "available_options": [
+        "Analyze Receipt or Invoice (值: analyzeExpense)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "binaryPropertyName": {
       "displayName": "Input Data Field Name",
       "name": "binaryPropertyName",
       "type": "string",
-      "default": "data",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "analyzeExpense"
-          ]
-        }
-      },
       "required": true,
+      "default": "data",
       "description": "The name of the input field containing the binary file data to be uploaded. Supported file types: PNG, JPEG.",
-      "ai_hint": "The name of the input field containing the binary file data to be uploaded. Supported file types: PNG, JPEG."
+      "natural_language_description": "参数名: Input Data Field Name | 作用: The name of the input field containing the binary file data to be uploaded. Supported file types: PNG, JPEG. | 默认值: data | (必填项)"
     },
     "simple": {
       "displayName": "Simplify",
       "name": "simple",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "analyzeExpense"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether to return a simplified version of the response instead of the raw data",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Simplify | 作用: Whether to return a simplified version of the response instead of the raw data | 默认值: True"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "operation",
-      "binaryPropertyName",
-      "simple"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF operation == 'analyzeExpense' THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'analyzeExpense' THEN SHOW parameter 'simple'"
-    ]
   }
 }

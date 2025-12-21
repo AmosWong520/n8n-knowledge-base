@@ -1,420 +1,161 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.googleGemini",
-  "name": "@n8n/n8n-nodes-langchain.googleGemini",
+  "name": "Google Gemini",
   "version": 1,
   "semantic_context": "Interact with Google Gemini AI models",
+  "natural_language_description": "这是 Google Gemini 节点。主要用于: Interact with Google Gemini AI models",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Audio",
-          "value": "audio"
-        },
-        {
-          "name": "Document",
-          "value": "document"
-        },
-        {
-          "name": "File",
-          "value": "file"
-        },
-        {
-          "name": "Image",
-          "value": "image"
-        },
-        {
-          "name": "Text",
-          "value": "text"
-        },
-        {
-          "name": "Video",
-          "value": "video"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "text",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: text",
+      "available_options": [
+        "Audio (值: audio)",
+        "Document (值: document)",
+        "File (值: file)",
+        "Image (值: image)",
+        "Text (值: text)",
+        "Video (值: video)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Analyze Video",
-          "value": "analyze",
-          "action": "Analyze video",
-          "description": "Take in videos and answer questions about them"
-        },
-        {
-          "name": "Generate a Video",
-          "value": "generate",
-          "action": "Generate a video",
-          "description": "Creates a video from a text prompt"
-        },
-        {
-          "name": "Download Video",
-          "value": "download",
-          "action": "Download a video",
-          "description": "Download a generated video from the Google Gemini API using a URL"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "generate",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "video"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: generate",
+      "available_options": [
+        "Analyze Video (值: analyze) - Take in videos and answer questions about them",
+        "Generate a Video (值: generate) - Creates a video from a text prompt",
+        "Download Video (值: download) - Download a generated video from the Google Gemini API using a URL",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "modelId": {
       "displayName": "Model",
       "name": "modelId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "videoGenerationModelSearch",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "placeholder": "e.g. models/gemini-2.5-flash"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "generate"
-          ],
-          "resource": [
-            "video"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Model | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "text": {
       "displayName": "Text Input",
       "name": "text",
       "type": "string",
-      "placeholder": "e.g. What's in this video?",
+      "required": false,
       "default": "What's in this video?",
-      "typeOptions": {
-        "rows": 2
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "analyze"
-          ],
-          "resource": [
-            "video"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Text Input | 默认值: What's in this video?"
     },
     "inputType": {
       "displayName": "Input Type",
       "name": "inputType",
       "type": "options",
+      "required": false,
       "default": "url",
-      "options": [
-        {
-          "name": "Video URL(s)",
-          "value": "url"
-        },
-        {
-          "name": "Binary File(s)",
-          "value": "binary"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "analyze"
-          ],
-          "resource": [
-            "video"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Input Type | 默认值: url",
+      "available_options": [
+        "Video URL(s) (值: url)",
+        "Binary File(s) (值: binary)"
+      ]
     },
     "audioUrls": {
       "displayName": "URL(s)",
       "name": "audioUrls",
       "type": "string",
-      "placeholder": "e.g. https://example.com/audio.mp3",
-      "description": "URL(s) of the audio(s) to transcribe, multiple URLs can be added separated by comma",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "inputType": [
-            "url"
-          ],
-          "operation": [
-            "transcribe"
-          ],
-          "resource": [
-            "audio"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "description": "URL(s) of the audio(s) to transcribe, multiple URLs can be added separated by comma",
+      "natural_language_description": "参数名: URL(s) | 作用: URL(s) of the audio(s) to transcribe, multiple URLs can be added separated by comma"
     },
     "binaryPropertyName": {
       "displayName": "Input Data Field Name(s)",
       "name": "binaryPropertyName",
       "type": "string",
+      "required": false,
       "default": "data",
-      "placeholder": "e.g. data",
-      "hint": "The name of the input field containing the binary file data to be processed",
       "description": "Name of the binary field(s) which contains the video(s), seperate multiple field names with commas",
-      "displayOptions": {
-        "show": {
-          "inputType": [
-            "binary"
-          ],
-          "operation": [
-            "analyze"
-          ],
-          "resource": [
-            "video"
-          ]
-        }
-      },
-      "ai_hint": "Name of the binary field(s) which contains the video(s), seperate multiple field names with commas"
+      "natural_language_description": "参数名: Input Data Field Name(s) | 作用: Name of the binary field(s) which contains the video(s), seperate multiple field names with commas | 提示: The name of the input field containing the binary file data to be processed | 默认值: data"
     },
     "simplify": {
       "displayName": "Simplify Output",
       "name": "simplify",
       "type": "boolean",
+      "required": false,
       "default": true,
       "description": "Whether to simplify the response or not",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "analyze"
-          ],
-          "resource": [
-            "video"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Simplify Output | 作用: Whether to simplify the response or not | 默认值: True"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
-      "placeholder": "Add Option",
       "type": "collection",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Number of Videos",
-          "name": "sampleCount",
-          "type": "number",
-          "default": 1,
-          "description": "How many videos to generate",
-          "typeOptions": {
-            "minValue": 1,
-            "maxValue": 4
-          }
-        },
-        {
-          "displayName": "Duration (Seconds)",
-          "name": "durationSeconds",
-          "type": "number",
-          "default": 8,
-          "description": "Length of the generated video in seconds. Supported only by certain models.",
-          "typeOptions": {
-            "minValue": 5,
-            "maxValue": 8
-          }
-        },
-        {
-          "displayName": "Aspect Ratio",
-          "name": "aspectRatio",
-          "type": "options",
-          "options": [
-            {
-              "name": "Widescreen (16:9)",
-              "value": "16:9",
-              "description": "Most common aspect ratio for televisions and monitors"
-            },
-            {
-              "name": "Portrait (9:16)",
-              "value": "9:16",
-              "description": "Popular for short-form videos like YouTube Shorts"
-            }
-          ],
-          "default": "16:9"
-        },
-        {
-          "displayName": "Person Generation",
-          "name": "personGeneration",
-          "type": "options",
-          "options": [
-            {
-              "name": "Don't Allow",
-              "value": "dont_allow",
-              "description": "Prevent generation of people in the video"
-            },
-            {
-              "name": "Allow Adult",
-              "value": "allow_adult",
-              "description": "Allow generation of adult people in the video"
-            },
-            {
-              "name": "Allow All",
-              "value": "allow_all",
-              "description": "Allow generation of all people in the video"
-            }
-          ],
-          "default": "dont_allow"
-        },
-        {
-          "displayName": "Put Output in Field",
-          "name": "binaryPropertyOutput",
-          "type": "string",
-          "default": "data",
-          "hint": "The name of the output field to put the binary file data in"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "generate"
-          ],
-          "resource": [
-            "video"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "sampleCount (值: None) - How many videos to generate",
+        "durationSeconds (值: None) - Length of the generated video in seconds. Supported only by certain models.",
+        "aspectRatio (值: None)",
+        "personGeneration (值: None)",
+        "binaryPropertyOutput (值: None)"
+      ]
     },
     "documentUrls": {
       "displayName": "URL(s)",
       "name": "documentUrls",
       "type": "string",
-      "placeholder": "e.g. https://example.com/document.pdf",
-      "description": "URL(s) of the document(s) to analyze, multiple URLs can be added separated by comma",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "inputType": [
-            "url"
-          ],
-          "operation": [
-            "analyze"
-          ],
-          "resource": [
-            "document"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "description": "URL(s) of the document(s) to analyze, multiple URLs can be added separated by comma",
+      "natural_language_description": "参数名: URL(s) | 作用: URL(s) of the document(s) to analyze, multiple URLs can be added separated by comma"
     },
     "fileUrl": {
       "displayName": "URL",
       "name": "fileUrl",
       "type": "string",
-      "placeholder": "e.g. https://example.com/file.pdf",
-      "description": "URL of the file to upload",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "inputType": [
-            "url"
-          ],
-          "operation": [
-            "upload"
-          ],
-          "resource": [
-            "file"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "description": "URL of the file to upload",
+      "natural_language_description": "参数名: URL | 作用: URL of the file to upload"
     },
     "imageUrls": {
       "displayName": "URL(s)",
       "name": "imageUrls",
       "type": "string",
-      "placeholder": "e.g. https://example.com/image.png",
-      "description": "URL(s) of the image(s) to analyze, multiple URLs can be added separated by comma",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "inputType": [
-            "url"
-          ],
-          "operation": [
-            "analyze"
-          ],
-          "resource": [
-            "image"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "description": "URL(s) of the image(s) to analyze, multiple URLs can be added separated by comma",
+      "natural_language_description": "参数名: URL(s) | 作用: URL(s) of the image(s) to analyze, multiple URLs can be added separated by comma"
     },
     "prompt": {
       "displayName": "Prompt",
       "name": "prompt",
       "type": "string",
-      "placeholder": "e.g. Panning wide shot of a calico kitten sleeping in the sunshine",
-      "description": "A text description of the desired video",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "rows": 2
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "generate"
-          ],
-          "resource": [
-            "video"
-          ]
-        }
-      },
-      "ai_hint": "A text description of the desired video"
+      "description": "A text description of the desired video",
+      "natural_language_description": "参数名: Prompt | 作用: A text description of the desired video"
     },
     "images": {
       "displayName": "Images",
       "name": "images",
       "type": "fixedCollection",
-      "placeholder": "Add Image",
-      "typeOptions": {
-        "multipleValues": true,
-        "multipleValueButtonText": "Add Image"
-      },
+      "required": false,
       "default": {
         "values": [
           {
@@ -423,43 +164,16 @@
         ]
       },
       "description": "Add one or more binary fields to include images with your prompt",
-      "options": [
-        {
-          "displayName": "Image",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Binary Field Name",
-              "name": "binaryPropertyName",
-              "type": "string",
-              "default": "data",
-              "placeholder": "e.g. data",
-              "description": "The name of the binary field containing the image data"
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "edit"
-          ],
-          "resource": [
-            "image"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Images | 作用: Add one or more binary fields to include images with your prompt | 默认值: {'values': [{'binaryPropertyName': 'data'}]}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "messages": {
       "displayName": "Messages",
       "name": "messages",
       "type": "fixedCollection",
-      "typeOptions": {
-        "sortable": true,
-        "multipleValues": true
-      },
-      "placeholder": "Add Message",
+      "required": false,
       "default": {
         "values": [
           {
@@ -467,271 +181,51 @@
           }
         ]
       },
-      "options": [
-        {
-          "displayName": "Values",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Prompt",
-              "name": "content",
-              "type": "string",
-              "description": "The content of the message to be send",
-              "default": "",
-              "placeholder": "e.g. Hello, how can you help me?",
-              "typeOptions": {
-                "rows": 2
-              }
-            },
-            {
-              "displayName": "Role",
-              "name": "role",
-              "type": "options",
-              "description": "Role in shaping the model's response, it tells the model how it should behave and interact with the user",
-              "options": [
-                {
-                  "name": "User",
-                  "value": "user",
-                  "description": "Send a message as a user and get a response from the model"
-                },
-                {
-                  "name": "Model",
-                  "value": "model",
-                  "description": "Tell the model to adopt a specific tone or personality"
-                }
-              ],
-              "default": "user"
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "message"
-          ],
-          "resource": [
-            "text"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Messages | 默认值: {'values': [{'content': ''}]}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "jsonOutput": {
       "displayName": "Output Content as JSON",
       "name": "jsonOutput",
       "type": "boolean",
-      "description": "Whether to attempt to return the response in JSON format",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "message"
-          ],
-          "resource": [
-            "text"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "Whether to attempt to return the response in JSON format",
+      "natural_language_description": "参数名: Output Content as JSON | 作用: Whether to attempt to return the response in JSON format | 默认值: False"
     },
     "videoUrls": {
       "displayName": "URL(s)",
       "name": "videoUrls",
       "type": "string",
-      "placeholder": "e.g. https://example.com/video.mp4",
-      "description": "URL(s) of the video(s) to analyze, multiple URLs can be added separated by comma",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "inputType": [
-            "url"
-          ],
-          "operation": [
-            "analyze"
-          ],
-          "resource": [
-            "video"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "description": "URL(s) of the video(s) to analyze, multiple URLs can be added separated by comma",
+      "natural_language_description": "参数名: URL(s) | 作用: URL(s) of the video(s) to analyze, multiple URLs can be added separated by comma"
     },
     "url": {
       "displayName": "URL",
       "name": "url",
       "type": "string",
-      "placeholder": "e.g. https://generativelanguage.googleapis.com/v1beta/files/abcdefg:download",
-      "description": "The URL from Google Gemini API to download the video from",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "download"
-          ],
-          "resource": [
-            "video"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "description": "The URL from Google Gemini API to download the video from",
+      "natural_language_description": "参数名: URL | 作用: The URL from Google Gemini API to download the video from"
     },
     "returnAs": {
       "displayName": "Return As",
       "name": "returnAs",
       "type": "options",
-      "options": [
-        {
-          "name": "Video",
-          "value": "video"
-        },
-        {
-          "name": "URL",
-          "value": "url"
-        }
-      ],
-      "description": "Whether to return the video as a binary file or a URL that can be used to download the video later",
+      "required": false,
       "default": "video",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "generate"
-          ],
-          "resource": [
-            "video"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "Whether to return the video as a binary file or a URL that can be used to download the video later",
+      "natural_language_description": "参数名: Return As | 作用: Whether to return the video as a binary file or a URL that can be used to download the video later | 默认值: video",
+      "available_options": [
+        "Video (值: video)",
+        "URL (值: url)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "modelId",
-      "text",
-      "inputType",
-      "audioUrls",
-      "binaryPropertyName",
-      "simplify",
-      "options",
-      "modelId",
-      "inputType",
-      "audioUrls",
-      "binaryPropertyName",
-      "simplify",
-      "options",
-      "operation",
-      "modelId",
-      "text",
-      "inputType",
-      "documentUrls",
-      "binaryPropertyName",
-      "simplify",
-      "options",
-      "operation",
-      "inputType",
-      "fileUrl",
-      "binaryPropertyName",
-      "operation",
-      "modelId",
-      "text",
-      "inputType",
-      "imageUrls",
-      "binaryPropertyName",
-      "simplify",
-      "options",
-      "modelId",
-      "prompt",
-      "images",
-      "options",
-      "modelId",
-      "prompt",
-      "options",
-      "operation",
-      "modelId",
-      "messages",
-      "simplify",
-      "jsonOutput",
-      "options",
-      "operation",
-      "modelId",
-      "text",
-      "inputType",
-      "videoUrls",
-      "binaryPropertyName",
-      "simplify",
-      "options",
-      "url",
-      "options",
-      "modelId",
-      "prompt",
-      "returnAs",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF resource == 'audio' THEN SHOW parameter 'operation'",
-      "IF operation == 'analyze' AND resource == 'audio' THEN SHOW parameter 'modelId'",
-      "IF operation == 'analyze' AND resource == 'audio' THEN SHOW parameter 'text'",
-      "IF operation == 'analyze' AND resource == 'audio' THEN SHOW parameter 'inputType'",
-      "IF inputType == 'url' AND operation == 'analyze' AND resource == 'audio' THEN SHOW parameter 'audioUrls'",
-      "IF inputType == 'binary' AND operation == 'analyze' AND resource == 'audio' THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'analyze' AND resource == 'audio' THEN SHOW parameter 'simplify'",
-      "IF operation == 'analyze' AND resource == 'audio' THEN SHOW parameter 'options'",
-      "IF operation == 'transcribe' AND resource == 'audio' THEN SHOW parameter 'modelId'",
-      "IF operation == 'transcribe' AND resource == 'audio' THEN SHOW parameter 'inputType'",
-      "IF inputType == 'url' AND operation == 'transcribe' AND resource == 'audio' THEN SHOW parameter 'audioUrls'",
-      "IF inputType == 'binary' AND operation == 'transcribe' AND resource == 'audio' THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'transcribe' AND resource == 'audio' THEN SHOW parameter 'simplify'",
-      "IF operation == 'transcribe' AND resource == 'audio' THEN SHOW parameter 'options'",
-      "IF resource == 'document' THEN SHOW parameter 'operation'",
-      "IF operation == 'analyze' AND resource == 'document' THEN SHOW parameter 'modelId'",
-      "IF operation == 'analyze' AND resource == 'document' THEN SHOW parameter 'text'",
-      "IF operation == 'analyze' AND resource == 'document' THEN SHOW parameter 'inputType'",
-      "IF inputType == 'url' AND operation == 'analyze' AND resource == 'document' THEN SHOW parameter 'documentUrls'",
-      "IF inputType == 'binary' AND operation == 'analyze' AND resource == 'document' THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'analyze' AND resource == 'document' THEN SHOW parameter 'simplify'",
-      "IF operation == 'analyze' AND resource == 'document' THEN SHOW parameter 'options'",
-      "IF resource == 'file' THEN SHOW parameter 'operation'",
-      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'inputType'",
-      "IF inputType == 'url' AND operation == 'upload' AND resource == 'file' THEN SHOW parameter 'fileUrl'",
-      "IF inputType == 'binary' AND operation == 'upload' AND resource == 'file' THEN SHOW parameter 'binaryPropertyName'",
-      "IF resource == 'image' THEN SHOW parameter 'operation'",
-      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'modelId'",
-      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'text'",
-      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'inputType'",
-      "IF inputType == 'url' AND operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'imageUrls'",
-      "IF inputType == 'binary' AND operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'simplify'",
-      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'options'",
-      "IF operation == 'edit' AND resource == 'image' THEN SHOW parameter 'modelId'",
-      "IF operation == 'edit' AND resource == 'image' THEN SHOW parameter 'prompt'",
-      "IF operation == 'edit' AND resource == 'image' THEN SHOW parameter 'images'",
-      "IF operation == 'edit' AND resource == 'image' THEN SHOW parameter 'options'",
-      "IF operation == 'generate' AND resource == 'image' THEN SHOW parameter 'modelId'",
-      "IF operation == 'generate' AND resource == 'image' THEN SHOW parameter 'prompt'",
-      "IF operation == 'generate' AND resource == 'image' THEN SHOW parameter 'options'",
-      "IF resource == 'text' THEN SHOW parameter 'operation'",
-      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'modelId'",
-      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'messages'",
-      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'simplify'",
-      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'jsonOutput'",
-      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'options'",
-      "IF resource == 'video' THEN SHOW parameter 'operation'",
-      "IF operation == 'analyze' AND resource == 'video' THEN SHOW parameter 'modelId'",
-      "IF operation == 'analyze' AND resource == 'video' THEN SHOW parameter 'text'",
-      "IF operation == 'analyze' AND resource == 'video' THEN SHOW parameter 'inputType'",
-      "IF inputType == 'url' AND operation == 'analyze' AND resource == 'video' THEN SHOW parameter 'videoUrls'",
-      "IF inputType == 'binary' AND operation == 'analyze' AND resource == 'video' THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'analyze' AND resource == 'video' THEN SHOW parameter 'simplify'",
-      "IF operation == 'analyze' AND resource == 'video' THEN SHOW parameter 'options'",
-      "IF operation == 'download' AND resource == 'video' THEN SHOW parameter 'url'",
-      "IF operation == 'download' AND resource == 'video' THEN SHOW parameter 'options'",
-      "IF operation == 'generate' AND resource == 'video' THEN SHOW parameter 'modelId'",
-      "IF operation == 'generate' AND resource == 'video' THEN SHOW parameter 'prompt'",
-      "IF operation == 'generate' AND resource == 'video' THEN SHOW parameter 'returnAs'",
-      "IF operation == 'generate' AND resource == 'video' THEN SHOW parameter 'options'"
-    ]
   }
 }

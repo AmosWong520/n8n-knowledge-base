@@ -1,55 +1,35 @@
 {
   "node_id": "n8n-nodes-base.bannerbear",
-  "name": "n8n-nodes-base.bannerbear",
+  "name": "Bannerbear",
   "version": 1,
   "semantic_context": "Consume Bannerbear API",
+  "natural_language_description": "这是 Bannerbear 节点。主要用于: Consume Bannerbear API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Image",
-          "value": "image"
-        },
-        {
-          "name": "Template",
-          "value": "template"
-        }
-      ],
+      "required": false,
       "default": "image",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: image",
+      "available_options": [
+        "Image (值: image)",
+        "Template (值: template)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "template"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a template",
-          "action": "Get a template"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many templates",
-          "action": "Get many templates"
-        }
-      ],
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Get (值: get) - Get a template",
+        "Get Many (值: getAll) - Get many templates"
+      ]
     },
     "templateId": {
       "displayName": "Template ID",
@@ -57,147 +37,35 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "template"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
       "description": "Unique identifier for the template",
-      "ai_hint": "Unique identifier for the template"
+      "natural_language_description": "参数名: Template ID | 作用: Unique identifier for the template | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "image"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Metadata",
-          "name": "metadata",
-          "type": "string",
-          "default": "",
-          "description": "Metadata that you need to store e.g. ID of a record in your DB"
-        },
-        {
-          "displayName": "Wait for Image",
-          "name": "waitForImage",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to wait for the image to be proccesed before returning. If after three tries the images is not ready, an error will be thrown. Number of tries can be increased by setting \"Wait Max Tries\"."
-        },
-        {
-          "displayName": "Wait Max Tries",
-          "name": "waitForImageMaxTries",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 1,
-            "maxValue": 10
-          },
-          "displayOptions": {
-            "show": {
-              "waitForImage": [
-                true
-              ]
-            }
-          },
-          "default": 3,
-          "description": "How often it should check if the image is available before it fails"
-        },
-        {
-          "displayName": "Webhook URL",
-          "name": "webhookUrl",
-          "type": "string",
-          "default": "",
-          "description": "A URL to POST the Image object to upon rendering completed"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "metadata (值: None) - Metadata that you need to store e.g. ID of a record in your DB",
+        "waitForImage (值: None) - Whether to wait for the image to be proccesed before returning. If after three tries the images is not ready, an error will be thrown. Number of tries can be increased by setting \"Wait Max Tries\".",
+        "waitForImageMaxTries (值: None) - How often it should check if the image is available before it fails",
+        "webhookUrl (值: None) - A URL to POST the Image object to upon rendering completed"
+      ]
     },
     "modificationsUi": {
       "displayName": "Modifications",
       "name": "modificationsUi",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "placeholder": "Add Modification",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "image"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Modification",
-          "name": "modificationsValues",
-          "values": [
-            {
-              "displayName": "Name or ID",
-              "name": "name",
-              "type": "options",
-              "typeOptions": {
-                "loadOptionsMethod": "getModificationNames",
-                "loadOptionsDependsOn": [
-                  "templateId"
-                ]
-              },
-              "default": "",
-              "description": "The name of the item you want to change. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-            },
-            {
-              "displayName": "Text",
-              "name": "text",
-              "type": "string",
-              "default": "",
-              "description": "Replacement text you want to use"
-            },
-            {
-              "displayName": "Color",
-              "name": "color",
-              "type": "color",
-              "default": "",
-              "description": "Color hex of object"
-            },
-            {
-              "displayName": "Background",
-              "name": "background",
-              "type": "color",
-              "default": "",
-              "description": "Color hex of text background"
-            },
-            {
-              "displayName": "Image URL",
-              "name": "imageUrl",
-              "type": "string",
-              "default": "",
-              "description": "Replacement image URL you want to use (must be publicly viewable)"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Modifications | 默认值: {}",
+      "available_options": [
+        "modificationsValues (值: None)"
+      ]
     },
     "imageId": {
       "displayName": "Image ID",
@@ -205,40 +73,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "image"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
       "description": "Unique identifier for the image",
-      "ai_hint": "Unique identifier for the image"
+      "natural_language_description": "参数名: Image ID | 作用: Unique identifier for the image | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "templateId",
-      "additionalFields",
-      "modificationsUi",
-      "imageId",
-      "operation",
-      "templateId"
-    ],
-    "conditional_rules": [
-      "IF resource == 'image' THEN SHOW parameter 'operation'",
-      "IF resource == 'image' AND operation == 'create' THEN SHOW parameter 'templateId'",
-      "IF resource == 'image' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF waitForImage == True THEN SHOW parameter 'waitForImageMaxTries'",
-      "IF resource == 'image' AND operation == 'create' THEN SHOW parameter 'modificationsUi'",
-      "IF resource == 'image' AND operation == 'get' THEN SHOW parameter 'imageId'",
-      "IF resource == 'template' THEN SHOW parameter 'operation'",
-      "IF resource == 'template' AND operation == 'get' THEN SHOW parameter 'templateId'"
-    ]
   }
 }

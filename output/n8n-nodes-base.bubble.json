@@ -1,446 +1,108 @@
 {
   "node_id": "n8n-nodes-base.bubble",
-  "name": "n8n-nodes-base.bubble",
+  "name": "Bubble",
   "version": 1,
   "semantic_context": "Consume the Bubble Data API",
+  "natural_language_description": "这是 Bubble 节点。主要用于: Consume the Bubble Data API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Object",
-          "value": "object"
-        }
-      ],
+      "required": false,
       "default": "object",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: object",
+      "available_options": [
+        "Object (值: object)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
+      "required": false,
       "default": "get",
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "action": "Create an object"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "action": "Delete an object"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "action": "Get an object"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "action": "Get many objects"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "action": "Update an object"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "object"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Create (值: create)",
+        "Delete (值: delete)",
+        "Get (值: get)",
+        "Get Many (值: getAll)",
+        "Update (值: update)"
+      ]
     },
     "typeName": {
       "displayName": "Type Name",
       "name": "typeName",
       "type": "string",
       "required": true,
-      "description": "Name of data type of the object to create",
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "object"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "Name of data type of the object to create"
+      "description": "Name of data type of the object to create",
+      "natural_language_description": "参数名: Type Name | 作用: Name of data type of the object to create | (必填项)"
     },
     "properties": {
       "displayName": "Properties",
       "name": "properties",
-      "placeholder": "Add Property",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "object"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Property",
-          "name": "property",
-          "values": [
-            {
-              "displayName": "Key",
-              "name": "key",
-              "type": "string",
-              "default": "",
-              "description": "Field to set for the object to create"
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Value to set for the object to create"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Properties | 默认值: {}",
+      "available_options": [
+        "property (值: None)"
+      ]
     },
     "objectId": {
       "displayName": "Object ID",
       "name": "objectId",
       "type": "string",
       "required": true,
-      "description": "ID of the object to update",
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "object"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the object to update"
+      "description": "ID of the object to update",
+      "natural_language_description": "参数名: Object ID | 作用: ID of the object to update | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "object"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "object"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 100
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "jsonParameters": {
       "displayName": "JSON Parameters",
       "name": "jsonParameters",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "object"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: JSON Parameters | 默认值: False"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "object"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "placeholder": "Add Field",
-      "options": [
-        {
-          "displayName": "Filters",
-          "name": "filters",
-          "placeholder": "Add Filter",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": {},
-          "options": [
-            {
-              "displayName": "Filter",
-              "name": "filter",
-              "values": [
-                {
-                  "displayName": "Key",
-                  "name": "key",
-                  "type": "string",
-                  "default": "",
-                  "description": "Field to set for the object to create"
-                },
-                {
-                  "displayName": "Constrain",
-                  "name": "constraint_type",
-                  "type": "options",
-                  "options": [
-                    {
-                      "name": "Equals",
-                      "value": "equals",
-                      "description": "Use to test strict equality, for all field types"
-                    },
-                    {
-                      "name": "Not Equal",
-                      "value": "not equal",
-                      "description": "Use to test strict equality, for all field types"
-                    },
-                    {
-                      "name": "Is Empty",
-                      "value": "is_empty",
-                      "description": "Use to test whether a thing's given field is empty, for all field types"
-                    },
-                    {
-                      "name": "Is Not Empty",
-                      "value": "is_not_empty",
-                      "description": "Use to test whether a thing's given field is not empty, for all field types"
-                    },
-                    {
-                      "name": "Text Contains",
-                      "value": "text contains",
-                      "description": "Use to test if a text field contains a string, for text fields only"
-                    },
-                    {
-                      "name": "Not Text Contains",
-                      "value": "not text contains",
-                      "description": "Use to test if a text field does not contain a string, for text fields only"
-                    },
-                    {
-                      "name": "Greater Than",
-                      "value": "greater than",
-                      "description": "Use to compare a thing's field value relative to a string or number, for text, number, and date fields"
-                    },
-                    {
-                      "name": "Less Than",
-                      "value": "less than",
-                      "description": "Use to compare a thing's field value relative to a string or number, for text, number, and date fields"
-                    },
-                    {
-                      "name": "In",
-                      "value": "in",
-                      "description": "Use to test whether a thing's field is in a list, for all field types"
-                    },
-                    {
-                      "name": "Not In",
-                      "value": "not in",
-                      "description": "Use to test whether a thing's field is not in a list, for all field types"
-                    },
-                    {
-                      "name": "Contains",
-                      "value": "contains",
-                      "description": "Use to test whether a list field contains an entry, for list fields only"
-                    },
-                    {
-                      "name": "Not Contains",
-                      "value": "not contains",
-                      "description": "Use to test whether a list field does not contains an entry, for list fields only"
-                    },
-                    {
-                      "name": "Empty",
-                      "value": "empty",
-                      "description": "Use to test whether a list field is empty, for list fields only"
-                    },
-                    {
-                      "name": "Not Empty",
-                      "value": "not empty",
-                      "description": "Use to test whether a list field is not empty, for list fields only"
-                    },
-                    {
-                      "name": "Geographic Search",
-                      "value": "geographic_search",
-                      "description": "Use to test if the current thing is within a radius from a central address. To use this, the value sent with the constraint must have an address and a range. See <a href=\"https://manual.bubble.io/core-resources/api/data-api\">link</a>."
-                    }
-                  ],
-                  "default": ""
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "displayOptions": {
-                    "hide": {
-                      "constraint_type": [
-                        "is_empty",
-                        "is_not_empty",
-                        "empty",
-                        "not empty"
-                      ]
-                    }
-                  },
-                  "default": "",
-                  "description": "Value to set for the object to create"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Filters (JSON)",
-          "name": "filtersJson",
-          "type": "json",
-          "default": "",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                true
-              ]
-            }
-          },
-          "placeholder": "[ { \"key\": \"name\", \"constraint_type\": \"text contains\", \"value\": \"cafe\" } , { \"key\": \"address\", \"constraint_type\": \"geographic_search\", \"value\": { \"range\":10, \"origin_address\":\"New York\" } } ]",
-          "description": "Refine the list that is returned by the Data API with search constraints, exactly as you define a search in Bubble. See <a href=\"https://manual.bubble.io/core-resources/api/data-api#search-constraints\">link</a>."
-        },
-        {
-          "displayName": "Sort",
-          "name": "sort",
-          "placeholder": "Add Sort",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": {},
-          "options": [
-            {
-              "displayName": "Sort",
-              "name": "sortValue",
-              "values": [
-                {
-                  "displayName": "Sort Field",
-                  "name": "sort_field",
-                  "type": "string",
-                  "default": "",
-                  "description": "Specify the field to use for sorting. Either use a fielddefined for the current typeor use <code>_random_sorting</code> to get the entries in a random order."
-                },
-                {
-                  "displayName": "Descending",
-                  "name": "descending",
-                  "type": "boolean",
-                  "default": false
-                },
-                {
-                  "displayName": "Geo Reference",
-                  "name": "geo_reference",
-                  "type": "string",
-                  "default": "",
-                  "description": "When the field's type is geographic address, you need to add another parameter geo_reference and provide an address as a string"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "filters (值: None)",
+        "filtersJson (值: None) - Refine the list that is returned by the Data API with search constraints, exactly as you define a search in Bubble. See link.",
+        "sort (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "typeName",
-      "properties",
-      "typeName",
-      "objectId",
-      "typeName",
-      "objectId",
-      "properties",
-      "typeName",
-      "returnAll",
-      "limit",
-      "jsonParameters",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF resource == 'object' THEN SHOW parameter 'operation'",
-      "IF resource == 'object' AND operation == 'create' THEN SHOW parameter 'typeName'",
-      "IF resource == 'object' AND operation == 'create' THEN SHOW parameter 'properties'",
-      "IF resource == 'object' AND operation IN [\"get\", \"delete\"] THEN SHOW parameter 'typeName'",
-      "IF resource == 'object' AND operation IN [\"get\", \"delete\"] THEN SHOW parameter 'objectId'",
-      "IF resource == 'object' AND operation == 'update' THEN SHOW parameter 'typeName'",
-      "IF resource == 'object' AND operation == 'update' THEN SHOW parameter 'objectId'",
-      "IF resource == 'object' AND operation == 'update' THEN SHOW parameter 'properties'",
-      "IF resource == 'object' AND operation == 'getAll' THEN SHOW parameter 'typeName'",
-      "IF resource == 'object' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'object' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'object' AND operation == 'getAll' THEN SHOW parameter 'jsonParameters'",
-      "IF operation == 'getAll' AND resource == 'object' THEN SHOW parameter 'options'",
-      "IF /jsonParameters == False THEN SHOW parameter 'filters'",
-      "IF constraint_type IN [\"is_empty\", \"is_not_empty\", \"empty\", \"not empty\"] THEN HIDE parameter 'value'",
-      "IF /jsonParameters == True THEN SHOW parameter 'filtersJson'"
-    ]
   }
 }

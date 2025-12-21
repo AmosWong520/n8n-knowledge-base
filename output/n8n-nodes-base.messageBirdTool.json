@@ -1,309 +1,105 @@
 {
   "node_id": "n8n-nodes-base.messageBirdTool",
-  "name": "n8n-nodes-base.messageBirdTool",
+  "name": "MessageBird Tool",
   "version": 1,
   "semantic_context": "Sends SMS via MessageBird",
+  "natural_language_description": "这是 MessageBird Tool 节点。主要用于: Sends SMS via MessageBird",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Sends SMS via MessageBird",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Sends SMS via MessageBird",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Sends SMS via MessageBird | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "SMS",
-          "value": "sms"
-        },
-        {
-          "name": "Balance",
-          "value": "balance"
-        }
-      ],
+      "required": false,
       "default": "sms",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: sms",
+      "available_options": [
+        "SMS (值: sms)",
+        "Balance (值: balance)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "balance"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get the balance",
-          "action": "Get the current balance"
-        }
-      ],
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Get (值: get) - Get the balance"
+      ]
     },
     "originator": {
       "displayName": "From",
       "name": "originator",
       "type": "string",
-      "default": "",
-      "placeholder": "14155238886",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "send"
-          ],
-          "resource": [
-            "sms"
-          ]
-        }
-      },
+      "default": "",
       "description": "The number from which to send the message",
-      "ai_hint": "The number from which to send the message"
+      "natural_language_description": "参数名: From | 作用: The number from which to send the message | (必填项)"
     },
     "recipients": {
       "displayName": "To",
       "name": "recipients",
       "type": "string",
-      "default": "",
-      "placeholder": "14155238886/+14155238886",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "send"
-          ],
-          "resource": [
-            "sms"
-          ]
-        }
-      },
+      "default": "",
       "description": "All recipients separated by commas",
-      "ai_hint": "All recipients separated by commas"
+      "natural_language_description": "参数名: To | 作用: All recipients separated by commas | (必填项)"
     },
     "message": {
       "displayName": "Message",
       "name": "message",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "send"
-          ],
-          "resource": [
-            "sms"
-          ]
-        }
-      },
+      "default": "",
       "description": "The message to be send",
-      "ai_hint": "The message to be send"
+      "natural_language_description": "参数名: Message | 作用: The message to be send | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "send"
-          ],
-          "resource": [
-            "sms"
-          ]
-        }
-      },
-      "placeholder": "Add Fields",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Created Date-Time",
-          "name": "createdDatetime",
-          "type": "dateTime",
-          "default": "",
-          "description": "The date and time of the creation of the message in RFC3339 format (Y-m-dTH:i:sP)"
-        },
-        {
-          "displayName": "Datacoding",
-          "name": "datacoding",
-          "type": "options",
-          "options": [
-            {
-              "name": "Auto",
-              "value": "auto"
-            },
-            {
-              "name": "Plain",
-              "value": "plain"
-            },
-            {
-              "name": "Unicode",
-              "value": "unicode"
-            }
-          ],
-          "default": "",
-          "description": "Using unicode will limit the maximum number of characters to 70 instead of 160"
-        },
-        {
-          "displayName": "Gateway",
-          "name": "gateway",
-          "type": "number",
-          "default": "",
-          "description": "The SMS route that is used to send the message"
-        },
-        {
-          "displayName": "Group IDs",
-          "name": "groupIds",
-          "placeholder": "1,2",
-          "type": "string",
-          "default": "",
-          "description": "Group IDs separated by commas, If provided recipients can be omitted"
-        },
-        {
-          "displayName": "Message Type",
-          "name": "mclass",
-          "type": "options",
-          "placeholder": "Permissible values from 0-3",
-          "options": [
-            {
-              "name": "Flash",
-              "value": 1
-            },
-            {
-              "name": "Normal",
-              "value": 0
-            }
-          ],
-          "default": 1,
-          "description": "Indicated the message type. 1 is a normal message, 0 is a flash message."
-        },
-        {
-          "displayName": "Reference",
-          "name": "reference",
-          "type": "string",
-          "default": "",
-          "description": "A client reference"
-        },
-        {
-          "displayName": "Report Url",
-          "name": "reportUrl",
-          "type": "string",
-          "default": "",
-          "description": "The status report URL to be used on a per-message basis. Reference is required for a status report webhook to be sent."
-        },
-        {
-          "displayName": "Scheduled Date-Time",
-          "name": "scheduledDatetime",
-          "type": "dateTime",
-          "default": "",
-          "description": "The scheduled date and time of the message in RFC3339 format (Y-m-dTH:i:sP)"
-        },
-        {
-          "displayName": "Type",
-          "name": "type",
-          "type": "options",
-          "options": [
-            {
-              "name": "Binary",
-              "value": "binary"
-            },
-            {
-              "name": "Flash",
-              "value": "flash"
-            },
-            {
-              "name": "SMS",
-              "value": "sms"
-            }
-          ],
-          "default": "",
-          "description": "The type of message. Values can be: sms, binary, or flash."
-        },
-        {
-          "displayName": "Type Details",
-          "name": "typeDetails",
-          "type": "string",
-          "default": "",
-          "description": "A hash with extra information. Is only used when a binary message is sent."
-        },
-        {
-          "displayName": "Validity",
-          "name": "validity",
-          "type": "number",
-          "default": 1,
-          "typeOptions": {
-            "minValue": 1
-          },
-          "description": "The amount of seconds that the message is valid"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "createdDatetime (值: None) - The date and time of the creation of the message in RFC3339 format (Y-m-dTH:i:sP)",
+        "datacoding (值: None) - Using unicode will limit the maximum number of characters to 70 instead of 160",
+        "gateway (值: None) - The SMS route that is used to send the message",
+        "groupIds (值: None) - Group IDs separated by commas, If provided recipients can be omitted",
+        "mclass (值: None) - Indicated the message type. 1 is a normal message, 0 is a flash message.",
+        "reference (值: None) - A client reference",
+        "reportUrl (值: None) - The status report URL to be used on a per-message basis. Reference is required for a status report webhook to be sent.",
+        "scheduledDatetime (值: None) - The scheduled date and time of the message in RFC3339 format (Y-m-dTH:i:sP)",
+        "type (值: None) - The type of message. Values can be: sms, binary, or flash.",
+        "typeDetails (值: None) - A hash with extra information. Is only used when a binary message is sent.",
+        "validity (值: None) - The amount of seconds that the message is valid"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "operation",
-      "originator",
-      "recipients",
-      "message",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'sms' THEN SHOW parameter 'operation'",
-      "IF resource == 'balance' THEN SHOW parameter 'operation'",
-      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'originator'",
-      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'recipients'",
-      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'message'",
-      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'additionalFields'"
-    ]
   }
 }

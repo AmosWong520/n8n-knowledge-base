@@ -1,846 +1,207 @@
 {
   "node_id": "n8n-nodes-base.microsoftSharePoint",
-  "name": "n8n-nodes-base.microsoftSharePoint",
+  "name": "Microsoft SharePoint",
   "version": 1,
   "semantic_context": "Interact with Microsoft SharePoint API",
+  "natural_language_description": "这是 Microsoft SharePoint 节点。主要用于: Interact with Microsoft SharePoint API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "File",
-          "value": "file"
-        },
-        {
-          "name": "Item",
-          "value": "item"
-        },
-        {
-          "name": "List",
-          "value": "list"
-        }
-      ],
+      "required": false,
       "default": "file",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: file",
+      "available_options": [
+        "File (值: file)",
+        "Item (值: item)",
+        "List (值: list)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "list"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Retrieve details of a single list",
-          "routing": {
-            "request": {
-              "ignoreHttpStatusErrors": true,
-              "method": "GET",
-              "url": "=/sites/{{ $parameter[\"site\"] }}/lists/{{ $parameter[\"list\"] }}"
-            },
-            "output": {
-              "postReceive": [
-                null,
-                null
-              ]
-            }
-          },
-          "action": "Get list"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Retrieve a list of lists",
-          "routing": {
-            "request": {
-              "method": "GET",
-              "url": "=/sites/{{ $parameter[\"site\"] }}/lists"
-            },
-            "output": {
-              "postReceive": [
-                null,
-                {
-                  "type": "rootProperty",
-                  "properties": {
-                    "property": "value"
-                  }
-                },
-                null
-              ]
-            }
-          },
-          "action": "Get many lists"
-        }
-      ],
+      "required": false,
       "default": "getAll",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getAll",
+      "available_options": [
+        "Get (值: get) - Retrieve details of a single list",
+        "Get Many (值: getAll) - Retrieve a list of lists"
+      ]
     },
     "site": {
       "displayName": "Site",
       "name": "site",
+      "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
       "description": "Select the site to retrieve lists from",
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "getSites",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "placeholder": "e.g. mysite",
-          "type": "string"
-        }
-      ],
-      "required": true,
-      "type": "resourceLocator",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "list"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "Select the site to retrieve lists from"
+      "natural_language_description": "参数名: Site | 作用: Select the site to retrieve lists from | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "folder": {
       "displayName": "Parent Folder",
       "name": "folder",
+      "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
       "description": "Select the folder to upload the file to",
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "getFolders",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "placeholder": "e.g. myfolder",
-          "type": "string"
-        }
-      ],
-      "placeholder": "/ (Library root)",
-      "required": true,
-      "type": "resourceLocator",
-      "displayOptions": {
-        "hide": {
-          "site": [
-            ""
-          ]
-        },
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "upload"
-          ]
-        }
-      },
-      "ai_hint": "Select the folder to upload the file to"
+      "natural_language_description": "参数名: Parent Folder | 作用: Select the folder to upload the file to | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "file": {
       "displayName": "File",
       "name": "file",
+      "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
       "description": "Select the file to update",
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "getFiles",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "placeholder": "e.g. mysite",
-          "type": "string"
-        }
-      ],
-      "placeholder": "eg. my-file.pdf",
-      "required": true,
-      "type": "resourceLocator",
-      "displayOptions": {
-        "hide": {
-          "site": [
-            ""
-          ],
-          "folder": [
-            ""
-          ]
-        },
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "Select the file to update"
+      "natural_language_description": "参数名: File | 作用: Select the file to update | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "fileName": {
       "displayName": "File Name",
       "name": "fileName",
+      "type": "string",
+      "required": true,
       "default": "",
       "description": "The name of the file being uploaded",
-      "placeholder": "e.g. My New File",
-      "required": true,
-      "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "upload"
-          ]
-        }
-      },
-      "ai_hint": "The name of the file being uploaded"
+      "natural_language_description": "参数名: File Name | 作用: The name of the file being uploaded | (必填项)"
     },
     "changeFileContent": {
       "displayName": "Change File Content",
       "name": "changeFileContent",
+      "type": "boolean",
+      "required": true,
       "default": false,
       "description": "Whether to update the file contents",
-      "placeholder": "e.g. My New File",
-      "required": true,
-      "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Change File Content | 作用: Whether to update the file contents | 默认值: False | (必填项)"
     },
     "fileContents": {
       "displayName": "File Contents",
       "name": "fileContents",
+      "type": "string",
+      "required": true,
       "default": "",
       "description": "Find the name of input field containing the binary data to upload in the Input panel on the left, in the Binary tab",
-      "hint": "The name of the input field containing the binary file data to upload",
-      "placeholder": "data",
-      "required": true,
-      "routing": {
-        "send": {
-          "preSend": [
-            null
-          ]
-        }
-      },
-      "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "upload"
-          ]
-        }
-      },
-      "ai_hint": "Find the name of input field containing the binary data to upload in the Input panel on the left, in the Binary tab"
+      "natural_language_description": "参数名: File Contents | 作用: Find the name of input field containing the binary data to upload in the Input panel on the left, in the Binary tab | 提示: The name of the input field containing the binary file data to upload | (必填项)"
     },
     "list": {
       "displayName": "List",
       "name": "list",
+      "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
       "description": "Select the list you want to retrieve",
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "getLists",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "placeholder": "e.g. mylist",
-          "type": "string"
-        }
-      ],
-      "required": true,
-      "type": "resourceLocator",
-      "displayOptions": {
-        "hide": {
-          "site": [
-            ""
-          ]
-        },
-        "show": {
-          "resource": [
-            "list"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "Select the list you want to retrieve"
+      "natural_language_description": "参数名: List | 作用: Select the list you want to retrieve | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "noticeUnsupportedFields": {
       "displayName": "Due to API restrictions, the following column types cannot be updated: Hyperlink, Location, Metadata",
       "name": "noticeUnsupportedFields",
-      "displayOptions": {
-        "hide": {
-          "site": [
-            ""
-          ],
-          "list": [
-            ""
-          ]
-        },
-        "show": {
-          "resource": [
-            "item"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        }
-      },
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Due to API restrictions, the following column types cannot be updated: Hyperlink, Location, Metadata"
     },
     "columns": {
       "displayName": "Columns",
       "name": "columns",
+      "type": "resourceMapper",
+      "required": true,
       "default": {
         "mappingMode": "defineBelow",
         "value": null
       },
-      "displayOptions": {
-        "hide": {
-          "site": [
-            ""
-          ],
-          "list": [
-            ""
-          ]
-        },
-        "show": {
-          "resource": [
-            "item"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        }
-      },
-      "noDataExpression": true,
-      "required": true,
-      "routing": {
-        "send": {
-          "preSend": [
-            null
-          ]
-        }
-      },
-      "type": "resourceMapper",
-      "typeOptions": {
-        "loadOptionsDependsOn": [
-          "site.value",
-          "list.value"
-        ],
-        "resourceMapper": {
-          "resourceMapperMethod": "getMappingColumns",
-          "mode": "upsert",
-          "fieldWords": {
-            "singular": "column",
-            "plural": "columns"
-          },
-          "addAllFields": true,
-          "multiKeyMatch": false
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Columns | 默认值: {'mappingMode': 'defineBelow', 'value': None} | (必填项)"
     },
     "item": {
       "displayName": "Item",
       "name": "item",
+      "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
       "description": "Select the item you want to get",
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "getItems",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "placeholder": "e.g. 1",
-          "type": "string"
-        }
-      ],
-      "required": true,
-      "type": "resourceLocator",
-      "displayOptions": {
-        "hide": {
-          "site": [
-            ""
-          ],
-          "list": [
-            ""
-          ]
-        },
-        "show": {
-          "resource": [
-            "item"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "Select the item you want to get"
+      "natural_language_description": "参数名: Item | 作用: Select the item you want to get | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "simplify": {
       "displayName": "Simplify",
       "name": "simplify",
-      "default": true,
-      "routing": {
-        "send": {
-          "property": "$select",
-          "type": "query",
-          "value": "={{ $value ? \"id,name,displayName,description,createdDateTime,lastModifiedDateTime,webUrl\" : undefined }}"
-        }
-      },
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "list"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "required": false,
+      "default": true,
+      "description": "",
+      "natural_language_description": "参数名: Simplify | 默认值: True"
     },
     "filter": {
       "displayName": "Filter by Formula",
       "name": "filter",
-      "default": "",
-      "description": "The formula will be evaluated for each record. <a href=\"https://learn.microsoft.com/en-us/graph/filter-query-parameter\">More info</a>.",
-      "hint": "If empty, all the items will be returned",
-      "placeholder": "e.g. fields/Title eq 'item1'",
-      "routing": {
-        "send": {
-          "property": "$filter",
-          "type": "query",
-          "value": "={{ $value ? $value : undefined }}"
-        }
-      },
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "item"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "The formula will be evaluated for each record. <a href=\"https://learn.microsoft.com/en-us/graph/filter-query-parameter\">More info</a>."
+      "required": false,
+      "default": "",
+      "description": "The formula will be evaluated for each record. More info.",
+      "natural_language_description": "参数名: Filter by Formula | 作用: The formula will be evaluated for each record. More info. | 提示: If empty, all the items will be returned"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
+      "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "routing": {
-        "send": {
-          "paginate": "={{ $value }}"
-        },
-        "operations": {
-          "pagination": {
-            "type": "generic",
-            "properties": {
-              "continue": "={{ !!$response.body?.[\"@odata.nextLink\"] }}",
-              "request": {
-                "url": "={{ $response.body?.[\"@odata.nextLink\"] ?? $request.url }}",
-                "qs": {
-                  "$select": "={{ !!$response.body?.[\"@odata.nextLink\"] ? undefined : $request.qs?.$select }}"
-                }
-              }
-            }
-          }
-        }
-      },
-      "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "list"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
+      "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "displayOptions": {
-        "show": {
-          "returnAll": [
-            false
-          ],
-          "resource": [
-            "list"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "routing": {
-        "send": {
-          "property": "$top",
-          "type": "query",
-          "value": "={{ $value }}"
-        }
-      },
-      "type": "number",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "validateType": "number",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
-      "default": {},
-      "options": [
-        {
-          "displayName": "Fields",
-          "name": "fields",
-          "default": [],
-          "description": "The fields you want to include in the output",
-          "displayOptions": {
-            "hide": {
-              "/simplify": [
-                true
-              ]
-            }
-          },
-          "options": [
-            {
-              "name": "Content Type",
-              "value": "contentType"
-            },
-            {
-              "name": "Created At",
-              "value": "createdDateTime"
-            },
-            {
-              "name": "Created By",
-              "value": "createdBy"
-            },
-            {
-              "name": "Fields",
-              "value": "fields"
-            },
-            {
-              "name": "ID",
-              "value": "id"
-            },
-            {
-              "name": "Last Modified At",
-              "value": "lastModifiedDateTime"
-            },
-            {
-              "name": "Last Modified By",
-              "value": "lastModifiedBy"
-            },
-            {
-              "name": "Parent Reference",
-              "value": "parentReference"
-            },
-            {
-              "name": "Web URL",
-              "value": "webUrl"
-            }
-          ],
-          "routing": {
-            "send": {
-              "preSend": [
-                null
-              ]
-            }
-          },
-          "type": "multiOptions"
-        }
-      ],
-      "placeholder": "Add option",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "item"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "required": false,
+      "default": {},
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "fields (值: None) - The fields you want to include in the output"
+      ]
     },
     "requestOptions": {
       "displayName": "Request Options",
       "name": "requestOptions",
       "type": "collection",
-      "isNodeSetting": true,
-      "placeholder": "Add Option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Batching",
-          "name": "batching",
-          "placeholder": "Add Batching",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": {
-            "batch": {}
-          },
-          "options": [
-            {
-              "displayName": "Batching",
-              "name": "batch",
-              "values": [
-                {
-                  "displayName": "Items per Batch",
-                  "name": "batchSize",
-                  "type": "number",
-                  "typeOptions": {
-                    "minValue": -1
-                  },
-                  "default": 50,
-                  "description": "Input will be split in batches to throttle requests. -1 for disabled. 0 will be treated as 1."
-                },
-                {
-                  "displayName": "Batch Interval (ms)",
-                  "name": "batchInterval",
-                  "type": "number",
-                  "typeOptions": {
-                    "minValue": 0
-                  },
-                  "default": 1000,
-                  "description": "Time (in milliseconds) between each batch of requests. 0 for disabled."
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Ignore SSL Issues (Insecure)",
-          "name": "allowUnauthorizedCerts",
-          "type": "boolean",
-          "noDataExpression": true,
-          "default": false,
-          "description": "Whether to accept the response even if SSL certificate validation is not possible"
-        },
-        {
-          "displayName": "Proxy",
-          "name": "proxy",
-          "type": "string",
-          "default": "",
-          "placeholder": "e.g. http://myproxy:3128",
-          "description": "HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128"
-        },
-        {
-          "displayName": "Timeout",
-          "name": "timeout",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 1
-          },
-          "default": 10000,
-          "description": "Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Request Options | 默认值: {}",
+      "available_options": [
+        "batching (值: None)",
+        "allowUnauthorizedCerts (值: None) - Whether to accept the response even if SSL certificate validation is not possible",
+        "proxy (值: None) - HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128",
+        "timeout (值: None) - Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "site",
-      "folder",
-      "file",
-      "site",
-      "folder",
-      "file",
-      "fileName",
-      "changeFileContent",
-      "fileContents",
-      "site",
-      "folder",
-      "fileName",
-      "fileContents",
-      "operation",
-      "site",
-      "list",
-      "noticeUnsupportedFields",
-      "columns",
-      "site",
-      "list",
-      "item",
-      "site",
-      "list",
-      "item",
-      "simplify",
-      "site",
-      "list",
-      "filter",
-      "returnAll",
-      "limit",
-      "options",
-      "simplify",
-      "site",
-      "list",
-      "noticeUnsupportedFields",
-      "columns",
-      "site",
-      "list",
-      "noticeUnsupportedFields",
-      "columns",
-      "operation",
-      "site",
-      "list",
-      "simplify",
-      "site",
-      "returnAll",
-      "limit",
-      "simplify",
-      "requestOptions"
-    ],
-    "conditional_rules": [
-      "IF resource == 'file' THEN SHOW parameter 'operation'",
-      "IF resource == 'file' AND operation == 'download' THEN SHOW parameter 'site'",
-      "IF resource == 'file' AND operation == 'download' THEN SHOW parameter 'folder'",
-      "IF site == '' THEN HIDE parameter 'folder'",
-      "IF resource == 'file' AND operation == 'download' THEN SHOW parameter 'file'",
-      "IF site == '' AND folder == '' THEN HIDE parameter 'file'",
-      "IF resource == 'file' AND operation == 'update' THEN SHOW parameter 'site'",
-      "IF resource == 'file' AND operation == 'update' THEN SHOW parameter 'folder'",
-      "IF resource == 'file' AND operation == 'update' THEN SHOW parameter 'file'",
-      "IF resource == 'file' AND operation == 'update' THEN SHOW parameter 'fileName'",
-      "IF resource == 'file' AND operation == 'update' THEN SHOW parameter 'changeFileContent'",
-      "IF changeFileContent == True AND resource == 'file' AND operation == 'update' THEN SHOW parameter 'fileContents'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'site'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'folder'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'fileName'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'fileContents'",
-      "IF resource == 'item' THEN SHOW parameter 'operation'",
-      "IF resource == 'item' AND operation == 'create' THEN SHOW parameter 'site'",
-      "IF resource == 'item' AND operation == 'create' THEN SHOW parameter 'list'",
-      "IF site == '' THEN HIDE parameter 'list'",
-      "IF resource == 'item' AND operation == 'create' THEN SHOW parameter 'noticeUnsupportedFields'",
-      "IF site == '' AND list == '' THEN HIDE parameter 'noticeUnsupportedFields'",
-      "IF resource == 'item' AND operation == 'create' THEN SHOW parameter 'columns'",
-      "IF site == '' AND list == '' THEN HIDE parameter 'columns'",
-      "IF resource == 'item' AND operation == 'delete' THEN SHOW parameter 'site'",
-      "IF resource == 'item' AND operation == 'delete' THEN SHOW parameter 'list'",
-      "IF resource == 'item' AND operation == 'delete' THEN SHOW parameter 'item'",
-      "IF site == '' AND list == '' THEN HIDE parameter 'item'",
-      "IF resource == 'item' AND operation == 'get' THEN SHOW parameter 'site'",
-      "IF resource == 'item' AND operation == 'get' THEN SHOW parameter 'list'",
-      "IF resource == 'item' AND operation == 'get' THEN SHOW parameter 'item'",
-      "IF resource == 'item' AND operation == 'get' THEN SHOW parameter 'simplify'",
-      "IF resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'site'",
-      "IF resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'list'",
-      "IF resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'filter'",
-      "IF resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF returnAll == False AND resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'limit'",
-      "IF resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF /simplify == True THEN HIDE parameter 'fields'",
-      "IF resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'simplify'",
-      "IF resource == 'item' AND operation == 'update' THEN SHOW parameter 'site'",
-      "IF resource == 'item' AND operation == 'update' THEN SHOW parameter 'list'",
-      "IF resource == 'item' AND operation == 'update' THEN SHOW parameter 'noticeUnsupportedFields'",
-      "IF resource == 'item' AND operation == 'update' THEN SHOW parameter 'columns'",
-      "IF resource == 'item' AND operation == 'upsert' THEN SHOW parameter 'site'",
-      "IF resource == 'item' AND operation == 'upsert' THEN SHOW parameter 'list'",
-      "IF resource == 'item' AND operation == 'upsert' THEN SHOW parameter 'noticeUnsupportedFields'",
-      "IF resource == 'item' AND operation == 'upsert' THEN SHOW parameter 'columns'",
-      "IF resource == 'list' THEN SHOW parameter 'operation'",
-      "IF resource == 'list' AND operation == 'get' THEN SHOW parameter 'site'",
-      "IF resource == 'list' AND operation == 'get' THEN SHOW parameter 'list'",
-      "IF resource == 'list' AND operation == 'get' THEN SHOW parameter 'simplify'",
-      "IF resource == 'list' AND operation == 'getAll' THEN SHOW parameter 'site'",
-      "IF resource == 'list' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF returnAll == False AND resource == 'list' AND operation == 'getAll' THEN SHOW parameter 'limit'",
-      "IF resource == 'list' AND operation == 'getAll' THEN SHOW parameter 'simplify'"
-    ]
   }
 }

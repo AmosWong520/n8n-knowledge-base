@@ -1,201 +1,92 @@
 {
   "node_id": "n8n-nodes-base.itemLists",
-  "name": "n8n-nodes-base.itemLists",
+  "name": "Item Lists",
   "version": 1,
   "semantic_context": "Helper for working with lists of items and transforming arrays",
+  "natural_language_description": "这是 Item Lists 节点。主要用于: Helper for working with lists of items and transforming arrays",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "hidden",
-      "options": [
-        {
-          "name": "Item List",
-          "value": "itemList"
-        }
-      ],
-      "default": "itemList"
+      "required": false,
+      "default": "itemList",
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: itemList",
+      "available_options": [
+        "Item List (值: itemList)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Concatenate Items",
-          "value": "aggregateItems",
-          "description": "Combine fields into a list in a single new item",
-          "action": "Combine fields into a list in a single new item"
-        },
-        {
-          "name": "Limit",
-          "value": "limit",
-          "description": "Remove items if there are too many",
-          "action": "Remove items if there are too many"
-        },
-        {
-          "name": "Remove Duplicates",
-          "value": "removeDuplicates",
-          "description": "Remove extra items that are similar",
-          "action": "Remove extra items that are similar"
-        },
-        {
-          "name": "Sort",
-          "value": "sort",
-          "description": "Change the item order",
-          "action": "Change the item order"
-        },
-        {
-          "name": "Split Out Items",
-          "value": "splitOutItems",
-          "description": "Turn a list inside item(s) into separate items",
-          "action": "Turn a list inside item(s) into separate items"
-        },
-        {
-          "name": "Summarize",
-          "value": "summarize",
-          "description": "Aggregate items together (pivot table)",
-          "action": "Aggregate items together (pivot table)"
-        }
-      ],
+      "required": false,
       "default": "splitOutItems",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: splitOutItems",
+      "available_options": [
+        "Concatenate Items (值: aggregateItems) - Combine fields into a list in a single new item",
+        "Limit (值: limit) - Remove items if there are too many",
+        "Remove Duplicates (值: removeDuplicates) - Remove extra items that are similar",
+        "Sort (值: sort) - Change the item order",
+        "Split Out Items (值: splitOutItems) - Turn a list inside item(s) into separate items",
+        "Summarize (值: summarize) - Aggregate items together (pivot table)"
+      ]
     },
     "fieldToSplitOut": {
       "displayName": "Field To Split Out",
       "name": "fieldToSplitOut",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "splitOutItems"
-          ]
-        }
-      },
+      "default": "",
       "description": "The name of the input field to break out into separate items",
-      "requiresDataPath": "single",
-      "ai_hint": "The name of the input field to break out into separate items"
+      "natural_language_description": "参数名: Field To Split Out | 作用: The name of the input field to break out into separate items | (必填项)"
     },
     "include": {
       "displayName": "Include",
       "name": "include",
       "type": "options",
+      "required": false,
       "default": "allFields",
-      "options": [
-        {
-          "name": "All Fields",
-          "value": "allFields"
-        },
-        {
-          "name": "Specified Fields",
-          "value": "specifiedFields"
-        },
-        {
-          "name": "All Fields Except",
-          "value": "allFieldsExcept"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "aggregateItems"
-          ],
-          "aggregate": [
-            "aggregateAllItemData"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Include | 默认值: allFields",
+      "available_options": [
+        "All Fields (值: allFields)",
+        "Specified Fields (值: specifiedFields)",
+        "All Fields Except (值: allFieldsExcept)"
+      ]
     },
     "fieldsToInclude": {
       "displayName": "Fields To Include",
       "name": "fieldsToInclude",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "placeholder": "Add Field To Include",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "",
-          "name": "fields",
-          "values": [
-            {
-              "displayName": "Field Name",
-              "name": "fieldName",
-              "type": "string",
-              "default": "",
-              "description": "Specify fields that will be included in output array",
-              "placeholder": "e.g. id",
-              "hint": " Enter the field name as text",
-              "requiresDataPath": "single"
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "aggregateItems"
-          ],
-          "aggregate": [
-            "aggregateAllItemData"
-          ],
-          "include": [
-            "specifiedFields"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Fields To Include | 默认值: {}",
+      "available_options": [
+        "fields (值: None)"
+      ]
     },
     "aggregate": {
       "displayName": "Aggregate",
       "name": "aggregate",
       "type": "options",
+      "required": false,
       "default": "aggregateIndividualFields",
-      "options": [
-        {
-          "name": "Individual Fields",
-          "value": "aggregateIndividualFields"
-        },
-        {
-          "name": "All Item Data (Into a Single List)",
-          "value": "aggregateAllItemData"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "aggregateItems"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Aggregate | 默认值: aggregateIndividualFields",
+      "available_options": [
+        "Individual Fields (值: aggregateIndividualFields)",
+        "All Item Data (Into a Single List) (值: aggregateAllItemData)"
+      ]
     },
     "fieldsToAggregate": {
       "displayName": "Fields To Aggregate",
       "name": "fieldsToAggregate",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "placeholder": "Add Field To Aggregate",
+      "required": false,
       "default": {
         "fieldToAggregate": [
           {
@@ -204,420 +95,135 @@
           }
         ]
       },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "aggregateItems"
-          ],
-          "aggregate": [
-            "aggregateIndividualFields"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "",
-          "name": "fieldToAggregate",
-          "values": [
-            {
-              "displayName": "Input Field Name",
-              "name": "fieldToAggregate",
-              "type": "string",
-              "default": "",
-              "description": "The name of a field in the input items to aggregate together",
-              "placeholder": "e.g. id",
-              "hint": " Enter the field name as text",
-              "requiresDataPath": "single"
-            },
-            {
-              "displayName": "Rename Field",
-              "name": "renameField",
-              "type": "boolean",
-              "default": false,
-              "description": "Whether to give the field a different name in the output"
-            },
-            {
-              "displayName": "Output Field Name",
-              "name": "outputFieldName",
-              "displayOptions": {
-                "show": {
-                  "renameField": [
-                    true
-                  ]
-                }
-              },
-              "type": "string",
-              "default": "",
-              "description": "The name of the field to put the aggregated data in. Leave blank to use the input field name.",
-              "requiresDataPath": "single"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Fields To Aggregate | 默认值: {'fieldToAggregate': [{'fieldToAggregate': '', 'renameField': False}]}",
+      "available_options": [
+        "fieldToAggregate (值: None)"
+      ]
     },
     "destinationFieldName": {
       "displayName": "Put Output in Field",
       "name": "destinationFieldName",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "aggregateItems"
-          ],
-          "aggregate": [
-            "aggregateAllItemData"
-          ]
-        }
-      },
+      "required": false,
       "default": "data",
       "description": "The name of the output field to put the data in",
-      "ai_hint": "The name of the output field to put the data in"
+      "natural_language_description": "参数名: Put Output in Field | 作用: The name of the output field to put the data in | 默认值: data"
     },
     "fieldsToExclude": {
       "displayName": "Fields To Exclude",
       "name": "fieldsToExclude",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "placeholder": "Add Field To Exclude",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "removeDuplicates"
-          ],
-          "compare": [
-            "allFieldsExcept"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "",
-          "name": "fields",
-          "values": [
-            {
-              "displayName": "Field Name",
-              "name": "fieldName",
-              "type": "string",
-              "default": "",
-              "description": "A field in the input to exclude from the comparison",
-              "placeholder": "e.g. id",
-              "hint": " Enter the field name as text",
-              "requiresDataPath": "single"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Fields To Exclude | 默认值: {}",
+      "available_options": [
+        "fields (值: None)"
+      ]
     },
     "compare": {
       "displayName": "Compare",
       "name": "compare",
       "type": "options",
-      "options": [
-        {
-          "name": "All Fields",
-          "value": "allFields"
-        },
-        {
-          "name": "All Fields Except",
-          "value": "allFieldsExcept"
-        },
-        {
-          "name": "Selected Fields",
-          "value": "selectedFields"
-        }
-      ],
+      "required": false,
       "default": "allFields",
       "description": "The fields of the input items to compare to see if they are the same",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "removeDuplicates"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Compare | 作用: The fields of the input items to compare to see if they are the same | 默认值: allFields",
+      "available_options": [
+        "All Fields (值: allFields)",
+        "All Fields Except (值: allFieldsExcept)",
+        "Selected Fields (值: selectedFields)"
+      ]
     },
     "fieldsToCompare": {
       "displayName": "Fields To Compare",
       "name": "fieldsToCompare",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "placeholder": "Add Field To Compare",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "removeDuplicates"
-          ],
-          "compare": [
-            "selectedFields"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "",
-          "name": "fields",
-          "values": [
-            {
-              "displayName": "Field Name",
-              "name": "fieldName",
-              "type": "string",
-              "default": "",
-              "description": "A field in the input to add to the comparison",
-              "placeholder": "e.g. id",
-              "hint": " Enter the field name as text",
-              "requiresDataPath": "single"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Fields To Compare | 默认值: {}",
+      "available_options": [
+        "fields (值: None)"
+      ]
     },
     "type": {
       "displayName": "Type",
       "name": "type",
       "type": "options",
-      "options": [
-        {
-          "name": "Simple",
-          "value": "simple"
-        },
-        {
-          "name": "Random",
-          "value": "random"
-        },
-        {
-          "name": "Code",
-          "value": "code"
-        }
-      ],
+      "required": false,
       "default": "simple",
       "description": "The fields of the input items to compare to see if they are the same",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "sort"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Type | 作用: The fields of the input items to compare to see if they are the same | 默认值: simple",
+      "available_options": [
+        "Simple (值: simple)",
+        "Random (值: random)",
+        "Code (值: code)"
+      ]
     },
     "sortFieldsUi": {
       "displayName": "Fields To Sort By",
       "name": "sortFieldsUi",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "placeholder": "Add Field To Sort By",
-      "options": [
-        {
-          "displayName": "",
-          "name": "sortField",
-          "values": [
-            {
-              "displayName": "Field Name",
-              "name": "fieldName",
-              "type": "string",
-              "required": true,
-              "default": "",
-              "description": "The field to sort by",
-              "placeholder": "e.g. id",
-              "hint": " Enter the field name as text",
-              "requiresDataPath": "single"
-            },
-            {
-              "displayName": "Order",
-              "name": "order",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Ascending",
-                  "value": "ascending"
-                },
-                {
-                  "name": "Descending",
-                  "value": "descending"
-                }
-              ],
-              "default": "ascending",
-              "description": "The order to sort by"
-            }
-          ]
-        }
-      ],
+      "required": false,
       "default": {},
       "description": "The fields of the input items to compare to see if they are the same",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "sort"
-          ],
-          "type": [
-            "simple"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Fields To Sort By | 作用: The fields of the input items to compare to see if they are the same | 默认值: {}",
+      "available_options": [
+        "sortField (值: None)"
+      ]
     },
     "code": {
       "displayName": "Code",
       "name": "code",
       "type": "string",
-      "typeOptions": {
-        "alwaysOpenEditWindow": true,
-        "editor": "jsEditor",
-        "rows": 10
-      },
+      "required": false,
       "default": "// The two items to compare are in the variables a and b\n// Access the fields in a.json and b.json\n// Return -1 if a should go before b\n// Return 1 if b should go before a\n// Return 0 if there's no difference\n\nfieldName = 'myField';\n\nif (a.json[fieldName] < b.json[fieldName]) {\n\t\treturn -1;\n}\nif (a.json[fieldName] > b.json[fieldName]) {\n\t\treturn 1;\n}\nreturn 0;",
       "description": "Javascript code to determine the order of any two items",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "sort"
-          ],
-          "type": [
-            "code"
-          ]
-        }
-      },
-      "ai_hint": "Javascript code to determine the order of any two items"
+      "natural_language_description": "参数名: Code | 作用: Javascript code to determine the order of any two items | 默认值: // The two items to compare are in the variables a and b\n// Access the fields in a.json and b.json\n// Return -1 if a should go before b\n// Return 1 if b should go before a\n// Return 0 if there's no difference\n\nfieldName = 'myField';\n\nif (a.json[fieldName] < b.json[fieldName]) {\n\t\treturn -1;\n}\nif (a.json[fieldName] > b.json[fieldName]) {\n\t\treturn 1;\n}\nreturn 0;"
     },
     "maxItems": {
       "displayName": "Max Items",
       "name": "maxItems",
       "type": "number",
-      "typeOptions": {
-        "minValue": 1
-      },
+      "required": false,
       "default": 1,
       "description": "If there are more items than this number, some are removed",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "limit"
-          ]
-        }
-      },
-      "ai_hint": "If there are more items than this number, some are removed"
+      "natural_language_description": "参数名: Max Items | 作用: If there are more items than this number, some are removed | 默认值: 1"
     },
     "keep": {
       "displayName": "Keep",
       "name": "keep",
       "type": "options",
-      "options": [
-        {
-          "name": "First Items",
-          "value": "firstItems"
-        },
-        {
-          "name": "Last Items",
-          "value": "lastItems"
-        }
-      ],
+      "required": false,
       "default": "firstItems",
       "description": "When removing items, whether to keep the ones at the start or the ending",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "limit"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Keep | 作用: When removing items, whether to keep the ones at the start or the ending | 默认值: firstItems",
+      "available_options": [
+        "First Items (值: firstItems)",
+        "Last Items (值: lastItems)"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "summarize"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Disable Dot Notation",
-          "name": "disableDotNotation",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to disallow referencing child fields using `parent.child` in the field name"
-        },
-        {
-          "displayName": "Output Format",
-          "name": "outputFormat",
-          "type": "options",
-          "default": "separateItems",
-          "options": [
-            {
-              "name": "Each Split in a Separate Item",
-              "value": "separateItems"
-            },
-            {
-              "name": "All Splits in a Single Item",
-              "value": "singleItem"
-            }
-          ]
-        },
-        {
-          "displayName": "Ignore items without valid fields to group by",
-          "name": "skipEmptySplitFields",
-          "type": "boolean",
-          "default": false
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "disableDotNotation (值: None) - Whether to disallow referencing child fields using `parent.child` in the field name",
+        "outputFormat (值: None)",
+        "skipEmptySplitFields (值: None)"
+      ]
     },
     "fieldsToSummarize": {
       "displayName": "Fields to Summarize",
       "name": "fieldsToSummarize",
       "type": "fixedCollection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {
         "values": [
           {
@@ -626,292 +232,20 @@
           }
         ]
       },
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "options": [
-        {
-          "displayName": "",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Aggregation",
-              "name": "aggregation",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Append",
-                  "value": "append"
-                },
-                {
-                  "name": "Average",
-                  "value": "average"
-                },
-                {
-                  "name": "Concatenate",
-                  "value": "concatenate"
-                },
-                {
-                  "name": "Count",
-                  "value": "count"
-                },
-                {
-                  "name": "Count Unique",
-                  "value": "countUnique"
-                },
-                {
-                  "name": "Max",
-                  "value": "max"
-                },
-                {
-                  "name": "Min",
-                  "value": "min"
-                },
-                {
-                  "name": "Sum",
-                  "value": "sum"
-                }
-              ],
-              "default": "count",
-              "description": "How to combine the values of the field you want to summarize"
-            },
-            {
-              "displayName": "Field",
-              "name": "field",
-              "type": "string",
-              "default": "",
-              "description": "The name of an input field that you want to summarize",
-              "placeholder": "e.g. cost",
-              "hint": " Enter the field name as text",
-              "displayOptions": {
-                "hide": {
-                  "aggregation": [
-                    "average",
-                    "max",
-                    "min",
-                    "sum",
-                    "countUnique",
-                    "count"
-                  ]
-                }
-              },
-              "requiresDataPath": "single"
-            },
-            {
-              "displayName": "Field",
-              "name": "field",
-              "type": "string",
-              "default": "",
-              "description": "The name of an input field that you want to summarize. The field should contain numerical values; null, undefined, empty strings would be ignored.",
-              "placeholder": "e.g. cost",
-              "hint": " Enter the field name as text",
-              "displayOptions": {
-                "show": {
-                  "aggregation": [
-                    "average",
-                    "max",
-                    "min",
-                    "sum"
-                  ]
-                }
-              },
-              "requiresDataPath": "single"
-            },
-            {
-              "displayName": "Field",
-              "name": "field",
-              "type": "string",
-              "default": "",
-              "description": "The name of an input field that you want to summarize; null, undefined, empty strings would be ignored",
-              "placeholder": "e.g. cost",
-              "hint": " Enter the field name as text",
-              "displayOptions": {
-                "show": {
-                  "aggregation": [
-                    "countUnique",
-                    "count"
-                  ]
-                }
-              },
-              "requiresDataPath": "single"
-            },
-            {
-              "displayName": "Include Empty Values",
-              "name": "includeEmpty",
-              "type": "boolean",
-              "default": false,
-              "displayOptions": {
-                "show": {
-                  "aggregation": [
-                    "append",
-                    "concatenate"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Separator",
-              "name": "separateBy",
-              "type": "options",
-              "default": ",",
-              "options": [
-                {
-                  "name": "Comma",
-                  "value": ","
-                },
-                {
-                  "name": "Comma and Space",
-                  "value": ", "
-                },
-                {
-                  "name": "New Line",
-                  "value": "\n"
-                },
-                {
-                  "name": "None",
-                  "value": ""
-                },
-                {
-                  "name": "Space",
-                  "value": " "
-                },
-                {
-                  "name": "Other",
-                  "value": "other"
-                }
-              ],
-              "hint": "What to insert between values",
-              "displayOptions": {
-                "show": {
-                  "aggregation": [
-                    "concatenate"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Custom Separator",
-              "name": "customSeparator",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "aggregation": [
-                    "concatenate"
-                  ],
-                  "separateBy": [
-                    "other"
-                  ]
-                }
-              }
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "summarize"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Fields to Summarize | 默认值: {'values': [{'aggregation': 'count', 'field': ''}]}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "fieldsToSplitBy": {
       "displayName": "Fields to Group By",
       "name": "fieldsToSplitBy",
       "type": "string",
-      "placeholder": "e.g. country, city",
+      "required": false,
       "default": "",
       "description": "The name of the input fields that you want to split the summary by",
-      "hint": "Enter the name of the fields as text (separated by commas)",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "itemList"
-          ],
-          "operation": [
-            "summarize"
-          ],
-          "/options.outputFormat": [
-            "singleItem"
-          ]
-        }
-      },
-      "requiresDataPath": "multiple",
-      "ai_hint": "The name of the input fields that you want to split the summary by"
+      "natural_language_description": "参数名: Fields to Group By | 作用: The name of the input fields that you want to split the summary by | 提示: Enter the name of the fields as text (separated by commas)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "fieldToSplitOut",
-      "include",
-      "fieldsToInclude",
-      "aggregate",
-      "fieldsToAggregate",
-      "destinationFieldName",
-      "include",
-      "fieldsToExclude",
-      "fieldsToInclude",
-      "compare",
-      "fieldsToExclude",
-      "fieldsToCompare",
-      "type",
-      "sortFieldsUi",
-      "code",
-      "maxItems",
-      "keep",
-      "options",
-      "options",
-      "options",
-      "fieldsToSummarize",
-      "fieldsToSplitBy",
-      "fieldsToSplitBy",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF resource == 'itemList' AND operation == 'splitOutItems' THEN SHOW parameter 'fieldToSplitOut'",
-      "IF resource == 'itemList' AND operation == 'splitOutItems' THEN SHOW parameter 'include'",
-      "IF resource == 'itemList' AND operation == 'splitOutItems' AND include == 'selectedOtherFields' THEN SHOW parameter 'fieldsToInclude'",
-      "IF resource == 'itemList' AND operation == 'aggregateItems' THEN SHOW parameter 'aggregate'",
-      "IF resource == 'itemList' AND operation == 'aggregateItems' AND aggregate == 'aggregateIndividualFields' THEN SHOW parameter 'fieldsToAggregate'",
-      "IF renameField == True THEN SHOW parameter 'outputFieldName'",
-      "IF resource == 'itemList' AND operation == 'aggregateItems' AND aggregate == 'aggregateAllItemData' THEN SHOW parameter 'destinationFieldName'",
-      "IF resource == 'itemList' AND operation == 'aggregateItems' AND aggregate == 'aggregateAllItemData' THEN SHOW parameter 'include'",
-      "IF resource == 'itemList' AND operation == 'aggregateItems' AND aggregate == 'aggregateAllItemData' AND include == 'allFieldsExcept' THEN SHOW parameter 'fieldsToExclude'",
-      "IF resource == 'itemList' AND operation == 'aggregateItems' AND aggregate == 'aggregateAllItemData' AND include == 'specifiedFields' THEN SHOW parameter 'fieldsToInclude'",
-      "IF resource == 'itemList' AND operation == 'removeDuplicates' THEN SHOW parameter 'compare'",
-      "IF resource == 'itemList' AND operation == 'removeDuplicates' AND compare == 'allFieldsExcept' THEN SHOW parameter 'fieldsToExclude'",
-      "IF resource == 'itemList' AND operation == 'removeDuplicates' AND compare == 'selectedFields' THEN SHOW parameter 'fieldsToCompare'",
-      "IF resource == 'itemList' AND operation == 'sort' THEN SHOW parameter 'type'",
-      "IF resource == 'itemList' AND operation == 'sort' AND type == 'simple' THEN SHOW parameter 'sortFieldsUi'",
-      "IF resource == 'itemList' AND operation == 'sort' AND type == 'code' THEN SHOW parameter 'code'",
-      "IF resource == 'itemList' AND operation == 'limit' THEN SHOW parameter 'maxItems'",
-      "IF resource == 'itemList' AND operation == 'limit' THEN SHOW parameter 'keep'",
-      "IF resource == 'itemList' AND operation == 'removeDuplicates' AND compare IN [\"allFieldsExcept\", \"selectedFields\"] THEN SHOW parameter 'options'",
-      "IF resource == 'itemList' AND operation == 'sort' AND type == 'simple' THEN SHOW parameter 'options'",
-      "IF resource == 'itemList' AND operation IN [\"splitOutItems\", \"aggregateItems\"] THEN SHOW parameter 'options'",
-      "IF aggregate == 'aggregateAllItemData' THEN HIDE parameter 'options'",
-      "IF /operation IN [\"splitOutItems\", \"aggregateItems\"] THEN SHOW parameter 'disableDotNotation'",
-      "IF /operation == 'splitOutItems' THEN SHOW parameter 'destinationFieldName'",
-      "IF /operation == 'aggregateItems' THEN SHOW parameter 'mergeLists'",
-      "IF /operation == 'aggregateItems' THEN SHOW parameter 'keepMissing'",
-      "IF resource == 'itemList' AND operation == 'summarize' THEN SHOW parameter 'fieldsToSummarize'",
-      "IF aggregation IN [\"average\", \"max\", \"min\", \"sum\", \"countUnique\", \"count\"] THEN HIDE parameter 'field'",
-      "IF aggregation IN [\"average\", \"max\", \"min\", \"sum\"] THEN SHOW parameter 'field'",
-      "IF aggregation IN [\"countUnique\", \"count\"] THEN SHOW parameter 'field'",
-      "IF aggregation IN [\"append\", \"concatenate\"] THEN SHOW parameter 'includeEmpty'",
-      "IF aggregation == 'concatenate' THEN SHOW parameter 'separateBy'",
-      "IF aggregation == 'concatenate' AND separateBy == 'other' THEN SHOW parameter 'customSeparator'",
-      "IF resource == 'itemList' AND operation == 'summarize' THEN SHOW parameter 'fieldsToSplitBy'",
-      "IF /options.outputFormat == 'singleItem' THEN HIDE parameter 'fieldsToSplitBy'",
-      "IF resource == 'itemList' AND operation == 'summarize' AND /options.outputFormat == 'singleItem' THEN SHOW parameter 'fieldsToSplitBy'",
-      "IF resource == 'itemList' AND operation == 'summarize' THEN SHOW parameter 'options'"
-    ]
   }
 }

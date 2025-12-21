@@ -1,932 +1,214 @@
 {
   "node_id": "n8n-nodes-base.shopifyTool",
-  "name": "n8n-nodes-base.shopifyTool",
+  "name": "Shopify Tool",
   "version": 1,
   "semantic_context": "Consume Shopify API",
+  "natural_language_description": "这是 Shopify Tool 节点。主要用于: Consume Shopify API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Shopify API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Shopify API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Shopify API | (必填项)"
     },
     "apiVersion": {
       "displayName": "Shopify API Version: 2024-07",
-      "type": "notice",
       "name": "apiVersion",
+      "type": "notice",
+      "required": false,
       "default": "",
-      "isNodeSetting": true
+      "description": "",
+      "natural_language_description": "参数名: Shopify API Version: 2024-07"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Access Token",
-          "value": "accessToken"
-        },
-        {
-          "name": "OAuth2",
-          "value": "oAuth2"
-        },
-        {
-          "name": "API Key",
-          "value": "apiKey"
-        }
-      ],
+      "required": false,
       "default": "apiKey",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: apiKey",
+      "available_options": [
+        "Access Token (值: accessToken)",
+        "OAuth2 (值: oAuth2)",
+        "API Key (值: apiKey)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Order",
-          "value": "order"
-        },
-        {
-          "name": "Product",
-          "value": "product"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "order",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: order",
+      "available_options": [
+        "Order (值: order)",
+        "Product (值: product)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "product"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a product",
-          "action": "Create a product"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a product",
-          "action": "Delete a product"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a product",
-          "action": "Get a product"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many products",
-          "action": "Get many products"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a product",
-          "action": "Update a product"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a product",
+        "Delete (值: delete) - Delete a product",
+        "Get (值: get) - Get a product",
+        "Get Many (值: getAll) - Get many products",
+        "Update (值: update) - Update a product",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "product"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Collection ID",
-          "name": "collection_id",
-          "type": "string",
-          "default": "",
-          "description": "Filter results by product collection ID"
-        },
-        {
-          "displayName": "Created At Max",
-          "name": "created_at_max",
-          "type": "dateTime",
-          "default": "",
-          "description": "Show products created before date"
-        },
-        {
-          "displayName": "Created At Min",
-          "name": "created_at_min",
-          "type": "dateTime",
-          "default": "",
-          "description": "Show products created after date"
-        },
-        {
-          "displayName": "Fields",
-          "name": "fields",
-          "type": "string",
-          "default": "",
-          "description": "Show only certain fields, specified by a comma-separated list of field names"
-        },
-        {
-          "displayName": "Handle",
-          "name": "handle",
-          "type": "string",
-          "default": "",
-          "description": "Filter results by product handle"
-        },
-        {
-          "displayName": "IDs",
-          "name": "ids",
-          "type": "string",
-          "default": "",
-          "description": "Return only products specified by a comma-separated list of product IDs"
-        },
-        {
-          "displayName": "Presentment Currencies",
-          "name": "presentment_currencies",
-          "type": "string",
-          "default": "",
-          "description": "Return presentment prices in only certain currencies, specified by a comma-separated list of ISO 4217 currency codes"
-        },
-        {
-          "displayName": "Product Type",
-          "name": "product_type",
-          "type": "string",
-          "default": "",
-          "description": "Filter results by product type"
-        },
-        {
-          "displayName": "Published At Max",
-          "name": "published_at_max",
-          "type": "dateTime",
-          "default": "",
-          "description": "Show products published before date"
-        },
-        {
-          "displayName": "Published At Min",
-          "name": "published_at_min",
-          "type": "dateTime",
-          "default": "",
-          "description": "Show products published after date"
-        },
-        {
-          "displayName": "Published Status",
-          "name": "published_status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Any",
-              "value": "any",
-              "description": "Show all products"
-            },
-            {
-              "name": "Published",
-              "value": "published",
-              "description": "Show only published products"
-            },
-            {
-              "name": "Unpublished",
-              "value": "unpublished",
-              "description": "Show only unpublished products"
-            }
-          ],
-          "default": "any",
-          "description": "Return products by their published status"
-        },
-        {
-          "displayName": "Title",
-          "name": "title",
-          "type": "string",
-          "default": "",
-          "description": "Filter results by product title"
-        },
-        {
-          "displayName": "Updated At Max",
-          "name": "updated_at_max",
-          "type": "dateTime",
-          "default": "",
-          "description": "Show products last updated before date"
-        },
-        {
-          "displayName": "Updated At Min",
-          "name": "updated_at_min",
-          "type": "dateTime",
-          "default": "",
-          "description": "Show products last updated after date"
-        },
-        {
-          "displayName": "Vendor",
-          "name": "vendor",
-          "type": "string",
-          "default": "",
-          "description": "Filter results by product vendor"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "collection_id (值: None) - Filter results by product collection ID",
+        "created_at_max (值: None) - Show products created before date",
+        "created_at_min (值: None) - Show products created after date",
+        "fields (值: None) - Show only certain fields, specified by a comma-separated list of field names",
+        "handle (值: None) - Filter results by product handle",
+        "ids (值: None) - Return only products specified by a comma-separated list of product IDs",
+        "presentment_currencies (值: None) - Return presentment prices in only certain currencies, specified by a comma-separated list of ISO 4217 currency codes",
+        "product_type (值: None) - Filter results by product type",
+        "published_at_max (值: None) - Show products published before date",
+        "published_at_min (值: None) - Show products published after date",
+        "published_status (值: None) - Return products by their published status",
+        "title (值: None) - Filter results by product title",
+        "updated_at_max (值: None) - Show products last updated before date",
+        "updated_at_min (值: None) - Show products last updated after date",
+        "vendor (值: None) - Filter results by product vendor"
+      ]
     },
     "limeItemsUi": {
       "displayName": "Line Items",
       "name": "limeItemsUi",
-      "placeholder": "Add Line Item",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Line Item",
-          "name": "lineItemValues",
-          "values": [
-            {
-              "displayName": "Product Name or ID",
-              "name": "productId",
-              "type": "options",
-              "typeOptions": {
-                "loadOptionsMethod": "getProducts"
-              },
-              "default": "",
-              "description": "The ID of the product that the line item belongs to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-            },
-            {
-              "displayName": "Variant ID",
-              "name": "variantId",
-              "type": "string",
-              "default": "",
-              "description": "The ID of the product variant"
-            },
-            {
-              "displayName": "Title",
-              "name": "title",
-              "type": "string",
-              "default": "",
-              "description": "The title of the product"
-            },
-            {
-              "displayName": "Grams",
-              "name": "grams",
-              "type": "string",
-              "default": "",
-              "description": "The weight of the item in grams"
-            },
-            {
-              "displayName": "Quantity",
-              "name": "quantity",
-              "type": "number",
-              "typeOptions": {
-                "minValue": 1
-              },
-              "default": 1,
-              "description": "The number of items that were purchased"
-            },
-            {
-              "displayName": "Price",
-              "name": "price",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Line Items | 默认值: {}",
+      "available_options": [
+        "lineItemValues (值: None)"
+      ]
     },
     "orderId": {
       "displayName": "Order ID",
       "name": "orderId",
       "type": "string",
+      "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Order ID | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "order"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Attribution App ID",
-          "name": "attributionAppId",
-          "type": "string",
-          "default": "",
-          "description": "Show orders attributed to a certain app, specified by the app ID. Set as current to show orders for the app currently consuming the API."
-        },
-        {
-          "displayName": "Created At Min",
-          "name": "createdAtMin",
-          "type": "dateTime",
-          "default": "",
-          "description": "Show orders created at or after date"
-        },
-        {
-          "displayName": "Created At Max",
-          "name": "createdAtMax",
-          "type": "dateTime",
-          "default": "",
-          "description": "Show orders created at or before date"
-        },
-        {
-          "displayName": "Financial Status",
-          "name": "financialStatus",
-          "type": "options",
-          "options": [
-            {
-              "name": "Any",
-              "value": "any",
-              "description": "Show orders of any financial status"
-            },
-            {
-              "name": "Authorized",
-              "value": "authorized",
-              "description": "Show only authorized orders"
-            },
-            {
-              "name": "Paid",
-              "value": "paid",
-              "description": "Show only paid orders"
-            },
-            {
-              "name": "Partially Paid",
-              "value": "partiallyPaid",
-              "description": "Show only partially paid orders"
-            },
-            {
-              "name": "Partially Refunded",
-              "value": "partiallyRefunded",
-              "description": "Show only partially refunded orders"
-            },
-            {
-              "name": "Pending",
-              "value": "pending",
-              "description": "Show only pending orders"
-            },
-            {
-              "name": "Refunded",
-              "value": "refunded",
-              "description": "Show only refunded orders"
-            },
-            {
-              "name": "Unpaid",
-              "value": "unpaid",
-              "description": "Show authorized and partially paid orders"
-            },
-            {
-              "name": "Voided",
-              "value": "voided",
-              "description": "Show only voided orders"
-            }
-          ],
-          "default": "any",
-          "description": "Filter orders by their financial status"
-        },
-        {
-          "displayName": "Fulfillment Status",
-          "name": "fulfillmentStatus",
-          "type": "options",
-          "options": [
-            {
-              "name": "Any",
-              "value": "any",
-              "description": "Show orders of any fulfillment status"
-            },
-            {
-              "name": "Partial",
-              "value": "partial",
-              "description": "Show partially shipped orders"
-            },
-            {
-              "name": "Shipped",
-              "value": "shipped",
-              "description": "Show orders that have been shipped. Returns orders with fulfillment_status of fulfilled."
-            },
-            {
-              "name": "Unfulfilled",
-              "value": "unfulfilled",
-              "description": "Returns orders with fulfillment_status of null or partial"
-            },
-            {
-              "name": "Unshipped",
-              "value": "unshipped",
-              "description": "Show orders that have not yet been shipped. Returns orders with fulfillment_status of null."
-            }
-          ],
-          "default": "any",
-          "description": "Filter orders by their fulfillment status"
-        },
-        {
-          "displayName": "Fields",
-          "name": "fields",
-          "type": "string",
-          "default": "",
-          "description": "Fields the orders will return, formatted as a string of comma-separated values. By default all the fields are returned."
-        },
-        {
-          "displayName": "IDs",
-          "name": "ids",
-          "type": "string",
-          "default": "",
-          "description": "Retrieve only orders specified by a comma-separated list of order IDs"
-        },
-        {
-          "displayName": "Processed At Max",
-          "name": "processedAtMax",
-          "type": "dateTime",
-          "default": "",
-          "description": "Show orders imported at or before date"
-        },
-        {
-          "displayName": "Processed At Min",
-          "name": "processedAtMin",
-          "type": "dateTime",
-          "default": "",
-          "description": "Show orders imported at or after date"
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Any",
-              "value": "any",
-              "description": "Show orders of any status, including archived orders"
-            },
-            {
-              "name": "Cancelled",
-              "value": "Cancelled",
-              "description": "Show only canceled orders"
-            },
-            {
-              "name": "Closed",
-              "value": "closed",
-              "description": "Show only closed orders"
-            },
-            {
-              "name": "Open",
-              "value": "open",
-              "description": "Show only open orders"
-            }
-          ],
-          "default": "open",
-          "description": "Filter orders by their status"
-        },
-        {
-          "displayName": "Since ID",
-          "name": "sinceId",
-          "type": "string",
-          "default": "",
-          "description": "Show orders after the specified ID"
-        },
-        {
-          "displayName": "Updated At Max",
-          "name": "updatedAtMax",
-          "type": "dateTime",
-          "default": "",
-          "description": "Show orders last updated at or after date"
-        },
-        {
-          "displayName": "Updated At Min",
-          "name": "updatedAtMin",
-          "type": "dateTime",
-          "default": "",
-          "description": "Show orders last updated at or before date"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "attributionAppId (值: None) - Show orders attributed to a certain app, specified by the app ID. Set as current to show orders for the app currently consuming the API.",
+        "createdAtMin (值: None) - Show orders created at or after date",
+        "createdAtMax (值: None) - Show orders created at or before date",
+        "financialStatus (值: None) - Filter orders by their financial status",
+        "fulfillmentStatus (值: None) - Filter orders by their fulfillment status",
+        "fields (值: None) - Fields the orders will return, formatted as a string of comma-separated values. By default all the fields are returned.",
+        "ids (值: None) - Retrieve only orders specified by a comma-separated list of order IDs",
+        "processedAtMax (值: None) - Show orders imported at or before date",
+        "processedAtMin (值: None) - Show orders imported at or after date",
+        "status (值: None) - Filter orders by their status",
+        "sinceId (值: None) - Show orders after the specified ID",
+        "updatedAtMax (值: None) - Show orders last updated at or after date",
+        "updatedAtMin (值: None) - Show orders last updated at or before date"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "product"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "product"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 250
-      },
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "product"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Body HTML",
-          "name": "body_html",
-          "type": "string",
-          "default": "",
-          "description": "A description of the product. Supports HTML formatting."
-        },
-        {
-          "displayName": "Handle",
-          "name": "handle",
-          "type": "string",
-          "default": "",
-          "description": "A unique human-friendly string for the product. Automatically generated from the product's title. Used by the Liquid templating language to refer to objects."
-        },
-        {
-          "displayName": "Images",
-          "name": "images",
-          "type": "collection",
-          "placeholder": "Add Image Field",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "description": "A list of product image objects, each one representing an image associated with the product",
-          "options": [
-            {
-              "displayName": "Created At",
-              "name": "created_at",
-              "type": "dateTime",
-              "default": "",
-              "description": "The date and time when the product image was created"
-            },
-            {
-              "displayName": "ID",
-              "name": "id",
-              "type": "number",
-              "default": "",
-              "description": "A unique numeric identifier for the product image"
-            },
-            {
-              "displayName": "Position",
-              "name": "position",
-              "type": "number",
-              "default": "",
-              "description": "The order of the product image in the list. The first product image is at position 1 and is the \"main\" image for the product."
-            },
-            {
-              "displayName": "Product ID",
-              "name": "product_id",
-              "type": "number",
-              "default": "",
-              "description": "The ID of the product associated with the image"
-            },
-            {
-              "displayName": "Variant IDs",
-              "name": "variant_ids",
-              "type": "number",
-              "typeOptions": {
-                "multipleValues": true
-              },
-              "default": "",
-              "description": "An array of variant IDs associated with the image"
-            },
-            {
-              "displayName": "Source",
-              "name": "src",
-              "type": "string",
-              "default": "",
-              "description": "<p>Specifies the location of the product image. This parameter supports URL filters that you can use to retrieve modified copies of the image.</p><p>For example, add _small, to the filename to retrieve a scaled copy of the image at 100 x 100 px (for example, ipod-nano_small.png), or add _2048x2048 to retrieve a copy of the image constrained at 2048 x 2048 px resolution (for example, ipod-nano_2048x2048.png).</p>."
-            },
-            {
-              "displayName": "Width",
-              "name": "width",
-              "type": "number",
-              "default": "",
-              "description": "Width dimension of the image which is determined on upload"
-            },
-            {
-              "displayName": "Height",
-              "name": "height",
-              "type": "number",
-              "default": "",
-              "description": "Height dimension of the image which is determined on upload"
-            },
-            {
-              "displayName": "Updated At",
-              "name": "updated_at",
-              "type": "dateTime",
-              "default": "",
-              "description": "The date and time when the product image was last modified"
-            }
-          ]
-        },
-        {
-          "displayName": "Options",
-          "name": "productOptions",
-          "type": "fixedCollection",
-          "placeholder": "Add option",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "description": "The custom product property names like Size, Color, and Material. You can add up to 3 options of up to 255 characters each.",
-          "options": [
-            {
-              "displayName": "Option",
-              "name": "option",
-              "values": [
-                {
-                  "displayName": "Name",
-                  "name": "name",
-                  "type": "string",
-                  "default": "",
-                  "description": "Option's name"
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": "",
-                  "description": "Option's values"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Product Type",
-          "name": "product_type",
-          "type": "string",
-          "default": "",
-          "description": "A categorization for the product used for filtering and searching products"
-        },
-        {
-          "displayName": "Published At",
-          "name": "published_at",
-          "type": "dateTime",
-          "default": "",
-          "description": "The date and time (ISO 8601 format) when the product was published. Can be set to null to unpublish the product from the Online Store channel."
-        },
-        {
-          "displayName": "Published Scope",
-          "name": "published_scope",
-          "type": "options",
-          "default": "",
-          "options": [
-            {
-              "name": "Global",
-              "value": "global",
-              "description": "The product is published to both the Online Store channel and the Point of Sale channel"
-            },
-            {
-              "name": "Web",
-              "value": "web",
-              "description": "The product is published to the Online Store channel but not published to the Point of Sale channel"
-            }
-          ]
-        },
-        {
-          "displayName": "Tags",
-          "name": "tags",
-          "type": "string",
-          "default": "",
-          "description": "A string of comma-separated tags that are used for filtering and search. A product can have up to 250 tags. Each tag can have up to 255 characters."
-        },
-        {
-          "displayName": "Template Suffix",
-          "name": "template_suffix",
-          "type": "string",
-          "default": "",
-          "description": "The suffix of the Liquid template used for the product page. If this property is specified, then the product page uses a template called \"product.suffix.liquid\", where \"suffix\" is the value of this property. If this property is \"\" or null, then the product page uses the default template \"product.liquid\". (default: null)"
-        },
-        {
-          "displayName": "Title",
-          "name": "title",
-          "type": "string",
-          "default": "",
-          "description": "The name of the product"
-        },
-        {
-          "displayName": "Vendor",
-          "name": "vendor",
-          "type": "string",
-          "default": "",
-          "description": "The name of the product's vendor"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "body_html (值: None) - A description of the product. Supports HTML formatting.",
+        "handle (值: None) - A unique human-friendly string for the product. Automatically generated from the product's title. Used by the Liquid templating language to refer to objects.",
+        "images (值: None) - A list of product image objects, each one representing an image associated with the product",
+        "productOptions (值: None) - The custom product property names like Size, Color, and Material. You can add up to 3 options of up to 255 characters each.",
+        "product_type (值: None) - A categorization for the product used for filtering and searching products",
+        "published_at (值: None) - The date and time (ISO 8601 format) when the product was published. Can be set to null to unpublish the product from the Online Store channel.",
+        "published_scope (值: None)",
+        "tags (值: None) - A string of comma-separated tags that are used for filtering and search. A product can have up to 250 tags. Each tag can have up to 255 characters.",
+        "template_suffix (值: None) - The suffix of the Liquid template used for the product page. If this property is specified, then the product page uses a template called \"product.suffix.liquid\", where \"suffix\" is the value of this property. If this property is \"\" or null, then the product page uses the default template \"product.liquid\". (default: null)",
+        "title (值: None) - The name of the product",
+        "vendor (值: None) - The name of the product's vendor"
+      ]
     },
     "title": {
       "displayName": "Title",
       "name": "title",
       "type": "string",
-      "placeholder": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "product"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
       "description": "The name of the product",
-      "required": true,
-      "ai_hint": "The name of the product"
+      "natural_language_description": "参数名: Title | 作用: The name of the product | (必填项)"
     },
     "productId": {
       "displayName": "Product ID",
       "name": "productId",
       "type": "string",
+      "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "product"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Product ID | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "apiVersion",
-      "authentication",
-      "resource",
-      "operation",
-      "additionalFields",
-      "limeItemsUi",
-      "orderId",
-      "orderId",
-      "options",
-      "returnAll",
-      "limit",
-      "options",
-      "orderId",
-      "updateFields",
-      "operation",
-      "title",
-      "productId",
-      "additionalFields",
-      "updateFields",
-      "productId",
-      "productId",
-      "additionalFields",
-      "returnAll",
-      "limit",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'order' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'order' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'order' AND operation == 'create' THEN SHOW parameter 'limeItemsUi'",
-      "IF resource == 'order' AND operation == 'delete' THEN SHOW parameter 'orderId'",
-      "IF resource == 'order' AND operation == 'get' THEN SHOW parameter 'orderId'",
-      "IF operation == 'get' AND resource == 'order' THEN SHOW parameter 'options'",
-      "IF resource == 'order' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'order' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'order' THEN SHOW parameter 'options'",
-      "IF resource == 'order' AND operation == 'update' THEN SHOW parameter 'orderId'",
-      "IF operation == 'update' AND resource == 'order' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'product' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'product' THEN SHOW parameter 'title'",
-      "IF resource == 'product' AND operation == 'update' THEN SHOW parameter 'productId'",
-      "IF operation == 'create' AND resource == 'product' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'update' AND resource == 'product' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'product' AND operation == 'delete' THEN SHOW parameter 'productId'",
-      "IF resource == 'product' AND operation == 'get' THEN SHOW parameter 'productId'",
-      "IF operation == 'get' AND resource == 'product' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'product' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'product' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'product' THEN SHOW parameter 'additionalFields'"
-    ]
   }
 }

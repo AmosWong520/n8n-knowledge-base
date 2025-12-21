@@ -1,552 +1,205 @@
 {
   "node_id": "n8n-nodes-base.cryptoTool",
-  "name": "n8n-nodes-base.cryptoTool",
+  "name": "Crypto Tool",
   "version": 1,
   "semantic_context": "Provide cryptographic utilities",
+  "natural_language_description": "这是 Crypto Tool 节点。主要用于: Provide cryptographic utilities",
   "parameters": {
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Provide cryptographic utilities",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Provide cryptographic utilities",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Provide cryptographic utilities | (必填项)"
     },
     "action": {
       "displayName": "Action",
       "name": "action",
       "type": "options",
-      "options": [
-        {
-          "name": "Generate",
-          "description": "Generate random string",
-          "value": "generate",
-          "action": "Generate random string"
-        },
-        {
-          "name": "Hash",
-          "description": "Hash a text or file in a specified format",
-          "value": "hash",
-          "action": "Hash a text or file in a specified format"
-        },
-        {
-          "name": "Hmac",
-          "description": "Hmac a text or file in a specified format",
-          "value": "hmac",
-          "action": "HMAC a text or file in a specified format"
-        },
-        {
-          "name": "Sign",
-          "description": "Sign a string using a private key",
-          "value": "sign",
-          "action": "Sign a string using a private key"
-        }
-      ],
+      "required": false,
       "default": "hash",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Action | 默认值: hash",
+      "available_options": [
+        "Generate (值: generate) - Generate random string",
+        "Hash (值: hash) - Hash a text or file in a specified format",
+        "Hmac (值: hmac) - Hmac a text or file in a specified format",
+        "Sign (值: sign) - Sign a string using a private key"
+      ]
     },
     "type": {
       "displayName": "Type",
       "name": "type",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "hmac"
-          ]
-        }
-      },
       "type": "options",
-      "options": [
-        {
-          "name": "MD5",
-          "value": "MD5"
-        },
-        {
-          "name": "SHA256",
-          "value": "SHA256"
-        },
-        {
-          "name": "SHA3-256",
-          "value": "SHA3-256"
-        },
-        {
-          "name": "SHA3-384",
-          "value": "SHA3-384"
-        },
-        {
-          "name": "SHA3-512",
-          "value": "SHA3-512"
-        },
-        {
-          "name": "SHA384",
-          "value": "SHA384"
-        },
-        {
-          "name": "SHA512",
-          "value": "SHA512"
-        }
-      ],
+      "required": true,
       "default": "MD5",
       "description": "The hash type to use",
-      "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Type | 作用: The hash type to use | 默认值: MD5 | (必填项)",
+      "available_options": [
+        "MD5 (值: MD5)",
+        "SHA256 (值: SHA256)",
+        "SHA3-256 (值: SHA3-256)",
+        "SHA3-384 (值: SHA3-384)",
+        "SHA3-512 (值: SHA3-512)",
+        "SHA384 (值: SHA384)",
+        "SHA512 (值: SHA512)"
+      ]
     },
     "binaryData": {
       "displayName": "Binary File",
       "name": "binaryData",
       "type": "boolean",
-      "default": false,
       "required": true,
-      "displayOptions": {
-        "show": {
-          "action": [
-            "hash",
-            "hmac"
-          ]
-        }
-      },
+      "default": false,
       "description": "Whether the data to hashed should be taken from binary field",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Binary File | 作用: Whether the data to hashed should be taken from binary field | 默认值: False | (必填项)"
     },
     "binaryPropertyName": {
       "displayName": "Binary Property Name",
       "name": "binaryPropertyName",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "hash",
-            "hmac"
-          ],
-          "binaryData": [
-            true
-          ]
-        }
-      },
       "type": "string",
+      "required": true,
       "default": "data",
       "description": "Name of the binary property which contains the input data",
-      "required": true,
-      "ai_hint": "Name of the binary property which contains the input data"
+      "natural_language_description": "参数名: Binary Property Name | 作用: Name of the binary property which contains the input data | 默认值: data | (必填项)"
     },
     "value": {
       "displayName": "Value",
       "name": "value",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "sign"
-          ]
-        }
-      },
       "type": "string",
+      "required": true,
       "default": "",
       "description": "The value that should be signed",
-      "required": true,
-      "ai_hint": "The value that should be signed"
+      "natural_language_description": "参数名: Value | 作用: The value that should be signed | (必填项)"
     },
     "dataPropertyName": {
       "displayName": "Property Name",
       "name": "dataPropertyName",
       "type": "string",
-      "default": "data",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "action": [
-            "generate"
-          ]
-        }
-      },
+      "default": "data",
       "description": "Name of the property to which to write the random string",
-      "ai_hint": "Name of the property to which to write the random string"
+      "natural_language_description": "参数名: Property Name | 作用: Name of the property to which to write the random string | 默认值: data | (必填项)"
     },
     "encoding": {
       "displayName": "Encoding",
       "name": "encoding",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "sign"
-          ]
-        }
-      },
       "type": "options",
-      "options": [
-        {
-          "name": "BASE64",
-          "value": "base64"
-        },
-        {
-          "name": "HEX",
-          "value": "hex"
-        }
-      ],
-      "default": "hex",
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "hex",
+      "description": "",
+      "natural_language_description": "参数名: Encoding | 默认值: hex | (必填项)",
+      "available_options": [
+        "BASE64 (值: base64)",
+        "HEX (值: hex)"
+      ]
     },
     "secret": {
       "displayName": "Secret",
       "name": "secret",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "hmac"
-          ]
-        }
-      },
       "type": "string",
-      "typeOptions": {
-        "password": true
-      },
+      "required": true,
       "default": "",
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Secret | (必填项)"
     },
     "algorithm": {
       "displayName": "Algorithm Name or ID",
       "name": "algorithm",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "sign"
-          ]
-        }
-      },
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "options": [
-        {
-          "name": "RSA-MD5",
-          "value": "RSA-MD5"
-        },
-        {
-          "name": "RSA-RIPEMD160",
-          "value": "RSA-RIPEMD160"
-        },
-        {
-          "name": "RSA-SHA1",
-          "value": "RSA-SHA1"
-        },
-        {
-          "name": "RSA-SHA1-2",
-          "value": "RSA-SHA1-2"
-        },
-        {
-          "name": "RSA-SHA224",
-          "value": "RSA-SHA224"
-        },
-        {
-          "name": "RSA-SHA256",
-          "value": "RSA-SHA256"
-        },
-        {
-          "name": "RSA-SHA3-224",
-          "value": "RSA-SHA3-224"
-        },
-        {
-          "name": "RSA-SHA3-256",
-          "value": "RSA-SHA3-256"
-        },
-        {
-          "name": "RSA-SHA3-384",
-          "value": "RSA-SHA3-384"
-        },
-        {
-          "name": "RSA-SHA3-512",
-          "value": "RSA-SHA3-512"
-        },
-        {
-          "name": "RSA-SHA384",
-          "value": "RSA-SHA384"
-        },
-        {
-          "name": "RSA-SHA512",
-          "value": "RSA-SHA512"
-        },
-        {
-          "name": "RSA-SHA512/224",
-          "value": "RSA-SHA512/224"
-        },
-        {
-          "name": "RSA-SHA512/256",
-          "value": "RSA-SHA512/256"
-        },
-        {
-          "name": "RSA-SM3",
-          "value": "RSA-SM3"
-        },
-        {
-          "name": "blake2b512",
-          "value": "blake2b512"
-        },
-        {
-          "name": "blake2s256",
-          "value": "blake2s256"
-        },
-        {
-          "name": "id-rsassa-pkcs1-v1_5-with-sha3-224",
-          "value": "id-rsassa-pkcs1-v1_5-with-sha3-224"
-        },
-        {
-          "name": "id-rsassa-pkcs1-v1_5-with-sha3-256",
-          "value": "id-rsassa-pkcs1-v1_5-with-sha3-256"
-        },
-        {
-          "name": "id-rsassa-pkcs1-v1_5-with-sha3-384",
-          "value": "id-rsassa-pkcs1-v1_5-with-sha3-384"
-        },
-        {
-          "name": "id-rsassa-pkcs1-v1_5-with-sha3-512",
-          "value": "id-rsassa-pkcs1-v1_5-with-sha3-512"
-        },
-        {
-          "name": "md5",
-          "value": "md5"
-        },
-        {
-          "name": "md5-sha1",
-          "value": "md5-sha1"
-        },
-        {
-          "name": "md5WithRSAEncryption",
-          "value": "md5WithRSAEncryption"
-        },
-        {
-          "name": "ripemd",
-          "value": "ripemd"
-        },
-        {
-          "name": "ripemd160",
-          "value": "ripemd160"
-        },
-        {
-          "name": "ripemd160WithRSA",
-          "value": "ripemd160WithRSA"
-        },
-        {
-          "name": "rmd160",
-          "value": "rmd160"
-        },
-        {
-          "name": "sha1",
-          "value": "sha1"
-        },
-        {
-          "name": "sha1WithRSAEncryption",
-          "value": "sha1WithRSAEncryption"
-        },
-        {
-          "name": "sha224",
-          "value": "sha224"
-        },
-        {
-          "name": "sha224WithRSAEncryption",
-          "value": "sha224WithRSAEncryption"
-        },
-        {
-          "name": "sha256",
-          "value": "sha256"
-        },
-        {
-          "name": "sha256WithRSAEncryption",
-          "value": "sha256WithRSAEncryption"
-        },
-        {
-          "name": "sha3-224",
-          "value": "sha3-224"
-        },
-        {
-          "name": "sha3-256",
-          "value": "sha3-256"
-        },
-        {
-          "name": "sha3-384",
-          "value": "sha3-384"
-        },
-        {
-          "name": "sha3-512",
-          "value": "sha3-512"
-        },
-        {
-          "name": "sha384",
-          "value": "sha384"
-        },
-        {
-          "name": "sha384WithRSAEncryption",
-          "value": "sha384WithRSAEncryption"
-        },
-        {
-          "name": "sha512",
-          "value": "sha512"
-        },
-        {
-          "name": "sha512-224",
-          "value": "sha512-224"
-        },
-        {
-          "name": "sha512-224WithRSAEncryption",
-          "value": "sha512-224WithRSAEncryption"
-        },
-        {
-          "name": "sha512-256",
-          "value": "sha512-256"
-        },
-        {
-          "name": "sha512-256WithRSAEncryption",
-          "value": "sha512-256WithRSAEncryption"
-        },
-        {
-          "name": "sha512WithRSAEncryption",
-          "value": "sha512WithRSAEncryption"
-        },
-        {
-          "name": "shake128",
-          "value": "shake128"
-        },
-        {
-          "name": "shake256",
-          "value": "shake256"
-        },
-        {
-          "name": "sm3",
-          "value": "sm3"
-        },
-        {
-          "name": "sm3WithRSAEncryption",
-          "value": "sm3WithRSAEncryption"
-        },
-        {
-          "name": "ssl3-md5",
-          "value": "ssl3-md5"
-        },
-        {
-          "name": "ssl3-sha1",
-          "value": "ssl3-sha1"
-        }
-      ],
-      "default": "",
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "",
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Algorithm Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)",
+      "available_options": [
+        "RSA-MD5 (值: RSA-MD5)",
+        "RSA-RIPEMD160 (值: RSA-RIPEMD160)",
+        "RSA-SHA1 (值: RSA-SHA1)",
+        "RSA-SHA1-2 (值: RSA-SHA1-2)",
+        "RSA-SHA224 (值: RSA-SHA224)",
+        "RSA-SHA256 (值: RSA-SHA256)",
+        "RSA-SHA3-224 (值: RSA-SHA3-224)",
+        "RSA-SHA3-256 (值: RSA-SHA3-256)",
+        "RSA-SHA3-384 (值: RSA-SHA3-384)",
+        "RSA-SHA3-512 (值: RSA-SHA3-512)",
+        "RSA-SHA384 (值: RSA-SHA384)",
+        "RSA-SHA512 (值: RSA-SHA512)",
+        "RSA-SHA512/224 (值: RSA-SHA512/224)",
+        "RSA-SHA512/256 (值: RSA-SHA512/256)",
+        "RSA-SM3 (值: RSA-SM3)",
+        "blake2b512 (值: blake2b512)",
+        "blake2s256 (值: blake2s256)",
+        "id-rsassa-pkcs1-v1_5-with-sha3-224 (值: id-rsassa-pkcs1-v1_5-with-sha3-224)",
+        "id-rsassa-pkcs1-v1_5-with-sha3-256 (值: id-rsassa-pkcs1-v1_5-with-sha3-256)",
+        "id-rsassa-pkcs1-v1_5-with-sha3-384 (值: id-rsassa-pkcs1-v1_5-with-sha3-384)",
+        "id-rsassa-pkcs1-v1_5-with-sha3-512 (值: id-rsassa-pkcs1-v1_5-with-sha3-512)",
+        "md5 (值: md5)",
+        "md5-sha1 (值: md5-sha1)",
+        "md5WithRSAEncryption (值: md5WithRSAEncryption)",
+        "ripemd (值: ripemd)",
+        "ripemd160 (值: ripemd160)",
+        "ripemd160WithRSA (值: ripemd160WithRSA)",
+        "rmd160 (值: rmd160)",
+        "sha1 (值: sha1)",
+        "sha1WithRSAEncryption (值: sha1WithRSAEncryption)",
+        "sha224 (值: sha224)",
+        "sha224WithRSAEncryption (值: sha224WithRSAEncryption)",
+        "sha256 (值: sha256)",
+        "sha256WithRSAEncryption (值: sha256WithRSAEncryption)",
+        "sha3-224 (值: sha3-224)",
+        "sha3-256 (值: sha3-256)",
+        "sha3-384 (值: sha3-384)",
+        "sha3-512 (值: sha3-512)",
+        "sha384 (值: sha384)",
+        "sha384WithRSAEncryption (值: sha384WithRSAEncryption)",
+        "sha512 (值: sha512)",
+        "sha512-224 (值: sha512-224)",
+        "sha512-224WithRSAEncryption (值: sha512-224WithRSAEncryption)",
+        "sha512-256 (值: sha512-256)",
+        "sha512-256WithRSAEncryption (值: sha512-256WithRSAEncryption)",
+        "sha512WithRSAEncryption (值: sha512WithRSAEncryption)",
+        "shake128 (值: shake128)",
+        "shake256 (值: shake256)",
+        "sm3 (值: sm3)",
+        "sm3WithRSAEncryption (值: sm3WithRSAEncryption)",
+        "ssl3-md5 (值: ssl3-md5)",
+        "ssl3-sha1 (值: ssl3-sha1)"
+      ]
     },
     "privateKey": {
       "displayName": "Private Key",
       "name": "privateKey",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "sign"
-          ]
-        }
-      },
       "type": "string",
-      "description": "Private key to use when signing the string",
-      "default": "",
       "required": true,
-      "ai_hint": "Private key to use when signing the string"
+      "default": "",
+      "description": "Private key to use when signing the string",
+      "natural_language_description": "参数名: Private Key | 作用: Private key to use when signing the string | (必填项)"
     },
     "encodingType": {
       "displayName": "Type",
       "name": "encodingType",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "generate"
-          ]
-        }
-      },
       "type": "options",
-      "options": [
-        {
-          "name": "ASCII",
-          "value": "ascii"
-        },
-        {
-          "name": "BASE64",
-          "value": "base64"
-        },
-        {
-          "name": "HEX",
-          "value": "hex"
-        },
-        {
-          "name": "UUID",
-          "value": "uuid"
-        }
-      ],
+      "required": true,
       "default": "uuid",
       "description": "Encoding that will be used to generate string",
-      "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Type | 作用: Encoding that will be used to generate string | 默认值: uuid | (必填项)",
+      "available_options": [
+        "ASCII (值: ascii)",
+        "BASE64 (值: base64)",
+        "HEX (值: hex)",
+        "UUID (值: uuid)"
+      ]
     },
     "stringLength": {
       "displayName": "Length",
       "name": "stringLength",
       "type": "number",
+      "required": false,
       "default": 32,
       "description": "Length of the generated string",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "generate"
-          ],
-          "encodingType": [
-            "ascii",
-            "base64",
-            "hex"
-          ]
-        }
-      },
-      "ai_hint": "Length of the generated string"
+      "natural_language_description": "参数名: Length | 作用: Length of the generated string | 默认值: 32"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "toolDescription",
-      "action",
-      "type",
-      "binaryData",
-      "binaryPropertyName",
-      "value",
-      "dataPropertyName",
-      "encoding",
-      "type",
-      "value",
-      "dataPropertyName",
-      "secret",
-      "encoding",
-      "value",
-      "dataPropertyName",
-      "algorithm",
-      "encoding",
-      "privateKey",
-      "dataPropertyName",
-      "encodingType",
-      "stringLength"
-    ],
-    "conditional_rules": [
-      "IF action == 'hash' THEN SHOW parameter 'type'",
-      "IF action IN [\"hash\", \"hmac\"] THEN SHOW parameter 'binaryData'",
-      "IF action IN [\"hash\", \"hmac\"] AND binaryData == True THEN SHOW parameter 'binaryPropertyName'",
-      "IF action == 'hash' AND binaryData == False THEN SHOW parameter 'value'",
-      "IF action == 'hash' THEN SHOW parameter 'dataPropertyName'",
-      "IF action == 'hash' THEN SHOW parameter 'encoding'",
-      "IF action == 'hmac' THEN SHOW parameter 'type'",
-      "IF action == 'hmac' AND binaryData == False THEN SHOW parameter 'value'",
-      "IF action == 'hmac' THEN SHOW parameter 'dataPropertyName'",
-      "IF action == 'hmac' THEN SHOW parameter 'secret'",
-      "IF action == 'hmac' THEN SHOW parameter 'encoding'",
-      "IF action == 'sign' THEN SHOW parameter 'value'",
-      "IF action == 'sign' THEN SHOW parameter 'dataPropertyName'",
-      "IF action == 'sign' THEN SHOW parameter 'algorithm'",
-      "IF action == 'sign' THEN SHOW parameter 'encoding'",
-      "IF action == 'sign' THEN SHOW parameter 'privateKey'",
-      "IF action == 'generate' THEN SHOW parameter 'dataPropertyName'",
-      "IF action == 'generate' THEN SHOW parameter 'encodingType'",
-      "IF action == 'generate' AND encodingType IN [\"ascii\", \"base64\", \"hex\"] THEN SHOW parameter 'stringLength'"
-    ]
   }
 }

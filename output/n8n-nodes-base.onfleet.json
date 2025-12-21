@@ -1,1562 +1,403 @@
 {
   "node_id": "n8n-nodes-base.onfleet",
-  "name": "n8n-nodes-base.onfleet",
+  "name": "Onfleet",
   "version": 1,
   "semantic_context": "Consume Onfleet API",
+  "natural_language_description": "这是 Onfleet 节点。主要用于: Consume Onfleet API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Admin",
-          "value": "admin"
-        },
-        {
-          "name": "Container",
-          "value": "container"
-        },
-        {
-          "name": "Destination",
-          "value": "destination"
-        },
-        {
-          "name": "Hub",
-          "value": "hub"
-        },
-        {
-          "name": "Organization",
-          "value": "organization"
-        },
-        {
-          "name": "Recipient",
-          "value": "recipient"
-        },
-        {
-          "name": "Task",
-          "value": "task"
-        },
-        {
-          "name": "Team",
-          "value": "team"
-        },
-        {
-          "name": "Worker",
-          "value": "worker"
-        }
-      ],
+      "required": false,
       "default": "task",
       "description": "The resource to perform operations on",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Resource | 作用: The resource to perform operations on | 默认值: task",
+      "available_options": [
+        "Admin (值: admin)",
+        "Container (值: container)",
+        "Destination (值: destination)",
+        "Hub (值: hub)",
+        "Organization (值: organization)",
+        "Recipient (值: recipient)",
+        "Task (值: task)",
+        "Team (值: team)",
+        "Worker (值: worker)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "worker"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a new Onfleet worker",
-          "action": "Create a worker"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete an Onfleet worker",
-          "action": "Delete a worker"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a specific Onfleet worker",
-          "action": "Get a worker"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many Onfleet workers",
-          "action": "Get many workers"
-        },
-        {
-          "name": "Get Schedule",
-          "value": "getSchedule",
-          "description": "Get a specific Onfleet worker schedule",
-          "action": "Get the schedule for a worker"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update an Onfleet worker",
-          "action": "Update a worker"
-        }
-      ],
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Create (值: create) - Create a new Onfleet worker",
+        "Delete (值: delete) - Delete an Onfleet worker",
+        "Get (值: get) - Get a specific Onfleet worker",
+        "Get Many (值: getAll) - Get many Onfleet workers",
+        "Get Schedule (值: getSchedule) - Get a specific Onfleet worker schedule",
+        "Update (值: update) - Update an Onfleet worker"
+      ]
     },
     "id": {
       "displayName": "Worker ID",
       "name": "id",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "worker"
-          ],
-          "operation": [
-            "get",
-            "getSchedule",
-            "setSchedule",
-            "update",
-            "delete"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "The ID of the worker object for lookup",
-      "ai_hint": "The ID of the worker object for lookup"
+      "natural_language_description": "参数名: Worker ID | 作用: The ID of the worker object for lookup | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "worker"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "worker"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 64
-      },
+      "required": false,
       "default": 64,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 64"
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
+      "required": true,
       "default": "",
       "description": "The worker's name",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "worker"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "required": true,
-      "ai_hint": "The worker's name"
+      "natural_language_description": "参数名: Name | 作用: The worker's name | (必填项)"
     },
     "email": {
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "admin"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "required": true,
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
+      "required": true,
       "default": "",
       "description": "The administrator's email address",
-      "ai_hint": "The administrator's email address"
+      "natural_language_description": "参数名: Email | 作用: The administrator's email address | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "worker"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Capacity",
-          "name": "capacity",
-          "type": "number",
-          "default": 0,
-          "description": "The maximum number of units this worker can carry, for route optimization purposes"
-        },
-        {
-          "displayName": "Display Name",
-          "name": "displayName",
-          "type": "string",
-          "default": "",
-          "description": "This value is used in place of the worker's actual name within sms notifications, delivery tracking pages, and across organization boundaries"
-        },
-        {
-          "displayName": "Vehicle",
-          "name": "vehicle",
-          "type": "fixedCollection",
-          "placeholder": "Add Vehicle",
-          "default": {},
-          "options": [
-            {
-              "displayName": "Vehicle Properties",
-              "name": "vehicleProperties",
-              "values": [
-                {
-                  "displayName": "Type",
-                  "name": "type",
-                  "type": "options",
-                  "options": [
-                    {
-                      "name": "Bicycle",
-                      "value": "BICYCLE"
-                    },
-                    {
-                      "name": "Car",
-                      "value": "CAR"
-                    },
-                    {
-                      "name": "Motorcycle",
-                      "value": "MOTORCYCLE"
-                    },
-                    {
-                      "name": "Truck",
-                      "value": "TRUCK"
-                    }
-                  ],
-                  "default": "",
-                  "description": "Whether the worker has vehicle or not. If it's not provided, this worker will be treated as if on foot.",
-                  "required": true
-                },
-                {
-                  "displayName": "Description",
-                  "name": "description",
-                  "type": "string",
-                  "default": "",
-                  "description": "The vehicle's make, model, year, or any other relevant identifying details",
-                  "required": false
-                },
-                {
-                  "displayName": "License Plate",
-                  "name": "licensePlate",
-                  "type": "string",
-                  "default": "",
-                  "description": "The vehicle's license plate number",
-                  "required": false
-                },
-                {
-                  "displayName": "Color",
-                  "name": "color",
-                  "type": "string",
-                  "default": "",
-                  "description": "The vehicle's color",
-                  "required": false
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "capacity (值: None) - The maximum number of units this worker can carry, for route optimization purposes",
+        "displayName (值: None) - This value is used in place of the worker's actual name within sms notifications, delivery tracking pages, and across organization boundaries",
+        "vehicle (值: None)"
+      ]
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "worker"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Capacity",
-          "name": "capacity",
-          "type": "number",
-          "default": 0,
-          "description": "The maximum number of units this worker can carry, for route optimization purposes"
-        },
-        {
-          "displayName": "Display Name",
-          "name": "displayName",
-          "type": "string",
-          "default": "",
-          "description": "This value is used in place of the worker's actual name within sms notifications, delivery tracking pages, and across organization boundaries"
-        },
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": "",
-          "description": "The worker's name"
-        },
-        {
-          "displayName": "Team Names or IDs",
-          "name": "teams",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getTeams"
-          },
-          "default": [],
-          "description": "One or more teams of which the worker is a member. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "capacity (值: None) - The maximum number of units this worker can carry, for route optimization purposes",
+        "displayName (值: None) - This value is used in place of the worker's actual name within sms notifications, delivery tracking pages, and across organization boundaries",
+        "name (值: None) - The worker's name",
+        "teams (值: None) - One or more teams of which the worker is a member. Choose from the list, or specify IDs using an expression."
+      ]
     },
     "containerType": {
       "displayName": "Container Type",
       "name": "containerType",
       "type": "options",
-      "options": [
-        {
-          "name": "Organizations",
-          "value": "organizations"
-        },
-        {
-          "name": "Teams",
-          "value": "teams"
-        },
-        {
-          "name": "Workers",
-          "value": "workers"
-        }
-      ],
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "container"
-          ],
-          "operation": [
-            "get",
-            "addTask"
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Container Type | (必填项)",
+      "available_options": [
+        "Organizations (值: organizations)",
+        "Teams (值: teams)",
+        "Workers (值: workers)"
+      ]
     },
     "containerId": {
       "displayName": "Container ID",
       "name": "containerId",
       "type": "string",
+      "required": true,
       "default": "",
       "description": "The object ID according to the container chosen",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "container"
-          ],
-          "operation": [
-            "get",
-            "addTask",
-            "updateTask"
-          ]
-        }
-      },
-      "required": true,
-      "ai_hint": "The object ID according to the container chosen"
+      "natural_language_description": "参数名: Container ID | 作用: The object ID according to the container chosen | (必填项)"
     },
     "type": {
       "displayName": "Insert Type",
       "name": "type",
       "type": "options",
-      "options": [
-        {
-          "name": "Append",
-          "value": -1
-        },
-        {
-          "name": "Prepend",
-          "value": 0
-        },
-        {
-          "name": "At Specific Index",
-          "value": 1
-        }
-      ],
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "container"
-          ],
-          "operation": [
-            "addTask"
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Insert Type | (必填项)",
+      "available_options": [
+        "Append (值: -1)",
+        "Prepend (值: 0)",
+        "At Specific Index (值: 1)"
+      ]
     },
     "index": {
       "displayName": "Index",
       "name": "index",
       "type": "number",
+      "required": true,
       "default": 0,
       "description": "The index given indicates the position where the tasks are going to be inserted",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "container"
-          ],
-          "operation": [
-            "addTask"
-          ],
-          "type": [
-            1
-          ]
-        }
-      },
-      "required": true,
-      "ai_hint": "The index given indicates the position where the tasks are going to be inserted"
+      "natural_language_description": "参数名: Index | 作用: The index given indicates the position where the tasks are going to be inserted | 默认值: 0 | (必填项)"
     },
     "tasks": {
       "displayName": "Task IDs",
       "name": "tasks",
       "type": "string",
-      "typeOptions": {
-        "multipleValues": true,
-        "multipleValueButtonText": "Add Task"
-      },
+      "required": true,
       "default": [],
       "description": "Task's ID that are going to be used",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "container"
-          ],
-          "operation": [
-            "addTask",
-            "updateTask"
-          ]
-        }
-      },
-      "required": true,
-      "ai_hint": "Task's ID that are going to be used"
+      "natural_language_description": "参数名: Task IDs | 作用: Task's ID that are going to be used | 默认值: [] | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "worker"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Analytics",
-          "name": "analytics",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether a more detailed response is needed, includes basic worker duty event, traveled distance (meters) and time analytics"
-        },
-        {
-          "displayName": "Fields to Return",
-          "name": "filter",
-          "type": "multiOptions",
-          "options": [
-            {
-              "name": "Account Status",
-              "value": "accountStatus"
-            },
-            {
-              "name": "Active Task",
-              "value": "activeTask"
-            },
-            {
-              "name": "Capacity",
-              "value": "capacity"
-            },
-            {
-              "name": "Delay Time",
-              "value": "delayTime"
-            },
-            {
-              "name": "Display Name",
-              "value": "displayName"
-            },
-            {
-              "name": "Image Url",
-              "value": "imageUrl"
-            },
-            {
-              "name": "Location",
-              "value": "location"
-            },
-            {
-              "name": "Metadata",
-              "value": "metadata"
-            },
-            {
-              "name": "Name",
-              "value": "name"
-            },
-            {
-              "name": "On Duty",
-              "value": "onDuty"
-            },
-            {
-              "name": "Organization",
-              "value": "organization"
-            },
-            {
-              "name": "Phone",
-              "value": "phone"
-            },
-            {
-              "name": "Tasks",
-              "value": "tasks"
-            },
-            {
-              "name": "Teams",
-              "value": "teams"
-            },
-            {
-              "name": "Time Created",
-              "value": "timeCreated"
-            },
-            {
-              "name": "Time Last Modified",
-              "value": "timeLastModified"
-            },
-            {
-              "name": "Time Last Seen",
-              "value": "timeLastSeen"
-            },
-            {
-              "name": "User Data",
-              "value": "userData"
-            },
-            {
-              "name": "Vehicle",
-              "value": "vehicle"
-            },
-            {
-              "name": "Worker ID",
-              "value": "id"
-            }
-          ],
-          "default": [],
-          "description": "A list of fields to show in the response, if all are not desired",
-          "required": false
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "analytics (值: None) - Whether a more detailed response is needed, includes basic worker duty event, traveled distance (meters) and time analytics",
+        "filter (值: None) - A list of fields to show in the response, if all are not desired"
+      ]
     },
     "unparsed": {
       "displayName": "Unparsed Address",
       "name": "unparsed",
       "type": "boolean",
-      "description": "Whether or not the address is specified in a single unparsed string",
-      "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "destination"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "布尔值：true 或 false。"
+      "default": false,
+      "description": "Whether or not the address is specified in a single unparsed string",
+      "natural_language_description": "参数名: Unparsed Address | 作用: Whether or not the address is specified in a single unparsed string | 默认值: False | (必填项)"
     },
     "address": {
       "displayName": "Destination Address",
       "name": "address",
       "type": "string",
-      "description": "The destination's street address details",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "destination"
-          ],
-          "operation": [
-            "create"
-          ],
-          "unparsed": [
-            true
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "The destination's street address details"
+      "default": "",
+      "description": "The destination's street address details",
+      "natural_language_description": "参数名: Destination Address | 作用: The destination's street address details | (必填项)"
     },
     "addressNumber": {
       "displayName": "Number",
       "name": "addressNumber",
       "type": "string",
-      "description": "The number component of this address, it may also contain letters",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "destination"
-          ],
-          "operation": [
-            "create"
-          ],
-          "unparsed": [
-            false
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "The number component of this address, it may also contain letters"
+      "default": "",
+      "description": "The number component of this address, it may also contain letters",
+      "natural_language_description": "参数名: Number | 作用: The number component of this address, it may also contain letters | (必填项)"
     },
     "addressStreet": {
       "displayName": "Street",
       "name": "addressStreet",
       "type": "string",
-      "description": "The name of the street",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "destination"
-          ],
-          "operation": [
-            "create"
-          ],
-          "unparsed": [
-            false
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "The name of the street"
+      "default": "",
+      "description": "The name of the street",
+      "natural_language_description": "参数名: Street | 作用: The name of the street | (必填项)"
     },
     "addressCity": {
       "displayName": "City",
       "name": "addressCity",
       "type": "string",
-      "description": "The name of the municipality",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "destination"
-          ],
-          "operation": [
-            "create"
-          ],
-          "unparsed": [
-            false
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "The name of the municipality"
+      "default": "",
+      "description": "The name of the municipality",
+      "natural_language_description": "参数名: City | 作用: The name of the municipality | (必填项)"
     },
     "addressCountry": {
       "displayName": "Country",
       "name": "addressCountry",
       "type": "string",
-      "description": "The name of the country",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "destination"
-          ],
-          "operation": [
-            "create"
-          ],
-          "unparsed": [
-            false
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "The name of the country"
+      "default": "",
+      "description": "The name of the country",
+      "natural_language_description": "参数名: Country | 作用: The name of the country | (必填项)"
     },
     "destination": {
       "displayName": "Destination",
       "name": "destination",
       "type": "fixedCollection",
-      "placeholder": "Add Destination",
-      "default": {},
-      "options": [
-        {
-          "displayName": "Destination Properties",
-          "name": "destinationProperties",
-          "default": {},
-          "values": [
-            {
-              "displayName": "Unparsed Address",
-              "name": "unparsed",
-              "type": "boolean",
-              "description": "Whether or not the address is specified in a single unparsed string",
-              "default": false,
-              "required": false
-            },
-            {
-              "displayName": "Destination Address",
-              "name": "address",
-              "type": "string",
-              "description": "The destination's street address details",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "unparsed": [
-                    true
-                  ]
-                }
-              },
-              "required": true
-            },
-            {
-              "displayName": "Number",
-              "name": "addressNumber",
-              "type": "string",
-              "description": "The number component of this address, it may also contain letters",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "unparsed": [
-                    false
-                  ]
-                }
-              },
-              "required": true
-            },
-            {
-              "displayName": "Street",
-              "name": "addressStreet",
-              "type": "string",
-              "description": "The name of the street",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "unparsed": [
-                    false
-                  ]
-                }
-              },
-              "required": true
-            },
-            {
-              "displayName": "City",
-              "name": "addressCity",
-              "type": "string",
-              "description": "The name of the municipality",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "unparsed": [
-                    false
-                  ]
-                }
-              },
-              "required": true
-            },
-            {
-              "displayName": "State",
-              "name": "addressState",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "unparsed": [
-                    false
-                  ]
-                }
-              },
-              "required": true
-            },
-            {
-              "displayName": "Country",
-              "name": "addressCountry",
-              "type": "string",
-              "description": "The name of the country",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "unparsed": [
-                    false
-                  ]
-                }
-              },
-              "required": true
-            },
-            {
-              "displayOptions": {
-                "show": {
-                  "unparsed": [
-                    false
-                  ]
-                }
-              },
-              "displayName": "Postal Code",
-              "name": "addressPostalCode",
-              "type": "string",
-              "default": "",
-              "description": "The postal or zip code",
-              "required": false
-            },
-            {
-              "displayName": "Address Name",
-              "name": "addressName",
-              "type": "string",
-              "default": "",
-              "description": "A name associated with this address",
-              "required": false
-            },
-            {
-              "displayName": "Apartment",
-              "name": "addressApartment",
-              "type": "string",
-              "default": "",
-              "description": "The suite or apartment number, or any additional relevant information",
-              "required": false
-            },
-            {
-              "displayName": "Address Notes",
-              "name": "addressNotes",
-              "type": "string",
-              "default": "",
-              "description": "Notes about the destination",
-              "required": false
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "default": {},
+      "description": "",
+      "natural_language_description": "参数名: Destination | 默认值: {} | (必填项)",
+      "available_options": [
+        "destinationProperties (值: None)"
+      ]
     },
     "getBy": {
       "displayName": "Get By",
       "name": "getBy",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "recipient"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "ID",
-          "value": "id"
-        },
-        {
-          "name": "Phone",
-          "value": "phone"
-        },
-        {
-          "name": "Name",
-          "value": "name"
-        }
-      ],
-      "description": "The variable that is used for looking up a recipient",
       "required": true,
       "default": "id",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "The variable that is used for looking up a recipient",
+      "natural_language_description": "参数名: Get By | 作用: The variable that is used for looking up a recipient | 默认值: id | (必填项)",
+      "available_options": [
+        "ID (值: id)",
+        "Phone (值: phone)",
+        "Name (值: name)"
+      ]
     },
     "phone": {
       "displayName": "Phone",
       "name": "phone",
       "type": "string",
+      "required": true,
       "default": "",
       "description": "A list of worker’s phone numbers",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "worker"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "required": true,
-      "ai_hint": "A list of worker’s phone numbers"
+      "natural_language_description": "参数名: Phone | 作用: A list of worker’s phone numbers | (必填项)"
     },
     "recipientName": {
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "recipient"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "displayName": "Recipient Name",
       "name": "recipientName",
       "type": "string",
-      "description": "The recipient's complete name",
-      "default": "",
       "required": true,
-      "ai_hint": "The recipient's complete name"
+      "default": "",
+      "description": "The recipient's complete name",
+      "natural_language_description": "参数名: Recipient Name | 作用: The recipient's complete name | (必填项)"
     },
     "recipientPhone": {
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "recipient"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "displayName": "Recipient Phone",
       "name": "recipientPhone",
       "type": "string",
-      "description": "A unique, valid phone number as per the organization's country if there's no leading + sign. If a phone number has a leading + sign, it will disregard the organization's country setting.",
-      "default": "",
       "required": true,
-      "ai_hint": "A unique, valid phone number as per the organization's country if there's no leading + sign. If a phone number has a leading + sign, it will disregard the organization's country setting."
+      "default": "",
+      "description": "A unique, valid phone number as per the organization's country if there's no leading + sign. If a phone number has a leading + sign, it will disregard the organization's country setting.",
+      "natural_language_description": "参数名: Recipient Phone | 作用: A unique, valid phone number as per the organization's country if there's no leading + sign. If a phone number has a leading + sign, it will disregard the organization's country setting. | (必填项)"
     },
     "success": {
       "displayName": "Complete as a Success",
       "name": "success",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "complete"
-          ]
-        }
-      },
-      "description": "Whether the task's completion was successful",
       "required": true,
       "default": true,
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "Whether the task's completion was successful",
+      "natural_language_description": "参数名: Complete as a Success | 作用: Whether the task's completion was successful | 默认值: True | (必填项)"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "worker"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "byLocation": [
-            false
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "States",
-          "name": "states",
-          "type": "multiOptions",
-          "options": [
-            {
-              "name": "Active (On-Duty, Active Task)",
-              "value": 2
-            },
-            {
-              "name": "Idle (On-Duty, No Active Task)",
-              "value": 1
-            },
-            {
-              "name": "Off-Duty",
-              "value": 0
-            }
-          ],
-          "default": [],
-          "description": "List of worker states"
-        },
-        {
-          "displayName": "Team Names or IDs",
-          "name": "teams",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getTeams"
-          },
-          "default": [],
-          "description": "A list of the teams that workers must be part of. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Phones",
-          "name": "phones",
-          "type": "string",
-          "typeOptions": {
-            "multipleValues": true,
-            "multipleValueButtonText": "Add Phone"
-          },
-          "default": [],
-          "description": "A list of workers' phone numbers"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "states (值: None) - List of worker states",
+        "teams (值: None) - A list of the teams that workers must be part of. Choose from the list, or specify IDs using an expression.",
+        "phones (值: None) - A list of workers' phone numbers"
+      ]
     },
     "overrideFields": {
       "displayName": "Override Fields",
       "name": "overrideFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "clone"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Complete After",
-          "name": "completeAfter",
-          "type": "dateTime",
-          "default": null,
-          "description": "The earliest time the task should be completed"
-        },
-        {
-          "displayName": "Complete Before",
-          "name": "completeBefore",
-          "type": "dateTime",
-          "default": null,
-          "description": "The latest time the task should be completed"
-        },
-        {
-          "displayName": "Include Barcodes",
-          "name": "includeBarcodes",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "Include Dependencies",
-          "name": "includeDependencies",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "Include Metadata",
-          "name": "includeMetadata",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "Notes",
-          "name": "notes",
-          "type": "string",
-          "default": "",
-          "description": "Notes for the task",
-          "required": false
-        },
-        {
-          "displayName": "Pick Up Task",
-          "name": "pickupTask",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the task is a pickup task",
-          "required": false
-        },
-        {
-          "displayName": "Service Time",
-          "name": "serviceTime",
-          "type": "number",
-          "default": 0,
-          "description": "The number of minutes to be spent by the worker on arrival at this task's destination, for route optimization purposes",
-          "required": false
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Override Fields | 默认值: {}",
+      "available_options": [
+        "completeAfter (值: None) - The earliest time the task should be completed",
+        "completeBefore (值: None) - The latest time the task should be completed",
+        "includeBarcodes (值: None)",
+        "includeDependencies (值: None)",
+        "includeMetadata (值: None)",
+        "notes (值: None) - Notes for the task",
+        "pickupTask (值: None) - Whether the task is a pickup task",
+        "serviceTime (值: None) - The number of minutes to be spent by the worker on arrival at this task's destination, for route optimization purposes"
+      ]
     },
     "workers": {
       "displayName": "Worker Names or IDs",
       "name": "workers",
       "type": "multiOptions",
-      "typeOptions": {
-        "loadOptionsMethod": "getWorkers"
-      },
-      "default": [],
-      "description": "A list of workers. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "team"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "A list of workers. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": [],
+      "description": "A list of workers. Choose from the list, or specify IDs using an expression.",
+      "natural_language_description": "参数名: Worker Names or IDs | 作用: A list of workers. Choose from the list, or specify IDs using an expression. | 默认值: [] | (必填项)"
     },
     "managers": {
       "displayName": "Administrator Names or IDs",
       "name": "managers",
       "type": "multiOptions",
-      "typeOptions": {
-        "loadOptionsMethod": "getAdmins"
-      },
-      "default": [],
-      "description": "A list of managing administrators. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "team"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "A list of managing administrators. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": [],
+      "description": "A list of managing administrators. Choose from the list, or specify IDs using an expression.",
+      "natural_language_description": "参数名: Administrator Names or IDs | 作用: A list of managing administrators. Choose from the list, or specify IDs using an expression. | 默认值: [] | (必填项)"
     },
     "byLocation": {
       "displayName": "Search by Location",
       "name": "byLocation",
       "type": "boolean",
+      "required": true,
       "default": false,
       "description": "Whether to search for only those workers who are currently within a certain target area",
-      "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "worker"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Search by Location | 作用: Whether to search for only those workers who are currently within a certain target area | 默认值: False | (必填项)"
     },
     "teams": {
       "displayName": "Team Names or IDs",
       "name": "teams",
       "type": "multiOptions",
-      "typeOptions": {
-        "loadOptionsMethod": "getTeams"
-      },
-      "default": [],
-      "description": "One or more teams of which the worker is a member. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "worker"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "One or more teams of which the worker is a member. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": [],
+      "description": "One or more teams of which the worker is a member. Choose from the list, or specify IDs using an expression.",
+      "natural_language_description": "参数名: Team Names or IDs | 作用: One or more teams of which the worker is a member. Choose from the list, or specify IDs using an expression. | 默认值: [] | (必填项)"
     },
     "longitude": {
       "displayName": "Longitude",
       "name": "longitude",
       "type": "number",
-      "typeOptions": {
-        "numberPrecision": 14
-      },
+      "required": true,
       "default": 0,
       "description": "The longitude component of the coordinate pair",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "worker"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "byLocation": [
-            true
-          ]
-        }
-      },
-      "required": true,
-      "ai_hint": "The longitude component of the coordinate pair"
+      "natural_language_description": "参数名: Longitude | 作用: The longitude component of the coordinate pair | 默认值: 0 | (必填项)"
     },
     "latitude": {
       "displayName": "Latitude",
       "name": "latitude",
       "type": "number",
-      "typeOptions": {
-        "numberPrecision": 14
-      },
+      "required": true,
       "default": 0,
       "description": "The latitude component of the coordinate pair",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "worker"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "byLocation": [
-            true
-          ]
-        }
-      },
-      "required": true,
-      "ai_hint": "The latitude component of the coordinate pair"
+      "natural_language_description": "参数名: Latitude | 作用: The latitude component of the coordinate pair | 默认值: 0 | (必填项)"
     },
     "schedule": {
       "displayName": "Schedule",
       "name": "schedule",
       "type": "fixedCollection",
-      "placeholder": "Add Schedule",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "worker"
-          ],
-          "operation": [
-            "setSchedule"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": true,
-        "multipleValueButtonText": "Add Schedule"
-      },
-      "options": [
-        {
-          "displayName": "Schedule Properties",
-          "name": "scheduleProperties",
-          "default": {},
-          "values": [
-            {
-              "displayName": "Date",
-              "name": "date",
-              "type": "dateTime",
-              "default": "",
-              "description": "Schedule's date",
-              "required": true
-            },
-            {
-              "displayName": "Timezone Name or ID",
-              "name": "timezone",
-              "type": "options",
-              "typeOptions": {
-                "loadOptionsMethod": "getTimezones"
-              },
-              "default": "",
-              "description": "A valid timezone. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-              "required": true
-            },
-            {
-              "displayName": "Shifts",
-              "name": "shifts",
-              "type": "fixedCollection",
-              "default": {},
-              "placeholder": "Add Shift",
-              "typeOptions": {
-                "multipleValues": true
-              },
-              "options": [
-                {
-                  "displayName": "Shifts Properties",
-                  "name": "shiftsProperties",
-                  "default": {},
-                  "values": [
-                    {
-                      "displayName": "Start",
-                      "name": "start",
-                      "type": "dateTime",
-                      "default": "",
-                      "description": "Start time",
-                      "required": true
-                    },
-                    {
-                      "displayName": "End",
-                      "name": "end",
-                      "type": "dateTime",
-                      "default": "",
-                      "description": "End time",
-                      "required": true
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Schedule | 默认值: {}",
+      "available_options": [
+        "scheduleProperties (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "id",
-      "returnAll",
-      "limit",
-      "name",
-      "email",
-      "additionalFields",
-      "updateFields",
-      "operation",
-      "containerType",
-      "containerId",
-      "type",
-      "index",
-      "tasks",
-      "options",
-      "operation",
-      "id",
-      "unparsed",
-      "address",
-      "addressNumber",
-      "addressStreet",
-      "addressCity",
-      "addressCountry",
-      "additionalFields",
-      "additionalFields",
-      "operation",
-      "id",
-      "returnAll",
-      "limit",
-      "name",
-      "destination",
-      "additionalFields",
-      "updateFields",
-      "operation",
-      "id",
-      "operation",
-      "getBy",
-      "id",
-      "id",
-      "name",
-      "phone",
-      "recipientName",
-      "recipientPhone",
-      "additionalFields",
-      "updateFields",
-      "options",
-      "operation",
-      "id",
-      "returnAll",
-      "limit",
-      "destination",
-      "success",
-      "filters",
-      "overrideFields",
-      "updateFields",
-      "additionalFields",
-      "additionalFields",
-      "operation",
-      "id",
-      "name",
-      "workers",
-      "managers",
-      "additionalFields",
-      "returnAll",
-      "limit",
-      "updateFields",
-      "additionalFields",
-      "filters",
-      "operation",
-      "byLocation",
-      "id",
-      "name",
-      "phone",
-      "teams",
-      "longitude",
-      "latitude",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "updateFields",
-      "filters",
-      "filters",
-      "options",
-      "options",
-      "schedule"
-    ],
-    "conditional_rules": [
-      "IF resource == 'admin' THEN SHOW parameter 'operation'",
-      "IF resource == 'admin' THEN SHOW parameter 'id'",
-      "IF operation IN [\"create\", \"getAll\"] THEN HIDE parameter 'id'",
-      "IF resource == 'admin' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'admin' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'admin' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'admin' AND operation == 'create' THEN SHOW parameter 'email'",
-      "IF resource == 'admin' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'admin' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'container' THEN SHOW parameter 'operation'",
-      "IF resource == 'container' AND operation IN [\"get\", \"addTask\"] THEN SHOW parameter 'containerType'",
-      "IF resource == 'container' AND operation IN [\"get\", \"addTask\", \"updateTask\"] THEN SHOW parameter 'containerId'",
-      "IF resource == 'container' AND operation == 'addTask' THEN SHOW parameter 'type'",
-      "IF resource == 'container' AND operation == 'addTask' AND type == 1 THEN SHOW parameter 'index'",
-      "IF resource == 'container' AND operation IN [\"addTask\", \"updateTask\"] THEN SHOW parameter 'tasks'",
-      "IF resource == 'container' AND operation IN [\"addTask\", \"updateTask\"] THEN SHOW parameter 'options'",
-      "IF resource == 'destination' THEN SHOW parameter 'operation'",
-      "IF resource == 'destination' THEN SHOW parameter 'id'",
-      "IF operation == 'create' THEN HIDE parameter 'id'",
-      "IF resource == 'destination' AND operation == 'create' THEN SHOW parameter 'unparsed'",
-      "IF resource == 'destination' AND operation == 'create' AND unparsed == True THEN SHOW parameter 'address'",
-      "IF resource == 'destination' AND operation == 'create' AND unparsed == False THEN SHOW parameter 'addressNumber'",
-      "IF resource == 'destination' AND operation == 'create' AND unparsed == False THEN SHOW parameter 'addressStreet'",
-      "IF resource == 'destination' AND operation == 'create' AND unparsed == False THEN SHOW parameter 'addressCity'",
-      "IF resource == 'destination' AND operation == 'create' AND unparsed == False THEN SHOW parameter 'addressCountry'",
-      "IF resource == 'destination' AND operation == 'create' AND unparsed == True THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'destination' AND operation == 'create' AND unparsed == False THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'hub' THEN SHOW parameter 'operation'",
-      "IF resource == 'hub' AND operation == 'update' THEN SHOW parameter 'id'",
-      "IF resource == 'hub' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'hub' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'hub' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'hub' AND operation == 'create' THEN SHOW parameter 'destination'",
-      "IF unparsed == True THEN SHOW parameter 'address'",
-      "IF unparsed == False THEN SHOW parameter 'addressNumber'",
-      "IF unparsed == False THEN SHOW parameter 'addressStreet'",
-      "IF unparsed == False THEN SHOW parameter 'addressCity'",
-      "IF unparsed == False THEN SHOW parameter 'addressState'",
-      "IF unparsed == False THEN SHOW parameter 'addressCountry'",
-      "IF unparsed == False THEN SHOW parameter 'addressPostalCode'",
-      "IF resource == 'hub' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'hub' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'organization' THEN SHOW parameter 'operation'",
-      "IF resource == 'organization' AND operation == 'getDelegatee' THEN SHOW parameter 'id'",
-      "IF resource == 'recipient' THEN SHOW parameter 'operation'",
-      "IF resource == 'recipient' AND operation == 'get' THEN SHOW parameter 'getBy'",
-      "IF resource == 'recipient' AND operation == 'get' AND getBy == 'id' THEN SHOW parameter 'id'",
-      "IF resource == 'recipient' AND operation == 'update' THEN SHOW parameter 'id'",
-      "IF resource == 'recipient' AND operation == 'get' AND getBy == 'name' THEN SHOW parameter 'name'",
-      "IF resource == 'recipient' AND operation == 'get' AND getBy == 'phone' THEN SHOW parameter 'phone'",
-      "IF resource == 'recipient' AND operation == 'create' THEN SHOW parameter 'recipientName'",
-      "IF resource == 'recipient' AND operation == 'create' THEN SHOW parameter 'recipientPhone'",
-      "IF resource == 'recipient' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'recipient' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'recipient' AND operation == 'create' THEN SHOW parameter 'options'",
-      "IF resource == 'task' THEN SHOW parameter 'operation'",
-      "IF resource == 'task' THEN SHOW parameter 'id'",
-      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'task' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'destination'",
-      "IF resource == 'task' AND operation == 'complete' THEN SHOW parameter 'success'",
-      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'task' AND operation == 'clone' THEN SHOW parameter 'overrideFields'",
-      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'task' AND operation == 'complete' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'team' THEN SHOW parameter 'operation'",
-      "IF resource == 'team' AND operation IN [\"get\", \"update\", \"delete\", \"getTimeEstimates\", \"autoDispatch\"] THEN SHOW parameter 'id'",
-      "IF resource == 'team' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'team' AND operation == 'create' THEN SHOW parameter 'workers'",
-      "IF resource == 'team' AND operation == 'create' THEN SHOW parameter 'managers'",
-      "IF resource == 'team' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'team' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'team' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'team' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'team' AND operation == 'autoDispatch' THEN SHOW parameter 'additionalFields'",
-      "IF routeEnd == 'hub' THEN SHOW parameter 'hub'",
-      "IF resource == 'team' AND operation == 'getTimeEstimates' THEN SHOW parameter 'filters'",
-      "IF resource == 'worker' THEN SHOW parameter 'operation'",
-      "IF resource == 'worker' AND operation == 'getAll' THEN SHOW parameter 'byLocation'",
-      "IF resource == 'worker' AND operation IN [\"get\", \"getSchedule\", \"setSchedule\", \"update\", \"delete\"] THEN SHOW parameter 'id'",
-      "IF resource == 'worker' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'worker' AND operation == 'create' THEN SHOW parameter 'phone'",
-      "IF resource == 'worker' AND operation == 'create' THEN SHOW parameter 'teams'",
-      "IF resource == 'worker' AND operation == 'getAll' AND byLocation == True THEN SHOW parameter 'longitude'",
-      "IF resource == 'worker' AND operation == 'getAll' AND byLocation == True THEN SHOW parameter 'latitude'",
-      "IF resource == 'worker' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'worker' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'worker' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'worker' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'worker' AND operation == 'getAll' AND byLocation == True THEN SHOW parameter 'filters'",
-      "IF resource == 'worker' AND operation == 'getAll' AND byLocation == False THEN SHOW parameter 'filters'",
-      "IF resource == 'worker' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'worker' AND operation == 'get' THEN SHOW parameter 'options'",
-      "IF resource == 'worker' AND operation == 'setSchedule' THEN SHOW parameter 'schedule'"
-    ]
   }
 }

@@ -1,1397 +1,338 @@
 {
   "node_id": "n8n-nodes-base.mauticTool",
-  "name": "n8n-nodes-base.mauticTool",
+  "name": "Mautic Tool",
   "version": 1,
   "semantic_context": "Consume Mautic API",
+  "natural_language_description": "这是 Mautic Tool 节点。主要用于: Consume Mautic API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Mautic API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Mautic API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Mautic API | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Credentials",
-          "value": "credentials"
-        },
-        {
-          "name": "OAuth2",
-          "value": "oAuth2"
-        }
-      ],
+      "required": false,
       "default": "credentials",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: credentials",
+      "available_options": [
+        "Credentials (值: credentials)",
+        "OAuth2 (值: oAuth2)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Campaign Contact",
-          "value": "campaignContact",
-          "description": "Add/remove contacts to/from a campaign"
-        },
-        {
-          "name": "Company",
-          "value": "company",
-          "description": "Create or modify a company"
-        },
-        {
-          "name": "Company Contact",
-          "value": "companyContact",
-          "description": "Add/remove contacts to/from a company"
-        },
-        {
-          "name": "Contact",
-          "value": "contact",
-          "description": "Create & modify contacts"
-        },
-        {
-          "name": "Contact Segment",
-          "value": "contactSegment",
-          "description": "Add/remove contacts to/from a segment"
-        },
-        {
-          "name": "Segment Email",
-          "value": "segmentEmail",
-          "description": "Send an email"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "contact",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: contact",
+      "available_options": [
+        "Campaign Contact (值: campaignContact) - Add/remove contacts to/from a campaign",
+        "Company (值: company) - Create or modify a company",
+        "Company Contact (值: companyContact) - Add/remove contacts to/from a company",
+        "Contact (值: contact) - Create & modify contacts",
+        "Contact Segment (值: contactSegment) - Add/remove contacts to/from a segment",
+        "Segment Email (值: segmentEmail) - Send an email",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "segmentEmail"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Send",
-          "value": "send",
-          "action": "Send an email to a segment"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "send",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: send",
+      "available_options": [
+        "Send (值: send)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "name": {
       "displayName": "Company Name",
       "name": "name",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "company"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "The name of the company to create",
-      "ai_hint": "The name of the company to create"
+      "natural_language_description": "参数名: Company Name | 作用: The name of the company to create"
     },
     "simple": {
       "displayName": "Simplify",
       "name": "simple",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "company"
-          ],
-          "operation": [
-            "delete"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether to return a simplified version of the response instead of the raw data",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Simplify | 作用: Whether to return a simplified version of the response instead of the raw data | 默认值: True"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "editDoNotContactList"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Reason To Do Not Contact",
-          "name": "reason",
-          "type": "options",
-          "options": [
-            {
-              "name": "Unsubscribed",
-              "value": "1"
-            },
-            {
-              "name": "Bounced",
-              "value": "2"
-            },
-            {
-              "name": "Manual",
-              "value": "3"
-            }
-          ],
-          "default": "3"
-        },
-        {
-          "displayName": "Comments",
-          "name": "comments",
-          "type": "string",
-          "default": "",
-          "description": "A text describing details of Do Not Contact entry"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "reason (值: None)",
+        "comments (值: None) - A text describing details of Do Not Contact entry"
+      ]
     },
     "companyId": {
       "displayName": "Company ID",
       "name": "companyId",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "companyContact"
-          ],
-          "operation": [
-            "add",
-            "remove"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "The ID of the company",
-      "ai_hint": "The ID of the company"
+      "natural_language_description": "参数名: Company ID | 作用: The ID of the company"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Body",
-          "name": "bodyJson",
-          "type": "json",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                true
-              ]
-            }
-          },
-          "default": "",
-          "description": "Contact parameters"
-        },
-        {
-          "displayName": "Address",
-          "name": "addressUi",
-          "placeholder": "Address",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "addressValues",
-              "displayName": "Address",
-              "values": [
-                {
-                  "displayName": "Address Line 1",
-                  "name": "address1",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "Address Line 2",
-                  "name": "address2",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "City",
-                  "name": "city",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "State",
-                  "name": "state",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "Country",
-                  "name": "country",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "Zip Code",
-                  "name": "zipCode",
-                  "type": "string",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "B2B or B2C",
-          "name": "b2bOrb2c",
-          "type": "options",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "options": [
-            {
-              "name": "B2B",
-              "value": "B2B"
-            },
-            {
-              "name": "B2C",
-              "value": "B2C"
-            }
-          ],
-          "default": ""
-        },
-        {
-          "displayName": "CRM ID",
-          "name": "crmId",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Custom Fields",
-          "name": "customFieldsUi",
-          "placeholder": "Add Custom Fields",
-          "description": "Adds a custom fields to set also values which have not been predefined",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "customFieldValues",
-              "displayName": "Field",
-              "values": [
-                {
-                  "displayName": "Field Name or ID",
-                  "name": "fieldId",
-                  "type": "options",
-                  "typeOptions": {
-                    "loadOptionsMethod": "getContactFields"
-                  },
-                  "default": "",
-                  "description": "ID of the field to set. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-                },
-                {
-                  "displayName": "Field Value",
-                  "name": "fieldValue",
-                  "type": "string",
-                  "default": "",
-                  "description": "Value of the field to set"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Email",
-          "name": "email",
-          "type": "string",
-          "placeholder": "name@email.com",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": "",
-          "description": "Email address of the contact"
-        },
-        {
-          "displayName": "Fax",
-          "name": "fax",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": ""
-        },
-        {
-          "displayName": "First Name",
-          "name": "firstName",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Has Purchased",
-          "name": "hasPurchased",
-          "type": "boolean",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": false
-        },
-        {
-          "displayName": "IP Address",
-          "name": "ipAddress",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": "",
-          "description": "IP address to associate with the contact"
-        },
-        {
-          "displayName": "Last Active",
-          "name": "lastActive",
-          "type": "dateTime",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": "",
-          "description": "Date/time in UTC;"
-        },
-        {
-          "displayName": "Last Name",
-          "name": "lastName",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": "",
-          "description": "LastName"
-        },
-        {
-          "displayName": "Mobile",
-          "name": "mobile",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Owner ID",
-          "name": "ownerId",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": "",
-          "description": "ID of a Mautic user to assign this contact to"
-        },
-        {
-          "displayName": "Phone",
-          "name": "phone",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Position",
-          "name": "position",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Primary Company Name or ID",
-          "name": "company",
-          "type": "options",
-          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "typeOptions": {
-            "loadOptionsMethod": "getCompanies"
-          },
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Prospect or Customer",
-          "name": "prospectOrCustomer",
-          "type": "options",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "options": [
-            {
-              "name": "Prospect",
-              "value": "Prospect"
-            },
-            {
-              "name": "Customer",
-              "value": "Customer"
-            }
-          ],
-          "default": ""
-        },
-        {
-          "displayName": "Sandbox",
-          "name": "sandbox",
-          "type": "boolean",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": false
-        },
-        {
-          "displayName": "Stage Name or ID",
-          "name": "stage",
-          "type": "options",
-          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "typeOptions": {
-            "loadOptionsMethod": "getStages"
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Tag Names or IDs",
-          "name": "tags",
-          "type": "multiOptions",
-          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "typeOptions": {
-            "loadOptionsMethod": "getTags"
-          },
-          "default": []
-        },
-        {
-          "displayName": "Title",
-          "name": "title",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Social Media",
-          "name": "socialMediaUi",
-          "placeholder": "Social Media",
-          "type": "fixedCollection",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "socialMediaValues",
-              "displayName": "Social Media",
-              "values": [
-                {
-                  "displayName": "Facebook",
-                  "name": "facebook",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "Foursquare",
-                  "name": "foursquare",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "Instagram",
-                  "name": "instagram",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "LinkedIn",
-                  "name": "linkedIn",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "Skype",
-                  "name": "skype",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "Twitter",
-                  "name": "twitter",
-                  "type": "string",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Website",
-          "name": "website",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": ""
-        },
-        {
-          "displayName": "IP Address",
-          "name": "ipAddress",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/jsonParameters": [
-                false
-              ]
-            }
-          },
-          "default": "",
-          "description": "IP address to associate with the contact"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "bodyJson (值: None) - Contact parameters",
+        "addressUi (值: None)",
+        "b2bOrb2c (值: None)",
+        "crmId (值: None)",
+        "customFieldsUi (值: None) - Adds a custom fields to set also values which have not been predefined",
+        "email (值: None) - Email address of the contact",
+        "fax (值: None)",
+        "firstName (值: None)",
+        "hasPurchased (值: None)",
+        "ipAddress (值: None) - IP address to associate with the contact",
+        "lastActive (值: None) - Date/time in UTC;",
+        "lastName (值: None) - LastName",
+        "mobile (值: None)",
+        "ownerId (值: None) - ID of a Mautic user to assign this contact to",
+        "phone (值: None)",
+        "position (值: None)",
+        "company (值: None) - Choose from the list, or specify an ID using an expression",
+        "prospectOrCustomer (值: None)",
+        "sandbox (值: None)",
+        "stage (值: None) - Choose from the list, or specify an ID using an expression",
+        "tags (值: None) - Choose from the list, or specify IDs using an expression",
+        "title (值: None)",
+        "socialMediaUi (值: None)",
+        "website (值: None)",
+        "ipAddress (值: None) - IP address to associate with the contact"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 30
-      },
+      "required": false,
       "default": 30,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 30"
     },
     "jsonParameters": {
       "displayName": "JSON Parameters",
       "name": "jsonParameters",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "contact"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: JSON Parameters | 默认值: False"
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "create"
-          ],
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "Email address of the contact",
-      "ai_hint": "Email address of the contact"
+      "natural_language_description": "参数名: Email | 作用: Email address of the contact"
     },
     "firstName": {
       "displayName": "First Name",
       "name": "firstName",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "create"
-          ],
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: First Name"
     },
     "lastName": {
       "displayName": "Last Name",
       "name": "lastName",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "create"
-          ],
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Last Name"
     },
     "company": {
       "displayName": "Primary Company Name or ID",
       "name": "company",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getCompanies"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "create"
-          ],
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Primary Company Name or ID | 作用: Choose from the list, or specify an ID using an expression"
     },
     "position": {
       "displayName": "Position",
       "name": "position",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "create"
-          ],
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Position"
     },
     "title": {
       "displayName": "Title",
       "name": "title",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "create"
-          ],
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Title"
     },
     "bodyJson": {
       "displayName": "Body",
       "name": "bodyJson",
       "type": "json",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "contact"
-          ],
-          "jsonParameters": [
-            true
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "Contact parameters",
-      "ai_hint": "Contact parameters"
+      "natural_language_description": "参数名: Body | 作用: Contact parameters"
     },
     "contactId": {
       "displayName": "Contact ID",
       "name": "contactId",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "companyContact"
-          ],
-          "operation": [
-            "add",
-            "remove"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "The ID of the contact",
-      "ai_hint": "The ID of the contact"
+      "natural_language_description": "参数名: Contact ID | 作用: The ID of the contact"
     },
     "action": {
       "displayName": "Action",
       "name": "action",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "editContactPoint"
-          ],
-          "resource": [
-            "contact"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Add",
-          "value": "add",
-          "action": "Add a contact"
-        },
-        {
-          "name": "Remove",
-          "value": "remove",
-          "action": "Remove a contact"
-        }
-      ],
+      "required": false,
       "default": "add",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Action | 默认值: add",
+      "available_options": [
+        "Add (值: add)",
+        "Remove (值: remove)"
+      ]
     },
     "channel": {
       "displayName": "Channel",
       "name": "channel",
       "type": "options",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "editDoNotContactList"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Email",
-          "value": "email"
-        },
-        {
-          "name": "SMS",
-          "value": "sms"
-        }
-      ],
       "default": "email",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Channel | 默认值: email | (必填项)",
+      "available_options": [
+        "Email (值: email)",
+        "SMS (值: sms)"
+      ]
     },
     "points": {
       "displayName": "Points",
       "name": "points",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "editContactPoint"
-          ],
-          "resource": [
-            "contact"
-          ]
-        }
-      },
-      "default": 0
+      "required": false,
+      "default": 0,
+      "description": "",
+      "natural_language_description": "参数名: Points | 默认值: 0"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ]
-        },
-        "hide": {
-          "operation": [
-            "sendEmail",
-            "editDoNotContactList",
-            "editContactPoint"
-          ]
-        }
-      },
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Search",
-          "name": "search",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/resource": [
-                "contact"
-              ],
-              "/operation": [
-                "getAll"
-              ]
-            }
-          },
-          "default": "",
-          "description": "String or search command to filter entities by"
-        },
-        {
-          "displayName": "Order By",
-          "name": "orderBy",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/resource": [
-                "contact"
-              ],
-              "/operation": [
-                "getAll"
-              ]
-            }
-          },
-          "default": "",
-          "description": "Column to sort by. Can use any column listed in the response."
-        },
-        {
-          "displayName": "Order By Dir",
-          "name": "orderByDir",
-          "type": "options",
-          "displayOptions": {
-            "show": {
-              "/resource": [
-                "contact"
-              ],
-              "/operation": [
-                "getAll"
-              ]
-            }
-          },
-          "default": "",
-          "options": [
-            {
-              "name": "ASC",
-              "value": "asc"
-            },
-            {
-              "name": "DESC",
-              "value": "desc"
-            }
-          ],
-          "description": "Sort direction: ASC or DESC"
-        },
-        {
-          "displayName": "Published Only",
-          "name": "publishedOnly",
-          "type": "boolean",
-          "displayOptions": {
-            "show": {
-              "/resource": [
-                "contact"
-              ],
-              "/operation": [
-                "getAll"
-              ]
-            }
-          },
-          "default": false,
-          "description": "Whether to return currently published entities"
-        },
-        {
-          "displayName": "Minimal",
-          "name": "minimal",
-          "type": "boolean",
-          "displayOptions": {
-            "show": {
-              "/resource": [
-                "contact"
-              ],
-              "/operation": [
-                "getAll"
-              ]
-            }
-          },
-          "default": false,
-          "description": "Whether to return array of entities without additional lists in it"
-        },
-        {
-          "displayName": "RAW Data",
-          "name": "rawData",
-          "type": "boolean",
-          "default": true,
-          "description": "By default only the data of the fields get returned. If this options gets set the RAW response with all data gets returned."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "search (值: None) - String or search command to filter entities by",
+        "orderBy (值: None) - Column to sort by. Can use any column listed in the response.",
+        "orderByDir (值: None) - Sort direction: ASC or DESC",
+        "publishedOnly (值: None) - Whether to return currently published entities",
+        "minimal (值: None) - Whether to return array of entities without additional lists in it",
+        "rawData (值: None) - By default only the data of the fields get returned. If this options gets set the RAW response with all data gets returned."
+      ]
     },
     "campaignEmailId": {
       "displayName": "Campaign Email Name or ID",
       "name": "campaignEmailId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "sendEmail"
-          ]
-        }
-      },
-      "typeOptions": {
-        "loadOptionsMethod": "getCampaignEmails"
-      },
       "default": "",
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Campaign Email Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "segmentId": {
       "displayName": "Segment Name or ID",
       "name": "segmentId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contactSegment"
-          ],
-          "operation": [
-            "add",
-            "remove"
-          ]
-        }
-      },
-      "typeOptions": {
-        "loadOptionsMethod": "getSegments"
-      },
       "default": "",
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Segment Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "campaignId": {
       "displayName": "Campaign Name or ID",
       "name": "campaignId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "campaignContact"
-          ],
-          "operation": [
-            "add",
-            "remove"
-          ]
-        }
-      },
-      "typeOptions": {
-        "loadOptionsMethod": "getCampaigns"
-      },
       "default": "",
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Campaign Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "segmentEmailId": {
       "displayName": "Segment Email Name or ID",
       "name": "segmentEmailId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "segmentEmail"
-          ],
-          "operation": [
-            "send"
-          ]
-        }
-      },
-      "typeOptions": {
-        "loadOptionsMethod": "getSegmentEmails"
-      },
       "default": "",
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Segment Email Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "resource",
-      "operation",
-      "name",
-      "simple",
-      "additionalFields",
-      "companyId",
-      "simple",
-      "updateFields",
-      "companyId",
-      "simple",
-      "returnAll",
-      "limit",
-      "simple",
-      "additionalFields",
-      "companyId",
-      "simple",
-      "operation",
-      "jsonParameters",
-      "email",
-      "firstName",
-      "lastName",
-      "company",
-      "position",
-      "title",
-      "bodyJson",
-      "additionalFields",
-      "contactId",
-      "jsonParameters",
-      "updateFields",
-      "contactId",
-      "action",
-      "channel",
-      "additionalFields",
-      "contactId",
-      "action",
-      "points",
-      "contactId",
-      "returnAll",
-      "limit",
-      "contactId",
-      "options",
-      "campaignEmailId",
-      "contactId",
-      "operation",
-      "contactId",
-      "segmentId",
-      "operation",
-      "contactId",
-      "campaignId",
-      "operation",
-      "contactId",
-      "companyId",
-      "operation",
-      "segmentEmailId"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'company' THEN SHOW parameter 'operation'",
-      "IF resource == 'company' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'company' AND operation == 'create' THEN SHOW parameter 'simple'",
-      "IF resource == 'company' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'update' AND resource == 'company' THEN SHOW parameter 'companyId'",
-      "IF resource == 'company' AND operation == 'update' THEN SHOW parameter 'simple'",
-      "IF resource == 'company' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'get' AND resource == 'company' THEN SHOW parameter 'companyId'",
-      "IF resource == 'company' AND operation == 'get' THEN SHOW parameter 'simple'",
-      "IF resource == 'company' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'company' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'company' AND operation == 'getAll' THEN SHOW parameter 'simple'",
-      "IF resource == 'company' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'delete' AND resource == 'company' THEN SHOW parameter 'companyId'",
-      "IF resource == 'company' AND operation == 'delete' THEN SHOW parameter 'simple'",
-      "IF resource == 'contact' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'contact' THEN SHOW parameter 'jsonParameters'",
-      "IF resource == 'contact' AND operation == 'create' AND jsonParameters == False THEN SHOW parameter 'email'",
-      "IF resource == 'contact' AND operation == 'create' AND jsonParameters == False THEN SHOW parameter 'firstName'",
-      "IF resource == 'contact' AND operation == 'create' AND jsonParameters == False THEN SHOW parameter 'lastName'",
-      "IF resource == 'contact' AND operation == 'create' AND jsonParameters == False THEN SHOW parameter 'company'",
-      "IF resource == 'contact' AND operation == 'create' AND jsonParameters == False THEN SHOW parameter 'position'",
-      "IF resource == 'contact' AND operation == 'create' AND jsonParameters == False THEN SHOW parameter 'title'",
-      "IF operation == 'create' AND resource == 'contact' AND jsonParameters == True THEN SHOW parameter 'bodyJson'",
-      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'update' AND resource == 'contact' THEN SHOW parameter 'contactId'",
-      "IF operation == 'update' AND resource == 'contact' THEN SHOW parameter 'jsonParameters'",
-      "IF resource == 'contact' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF /jsonParameters == True THEN SHOW parameter 'bodyJson'",
-      "IF /jsonParameters == False THEN SHOW parameter 'addressUi'",
-      "IF /jsonParameters == False THEN SHOW parameter 'b2bOrb2c'",
-      "IF /jsonParameters == False THEN SHOW parameter 'crmId'",
-      "IF /jsonParameters == False THEN SHOW parameter 'email'",
-      "IF /jsonParameters == False THEN SHOW parameter 'fax'",
-      "IF /jsonParameters == False THEN SHOW parameter 'firstName'",
-      "IF /jsonParameters == False THEN SHOW parameter 'hasPurchased'",
-      "IF /jsonParameters == False THEN SHOW parameter 'ipAddress'",
-      "IF /jsonParameters == False THEN SHOW parameter 'lastActive'",
-      "IF /jsonParameters == False THEN SHOW parameter 'lastName'",
-      "IF /jsonParameters == False THEN SHOW parameter 'mobile'",
-      "IF /jsonParameters == False THEN SHOW parameter 'ownerId'",
-      "IF /jsonParameters == False THEN SHOW parameter 'phone'",
-      "IF /jsonParameters == False THEN SHOW parameter 'position'",
-      "IF /jsonParameters == False THEN SHOW parameter 'company'",
-      "IF /jsonParameters == False THEN SHOW parameter 'prospectOrCustomer'",
-      "IF /jsonParameters == False THEN SHOW parameter 'sandbox'",
-      "IF /jsonParameters == False THEN SHOW parameter 'stage'",
-      "IF /jsonParameters == False THEN SHOW parameter 'tags'",
-      "IF /jsonParameters == False THEN SHOW parameter 'title'",
-      "IF /jsonParameters == False THEN SHOW parameter 'socialMediaUi'",
-      "IF /jsonParameters == False THEN SHOW parameter 'website'",
-      "IF operation == 'editDoNotContactList' AND resource == 'contact' THEN SHOW parameter 'contactId'",
-      "IF operation == 'editDoNotContactList' AND resource == 'contact' THEN SHOW parameter 'action'",
-      "IF resource == 'contact' AND operation == 'editDoNotContactList' THEN SHOW parameter 'channel'",
-      "IF resource == 'contact' AND operation == 'editDoNotContactList' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'editContactPoint' AND resource == 'contact' THEN SHOW parameter 'contactId'",
-      "IF operation == 'editContactPoint' AND resource == 'contact' THEN SHOW parameter 'action'",
-      "IF operation == 'editContactPoint' AND resource == 'contact' THEN SHOW parameter 'points'",
-      "IF operation == 'get' AND resource == 'contact' THEN SHOW parameter 'contactId'",
-      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'contact' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'delete' AND resource == 'contact' THEN SHOW parameter 'contactId'",
-      "IF resource == 'contact' THEN SHOW parameter 'options'",
-      "IF operation IN [\"sendEmail\", \"editDoNotContactList\", \"editContactPoint\"] THEN HIDE parameter 'options'",
-      "IF /resource == 'contact' AND /operation == 'getAll' THEN SHOW parameter 'search'",
-      "IF /resource == 'contact' AND /operation == 'getAll' THEN SHOW parameter 'orderBy'",
-      "IF /resource == 'contact' AND /operation == 'getAll' THEN SHOW parameter 'orderByDir'",
-      "IF /resource == 'contact' AND /operation == 'getAll' THEN SHOW parameter 'publishedOnly'",
-      "IF /resource == 'contact' AND /operation == 'getAll' THEN SHOW parameter 'minimal'",
-      "IF resource == 'contact' AND operation == 'sendEmail' THEN SHOW parameter 'campaignEmailId'",
-      "IF resource == 'contact' AND operation == 'sendEmail' THEN SHOW parameter 'contactId'",
-      "IF resource == 'contactSegment' THEN SHOW parameter 'operation'",
-      "IF resource == 'contactSegment' AND operation IN [\"add\", \"remove\"] THEN SHOW parameter 'contactId'",
-      "IF resource == 'contactSegment' AND operation IN [\"add\", \"remove\"] THEN SHOW parameter 'segmentId'",
-      "IF resource == 'campaignContact' THEN SHOW parameter 'operation'",
-      "IF resource == 'campaignContact' AND operation IN [\"add\", \"remove\"] THEN SHOW parameter 'contactId'",
-      "IF resource == 'campaignContact' AND operation IN [\"add\", \"remove\"] THEN SHOW parameter 'campaignId'",
-      "IF resource == 'companyContact' THEN SHOW parameter 'operation'",
-      "IF resource == 'companyContact' AND operation IN [\"add\", \"remove\"] THEN SHOW parameter 'contactId'",
-      "IF resource == 'companyContact' AND operation IN [\"add\", \"remove\"] THEN SHOW parameter 'companyId'",
-      "IF resource == 'segmentEmail' THEN SHOW parameter 'operation'",
-      "IF resource == 'segmentEmail' AND operation == 'send' THEN SHOW parameter 'segmentEmailId'"
-    ]
   }
 }

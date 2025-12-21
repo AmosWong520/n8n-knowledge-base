@@ -1,96 +1,59 @@
 {
   "node_id": "n8n-nodes-base.awsSnsTool",
-  "name": "n8n-nodes-base.awsSnsTool",
+  "name": "AWS SNS Tool",
   "version": 1,
   "semantic_context": "Sends data to AWS SNS",
+  "natural_language_description": "这是 AWS SNS Tool 节点。主要用于: Sends data to AWS SNS",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Sends data to AWS SNS",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Sends data to AWS SNS",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Sends data to AWS SNS | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "AWS (IAM)",
-          "value": "iam"
-        },
-        {
-          "name": "AWS (Assume Role)",
-          "value": "assumeRole"
-        }
-      ],
+      "required": false,
       "default": "iam",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: iam",
+      "available_options": [
+        "AWS (IAM) (值: iam)",
+        "AWS (Assume Role) (值: assumeRole)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a topic",
-          "action": "Create a topic"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a topic",
-          "action": "Delete a topic"
-        },
-        {
-          "name": "Publish",
-          "value": "publish",
-          "description": "Publish a message to a topic",
-          "action": "Publish a message to a topic"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "publish",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: publish",
+      "available_options": [
+        "Create (值: create) - Create a topic",
+        "Delete (值: delete) - Delete a topic",
+        "Publish (值: publish) - Publish a message to a topic",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "name": {
       "displayName": "Name",
@@ -98,161 +61,51 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Name | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Display Name",
-          "name": "displayName",
-          "type": "string",
-          "default": "",
-          "description": "The display name to use for a topic with SMS subscriptions"
-        },
-        {
-          "displayName": "Fifo Topic",
-          "name": "fifoTopic",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the topic you want to create is a FIFO (first-in-first-out) topic"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "displayName (值: None) - The display name to use for a topic with SMS subscriptions",
+        "fifoTopic (值: None) - Whether the topic you want to create is a FIFO (first-in-first-out) topic"
+      ]
     },
     "topic": {
       "displayName": "Topic",
       "name": "topic",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a topic...",
-          "typeOptions": {
-            "searchListMethod": "listTopics",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "placeholder": "https://us-east-1.console.aws.amazon.com/sns/v3/home?region=us-east-1#/topic/arn:aws:sns:us-east-1:777777777777:your_topic",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "https:\\/\\/[0-9a-zA-Z\\-_]+\\.console\\.aws\\.amazon\\.com\\/sns\\/v3\\/home\\?region\\=[0-9a-zA-Z\\-_]+\\#\\/topic\\/arn:aws:sns:[0-9a-zA-Z\\-_]+:[0-9]+:[0-9a-zA-Z\\-_]+(?:\\/.*|)",
-                "errorMessage": "Not a valid AWS SNS Topic URL"
-              }
-            }
-          ],
-          "extractValue": {
-            "type": "regex",
-            "regex": "https:\\/\\/[0-9a-zA-Z\\-_]+\\.console\\.aws\\.amazon\\.com\\/sns\\/v3\\/home\\?region\\=[0-9a-zA-Z\\-_]+\\#\\/topic\\/(arn:aws:sns:[0-9a-zA-Z\\-_]+:[0-9]+:[0-9a-zA-Z\\-_]+)(?:\\/.*|)"
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "arn:aws:sns:[0-9a-zA-Z\\-_]+:[0-9]+:[0-9a-zA-Z\\-_]+",
-                "errorMessage": "Not a valid AWS SNS Topic ARN"
-              }
-            }
-          ],
-          "placeholder": "arn:aws:sns:your-aws-region:777777777777:your_topic"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "publish",
-            "delete"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Topic | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "subject": {
       "displayName": "Subject",
       "name": "subject",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "publish"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "Subject when the message is delivered to email endpoints",
-      "ai_hint": "Subject when the message is delivered to email endpoints"
+      "natural_language_description": "参数名: Subject | 作用: Subject when the message is delivered to email endpoints | (必填项)"
     },
     "message": {
       "displayName": "Message",
       "name": "message",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "publish"
-          ]
-        }
-      },
       "required": true,
       "default": "",
       "description": "The message you want to send",
-      "ai_hint": "The message you want to send"
+      "natural_language_description": "参数名: Message | 作用: The message you want to send | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "operation",
-      "name",
-      "options",
-      "topic",
-      "subject",
-      "message"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF operation == 'create' THEN SHOW parameter 'name'",
-      "IF operation == 'create' THEN SHOW parameter 'options'",
-      "IF operation IN [\"publish\", \"delete\"] THEN SHOW parameter 'topic'",
-      "IF operation == 'publish' THEN SHOW parameter 'subject'",
-      "IF operation == 'publish' THEN SHOW parameter 'message'"
-    ]
   }
 }

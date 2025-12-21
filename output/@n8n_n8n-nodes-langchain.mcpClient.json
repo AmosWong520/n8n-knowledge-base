@@ -1,228 +1,115 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.mcpClient",
-  "name": "@n8n/n8n-nodes-langchain.mcpClient",
+  "name": "MCP Client",
   "version": 1,
   "semantic_context": "Standalone MCP Client",
+  "natural_language_description": "这是 MCP Client 节点。主要用于: Standalone MCP Client",
   "parameters": {
     "serverTransport": {
       "displayName": "Server Transport",
       "name": "serverTransport",
       "type": "options",
-      "options": [
-        {
-          "name": "HTTP Streamable",
-          "value": "httpStreamable"
-        },
-        {
-          "name": "Server Sent Events (Deprecated)",
-          "value": "sse"
-        }
-      ],
+      "required": false,
       "default": "httpStreamable",
       "description": "The transport used by your endpoint",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Server Transport | 作用: The transport used by your endpoint | 默认值: httpStreamable",
+      "available_options": [
+        "HTTP Streamable (值: httpStreamable)",
+        "Server Sent Events (Deprecated) (值: sse)"
+      ]
     },
     "endpointUrl": {
       "displayName": "MCP Endpoint URL",
       "name": "endpointUrl",
       "type": "string",
-      "default": "",
-      "placeholder": "e.g. https://my-mcp-server.ai/mcp",
       "required": true,
+      "default": "",
       "description": "The URL of the MCP server to connect to",
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "natural_language_description": "参数名: MCP Endpoint URL | 作用: The URL of the MCP server to connect to | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Bearer Auth",
-          "value": "bearerAuth"
-        },
-        {
-          "name": "Header Auth",
-          "value": "headerAuth"
-        },
-        {
-          "name": "MCP OAuth2",
-          "value": "mcpOAuth2Api"
-        },
-        {
-          "name": "Multiple Headers Auth",
-          "value": "multipleHeadersAuth"
-        },
-        {
-          "name": "None",
-          "value": "none"
-        }
-      ],
+      "required": false,
       "default": "none",
       "description": "The way to authenticate with your endpoint",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "natural_language_description": "参数名: Authentication | 作用: The way to authenticate with your endpoint | 默认值: none",
+      "available_options": [
+        "Bearer Auth (值: bearerAuth)",
+        "Header Auth (值: headerAuth)",
+        "MCP OAuth2 (值: mcpOAuth2Api)",
+        "Multiple Headers Auth (值: multipleHeadersAuth)",
+        "None (值: none)"
+      ]
     },
     "credentials": {
       "displayName": "Credentials",
       "name": "credentials",
       "type": "credentials",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "authentication": [
-            "headerAuth",
-            "bearerAuth",
-            "mcpOAuth2Api",
-            "multipleHeadersAuth"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Credentials"
     },
     "tool": {
       "displayName": "Tool",
       "name": "tool",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
       "description": "The tool to use",
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "getTools",
-            "searchable": true,
-            "skipCredentialsCheckInRLC": true
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string"
-        }
-      ],
-      "ai_hint": "The tool to use"
+      "natural_language_description": "参数名: Tool | 作用: The tool to use | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "inputMode": {
       "displayName": "Input Mode",
       "name": "inputMode",
       "type": "options",
+      "required": false,
       "default": "manual",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Manual",
-          "value": "manual",
-          "description": "Manually specify the input data for each tool parameter"
-        },
-        {
-          "name": "JSON",
-          "value": "json",
-          "description": "Specify the input data as a JSON object"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Input Mode | 默认值: manual",
+      "available_options": [
+        "Manual (值: manual) - Manually specify the input data for each tool parameter",
+        "JSON (值: json) - Specify the input data as a JSON object"
+      ]
     },
     "parameters": {
       "displayName": "Parameters",
       "name": "parameters",
       "type": "resourceMapper",
+      "required": true,
       "default": {
         "mappingMode": "defineBelow",
         "value": null
       },
-      "noDataExpression": true,
-      "required": true,
-      "typeOptions": {
-        "loadOptionsDependsOn": [
-          "tool.value"
-        ],
-        "resourceMapper": {
-          "resourceMapperMethod": "getToolParameters",
-          "hideNoDataError": true,
-          "addAllFields": false,
-          "supportAutoMap": false,
-          "mode": "add",
-          "fieldWords": {
-            "singular": "parameter",
-            "plural": "parameters"
-          }
-        }
-      },
-      "displayOptions": {
-        "show": {
-          "inputMode": [
-            "manual"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Parameters | 默认值: {'mappingMode': 'defineBelow', 'value': None} | (必填项)"
     },
     "jsonInput": {
       "displayName": "JSON",
       "name": "jsonInput",
       "type": "json",
-      "typeOptions": {
-        "rows": 5
-      },
+      "required": false,
       "default": "{\n  \"my_field_1\": \"value\",\n  \"my_field_2\": 1\n}\n",
-      "validateType": "object",
-      "displayOptions": {
-        "show": {
-          "inputMode": [
-            "json"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: JSON | 默认值: {\n  \"my_field_1\": \"value\",\n  \"my_field_2\": 1\n}\n"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
-      "placeholder": "Add Option",
-      "description": "Additional options to add",
       "type": "collection",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Convert to Binary",
-          "name": "convertToBinary",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to convert images and audio to binary data. If false, images and audio will be returned as base64 encoded strings."
-        },
-        {
-          "displayName": "Timeout",
-          "name": "timeout",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 1
-          },
-          "default": 60000,
-          "description": "Time in ms to wait for tool calls to finish"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "Additional options to add",
+      "natural_language_description": "参数名: Options | 作用: Additional options to add | 默认值: {}",
+      "available_options": [
+        "convertToBinary (值: None) - Whether to convert images and audio to binary data. If false, images and audio will be returned as base64 encoded strings.",
+        "timeout (值: None) - Time in ms to wait for tool calls to finish"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "serverTransport",
-      "endpointUrl",
-      "authentication",
-      "credentials",
-      "tool",
-      "inputMode",
-      "parameters",
-      "jsonInput",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF authentication IN [\"headerAuth\", \"bearerAuth\", \"mcpOAuth2Api\", \"multipleHeadersAuth\"] THEN SHOW parameter 'credentials'",
-      "IF inputMode == 'manual' THEN SHOW parameter 'parameters'",
-      "IF inputMode == 'json' THEN SHOW parameter 'jsonInput'"
-    ]
   }
 }

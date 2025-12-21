@@ -1,349 +1,123 @@
 {
   "node_id": "n8n-nodes-base.removeDuplicates",
-  "name": "n8n-nodes-base.removeDuplicates",
-  "version": [
-    2
-  ],
+  "name": "Remove Duplicates",
+  "version": 1,
   "semantic_context": "Delete items with matching field values",
+  "natural_language_description": "这是 Remove Duplicates 节点。主要用于: Delete items with matching field values",
   "parameters": {
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Remove Items Repeated Within Current Input",
-          "value": "removeDuplicateInputItems",
-          "description": "Remove duplicates from incoming items",
-          "action": "Remove items repeated within current input"
-        },
-        {
-          "name": "Remove Items Processed in Previous Executions",
-          "value": "removeItemsSeenInPreviousExecutions",
-          "description": "Deduplicate items already seen in previous executions",
-          "action": "Remove items processed in previous executions"
-        },
-        {
-          "name": "Clear Deduplication History",
-          "value": "clearDeduplicationHistory",
-          "description": "Wipe the store of previous items",
-          "action": "Clear deduplication history"
-        }
-      ],
+      "required": false,
       "default": "removeDuplicateInputItems",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: removeDuplicateInputItems",
+      "available_options": [
+        "Remove Items Repeated Within Current Input (值: removeDuplicateInputItems) - Remove duplicates from incoming items",
+        "Remove Items Processed in Previous Executions (值: removeItemsSeenInPreviousExecutions) - Deduplicate items already seen in previous executions",
+        "Clear Deduplication History (值: clearDeduplicationHistory) - Wipe the store of previous items"
+      ]
     },
     "compare": {
       "displayName": "Compare",
       "name": "compare",
       "type": "options",
-      "options": [
-        {
-          "name": "All Fields",
-          "value": "allFields"
-        },
-        {
-          "name": "All Fields Except",
-          "value": "allFieldsExcept"
-        },
-        {
-          "name": "Selected Fields",
-          "value": "selectedFields"
-        }
-      ],
+      "required": false,
       "default": "allFields",
       "description": "The fields of the input items to compare to see if they are the same",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "removeDuplicateInputItems"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Compare | 作用: The fields of the input items to compare to see if they are the same | 默认值: allFields",
+      "available_options": [
+        "All Fields (值: allFields)",
+        "All Fields Except (值: allFieldsExcept)",
+        "Selected Fields (值: selectedFields)"
+      ]
     },
     "fieldsToExclude": {
       "displayName": "Fields To Exclude",
       "name": "fieldsToExclude",
       "type": "string",
-      "placeholder": "e.g. email, name",
-      "requiresDataPath": "multiple",
-      "description": "Fields in the input to exclude from the comparison",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "compare": [
-            "allFieldsExcept"
-          ]
-        }
-      },
-      "ai_hint": "Fields in the input to exclude from the comparison"
+      "description": "Fields in the input to exclude from the comparison",
+      "natural_language_description": "参数名: Fields To Exclude | 作用: Fields in the input to exclude from the comparison"
     },
     "fieldsToCompare": {
       "displayName": "Fields To Compare",
       "name": "fieldsToCompare",
       "type": "string",
-      "placeholder": "e.g. email, name",
-      "requiresDataPath": "multiple",
-      "description": "Fields in the input to add to the comparison",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "compare": [
-            "selectedFields"
-          ]
-        }
-      },
-      "ai_hint": "Fields in the input to add to the comparison"
+      "description": "Fields in the input to add to the comparison",
+      "natural_language_description": "参数名: Fields To Compare | 作用: Fields in the input to add to the comparison"
     },
     "logic": {
       "displayName": "Keep Items Where",
       "name": "logic",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Value Is New",
-          "value": "removeItemsWithAlreadySeenKeyValues",
-          "description": "Remove all input items with values matching those already processed"
-        },
-        {
-          "name": "Value Is Higher than Any Previous Value",
-          "value": "removeItemsUpToStoredIncrementalKey",
-          "description": "Works with incremental values, removes all input items with values up to the stored value"
-        },
-        {
-          "name": "Value Is a Date Later than Any Previous Date",
-          "value": "removeItemsUpToStoredDate",
-          "description": "Works with date values, removes all input items with values up to the stored date"
-        }
-      ],
+      "required": false,
       "default": "removeItemsWithAlreadySeenKeyValues",
       "description": "How to select input items to remove by comparing them with key values previously processed",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "removeItemsSeenInPreviousExecutions"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Keep Items Where | 作用: How to select input items to remove by comparing them with key values previously processed | 默认值: removeItemsWithAlreadySeenKeyValues",
+      "available_options": [
+        "Value Is New (值: removeItemsWithAlreadySeenKeyValues) - Remove all input items with values matching those already processed",
+        "Value Is Higher than Any Previous Value (值: removeItemsUpToStoredIncrementalKey) - Works with incremental values, removes all input items with values up to the stored value",
+        "Value Is a Date Later than Any Previous Date (值: removeItemsUpToStoredDate) - Works with date values, removes all input items with values up to the stored date"
+      ]
     },
     "dedupeValue": {
       "displayName": "Value to Dedupe On",
       "name": "dedupeValue",
       "type": "string",
+      "required": true,
       "default": "",
       "description": "Use an input field (or a combination of fields) that has a unique ID value",
-      "hint": "The input field value to compare between items",
-      "placeholder": "e.g. ID",
-      "required": true,
-      "displayOptions": {
-        "show": {
-          "logic": [
-            "removeItemsWithAlreadySeenKeyValues"
-          ],
-          "/operation": [
-            "removeItemsSeenInPreviousExecutions"
-          ]
-        }
-      },
-      "ai_hint": "Use an input field (or a combination of fields) that has a unique ID value"
+      "natural_language_description": "参数名: Value to Dedupe On | 作用: Use an input field (or a combination of fields) that has a unique ID value | 提示: The input field value to compare between items | (必填项)"
     },
     "incrementalDedupeValue": {
       "displayName": "Value to Dedupe On",
       "name": "incrementalDedupeValue",
       "type": "number",
+      "required": false,
       "default": "",
       "description": "Use an input field (or a combination of fields) that has an incremental value",
-      "hint": "The input field value to compare between items, an incremental value is expected",
-      "placeholder": "e.g. ID",
-      "displayOptions": {
-        "show": {
-          "logic": [
-            "removeItemsUpToStoredIncrementalKey"
-          ],
-          "/operation": [
-            "removeItemsSeenInPreviousExecutions"
-          ]
-        }
-      },
-      "ai_hint": "Use an input field (or a combination of fields) that has an incremental value"
+      "natural_language_description": "参数名: Value to Dedupe On | 作用: Use an input field (or a combination of fields) that has an incremental value | 提示: The input field value to compare between items, an incremental value is expected"
     },
     "dateDedupeValue": {
       "displayName": "Value to Dedupe On",
       "name": "dateDedupeValue",
       "type": "dateTime",
+      "required": false,
       "default": "",
       "description": "Use an input field that has a date value in ISO format",
-      "hint": "The input field value to compare between items, a date is expected",
-      "placeholder": " e.g. 2024-08-09T13:44:16Z",
-      "displayOptions": {
-        "show": {
-          "logic": [
-            "removeItemsUpToStoredDate"
-          ],
-          "/operation": [
-            "removeItemsSeenInPreviousExecutions"
-          ]
-        }
-      },
-      "ai_hint": "Use an input field that has a date value in ISO format"
+      "natural_language_description": "参数名: Value to Dedupe On | 作用: Use an input field that has a date value in ISO format | 提示: The input field value to compare between items, a date is expected"
     },
     "mode": {
       "displayName": "Mode",
       "name": "mode",
       "type": "options",
+      "required": false,
       "default": "cleanDatabase",
       "description": "How you want to modify the key values stored on the database. None of these modes removes input items.",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "clearDeduplicationHistory"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Clean Database",
-          "value": "cleanDatabase",
-          "description": "Clear all values stored for a key in the database"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Mode | 作用: How you want to modify the key values stored on the database. None of these modes removes input items. | 默认值: cleanDatabase",
+      "available_options": [
+        "Clean Database (值: cleanDatabase) - Clear all values stored for a key in the database"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "removeDuplicateInputItems",
-            "removeItemsSeenInPreviousExecutions",
-            "clearDeduplicationHistory"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Disable Dot Notation",
-          "name": "disableDotNotation",
-          "type": "boolean",
-          "default": false,
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "removeDuplicateInputItems"
-              ]
-            },
-            "hide": {
-              "/compare": [
-                "allFields"
-              ]
-            }
-          },
-          "description": "Whether to disallow referencing child fields using `parent.child` in the field name"
-        },
-        {
-          "displayName": "Remove Other Fields",
-          "name": "removeOtherFields",
-          "type": "boolean",
-          "default": false,
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "removeDuplicateInputItems"
-              ]
-            },
-            "hide": {
-              "/compare": [
-                "allFields"
-              ]
-            }
-          },
-          "description": "Whether to remove any fields that are not being compared. If disabled, will keep the values from the first of the duplicates."
-        },
-        {
-          "displayName": "Scope",
-          "name": "scope",
-          "type": "options",
-          "default": "node",
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "clearDeduplicationHistory",
-                "removeItemsSeenInPreviousExecutions"
-              ]
-            }
-          },
-          "description": "If set to ‘workflow,’ key values will be shared across all nodes in the workflow. If set to ‘node,’ key values will be specific to this node.",
-          "options": [
-            {
-              "name": "Workflow",
-              "value": "workflow",
-              "description": "Deduplication info will be shared by all the nodes in the workflow"
-            },
-            {
-              "name": "Node",
-              "value": "node",
-              "description": "Deduplication info will be stored only for this node"
-            }
-          ]
-        },
-        {
-          "displayName": "History Size",
-          "name": "historySize",
-          "type": "number",
-          "default": 10000,
-          "hint": "The max number of past items to store for deduplication",
-          "displayOptions": {
-            "show": {
-              "/logic": [
-                "removeItemsWithAlreadySeenKeyValues"
-              ],
-              "/operation": [
-                "removeItemsSeenInPreviousExecutions"
-              ]
-            }
-          }
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "disableDotNotation (值: None) - Whether to disallow referencing child fields using `parent.child` in the field name",
+        "removeOtherFields (值: None) - Whether to remove any fields that are not being compared. If disabled, will keep the values from the first of the duplicates.",
+        "scope (值: None) - If set to ‘workflow,’ key values will be shared across all nodes in the workflow. If set to ‘node,’ key values will be specific to this node.",
+        "historySize (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "operation",
-      "compare",
-      "fieldsToExclude",
-      "fieldsToCompare",
-      "logic",
-      "dedupeValue",
-      "incrementalDedupeValue",
-      "dateDedupeValue",
-      "mode",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF operation == 'removeDuplicateInputItems' THEN SHOW parameter 'compare'",
-      "IF compare == 'allFieldsExcept' THEN SHOW parameter 'fieldsToExclude'",
-      "IF compare == 'selectedFields' THEN SHOW parameter 'fieldsToCompare'",
-      "IF operation == 'removeItemsSeenInPreviousExecutions' THEN SHOW parameter 'logic'",
-      "IF logic == 'removeItemsWithAlreadySeenKeyValues' AND /operation == 'removeItemsSeenInPreviousExecutions' THEN SHOW parameter 'dedupeValue'",
-      "IF logic == 'removeItemsUpToStoredIncrementalKey' AND /operation == 'removeItemsSeenInPreviousExecutions' THEN SHOW parameter 'incrementalDedupeValue'",
-      "IF logic == 'removeItemsUpToStoredDate' AND /operation == 'removeItemsSeenInPreviousExecutions' THEN SHOW parameter 'dateDedupeValue'",
-      "IF operation == 'clearDeduplicationHistory' THEN SHOW parameter 'mode'",
-      "IF operation IN [\"removeDuplicateInputItems\", \"removeItemsSeenInPreviousExecutions\", \"clearDeduplicationHistory\"] THEN SHOW parameter 'options'",
-      "IF /operation == 'removeDuplicateInputItems' THEN SHOW parameter 'disableDotNotation'",
-      "IF /compare == 'allFields' THEN HIDE parameter 'disableDotNotation'",
-      "IF /operation == 'removeDuplicateInputItems' THEN SHOW parameter 'removeOtherFields'",
-      "IF /compare == 'allFields' THEN HIDE parameter 'removeOtherFields'",
-      "IF /operation IN [\"clearDeduplicationHistory\", \"removeItemsSeenInPreviousExecutions\"] THEN SHOW parameter 'scope'",
-      "IF /logic == 'removeItemsWithAlreadySeenKeyValues' AND /operation == 'removeItemsSeenInPreviousExecutions' THEN SHOW parameter 'historySize'"
-    ]
   }
 }

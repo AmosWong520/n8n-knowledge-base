@@ -1,57 +1,35 @@
 {
   "node_id": "n8n-nodes-base.humanticAi",
-  "name": "n8n-nodes-base.humanticAi",
+  "name": "Humantic AI",
   "version": 1,
   "semantic_context": "Consume Humantic AI API",
+  "natural_language_description": "这是 Humantic AI 节点。主要用于: Consume Humantic AI API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Profile",
-          "value": "profile"
-        }
-      ],
+      "required": false,
       "default": "profile",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: profile",
+      "available_options": [
+        "Profile (值: profile)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "profile"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a profile",
-          "action": "Create a profile"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Retrieve a profile",
-          "action": "Get a profile"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a profile",
-          "action": "Update a profile"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a profile",
+        "Get (值: get) - Retrieve a profile",
+        "Update (值: update) - Update a profile"
+      ]
     },
     "userId": {
       "displayName": "User ID",
@@ -59,141 +37,47 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "profile"
-          ]
-        }
-      },
       "description": "This value is the same as the User ID that was provided when the analysis was created. Currently only supported for profiles created using LinkedIn URL.",
-      "ai_hint": "This value is the same as the User ID that was provided when the analysis was created. Currently only supported for profiles created using LinkedIn URL."
+      "natural_language_description": "参数名: User ID | 作用: This value is the same as the User ID that was provided when the analysis was created. Currently only supported for profiles created using LinkedIn URL. | (必填项)"
     },
     "sendResume": {
       "displayName": "Send Resume",
       "name": "sendResume",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "profile"
-          ]
-        }
-      },
       "description": "Whether to send a resume for a resume of the user",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Send Resume | 作用: Whether to send a resume for a resume of the user | 默认值: False"
     },
     "binaryPropertyName": {
       "displayName": "Input Binary Field",
       "name": "binaryPropertyName",
       "type": "string",
+      "required": false,
       "default": "data",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "profile"
-          ],
-          "sendResume": [
-            true
-          ]
-        }
-      },
-      "hint": "The name of the input binary field containing the resume in PDF or DOCX format"
+      "description": "",
+      "natural_language_description": "参数名: Input Binary Field | 提示: The name of the input binary field containing the resume in PDF or DOCX format | 默认值: data"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get"
-          ],
-          "resource": [
-            "profile"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Persona",
-          "name": "persona",
-          "type": "multiOptions",
-          "options": [
-            {
-              "name": "Sales",
-              "value": "sales"
-            },
-            {
-              "name": "Hiring",
-              "value": "hiring"
-            }
-          ],
-          "default": [],
-          "description": "Fetch the Humantic profile of the user for a particular persona type. Multiple persona values can be supported using comma as a delimiter."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "persona (值: None) - Fetch the Humantic profile of the user for a particular persona type. Multiple persona values can be supported using comma as a delimiter."
+      ]
     },
     "text": {
       "displayName": "Text",
       "name": "text",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "profile"
-          ],
-          "sendResume": [
-            false
-          ]
-        }
-      },
       "description": "Additional text written by the user",
-      "ai_hint": "Additional text written by the user"
+      "natural_language_description": "参数名: Text | 作用: Additional text written by the user"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "userId",
-      "sendResume",
-      "binaryPropertyName",
-      "userId",
-      "options",
-      "userId",
-      "sendResume",
-      "text",
-      "binaryPropertyName"
-    ],
-    "conditional_rules": [
-      "IF resource == 'profile' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'profile' THEN SHOW parameter 'userId'",
-      "IF operation == 'create' AND resource == 'profile' THEN SHOW parameter 'sendResume'",
-      "IF operation == 'create' AND resource == 'profile' AND sendResume == True THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'get' AND resource == 'profile' THEN SHOW parameter 'userId'",
-      "IF operation == 'get' AND resource == 'profile' THEN SHOW parameter 'options'",
-      "IF operation == 'update' AND resource == 'profile' THEN SHOW parameter 'userId'",
-      "IF operation == 'update' AND resource == 'profile' THEN SHOW parameter 'sendResume'",
-      "IF operation == 'update' AND resource == 'profile' AND sendResume == False THEN SHOW parameter 'text'",
-      "IF operation == 'update' AND resource == 'profile' AND sendResume == True THEN SHOW parameter 'binaryPropertyName'"
-    ]
   }
 }

@@ -1,221 +1,125 @@
 {
   "node_id": "n8n-nodes-base.kafka",
-  "name": "n8n-nodes-base.kafka",
+  "name": "Kafka",
   "version": 1,
   "semantic_context": "Sends messages to a Kafka topic",
+  "natural_language_description": "这是 Kafka 节点。主要用于: Sends messages to a Kafka topic",
   "parameters": {
     "topic": {
       "displayName": "Topic",
       "name": "topic",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "topic-name",
       "description": "Name of the queue of topic to publish to",
-      "ai_hint": "Name of the queue of topic to publish to"
+      "natural_language_description": "参数名: Topic | 作用: Name of the queue of topic to publish to"
     },
     "sendInputData": {
       "displayName": "Send Input Data",
       "name": "sendInputData",
       "type": "boolean",
+      "required": false,
       "default": true,
       "description": "Whether to send the data the node receives as JSON to Kafka",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Send Input Data | 作用: Whether to send the data the node receives as JSON to Kafka | 默认值: True"
     },
     "message": {
       "displayName": "Message",
       "name": "message",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "sendInputData": [
-            false
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "The message to be sent",
-      "ai_hint": "The message to be sent"
+      "natural_language_description": "参数名: Message | 作用: The message to be sent"
     },
     "jsonParameters": {
       "displayName": "JSON Parameters",
       "name": "jsonParameters",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: JSON Parameters | 默认值: False"
     },
     "useSchemaRegistry": {
       "displayName": "Use Schema Registry",
       "name": "useSchemaRegistry",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to use Confluent Schema Registry",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Use Schema Registry | 作用: Whether to use Confluent Schema Registry | 默认值: False"
     },
     "schemaRegistryUrl": {
       "displayName": "Schema Registry URL",
       "name": "schemaRegistryUrl",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "useSchemaRegistry": [
-            true
-          ]
-        }
-      },
-      "placeholder": "https://schema-registry-domain:8081",
       "default": "",
       "description": "URL of the schema registry",
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "natural_language_description": "参数名: Schema Registry URL | 作用: URL of the schema registry | (必填项)"
     },
     "useKey": {
       "displayName": "Use Key",
       "name": "useKey",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to use a message key",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Use Key | 作用: Whether to use a message key | 默认值: False"
     },
     "key": {
       "displayName": "Key",
       "name": "key",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "useKey": [
-            true
-          ]
-        }
-      },
-      "placeholder": "",
       "default": "",
       "description": "The message key",
-      "ai_hint": "The message key"
+      "natural_language_description": "参数名: Key | 作用: The message key | (必填项)"
     },
     "eventName": {
       "displayName": "Event Name",
       "name": "eventName",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "useSchemaRegistry": [
-            true
-          ]
-        }
-      },
       "default": "",
       "description": "Namespace and Name of Schema in Schema Registry (namespace.name)",
-      "ai_hint": "Namespace and Name of Schema in Schema Registry (namespace.name)"
+      "natural_language_description": "参数名: Event Name | 作用: Namespace and Name of Schema in Schema Registry (namespace.name) | (必填项)"
     },
     "headersUi": {
       "displayName": "Headers",
       "name": "headersUi",
-      "placeholder": "Add Header",
       "type": "fixedCollection",
-      "displayOptions": {
-        "show": {
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "multipleValues": true
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "headerValues",
-          "displayName": "Header",
-          "values": [
-            {
-              "displayName": "Key",
-              "name": "key",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Headers | 默认值: {}",
+      "available_options": [
+        "headerValues (值: None)"
+      ]
     },
     "headerParametersJson": {
       "displayName": "Headers (JSON)",
       "name": "headerParametersJson",
       "type": "json",
-      "displayOptions": {
-        "show": {
-          "jsonParameters": [
-            true
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "Header parameters as JSON (flat object)",
-      "ai_hint": "Header parameters as JSON (flat object)"
+      "natural_language_description": "参数名: Headers (JSON) | 作用: Header parameters as JSON (flat object)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
+      "required": false,
       "default": {},
-      "placeholder": "Add option",
-      "options": [
-        {
-          "displayName": "Acks",
-          "name": "acks",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether or not producer must wait for acknowledgement from all replicas"
-        },
-        {
-          "displayName": "Compression",
-          "name": "compression",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to send the data in a compressed format using the GZIP codec"
-        },
-        {
-          "displayName": "Timeout",
-          "name": "timeout",
-          "type": "number",
-          "default": 30000,
-          "description": "The time to await a response in ms"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "acks (值: None) - Whether or not producer must wait for acknowledgement from all replicas",
+        "compression (值: None) - Whether to send the data in a compressed format using the GZIP codec",
+        "timeout (值: None) - The time to await a response in ms"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "topic",
-      "sendInputData",
-      "message",
-      "jsonParameters",
-      "useSchemaRegistry",
-      "schemaRegistryUrl",
-      "useKey",
-      "key",
-      "eventName",
-      "headersUi",
-      "headerParametersJson",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF sendInputData == False THEN SHOW parameter 'message'",
-      "IF useSchemaRegistry == True THEN SHOW parameter 'schemaRegistryUrl'",
-      "IF useKey == True THEN SHOW parameter 'key'",
-      "IF useSchemaRegistry == True THEN SHOW parameter 'eventName'",
-      "IF jsonParameters == False THEN SHOW parameter 'headersUi'",
-      "IF jsonParameters == True THEN SHOW parameter 'headerParametersJson'"
-    ]
   }
 }

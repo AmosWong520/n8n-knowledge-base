@@ -1,356 +1,139 @@
 {
   "node_id": "n8n-nodes-base.googleFirebaseCloudFirestore",
-  "name": "n8n-nodes-base.googleFirebaseCloudFirestore",
-  "version": [
-    1,
-    1.1
-  ],
+  "name": "Google Cloud Firestore",
+  "version": 1,
   "semantic_context": "Interact with Google Firebase - Cloud Firestore API",
+  "natural_language_description": "这是 Google Cloud Firestore 节点。主要用于: Interact with Google Firebase - Cloud Firestore API",
   "parameters": {
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "OAuth2 (recommended)",
-          "value": "googleFirebaseCloudFirestoreOAuth2Api"
-        },
-        {
-          "name": "Service Account",
-          "value": "serviceAccount"
-        }
-      ],
+      "required": false,
       "default": "googleFirebaseCloudFirestoreOAuth2Api",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: googleFirebaseCloudFirestoreOAuth2Api",
+      "available_options": [
+        "OAuth2 (recommended) (值: googleFirebaseCloudFirestoreOAuth2Api)",
+        "Service Account (值: serviceAccount)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Document",
-          "value": "document"
-        },
-        {
-          "name": "Collection",
-          "value": "collection"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "document",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: document",
+      "available_options": [
+        "Document (值: document)",
+        "Collection (值: collection)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "collection"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many root collections",
-          "action": "Get many collections"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "getAll",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getAll",
+      "available_options": [
+        "Get Many (值: getAll) - Get many root collections",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "projectId": {
       "displayName": "Project Name or ID",
       "name": "projectId",
       "type": "options",
-      "default": "",
-      "typeOptions": {
-        "loadOptionsMethod": "getProjects"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "collection"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "description": "As displayed in firebase console URL. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
       "required": true,
-      "ai_hint": "As displayed in firebase console URL. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "As displayed in firebase console URL. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Project Name or ID | 作用: As displayed in firebase console URL. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "database": {
       "displayName": "Database",
       "name": "database",
       "type": "string",
-      "default": "(default)",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "collection"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "description": "Usually the provided default value will work",
       "required": true,
-      "ai_hint": "Usually the provided default value will work"
+      "default": "(default)",
+      "description": "Usually the provided default value will work",
+      "natural_language_description": "参数名: Database | 作用: Usually the provided default value will work | 默认值: (default) | (必填项)"
     },
     "collection": {
       "displayName": "Collection",
       "name": "collection",
       "type": "string",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        }
-      },
-      "description": "Collection name",
       "required": true,
-      "ai_hint": "Collection name"
+      "default": "",
+      "description": "Collection name",
+      "natural_language_description": "参数名: Collection | 作用: Collection name | (必填项)"
     },
     "documentId": {
       "displayName": "Document ID",
       "name": "documentId",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "delete"
-          ],
-          "resource": [
-            "document"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Document ID | (必填项)"
     },
     "columns": {
       "displayName": "Columns /Attributes",
       "name": "columns",
       "type": "string",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        }
-      },
-      "description": "Columns to insert",
       "required": true,
-      "placeholder": "age, city, location",
-      "ai_hint": "Columns to insert"
+      "default": "",
+      "description": "Columns to insert",
+      "natural_language_description": "参数名: Columns /Attributes | 作用: Columns to insert | (必填项)"
     },
     "simple": {
       "displayName": "Simplify",
       "name": "simple",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "query"
-          ],
-          "resource": [
-            "document"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether to return a simplified version of the response instead of the raw data",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Simplify | 作用: Whether to return a simplified version of the response instead of the raw data | 默认值: True"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "collection"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "description": "Whether to return all results or only up to a given limit",
       "required": true,
-      "ai_hint": "布尔值：true 或 false。"
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False | (必填项)"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "collection"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "updateKey": {
       "displayName": "Update Key",
       "name": "updateKey",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
       "description": "Name of the field in an input item that contains the document ID",
-      "required": true,
-      "placeholder": "documentId",
-      "ai_hint": "Name of the field in an input item that contains the document ID"
+      "natural_language_description": "参数名: Update Key | 作用: Name of the field in an input item that contains the document ID | (必填项)"
     },
     "query": {
       "displayName": "Query JSON",
       "name": "query",
       "type": "string",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "query"
-          ]
-        }
-      },
-      "description": "JSON query to execute",
       "required": true,
-      "placeholder": "{\"structuredQuery\": {\"where\": {\"fieldFilter\": {\"field\": {\"fieldPath\": \"age\"},\"op\": \"EQUAL\", \"value\": {\"integerValue\": 28}}}, \"from\": [{\"collectionId\": \"users-collection\"}]}}",
-      "ai_hint": "JSON query to execute"
+      "default": "",
+      "description": "JSON query to execute",
+      "natural_language_description": "参数名: Query JSON | 作用: JSON query to execute | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "authentication",
-      "resource",
-      "operation",
-      "projectId",
-      "database",
-      "collection",
-      "documentId",
-      "columns",
-      "simple",
-      "projectId",
-      "database",
-      "collection",
-      "documentId",
-      "simple",
-      "projectId",
-      "database",
-      "collection",
-      "returnAll",
-      "limit",
-      "simple",
-      "projectId",
-      "database",
-      "collection",
-      "documentId",
-      "projectId",
-      "database",
-      "collection",
-      "updateKey",
-      "columns",
-      "projectId",
-      "database",
-      "query",
-      "simple",
-      "operation",
-      "projectId",
-      "database",
-      "returnAll",
-      "limit"
-    ],
-    "conditional_rules": [
-      "IF resource == 'document' THEN SHOW parameter 'operation'",
-      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'projectId'",
-      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'database'",
-      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'collection'",
-      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'documentId'",
-      "IF resource == 'document' AND operation == 'create' THEN SHOW parameter 'columns'",
-      "IF operation == 'create' AND resource == 'document' THEN SHOW parameter 'simple'",
-      "IF resource == 'document' AND operation == 'get' THEN SHOW parameter 'projectId'",
-      "IF resource == 'document' AND operation == 'get' THEN SHOW parameter 'database'",
-      "IF resource == 'document' AND operation == 'get' THEN SHOW parameter 'collection'",
-      "IF operation == 'get' AND resource == 'document' THEN SHOW parameter 'documentId'",
-      "IF operation == 'get' AND resource == 'document' THEN SHOW parameter 'simple'",
-      "IF resource == 'document' AND operation == 'getAll' THEN SHOW parameter 'projectId'",
-      "IF resource == 'document' AND operation == 'getAll' THEN SHOW parameter 'database'",
-      "IF resource == 'document' AND operation == 'getAll' THEN SHOW parameter 'collection'",
-      "IF resource == 'document' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'document' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'document' THEN SHOW parameter 'simple'",
-      "IF resource == 'document' AND operation == 'delete' THEN SHOW parameter 'projectId'",
-      "IF resource == 'document' AND operation == 'delete' THEN SHOW parameter 'database'",
-      "IF resource == 'document' AND operation == 'delete' THEN SHOW parameter 'collection'",
-      "IF operation == 'delete' AND resource == 'document' THEN SHOW parameter 'documentId'",
-      "IF resource == 'document' AND operation == 'upsert' THEN SHOW parameter 'projectId'",
-      "IF resource == 'document' AND operation == 'upsert' THEN SHOW parameter 'database'",
-      "IF resource == 'document' AND operation == 'upsert' THEN SHOW parameter 'collection'",
-      "IF resource == 'document' AND operation == 'upsert' THEN SHOW parameter 'updateKey'",
-      "IF resource == 'document' AND operation == 'upsert' THEN SHOW parameter 'columns'",
-      "IF resource == 'document' AND operation == 'query' THEN SHOW parameter 'projectId'",
-      "IF resource == 'document' AND operation == 'query' THEN SHOW parameter 'database'",
-      "IF resource == 'document' AND operation == 'query' THEN SHOW parameter 'query'",
-      "IF operation == 'query' AND resource == 'document' THEN SHOW parameter 'simple'",
-      "IF resource == 'collection' THEN SHOW parameter 'operation'",
-      "IF resource == 'collection' AND operation == 'getAll' THEN SHOW parameter 'projectId'",
-      "IF resource == 'collection' AND operation == 'getAll' THEN SHOW parameter 'database'",
-      "IF resource == 'collection' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'collection' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'"
-    ]
   }
 }

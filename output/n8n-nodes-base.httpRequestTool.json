@@ -1,152 +1,95 @@
 {
   "node_id": "n8n-nodes-base.httpRequestTool",
-  "name": "n8n-nodes-base.httpRequestTool",
-  "version": [
-    3,
-    4,
-    4.1,
-    4.2,
-    4.3
-  ],
+  "name": "HTTP Request Tool",
+  "version": 1,
   "semantic_context": "Makes an HTTP request and returns the response data",
+  "natural_language_description": "这是 HTTP Request Tool 节点。主要用于: Makes an HTTP request and returns the response data",
   "parameters": {
     "preBuiltAgentsCalloutHttpRequest": {
       "displayName": "Try the HTTP request tool with our pre-built",
       "name": "preBuiltAgentsCalloutHttpRequest",
       "type": "callout",
-      "typeOptions": {
-        "calloutAction": {
-          "label": "Joke agent",
-          "icon": "bot",
-          "type": "openSampleWorkflowTemplate",
-          "templateId": "joke_agent_with_http_tool"
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Try the HTTP request tool with our pre-built"
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Makes an HTTP request and returns the response data",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Makes an HTTP request and returns the response data",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Makes an HTTP request and returns the response data | (必填项)"
     },
     "curlImport": {
       "displayName": "",
       "name": "curlImport",
       "type": "curlImport",
+      "required": false,
       "default": "",
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "description": "",
+      "natural_language_description": ""
     },
     "method": {
       "displayName": "Method",
       "name": "method",
       "type": "options",
-      "options": [
-        {
-          "name": "DELETE",
-          "value": "DELETE"
-        },
-        {
-          "name": "GET",
-          "value": "GET"
-        },
-        {
-          "name": "HEAD",
-          "value": "HEAD"
-        },
-        {
-          "name": "OPTIONS",
-          "value": "OPTIONS"
-        },
-        {
-          "name": "PATCH",
-          "value": "PATCH"
-        },
-        {
-          "name": "POST",
-          "value": "POST"
-        },
-        {
-          "name": "PUT",
-          "value": "PUT"
-        }
-      ],
+      "required": false,
       "default": "GET",
       "description": "The request method to use",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Method | 作用: The request method to use | 默认值: GET",
+      "available_options": [
+        "DELETE (值: DELETE)",
+        "GET (值: GET)",
+        "HEAD (值: HEAD)",
+        "OPTIONS (值: OPTIONS)",
+        "PATCH (值: PATCH)",
+        "POST (值: POST)",
+        "PUT (值: PUT)"
+      ]
     },
     "url": {
       "displayName": "URL",
       "name": "url",
       "type": "string",
-      "default": "",
-      "placeholder": "http://example.com/index.html",
-      "description": "The URL to make the request to",
       "required": true,
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "default": "",
+      "description": "The URL to make the request to",
+      "natural_language_description": "参数名: URL | 作用: The URL to make the request to | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
-      "noDataExpression": true,
       "type": "options",
-      "options": [
-        {
-          "name": "None",
-          "value": "none"
-        },
-        {
-          "name": "Predefined Credential Type",
-          "value": "predefinedCredentialType",
-          "description": "We've already implemented auth for many services so that you don't have to set it up manually"
-        },
-        {
-          "name": "Generic Credential Type",
-          "value": "genericCredentialType",
-          "description": "Fully customizable. Choose between basic, header, OAuth2, etc."
-        }
-      ],
+      "required": false,
       "default": "none",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: none",
+      "available_options": [
+        "None (值: none)",
+        "Predefined Credential Type (值: predefinedCredentialType) - We've already implemented auth for many services so that you don't have to set it up manually",
+        "Generic Credential Type (值: genericCredentialType) - Fully customizable. Choose between basic, header, OAuth2, etc."
+      ]
     },
     "nodeCredentialType": {
       "displayName": "Credential Type",
       "name": "nodeCredentialType",
       "type": "credentialsSelect",
-      "noDataExpression": true,
       "required": true,
       "default": "",
-      "credentialTypes": [
-        "extends:oAuth2Api",
-        "extends:oAuth1Api",
-        "has:authenticate"
-      ],
-      "displayOptions": {
-        "show": {
-          "authentication": [
-            "predefinedCredentialType"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Credential Type | (必填项)"
     },
     "googleApiWarning": {
       "displayName": "Make sure you have specified the scope(s) for the Service Account in the credential",
       "name": "googleApiWarning",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "nodeCredentialType": [
-            "googleApi"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Make sure you have specified the scope(s) for the Service Account in the credential"
     },
     "genericAuthType": {
       "displayName": "Generic Auth Type",
@@ -154,104 +97,63 @@
       "type": "credentialsSelect",
       "required": true,
       "default": "",
-      "credentialTypes": [
-        "has:genericAuth"
-      ],
-      "displayOptions": {
-        "show": {
-          "authentication": [
-            "genericCredentialType"
-          ]
-        }
-      },
-      "ai_hint": "与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Generic Auth Type | (必填项)"
     },
     "provideSslCertificates": {
       "displayName": "SSL Certificates",
       "name": "provideSslCertificates",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "isNodeSetting": true,
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: SSL Certificates | 默认值: False"
     },
     "provideSslCertificatesNotice": {
       "displayName": "Provide certificates in node's 'Credential for SSL Certificates' parameter",
       "name": "provideSslCertificatesNotice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "isNodeSetting": true,
-      "displayOptions": {
-        "show": {
-          "provideSslCertificates": [
-            true
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Provide certificates in node's 'Credential for SSL Certificates' parameter"
     },
     "sslCertificate": {
       "displayName": "SSL Certificate",
       "name": "sslCertificate",
       "type": "credentials",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "provideSslCertificates": [
-            true
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: SSL Certificate"
     },
     "sendQuery": {
       "displayName": "Send Query Parameters",
       "name": "sendQuery",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "noDataExpression": true,
       "description": "Whether the request has query params or not",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Send Query Parameters | 作用: Whether the request has query params or not | 默认值: False"
     },
     "specifyQuery": {
       "displayName": "Specify Query Parameters",
       "name": "specifyQuery",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "sendQuery": [
-            true
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Using Fields Below",
-          "value": "keypair"
-        },
-        {
-          "name": "Using JSON",
-          "value": "json"
-        }
-      ],
+      "required": false,
       "default": "keypair",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Specify Query Parameters | 默认值: keypair",
+      "available_options": [
+        "Using Fields Below (值: keypair)",
+        "Using JSON (值: json)"
+      ]
     },
     "queryParameters": {
       "displayName": "Query Parameters",
       "name": "queryParameters",
       "type": "fixedCollection",
-      "displayOptions": {
-        "show": {
-          "sendQuery": [
-            true
-          ],
-          "specifyQuery": [
-            "keypair"
-          ]
-        }
-      },
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "placeholder": "Add Parameter",
+      "required": false,
       "default": {
         "parameters": [
           {
@@ -260,95 +162,48 @@
           }
         ]
       },
-      "options": [
-        {
-          "name": "parameters",
-          "displayName": "Parameter",
-          "values": [
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Query Parameters | 默认值: {'parameters': [{'name': '', 'value': ''}]}",
+      "available_options": [
+        "parameters (值: None)"
+      ]
     },
     "jsonQuery": {
       "displayName": "JSON",
       "name": "jsonQuery",
       "type": "json",
-      "displayOptions": {
-        "show": {
-          "sendQuery": [
-            true
-          ],
-          "specifyQuery": [
-            "json"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: JSON"
     },
     "sendHeaders": {
       "displayName": "Send Headers",
       "name": "sendHeaders",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "noDataExpression": true,
       "description": "Whether the request has headers or not",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Send Headers | 作用: Whether the request has headers or not | 默认值: False"
     },
     "specifyHeaders": {
       "displayName": "Specify Headers",
       "name": "specifyHeaders",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "sendHeaders": [
-            true
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Using Fields Below",
-          "value": "keypair"
-        },
-        {
-          "name": "Using JSON",
-          "value": "json"
-        }
-      ],
+      "required": false,
       "default": "keypair",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Specify Headers | 默认值: keypair",
+      "available_options": [
+        "Using Fields Below (值: keypair)",
+        "Using JSON (值: json)"
+      ]
     },
     "headerParameters": {
       "displayName": "Header Parameters",
       "name": "headerParameters",
       "type": "fixedCollection",
-      "displayOptions": {
-        "show": {
-          "sendHeaders": [
-            true
-          ],
-          "specifyHeaders": [
-            "keypair"
-          ]
-        }
-      },
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "placeholder": "Add Parameter",
+      "required": false,
       "default": {
         "parameters": [
           {
@@ -357,138 +212,64 @@
           }
         ]
       },
-      "options": [
-        {
-          "name": "parameters",
-          "displayName": "Parameter",
-          "values": [
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Header Parameters | 默认值: {'parameters': [{'name': '', 'value': ''}]}",
+      "available_options": [
+        "parameters (值: None)"
+      ]
     },
     "jsonHeaders": {
       "displayName": "JSON",
       "name": "jsonHeaders",
       "type": "json",
-      "displayOptions": {
-        "show": {
-          "sendHeaders": [
-            true
-          ],
-          "specifyHeaders": [
-            "json"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: JSON"
     },
     "sendBody": {
       "displayName": "Send Body",
       "name": "sendBody",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "noDataExpression": true,
       "description": "Whether the request has a body or not",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Send Body | 作用: Whether the request has a body or not | 默认值: False"
     },
     "contentType": {
       "displayName": "Body Content Type",
       "name": "contentType",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "sendBody": [
-            true
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Form Urlencoded",
-          "value": "form-urlencoded"
-        },
-        {
-          "name": "Form-Data",
-          "value": "multipart-form-data"
-        },
-        {
-          "name": "JSON",
-          "value": "json"
-        },
-        {
-          "name": "n8n Binary File",
-          "value": "binaryData"
-        },
-        {
-          "name": "Raw",
-          "value": "raw"
-        }
-      ],
+      "required": false,
       "default": "json",
       "description": "Content-Type to use to send body parameters",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Body Content Type | 作用: Content-Type to use to send body parameters | 默认值: json",
+      "available_options": [
+        "Form Urlencoded (值: form-urlencoded)",
+        "Form-Data (值: multipart-form-data)",
+        "JSON (值: json)",
+        "n8n Binary File (值: binaryData)",
+        "Raw (值: raw)"
+      ]
     },
     "specifyBody": {
       "displayName": "Specify Body",
       "name": "specifyBody",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "sendBody": [
-            true
-          ],
-          "contentType": [
-            "form-urlencoded"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Using Fields Below",
-          "value": "keypair"
-        },
-        {
-          "name": "Using Single Field",
-          "value": "string"
-        }
-      ],
+      "required": false,
       "default": "keypair",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Specify Body | 默认值: keypair",
+      "available_options": [
+        "Using Fields Below (值: keypair)",
+        "Using Single Field (值: string)"
+      ]
     },
     "bodyParameters": {
       "displayName": "Body Parameters",
       "name": "bodyParameters",
       "type": "fixedCollection",
-      "displayOptions": {
-        "show": {
-          "sendBody": [
-            true
-          ],
-          "contentType": [
-            "form-urlencoded"
-          ],
-          "specifyBody": [
-            "keypair"
-          ]
-        }
-      },
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "placeholder": "Add Parameter",
+      "required": false,
       "default": {
         "parameters": [
           {
@@ -497,1005 +278,177 @@
           }
         ]
       },
-      "options": [
-        {
-          "name": "parameters",
-          "displayName": "Parameter",
-          "values": [
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": "",
-              "description": "ID of the field to set. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Value of the field to set"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Body Parameters | 默认值: {'parameters': [{'name': '', 'value': ''}]}",
+      "available_options": [
+        "parameters (值: None)"
+      ]
     },
     "jsonBody": {
       "displayName": "JSON",
       "name": "jsonBody",
       "type": "json",
-      "displayOptions": {
-        "show": {
-          "sendBody": [
-            true
-          ],
-          "contentType": [
-            "json"
-          ],
-          "specifyBody": [
-            "json"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: JSON"
     },
     "body": {
       "displayName": "Body",
       "name": "body",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "sendBody": [
-            true
-          ],
-          "contentType": [
-            "raw"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "placeholder": ""
+      "description": "",
+      "natural_language_description": "参数名: Body"
     },
     "inputDataFieldName": {
       "displayName": "Input Data Field Name",
       "name": "inputDataFieldName",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "sendBody": [
-            true
-          ],
-          "contentType": [
-            "binaryData"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "The name of the incoming field containing the binary file data to be processed",
-      "ai_hint": "The name of the incoming field containing the binary file data to be processed"
+      "natural_language_description": "参数名: Input Data Field Name | 作用: The name of the incoming field containing the binary file data to be processed"
     },
     "rawContentType": {
       "displayName": "Content Type",
       "name": "rawContentType",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "sendBody": [
-            true
-          ],
-          "contentType": [
-            "raw"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "placeholder": "text/html"
+      "description": "",
+      "natural_language_description": "参数名: Content Type"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Batching",
-          "name": "batching",
-          "placeholder": "Add Batching",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": {
-            "batch": {}
-          },
-          "options": [
-            {
-              "displayName": "Batching",
-              "name": "batch",
-              "values": [
-                {
-                  "displayName": "Items per Batch",
-                  "name": "batchSize",
-                  "type": "number",
-                  "typeOptions": {
-                    "minValue": -1
-                  },
-                  "default": 50,
-                  "description": "Input will be split in batches to throttle requests. -1 for disabled. 0 will be treated as 1."
-                },
-                {
-                  "displayName": "Batch Interval (ms)",
-                  "name": "batchInterval",
-                  "type": "number",
-                  "typeOptions": {
-                    "minValue": 0
-                  },
-                  "default": 1000,
-                  "description": "Time (in milliseconds) between each batch of requests. 0 for disabled."
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Ignore SSL Issues (Insecure)",
-          "name": "allowUnauthorizedCerts",
-          "type": "boolean",
-          "noDataExpression": true,
-          "default": false,
-          "description": "Whether to download the response even if SSL certificate validation is not possible"
-        },
-        {
-          "displayName": "Array Format in Query Parameters",
-          "name": "queryParameterArrays",
-          "type": "options",
-          "displayOptions": {
-            "show": {
-              "/sendQuery": [
-                true
-              ]
-            }
-          },
-          "options": [
-            {
-              "name": "No Brackets",
-              "value": "repeat",
-              "description": "e.g. foo=bar&foo=qux"
-            },
-            {
-              "name": "Brackets Only",
-              "value": "brackets",
-              "description": "e.g. foo[]=bar&foo[]=qux"
-            },
-            {
-              "name": "Brackets with Indices",
-              "value": "indices",
-              "description": "e.g. foo[0]=bar&foo[1]=qux"
-            }
-          ],
-          "default": "brackets"
-        },
-        {
-          "displayName": "Lowercase Headers",
-          "name": "lowercaseHeaders",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to lowercase header names"
-        },
-        {
-          "displayName": "Redirects",
-          "name": "redirect",
-          "placeholder": "Add Redirect",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": {
-            "redirect": {}
-          },
-          "options": [
-            {
-              "displayName": "Redirect",
-              "name": "redirect",
-              "values": [
-                {
-                  "displayName": "Follow Redirects",
-                  "name": "followRedirects",
-                  "type": "boolean",
-                  "default": false,
-                  "noDataExpression": true,
-                  "description": "Whether to follow all redirects"
-                },
-                {
-                  "displayName": "Max Redirects",
-                  "name": "maxRedirects",
-                  "type": "number",
-                  "displayOptions": {
-                    "show": {
-                      "followRedirects": [
-                        true
-                      ]
-                    }
-                  },
-                  "default": 21,
-                  "description": "Max number of redirects to follow"
-                }
-              ]
-            }
-          ],
-          "displayOptions": {
-            "show": {
-              "@version": [
-                1,
-                2,
-                3
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Redirects",
-          "name": "redirect",
-          "placeholder": "Add Redirect",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": {
-            "redirect": {}
-          },
-          "options": [
-            {
-              "displayName": "Redirect",
-              "name": "redirect",
-              "values": [
-                {
-                  "displayName": "Follow Redirects",
-                  "name": "followRedirects",
-                  "type": "boolean",
-                  "default": true,
-                  "noDataExpression": true,
-                  "description": "Whether to follow all redirects"
-                },
-                {
-                  "displayName": "Max Redirects",
-                  "name": "maxRedirects",
-                  "type": "number",
-                  "displayOptions": {
-                    "show": {
-                      "followRedirects": [
-                        true
-                      ]
-                    }
-                  },
-                  "default": 21,
-                  "description": "Max number of redirects to follow"
-                }
-              ]
-            }
-          ],
-          "displayOptions": {
-            "hide": {
-              "@version": [
-                1,
-                2,
-                3
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Response",
-          "name": "response",
-          "placeholder": "Add response",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": {
-            "response": {}
-          },
-          "options": [
-            {
-              "displayName": "Response",
-              "name": "response",
-              "values": [
-                {
-                  "displayName": "Include Response Headers and Status",
-                  "name": "fullResponse",
-                  "type": "boolean",
-                  "default": false,
-                  "description": "Whether to return the full response (headers and response status code) data instead of only the body"
-                },
-                {
-                  "displayName": "Never Error",
-                  "name": "neverError",
-                  "type": "boolean",
-                  "default": false,
-                  "description": "Whether to succeeds also when status code is not 2xx"
-                },
-                {
-                  "displayName": "Response Format",
-                  "name": "responseFormat",
-                  "type": "options",
-                  "noDataExpression": true,
-                  "options": [
-                    {
-                      "name": "Autodetect",
-                      "value": "autodetect"
-                    },
-                    {
-                      "name": "File",
-                      "value": "file"
-                    },
-                    {
-                      "name": "JSON",
-                      "value": "json"
-                    },
-                    {
-                      "name": "Text",
-                      "value": "text"
-                    }
-                  ],
-                  "default": "autodetect",
-                  "description": "The format in which the data gets returned from the URL"
-                },
-                {
-                  "displayName": "Put Output in Field",
-                  "name": "outputPropertyName",
-                  "type": "string",
-                  "default": "data",
-                  "required": true,
-                  "displayOptions": {
-                    "show": {
-                      "responseFormat": [
-                        "file",
-                        "text"
-                      ]
-                    }
-                  },
-                  "description": "Name of the binary property to which to write the data of the read file"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Pagination",
-          "name": "pagination",
-          "placeholder": "Add pagination",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": {
-            "pagination": {}
-          },
-          "options": [
-            {
-              "displayName": "Pagination",
-              "name": "pagination",
-              "values": [
-                {
-                  "displayName": "Pagination Mode",
-                  "name": "paginationMode",
-                  "type": "options",
-                  "typeOptions": {
-                    "noDataExpression": true
-                  },
-                  "options": [
-                    {
-                      "name": "Off",
-                      "value": "off"
-                    },
-                    {
-                      "name": "Update a Parameter in Each Request",
-                      "value": "updateAParameterInEachRequest"
-                    },
-                    {
-                      "name": "Response Contains Next URL",
-                      "value": "responseContainsNextURL"
-                    }
-                  ],
-                  "default": "updateAParameterInEachRequest",
-                  "description": "If pagination should be used"
-                },
-                {
-                  "displayName": "Use the $response variables to access the data of the previous response. Refer to the <a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.httprequest/#pagination/?utm_source=n8n_app&utm_medium=node_settings_modal-credential_link&utm_campaign=n8n-nodes-base.httprequest\" target=\"_blank\">docs</a> for more info about pagination/",
-                  "name": "webhookNotice",
-                  "displayOptions": {
-                    "hide": {
-                      "paginationMode": [
-                        "off"
-                      ]
-                    }
-                  },
-                  "type": "notice",
-                  "default": ""
-                },
-                {
-                  "displayName": "Next URL",
-                  "name": "nextURL",
-                  "type": "string",
-                  "displayOptions": {
-                    "show": {
-                      "paginationMode": [
-                        "responseContainsNextURL"
-                      ]
-                    }
-                  },
-                  "default": "",
-                  "description": "Should evaluate to the URL of the next page. <a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.httprequest/#pagination\" target=\"_blank\">More info</a>."
-                },
-                {
-                  "displayName": "Parameters",
-                  "name": "parameters",
-                  "type": "fixedCollection",
-                  "displayOptions": {
-                    "show": {
-                      "paginationMode": [
-                        "updateAParameterInEachRequest"
-                      ]
-                    }
-                  },
-                  "typeOptions": {
-                    "multipleValues": true,
-                    "noExpression": true
-                  },
-                  "placeholder": "Add Parameter",
-                  "default": {
-                    "parameters": [
-                      {
-                        "type": "qs",
-                        "name": "",
-                        "value": ""
-                      }
-                    ]
-                  },
-                  "options": [
-                    {
-                      "name": "parameters",
-                      "displayName": "Parameter",
-                      "values": [
-                        {
-                          "displayName": "Type",
-                          "name": "type",
-                          "type": "options",
-                          "options": [
-                            {
-                              "name": "Body",
-                              "value": "body"
-                            },
-                            {
-                              "name": "Header",
-                              "value": "headers"
-                            },
-                            {
-                              "name": "Query",
-                              "value": "qs"
-                            }
-                          ],
-                          "default": "qs",
-                          "description": "Where the parameter should be set"
-                        },
-                        {
-                          "displayName": "Name",
-                          "name": "name",
-                          "type": "string",
-                          "default": "",
-                          "placeholder": "e.g page"
-                        },
-                        {
-                          "displayName": "Value",
-                          "name": "value",
-                          "type": "string",
-                          "default": "",
-                          "hint": "Use expression mode and $response to access response data"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "displayName": "Pagination Complete When",
-                  "name": "paginationCompleteWhen",
-                  "type": "options",
-                  "typeOptions": {
-                    "noDataExpression": true
-                  },
-                  "displayOptions": {
-                    "hide": {
-                      "paginationMode": [
-                        "off"
-                      ]
-                    }
-                  },
-                  "options": [
-                    {
-                      "name": "Response Is Empty",
-                      "value": "responseIsEmpty"
-                    },
-                    {
-                      "name": "Receive Specific Status Code(s)",
-                      "value": "receiveSpecificStatusCodes"
-                    },
-                    {
-                      "name": "Other",
-                      "value": "other"
-                    }
-                  ],
-                  "default": "responseIsEmpty",
-                  "description": "When should no further requests be made?"
-                },
-                {
-                  "displayName": "Status Code(s) when Complete",
-                  "name": "statusCodesWhenComplete",
-                  "type": "string",
-                  "typeOptions": {
-                    "noDataExpression": true
-                  },
-                  "displayOptions": {
-                    "show": {
-                      "paginationCompleteWhen": [
-                        "receiveSpecificStatusCodes"
-                      ]
-                    }
-                  },
-                  "default": "",
-                  "description": "Accepts comma-separated values"
-                },
-                {
-                  "displayName": "Complete Expression",
-                  "name": "completeExpression",
-                  "type": "string",
-                  "displayOptions": {
-                    "show": {
-                      "paginationCompleteWhen": [
-                        "other"
-                      ]
-                    }
-                  },
-                  "default": "",
-                  "description": "Should evaluate to true when pagination is complete. <a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.httprequest/#pagination\" target=\"_blank\">More info</a>."
-                },
-                {
-                  "displayName": "Limit Pages Fetched",
-                  "name": "limitPagesFetched",
-                  "type": "boolean",
-                  "typeOptions": {
-                    "noDataExpression": true
-                  },
-                  "displayOptions": {
-                    "hide": {
-                      "paginationMode": [
-                        "off"
-                      ]
-                    }
-                  },
-                  "default": false,
-                  "noDataExpression": true,
-                  "description": "Whether the number of requests should be limited"
-                },
-                {
-                  "displayName": "Max Pages",
-                  "name": "maxRequests",
-                  "type": "number",
-                  "typeOptions": {
-                    "noDataExpression": true
-                  },
-                  "displayOptions": {
-                    "show": {
-                      "limitPagesFetched": [
-                        true
-                      ]
-                    }
-                  },
-                  "default": 100,
-                  "description": "Maximum amount of request to be make"
-                },
-                {
-                  "displayName": "Interval Between Requests (ms)",
-                  "name": "requestInterval",
-                  "type": "number",
-                  "displayOptions": {
-                    "hide": {
-                      "paginationMode": [
-                        "off"
-                      ]
-                    }
-                  },
-                  "default": 0,
-                  "description": "Time in milliseconds to wait between requests",
-                  "hint": "At 0 no delay will be added",
-                  "typeOptions": {
-                    "minValue": 0
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Proxy",
-          "name": "proxy",
-          "type": "string",
-          "default": "",
-          "placeholder": "e.g. http://myproxy:3128",
-          "description": "HTTP proxy to use"
-        },
-        {
-          "displayName": "Timeout",
-          "name": "timeout",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 1
-          },
-          "default": 10000,
-          "description": "Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "batching (值: None)",
+        "allowUnauthorizedCerts (值: None) - Whether to download the response even if SSL certificate validation is not possible",
+        "queryParameterArrays (值: None)",
+        "lowercaseHeaders (值: None) - Whether to lowercase header names",
+        "redirect (值: None)",
+        "redirect (值: None)",
+        "response (值: None)",
+        "pagination (值: None)",
+        "proxy (值: None) - HTTP proxy to use",
+        "timeout (值: None) - Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
+      ]
     },
     "optimizeResponse": {
       "displayName": "Optimize Response",
       "name": "optimizeResponse",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "noDataExpression": true,
       "description": "Whether the optimize the tool response to reduce amount of data passed to the LLM that could lead to better result and reduce cost",
-      "displayOptions": {
-        "show": {
-          "@tool": [
-            true
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Optimize Response | 作用: Whether the optimize the tool response to reduce amount of data passed to the LLM that could lead to better result and reduce cost | 默认值: False"
     },
     "responseType": {
       "displayName": "Expected Response Type",
       "name": "responseType",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "optimizeResponse": [
-            true
-          ],
-          "@tool": [
-            true
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "JSON",
-          "value": "json"
-        },
-        {
-          "name": "HTML",
-          "value": "html"
-        },
-        {
-          "name": "Text",
-          "value": "text"
-        }
-      ],
+      "required": false,
       "default": "json",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Expected Response Type | 默认值: json",
+      "available_options": [
+        "JSON (值: json)",
+        "HTML (值: html)",
+        "Text (值: text)"
+      ]
     },
     "dataField": {
       "displayName": "Field Containing Data",
       "name": "dataField",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "e.g. records",
       "description": "Specify the name of the field in the response containing the data",
-      "hint": "leave blank to use whole response",
-      "requiresDataPath": "single",
-      "displayOptions": {
-        "show": {
-          "optimizeResponse": [
-            true
-          ],
-          "responseType": [
-            "json"
-          ],
-          "@tool": [
-            true
-          ]
-        }
-      },
-      "ai_hint": "Specify the name of the field in the response containing the data"
+      "natural_language_description": "参数名: Field Containing Data | 作用: Specify the name of the field in the response containing the data | 提示: leave blank to use whole response"
     },
     "fieldsToInclude": {
       "displayName": "Include Fields",
       "name": "fieldsToInclude",
       "type": "options",
-      "description": "What fields response object should include",
+      "required": false,
       "default": "all",
-      "displayOptions": {
-        "show": {
-          "optimizeResponse": [
-            true
-          ],
-          "responseType": [
-            "json"
-          ],
-          "@tool": [
-            true
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "All",
-          "value": "all",
-          "description": "Include all fields"
-        },
-        {
-          "name": "Selected",
-          "value": "selected",
-          "description": "Include only fields specified below"
-        },
-        {
-          "name": "Except",
-          "value": "except",
-          "description": "Exclude fields specified below"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "What fields response object should include",
+      "natural_language_description": "参数名: Include Fields | 作用: What fields response object should include | 默认值: all",
+      "available_options": [
+        "All (值: all) - Include all fields",
+        "Selected (值: selected) - Include only fields specified below",
+        "Except (值: except) - Exclude fields specified below"
+      ]
     },
     "fields": {
       "displayName": "Fields",
       "name": "fields",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "e.g. field1,field2",
       "description": "Comma-separated list of the field names. Supports dot notation. You can drag the selected fields from the input panel.",
-      "requiresDataPath": "multiple",
-      "displayOptions": {
-        "show": {
-          "optimizeResponse": [
-            true
-          ],
-          "responseType": [
-            "json"
-          ],
-          "@tool": [
-            true
-          ]
-        },
-        "hide": {
-          "fieldsToInclude": [
-            "all"
-          ]
-        }
-      },
-      "ai_hint": "Comma-separated list of the field names. Supports dot notation. You can drag the selected fields from the input panel."
+      "natural_language_description": "参数名: Fields | 作用: Comma-separated list of the field names. Supports dot notation. You can drag the selected fields from the input panel."
     },
     "cssSelector": {
       "displayName": "Selector (CSS)",
       "name": "cssSelector",
       "type": "string",
-      "description": "Select specific element(e.g. body) or multiple elements(e.g. div) of chosen type in the response HTML.",
-      "placeholder": "e.g. body",
+      "required": false,
       "default": "body",
-      "displayOptions": {
-        "show": {
-          "optimizeResponse": [
-            true
-          ],
-          "responseType": [
-            "html"
-          ],
-          "@tool": [
-            true
-          ]
-        }
-      },
-      "ai_hint": "Select specific element(e.g. body) or multiple elements(e.g. div) of chosen type in the response HTML."
+      "description": "Select specific element(e.g. body) or multiple elements(e.g. div) of chosen type in the response HTML.",
+      "natural_language_description": "参数名: Selector (CSS) | 作用: Select specific element(e.g. body) or multiple elements(e.g. div) of chosen type in the response HTML. | 默认值: body"
     },
     "onlyContent": {
       "displayName": "Return Only Content",
       "name": "onlyContent",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return only content of html elements, stripping html tags and attributes",
-      "hint": "Uses less tokens and may be easier for model to understand",
-      "displayOptions": {
-        "show": {
-          "optimizeResponse": [
-            true
-          ],
-          "responseType": [
-            "html"
-          ],
-          "@tool": [
-            true
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return Only Content | 作用: Whether to return only content of html elements, stripping html tags and attributes | 提示: Uses less tokens and may be easier for model to understand | 默认值: False"
     },
     "elementsToOmit": {
       "displayName": "Elements To Omit",
       "name": "elementsToOmit",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "optimizeResponse": [
-            true
-          ],
-          "responseType": [
-            "html"
-          ],
-          "onlyContent": [
-            true
-          ],
-          "@tool": [
-            true
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "placeholder": "e.g. img, .className, #ItemId",
       "description": "Comma-separated list of selectors that would be excluded when extracting content",
-      "ai_hint": "Comma-separated list of selectors that would be excluded when extracting content"
+      "natural_language_description": "参数名: Elements To Omit | 作用: Comma-separated list of selectors that would be excluded when extracting content"
     },
     "truncateResponse": {
       "displayName": "Truncate Response",
       "name": "truncateResponse",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "hint": "Helps save tokens",
-      "displayOptions": {
-        "show": {
-          "optimizeResponse": [
-            true
-          ],
-          "responseType": [
-            "text",
-            "html"
-          ],
-          "@tool": [
-            true
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: Truncate Response | 提示: Helps save tokens | 默认值: False"
     },
     "maxLength": {
       "displayName": "Max Response Characters",
       "name": "maxLength",
       "type": "number",
+      "required": false,
       "default": 1000,
-      "typeOptions": {
-        "minValue": 1
-      },
-      "displayOptions": {
-        "show": {
-          "optimizeResponse": [
-            true
-          ],
-          "responseType": [
-            "text",
-            "html"
-          ],
-          "truncateResponse": [
-            true
-          ],
-          "@tool": [
-            true
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Max Response Characters | 默认值: 1000"
     },
     "infoMessage": {
       "displayName": "You can view the raw requests this node makes in your browser's developer console",
       "name": "infoMessage",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: You can view the raw requests this node makes in your browser's developer console"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "preBuiltAgentsCalloutHttpRequest",
-      "toolDescription",
-      "curlImport",
-      "method",
-      "url",
-      "authentication",
-      "nodeCredentialType",
-      "googleApiWarning",
-      "genericAuthType",
-      "provideSslCertificates",
-      "provideSslCertificatesNotice",
-      "sslCertificate",
-      "sendQuery",
-      "specifyQuery",
-      "queryParameters",
-      "jsonQuery",
-      "sendHeaders",
-      "specifyHeaders",
-      "headerParameters",
-      "jsonHeaders",
-      "sendBody",
-      "contentType",
-      "specifyBody",
-      "bodyParameters",
-      "jsonBody",
-      "bodyParameters",
-      "specifyBody",
-      "bodyParameters",
-      "body",
-      "inputDataFieldName",
-      "rawContentType",
-      "body",
-      "options",
-      "optimizeResponse",
-      "responseType",
-      "dataField",
-      "fieldsToInclude",
-      "fields",
-      "cssSelector",
-      "onlyContent",
-      "elementsToOmit",
-      "truncateResponse",
-      "maxLength",
-      "infoMessage"
-    ],
-    "conditional_rules": [
-      "IF authentication == 'predefinedCredentialType' THEN SHOW parameter 'nodeCredentialType'",
-      "IF nodeCredentialType == 'googleApi' THEN SHOW parameter 'googleApiWarning'",
-      "IF authentication == 'genericCredentialType' THEN SHOW parameter 'genericAuthType'",
-      "IF provideSslCertificates == True THEN SHOW parameter 'provideSslCertificatesNotice'",
-      "IF provideSslCertificates == True THEN SHOW parameter 'sslCertificate'",
-      "IF sendQuery == True THEN SHOW parameter 'specifyQuery'",
-      "IF sendQuery == True AND specifyQuery == 'keypair' THEN SHOW parameter 'queryParameters'",
-      "IF sendQuery == True AND specifyQuery == 'json' THEN SHOW parameter 'jsonQuery'",
-      "IF sendHeaders == True THEN SHOW parameter 'specifyHeaders'",
-      "IF sendHeaders == True AND specifyHeaders == 'keypair' THEN SHOW parameter 'headerParameters'",
-      "IF sendHeaders == True AND specifyHeaders == 'json' THEN SHOW parameter 'jsonHeaders'",
-      "IF sendBody == True THEN SHOW parameter 'contentType'",
-      "IF sendBody == True AND contentType == 'json' THEN SHOW parameter 'specifyBody'",
-      "IF sendBody == True AND contentType == 'json' AND specifyBody == 'keypair' THEN SHOW parameter 'bodyParameters'",
-      "IF sendBody == True AND contentType == 'json' AND specifyBody == 'json' THEN SHOW parameter 'jsonBody'",
-      "IF sendBody == True AND contentType == 'multipart-form-data' THEN SHOW parameter 'bodyParameters'",
-      "IF parameterType == 'formData' THEN SHOW parameter 'value'",
-      "IF parameterType == 'formBinaryData' THEN SHOW parameter 'inputDataFieldName'",
-      "IF sendBody == True AND contentType == 'form-urlencoded' THEN SHOW parameter 'specifyBody'",
-      "IF sendBody == True AND contentType == 'form-urlencoded' AND specifyBody == 'keypair' THEN SHOW parameter 'bodyParameters'",
-      "IF sendBody == True AND specifyBody == 'string' THEN SHOW parameter 'body'",
-      "IF sendBody == True AND contentType == 'binaryData' THEN SHOW parameter 'inputDataFieldName'",
-      "IF sendBody == True AND contentType == 'raw' THEN SHOW parameter 'rawContentType'",
-      "IF sendBody == True AND contentType == 'raw' THEN SHOW parameter 'body'",
-      "IF /sendQuery == True THEN SHOW parameter 'queryParameterArrays'",
-      "IF @version IN [1, 2, 3] THEN SHOW parameter 'redirect'",
-      "IF followRedirects == True THEN SHOW parameter 'maxRedirects'",
-      "IF @version IN [1, 2, 3] THEN HIDE parameter 'redirect'",
-      "IF responseFormat IN [\"file\", \"text\"] THEN SHOW parameter 'outputPropertyName'",
-      "IF paginationMode == 'off' THEN HIDE parameter 'webhookNotice'",
-      "IF paginationMode == 'responseContainsNextURL' THEN SHOW parameter 'nextURL'",
-      "IF paginationMode == 'updateAParameterInEachRequest' THEN SHOW parameter 'parameters'",
-      "IF paginationMode == 'off' THEN HIDE parameter 'paginationCompleteWhen'",
-      "IF paginationCompleteWhen == 'receiveSpecificStatusCodes' THEN SHOW parameter 'statusCodesWhenComplete'",
-      "IF paginationCompleteWhen == 'other' THEN SHOW parameter 'completeExpression'",
-      "IF paginationMode == 'off' THEN HIDE parameter 'limitPagesFetched'",
-      "IF limitPagesFetched == True THEN SHOW parameter 'maxRequests'",
-      "IF paginationMode == 'off' THEN HIDE parameter 'requestInterval'",
-      "IF @tool == True THEN SHOW parameter 'optimizeResponse'",
-      "IF optimizeResponse == True AND @tool == True THEN SHOW parameter 'responseType'",
-      "IF optimizeResponse == True AND responseType == 'json' AND @tool == True THEN SHOW parameter 'dataField'",
-      "IF optimizeResponse == True AND responseType == 'json' AND @tool == True THEN SHOW parameter 'fieldsToInclude'",
-      "IF optimizeResponse == True AND responseType == 'json' AND @tool == True THEN SHOW parameter 'fields'",
-      "IF fieldsToInclude == 'all' THEN HIDE parameter 'fields'",
-      "IF optimizeResponse == True AND responseType == 'html' AND @tool == True THEN SHOW parameter 'cssSelector'",
-      "IF optimizeResponse == True AND responseType == 'html' AND @tool == True THEN SHOW parameter 'onlyContent'",
-      "IF optimizeResponse == True AND responseType == 'html' AND onlyContent == True AND @tool == True THEN SHOW parameter 'elementsToOmit'",
-      "IF optimizeResponse == True AND responseType IN [\"text\", \"html\"] AND @tool == True THEN SHOW parameter 'truncateResponse'",
-      "IF optimizeResponse == True AND responseType IN [\"text\", \"html\"] AND truncateResponse == True AND @tool == True THEN SHOW parameter 'maxLength'"
-    ]
   }
 }

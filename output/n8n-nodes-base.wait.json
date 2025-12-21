@@ -1,911 +1,175 @@
 {
   "node_id": "n8n-nodes-base.wait",
-  "name": "n8n-nodes-base.wait",
-  "version": [
-    1,
-    1.1
-  ],
+  "name": "Wait",
+  "version": 1,
   "semantic_context": "Wait before continue with execution",
+  "natural_language_description": "这是 Wait 节点。主要用于: Wait before continue with execution",
   "parameters": {
     "resume": {
       "displayName": "Resume",
       "name": "resume",
       "type": "options",
-      "options": [
-        {
-          "name": "After Time Interval",
-          "value": "timeInterval",
-          "description": "Waits for a certain amount of time"
-        },
-        {
-          "name": "At Specified Time",
-          "value": "specificTime",
-          "description": "Waits until a specific date and time to continue"
-        },
-        {
-          "name": "On Webhook Call",
-          "value": "webhook",
-          "description": "Waits for a webhook call before continuing"
-        },
-        {
-          "name": "On Form Submitted",
-          "value": "form",
-          "description": "Waits for a form submission before continuing"
-        }
-      ],
+      "required": false,
       "default": "timeInterval",
       "description": "Determines the waiting mode to use before the workflow continues",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Resume | 作用: Determines the waiting mode to use before the workflow continues | 默认值: timeInterval",
+      "available_options": [
+        "After Time Interval (值: timeInterval) - Waits for a certain amount of time",
+        "At Specified Time (值: specificTime) - Waits until a specific date and time to continue",
+        "On Webhook Call (值: webhook) - Waits for a webhook call before continuing",
+        "On Form Submitted (值: form) - Waits for a form submission before continuing"
+      ]
     },
     "incomingAuthentication": {
       "displayName": "Authentication",
       "name": "incomingAuthentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Basic Auth",
-          "value": "basicAuth"
-        },
-        {
-          "name": "Header Auth",
-          "value": "headerAuth"
-        },
-        {
-          "name": "JWT Auth",
-          "value": "jwtAuth"
-        },
-        {
-          "name": "None",
-          "value": "none"
-        }
-      ],
+      "required": false,
       "default": "none",
       "description": "If and how incoming resume-webhook-requests to $execution.resumeUrl should be authenticated for additional security",
-      "displayOptions": {
-        "show": {
-          "resume": [
-            "webhook"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "natural_language_description": "参数名: Authentication | 作用: If and how incoming resume-webhook-requests to $execution.resumeUrl should be authenticated for additional security | 默认值: none",
+      "available_options": [
+        "Basic Auth (值: basicAuth)",
+        "Header Auth (值: headerAuth)",
+        "JWT Auth (值: jwtAuth)",
+        "None (值: none)"
+      ]
     },
     "dateTime": {
       "displayName": "Date and Time",
       "name": "dateTime",
       "type": "dateTime",
-      "displayOptions": {
-        "show": {
-          "resume": [
-            "specificTime"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
       "description": "The date and time to wait for before continuing",
-      "required": true,
-      "ai_hint": "The date and time to wait for before continuing"
+      "natural_language_description": "参数名: Date and Time | 作用: The date and time to wait for before continuing | (必填项)"
     },
     "amount": {
       "displayName": "Wait Amount",
       "name": "amount",
       "type": "number",
-      "typeOptions": {
-        "minValue": 0,
-        "numberPrecision": 2
-      },
+      "required": false,
       "default": 5,
       "description": "The time to wait",
-      "validateType": "number",
-      "displayOptions": {
-        "show": {
-          "resume": [
-            "timeInterval"
-          ]
-        },
-        "hide": {
-          "@version": [
-            1
-          ]
-        }
-      },
-      "ai_hint": "The time to wait"
+      "natural_language_description": "参数名: Wait Amount | 作用: The time to wait | 默认值: 5"
     },
     "unit": {
       "displayName": "Wait Unit",
       "name": "unit",
       "type": "options",
-      "options": [
-        {
-          "name": "Seconds",
-          "value": "seconds"
-        },
-        {
-          "name": "Minutes",
-          "value": "minutes"
-        },
-        {
-          "name": "Hours",
-          "value": "hours"
-        },
-        {
-          "name": "Days",
-          "value": "days"
-        }
-      ],
+      "required": false,
       "default": "seconds",
       "description": "The time unit of the Wait Amount value",
-      "displayOptions": {
-        "show": {
-          "resume": [
-            "timeInterval"
-          ]
-        },
-        "hide": {
-          "@version": [
-            1
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Wait Unit | 作用: The time unit of the Wait Amount value | 默认值: seconds",
+      "available_options": [
+        "Seconds (值: seconds)",
+        "Minutes (值: minutes)",
+        "Hours (值: hours)",
+        "Days (值: days)"
+      ]
     },
     "webhookNotice": {
       "displayName": "The webhook URL will be generated at run time. It can be referenced with the <strong>$execution.resumeUrl</strong> variable. Send it somewhere before getting to this node. <a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.wait/?utm_source=n8n_app&utm_medium=node_settings_modal-credential_link&utm_campaign=n8n-nodes-base.wait\" target=\"_blank\">More info</a>",
       "name": "webhookNotice",
       "type": "notice",
-      "displayOptions": {
-        "show": {
-          "resume": [
-            "webhook"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: The webhook URL will be generated at run time. It can be referenced with the <strong>$execution.resumeUrl</strong> variable. Send it somewhere before getting to this node. <a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.wait/?utm_source=n8n_app&utm_medium=node_settings_modal-credential_link&utm_campaign=n8n-nodes-base.wait\" target=\"_blank\">More info</a>"
     },
     "formNotice": {
       "displayName": "The form url will be generated at run time. It can be referenced with the <strong>$execution.resumeFormUrl</strong> variable. Send it somewhere before getting to this node. <a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.wait/?utm_source=n8n_app&utm_medium=node_settings_modal-credential_link&utm_campaign=n8n-nodes-base.wait\" target=\"_blank\">More info</a>",
       "name": "formNotice",
       "type": "notice",
-      "displayOptions": {
-        "show": {
-          "resume": [
-            "form"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: The form url will be generated at run time. It can be referenced with the <strong>$execution.resumeFormUrl</strong> variable. Send it somewhere before getting to this node. <a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.wait/?utm_source=n8n_app&utm_medium=node_settings_modal-credential_link&utm_campaign=n8n-nodes-base.wait\" target=\"_blank\">More info</a>"
     },
     "formTitle": {
       "displayName": "Form Title",
       "name": "formTitle",
       "type": "string",
-      "default": "",
-      "placeholder": "e.g. Contact us",
       "required": true,
+      "default": "",
       "description": "Shown at the top of the form",
-      "displayOptions": {
-        "show": {
-          "resume": [
-            "form"
-          ]
-        }
-      },
-      "ai_hint": "Shown at the top of the form"
+      "natural_language_description": "参数名: Form Title | 作用: Shown at the top of the form | (必填项)"
     },
     "formDescription": {
       "displayName": "Form Description",
       "name": "formDescription",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "e.g. We'll get back to you soon",
       "description": "Shown underneath the Form Title. Can be used to prompt the user on how to complete the form. Accepts HTML.",
-      "typeOptions": {
-        "rows": 2
-      },
-      "displayOptions": {
-        "show": {
-          "resume": [
-            "form"
-          ]
-        }
-      },
-      "ai_hint": "Shown underneath the Form Title. Can be used to prompt the user on how to complete the form. Accepts HTML."
+      "natural_language_description": "参数名: Form Description | 作用: Shown underneath the Form Title. Can be used to prompt the user on how to complete the form. Accepts HTML."
     },
     "formFields": {
       "displayName": "Form Elements",
       "name": "formFields",
-      "placeholder": "Add Form Element",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": true,
-        "sortable": true
-      },
-      "options": [
-        {
-          "displayName": "Values",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Field Name",
-              "name": "fieldLabel",
-              "type": "string",
-              "default": "",
-              "placeholder": "e.g. What is your name?",
-              "description": "Label that appears above the input field",
-              "required": true,
-              "displayOptions": {
-                "hide": {
-                  "fieldType": [
-                    "hiddenField",
-                    "html"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Field Name",
-              "name": "fieldName",
-              "description": "The name of the field, used in input attributes and referenced by the workflow",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "hiddenField"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Element Type",
-              "name": "fieldType",
-              "type": "options",
-              "default": "text",
-              "description": "The type of field to add to the form",
-              "options": [
-                {
-                  "name": "Checkboxes",
-                  "value": "checkbox"
-                },
-                {
-                  "name": "Custom HTML",
-                  "value": "html"
-                },
-                {
-                  "name": "Date",
-                  "value": "date"
-                },
-                {
-                  "name": "Dropdown",
-                  "value": "dropdown"
-                },
-                {
-                  "name": "Email",
-                  "value": "email"
-                },
-                {
-                  "name": "File",
-                  "value": "file"
-                },
-                {
-                  "name": "Hidden Field",
-                  "value": "hiddenField"
-                },
-                {
-                  "name": "Number",
-                  "value": "number"
-                },
-                {
-                  "name": "Password",
-                  "value": "password"
-                },
-                {
-                  "name": "Radio Buttons",
-                  "value": "radio"
-                },
-                {
-                  "name": "Text",
-                  "value": "text"
-                },
-                {
-                  "name": "Textarea",
-                  "value": "textarea"
-                }
-              ],
-              "required": true
-            },
-            {
-              "displayName": "Element Name",
-              "name": "elementName",
-              "type": "string",
-              "default": "",
-              "placeholder": "e.g. content-section",
-              "description": "Optional field. It can be used to include the html in the output.",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "html"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Placeholder",
-              "name": "placeholder",
-              "description": "Sample text to display inside the field",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "hide": {
-                  "fieldType": [
-                    "dropdown",
-                    "date",
-                    "file",
-                    "html",
-                    "hiddenField",
-                    "radio",
-                    "checkbox"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Default Value",
-              "name": "defaultValue",
-              "description": "Default value that will be pre-filled in the form field",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "text",
-                    "number",
-                    "email",
-                    "textarea"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Default Value",
-              "name": "defaultValue",
-              "description": "Default date value that will be pre-filled in the form field (format: YYYY-MM-DD)",
-              "type": "dateTime",
-              "typeOptions": {
-                "dateOnly": true
-              },
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "date"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Default Value",
-              "name": "defaultValue",
-              "description": "Default value that will be pre-selected. Must match one of the option labels.",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "dropdown",
-                    "radio"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Default Value",
-              "name": "defaultValue",
-              "description": "Default value(s) that will be pre-selected. Must match one or multiple of the option labels. Separate multiple pre-selected options with a comma.",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "checkbox"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Field Value",
-              "name": "fieldValue",
-              "description": "Input value can be set here or will be passed as a query parameter via Field Name if no value is set",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "hiddenField"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Field Options",
-              "name": "fieldOptions",
-              "placeholder": "Add Field Option",
-              "description": "List of options that can be selected from the dropdown",
-              "type": "fixedCollection",
-              "default": {
-                "values": [
-                  {
-                    "option": ""
-                  }
-                ]
-              },
-              "required": true,
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "dropdown"
-                  ]
-                }
-              },
-              "typeOptions": {
-                "multipleValues": true,
-                "sortable": true
-              },
-              "options": [
-                {
-                  "displayName": "Values",
-                  "name": "values",
-                  "values": [
-                    {
-                      "displayName": "Option",
-                      "name": "option",
-                      "type": "string",
-                      "default": ""
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "displayName": "Checkboxes",
-              "name": "fieldOptions",
-              "placeholder": "Add Checkbox",
-              "type": "fixedCollection",
-              "default": {
-                "values": [
-                  {
-                    "option": ""
-                  }
-                ]
-              },
-              "required": true,
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "checkbox"
-                  ]
-                }
-              },
-              "typeOptions": {
-                "multipleValues": true,
-                "sortable": true
-              },
-              "options": [
-                {
-                  "displayName": "Values",
-                  "name": "values",
-                  "values": [
-                    {
-                      "displayName": "Checkbox Label",
-                      "name": "option",
-                      "type": "string",
-                      "default": ""
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "displayName": "Radio Buttons",
-              "name": "fieldOptions",
-              "placeholder": "Add Radio Button",
-              "type": "fixedCollection",
-              "default": {
-                "values": [
-                  {
-                    "option": ""
-                  }
-                ]
-              },
-              "required": true,
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "radio"
-                  ]
-                }
-              },
-              "typeOptions": {
-                "multipleValues": true,
-                "sortable": true
-              },
-              "options": [
-                {
-                  "displayName": "Values",
-                  "name": "values",
-                  "values": [
-                    {
-                      "displayName": "Radio Button Label",
-                      "name": "option",
-                      "type": "string",
-                      "default": ""
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "displayName": "Multiple Choice is a legacy option, please use Checkboxes or Radio Buttons field type instead",
-              "name": "multiselectLegacyNotice",
-              "type": "notice",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "multiselect": [
-                    true
-                  ],
-                  "fieldType": [
-                    "dropdown"
-                  ],
-                  "@version": [
-                    {
-                      "_cnd": {
-                        "lt": 2.3
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Multiple Choice",
-              "name": "multiselect",
-              "type": "boolean",
-              "default": false,
-              "description": "Whether to allow the user to select multiple options from the dropdown list",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "dropdown"
-                  ],
-                  "@version": [
-                    {
-                      "_cnd": {
-                        "lt": 2.3
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Limit Selection",
-              "name": "limitSelection",
-              "type": "options",
-              "default": "unlimited",
-              "options": [
-                {
-                  "name": "Exact Number",
-                  "value": "exact"
-                },
-                {
-                  "name": "Range",
-                  "value": "range"
-                },
-                {
-                  "name": "Unlimited",
-                  "value": "unlimited"
-                }
-              ],
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "checkbox"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Number of Selections",
-              "name": "numberOfSelections",
-              "type": "number",
-              "default": 1,
-              "typeOptions": {
-                "numberPrecision": 0,
-                "minValue": 1
-              },
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "checkbox"
-                  ],
-                  "limitSelection": [
-                    "exact"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Minimum Selections",
-              "name": "minSelections",
-              "type": "number",
-              "default": 0,
-              "typeOptions": {
-                "numberPrecision": 0,
-                "minValue": 0
-              },
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "checkbox"
-                  ],
-                  "limitSelection": [
-                    "range"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Maximum Selections",
-              "name": "maxSelections",
-              "type": "number",
-              "default": 1,
-              "typeOptions": {
-                "numberPrecision": 0,
-                "minValue": 1
-              },
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "checkbox"
-                  ],
-                  "limitSelection": [
-                    "range"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "HTML",
-              "name": "html",
-              "typeOptions": {
-                "editor": "htmlEditor"
-              },
-              "type": "string",
-              "noDataExpression": true,
-              "default": "<!-- Your custom HTML here --->\n\n\n",
-              "description": "HTML elements to display on the form page",
-              "hint": "Does not accept <code>&lt;script&gt;</code>, <code>&lt;style&gt;</code> or <code>&lt;input&gt;</code> tags",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "html"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Multiple Files",
-              "name": "multipleFiles",
-              "type": "boolean",
-              "default": true,
-              "description": "Whether to allow the user to select multiple files from the file input or just one",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "file"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Accepted File Types",
-              "name": "acceptFileTypes",
-              "type": "string",
-              "default": "",
-              "description": "Comma-separated list of allowed file extensions",
-              "hint": "Leave empty to allow all file types",
-              "placeholder": "e.g. .jpg, .png",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "file"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "The displayed date is formatted based on the locale of the user's browser",
-              "name": "formatDate",
-              "type": "notice",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "date"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Required Field",
-              "name": "requiredField",
-              "type": "boolean",
-              "default": false,
-              "description": "Whether to require the user to enter a value for this field before submitting the form",
-              "displayOptions": {
-                "hide": {
-                  "fieldType": [
-                    "html",
-                    "hiddenField"
-                  ]
-                }
-              }
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resume": [
-            "form"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Form Elements | 默认值: {}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "responseMode": {
       "displayName": "Respond",
       "name": "responseMode",
       "type": "options",
-      "options": [
-        {
-          "name": "Immediately",
-          "value": "onReceived",
-          "description": "As soon as this node executes"
-        },
-        {
-          "name": "When Last Node Finishes",
-          "value": "lastNode",
-          "description": "Returns data of the last-executed node"
-        },
-        {
-          "name": "Using 'Respond to Webhook' Node",
-          "value": "responseNode",
-          "description": "Response defined in that node"
-        }
-      ],
+      "required": false,
       "default": "onReceived",
       "description": "When and how to respond to the webhook",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            1,
-            1.1,
-            2
-          ],
-          "resume": [
-            "webhook"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Respond | 作用: When and how to respond to the webhook | 默认值: onReceived",
+      "available_options": [
+        "Immediately (值: onReceived) - As soon as this node executes",
+        "When Last Node Finishes (值: lastNode) - Returns data of the last-executed node",
+        "Using 'Respond to Webhook' Node (值: responseNode) - Response defined in that node"
+      ]
     },
     "httpMethod": {
       "displayName": "HTTP Method",
       "name": "httpMethod",
       "type": "options",
-      "options": [
-        {
-          "name": "DELETE",
-          "value": "DELETE"
-        },
-        {
-          "name": "GET",
-          "value": "GET"
-        },
-        {
-          "name": "HEAD",
-          "value": "HEAD"
-        },
-        {
-          "name": "PATCH",
-          "value": "PATCH"
-        },
-        {
-          "name": "POST",
-          "value": "POST"
-        },
-        {
-          "name": "PUT",
-          "value": "PUT"
-        }
-      ],
+      "required": false,
       "default": "GET",
       "description": "The HTTP method of the Webhook call",
-      "displayOptions": {
-        "show": {
-          "resume": [
-            "webhook"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: HTTP Method | 作用: The HTTP method of the Webhook call | 默认值: GET",
+      "available_options": [
+        "DELETE (值: DELETE)",
+        "GET (值: GET)",
+        "HEAD (值: HEAD)",
+        "PATCH (值: PATCH)",
+        "POST (值: POST)",
+        "PUT (值: PUT)"
+      ]
     },
     "responseCode": {
       "displayName": "Response Code",
       "name": "responseCode",
       "type": "number",
-      "displayOptions": {
-        "hide": {
-          "responseMode": [
-            "responseNode"
-          ]
-        },
-        "show": {
-          "resume": [
-            "webhook"
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 100,
-        "maxValue": 599
-      },
+      "required": false,
       "default": 200,
       "description": "The HTTP Response code to return",
-      "ai_hint": "The HTTP Response code to return"
+      "natural_language_description": "参数名: Response Code | 作用: The HTTP Response code to return | 默认值: 200"
     },
     "responseData": {
       "displayName": "Response Data",
       "name": "responseData",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "responseMode": [
-            "lastNode"
-          ],
-          "resume": [
-            "webhook"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "All Entries",
-          "value": "allEntries",
-          "description": "Returns all the entries of the last node. Always returns an array."
-        },
-        {
-          "name": "First Entry JSON",
-          "value": "firstEntryJson",
-          "description": "Returns the JSON data of the first entry of the last node. Always returns a JSON object."
-        },
-        {
-          "name": "First Entry Binary",
-          "value": "firstEntryBinary",
-          "description": "Returns the binary data of the first entry of the last node. Always returns a binary file."
-        },
-        {
-          "name": "No Response Body",
-          "value": "noData",
-          "description": "Returns without a body"
-        }
-      ],
+      "required": false,
       "default": "firstEntryJson",
       "description": "What data should be returned. If it should return all items as an array or only the first item as object.",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Response Data | 作用: What data should be returned. If it should return all items as an array or only the first item as object. | 默认值: firstEntryJson",
+      "available_options": [
+        "All Entries (值: allEntries) - Returns all the entries of the last node. Always returns an array.",
+        "First Entry JSON (值: firstEntryJson) - Returns the JSON data of the first entry of the last node. Always returns a JSON object.",
+        "First Entry Binary (值: firstEntryBinary) - Returns the binary data of the first entry of the last node. Always returns a binary file.",
+        "No Response Body (值: noData) - Returns without a body"
+      ]
     },
     "responseBinaryPropertyName": {
       "displayName": "Property Name",
@@ -913,292 +177,76 @@
       "type": "string",
       "required": true,
       "default": "data",
-      "displayOptions": {
-        "show": {
-          "responseData": [
-            "firstEntryBinary"
-          ],
-          "resume": [
-            "webhook"
-          ]
-        }
-      },
       "description": "Name of the binary property to return",
-      "ai_hint": "Name of the binary property to return"
+      "natural_language_description": "参数名: Property Name | 作用: Name of the binary property to return | 默认值: data | (必填项)"
     },
     "limitWaitTime": {
       "displayName": "Limit Wait Time",
       "name": "limitWaitTime",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to limit the time this node should wait for a user response before execution resumes",
-      "displayOptions": {
-        "show": {
-          "resume": [
-            "webhook",
-            "form"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Limit Wait Time | 作用: Whether to limit the time this node should wait for a user response before execution resumes | 默认值: False"
     },
     "limitType": {
       "displayName": "Limit Type",
       "name": "limitType",
       "type": "options",
+      "required": false,
       "default": "afterTimeInterval",
       "description": "Sets the condition for the execution to resume. Can be a specified date or after some time.",
-      "displayOptions": {
-        "show": {
-          "limitWaitTime": [
-            true
-          ],
-          "resume": [
-            "webhook",
-            "form"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "After Time Interval",
-          "description": "Waits for a certain amount of time",
-          "value": "afterTimeInterval"
-        },
-        {
-          "name": "At Specified Time",
-          "description": "Waits until the set date and time to continue",
-          "value": "atSpecifiedTime"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Limit Type | 作用: Sets the condition for the execution to resume. Can be a specified date or after some time. | 默认值: afterTimeInterval",
+      "available_options": [
+        "After Time Interval (值: afterTimeInterval) - Waits for a certain amount of time",
+        "At Specified Time (值: atSpecifiedTime) - Waits until the set date and time to continue"
+      ]
     },
     "resumeAmount": {
       "displayName": "Amount",
       "name": "resumeAmount",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "limitType": [
-            "afterTimeInterval"
-          ],
-          "limitWaitTime": [
-            true
-          ],
-          "resume": [
-            "webhook",
-            "form"
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 0,
-        "numberPrecision": 2
-      },
+      "required": false,
       "default": 1,
       "description": "The time to wait",
-      "ai_hint": "The time to wait"
+      "natural_language_description": "参数名: Amount | 作用: The time to wait | 默认值: 1"
     },
     "resumeUnit": {
       "displayName": "Unit",
       "name": "resumeUnit",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "limitType": [
-            "afterTimeInterval"
-          ],
-          "limitWaitTime": [
-            true
-          ],
-          "resume": [
-            "webhook",
-            "form"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Seconds",
-          "value": "seconds"
-        },
-        {
-          "name": "Minutes",
-          "value": "minutes"
-        },
-        {
-          "name": "Hours",
-          "value": "hours"
-        },
-        {
-          "name": "Days",
-          "value": "days"
-        }
-      ],
+      "required": false,
       "default": "hours",
       "description": "Unit of the interval value",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Unit | 作用: Unit of the interval value | 默认值: hours",
+      "available_options": [
+        "Seconds (值: seconds)",
+        "Minutes (值: minutes)",
+        "Hours (值: hours)",
+        "Days (值: days)"
+      ]
     },
     "maxDateAndTime": {
       "displayName": "Max Date and Time",
       "name": "maxDateAndTime",
       "type": "dateTime",
-      "displayOptions": {
-        "show": {
-          "limitType": [
-            "atSpecifiedTime"
-          ],
-          "limitWaitTime": [
-            true
-          ],
-          "resume": [
-            "webhook",
-            "form"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "Continue execution after the specified date and time",
-      "ai_hint": "Continue execution after the specified date and time"
+      "natural_language_description": "参数名: Max Date and Time | 作用: Continue execution after the specified date and time"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resume": [
-            "form"
-          ]
-        },
-        "hide": {
-          "responseMode": [
-            "onReceived",
-            "lastNode"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Append n8n Attribution",
-          "name": "appendAttribution",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to include the link “Form automated with n8n” at the bottom of the form"
-        },
-        {
-          "displayName": "Webhook Suffix",
-          "name": "webhookSuffix",
-          "type": "string",
-          "default": "",
-          "placeholder": "webhook",
-          "noDataExpression": true,
-          "description": "This suffix path will be appended to the restart URL. Helpful when using multiple wait nodes."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "appendAttribution (值: None) - Whether to include the link “Form automated with n8n” at the bottom of the form",
+        "webhookSuffix (值: None) - This suffix path will be appended to the restart URL. Helpful when using multiple wait nodes."
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resume",
-      "incomingAuthentication",
-      "incomingAuthentication",
-      "dateTime",
-      "amount",
-      "amount",
-      "unit",
-      "unit",
-      "webhookNotice",
-      "formNotice",
-      "formTitle",
-      "formDescription",
-      "formFields",
-      "responseMode",
-      "httpMethod",
-      "responseCode",
-      "responseMode",
-      "responseData",
-      "responseBinaryPropertyName",
-      "limitWaitTime",
-      "limitType",
-      "resumeAmount",
-      "resumeUnit",
-      "maxDateAndTime",
-      "options",
-      "options",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF resume == 'form' THEN SHOW parameter 'incomingAuthentication'",
-      "IF resume == 'webhook' THEN SHOW parameter 'incomingAuthentication'",
-      "IF resume == 'specificTime' THEN SHOW parameter 'dateTime'",
-      "IF resume == 'timeInterval' AND @version == 1 THEN SHOW parameter 'amount'",
-      "IF resume == 'timeInterval' THEN SHOW parameter 'amount'",
-      "IF @version == 1 THEN HIDE parameter 'amount'",
-      "IF resume == 'timeInterval' AND @version == 1 THEN SHOW parameter 'unit'",
-      "IF resume == 'timeInterval' THEN SHOW parameter 'unit'",
-      "IF @version == 1 THEN HIDE parameter 'unit'",
-      "IF resume == 'webhook' THEN SHOW parameter 'webhookNotice'",
-      "IF resume == 'form' THEN SHOW parameter 'formNotice'",
-      "IF resume == 'form' THEN SHOW parameter 'formTitle'",
-      "IF resume == 'form' THEN SHOW parameter 'formDescription'",
-      "IF resume == 'form' THEN SHOW parameter 'formFields'",
-      "IF fieldType IN [\"hiddenField\", \"html\"] THEN HIDE parameter 'fieldLabel'",
-      "IF fieldType == 'hiddenField' THEN SHOW parameter 'fieldName'",
-      "IF fieldType == 'html' THEN SHOW parameter 'elementName'",
-      "IF fieldType IN [\"dropdown\", \"date\", \"file\", \"html\", \"hiddenField\", \"radio\", \"checkbox\"] THEN HIDE parameter 'placeholder'",
-      "IF fieldType IN [\"text\", \"number\", \"email\", \"textarea\"] THEN SHOW parameter 'defaultValue'",
-      "IF fieldType == 'date' THEN SHOW parameter 'defaultValue'",
-      "IF fieldType IN [\"dropdown\", \"radio\"] THEN SHOW parameter 'defaultValue'",
-      "IF fieldType == 'checkbox' THEN SHOW parameter 'defaultValue'",
-      "IF fieldType == 'hiddenField' THEN SHOW parameter 'fieldValue'",
-      "IF fieldType == 'dropdown' THEN SHOW parameter 'fieldOptions'",
-      "IF fieldType == 'checkbox' THEN SHOW parameter 'fieldOptions'",
-      "IF fieldType == 'radio' THEN SHOW parameter 'fieldOptions'",
-      "IF multiselect == True AND fieldType == 'dropdown' AND @version == {'_cnd': {'lt': 2.3}} THEN SHOW parameter 'multiselectLegacyNotice'",
-      "IF fieldType == 'dropdown' AND @version == {'_cnd': {'lt': 2.3}} THEN SHOW parameter 'multiselect'",
-      "IF fieldType == 'checkbox' THEN SHOW parameter 'limitSelection'",
-      "IF fieldType == 'checkbox' AND limitSelection == 'exact' THEN SHOW parameter 'numberOfSelections'",
-      "IF fieldType == 'checkbox' AND limitSelection == 'range' THEN SHOW parameter 'minSelections'",
-      "IF fieldType == 'checkbox' AND limitSelection == 'range' THEN SHOW parameter 'maxSelections'",
-      "IF fieldType == 'html' THEN SHOW parameter 'html'",
-      "IF fieldType == 'file' THEN SHOW parameter 'multipleFiles'",
-      "IF fieldType == 'file' THEN SHOW parameter 'acceptFileTypes'",
-      "IF fieldType == 'date' THEN SHOW parameter 'formatDate'",
-      "IF fieldType IN [\"html\", \"hiddenField\"] THEN HIDE parameter 'requiredField'",
-      "IF resume == 'form' THEN SHOW parameter 'responseMode'",
-      "IF resume == 'webhook' THEN SHOW parameter 'httpMethod'",
-      "IF resume == 'webhook' THEN SHOW parameter 'responseCode'",
-      "IF responseMode == 'responseNode' THEN HIDE parameter 'responseCode'",
-      "IF @version IN [1, 1.1, 2] AND resume == 'webhook' THEN SHOW parameter 'responseMode'",
-      "IF responseMode == 'lastNode' AND resume == 'webhook' THEN SHOW parameter 'responseData'",
-      "IF responseData == 'firstEntryBinary' AND resume == 'webhook' THEN SHOW parameter 'responseBinaryPropertyName'",
-      "IF resume IN [\"webhook\", \"form\"] THEN SHOW parameter 'limitWaitTime'",
-      "IF limitWaitTime == True AND resume IN [\"webhook\", \"form\"] THEN SHOW parameter 'limitType'",
-      "IF limitType == 'afterTimeInterval' AND limitWaitTime == True AND resume IN [\"webhook\", \"form\"] THEN SHOW parameter 'resumeAmount'",
-      "IF limitType == 'afterTimeInterval' AND limitWaitTime == True AND resume IN [\"webhook\", \"form\"] THEN SHOW parameter 'resumeUnit'",
-      "IF limitType == 'atSpecifiedTime' AND limitWaitTime == True AND resume IN [\"webhook\", \"form\"] THEN SHOW parameter 'maxDateAndTime'",
-      "IF resume == 'webhook' THEN SHOW parameter 'options'",
-      "IF /httpMethod IN [\"PATCH\", \"PUT\", \"POST\"] AND @version == 1 THEN SHOW parameter 'binaryData'",
-      "IF binaryData == True AND @version == 1 THEN SHOW parameter 'binaryPropertyName'",
-      "IF @version == 1 THEN HIDE parameter 'binaryPropertyName'",
-      "IF /responseMode == 'onReceived' THEN SHOW parameter 'noResponseBody'",
-      "IF rawBody == True THEN HIDE parameter 'noResponseBody'",
-      "IF @version == 1 THEN SHOW parameter 'rawBody'",
-      "IF binaryData == True AND noResponseBody == True THEN HIDE parameter 'rawBody'",
-      "IF noResponseBody == True AND @version == 1 THEN HIDE parameter 'rawBody'",
-      "IF /responseMode == 'onReceived' THEN SHOW parameter 'responseData'",
-      "IF noResponseBody == True THEN HIDE parameter 'responseData'",
-      "IF /responseData == 'firstEntryJson' AND /responseMode == 'lastNode' THEN SHOW parameter 'responseContentType'",
-      "IF /responseData == 'firstEntryJson' AND /responseMode == 'lastNode' THEN SHOW parameter 'responsePropertyName'",
-      "IF resume == 'form' THEN SHOW parameter 'options'",
-      "IF responseMode == 'responseNode' THEN HIDE parameter 'options'",
-      "IF respondWith == 'text' THEN SHOW parameter 'formSubmittedText'",
-      "IF respondWith == 'redirect' THEN SHOW parameter 'redirectUrl'",
-      "IF responseMode IN [\"onReceived\", \"lastNode\"] THEN HIDE parameter 'options'"
-    ]
   }
 }

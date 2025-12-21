@@ -1,99 +1,40 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.lmChatCohere",
-  "name": "@n8n/n8n-nodes-langchain.lmChatCohere",
-  "version": [
-    1
-  ],
+  "name": "Cohere Chat Model",
+  "version": 1,
   "semantic_context": "For advanced usage with an AI chain",
+  "natural_language_description": "这是 Cohere Chat Model 节点。主要用于: For advanced usage with an AI chain",
   "parameters": {
     "notice": {
       "displayName": "This node must be connected to an AI chain. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "containerClass": "ndv-connection-hint-notice"
-      }
+      "description": "",
+      "natural_language_description": "参数名: This node must be connected to an AI chain. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>"
     },
     "model": {
       "displayName": "Model",
       "name": "model",
       "type": "options",
-      "description": "The model which will generate the completion. <a href=\"https://docs.cohere.com/docs/models\">Learn more</a>.",
-      "typeOptions": {
-        "loadOptions": {
-          "routing": {
-            "request": {
-              "method": "GET",
-              "url": "/v1/models?page_size=100&endpoint=chat"
-            },
-            "output": {
-              "postReceive": [
-                {
-                  "type": "rootProperty",
-                  "properties": {
-                    "property": "models"
-                  }
-                },
-                {
-                  "type": "setKeyValue",
-                  "properties": {
-                    "name": "={{$responseItem.name}}",
-                    "value": "={{$responseItem.name}}",
-                    "description": "={{$responseItem.description}}"
-                  }
-                },
-                {
-                  "type": "sort",
-                  "properties": {
-                    "key": "name"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      },
+      "required": false,
       "default": "command-a-03-2025",
-      "ai_hint": "The model which will generate the completion. <a href=\"https://docs.cohere.com/docs/models\">Learn more</a>."
+      "description": "The model which will generate the completion. Learn more.",
+      "natural_language_description": "参数名: Model | 作用: The model which will generate the completion. Learn more. | 默认值: command-a-03-2025"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
-      "placeholder": "Add Option",
-      "description": "Additional options to add",
       "type": "collection",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Sampling Temperature",
-          "name": "temperature",
-          "default": 0.7,
-          "typeOptions": {
-            "maxValue": 2,
-            "minValue": 0,
-            "numberPrecision": 1
-          },
-          "description": "Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.",
-          "type": "number"
-        },
-        {
-          "displayName": "Max Retries",
-          "name": "maxRetries",
-          "default": 2,
-          "description": "Maximum number of retries to attempt",
-          "type": "number"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "Additional options to add",
+      "natural_language_description": "参数名: Options | 作用: Additional options to add | 默认值: {}",
+      "available_options": [
+        "temperature (值: None) - Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.",
+        "maxRetries (值: None) - Maximum number of retries to attempt"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "notice",
-      "model",
-      "options"
-    ],
-    "conditional_rules": []
   }
 }

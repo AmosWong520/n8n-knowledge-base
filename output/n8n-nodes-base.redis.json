@@ -1,393 +1,166 @@
 {
   "node_id": "n8n-nodes-base.redis",
-  "name": "n8n-nodes-base.redis",
+  "name": "Redis",
   "version": 1,
   "semantic_context": "Get, send and update data in Redis",
+  "natural_language_description": "这是 Redis 节点。主要用于: Get, send and update data in Redis",
   "parameters": {
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a key from Redis",
-          "action": "Delete a key from Redis"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get the value of a key from Redis",
-          "action": "Get the value of a key from Redis"
-        },
-        {
-          "name": "Increment",
-          "value": "incr",
-          "description": "Atomically increments a key by 1. Creates the key if it does not exist.",
-          "action": "Atomically increment a key by 1. Creates the key if it does not exist."
-        },
-        {
-          "name": "Info",
-          "value": "info",
-          "description": "Returns generic information about the Redis instance",
-          "action": "Return generic information about the Redis instance"
-        },
-        {
-          "name": "Keys",
-          "value": "keys",
-          "description": "Returns all the keys matching a pattern",
-          "action": "Return all keys matching a pattern"
-        },
-        {
-          "name": "List Length",
-          "value": "llen",
-          "description": "Returns the length of a list",
-          "action": "Return the length of a list"
-        },
-        {
-          "name": "Pop",
-          "value": "pop",
-          "description": "Pop data from a redis list",
-          "action": "Pop data from a redis list"
-        },
-        {
-          "name": "Publish",
-          "value": "publish",
-          "description": "Publish message to redis channel",
-          "action": "Publish message to redis channel"
-        },
-        {
-          "name": "Push",
-          "value": "push",
-          "description": "Push data to a redis list",
-          "action": "Push data to a redis list"
-        },
-        {
-          "name": "Set",
-          "value": "set",
-          "description": "Set the value of a key in redis",
-          "action": "Set the value of a key in redis"
-        }
-      ],
+      "required": false,
       "default": "info",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: info",
+      "available_options": [
+        "Delete (值: delete) - Delete a key from Redis",
+        "Get (值: get) - Get the value of a key from Redis",
+        "Increment (值: incr) - Atomically increments a key by 1. Creates the key if it does not exist.",
+        "Info (值: info) - Returns generic information about the Redis instance",
+        "Keys (值: keys) - Returns all the keys matching a pattern",
+        "List Length (值: llen) - Returns the length of a list",
+        "Pop (值: pop) - Pop data from a redis list",
+        "Publish (值: publish) - Publish message to redis channel",
+        "Push (值: push) - Push data to a redis list",
+        "Set (值: set) - Set the value of a key in redis"
+      ]
     },
     "key": {
       "displayName": "Key",
       "name": "key",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "set"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "Name of the key to set in Redis",
-      "ai_hint": "Name of the key to set in Redis"
+      "natural_language_description": "参数名: Key | 作用: Name of the key to set in Redis | (必填项)"
     },
     "propertyName": {
       "displayName": "Name",
       "name": "propertyName",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "pop"
-          ]
-        }
-      },
+      "required": false,
       "default": "propertyName",
       "description": "Optional name of the property to write received data to. Supports dot-notation. Example: \"data.person[0].name\".",
-      "ai_hint": "Optional name of the property to write received data to. Supports dot-notation. Example: \"data.person[0].name\"."
+      "natural_language_description": "参数名: Name | 作用: Optional name of the property to write received data to. Supports dot-notation. Example: \"data.person[0].name\". | 默认值: propertyName"
     },
     "keyType": {
       "displayName": "Key Type",
       "name": "keyType",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "set"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Automatic",
-          "value": "automatic",
-          "description": "Tries to figure out the type automatically depending on the data"
-        },
-        {
-          "name": "Hash",
-          "value": "hash",
-          "description": "Data in key is of type 'hash'"
-        },
-        {
-          "name": "List",
-          "value": "list",
-          "description": "Data in key is of type 'lists'"
-        },
-        {
-          "name": "Sets",
-          "value": "sets",
-          "description": "Data in key is of type 'sets'"
-        },
-        {
-          "name": "String",
-          "value": "string",
-          "description": "Data in key is of type 'string'"
-        }
-      ],
+      "required": false,
       "default": "automatic",
       "description": "The type of the key to set",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Key Type | 作用: The type of the key to set | 默认值: automatic",
+      "available_options": [
+        "Automatic (值: automatic) - Tries to figure out the type automatically depending on the data",
+        "Hash (值: hash) - Data in key is of type 'hash'",
+        "List (值: list) - Data in key is of type 'lists'",
+        "Sets (值: sets) - Data in key is of type 'sets'",
+        "String (值: string) - Data in key is of type 'string'"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "pop"
-          ]
-        }
-      },
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Dot Notation",
-          "name": "dotNotation",
-          "type": "boolean",
-          "default": true,
-          "description": "<p>By default, dot-notation is used in property names. This means that \"a.b\" will set the property \"b\" underneath \"a\" so { \"a\": { \"b\": value} }.<p></p>If that is not intended this can be deactivated, it will then set { \"a.b\": value } instead.</p>."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "dotNotation (值: None) - By default, dot-notation is used in property names. This means that \"a.b\" will set the property \"b\" underneath \"a\" so { \"a\": { \"b\": value} }.If that is not intended this can be deactivated, it will then set { \"a.b\": value } instead.."
+      ]
     },
     "expire": {
       "displayName": "Expire",
       "name": "expire",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "set"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to set a timeout on key",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Expire | 作用: Whether to set a timeout on key | 默认值: False"
     },
     "ttl": {
       "displayName": "TTL",
       "name": "ttl",
       "type": "number",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "set"
-          ],
-          "expire": [
-            true
-          ]
-        }
-      },
+      "required": false,
       "default": 60,
       "description": "Number of seconds before key expiration",
-      "ai_hint": "Number of seconds before key expiration"
+      "natural_language_description": "参数名: TTL | 作用: Number of seconds before key expiration | 默认值: 60"
     },
     "keyPattern": {
       "displayName": "Key Pattern",
       "name": "keyPattern",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "keys"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "The key pattern for the keys to return",
-      "ai_hint": "The key pattern for the keys to return"
+      "natural_language_description": "参数名: Key Pattern | 作用: The key pattern for the keys to return | (必填项)"
     },
     "getValues": {
       "displayName": "Get Values",
       "name": "getValues",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "keys"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether to get the value of matching keys",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Get Values | 作用: Whether to get the value of matching keys | 默认值: True"
     },
     "list": {
       "displayName": "List",
       "name": "list",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "push",
-            "pop"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "Name of the list in Redis",
-      "ai_hint": "Name of the list in Redis"
+      "natural_language_description": "参数名: List | 作用: Name of the list in Redis | (必填项)"
     },
     "value": {
       "displayName": "Value",
       "name": "value",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "set"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "The value to write in Redis",
-      "ai_hint": "The value to write in Redis"
+      "natural_language_description": "参数名: Value | 作用: The value to write in Redis"
     },
     "valueIsJSON": {
       "displayName": "Value Is JSON",
       "name": "valueIsJSON",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "keyType": [
-            "hash"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether the value is JSON or key value pairs",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Value Is JSON | 作用: Whether the value is JSON or key value pairs | 默认值: True"
     },
     "channel": {
       "displayName": "Channel",
       "name": "channel",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "publish"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "Channel name",
-      "ai_hint": "Channel name"
+      "natural_language_description": "参数名: Channel | 作用: Channel name | (必填项)"
     },
     "messageData": {
       "displayName": "Data",
       "name": "messageData",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "push"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "Data to push",
-      "ai_hint": "Data to push"
+      "natural_language_description": "参数名: Data | 作用: Data to push | (必填项)"
     },
     "tail": {
       "displayName": "Tail",
       "name": "tail",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "push",
-            "pop"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to push or pop data from the end of the list",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Tail | 作用: Whether to push or pop data from the end of the list | 默认值: False"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "operation",
-      "key",
-      "propertyName",
-      "key",
-      "keyType",
-      "options",
-      "key",
-      "expire",
-      "ttl",
-      "keyPattern",
-      "getValues",
-      "list",
-      "list",
-      "key",
-      "value",
-      "keyType",
-      "valueIsJSON",
-      "expire",
-      "ttl",
-      "channel",
-      "messageData",
-      "list",
-      "messageData",
-      "tail",
-      "propertyName",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF operation == 'delete' THEN SHOW parameter 'key'",
-      "IF operation == 'get' THEN SHOW parameter 'propertyName'",
-      "IF operation == 'get' THEN SHOW parameter 'key'",
-      "IF operation == 'get' THEN SHOW parameter 'keyType'",
-      "IF operation == 'get' THEN SHOW parameter 'options'",
-      "IF operation == 'incr' THEN SHOW parameter 'key'",
-      "IF operation == 'incr' THEN SHOW parameter 'expire'",
-      "IF operation == 'incr' AND expire == True THEN SHOW parameter 'ttl'",
-      "IF operation == 'keys' THEN SHOW parameter 'keyPattern'",
-      "IF operation == 'keys' THEN SHOW parameter 'getValues'",
-      "IF operation == 'llen' THEN SHOW parameter 'list'",
-      "IF operation == 'set' THEN SHOW parameter 'key'",
-      "IF operation == 'set' THEN SHOW parameter 'value'",
-      "IF operation == 'set' THEN SHOW parameter 'keyType'",
-      "IF keyType == 'hash' THEN SHOW parameter 'valueIsJSON'",
-      "IF operation == 'set' THEN SHOW parameter 'expire'",
-      "IF operation == 'set' AND expire == True THEN SHOW parameter 'ttl'",
-      "IF operation == 'publish' THEN SHOW parameter 'channel'",
-      "IF operation == 'publish' THEN SHOW parameter 'messageData'",
-      "IF operation IN [\"push\", \"pop\"] THEN SHOW parameter 'list'",
-      "IF operation == 'push' THEN SHOW parameter 'messageData'",
-      "IF operation IN [\"push\", \"pop\"] THEN SHOW parameter 'tail'",
-      "IF operation == 'pop' THEN SHOW parameter 'propertyName'",
-      "IF operation == 'pop' THEN SHOW parameter 'options'"
-    ]
   }
 }

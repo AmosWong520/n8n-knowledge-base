@@ -1,138 +1,72 @@
 {
   "node_id": "n8n-nodes-base.spotifyTool",
-  "name": "n8n-nodes-base.spotifyTool",
+  "name": "Spotify Tool",
   "version": 1,
   "semantic_context": "Access public song data via the Spotify API",
+  "natural_language_description": "这是 Spotify Tool 节点。主要用于: Access public song data via the Spotify API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Access public song data via the Spotify API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Access public song data via the Spotify API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Access public song data via the Spotify API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Album",
-          "value": "album"
-        },
-        {
-          "name": "Artist",
-          "value": "artist"
-        },
-        {
-          "name": "Library",
-          "value": "library"
-        },
-        {
-          "name": "My Data",
-          "value": "myData"
-        },
-        {
-          "name": "Player",
-          "value": "player"
-        },
-        {
-          "name": "Playlist",
-          "value": "playlist"
-        },
-        {
-          "name": "Track",
-          "value": "track"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "player",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: player",
+      "available_options": [
+        "Album (值: album)",
+        "Artist (值: artist)",
+        "Library (值: library)",
+        "My Data (值: myData)",
+        "Player (值: player)",
+        "Playlist (值: playlist)",
+        "Track (值: track)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "myData"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get Following Artists",
-          "value": "getFollowingArtists",
-          "description": "Get your followed artists",
-          "action": "Get your followed artists"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "getFollowingArtists",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getFollowingArtists",
+      "available_options": [
+        "Get Following Artists (值: getFollowingArtists) - Get your followed artists",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "id": {
       "displayName": "Track ID",
       "name": "id",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "track"
-          ]
-        },
-        "hide": {
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "placeholder": "spotify:track:0xE4LEFzSNGsz1F6kvXsHU",
+      "default": "",
       "description": "The track's Spotify URI or ID",
-      "ai_hint": "The track's Spotify URI or ID"
+      "natural_language_description": "参数名: Track ID | 作用: The track's Spotify URI or ID | (必填项)"
     },
     "query": {
       "displayName": "Search Keyword",
@@ -141,1287 +75,85 @@
       "required": true,
       "default": "",
       "description": "The keyword term to search for",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "track"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "ai_hint": "The keyword term to search for"
+      "natural_language_description": "参数名: Search Keyword | 作用: The keyword term to search for | (必填项)"
     },
     "country": {
       "displayName": "Country",
       "name": "country",
       "type": "string",
-      "default": "US",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "artist"
-          ],
-          "operation": [
-            "getTopTracks"
-          ]
-        }
-      },
-      "placeholder": "US",
+      "default": "US",
       "description": "Top tracks in which country? Enter the postal abbreviation",
-      "ai_hint": "Top tracks in which country? Enter the postal abbreviation"
+      "natural_language_description": "参数名: Country | 作用: Top tracks in which country? Enter the postal abbreviation | 默认值: US | (必填项)"
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "playlist"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "placeholder": "Favorite Songs",
+      "default": "",
       "description": "Name of the playlist to create",
-      "ai_hint": "Name of the playlist to create"
+      "natural_language_description": "参数名: Name | 作用: Name of the playlist to create | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "playlist"
-          ],
-          "operation": [
-            "add"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Position",
-          "name": "position",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 0
-          },
-          "default": 0,
-          "placeholder": "0",
-          "description": "The new track's position in the playlist"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "position (值: None) - The new track's position in the playlist"
+      ]
     },
     "trackID": {
       "displayName": "Track ID",
       "name": "trackID",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "playlist"
-          ],
-          "operation": [
-            "add",
-            "delete"
-          ]
-        }
-      },
-      "placeholder": "spotify:track:0xE4LEFzSNGsz1F6kvXsHU",
+      "default": "",
       "description": "The track's Spotify URI or its ID. The track to add/delete from the playlist.",
-      "ai_hint": "The track's Spotify URI or its ID. The track to add/delete from the playlist."
+      "natural_language_description": "参数名: Track ID | 作用: The track's Spotify URI or its ID. The track to add/delete from the playlist. | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "default": false,
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "album",
-            "artist",
-            "library",
-            "myData",
-            "playlist",
-            "track",
-            "player"
-          ],
-          "operation": [
-            "getTracks",
-            "getAlbums",
-            "getUserPlaylists",
-            "getNewReleases",
-            "getLikedTracks",
-            "getFollowingArtists",
-            "search",
-            "recentlyPlayed"
-          ]
-        }
-      },
+      "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False | (必填项)"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "default": 50,
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "myData",
-            "player"
-          ],
-          "operation": [
-            "getFollowingArtists",
-            "recentlyPlayed"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 50
-      },
+      "default": 50,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50 | (必填项)"
     },
     "volumePercent": {
       "displayName": "Volume",
       "name": "volumePercent",
       "type": "number",
-      "default": 50,
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "player"
-          ],
-          "operation": [
-            "volume"
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 0,
-        "maxValue": 100
-      },
+      "default": 50,
       "description": "The volume percentage to set",
-      "ai_hint": "The volume percentage to set"
+      "natural_language_description": "参数名: Volume | 作用: The volume percentage to set | 默认值: 50 | (必填项)"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "playlist",
-            "artist",
-            "track",
-            "album"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Country",
-          "name": "market",
-          "type": "options",
-          "options": [
-            {
-              "name": "Afghanistan",
-              "value": "AF"
-            },
-            {
-              "name": "Åland Islands",
-              "value": "AX"
-            },
-            {
-              "name": "Albania",
-              "value": "AL"
-            },
-            {
-              "name": "Algeria",
-              "value": "DZ"
-            },
-            {
-              "name": "American Samoa",
-              "value": "AS"
-            },
-            {
-              "name": "Andorra",
-              "value": "AD"
-            },
-            {
-              "name": "Angola",
-              "value": "AO"
-            },
-            {
-              "name": "Anguilla",
-              "value": "AI"
-            },
-            {
-              "name": "Antarctica",
-              "value": "AQ"
-            },
-            {
-              "name": "Antigua and Barbuda",
-              "value": "AG"
-            },
-            {
-              "name": "Argentina",
-              "value": "AR"
-            },
-            {
-              "name": "Armenia",
-              "value": "AM"
-            },
-            {
-              "name": "Aruba",
-              "value": "AW"
-            },
-            {
-              "name": "Australia",
-              "value": "AU"
-            },
-            {
-              "name": "Austria",
-              "value": "AT"
-            },
-            {
-              "name": "Azerbaijan",
-              "value": "AZ"
-            },
-            {
-              "name": "Bahamas (the)",
-              "value": "BS"
-            },
-            {
-              "name": "Bahrain",
-              "value": "BH"
-            },
-            {
-              "name": "Bangladesh",
-              "value": "BD"
-            },
-            {
-              "name": "Barbados",
-              "value": "BB"
-            },
-            {
-              "name": "Belarus",
-              "value": "BY"
-            },
-            {
-              "name": "Belgium",
-              "value": "BE"
-            },
-            {
-              "name": "Belize",
-              "value": "BZ"
-            },
-            {
-              "name": "Benin",
-              "value": "BJ"
-            },
-            {
-              "name": "Bermuda",
-              "value": "BM"
-            },
-            {
-              "name": "Bhutan",
-              "value": "BT"
-            },
-            {
-              "name": "Bolivia (Plurinational State of)",
-              "value": "BO"
-            },
-            {
-              "name": "Bonaire, Sint Eustatius and Saba",
-              "value": "BQ"
-            },
-            {
-              "name": "Bosnia and Herzegovina",
-              "value": "BA"
-            },
-            {
-              "name": "Botswana",
-              "value": "BW"
-            },
-            {
-              "name": "Bouvet Island",
-              "value": "BV"
-            },
-            {
-              "name": "Brazil",
-              "value": "BR"
-            },
-            {
-              "name": "British Indian Ocean Territory (the)",
-              "value": "IO"
-            },
-            {
-              "name": "Brunei Darussalam",
-              "value": "BN"
-            },
-            {
-              "name": "Bulgaria",
-              "value": "BG"
-            },
-            {
-              "name": "Burkina Faso",
-              "value": "BF"
-            },
-            {
-              "name": "Burundi",
-              "value": "BI"
-            },
-            {
-              "name": "Cabo Verde",
-              "value": "CV"
-            },
-            {
-              "name": "Cambodia",
-              "value": "KH"
-            },
-            {
-              "name": "Cameroon",
-              "value": "CM"
-            },
-            {
-              "name": "Canada",
-              "value": "CA"
-            },
-            {
-              "name": "Cayman Islands (the)",
-              "value": "KY"
-            },
-            {
-              "name": "Central African Republic (the)",
-              "value": "CF"
-            },
-            {
-              "name": "Chad",
-              "value": "TD"
-            },
-            {
-              "name": "Chile",
-              "value": "CL"
-            },
-            {
-              "name": "China",
-              "value": "CN"
-            },
-            {
-              "name": "Christmas Island",
-              "value": "CX"
-            },
-            {
-              "name": "Cocos (Keeling) Islands (the)",
-              "value": "CC"
-            },
-            {
-              "name": "Colombia",
-              "value": "CO"
-            },
-            {
-              "name": "Comoros (the)",
-              "value": "KM"
-            },
-            {
-              "name": "Congo (the Democratic Republic of the)",
-              "value": "CD"
-            },
-            {
-              "name": "Congo (the)",
-              "value": "CG"
-            },
-            {
-              "name": "Cook Islands (the)",
-              "value": "CK"
-            },
-            {
-              "name": "Costa Rica",
-              "value": "CR"
-            },
-            {
-              "name": "Côte d'Ivoire",
-              "value": "CI"
-            },
-            {
-              "name": "Croatia",
-              "value": "HR"
-            },
-            {
-              "name": "Cuba",
-              "value": "CU"
-            },
-            {
-              "name": "Curaçao",
-              "value": "CW"
-            },
-            {
-              "name": "Cyprus",
-              "value": "CY"
-            },
-            {
-              "name": "Czechia",
-              "value": "CZ"
-            },
-            {
-              "name": "Denmark",
-              "value": "DK"
-            },
-            {
-              "name": "Djibouti",
-              "value": "DJ"
-            },
-            {
-              "name": "Dominica",
-              "value": "DM"
-            },
-            {
-              "name": "Dominican Republic (the)",
-              "value": "DO"
-            },
-            {
-              "name": "Ecuador",
-              "value": "EC"
-            },
-            {
-              "name": "Egypt",
-              "value": "EG"
-            },
-            {
-              "name": "El Salvador",
-              "value": "SV"
-            },
-            {
-              "name": "Equatorial Guinea",
-              "value": "GQ"
-            },
-            {
-              "name": "Eritrea",
-              "value": "ER"
-            },
-            {
-              "name": "Estonia",
-              "value": "EE"
-            },
-            {
-              "name": "Ethiopia",
-              "value": "ET"
-            },
-            {
-              "name": "Falkland Islands (the) [Malvinas]",
-              "value": "FK"
-            },
-            {
-              "name": "Faroe Islands (the)",
-              "value": "FO"
-            },
-            {
-              "name": "Fiji",
-              "value": "FJ"
-            },
-            {
-              "name": "Finland",
-              "value": "FI"
-            },
-            {
-              "name": "France",
-              "value": "FR"
-            },
-            {
-              "name": "French Guiana",
-              "value": "GF"
-            },
-            {
-              "name": "French Polynesia",
-              "value": "PF"
-            },
-            {
-              "name": "French Southern Territories (the)",
-              "value": "TF"
-            },
-            {
-              "name": "Gabon",
-              "value": "GA"
-            },
-            {
-              "name": "Gambia (the)",
-              "value": "GM"
-            },
-            {
-              "name": "Georgia",
-              "value": "GE"
-            },
-            {
-              "name": "Germany",
-              "value": "DE"
-            },
-            {
-              "name": "Ghana",
-              "value": "GH"
-            },
-            {
-              "name": "Gibraltar",
-              "value": "GI"
-            },
-            {
-              "name": "Greece",
-              "value": "GR"
-            },
-            {
-              "name": "Greenland",
-              "value": "GL"
-            },
-            {
-              "name": "Grenada",
-              "value": "GD"
-            },
-            {
-              "name": "Guadeloupe",
-              "value": "GP"
-            },
-            {
-              "name": "Guam",
-              "value": "GU"
-            },
-            {
-              "name": "Guatemala",
-              "value": "GT"
-            },
-            {
-              "name": "Guernsey",
-              "value": "GG"
-            },
-            {
-              "name": "Guinea",
-              "value": "GN"
-            },
-            {
-              "name": "Guinea-Bissau",
-              "value": "GW"
-            },
-            {
-              "name": "Guyana",
-              "value": "GY"
-            },
-            {
-              "name": "Haiti",
-              "value": "HT"
-            },
-            {
-              "name": "Heard Island and McDonald Islands",
-              "value": "HM"
-            },
-            {
-              "name": "Holy See (the)",
-              "value": "VA"
-            },
-            {
-              "name": "Honduras",
-              "value": "HN"
-            },
-            {
-              "name": "Hong Kong",
-              "value": "HK"
-            },
-            {
-              "name": "Hungary",
-              "value": "HU"
-            },
-            {
-              "name": "Iceland",
-              "value": "IS"
-            },
-            {
-              "name": "India",
-              "value": "IN"
-            },
-            {
-              "name": "Indonesia",
-              "value": "ID"
-            },
-            {
-              "name": "Iran (Islamic Republic of)",
-              "value": "IR"
-            },
-            {
-              "name": "Iraq",
-              "value": "IQ"
-            },
-            {
-              "name": "Ireland",
-              "value": "IE"
-            },
-            {
-              "name": "Isle of Man",
-              "value": "IM"
-            },
-            {
-              "name": "Israel",
-              "value": "IL"
-            },
-            {
-              "name": "Italy",
-              "value": "IT"
-            },
-            {
-              "name": "Jamaica",
-              "value": "JM"
-            },
-            {
-              "name": "Japan",
-              "value": "JP"
-            },
-            {
-              "name": "Jersey",
-              "value": "JE"
-            },
-            {
-              "name": "Jordan",
-              "value": "JO"
-            },
-            {
-              "name": "Kazakhstan",
-              "value": "KZ"
-            },
-            {
-              "name": "Kenya",
-              "value": "KE"
-            },
-            {
-              "name": "Kiribati",
-              "value": "KI"
-            },
-            {
-              "name": "Korea (the Democratic People's Republic of)",
-              "value": "KP"
-            },
-            {
-              "name": "Korea (the Republic of)",
-              "value": "KR"
-            },
-            {
-              "name": "Kuwait",
-              "value": "KW"
-            },
-            {
-              "name": "Kyrgyzstan",
-              "value": "KG"
-            },
-            {
-              "name": "Lao People's Democratic Republic (the)",
-              "value": "LA"
-            },
-            {
-              "name": "Latvia",
-              "value": "LV"
-            },
-            {
-              "name": "Lebanon",
-              "value": "LB"
-            },
-            {
-              "name": "Lesotho",
-              "value": "LS"
-            },
-            {
-              "name": "Liberia",
-              "value": "LR"
-            },
-            {
-              "name": "Libya",
-              "value": "LY"
-            },
-            {
-              "name": "Liechtenstein",
-              "value": "LI"
-            },
-            {
-              "name": "Lithuania",
-              "value": "LT"
-            },
-            {
-              "name": "Luxembourg",
-              "value": "LU"
-            },
-            {
-              "name": "Macao",
-              "value": "MO"
-            },
-            {
-              "name": "Macedonia (the former Yugoslav Republic of)",
-              "value": "MK"
-            },
-            {
-              "name": "Madagascar",
-              "value": "MG"
-            },
-            {
-              "name": "Malawi",
-              "value": "MW"
-            },
-            {
-              "name": "Malaysia",
-              "value": "MY"
-            },
-            {
-              "name": "Maldives",
-              "value": "MV"
-            },
-            {
-              "name": "Mali",
-              "value": "ML"
-            },
-            {
-              "name": "Malta",
-              "value": "MT"
-            },
-            {
-              "name": "Marshall Islands (the)",
-              "value": "MH"
-            },
-            {
-              "name": "Martinique",
-              "value": "MQ"
-            },
-            {
-              "name": "Mauritania",
-              "value": "MR"
-            },
-            {
-              "name": "Mauritius",
-              "value": "MU"
-            },
-            {
-              "name": "Mayotte",
-              "value": "YT"
-            },
-            {
-              "name": "Mexico",
-              "value": "MX"
-            },
-            {
-              "name": "Micronesia (Federated States of)",
-              "value": "FM"
-            },
-            {
-              "name": "Moldova (the Republic of)",
-              "value": "MD"
-            },
-            {
-              "name": "Monaco",
-              "value": "MC"
-            },
-            {
-              "name": "Mongolia",
-              "value": "MN"
-            },
-            {
-              "name": "Montenegro",
-              "value": "ME"
-            },
-            {
-              "name": "Montserrat",
-              "value": "MS"
-            },
-            {
-              "name": "Morocco",
-              "value": "MA"
-            },
-            {
-              "name": "Mozambique",
-              "value": "MZ"
-            },
-            {
-              "name": "Myanmar",
-              "value": "MM"
-            },
-            {
-              "name": "Namibia",
-              "value": "NA"
-            },
-            {
-              "name": "Nauru",
-              "value": "NR"
-            },
-            {
-              "name": "Nepal",
-              "value": "NP"
-            },
-            {
-              "name": "Netherlands (the)",
-              "value": "NL"
-            },
-            {
-              "name": "New Caledonia",
-              "value": "NC"
-            },
-            {
-              "name": "New Zealand",
-              "value": "NZ"
-            },
-            {
-              "name": "Nicaragua",
-              "value": "NI"
-            },
-            {
-              "name": "Niger (the)",
-              "value": "NE"
-            },
-            {
-              "name": "Nigeria",
-              "value": "NG"
-            },
-            {
-              "name": "Niue",
-              "value": "NU"
-            },
-            {
-              "name": "Norfolk Island",
-              "value": "NF"
-            },
-            {
-              "name": "Northern Mariana Islands (the)",
-              "value": "MP"
-            },
-            {
-              "name": "Norway",
-              "value": "NO"
-            },
-            {
-              "name": "Oman",
-              "value": "OM"
-            },
-            {
-              "name": "Pakistan",
-              "value": "PK"
-            },
-            {
-              "name": "Palau",
-              "value": "PW"
-            },
-            {
-              "name": "Palestine, State of",
-              "value": "PS"
-            },
-            {
-              "name": "Panama",
-              "value": "PA"
-            },
-            {
-              "name": "Papua New Guinea",
-              "value": "PG"
-            },
-            {
-              "name": "Paraguay",
-              "value": "PY"
-            },
-            {
-              "name": "Peru",
-              "value": "PE"
-            },
-            {
-              "name": "Philippines (the)",
-              "value": "PH"
-            },
-            {
-              "name": "Pitcairn",
-              "value": "PN"
-            },
-            {
-              "name": "Poland",
-              "value": "PL"
-            },
-            {
-              "name": "Portugal",
-              "value": "PT"
-            },
-            {
-              "name": "Puerto Rico",
-              "value": "PR"
-            },
-            {
-              "name": "Qatar",
-              "value": "QA"
-            },
-            {
-              "name": "Réunion",
-              "value": "RE"
-            },
-            {
-              "name": "Romania",
-              "value": "RO"
-            },
-            {
-              "name": "Russian Federation (the)",
-              "value": "RU"
-            },
-            {
-              "name": "Rwanda",
-              "value": "RW"
-            },
-            {
-              "name": "Saint Barthélemy",
-              "value": "BL"
-            },
-            {
-              "name": "Saint Helena, Ascension and Tristan da Cunha",
-              "value": "SH"
-            },
-            {
-              "name": "Saint Kitts and Nevis",
-              "value": "KN"
-            },
-            {
-              "name": "Saint Lucia",
-              "value": "LC"
-            },
-            {
-              "name": "Saint Martin (French part)",
-              "value": "MF"
-            },
-            {
-              "name": "Saint Pierre and Miquelon",
-              "value": "PM"
-            },
-            {
-              "name": "Saint Vincent and the Grenadines",
-              "value": "VC"
-            },
-            {
-              "name": "Samoa",
-              "value": "WS"
-            },
-            {
-              "name": "San Marino",
-              "value": "SM"
-            },
-            {
-              "name": "Sao Tome and Principe",
-              "value": "ST"
-            },
-            {
-              "name": "Saudi Arabia",
-              "value": "SA"
-            },
-            {
-              "name": "Senegal",
-              "value": "SN"
-            },
-            {
-              "name": "Serbia",
-              "value": "RS"
-            },
-            {
-              "name": "Seychelles",
-              "value": "SC"
-            },
-            {
-              "name": "Sierra Leone",
-              "value": "SL"
-            },
-            {
-              "name": "Singapore",
-              "value": "SG"
-            },
-            {
-              "name": "Sint Maarten (Dutch part)",
-              "value": "SX"
-            },
-            {
-              "name": "Slovakia",
-              "value": "SK"
-            },
-            {
-              "name": "Slovenia",
-              "value": "SI"
-            },
-            {
-              "name": "Solomon Islands",
-              "value": "SB"
-            },
-            {
-              "name": "Somalia",
-              "value": "SO"
-            },
-            {
-              "name": "South Africa",
-              "value": "ZA"
-            },
-            {
-              "name": "South Georgia and the South Sandwich Islands",
-              "value": "GS"
-            },
-            {
-              "name": "South Sudan",
-              "value": "SS"
-            },
-            {
-              "name": "Spain",
-              "value": "ES"
-            },
-            {
-              "name": "Sri Lanka",
-              "value": "LK"
-            },
-            {
-              "name": "Sudan (the)",
-              "value": "SD"
-            },
-            {
-              "name": "Suriname",
-              "value": "SR"
-            },
-            {
-              "name": "Svalbard and Jan Mayen",
-              "value": "SJ"
-            },
-            {
-              "name": "Swaziland",
-              "value": "SZ"
-            },
-            {
-              "name": "Sweden",
-              "value": "SE"
-            },
-            {
-              "name": "Switzerland",
-              "value": "CH"
-            },
-            {
-              "name": "Syrian Arab Republic",
-              "value": "SY"
-            },
-            {
-              "name": "Taiwan (Province of China)",
-              "value": "TW"
-            },
-            {
-              "name": "Tajikistan",
-              "value": "TJ"
-            },
-            {
-              "name": "Tanzania, United Republic of",
-              "value": "TZ"
-            },
-            {
-              "name": "Thailand",
-              "value": "TH"
-            },
-            {
-              "name": "Timor-Leste",
-              "value": "TL"
-            },
-            {
-              "name": "Togo",
-              "value": "TG"
-            },
-            {
-              "name": "Tokelau",
-              "value": "TK"
-            },
-            {
-              "name": "Tonga",
-              "value": "TO"
-            },
-            {
-              "name": "Trinidad and Tobago",
-              "value": "TT"
-            },
-            {
-              "name": "Tunisia",
-              "value": "TN"
-            },
-            {
-              "name": "Turkey",
-              "value": "TR"
-            },
-            {
-              "name": "Turkmenistan",
-              "value": "TM"
-            },
-            {
-              "name": "Turks and Caicos Islands (the)",
-              "value": "TC"
-            },
-            {
-              "name": "Tuvalu",
-              "value": "TV"
-            },
-            {
-              "name": "Uganda",
-              "value": "UG"
-            },
-            {
-              "name": "Ukraine",
-              "value": "UA"
-            },
-            {
-              "name": "United Arab Emirates (the)",
-              "value": "AE"
-            },
-            {
-              "name": "United Kingdom of Great Britain and Northern Ireland (the)",
-              "value": "GB"
-            },
-            {
-              "name": "United States Minor Outlying Islands (the)",
-              "value": "UM"
-            },
-            {
-              "name": "United States of America (the)",
-              "value": "US"
-            },
-            {
-              "name": "Uruguay",
-              "value": "UY"
-            },
-            {
-              "name": "Uzbekistan",
-              "value": "UZ"
-            },
-            {
-              "name": "Vanuatu",
-              "value": "VU"
-            },
-            {
-              "name": "Venezuela (Bolivarian Republic of)",
-              "value": "VE"
-            },
-            {
-              "name": "Viet Nam",
-              "value": "VN"
-            },
-            {
-              "name": "Virgin Islands (British)",
-              "value": "VG"
-            },
-            {
-              "name": "Virgin Islands (U.S.)",
-              "value": "VI"
-            },
-            {
-              "name": "Wallis and Futuna",
-              "value": "WF"
-            },
-            {
-              "name": "Western Sahara*",
-              "value": "EH"
-            },
-            {
-              "name": "Yemen",
-              "value": "YE"
-            },
-            {
-              "name": "Zambia",
-              "value": "ZM"
-            },
-            {
-              "name": "Zimbabwe",
-              "value": "ZW"
-            }
-          ],
-          "default": "",
-          "description": "If a country code is specified, only content that is playable in that market is returned"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "market (值: None) - If a country code is specified, only content that is playable in that market is returned"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "id",
-      "id",
-      "operation",
-      "id",
-      "query",
-      "operation",
-      "id",
-      "country",
-      "query",
-      "operation",
-      "id",
-      "name",
-      "additionalFields",
-      "trackID",
-      "additionalFields",
-      "query",
-      "operation",
-      "id",
-      "query",
-      "operation",
-      "operation",
-      "returnAll",
-      "limit",
-      "limit",
-      "volumePercent",
-      "filters",
-      "filters"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'player' THEN SHOW parameter 'operation'",
-      "IF resource == 'player' AND operation == 'startMusic' THEN SHOW parameter 'id'",
-      "IF resource == 'player' AND operation == 'addSongToQueue' THEN SHOW parameter 'id'",
-      "IF resource == 'album' THEN SHOW parameter 'operation'",
-      "IF resource == 'album' AND operation IN [\"get\", \"getTracks\"] THEN SHOW parameter 'id'",
-      "IF operation == 'search' THEN HIDE parameter 'id'",
-      "IF resource == 'album' AND operation == 'search' THEN SHOW parameter 'query'",
-      "IF resource == 'artist' THEN SHOW parameter 'operation'",
-      "IF resource == 'artist' THEN SHOW parameter 'id'",
-      "IF resource == 'artist' AND operation == 'getTopTracks' THEN SHOW parameter 'country'",
-      "IF resource == 'artist' AND operation == 'search' THEN SHOW parameter 'query'",
-      "IF resource == 'playlist' THEN SHOW parameter 'operation'",
-      "IF resource == 'playlist' AND operation IN [\"add\", \"delete\", \"get\", \"getTracks\"] THEN SHOW parameter 'id'",
-      "IF resource == 'playlist' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'playlist' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'playlist' AND operation IN [\"add\", \"delete\"] THEN SHOW parameter 'trackID'",
-      "IF resource == 'playlist' AND operation == 'add' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'playlist' AND operation == 'search' THEN SHOW parameter 'query'",
-      "IF resource == 'track' THEN SHOW parameter 'operation'",
-      "IF resource == 'track' THEN SHOW parameter 'id'",
-      "IF resource == 'track' AND operation == 'search' THEN SHOW parameter 'query'",
-      "IF resource == 'library' THEN SHOW parameter 'operation'",
-      "IF resource == 'myData' THEN SHOW parameter 'operation'",
-      "IF resource IN [\"album\", \"artist\", \"library\", \"myData\", \"playlist\", \"track\", \"player\"] AND operation IN [\"getTracks\", \"getAlbums\", \"getUserPlaylists\", \"getNewReleases\", \"getLikedTracks\", \"getFollowingArtists\", \"search\", \"recentlyPlayed\"] THEN SHOW parameter 'returnAll'",
-      "IF resource IN [\"album\", \"artist\", \"library\", \"playlist\", \"track\"] AND operation IN [\"getTracks\", \"getAlbums\", \"getUserPlaylists\", \"getNewReleases\", \"getLikedTracks\", \"search\"] AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource IN [\"myData\", \"player\"] AND operation IN [\"getFollowingArtists\", \"recentlyPlayed\"] AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'player' AND operation == 'volume' THEN SHOW parameter 'volumePercent'",
-      "IF resource == 'album' AND operation == 'getNewReleases' THEN SHOW parameter 'filters'",
-      "IF resource IN [\"playlist\", \"artist\", \"track\", \"album\"] AND operation == 'search' THEN SHOW parameter 'filters'"
-    ]
   }
 }

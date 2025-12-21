@@ -1,11 +1,9 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.sentimentAnalysis",
-  "name": "@n8n/n8n-nodes-langchain.sentimentAnalysis",
-  "version": [
-    1,
-    1.1
-  ],
+  "name": "Sentiment Analysis",
+  "version": 1,
   "semantic_context": "Analyze the sentiment of your text",
+  "natural_language_description": "这是 Sentiment Analysis 节点。主要用于: Analyze the sentiment of your text",
   "parameters": {
     "inputText": {
       "displayName": "Text to Analyze",
@@ -14,114 +12,32 @@
       "required": true,
       "default": "",
       "description": "Use an expression to reference data in previous nodes or enter static text",
-      "typeOptions": {
-        "rows": 2
-      },
-      "ai_hint": "Use an expression to reference data in previous nodes or enter static text"
+      "natural_language_description": "参数名: Text to Analyze | 作用: Use an expression to reference data in previous nodes or enter static text | (必填项)"
     },
     "detailedResultsNotice": {
       "displayName": "Sentiment scores are LLM-generated estimates, not statistically rigorous measurements. They may be inconsistent across runs and should be used as rough indicators only.",
       "name": "detailedResultsNotice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "/options.includeDetailedResults": [
-            true
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Sentiment scores are LLM-generated estimates, not statistically rigorous measurements. They may be inconsistent across runs and should be used as rough indicators only."
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
+      "required": false,
       "default": {},
-      "placeholder": "Add Option",
-      "options": [
-        {
-          "displayName": "Sentiment Categories",
-          "name": "categories",
-          "type": "string",
-          "default": "Positive, Neutral, Negative",
-          "description": "A comma-separated list of categories to analyze",
-          "noDataExpression": true,
-          "typeOptions": {
-            "rows": 2
-          }
-        },
-        {
-          "displayName": "System Prompt Template",
-          "name": "systemPromptTemplate",
-          "type": "string",
-          "default": "You are highly intelligent and accurate sentiment analyzer. Analyze the sentiment of the provided text. Categorize it into one of the following: {categories}. Use the provided formatting instructions. Only output the JSON.",
-          "description": "String to use directly as the system prompt template",
-          "typeOptions": {
-            "rows": 6
-          }
-        },
-        {
-          "displayName": "Include Detailed Results",
-          "name": "includeDetailedResults",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to include sentiment strength and confidence scores in the output"
-        },
-        {
-          "displayName": "Enable Auto-Fixing",
-          "name": "enableAutoFixing",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to enable auto-fixing (may trigger an additional LLM call if output is broken)"
-        },
-        {
-          "displayName": "Batch Processing",
-          "name": "batching",
-          "type": "collection",
-          "placeholder": "Add Batch Processing Option",
-          "description": "Batch processing options for rate limiting",
-          "default": {},
-          "options": [
-            {
-              "displayName": "Batch Size",
-              "name": "batchSize",
-              "default": 5,
-              "type": "number",
-              "description": "How many items to process in parallel. This is useful for rate limiting, but might impact the log output ordering."
-            },
-            {
-              "displayName": "Delay Between Batches",
-              "name": "delayBetweenBatches",
-              "default": 0,
-              "type": "number",
-              "description": "Delay in milliseconds between batches. This is useful for rate limiting."
-            }
-          ],
-          "displayOptions": {
-            "show": {
-              "@version": [
-                {
-                  "_cnd": {
-                    "gte": 1.1
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "categories (值: None) - A comma-separated list of categories to analyze",
+        "systemPromptTemplate (值: None) - String to use directly as the system prompt template",
+        "includeDetailedResults (值: None) - Whether to include sentiment strength and confidence scores in the output",
+        "enableAutoFixing (值: None) - Whether to enable auto-fixing (may trigger an additional LLM call if output is broken)",
+        "batching (值: None) - Batch processing options for rate limiting"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "inputText",
-      "detailedResultsNotice",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF /options.includeDetailedResults == True THEN SHOW parameter 'detailedResultsNotice'",
-      "IF @version == {'_cnd': {'gte': 1.1}} THEN SHOW parameter 'batching'"
-    ]
   }
 }

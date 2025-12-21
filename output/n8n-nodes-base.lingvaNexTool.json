@@ -1,154 +1,75 @@
 {
   "node_id": "n8n-nodes-base.lingvaNexTool",
-  "name": "n8n-nodes-base.lingvaNexTool",
+  "name": "LingvaNex Tool",
   "version": 1,
   "semantic_context": "Consume LingvaNex API",
+  "natural_language_description": "这是 LingvaNex Tool 节点。主要用于: Consume LingvaNex API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume LingvaNex API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume LingvaNex API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume LingvaNex API | (必填项)"
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Translate",
-          "value": "translate",
-          "description": "Translate data",
-          "action": "Translate data"
-        }
-      ],
+      "required": false,
       "default": "translate",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: translate",
+      "available_options": [
+        "Translate (值: translate) - Translate data"
+      ]
     },
     "text": {
       "displayName": "Text",
       "name": "text",
       "type": "string",
+      "required": true,
       "default": "",
       "description": "The input text to translate",
-      "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "translate"
-          ]
-        }
-      },
-      "ai_hint": "The input text to translate"
+      "natural_language_description": "参数名: Text | 作用: The input text to translate | (必填项)"
     },
     "translateTo": {
       "displayName": "Translate To",
       "name": "translateTo",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getLanguages"
-      },
-      "default": "",
-      "description": "The language to use for translation of the input text, set to one of the language codes listed in <a href=\"https://cloud.google.com/translate/docs/languages\">Language Support</a>. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "translate"
-          ]
-        }
-      },
-      "ai_hint": "The language to use for translation of the input text, set to one of the language codes listed in <a href=\"https://cloud.google.com/translate/docs/languages\">Language Support</a>. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "The language to use for translation of the input text, set to one of the language codes listed in Language Support. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Translate To | 作用: The language to use for translation of the input text, set to one of the language codes listed in Language Support. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "options": {
       "displayName": "Additional Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "translate"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "From",
-          "name": "from",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getLanguages"
-          },
-          "default": "",
-          "description": "The language code in the format “language code_code of the country”. If this parameter is not present, the auto-detect language mode is enabled. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Platform",
-          "name": "platform",
-          "type": "string",
-          "default": "api"
-        },
-        {
-          "displayName": "Translate Mode",
-          "name": "translateMode",
-          "type": "string",
-          "default": "",
-          "description": "Describe the input text format. Possible value is \"html\" for translating and preserving html structure. If value is not specified or is other than \"html\" than plain text is translating."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Options | 默认值: {}",
+      "available_options": [
+        "from (值: None) - The language code in the format “language code_code of the country”. If this parameter is not present, the auto-detect language mode is enabled. Choose from the list, or specify an ID using an expression.",
+        "platform (值: None)",
+        "translateMode (值: None) - Describe the input text format. Possible value is \"html\" for translating and preserving html structure. If value is not specified or is other than \"html\" than plain text is translating."
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "operation",
-      "text",
-      "translateTo",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF operation == 'translate' THEN SHOW parameter 'text'",
-      "IF operation == 'translate' THEN SHOW parameter 'translateTo'",
-      "IF operation == 'translate' THEN SHOW parameter 'options'"
-    ]
   }
 }

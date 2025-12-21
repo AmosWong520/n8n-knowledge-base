@@ -1,523 +1,131 @@
 {
   "node_id": "n8n-nodes-base.baserow",
-  "name": "n8n-nodes-base.baserow",
+  "name": "Baserow",
   "version": 1,
   "semantic_context": "Consume the Baserow API",
+  "natural_language_description": "这是 Baserow 节点。主要用于: Consume the Baserow API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Row",
-          "value": "row"
-        }
-      ],
+      "required": false,
       "default": "row",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: row",
+      "available_options": [
+        "Row (值: row)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "row"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a row",
-          "action": "Create a row"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a row",
-          "action": "Delete a row"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Retrieve a row",
-          "action": "Get a row"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Retrieve many rows",
-          "action": "Get many rows"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a row",
-          "action": "Update a row"
-        }
-      ],
+      "required": false,
       "default": "getAll",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getAll",
+      "available_options": [
+        "Create (值: create) - Create a row",
+        "Delete (值: delete) - Delete a row",
+        "Get (值: get) - Retrieve a row",
+        "Get Many (值: getAll) - Retrieve many rows",
+        "Update (值: update) - Update a row"
+      ]
     },
     "databaseId": {
       "displayName": "Database Name or ID",
       "name": "databaseId",
       "type": "options",
-      "default": "",
       "required": true,
-      "description": "Database to operate on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "typeOptions": {
-        "loadOptionsMethod": "getDatabaseIds"
-      },
-      "ai_hint": "Database to operate on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "Database to operate on. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Database Name or ID | 作用: Database to operate on. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "tableId": {
       "displayName": "Table Name or ID",
       "name": "tableId",
       "type": "options",
-      "default": "",
       "required": true,
-      "description": "Table to operate on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "typeOptions": {
-        "loadOptionsDependsOn": [
-          "databaseId"
-        ],
-        "loadOptionsMethod": "getTableIds"
-      },
-      "ai_hint": "Table to operate on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "Table to operate on. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Table Name or ID | 作用: Table to operate on. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "rowId": {
       "displayName": "Row ID",
       "name": "rowId",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "delete"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "ID of the row to delete",
-      "ai_hint": "ID of the row to delete"
+      "natural_language_description": "参数名: Row ID | 作用: ID of the row to delete | (必填项)"
     },
     "dataToSend": {
       "displayName": "Data to Send",
       "name": "dataToSend",
       "type": "options",
-      "options": [
-        {
-          "name": "Auto-Map Input Data to Columns",
-          "value": "autoMapInputData",
-          "description": "Use when node input properties match destination column names"
-        },
-        {
-          "name": "Define Below for Each Column",
-          "value": "defineBelow",
-          "description": "Set the value for each destination column"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create",
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": "defineBelow",
       "description": "Whether to insert the input data this node receives in the new row",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Data to Send | 作用: Whether to insert the input data this node receives in the new row | 默认值: defineBelow",
+      "available_options": [
+        "Auto-Map Input Data to Columns (值: autoMapInputData) - Use when node input properties match destination column names",
+        "Define Below for Each Column (值: defineBelow) - Set the value for each destination column"
+      ]
     },
     "inputsToIgnore": {
       "displayName": "Inputs to Ignore",
       "name": "inputsToIgnore",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create",
-            "update"
-          ],
-          "dataToSend": [
-            "autoMapInputData"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "List of input properties to avoid sending, separated by commas. Leave empty to send all properties.",
-      "placeholder": "Enter properties...",
-      "ai_hint": "List of input properties to avoid sending, separated by commas. Leave empty to send all properties."
+      "natural_language_description": "参数名: Inputs to Ignore | 作用: List of input properties to avoid sending, separated by commas. Leave empty to send all properties."
     },
     "fieldsUi": {
       "displayName": "Fields to Send",
       "name": "fieldsUi",
-      "placeholder": "Add Field",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValueButtonText": "Add Field to Send",
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create",
-            "update"
-          ],
-          "dataToSend": [
-            "defineBelow"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Field",
-          "name": "fieldValues",
-          "values": [
-            {
-              "displayName": "Field Name or ID",
-              "name": "fieldId",
-              "type": "options",
-              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-              "typeOptions": {
-                "loadOptionsDependsOn": [
-                  "tableId"
-                ],
-                "loadOptionsMethod": "getTableFields"
-              },
-              "default": ""
-            },
-            {
-              "displayName": "Field Value",
-              "name": "fieldValue",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Fields to Send | 默认值: {}",
+      "available_options": [
+        "fieldValues (值: None)"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 100
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "additionalOptions": {
       "displayName": "Options",
       "name": "additionalOptions",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Filters",
-          "name": "filters",
-          "placeholder": "Add Filter",
-          "description": "Filter rows based on comparison operators",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "fields",
-              "displayName": "Field",
-              "values": [
-                {
-                  "displayName": "Field Name or ID",
-                  "name": "field",
-                  "type": "options",
-                  "default": "",
-                  "description": "Field to compare. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-                  "typeOptions": {
-                    "loadOptionsDependsOn": [
-                      "tableId"
-                    ],
-                    "loadOptionsMethod": "getTableFields"
-                  }
-                },
-                {
-                  "displayName": "Filter",
-                  "name": "operator",
-                  "description": "Operator to compare field and value with",
-                  "type": "options",
-                  "options": [
-                    {
-                      "name": "Contains",
-                      "value": "contains",
-                      "description": "Field contains value"
-                    },
-                    {
-                      "name": "Contains Not",
-                      "value": "contains_not",
-                      "description": "Field does not contain value"
-                    },
-                    {
-                      "name": "Date After Date",
-                      "value": "date_after",
-                      "description": "Field after this date. Format: 'YYYY-MM-DD'."
-                    },
-                    {
-                      "name": "Date Before Date",
-                      "value": "date_before",
-                      "description": "Field before this date. Format: 'YYYY-MM-DD'."
-                    },
-                    {
-                      "name": "Date Equal",
-                      "value": "date_equal",
-                      "description": "Field is date. Format: 'YYYY-MM-DD'."
-                    },
-                    {
-                      "name": "Date Equals Month",
-                      "value": "date_equals_month",
-                      "description": "Field in this month. Format: string."
-                    },
-                    {
-                      "name": "Date Equals Today",
-                      "value": "date_equals_today",
-                      "description": "Field is today. Format: string."
-                    },
-                    {
-                      "name": "Date Equals Year",
-                      "value": "date_equals_year",
-                      "description": "Field in this year. Format: string."
-                    },
-                    {
-                      "name": "Date Not Equal",
-                      "value": "date_not_equal",
-                      "description": "Field is not date. Format: 'YYYY-MM-DD'."
-                    },
-                    {
-                      "name": "Equal",
-                      "value": "equal",
-                      "description": "Field is equal to value"
-                    },
-                    {
-                      "name": "Filename Contains",
-                      "value": "filename_contains",
-                      "description": "Field filename contains value"
-                    },
-                    {
-                      "name": "Higher Than",
-                      "value": "higher_than",
-                      "description": "Field is higher than value"
-                    },
-                    {
-                      "name": "Is Empty",
-                      "value": "empty",
-                      "description": "Field is empty"
-                    },
-                    {
-                      "name": "Is Not Empty",
-                      "value": "not_empty",
-                      "description": "Field is not empty"
-                    },
-                    {
-                      "name": "Is True",
-                      "value": "boolean",
-                      "description": "Boolean field is true"
-                    },
-                    {
-                      "name": "Link Row Does Not Have",
-                      "value": "link_row_has_not",
-                      "description": "Field does not have link ID"
-                    },
-                    {
-                      "name": "Link Row Has",
-                      "value": "link_row_has",
-                      "description": "Field has link ID"
-                    },
-                    {
-                      "name": "Lower Than",
-                      "value": "lower_than",
-                      "description": "Field is lower than value"
-                    },
-                    {
-                      "name": "Not Equal",
-                      "value": "not_equal",
-                      "description": "Field is not equal to value"
-                    },
-                    {
-                      "name": "Single Select Equal",
-                      "value": "single_select_equal",
-                      "description": "Field selected option is value"
-                    },
-                    {
-                      "name": "Single Select Not Equal",
-                      "value": "single_select_not_equal",
-                      "description": "Field selected option is not value"
-                    }
-                  ],
-                  "default": "equal"
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": "",
-                  "description": "Value to compare to"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Filter Type",
-          "name": "filterType",
-          "type": "options",
-          "options": [
-            {
-              "name": "AND",
-              "value": "AND",
-              "description": "Indicates that the rows must match all the provided filters"
-            },
-            {
-              "name": "OR",
-              "value": "OR",
-              "description": "Indicates that the rows only have to match one of the filters"
-            }
-          ],
-          "default": "AND",
-          "description": "This works only if two or more filters are provided. Defaults to <code>AND</code>"
-        },
-        {
-          "displayName": "Search Term",
-          "name": "search",
-          "type": "string",
-          "default": "",
-          "description": "Text to match (can be in any column)"
-        },
-        {
-          "displayName": "Sorting",
-          "name": "order",
-          "placeholder": "Add Sort Order",
-          "description": "Set the sort order of the result rows",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "fields",
-              "displayName": "Field",
-              "values": [
-                {
-                  "displayName": "Field Name or ID",
-                  "name": "field",
-                  "type": "options",
-                  "default": "",
-                  "description": "Field name to sort by. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-                  "typeOptions": {
-                    "loadOptionsDependsOn": [
-                      "tableId"
-                    ],
-                    "loadOptionsMethod": "getTableFields"
-                  }
-                },
-                {
-                  "displayName": "Direction",
-                  "name": "direction",
-                  "type": "options",
-                  "options": [
-                    {
-                      "name": "ASC",
-                      "value": "",
-                      "description": "Sort in ascending order"
-                    },
-                    {
-                      "name": "DESC",
-                      "value": "-",
-                      "description": "Sort in descending order"
-                    }
-                  ],
-                  "default": "",
-                  "description": "Sort direction, either ascending or descending"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "filters (值: None) - Filter rows based on comparison operators",
+        "filterType (值: None) - This works only if two or more filters are provided. Defaults to `AND`",
+        "search (值: None) - Text to match (can be in any column)",
+        "order (值: None) - Set the sort order of the result rows"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "databaseId",
-      "tableId",
-      "rowId",
-      "rowId",
-      "dataToSend",
-      "inputsToIgnore",
-      "fieldsUi",
-      "rowId",
-      "returnAll",
-      "limit",
-      "additionalOptions"
-    ],
-    "conditional_rules": [
-      "IF resource == 'row' THEN SHOW parameter 'operation'",
-      "IF operation == 'get' THEN SHOW parameter 'rowId'",
-      "IF operation == 'update' THEN SHOW parameter 'rowId'",
-      "IF operation IN [\"create\", \"update\"] THEN SHOW parameter 'dataToSend'",
-      "IF operation IN [\"create\", \"update\"] AND dataToSend == 'autoMapInputData' THEN SHOW parameter 'inputsToIgnore'",
-      "IF operation IN [\"create\", \"update\"] AND dataToSend == 'defineBelow' THEN SHOW parameter 'fieldsUi'",
-      "IF operation == 'delete' THEN SHOW parameter 'rowId'",
-      "IF operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' THEN SHOW parameter 'additionalOptions'"
-    ]
   }
 }

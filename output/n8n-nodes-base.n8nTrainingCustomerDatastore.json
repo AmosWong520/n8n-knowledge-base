@@ -1,74 +1,40 @@
 {
   "node_id": "n8n-nodes-base.n8nTrainingCustomerDatastore",
-  "name": "n8n-nodes-base.n8nTrainingCustomerDatastore",
+  "name": "Customer Datastore (n8n training)",
   "version": 1,
   "semantic_context": "Dummy node used for n8n training",
+  "natural_language_description": "这是 Customer Datastore (n8n training) 节点。主要用于: Dummy node used for n8n training",
   "parameters": {
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Get One Person",
-          "value": "getOnePerson"
-        },
-        {
-          "name": "Get All People",
-          "value": "getAllPeople"
-        }
-      ],
+      "required": false,
       "default": "getOnePerson",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getOnePerson",
+      "available_options": [
+        "Get One Person (值: getOnePerson)",
+        "Get All People (值: getAllPeople)"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAllPeople"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAllPeople"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 10
-      },
+      "required": false,
       "default": 5,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 5"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "operation",
-      "returnAll",
-      "limit"
-    ],
-    "conditional_rules": [
-      "IF operation == 'getAllPeople' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAllPeople' AND returnAll == False THEN SHOW parameter 'limit'"
-    ]
   }
 }

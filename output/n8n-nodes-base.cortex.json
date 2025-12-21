@@ -1,474 +1,159 @@
 {
   "node_id": "n8n-nodes-base.cortex",
-  "name": "n8n-nodes-base.cortex",
+  "name": "Cortex",
   "version": 1,
   "semantic_context": "Apply the Cortex analyzer/responder on the given entity",
+  "natural_language_description": "这是 Cortex 节点。主要用于: Apply the Cortex analyzer/responder on the given entity",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Analyzer",
-          "value": "analyzer"
-        },
-        {
-          "name": "Job",
-          "value": "job"
-        },
-        {
-          "name": "Responder",
-          "value": "responder"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": true,
       "default": "analyzer",
       "description": "Choose a resource",
-      "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Resource | 作用: Choose a resource | 默认值: analyzer | (必填项)",
+      "available_options": [
+        "Analyzer (值: analyzer)",
+        "Job (值: job)",
+        "Responder (值: responder)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "description": "Choose an operation",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "job"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get job details",
-          "action": "Get a job"
-        },
-        {
-          "name": "Report",
-          "value": "report",
-          "description": "Get job report",
-          "action": "Get a job report"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "Choose an operation",
+      "natural_language_description": "参数名: Operation | 作用: Choose an operation | 默认值: get | (必填项)",
+      "available_options": [
+        "Get (值: get) - Get job details",
+        "Report (值: report) - Get job report",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "analyzer": {
       "displayName": "Analyzer Type Name or ID",
       "name": "analyzer",
       "type": "options",
       "required": true,
-      "typeOptions": {
-        "loadOptionsMethod": "loadActiveAnalyzers"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "analyzer"
-          ],
-          "operation": [
-            "execute"
-          ]
-        }
-      },
-      "description": "Choose the analyzer. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
       "default": "",
-      "ai_hint": "Choose the analyzer. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "Choose the analyzer. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Analyzer Type Name or ID | 作用: Choose the analyzer. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "observableType": {
       "displayName": "Observable Type Name or ID",
       "name": "observableType",
       "type": "options",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "analyzer"
-          ],
-          "operation": [
-            "execute"
-          ]
-        },
-        "hide": {
-          "analyzer": [
-            ""
-          ]
-        }
-      },
-      "typeOptions": {
-        "loadOptionsMethod": "loadObservableOptions",
-        "loadOptionsDependsOn": [
-          "analyzer"
-        ]
-      },
       "default": "",
-      "description": "Choose the observable type. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "Choose the observable type. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "Choose the observable type. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Observable Type Name or ID | 作用: Choose the observable type. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "observableValue": {
       "displayName": "Observable Value",
       "name": "observableValue",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "analyzer"
-          ],
-          "operation": [
-            "execute"
-          ]
-        },
-        "hide": {
-          "observableType": [
-            "file"
-          ],
-          "analyzer": [
-            ""
-          ]
-        }
-      },
       "default": "",
       "description": "Enter the observable value",
-      "ai_hint": "Enter the observable value"
+      "natural_language_description": "参数名: Observable Value | 作用: Enter the observable value | (必填项)"
     },
     "binaryPropertyName": {
       "displayName": "Put Output File in Field",
       "name": "binaryPropertyName",
       "type": "string",
-      "default": "data",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "observableType": [
-            "file"
-          ],
-          "resource": [
-            "analyzer"
-          ],
-          "operation": [
-            "execute"
-          ]
-        }
-      },
-      "hint": "The name of the output binary field to put the file in"
+      "default": "data",
+      "description": "",
+      "natural_language_description": "参数名: Put Output File in Field | 提示: The name of the output binary field to put the file in | 默认值: data | (必填项)"
     },
     "tlp": {
       "displayName": "TLP",
       "name": "tlp",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "analyzer"
-          ],
-          "operation": [
-            "execute"
-          ]
-        },
-        "hide": {
-          "observableType": [
-            ""
-          ],
-          "analyzer": [
-            ""
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "White",
-          "value": 0
-        },
-        {
-          "name": "Green",
-          "value": 1
-        },
-        {
-          "name": "Amber",
-          "value": 2
-        },
-        {
-          "name": "Red",
-          "value": 3
-        }
-      ],
+      "required": false,
       "default": 2,
       "description": "The TLP of the analyzed observable",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: TLP | 作用: The TLP of the analyzed observable | 默认值: 2",
+      "available_options": [
+        "White (值: 0)",
+        "Green (值: 1)",
+        "Amber (值: 2)",
+        "Red (值: 3)"
+      ]
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "analyzer"
-          ],
-          "operation": [
-            "execute"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Force",
-          "name": "force",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to force bypassing the cache"
-        },
-        {
-          "displayName": "Timeout (Seconds)",
-          "name": "timeout",
-          "type": "number",
-          "default": 3,
-          "description": "Timeout to wait for the report in case it is not available at the time the query was made"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "force (值: None) - Whether to force bypassing the cache",
+        "timeout (值: None) - Timeout to wait for the report in case it is not available at the time the query was made"
+      ]
     },
     "responder": {
       "displayName": "Responder Type Name or ID",
       "name": "responder",
       "type": "options",
       "required": true,
-      "typeOptions": {
-        "loadOptionsMethod": "loadActiveResponders"
-      },
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "responder"
-          ]
-        }
-      },
-      "description": "Choose the responder. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "Choose the responder. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "Choose the responder. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Responder Type Name or ID | 作用: Choose the responder. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "entityType": {
       "displayName": "Entity Type Name or ID",
       "name": "entityType",
       "type": "options",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "responder"
-          ]
-        }
-      },
-      "typeOptions": {
-        "loadOptionsMethod": "loadDataTypeOptions",
-        "loadOptionsDependsOn": [
-          "responder"
-        ]
-      },
       "default": "",
-      "description": "Choose the Data type. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "Choose the Data type. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "Choose the Data type. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Entity Type Name or ID | 作用: Choose the Data type. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "jsonObject": {
       "displayName": "JSON Parameters",
       "name": "jsonObject",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Choose between providing JSON object or seperated attributes",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "responder"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: JSON Parameters | 作用: Choose between providing JSON object or seperated attributes | 默认值: False"
     },
     "objectData": {
       "displayName": "Entity Object (JSON)",
       "name": "objectData",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "responder"
-          ],
-          "jsonObject": [
-            true
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Entity Object (JSON) | (必填项)"
     },
     "parameters": {
       "displayName": "Parameters",
       "name": "parameters",
       "type": "fixedCollection",
-      "placeholder": "Add Parameter",
-      "options": [
-        {
-          "displayName": "Log Attributes",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Message",
-              "name": "message",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Start Date",
-              "name": "startDate",
-              "type": "dateTime",
-              "default": "",
-              "description": "Date and time of the begin of the case default=now"
-            },
-            {
-              "displayName": "Status",
-              "name": "status",
-              "type": "options",
-              "required": true,
-              "default": "",
-              "options": [
-                {
-                  "name": "Ok",
-                  "value": "Ok"
-                },
-                {
-                  "name": "Deleted",
-                  "value": "Deleted"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "typeOptions": {
-        "loadOptionsDependsOn": [
-          "entityType"
-        ]
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "responder"
-          ],
-          "jsonObject": [
-            false
-          ],
-          "entityType": [
-            "case_task_log"
-          ]
-        },
-        "hide": {
-          "responder": [
-            ""
-          ],
-          "entityType": [
-            "",
-            "case",
-            "alert",
-            "case_artifact",
-            "case_task"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Parameters | 默认值: {}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "jobId": {
       "displayName": "Job ID",
       "name": "jobId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "job"
-          ],
-          "operation": [
-            "get",
-            "report"
-          ]
-        }
-      },
       "default": "",
       "description": "ID of the job",
-      "ai_hint": "ID of the job"
+      "natural_language_description": "参数名: Job ID | 作用: ID of the job | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "analyzer",
-      "observableType",
-      "observableValue",
-      "binaryPropertyName",
-      "tlp",
-      "additionalFields",
-      "operation",
-      "responder",
-      "entityType",
-      "jsonObject",
-      "objectData",
-      "parameters",
-      "parameters",
-      "parameters",
-      "parameters",
-      "parameters",
-      "operation",
-      "jobId"
-    ],
-    "conditional_rules": [
-      "IF resource == 'analyzer' THEN SHOW parameter 'operation'",
-      "IF resource == 'analyzer' AND operation == 'execute' THEN SHOW parameter 'analyzer'",
-      "IF resource == 'analyzer' AND operation == 'execute' THEN SHOW parameter 'observableType'",
-      "IF analyzer == '' THEN HIDE parameter 'observableType'",
-      "IF resource == 'analyzer' AND operation == 'execute' THEN SHOW parameter 'observableValue'",
-      "IF observableType == 'file' AND analyzer == '' THEN HIDE parameter 'observableValue'",
-      "IF observableType == 'file' AND resource == 'analyzer' AND operation == 'execute' THEN SHOW parameter 'binaryPropertyName'",
-      "IF resource == 'analyzer' AND operation == 'execute' THEN SHOW parameter 'tlp'",
-      "IF observableType == '' AND analyzer == '' THEN HIDE parameter 'tlp'",
-      "IF resource == 'analyzer' AND operation == 'execute' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'responder' THEN SHOW parameter 'operation'",
-      "IF resource == 'responder' THEN SHOW parameter 'responder'",
-      "IF resource == 'responder' THEN SHOW parameter 'entityType'",
-      "IF resource == 'responder' THEN SHOW parameter 'jsonObject'",
-      "IF resource == 'responder' AND jsonObject == True THEN SHOW parameter 'objectData'",
-      "IF resource == 'responder' AND jsonObject == False AND entityType == 'case' THEN SHOW parameter 'parameters'",
-      "IF entityType IN [\"\", \"alert\", \"case_artifact\", \"case_task\", \"case_task_log\"] THEN HIDE parameter 'parameters'",
-      "IF resource == 'responder' AND jsonObject == False AND entityType == 'alert' THEN SHOW parameter 'parameters'",
-      "IF responder == '' AND entityType IN [\"\", \"case\", \"case_artifact\", \"case_task\", \"case_task_log\"] THEN HIDE parameter 'parameters'",
-      "IF dataType == 'file' THEN SHOW parameter 'binaryProperty'",
-      "IF dataType == 'file' THEN HIDE parameter 'data'",
-      "IF resource == 'responder' AND jsonObject == False AND entityType == 'case_artifact' THEN SHOW parameter 'parameters'",
-      "IF responder == '' AND entityType IN [\"\", \"case\", \"alert\", \"case_task\", \"case_task_log\"] THEN HIDE parameter 'parameters'",
-      "IF dataType == 'file' THEN SHOW parameter 'binaryPropertyName'",
-      "IF resource == 'responder' AND jsonObject == False AND entityType == 'case_task' THEN SHOW parameter 'parameters'",
-      "IF responder == '' AND entityType IN [\"\", \"case\", \"alert\", \"case_artifact\", \"case_task_log\"] THEN HIDE parameter 'parameters'",
-      "IF resource == 'responder' AND jsonObject == False AND entityType == 'case_task_log' THEN SHOW parameter 'parameters'",
-      "IF responder == '' AND entityType IN [\"\", \"case\", \"alert\", \"case_artifact\", \"case_task\"] THEN HIDE parameter 'parameters'",
-      "IF resource == 'job' THEN SHOW parameter 'operation'",
-      "IF resource == 'job' AND operation IN [\"get\", \"report\"] THEN SHOW parameter 'jobId'"
-    ]
   }
 }

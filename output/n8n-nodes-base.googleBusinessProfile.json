@@ -1,1007 +1,242 @@
 {
   "node_id": "n8n-nodes-base.googleBusinessProfile",
-  "name": "n8n-nodes-base.googleBusinessProfile",
+  "name": "Google Business Profile",
   "version": 1,
   "semantic_context": "Consume Google Business Profile API",
+  "natural_language_description": "这是 Google Business Profile 节点。主要用于: Consume Google Business Profile API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Post",
-          "value": "post"
-        },
-        {
-          "name": "Review",
-          "value": "review"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "post",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: post",
+      "available_options": [
+        "Post (值: post)",
+        "Review (值: review)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
+      "required": false,
       "default": "get",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "review"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Delete Reply",
-          "value": "delete",
-          "action": "Delete a reply to a review",
-          "description": "Delete a reply to a review",
-          "routing": {
-            "request": {
-              "method": "DELETE",
-              "url": "=/{{$parameter[\"account\"]}}/{{$parameter[\"location\"]}}/reviews/{{$parameter[\"review\"].split(\"reviews/\").pop().split(\"/reply\")[0]}}/reply",
-              "ignoreHttpStatusErrors": true
-            },
-            "output": {
-              "postReceive": [
-                null
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "action": "Get review",
-          "description": "Retrieve details of a specific review on Google Business Profile",
-          "routing": {
-            "request": {
-              "method": "GET",
-              "url": "=/{{$parameter[\"account\"]}}/{{$parameter[\"location\"]}}/reviews/{{$parameter[\"review\"].split(\"reviews/\").pop().split(\"/reply\")[0]}}",
-              "ignoreHttpStatusErrors": true
-            },
-            "output": {
-              "postReceive": [
-                null
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "action": "Get many reviews",
-          "description": "Retrieve multiple reviews",
-          "routing": {
-            "send": {
-              "paginate": true
-            },
-            "operations": {},
-            "request": {
-              "method": "GET",
-              "url": "=/{{$parameter[\"account\"]}}/{{$parameter[\"location\"]}}/reviews",
-              "qs": {
-                "pageSize": "={{ $parameter[\"limit\"] ? ($parameter[\"limit\"] < 50 ? $parameter[\"limit\"] : 50) : 50 }}"
-              }
-            }
-          }
-        },
-        {
-          "name": "Reply",
-          "value": "reply",
-          "action": "Reply to review",
-          "description": "Reply to a review",
-          "routing": {
-            "request": {
-              "method": "PUT",
-              "url": "=/{{$parameter[\"account\"]}}/{{$parameter[\"location\"]}}/reviews/{{$parameter[\"review\"].split(\"reviews/\").pop().split(\"/reply\")[0]}}/reply",
-              "ignoreHttpStatusErrors": true
-            },
-            "output": {
-              "postReceive": [
-                null
-              ]
-            }
-          }
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Delete Reply (值: delete) - Delete a reply to a review",
+        "Get (值: get) - Retrieve details of a specific review on Google Business Profile",
+        "Get Many (值: getAll) - Retrieve multiple reviews",
+        "Reply (值: reply) - Reply to a review",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "account": {
       "displayName": "Account",
       "name": "account",
-      "required": true,
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
       "description": "The Google Business Profile account",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "review"
-          ],
-          "operation": [
-            "reply"
-          ]
-        }
-      },
-      "modes": [
-        {
-          "displayName": "From list",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "searchAccounts",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By name",
-          "name": "name",
-          "type": "string",
-          "hint": "Enter the account name",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "accounts/[0-9]+",
-                "errorMessage": "The name must start with \"accounts/\""
-              }
-            }
-          ],
-          "placeholder": "e.g. accounts/0123456789"
-        }
-      ],
-      "ai_hint": "The Google Business Profile account"
+      "natural_language_description": "参数名: Account | 作用: The Google Business Profile account | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "location": {
       "displayName": "Location",
       "name": "location",
-      "required": true,
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
       "description": "The specific location or business associated with the account",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "review"
-          ],
-          "operation": [
-            "reply"
-          ]
-        }
-      },
-      "modes": [
-        {
-          "displayName": "From list",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "searchLocations",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By name",
-          "name": "name",
-          "type": "string",
-          "hint": "Enter the location name",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "locations/[0-9]+",
-                "errorMessage": "The name must start with \"locations/\""
-              }
-            }
-          ],
-          "placeholder": "e.g. locations/0123456789"
-        }
-      ],
-      "ai_hint": "The specific location or business associated with the account"
+      "natural_language_description": "参数名: Location | 作用: The specific location or business associated with the account | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "postType": {
       "displayName": "Post Type",
       "name": "postType",
-      "required": true,
       "type": "options",
+      "required": true,
       "default": "STANDARD",
       "description": "The type of post to create (standard, event, offer, or alert)",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "routing": {
-        "send": {
-          "type": "body",
-          "property": "topicType"
-        }
-      },
-      "options": [
-        {
-          "name": "Standard",
-          "value": "STANDARD"
-        },
-        {
-          "name": "Event",
-          "value": "EVENT"
-        },
-        {
-          "name": "Offer",
-          "value": "OFFER"
-        },
-        {
-          "name": "Alert",
-          "value": "ALERT"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Post Type | 作用: The type of post to create (standard, event, offer, or alert) | 默认值: STANDARD | (必填项)",
+      "available_options": [
+        "Standard (值: STANDARD)",
+        "Event (值: EVENT)",
+        "Offer (值: OFFER)",
+        "Alert (值: ALERT)"
+      ]
     },
     "summary": {
       "displayName": "Summary",
       "name": "summary",
-      "required": true,
       "type": "string",
+      "required": true,
       "default": "",
       "description": "The main text of the post",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "routing": {
-        "send": {
-          "type": "body",
-          "property": "summary"
-        }
-      },
-      "ai_hint": "The main text of the post"
+      "natural_language_description": "参数名: Summary | 作用: The main text of the post | (必填项)"
     },
     "title": {
       "displayName": "Title",
       "name": "title",
-      "required": true,
       "type": "string",
+      "required": true,
       "default": "",
       "description": "E.g. 20% off in store or online.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ],
-          "postType": [
-            "OFFER"
-          ]
-        }
-      },
-      "routing": {
-        "send": {
-          "type": "body",
-          "property": "event.title"
-        }
-      },
-      "ai_hint": "E.g. 20% off in store or online."
+      "natural_language_description": "参数名: Title | 作用: E.g. 20% off in store or online. | (必填项)"
     },
     "startDateTime": {
       "displayName": "Start Date and Time",
       "name": "startDateTime",
-      "required": true,
       "type": "dateTime",
+      "required": true,
       "default": "",
       "description": "The start date and time of the event",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ],
-          "postType": [
-            "EVENT"
-          ]
-        }
-      },
-      "ai_hint": "The start date and time of the event"
+      "natural_language_description": "参数名: Start Date and Time | 作用: The start date and time of the event | (必填项)"
     },
     "endDateTime": {
       "displayName": "End Date and Time",
       "name": "endDateTime",
-      "required": true,
       "type": "dateTime",
+      "required": true,
       "default": "",
       "description": "The end date and time of the event",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ],
-          "postType": [
-            "EVENT"
-          ]
-        }
-      },
-      "ai_hint": "The end date and time of the event"
+      "natural_language_description": "参数名: End Date and Time | 作用: The end date and time of the event | (必填项)"
     },
     "startDate": {
       "displayName": "Start Date",
       "name": "startDate",
-      "required": true,
       "type": "string",
+      "required": true,
       "default": "",
-      "placeholder": "YYYY-MM-DD",
       "description": "The start date of the offer",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ],
-          "postType": [
-            "OFFER"
-          ]
-        }
-      },
-      "ai_hint": "The start date of the offer"
+      "natural_language_description": "参数名: Start Date | 作用: The start date of the offer | (必填项)"
     },
     "endDate": {
       "displayName": "End Date",
       "name": "endDate",
-      "required": true,
       "type": "string",
+      "required": true,
       "default": "",
-      "placeholder": "YYYY-MM-DD",
       "description": "The end date of the offer",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ],
-          "postType": [
-            "OFFER"
-          ]
-        }
-      },
-      "ai_hint": "The end date of the offer"
+      "natural_language_description": "参数名: End Date | 作用: The end date of the offer | (必填项)"
     },
     "alertType": {
       "displayName": "Alert Type",
       "name": "alertType",
-      "required": true,
       "type": "options",
+      "required": true,
       "default": "COVID_19",
       "description": "The sub-type of the alert",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ],
-          "postType": [
-            "ALERT"
-          ]
-        }
-      },
-      "routing": {
-        "send": {
-          "type": "body",
-          "property": "alertType"
-        }
-      },
-      "options": [
-        {
-          "name": "Covid 19",
-          "value": "COVID_19",
-          "description": "This alert is related to the 2019 Coronavirus Disease pandemic"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Alert Type | 作用: The sub-type of the alert | 默认值: COVID_19 | (必填项)",
+      "available_options": [
+        "Covid 19 (值: COVID_19) - This alert is related to the 2019 Coronavirus Disease pandemic"
+      ]
     },
     "additionalOptions": {
       "displayName": "Options",
       "name": "additionalOptions",
       "type": "collection",
+      "required": false,
       "default": {},
-      "placeholder": "Add Option",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Summary",
-          "name": "summary",
-          "type": "string",
-          "default": "",
-          "description": "The main text of the post",
-          "routing": {
-            "send": {
-              "type": "body",
-              "property": "summary"
-            }
-          }
-        },
-        {
-          "displayName": "Language",
-          "name": "languageCode",
-          "type": "string",
-          "default": "",
-          "placeholder": "e.g. en",
-          "description": "The language code of the post content. <a href=\"https://cloud.google.com/translate/docs/languages\" target=\"_blank\">More info</a>.",
-          "routing": {
-            "send": {
-              "type": "body",
-              "property": "languageCode"
-            }
-          }
-        },
-        {
-          "displayName": "Call to Action Type",
-          "name": "callToActionType",
-          "type": "options",
-          "default": "ACTION_TYPE_UNSPECIFIED",
-          "description": "The type of call to action",
-          "routing": {
-            "send": {
-              "type": "body",
-              "property": "callToAction.actionType"
-            }
-          },
-          "options": [
-            {
-              "name": "Action Type Unspecified",
-              "value": "ACTION_TYPE_UNSPECIFIED",
-              "description": "Type unspecified"
-            },
-            {
-              "name": "Book",
-              "value": "BOOK",
-              "description": "This post wants a user to book an appointment/table/etc"
-            },
-            {
-              "name": "Get Offer",
-              "value": "GET_OFFER",
-              "description": "Deprecated. Use OFFER in LocalPostTopicType to create a post with offer content."
-            },
-            {
-              "name": "Learn More",
-              "value": "LEARN_MORE",
-              "description": "This post wants a user to learn more (at their website)"
-            },
-            {
-              "name": "Order",
-              "value": "ORDER",
-              "description": "This post wants a user to order something"
-            },
-            {
-              "name": "Shop",
-              "value": "SHOP",
-              "description": "This post wants a user to browse a product catalog"
-            },
-            {
-              "name": "Sign Up",
-              "value": "SIGN_UP",
-              "description": "This post wants a user to register/sign up/join something"
-            }
-          ]
-        },
-        {
-          "displayName": "Call to Action Url",
-          "name": "url",
-          "type": "string",
-          "default": "",
-          "description": "The URL that users are sent to when clicking through the promotion",
-          "routing": {
-            "send": {
-              "type": "body",
-              "property": "callToAction.url"
-            }
-          }
-        },
-        {
-          "displayName": "Start Date and Time",
-          "name": "startDateTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "The start date and time of the event"
-        },
-        {
-          "displayName": "End Date and Time",
-          "name": "endDateTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "The end date and time of the event"
-        },
-        {
-          "displayName": "Title",
-          "name": "title",
-          "type": "string",
-          "default": "",
-          "description": "E.g. 20% off in store or online.",
-          "routing": {
-            "send": {
-              "type": "body",
-              "property": "event.title"
-            }
-          }
-        },
-        {
-          "displayName": "Start Date",
-          "name": "startDate",
-          "type": "string",
-          "default": "",
-          "placeholder": "YYYY-MM-DD",
-          "description": "The start date of the offer"
-        },
-        {
-          "displayName": "End Date",
-          "name": "endDate",
-          "type": "string",
-          "default": "",
-          "placeholder": "YYYY-MM-DD",
-          "description": "The end date of the offer"
-        },
-        {
-          "displayName": "Coupon Code",
-          "name": "couponCode",
-          "type": "string",
-          "default": "",
-          "description": "The coupon code for the offer",
-          "routing": {
-            "send": {
-              "type": "body",
-              "property": "offer.couponCode"
-            }
-          }
-        },
-        {
-          "displayName": "Redeem Online Url",
-          "name": "redeemOnlineUrl",
-          "type": "string",
-          "default": "",
-          "description": "Link to redeem the offer",
-          "routing": {
-            "send": {
-              "type": "body",
-              "property": "offer.redeemOnlineUrl"
-            }
-          }
-        },
-        {
-          "displayName": "Terms and Conditions",
-          "name": "termsConditions",
-          "type": "string",
-          "default": "",
-          "description": "The terms and conditions of the offer",
-          "routing": {
-            "send": {
-              "type": "body",
-              "property": "offer.termsConditions"
-            }
-          }
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "summary (值: None) - The main text of the post",
+        "languageCode (值: None) - The language code of the post content. More info.",
+        "callToActionType (值: None) - The type of call to action",
+        "url (值: None) - The URL that users are sent to when clicking through the promotion",
+        "startDateTime (值: None) - The start date and time of the event",
+        "endDateTime (值: None) - The end date and time of the event",
+        "title (值: None) - E.g. 20% off in store or online.",
+        "startDate (值: None) - The start date of the offer",
+        "endDate (值: None) - The end date of the offer",
+        "couponCode (值: None) - The coupon code for the offer",
+        "redeemOnlineUrl (值: None) - Link to redeem the offer",
+        "termsConditions (值: None) - The terms and conditions of the offer"
+      ]
     },
     "post": {
       "displayName": "Post",
       "name": "post",
       "type": "resourceLocator",
+      "required": false,
       "default": {
         "mode": "list",
         "value": ""
       },
       "description": "Select the post to retrieve its details",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "modes": [
-        {
-          "displayName": "From list",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "searchPosts",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By name",
-          "name": "name",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "accounts/[0-9]+/locations/[0-9]+/localPosts/[0-9]+",
-                "errorMessage": "The name must be in the format \"accounts/123/locations/123/localPosts/123\""
-              }
-            }
-          ],
-          "placeholder": "e.g. accounts/123/locations/123/localPosts/123"
-        }
-      ],
-      "ai_hint": "Select the post to retrieve its details"
+      "natural_language_description": "参数名: Post | 作用: Select the post to retrieve its details | 默认值: {'mode': 'list', 'value': ''}"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
+      "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "review"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "type": "boolean",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
-      "required": true,
       "type": "number",
-      "typeOptions": {
-        "minValue": 1
-      },
+      "required": true,
       "default": 20,
       "description": "Max number of results to return",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "review"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 20 | (必填项)"
     },
     "notice": {
       "displayName": "Make sure that the updated options are supported by the post type. <a target='_blank' href='https://developers.google.com/my-business/reference/rest/v4/accounts.locations.localPosts#resource:-localpost'>More info</a>.",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Make sure that the updated options are supported by the post type. <a target='_blank' href='https://developers.google.com/my-business/reference/rest/v4/accounts.locations.localPosts#resource:-localpost'>More info</a>."
     },
     "review": {
       "displayName": "Review",
       "name": "review",
-      "required": true,
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
       "description": "Select the review to retrieve its details",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "review"
-          ],
-          "operation": [
-            "reply"
-          ]
-        }
-      },
-      "modes": [
-        {
-          "displayName": "From list",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "searchReviews",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "^(?!accounts/[0-9]+/locations/[0-9]+/reviews/).*",
-                "errorMessage": "The name must not start with \"accounts/123/locations/123/reviews/\""
-              }
-            }
-          ],
-          "placeholder": "e.g. ABC123_review-ID_456xyz"
-        },
-        {
-          "displayName": "By name",
-          "name": "name",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "accounts/[0-9]+/locations/[0-9]+/reviews/.*$",
-                "errorMessage": "The name must start with \"accounts/123/locations/123/reviews/\""
-              }
-            }
-          ],
-          "placeholder": "e.g. accounts/123/locations/123/reviews/ABC123_review-ID_456xyz"
-        }
-      ],
-      "ai_hint": "Select the review to retrieve its details"
+      "natural_language_description": "参数名: Review | 作用: Select the review to retrieve its details | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "reply": {
       "displayName": "Reply",
       "name": "reply",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "The body of the reply (up to 4096 characters)",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "review"
-          ],
-          "operation": [
-            "reply"
-          ]
-        }
-      },
-      "typeOptions": {
-        "rows": 5
-      },
-      "routing": {
-        "send": {
-          "type": "body",
-          "property": "comment"
-        }
-      },
-      "ai_hint": "The body of the reply (up to 4096 characters)"
+      "natural_language_description": "参数名: Reply | 作用: The body of the reply (up to 4096 characters)"
     },
     "requestOptions": {
       "displayName": "Request Options",
       "name": "requestOptions",
       "type": "collection",
-      "isNodeSetting": true,
-      "placeholder": "Add Option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Batching",
-          "name": "batching",
-          "placeholder": "Add Batching",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": {
-            "batch": {}
-          },
-          "options": [
-            {
-              "displayName": "Batching",
-              "name": "batch",
-              "values": [
-                {
-                  "displayName": "Items per Batch",
-                  "name": "batchSize",
-                  "type": "number",
-                  "typeOptions": {
-                    "minValue": -1
-                  },
-                  "default": 50,
-                  "description": "Input will be split in batches to throttle requests. -1 for disabled. 0 will be treated as 1."
-                },
-                {
-                  "displayName": "Batch Interval (ms)",
-                  "name": "batchInterval",
-                  "type": "number",
-                  "typeOptions": {
-                    "minValue": 0
-                  },
-                  "default": 1000,
-                  "description": "Time (in milliseconds) between each batch of requests. 0 for disabled."
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Ignore SSL Issues (Insecure)",
-          "name": "allowUnauthorizedCerts",
-          "type": "boolean",
-          "noDataExpression": true,
-          "default": false,
-          "description": "Whether to accept the response even if SSL certificate validation is not possible"
-        },
-        {
-          "displayName": "Proxy",
-          "name": "proxy",
-          "type": "string",
-          "default": "",
-          "placeholder": "e.g. http://myproxy:3128",
-          "description": "HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128"
-        },
-        {
-          "displayName": "Timeout",
-          "name": "timeout",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 1
-          },
-          "default": 10000,
-          "description": "Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Request Options | 默认值: {}",
+      "available_options": [
+        "batching (值: None)",
+        "allowUnauthorizedCerts (值: None) - Whether to accept the response even if SSL certificate validation is not possible",
+        "proxy (值: None) - HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128",
+        "timeout (值: None) - Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "account",
-      "location",
-      "postType",
-      "summary",
-      "title",
-      "startDateTime",
-      "endDateTime",
-      "title",
-      "startDate",
-      "endDate",
-      "alertType",
-      "additionalOptions",
-      "account",
-      "location",
-      "post",
-      "account",
-      "location",
-      "post",
-      "account",
-      "location",
-      "returnAll",
-      "limit",
-      "account",
-      "location",
-      "post",
-      "notice",
-      "additionalOptions",
-      "operation",
-      "account",
-      "location",
-      "review",
-      "account",
-      "location",
-      "review",
-      "account",
-      "location",
-      "returnAll",
-      "limit",
-      "account",
-      "location",
-      "review",
-      "reply",
-      "requestOptions"
-    ],
-    "conditional_rules": [
-      "IF resource == 'post' THEN SHOW parameter 'operation'",
-      "IF resource == 'post' AND operation == 'create' THEN SHOW parameter 'account'",
-      "IF resource == 'post' AND operation == 'create' THEN SHOW parameter 'location'",
-      "IF resource == 'post' AND operation == 'create' THEN SHOW parameter 'postType'",
-      "IF resource == 'post' AND operation == 'create' THEN SHOW parameter 'summary'",
-      "IF resource == 'post' AND operation == 'create' AND postType == 'EVENT' THEN SHOW parameter 'title'",
-      "IF resource == 'post' AND operation == 'create' AND postType == 'EVENT' THEN SHOW parameter 'startDateTime'",
-      "IF resource == 'post' AND operation == 'create' AND postType == 'EVENT' THEN SHOW parameter 'endDateTime'",
-      "IF resource == 'post' AND operation == 'create' AND postType == 'OFFER' THEN SHOW parameter 'title'",
-      "IF resource == 'post' AND operation == 'create' AND postType == 'OFFER' THEN SHOW parameter 'startDate'",
-      "IF resource == 'post' AND operation == 'create' AND postType == 'OFFER' THEN SHOW parameter 'endDate'",
-      "IF resource == 'post' AND operation == 'create' AND postType == 'ALERT' THEN SHOW parameter 'alertType'",
-      "IF resource == 'post' AND operation == 'create' THEN SHOW parameter 'additionalOptions'",
-      "IF /postType IN [\"STANDARD\", \"EVENT\", \"ALERT\"] THEN SHOW parameter 'callToActionType'",
-      "IF /postType IN [\"STANDARD\", \"EVENT\", \"ALERT\"] THEN SHOW parameter 'url'",
-      "IF /postType == 'OFFER' THEN SHOW parameter 'couponCode'",
-      "IF /postType == 'OFFER' THEN SHOW parameter 'redeemOnlineUrl'",
-      "IF /postType == 'OFFER' THEN SHOW parameter 'termsConditions'",
-      "IF resource == 'post' AND operation == 'delete' THEN SHOW parameter 'account'",
-      "IF resource == 'post' AND operation == 'delete' THEN SHOW parameter 'location'",
-      "IF resource == 'post' AND operation == 'delete' THEN SHOW parameter 'post'",
-      "IF resource == 'post' AND operation == 'get' THEN SHOW parameter 'account'",
-      "IF resource == 'post' AND operation == 'get' THEN SHOW parameter 'location'",
-      "IF resource == 'post' AND operation == 'get' THEN SHOW parameter 'post'",
-      "IF resource == 'post' AND operation == 'getAll' THEN SHOW parameter 'account'",
-      "IF resource == 'post' AND operation == 'getAll' THEN SHOW parameter 'location'",
-      "IF resource == 'post' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'post' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'post' AND operation == 'update' THEN SHOW parameter 'account'",
-      "IF resource == 'post' AND operation == 'update' THEN SHOW parameter 'location'",
-      "IF resource == 'post' AND operation == 'update' THEN SHOW parameter 'post'",
-      "IF resource == 'post' AND operation == 'update' THEN SHOW parameter 'notice'",
-      "IF resource == 'post' AND operation == 'update' THEN SHOW parameter 'additionalOptions'",
-      "IF resource == 'review' THEN SHOW parameter 'operation'",
-      "IF resource == 'review' AND operation == 'get' THEN SHOW parameter 'account'",
-      "IF resource == 'review' AND operation == 'get' THEN SHOW parameter 'location'",
-      "IF resource == 'review' AND operation == 'get' THEN SHOW parameter 'review'",
-      "IF resource == 'review' AND operation == 'delete' THEN SHOW parameter 'account'",
-      "IF resource == 'review' AND operation == 'delete' THEN SHOW parameter 'location'",
-      "IF resource == 'review' AND operation == 'delete' THEN SHOW parameter 'review'",
-      "IF resource == 'review' AND operation == 'getAll' THEN SHOW parameter 'account'",
-      "IF resource == 'review' AND operation == 'getAll' THEN SHOW parameter 'location'",
-      "IF resource == 'review' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'review' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'review' AND operation == 'reply' THEN SHOW parameter 'account'",
-      "IF resource == 'review' AND operation == 'reply' THEN SHOW parameter 'location'",
-      "IF resource == 'review' AND operation == 'reply' THEN SHOW parameter 'review'",
-      "IF resource == 'review' AND operation == 'reply' THEN SHOW parameter 'reply'"
-    ]
   }
 }

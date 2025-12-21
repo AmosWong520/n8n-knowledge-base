@@ -1,625 +1,195 @@
 {
   "node_id": "n8n-nodes-base.actionNetwork",
-  "name": "n8n-nodes-base.actionNetwork",
+  "name": "Action Network",
   "version": 1,
   "semantic_context": "Consume the Action Network API",
+  "natural_language_description": "这是 Action Network 节点。主要用于: Consume the Action Network API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Attendance",
-          "value": "attendance"
-        },
-        {
-          "name": "Event",
-          "value": "event"
-        },
-        {
-          "name": "Person",
-          "value": "person"
-        },
-        {
-          "name": "Person Tag",
-          "value": "personTag"
-        },
-        {
-          "name": "Petition",
-          "value": "petition"
-        },
-        {
-          "name": "Signature",
-          "value": "signature"
-        },
-        {
-          "name": "Tag",
-          "value": "tag"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "attendance",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: attendance",
+      "available_options": [
+        "Attendance (值: attendance)",
+        "Event (值: event)",
+        "Person (值: person)",
+        "Person Tag (值: personTag)",
+        "Petition (值: petition)",
+        "Signature (值: signature)",
+        "Tag (值: tag)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "personTag"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Add",
-          "value": "add",
-          "action": "Add a person tag"
-        },
-        {
-          "name": "Remove",
-          "value": "remove",
-          "action": "Remove a person tag"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "add",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: add",
+      "available_options": [
+        "Add (值: add)",
+        "Remove (值: remove)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "personId": {
       "displayName": "Person ID",
       "name": "personId",
-      "description": "ID of the person to add the tag to",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "personTag"
-          ],
-          "operation": [
-            "add"
-          ]
-        }
-      },
-      "ai_hint": "ID of the person to add the tag to"
+      "default": "",
+      "description": "ID of the person to add the tag to",
+      "natural_language_description": "参数名: Person ID | 作用: ID of the person to add the tag to | (必填项)"
     },
     "eventId": {
       "displayName": "Event ID",
       "name": "eventId",
-      "description": "ID of the event to retrieve",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "event"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "ID of the event to retrieve"
+      "default": "",
+      "description": "ID of the event to retrieve",
+      "natural_language_description": "参数名: Event ID | 作用: ID of the event to retrieve | (必填项)"
     },
     "simple": {
       "displayName": "Simplify",
       "name": "simple",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "tag"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether to return a simplified version of the response instead of the raw data",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Simplify | 作用: Whether to return a simplified version of the response instead of the raw data | 默认值: True"
     },
     "attendanceId": {
       "displayName": "Attendance ID",
       "name": "attendanceId",
-      "description": "ID of the attendance to retrieve",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "attendance"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "ID of the attendance to retrieve"
+      "default": "",
+      "description": "ID of the attendance to retrieve",
+      "natural_language_description": "参数名: Attendance ID | 作用: ID of the attendance to retrieve | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "tag"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "tag"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "originSystem": {
       "displayName": "Origin System",
       "name": "originSystem",
-      "description": "Source where the petition originated",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "petition"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Source where the petition originated"
+      "description": "Source where the petition originated",
+      "natural_language_description": "参数名: Origin System | 作用: Source where the petition originated | (必填项)"
     },
     "title": {
       "displayName": "Title",
       "name": "title",
-      "description": "Title of the petition to create",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "petition"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Title of the petition to create"
+      "description": "Title of the petition to create",
+      "natural_language_description": "参数名: Title | 作用: Title of the petition to create | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "signature"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Comments",
-          "name": "comments",
-          "type": "string",
-          "default": "",
-          "description": "Comments to leave when signing this petition"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "comments (值: None) - Comments to leave when signing this petition"
+      ]
     },
     "email_addresses": {
       "displayName": "Email Address",
       "name": "email_addresses",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "placeholder": "Add Email Address Field",
       "description": "Person’s email addresses",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "person"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Email Addresses Fields",
-          "name": "email_addresses_fields",
-          "values": [
-            {
-              "displayName": "Address",
-              "name": "address",
-              "type": "string",
-              "default": "",
-              "description": "Person's email address"
-            },
-            {
-              "displayName": "Primary",
-              "name": "primary",
-              "type": "hidden",
-              "default": true,
-              "description": "Whether this is the person's primary email address"
-            },
-            {
-              "displayName": "Status",
-              "name": "status",
-              "type": "options",
-              "default": "subscribed",
-              "description": "Subscription status of this email address",
-              "options": [
-                {
-                  "name": "Bouncing",
-                  "value": "bouncing"
-                },
-                {
-                  "name": "Previous Bounce",
-                  "value": "previous bounce"
-                },
-                {
-                  "name": "Previous Spam Complaint",
-                  "value": "previous spam complaint"
-                },
-                {
-                  "name": "Spam Complaint",
-                  "value": "spam complaint"
-                },
-                {
-                  "name": "Subscribed",
-                  "value": "subscribed"
-                },
-                {
-                  "name": "Unsubscribed",
-                  "value": "unsubscribed"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Email Address | 作用: Person’s email addresses | 默认值: {}",
+      "available_options": [
+        "email_addresses_fields (值: None)"
+      ]
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "signature"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Comments",
-          "name": "comments",
-          "type": "string",
-          "default": "",
-          "description": "Comments to leave when signing this petition"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "comments (值: None) - Comments to leave when signing this petition"
+      ]
     },
     "petitionId": {
       "displayName": "Petition ID",
       "name": "petitionId",
-      "description": "ID of the petition whose signature to update",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "signature"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the petition whose signature to update"
+      "default": "",
+      "description": "ID of the petition whose signature to update",
+      "natural_language_description": "参数名: Petition ID | 作用: ID of the petition whose signature to update | (必填项)"
     },
     "signatureId": {
       "displayName": "Signature ID",
       "name": "signatureId",
-      "description": "ID of the signature to update",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "signature"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the signature to update"
+      "default": "",
+      "description": "ID of the signature to update",
+      "natural_language_description": "参数名: Signature ID | 作用: ID of the signature to update | (必填项)"
     },
     "name": {
       "displayName": "Name",
       "name": "name",
-      "description": "Name of the tag to create",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "tag"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Name of the tag to create"
+      "description": "Name of the tag to create",
+      "natural_language_description": "参数名: Name | 作用: Name of the tag to create | (必填项)"
     },
     "tagId": {
       "displayName": "Tag Name or ID",
       "name": "tagId",
-      "description": "ID of the tag whose tagging to delete. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getTags"
-      },
-      "default": [],
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "personTag"
-          ],
-          "operation": [
-            "remove"
-          ]
-        }
-      },
-      "ai_hint": "ID of the tag whose tagging to delete. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": [],
+      "description": "ID of the tag whose tagging to delete. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Tag Name or ID | 作用: ID of the tag whose tagging to delete. Choose from the list, or specify an ID using an expression. | 默认值: [] | (必填项)"
     },
     "taggingId": {
       "displayName": "Tagging Name or ID",
       "name": "taggingId",
-      "description": "ID of the tagging to remove. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsDependsOn": [
-          "tagId"
-        ],
-        "loadOptionsMethod": "getTaggings"
-      },
       "required": true,
       "default": [],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "personTag"
-          ],
-          "operation": [
-            "remove"
-          ]
-        }
-      },
-      "ai_hint": "ID of the tagging to remove. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "ID of the tagging to remove. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Tagging Name or ID | 作用: ID of the tagging to remove. Choose from the list, or specify an ID using an expression. | 默认值: [] | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "personId",
-      "eventId",
-      "simple",
-      "eventId",
-      "attendanceId",
-      "simple",
-      "eventId",
-      "returnAll",
-      "limit",
-      "simple",
-      "operation",
-      "originSystem",
-      "title",
-      "simple",
-      "additionalFields",
-      "eventId",
-      "simple",
-      "returnAll",
-      "limit",
-      "simple",
-      "operation",
-      "simple",
-      "email_addresses",
-      "additionalFields",
-      "personId",
-      "simple",
-      "returnAll",
-      "limit",
-      "simple",
-      "personId",
-      "simple",
-      "updateFields",
-      "operation",
-      "originSystem",
-      "title",
-      "simple",
-      "additionalFields",
-      "petitionId",
-      "simple",
-      "returnAll",
-      "limit",
-      "simple",
-      "petitionId",
-      "simple",
-      "updateFields",
-      "operation",
-      "petitionId",
-      "personId",
-      "simple",
-      "additionalFields",
-      "petitionId",
-      "signatureId",
-      "simple",
-      "petitionId",
-      "returnAll",
-      "limit",
-      "simple",
-      "petitionId",
-      "signatureId",
-      "simple",
-      "updateFields",
-      "operation",
-      "name",
-      "simple",
-      "tagId",
-      "simple",
-      "returnAll",
-      "limit",
-      "simple",
-      "operation",
-      "tagId",
-      "personId",
-      "tagId",
-      "taggingId"
-    ],
-    "conditional_rules": [
-      "IF resource == 'attendance' THEN SHOW parameter 'operation'",
-      "IF resource == 'attendance' AND operation == 'create' THEN SHOW parameter 'personId'",
-      "IF resource == 'attendance' AND operation == 'create' THEN SHOW parameter 'eventId'",
-      "IF resource == 'attendance' AND operation == 'create' THEN SHOW parameter 'simple'",
-      "IF resource == 'attendance' AND operation == 'get' THEN SHOW parameter 'eventId'",
-      "IF resource == 'attendance' AND operation == 'get' THEN SHOW parameter 'attendanceId'",
-      "IF resource == 'attendance' AND operation == 'get' THEN SHOW parameter 'simple'",
-      "IF resource == 'attendance' AND operation == 'getAll' THEN SHOW parameter 'eventId'",
-      "IF resource == 'attendance' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'attendance' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'attendance' AND operation == 'getAll' THEN SHOW parameter 'simple'",
-      "IF resource == 'event' THEN SHOW parameter 'operation'",
-      "IF resource == 'event' AND operation == 'create' THEN SHOW parameter 'originSystem'",
-      "IF resource == 'event' AND operation == 'create' THEN SHOW parameter 'title'",
-      "IF resource == 'event' AND operation == 'create' THEN SHOW parameter 'simple'",
-      "IF resource == 'event' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'event' AND operation == 'get' THEN SHOW parameter 'eventId'",
-      "IF resource == 'event' AND operation == 'get' THEN SHOW parameter 'simple'",
-      "IF resource == 'event' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'event' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'event' AND operation == 'getAll' THEN SHOW parameter 'simple'",
-      "IF resource == 'person' THEN SHOW parameter 'operation'",
-      "IF resource == 'person' AND operation == 'create' THEN SHOW parameter 'simple'",
-      "IF resource == 'person' AND operation == 'create' THEN SHOW parameter 'email_addresses'",
-      "IF resource == 'person' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'person' AND operation == 'get' THEN SHOW parameter 'personId'",
-      "IF resource == 'person' AND operation == 'get' THEN SHOW parameter 'simple'",
-      "IF resource == 'person' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'person' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'person' AND operation == 'getAll' THEN SHOW parameter 'simple'",
-      "IF resource == 'person' AND operation == 'update' THEN SHOW parameter 'personId'",
-      "IF resource == 'person' AND operation == 'update' THEN SHOW parameter 'simple'",
-      "IF resource == 'person' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'petition' THEN SHOW parameter 'operation'",
-      "IF resource == 'petition' AND operation == 'create' THEN SHOW parameter 'originSystem'",
-      "IF resource == 'petition' AND operation == 'create' THEN SHOW parameter 'title'",
-      "IF resource == 'petition' AND operation == 'create' THEN SHOW parameter 'simple'",
-      "IF resource == 'petition' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'petition' AND operation == 'get' THEN SHOW parameter 'petitionId'",
-      "IF resource == 'petition' AND operation == 'get' THEN SHOW parameter 'simple'",
-      "IF resource == 'petition' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'petition' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'petition' AND operation == 'getAll' THEN SHOW parameter 'simple'",
-      "IF resource == 'petition' AND operation == 'update' THEN SHOW parameter 'petitionId'",
-      "IF resource == 'petition' AND operation == 'update' THEN SHOW parameter 'simple'",
-      "IF resource == 'petition' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'signature' THEN SHOW parameter 'operation'",
-      "IF resource == 'signature' AND operation == 'create' THEN SHOW parameter 'petitionId'",
-      "IF resource == 'signature' AND operation == 'create' THEN SHOW parameter 'personId'",
-      "IF resource == 'signature' AND operation == 'create' THEN SHOW parameter 'simple'",
-      "IF resource == 'signature' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'signature' AND operation == 'get' THEN SHOW parameter 'petitionId'",
-      "IF resource == 'signature' AND operation == 'get' THEN SHOW parameter 'signatureId'",
-      "IF resource == 'signature' AND operation == 'get' THEN SHOW parameter 'simple'",
-      "IF resource == 'signature' AND operation == 'getAll' THEN SHOW parameter 'petitionId'",
-      "IF resource == 'signature' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'signature' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'signature' AND operation == 'getAll' THEN SHOW parameter 'simple'",
-      "IF resource == 'signature' AND operation == 'update' THEN SHOW parameter 'petitionId'",
-      "IF resource == 'signature' AND operation == 'update' THEN SHOW parameter 'signatureId'",
-      "IF resource == 'signature' AND operation == 'update' THEN SHOW parameter 'simple'",
-      "IF resource == 'signature' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'tag' THEN SHOW parameter 'operation'",
-      "IF resource == 'tag' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'tag' AND operation == 'create' THEN SHOW parameter 'simple'",
-      "IF resource == 'tag' AND operation == 'get' THEN SHOW parameter 'tagId'",
-      "IF resource == 'tag' AND operation == 'get' THEN SHOW parameter 'simple'",
-      "IF resource == 'tag' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'tag' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'tag' AND operation == 'getAll' THEN SHOW parameter 'simple'",
-      "IF resource == 'personTag' THEN SHOW parameter 'operation'",
-      "IF resource == 'personTag' AND operation == 'add' THEN SHOW parameter 'tagId'",
-      "IF resource == 'personTag' AND operation == 'add' THEN SHOW parameter 'personId'",
-      "IF resource == 'personTag' AND operation == 'remove' THEN SHOW parameter 'tagId'",
-      "IF resource == 'personTag' AND operation == 'remove' THEN SHOW parameter 'taggingId'"
-    ]
   }
 }

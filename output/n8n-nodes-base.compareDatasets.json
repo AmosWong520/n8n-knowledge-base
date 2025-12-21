@@ -1,26 +1,24 @@
 {
   "node_id": "n8n-nodes-base.compareDatasets",
-  "name": "n8n-nodes-base.compareDatasets",
-  "version": [
-    1,
-    2,
-    2.1,
-    2.2,
-    2.3
-  ],
+  "name": "Compare Datasets",
+  "version": 1,
   "semantic_context": "Compare two inputs for changes",
+  "natural_language_description": "这是 Compare Datasets 节点。主要用于: Compare two inputs for changes",
   "parameters": {
     "infoBox": {
       "displayName": "Items from different branches are paired together when the fields below match. If paired, the rest of the fields are compared to determine whether the items are the same or different",
       "name": "infoBox",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Items from different branches are paired together when the fields below match. If paired, the rest of the fields are compared to determine whether the items are the same or different"
     },
     "mergeByFields": {
       "displayName": "Fields to Match",
       "name": "mergeByFields",
       "type": "fixedCollection",
-      "placeholder": "Add Fields to Match",
+      "required": false,
       "default": {
         "values": [
           {
@@ -29,205 +27,72 @@
           }
         ]
       },
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "options": [
-        {
-          "displayName": "Values",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Input A Field",
-              "name": "field1",
-              "type": "string",
-              "default": "",
-              "placeholder": "e.g. id",
-              "hint": " Enter the field name as text",
-              "requiresDataPath": "single"
-            },
-            {
-              "displayName": "Input B Field",
-              "name": "field2",
-              "type": "string",
-              "default": "",
-              "placeholder": "e.g. id",
-              "hint": " Enter the field name as text",
-              "requiresDataPath": "single"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Fields to Match | 默认值: {'values': [{'field1': '', 'field2': ''}]}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "resolve": {
       "displayName": "When There Are Differences",
       "name": "resolve",
       "type": "options",
+      "required": false,
       "default": "includeBoth",
-      "options": [
-        {
-          "name": "Use Input A Version",
-          "value": "preferInput1"
-        },
-        {
-          "name": "Use Input B Version",
-          "value": "preferInput2"
-        },
-        {
-          "name": "Use a Mix of Versions",
-          "value": "mix",
-          "description": "Output uses different inputs for different fields"
-        },
-        {
-          "name": "Include Both Versions",
-          "value": "includeBoth",
-          "description": "Output contains all data (but structure more complex)"
-        }
-      ],
-      "displayOptions": {
-        "hide": {
-          "@version": [
-            1,
-            2
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: When There Are Differences | 默认值: includeBoth",
+      "available_options": [
+        "Use Input A Version (值: preferInput1)",
+        "Use Input B Version (值: preferInput2)",
+        "Use a Mix of Versions (值: mix) - Output uses different inputs for different fields",
+        "Include Both Versions (值: includeBoth) - Output contains all data (but structure more complex)"
+      ]
     },
     "fuzzyCompare": {
       "displayName": "Fuzzy Compare",
       "name": "fuzzyCompare",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to tolerate small type differences when comparing fields. E.g. the number 3 and the string '3' are treated as the same.",
-      "displayOptions": {
-        "hide": {
-          "@version": [
-            1
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Fuzzy Compare | 作用: Whether to tolerate small type differences when comparing fields. E.g. the number 3 and the string '3' are treated as the same. | 默认值: False"
     },
     "preferWhenMix": {
       "displayName": "Prefer",
       "name": "preferWhenMix",
       "type": "options",
+      "required": false,
       "default": "input1",
-      "options": [
-        {
-          "name": "Input A Version",
-          "value": "input1"
-        },
-        {
-          "name": "Input B Version",
-          "value": "input2"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resolve": [
-            "mix"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Prefer | 默认值: input1",
+      "available_options": [
+        "Input A Version (值: input1)",
+        "Input B Version (值: input2)"
+      ]
     },
     "exceptWhenMix": {
       "displayName": "For Everything Except",
       "name": "exceptWhenMix",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "e.g. id, country",
-      "hint": "Enter the names of the input fields as text, separated by commas",
-      "displayOptions": {
-        "show": {
-          "resolve": [
-            "mix"
-          ]
-        }
-      },
-      "requiresDataPath": "multiple"
+      "description": "",
+      "natural_language_description": "参数名: For Everything Except | 提示: Enter the names of the input fields as text, separated by commas"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Fields to Skip Comparing",
-          "name": "skipFields",
-          "type": "string",
-          "default": "",
-          "placeholder": "e.g. updated_at, updated_by",
-          "hint": "Enter the field names as text, separated by commas",
-          "description": "Fields that shouldn't be included when checking whether two items are the same",
-          "requiresDataPath": "multiple"
-        },
-        {
-          "displayName": "Fuzzy Compare",
-          "name": "fuzzyCompare",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to tolerate small type differences when comparing fields. E.g. the number 3 and the string '3' are treated as the same.",
-          "displayOptions": {
-            "show": {
-              "@version": [
-                1
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Disable Dot Notation",
-          "name": "disableDotNotation",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to disallow referencing child fields using `parent.child` in the field name"
-        },
-        {
-          "displayName": "Multiple Matches",
-          "name": "multipleMatches",
-          "type": "options",
-          "default": "first",
-          "options": [
-            {
-              "name": "Include First Match Only",
-              "value": "first",
-              "description": "Only ever output a single item per match"
-            },
-            {
-              "name": "Include All Matches",
-              "value": "all",
-              "description": "Output multiple items if there are multiple matches"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "skipFields (值: None) - Fields that shouldn't be included when checking whether two items are the same",
+        "fuzzyCompare (值: None) - Whether to tolerate small type differences when comparing fields. E.g. the number 3 and the string '3' are treated as the same.",
+        "disableDotNotation (值: None) - Whether to disallow referencing child fields using `parent.child` in the field name",
+        "multipleMatches (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "infoBox",
-      "mergeByFields",
-      "resolve",
-      "resolve",
-      "fuzzyCompare",
-      "preferWhenMix",
-      "exceptWhenMix",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF @version IN [1, 2] THEN SHOW parameter 'resolve'",
-      "IF @version IN [1, 2] THEN HIDE parameter 'resolve'",
-      "IF @version == 1 THEN HIDE parameter 'fuzzyCompare'",
-      "IF resolve == 'mix' THEN SHOW parameter 'preferWhenMix'",
-      "IF resolve == 'mix' THEN SHOW parameter 'exceptWhenMix'",
-      "IF @version == 1 THEN SHOW parameter 'fuzzyCompare'"
-    ]
   }
 }

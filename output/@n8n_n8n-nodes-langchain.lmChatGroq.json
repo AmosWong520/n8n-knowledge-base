@@ -1,102 +1,40 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.lmChatGroq",
-  "name": "@n8n/n8n-nodes-langchain.lmChatGroq",
+  "name": "Groq Chat Model",
   "version": 1,
   "semantic_context": "Language Model Groq",
+  "natural_language_description": "这是 Groq Chat Model 节点。主要用于: Language Model Groq",
   "parameters": {
     "notice": {
       "displayName": "This node must be connected to an AI chain. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "containerClass": "ndv-connection-hint-notice"
-      }
+      "description": "",
+      "natural_language_description": "参数名: This node must be connected to an AI chain. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>"
     },
     "model": {
       "displayName": "Model",
       "name": "model",
       "type": "options",
-      "typeOptions": {
-        "loadOptions": {
-          "routing": {
-            "request": {
-              "method": "GET",
-              "url": "/models"
-            },
-            "output": {
-              "postReceive": [
-                {
-                  "type": "rootProperty",
-                  "properties": {
-                    "property": "data"
-                  }
-                },
-                {
-                  "type": "filter",
-                  "properties": {
-                    "pass": "={{ $responseItem.active === true && $responseItem.object === \"model\" }}"
-                  }
-                },
-                {
-                  "type": "setKeyValue",
-                  "properties": {
-                    "name": "={{$responseItem.id}}",
-                    "value": "={{$responseItem.id}}"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      },
-      "routing": {
-        "send": {
-          "type": "body",
-          "property": "model"
-        }
-      },
-      "description": "The model which will generate the completion. <a href=\"https://console.groq.com/docs/models\">Learn more</a>.",
+      "required": false,
       "default": "llama3-8b-8192",
-      "ai_hint": "The model which will generate the completion. <a href=\"https://console.groq.com/docs/models\">Learn more</a>."
+      "description": "The model which will generate the completion. Learn more.",
+      "natural_language_description": "参数名: Model | 作用: The model which will generate the completion. Learn more. | 默认值: llama3-8b-8192"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
-      "placeholder": "Add Option",
-      "description": "Additional options to add",
       "type": "collection",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Maximum Number of Tokens",
-          "name": "maxTokensToSample",
-          "default": 4096,
-          "description": "The maximum number of tokens to generate in the completion",
-          "type": "number"
-        },
-        {
-          "displayName": "Sampling Temperature",
-          "name": "temperature",
-          "default": 0.7,
-          "typeOptions": {
-            "maxValue": 1,
-            "minValue": 0,
-            "numberPrecision": 1
-          },
-          "description": "Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive.",
-          "type": "number"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "Additional options to add",
+      "natural_language_description": "参数名: Options | 作用: Additional options to add | 默认值: {}",
+      "available_options": [
+        "maxTokensToSample (值: None) - The maximum number of tokens to generate in the completion",
+        "temperature (值: None) - Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive."
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "notice",
-      "model",
-      "options"
-    ],
-    "conditional_rules": []
   }
 }

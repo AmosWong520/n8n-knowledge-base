@@ -1,391 +1,120 @@
 {
   "node_id": "n8n-nodes-base.philipsHueTool",
-  "name": "n8n-nodes-base.philipsHueTool",
+  "name": "Philips Hue Tool",
   "version": 1,
   "semantic_context": "Consume Philips Hue API",
+  "natural_language_description": "这是 Philips Hue Tool 节点。主要用于: Consume Philips Hue API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Philips Hue API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Philips Hue API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Philips Hue API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Light",
-          "value": "light"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "light",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: light",
+      "available_options": [
+        "Light (值: light)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "light"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a light",
-          "action": "Delete a light"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Retrieve a light",
-          "action": "Get a light"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Retrieve many lights",
-          "action": "Get many lights"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a light",
-          "action": "Update a light"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "update",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: update",
+      "available_options": [
+        "Delete (值: delete) - Delete a light",
+        "Get (值: get) - Retrieve a light",
+        "Get Many (值: getAll) - Retrieve many lights",
+        "Update (值: update) - Update a light",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "lightId": {
       "displayName": "Light Name or ID",
       "name": "lightId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getLights"
-      },
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "light"
-          ]
-        }
-      },
       "default": "",
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Light Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "light"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "light"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "on": {
       "displayName": "On",
       "name": "on",
       "type": "boolean",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "light"
-          ]
-        }
-      },
       "default": true,
       "description": "On/Off state of the light",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: On | 作用: On/Off state of the light | 默认值: True | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "light"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Alert Effect",
-          "name": "alert",
-          "type": "options",
-          "options": [
-            {
-              "name": "None",
-              "value": "none",
-              "description": "The light is not performing an alert effect"
-            },
-            {
-              "name": "Select",
-              "value": "select",
-              "description": "The light is performing one breathe cycle"
-            },
-            {
-              "name": "LSelect",
-              "value": "lselect",
-              "description": "The light is performing breathe cycles for 15 seconds or until an \"alert\": \"none\" command is received"
-            }
-          ],
-          "default": "",
-          "description": "The alert effect, is a temporary change to the bulb’s state"
-        },
-        {
-          "displayName": "Brightness",
-          "name": "bri",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 1,
-            "maxValue": 254
-          },
-          "default": 100,
-          "description": "The brightness value to set the light to. Brightness is a scale from 1 (the minimum the light is capable of) to 254 (the maximum)."
-        },
-        {
-          "displayName": "Brightness Increments",
-          "name": "bri_inc",
-          "type": "number",
-          "typeOptions": {
-            "minValue": -254,
-            "maxValue": 254
-          },
-          "default": 0,
-          "description": "Increments or decrements the value of the brightness. This value is ignored if the Brightness attribute is provided."
-        },
-        {
-          "displayName": "Color Temperature",
-          "name": "ct",
-          "type": "number",
-          "default": 0,
-          "description": "The Mired color temperature of the light. 2012 connected lights are capable of 153 (6500K) to 500 (2000K)."
-        },
-        {
-          "displayName": "Color Temperature Increments",
-          "name": "ct_inc",
-          "type": "number",
-          "typeOptions": {
-            "minValue": -65534,
-            "maxValue": 65534
-          },
-          "default": 0,
-          "description": "Increments or decrements the value of the ct. ct_inc is ignored if the ct attribute is provided."
-        },
-        {
-          "displayName": "Coordinates",
-          "name": "xy",
-          "type": "string",
-          "default": "",
-          "placeholder": "0.64394,0.33069",
-          "description": "The x and y coordinates of a color in CIE color space. The first entry is the x coordinate and the second entry is the y coordinate. Both x and y are between 0 and 1"
-        },
-        {
-          "displayName": "Coordinates Increments",
-          "name": "xy_inc",
-          "type": "string",
-          "default": "",
-          "placeholder": "0.5,0.5",
-          "description": "Increments or decrements the value of the xy. This value is ignored if the Coordinates attribute is provided. Any ongoing color transition is stopped. Max value [0.5, 0.5]"
-        },
-        {
-          "displayName": "Dynamic Effect",
-          "name": "effect",
-          "type": "options",
-          "options": [
-            {
-              "name": "None",
-              "value": "none"
-            },
-            {
-              "name": "Color Loop",
-              "value": "colorloop"
-            }
-          ],
-          "default": "",
-          "description": "The dynamic effect of the light"
-        },
-        {
-          "displayName": "Hue",
-          "name": "hue",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 0,
-            "maxValue": 65535
-          },
-          "default": 0,
-          "description": "The hue value to set light to.The hue value is a wrapping value between 0 and 65535. Both 0 and 65535 are red, 25500 is green and 46920 is blue."
-        },
-        {
-          "displayName": "Hue Increments",
-          "name": "hue_inc",
-          "type": "number",
-          "typeOptions": {
-            "minValue": -65534,
-            "maxValue": 65534
-          },
-          "default": 0,
-          "description": "Increments or decrements the value of the hue. Hue Increments is ignored if the Hue attribute is provided."
-        },
-        {
-          "displayName": "Saturation",
-          "name": "sat",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 0,
-            "maxValue": 254
-          },
-          "default": 0,
-          "description": "Saturation of the light. 254 is the most saturated (colored) and 0 is the least saturated (white)."
-        },
-        {
-          "displayName": "Saturation Increments",
-          "name": "sat_inc",
-          "type": "number",
-          "typeOptions": {
-            "minValue": -254,
-            "maxValue": 254
-          },
-          "default": 0,
-          "description": "Increments or decrements the value of the sat. This value is ignored if the Saturation attribute is provided."
-        },
-        {
-          "displayName": "Transition Time",
-          "name": "transitiontime",
-          "type": "number",
-          "typeOptions": {
-            "minVale": 1
-          },
-          "default": 4,
-          "description": "The duration in seconds of the transition from the light’s current state to the new state"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "alert (值: None) - The alert effect, is a temporary change to the bulb’s state",
+        "bri (值: None) - The brightness value to set the light to. Brightness is a scale from 1 (the minimum the light is capable of) to 254 (the maximum).",
+        "bri_inc (值: None) - Increments or decrements the value of the brightness. This value is ignored if the Brightness attribute is provided.",
+        "ct (值: None) - The Mired color temperature of the light. 2012 connected lights are capable of 153 (6500K) to 500 (2000K).",
+        "ct_inc (值: None) - Increments or decrements the value of the ct. ct_inc is ignored if the ct attribute is provided.",
+        "xy (值: None) - The x and y coordinates of a color in CIE color space. The first entry is the x coordinate and the second entry is the y coordinate. Both x and y are between 0 and 1",
+        "xy_inc (值: None) - Increments or decrements the value of the xy. This value is ignored if the Coordinates attribute is provided. Any ongoing color transition is stopped. Max value [0.5, 0.5]",
+        "effect (值: None) - The dynamic effect of the light",
+        "hue (值: None) - The hue value to set light to.The hue value is a wrapping value between 0 and 65535. Both 0 and 65535 are red, 25500 is green and 46920 is blue.",
+        "hue_inc (值: None) - Increments or decrements the value of the hue. Hue Increments is ignored if the Hue attribute is provided.",
+        "sat (值: None) - Saturation of the light. 254 is the most saturated (colored) and 0 is the least saturated (white).",
+        "sat_inc (值: None) - Increments or decrements the value of the sat. This value is ignored if the Saturation attribute is provided.",
+        "transitiontime (值: None) - The duration in seconds of the transition from the light’s current state to the new state"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "lightId",
-      "returnAll",
-      "limit",
-      "lightId",
-      "lightId",
-      "on",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'light' THEN SHOW parameter 'operation'",
-      "IF operation == 'delete' AND resource == 'light' THEN SHOW parameter 'lightId'",
-      "IF operation == 'getAll' AND resource == 'light' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'light' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'get' AND resource == 'light' THEN SHOW parameter 'lightId'",
-      "IF operation == 'update' AND resource == 'light' THEN SHOW parameter 'lightId'",
-      "IF operation == 'update' AND resource == 'light' THEN SHOW parameter 'on'",
-      "IF resource == 'light' AND operation == 'update' THEN SHOW parameter 'additionalFields'"
-    ]
   }
 }

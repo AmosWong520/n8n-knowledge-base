@@ -1,91 +1,48 @@
 {
   "node_id": "n8n-nodes-base.homeAssistant",
-  "name": "n8n-nodes-base.homeAssistant",
+  "name": "Home Assistant",
   "version": 1,
   "semantic_context": "Consume Home Assistant API",
+  "natural_language_description": "这是 Home Assistant 节点。主要用于: Consume Home Assistant API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Camera Proxy",
-          "value": "cameraProxy"
-        },
-        {
-          "name": "Config",
-          "value": "config"
-        },
-        {
-          "name": "Event",
-          "value": "event"
-        },
-        {
-          "name": "Log",
-          "value": "log"
-        },
-        {
-          "name": "Service",
-          "value": "service"
-        },
-        {
-          "name": "State",
-          "value": "state"
-        },
-        {
-          "name": "Template",
-          "value": "template"
-        }
-      ],
+      "required": false,
       "default": "config",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: config",
+      "available_options": [
+        "Camera Proxy (值: cameraProxy)",
+        "Config (值: config)",
+        "Event (值: event)",
+        "Log (值: log)",
+        "Service (值: service)",
+        "State (值: state)",
+        "Template (值: template)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "template"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a template",
-          "action": "Create a template"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a template"
+      ]
     },
     "cameraEntityId": {
       "displayName": "Camera Entity Name or ID",
       "name": "cameraEntityId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getCameraEntities"
-      },
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getScreenshot"
-          ],
-          "resource": [
-            "cameraProxy"
-          ]
-        }
-      },
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "default": "",
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Camera Entity Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "binaryPropertyName": {
       "displayName": "Put Output File in Field",
@@ -93,420 +50,130 @@
       "type": "string",
       "required": true,
       "default": "data",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getScreenshot"
-          ],
-          "resource": [
-            "cameraProxy"
-          ]
-        }
-      },
-      "hint": "The name of the output binary field to put the file in"
+      "description": "",
+      "natural_language_description": "参数名: Put Output File in Field | 提示: The name of the output binary field to put the file in | 默认值: data | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "state"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "state"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 100
-      },
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "eventType": {
       "displayName": "Event Type",
       "name": "eventType",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "event"
-          ]
-        }
-      },
       "required": true,
       "default": "",
       "description": "The Entity ID for which an event will be created",
-      "ai_hint": "The Entity ID for which an event will be created"
+      "natural_language_description": "参数名: Event Type | 作用: The Entity ID for which an event will be created | (必填项)"
     },
     "eventAttributes": {
       "displayName": "Event Attributes",
       "name": "eventAttributes",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "placeholder": "Add Attribute",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "event"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Attributes",
-          "name": "attributes",
-          "values": [
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": "",
-              "description": "Name of the attribute"
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Value of the attribute"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Event Attributes | 默认值: {}",
+      "available_options": [
+        "attributes (值: None)"
+      ]
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "log"
-          ],
-          "operation": [
-            "getLogbookEntries"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "End Time",
-          "name": "endTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "The end of the period"
-        },
-        {
-          "displayName": "Entity ID",
-          "name": "entityId",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Start Time",
-          "name": "startTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "The beginning of the period"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "endTime (值: None) - The end of the period",
+        "entityId (值: None)",
+        "startTime (值: None) - The beginning of the period"
+      ]
     },
     "domain": {
       "displayName": "Domain Name or ID",
       "name": "domain",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getDomains"
-      },
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "service"
-          ],
-          "operation": [
-            "call"
-          ]
-        }
-      },
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "default": "",
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Domain Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "service": {
       "displayName": "Service Name or ID",
       "name": "service",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsDependsOn": [
-          "domain"
-        ],
-        "loadOptionsMethod": "getDomainServices"
-      },
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "service"
-          ],
-          "operation": [
-            "call"
-          ]
-        }
-      },
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "default": "",
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Service Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "serviceAttributes": {
       "displayName": "Service Attributes",
       "name": "serviceAttributes",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "placeholder": "Add Attribute",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "service"
-          ],
-          "operation": [
-            "call"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "attributes",
-          "displayName": "Attributes",
-          "values": [
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": "",
-              "description": "Name of the field"
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Value of the field"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Service Attributes | 默认值: {}",
+      "available_options": [
+        "attributes (值: None)"
+      ]
     },
     "entityId": {
       "displayName": "Entity Name or ID",
       "name": "entityId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getAllEntities"
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upsert"
-          ],
-          "resource": [
-            "state"
-          ]
-        }
-      },
       "required": true,
       "default": "",
-      "description": "The entity ID for which a state will be created. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The entity ID for which a state will be created. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The entity ID for which a state will be created. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Entity Name or ID | 作用: The entity ID for which a state will be created. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "state": {
       "displayName": "State",
       "name": "state",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "state"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: State | (必填项)"
     },
     "stateAttributes": {
       "displayName": "State Attributes",
       "name": "stateAttributes",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "placeholder": "Add Attribute",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "state"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Attributes",
-          "name": "attributes",
-          "values": [
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": "",
-              "description": "Name of the attribute"
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Value of the attribute"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: State Attributes | 默认值: {}",
+      "available_options": [
+        "attributes (值: None)"
+      ]
     },
     "template": {
       "displayName": "Template",
       "name": "template",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "template"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "required": true,
       "default": "",
-      "description": "Render a Home Assistant template. <a href=\"https://www.home-assistant.io/docs/configuration/templating/\">See template docs for more information.</a>.",
-      "ai_hint": "Render a Home Assistant template. <a href=\"https://www.home-assistant.io/docs/configuration/templating/\">See template docs for more information.</a>."
+      "description": "Render a Home Assistant template. See template docs for more information..",
+      "natural_language_description": "参数名: Template | 作用: Render a Home Assistant template. See template docs for more information.. | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "cameraEntityId",
-      "binaryPropertyName",
-      "operation",
-      "operation",
-      "returnAll",
-      "limit",
-      "eventType",
-      "eventAttributes",
-      "operation",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "operation",
-      "additionalFields",
-      "operation",
-      "returnAll",
-      "limit",
-      "domain",
-      "service",
-      "serviceAttributes",
-      "operation",
-      "entityId",
-      "returnAll",
-      "limit",
-      "entityId",
-      "state",
-      "stateAttributes",
-      "operation",
-      "template"
-    ],
-    "conditional_rules": [
-      "IF resource == 'cameraProxy' THEN SHOW parameter 'operation'",
-      "IF operation == 'getScreenshot' AND resource == 'cameraProxy' THEN SHOW parameter 'cameraEntityId'",
-      "IF operation == 'getScreenshot' AND resource == 'cameraProxy' THEN SHOW parameter 'binaryPropertyName'",
-      "IF resource == 'config' THEN SHOW parameter 'operation'",
-      "IF resource == 'event' THEN SHOW parameter 'operation'",
-      "IF operation == 'getAll' AND resource == 'event' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'event' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'create' AND resource == 'event' THEN SHOW parameter 'eventType'",
-      "IF resource == 'event' AND operation == 'create' THEN SHOW parameter 'eventAttributes'",
-      "IF resource == 'history' THEN SHOW parameter 'operation'",
-      "IF operation == 'getAll' AND resource == 'history' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'history' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'history' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'log' THEN SHOW parameter 'operation'",
-      "IF resource == 'log' AND operation == 'getLogbookEntries' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'service' THEN SHOW parameter 'operation'",
-      "IF operation == 'getAll' AND resource == 'service' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'service' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'service' AND operation == 'call' THEN SHOW parameter 'domain'",
-      "IF resource == 'service' AND operation == 'call' THEN SHOW parameter 'service'",
-      "IF resource == 'service' AND operation == 'call' THEN SHOW parameter 'serviceAttributes'",
-      "IF resource == 'state' THEN SHOW parameter 'operation'",
-      "IF operation == 'get' AND resource == 'state' THEN SHOW parameter 'entityId'",
-      "IF operation == 'getAll' AND resource == 'state' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'state' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'upsert' AND resource == 'state' THEN SHOW parameter 'entityId'",
-      "IF resource == 'state' AND operation == 'upsert' THEN SHOW parameter 'state'",
-      "IF resource == 'state' AND operation == 'upsert' THEN SHOW parameter 'stateAttributes'",
-      "IF resource == 'template' THEN SHOW parameter 'operation'",
-      "IF resource == 'template' AND operation == 'create' THEN SHOW parameter 'template'"
-    ]
   }
 }

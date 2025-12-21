@@ -1,542 +1,190 @@
 {
   "node_id": "n8n-nodes-base.bitwarden",
-  "name": "n8n-nodes-base.bitwarden",
+  "name": "Bitwarden",
   "version": 1,
   "semantic_context": "Consume the Bitwarden API",
+  "natural_language_description": "这是 Bitwarden 节点。主要用于: Consume the Bitwarden API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Collection",
-          "value": "collection"
-        },
-        {
-          "name": "Event",
-          "value": "event"
-        },
-        {
-          "name": "Group",
-          "value": "group"
-        },
-        {
-          "name": "Member",
-          "value": "member"
-        }
-      ],
+      "required": false,
       "default": "collection",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: collection",
+      "available_options": [
+        "Collection (值: collection)",
+        "Event (值: event)",
+        "Group (值: group)",
+        "Member (值: member)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
+      "required": false,
       "default": "get",
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "action": "Create a member"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "action": "Delete a member"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "action": "Get a member"
-        },
-        {
-          "name": "Get Groups",
-          "value": "getGroups",
-          "action": "Get groups for a member"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "action": "Get many members"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "action": "Update a member"
-        },
-        {
-          "name": "Update Groups",
-          "value": "updateGroups",
-          "action": "Update groups for a member"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Create (值: create)",
+        "Delete (值: delete)",
+        "Get (值: get)",
+        "Get Groups (值: getGroups)",
+        "Get Many (值: getAll)",
+        "Update (值: update)",
+        "Update Groups (值: updateGroups)"
+      ]
     },
     "collectionId": {
       "displayName": "Collection ID",
       "name": "collectionId",
       "type": "string",
       "required": true,
-      "description": "The identifier of the collection",
       "default": "",
-      "placeholder": "5e59c8c7-e05a-4d17-8e85-acc301343926",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "collection"
-          ],
-          "operation": [
-            "delete",
-            "get",
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "The identifier of the collection"
+      "description": "The identifier of the collection",
+      "natural_language_description": "参数名: Collection ID | 作用: The identifier of the collection | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "typeOptions": {
-        "minValue": 1
-      },
+      "required": false,
       "default": 10,
       "description": "Max number of results to return",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 10"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Type",
-          "name": "type",
-          "type": "options",
-          "default": {},
-          "options": [
-            {
-              "name": "Owner",
-              "value": 0
-            },
-            {
-              "name": "Admin",
-              "value": 1
-            },
-            {
-              "name": "User",
-              "value": 2
-            },
-            {
-              "name": "Manager",
-              "value": 3
-            }
-          ]
-        },
-        {
-          "displayName": "Collection Names or IDs",
-          "name": "collections",
-          "type": "multiOptions",
-          "description": "The collections to assign to this member. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-          "default": [],
-          "typeOptions": {
-            "loadOptionsMethod": "getCollections"
-          }
-        },
-        {
-          "displayName": "External ID",
-          "name": "externalId",
-          "type": "string",
-          "description": "The external identifier to set to this member",
-          "default": ""
-        },
-        {
-          "displayName": "Access All",
-          "name": "accessAll",
-          "type": "boolean",
-          "default": false
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "type (值: None)",
+        "collections (值: None) - The collections to assign to this member. Choose from the list, or specify IDs using an expression.",
+        "externalId (值: None) - The external identifier to set to this member",
+        "accessAll (值: None)"
+      ]
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Acting User ID",
-          "name": "actingUserId",
-          "type": "string",
-          "default": "",
-          "description": "The unique identifier of the acting user",
-          "placeholder": "4a59c8c7-e05a-4d17-8e85-acc301343926"
-        },
-        {
-          "displayName": "End Date",
-          "name": "end",
-          "type": "dateTime",
-          "default": "",
-          "description": "The end date for the search"
-        },
-        {
-          "displayName": "Item ID",
-          "name": "itemID",
-          "type": "string",
-          "default": "",
-          "description": "The unique identifier of the item that the event describes",
-          "placeholder": "5e59c8c7-e05a-4d17-8e85-acc301343926"
-        },
-        {
-          "displayName": "Start Date",
-          "name": "start",
-          "type": "dateTime",
-          "default": "",
-          "description": "The start date for the search"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "event"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "actingUserId (值: None) - The unique identifier of the acting user",
+        "end (值: None) - The end date for the search",
+        "itemID (值: None) - The unique identifier of the item that the event describes",
+        "start (值: None) - The start date for the search"
+      ]
     },
     "groupId": {
       "displayName": "Group ID",
       "name": "groupId",
       "type": "string",
       "required": true,
-      "description": "The identifier of the group",
       "default": "",
-      "placeholder": "5e59c8c7-e05a-4d17-8e85-acc301343926",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "group"
-          ],
-          "operation": [
-            "delete",
-            "get",
-            "getMembers",
-            "update",
-            "updateMembers"
-          ]
-        }
-      },
-      "ai_hint": "The identifier of the group"
+      "description": "The identifier of the group",
+      "natural_language_description": "参数名: Group ID | 作用: The identifier of the group | (必填项)"
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
-      "default": "",
       "required": true,
+      "default": "",
       "description": "The name of the group to create",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "group"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "The name of the group to create"
+      "natural_language_description": "参数名: Name | 作用: The name of the group to create | (必填项)"
     },
     "accessAll": {
       "displayName": "Access All",
       "name": "accessAll",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: Access All | 默认值: False"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Collection Names or IDs",
-          "name": "collections",
-          "type": "multiOptions",
-          "description": "The collections to assign to this member. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-          "default": [],
-          "typeOptions": {
-            "loadOptionsMethod": "getCollections"
-          }
-        },
-        {
-          "displayName": "External ID",
-          "name": "externalId",
-          "type": "string",
-          "description": "The external identifier to set to this member",
-          "default": ""
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "collections (值: None) - The collections to assign to this member. Choose from the list, or specify IDs using an expression.",
+        "externalId (值: None) - The external identifier to set to this member"
+      ]
     },
     "memberIds": {
       "displayName": "Member IDs",
       "name": "memberIds",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "Comma-separated list of IDs of members to set in a group",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "group"
-          ],
-          "operation": [
-            "updateMembers"
-          ]
-        }
-      },
-      "ai_hint": "Comma-separated list of IDs of members to set in a group"
+      "natural_language_description": "参数名: Member IDs | 作用: Comma-separated list of IDs of members to set in a group"
     },
     "memberId": {
       "displayName": "Member ID",
       "name": "memberId",
       "type": "string",
       "required": true,
-      "description": "The identifier of the member",
       "default": "",
-      "placeholder": "5e59c8c7-e05a-4d17-8e85-acc301343926",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "delete",
-            "get",
-            "getGroups",
-            "update",
-            "updateGroups"
-          ]
-        }
-      },
-      "ai_hint": "The identifier of the member"
+      "description": "The identifier of the member",
+      "natural_language_description": "参数名: Member ID | 作用: The identifier of the member | (必填项)"
     },
     "type": {
       "displayName": "Type",
       "name": "type",
       "type": "options",
-      "default": 2,
       "required": true,
-      "options": [
-        {
-          "name": "Owner",
-          "value": 0
-        },
-        {
-          "name": "Admin",
-          "value": 1
-        },
-        {
-          "name": "User",
-          "value": 2
-        },
-        {
-          "name": "Manager",
-          "value": 3
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": 2,
+      "description": "",
+      "natural_language_description": "参数名: Type | 默认值: 2 | (必填项)",
+      "available_options": [
+        "Owner (值: 0)",
+        "Admin (值: 1)",
+        "User (值: 2)",
+        "Manager (值: 3)"
+      ]
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
+      "required": false,
       "default": "",
       "description": "The email of the member to update",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "The email of the member to update"
+      "natural_language_description": "参数名: Email | 作用: The email of the member to update"
     },
     "groupIds": {
       "displayName": "Group IDs",
       "name": "groupIds",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "Comma-separated list of IDs of groups to set for a member",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "updateGroups"
-          ]
-        }
-      },
-      "ai_hint": "Comma-separated list of IDs of groups to set for a member"
+      "natural_language_description": "参数名: Group IDs | 作用: Comma-separated list of IDs of groups to set for a member"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "collectionId",
-      "returnAll",
-      "limit",
-      "updateFields",
-      "operation",
-      "returnAll",
-      "limit",
-      "filters",
-      "operation",
-      "groupId",
-      "returnAll",
-      "limit",
-      "name",
-      "accessAll",
-      "additionalFields",
-      "updateFields",
-      "memberIds",
-      "operation",
-      "memberId",
-      "type",
-      "returnAll",
-      "limit",
-      "email",
-      "accessAll",
-      "additionalFields",
-      "updateFields",
-      "groupIds"
-    ],
-    "conditional_rules": [
-      "IF resource == 'collection' THEN SHOW parameter 'operation'",
-      "IF resource == 'collection' AND operation IN [\"delete\", \"get\", \"update\"] THEN SHOW parameter 'collectionId'",
-      "IF resource == 'collection' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'collection' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'collection' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'event' THEN SHOW parameter 'operation'",
-      "IF resource == 'event' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'event' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'event' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'group' THEN SHOW parameter 'operation'",
-      "IF resource == 'group' AND operation IN [\"delete\", \"get\", \"getMembers\", \"update\", \"updateMembers\"] THEN SHOW parameter 'groupId'",
-      "IF resource == 'group' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'group' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'group' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'group' AND operation == 'create' THEN SHOW parameter 'accessAll'",
-      "IF resource == 'group' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'group' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'group' AND operation == 'updateMembers' THEN SHOW parameter 'memberIds'",
-      "IF resource == 'member' THEN SHOW parameter 'operation'",
-      "IF resource == 'member' AND operation IN [\"delete\", \"get\", \"getGroups\", \"update\", \"updateGroups\"] THEN SHOW parameter 'memberId'",
-      "IF resource == 'member' AND operation == 'create' THEN SHOW parameter 'type'",
-      "IF resource == 'member' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'member' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'member' AND operation == 'create' THEN SHOW parameter 'email'",
-      "IF resource == 'member' AND operation == 'create' THEN SHOW parameter 'accessAll'",
-      "IF resource == 'member' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'member' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'member' AND operation == 'updateGroups' THEN SHOW parameter 'groupIds'"
-    ]
   }
 }

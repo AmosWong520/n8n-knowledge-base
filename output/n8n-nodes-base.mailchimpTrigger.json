@@ -1,25 +1,22 @@
 {
   "node_id": "n8n-nodes-base.mailchimpTrigger",
-  "name": "n8n-nodes-base.mailchimpTrigger",
+  "name": "Mailchimp Trigger",
   "version": 1,
   "semantic_context": "Handle Mailchimp events via webhooks",
+  "natural_language_description": "这是 Mailchimp Trigger 节点。主要用于: Handle Mailchimp events via webhooks",
   "parameters": {
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "API Key",
-          "value": "apiKey"
-        },
-        {
-          "name": "OAuth2",
-          "value": "oAuth2"
-        }
-      ],
+      "required": false,
       "default": "apiKey",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: apiKey",
+      "available_options": [
+        "API Key (值: apiKey)",
+        "OAuth2 (值: oAuth2)"
+      ]
     },
     "list": {
       "displayName": "List Name or ID",
@@ -27,12 +24,8 @@
       "type": "options",
       "required": true,
       "default": "",
-      "description": "The list that is gonna fire the event. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "typeOptions": {
-        "loadOptionsMethod": "getLists"
-      },
-      "options": [],
-      "ai_hint": "The list that is gonna fire the event. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The list that is gonna fire the event. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: List Name or ID | 作用: The list that is gonna fire the event. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "events": {
       "displayName": "Events",
@@ -41,39 +34,15 @@
       "required": true,
       "default": [],
       "description": "The events that can trigger the webhook and whether they are enabled",
-      "options": [
-        {
-          "name": "Campaign Sent",
-          "value": "campaign",
-          "description": "Whether the webhook is triggered when a campaign is sent or cancelled"
-        },
-        {
-          "name": "Cleaned",
-          "value": "cleaned",
-          "description": "Whether the webhook is triggered when a subscriber's email address is cleaned from the list"
-        },
-        {
-          "name": "Email Address Updated",
-          "value": "upemail",
-          "description": "Whether the webhook is triggered when a subscriber's email address is changed"
-        },
-        {
-          "name": "Profile Updated",
-          "value": "profile",
-          "description": "Whether the webhook is triggered when a subscriber's profile is updated"
-        },
-        {
-          "name": "Subscribe",
-          "value": "subscribe",
-          "description": "Whether the webhook is triggered when a list subscriber is added"
-        },
-        {
-          "name": "Unsubscribe",
-          "value": "unsubscribe",
-          "description": "Whether the webhook is triggered when a list member unsubscribes"
-        }
-      ],
-      "ai_hint": "The events that can trigger the webhook and whether they are enabled"
+      "natural_language_description": "参数名: Events | 作用: The events that can trigger the webhook and whether they are enabled | 默认值: [] | (必填项)",
+      "available_options": [
+        "Campaign Sent (值: campaign) - Whether the webhook is triggered when a campaign is sent or cancelled",
+        "Cleaned (值: cleaned) - Whether the webhook is triggered when a subscriber's email address is cleaned from the list",
+        "Email Address Updated (值: upemail) - Whether the webhook is triggered when a subscriber's email address is changed",
+        "Profile Updated (值: profile) - Whether the webhook is triggered when a subscriber's profile is updated",
+        "Subscribe (值: subscribe) - Whether the webhook is triggered when a list subscriber is added",
+        "Unsubscribe (值: unsubscribe) - Whether the webhook is triggered when a list member unsubscribes"
+      ]
     },
     "sources": {
       "displayName": "Sources",
@@ -82,33 +51,12 @@
       "required": true,
       "default": [],
       "description": "The possible sources of any events that can trigger the webhook and whether they are enabled",
-      "options": [
-        {
-          "name": "User",
-          "value": "user",
-          "description": "Whether the webhook is triggered by subscriber-initiated actions"
-        },
-        {
-          "name": "Admin",
-          "value": "admin",
-          "description": "Whether the webhook is triggered by admin-initiated actions in the web interface"
-        },
-        {
-          "name": "API",
-          "value": "api",
-          "description": "Whether the webhook is triggered by actions initiated via the API"
-        }
-      ],
-      "ai_hint": "The possible sources of any events that can trigger the webhook and whether they are enabled"
+      "natural_language_description": "参数名: Sources | 作用: The possible sources of any events that can trigger the webhook and whether they are enabled | 默认值: [] | (必填项)",
+      "available_options": [
+        "User (值: user) - Whether the webhook is triggered by subscriber-initiated actions",
+        "Admin (值: admin) - Whether the webhook is triggered by admin-initiated actions in the web interface",
+        "API (值: api) - Whether the webhook is triggered by actions initiated via the API"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "authentication",
-      "list",
-      "events",
-      "sources"
-    ],
-    "conditional_rules": []
   }
 }

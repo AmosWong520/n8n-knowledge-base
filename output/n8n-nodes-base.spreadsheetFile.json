@@ -1,188 +1,72 @@
 {
   "node_id": "n8n-nodes-base.spreadsheetFile",
-  "name": "n8n-nodes-base.spreadsheetFile",
+  "name": "Spreadsheet File",
   "version": 1,
   "semantic_context": "Reads and writes data from a spreadsheet file like CSV, XLS, ODS, etc",
+  "natural_language_description": "这是 Spreadsheet File 节点。主要用于: Reads and writes data from a spreadsheet file like CSV, XLS, ODS, etc",
   "parameters": {
     "oldVersionNotice": {
       "displayName": "<strong>New node version available:</strong> get the latest version with added features from the nodes panel.",
       "name": "oldVersionNotice",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: <strong>New node version available:</strong> get the latest version with added features from the nodes panel."
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Read From File",
-          "value": "fromFile",
-          "description": "Reads data from a spreadsheet file",
-          "action": "Read data from a spreadsheet file"
-        },
-        {
-          "name": "Write to File",
-          "value": "toFile",
-          "description": "Writes the workflow data to a spreadsheet file",
-          "action": "Write data to a spreadsheet file"
-        }
-      ],
+      "required": false,
       "default": "fromFile",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: fromFile",
+      "available_options": [
+        "Read From File (值: fromFile) - Reads data from a spreadsheet file",
+        "Write to File (值: toFile) - Writes the workflow data to a spreadsheet file"
+      ]
     },
     "binaryPropertyName": {
       "displayName": "Put Output File in Field",
       "name": "binaryPropertyName",
       "type": "string",
-      "default": "data",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "toFile"
-          ]
-        }
-      },
-      "placeholder": "",
-      "hint": "The name of the output binary field to put the file in"
+      "default": "data",
+      "description": "",
+      "natural_language_description": "参数名: Put Output File in Field | 提示: The name of the output binary field to put the file in | 默认值: data | (必填项)"
     },
     "fileFormat": {
       "displayName": "File Format",
       "name": "fileFormat",
       "type": "options",
-      "options": [
-        {
-          "name": "CSV",
-          "value": "csv",
-          "description": "Comma-separated values"
-        },
-        {
-          "name": "HTML",
-          "value": "html",
-          "description": "HTML Table"
-        },
-        {
-          "name": "ODS",
-          "value": "ods",
-          "description": "OpenDocument Spreadsheet"
-        },
-        {
-          "name": "RTF",
-          "value": "rtf",
-          "description": "Rich Text Format"
-        },
-        {
-          "name": "XLS",
-          "value": "xls",
-          "description": "Excel"
-        },
-        {
-          "name": "XLSX",
-          "value": "xlsx",
-          "description": "Excel"
-        }
-      ],
+      "required": false,
       "default": "xls",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "toFile"
-          ]
-        }
-      },
       "description": "The format of the file to save the data as",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: File Format | 作用: The format of the file to save the data as | 默认值: xls",
+      "available_options": [
+        "CSV (值: csv) - Comma-separated values",
+        "HTML (值: html) - HTML Table",
+        "ODS (值: ods) - OpenDocument Spreadsheet",
+        "RTF (值: rtf) - Rich Text Format",
+        "XLS (值: xls) - Excel",
+        "XLSX (值: xlsx) - Excel"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "toFile"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Compression",
-          "name": "compression",
-          "type": "boolean",
-          "displayOptions": {
-            "show": {
-              "/fileFormat": [
-                "xlsx",
-                "ods"
-              ]
-            }
-          },
-          "default": false,
-          "description": "Whether compression will be applied or not"
-        },
-        {
-          "displayName": "File Name",
-          "name": "fileName",
-          "type": "string",
-          "default": "",
-          "description": "File name to set in binary data. By default will \"spreadsheet.&lt;fileFormat&gt;\" be used."
-        },
-        {
-          "displayName": "Header Row",
-          "name": "headerRow",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether the first row of the file contains the header names"
-        },
-        {
-          "displayName": "Sheet Name",
-          "name": "sheetName",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/fileFormat": [
-                "ods",
-                "xls",
-                "xlsx"
-              ]
-            }
-          },
-          "default": "Sheet",
-          "description": "Name of the sheet to create in the spreadsheet"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "compression (值: None) - Whether compression will be applied or not",
+        "fileName (值: None) - File name to set in binary data. By default will \"spreadsheet.&lt;fileFormat&gt;\" be used.",
+        "headerRow (值: None) - Whether the first row of the file contains the header names",
+        "sheetName (值: None) - Name of the sheet to create in the spreadsheet"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "oldVersionNotice",
-      "operation",
-      "binaryPropertyName",
-      "fileFormat",
-      "binaryPropertyName",
-      "options",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF operation == 'fromFile' THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'toFile' THEN SHOW parameter 'fileFormat'",
-      "IF operation == 'toFile' THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'fromFile' THEN SHOW parameter 'options'",
-      "IF /fileFormat == 'csv' THEN SHOW parameter 'delimiter'",
-      "IF /fileFormat == 'csv' THEN SHOW parameter 'encoding'",
-      "IF /fileFormat == 'csv' THEN SHOW parameter 'enableBOM'",
-      "IF /fileFormat == 'csv' THEN SHOW parameter 'relaxQuotes'",
-      "IF /fileFormat == 'csv' THEN SHOW parameter 'maxRowCount'",
-      "IF /fileFormat == 'csv' THEN SHOW parameter 'fromLine'",
-      "IF /fileFormat == 'csv' THEN SHOW parameter 'skipRecordsWithErrors'",
-      "IF operation == 'toFile' THEN SHOW parameter 'options'",
-      "IF /fileFormat IN [\"xlsx\", \"ods\"] THEN SHOW parameter 'compression'",
-      "IF /fileFormat IN [\"ods\", \"xls\", \"xlsx\"] THEN SHOW parameter 'sheetName'"
-    ]
   }
 }

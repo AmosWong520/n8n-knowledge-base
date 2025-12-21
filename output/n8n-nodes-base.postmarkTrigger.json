@@ -1,91 +1,44 @@
 {
   "node_id": "n8n-nodes-base.postmarkTrigger",
-  "name": "n8n-nodes-base.postmarkTrigger",
+  "name": "Postmark Trigger",
   "version": 1,
   "semantic_context": "Starts the workflow when Postmark events occur",
+  "natural_language_description": "这是 Postmark Trigger 节点。主要用于: Starts the workflow when Postmark events occur",
   "parameters": {
     "events": {
       "displayName": "Events",
       "name": "events",
       "type": "multiOptions",
-      "options": [
-        {
-          "name": "Bounce",
-          "value": "bounce",
-          "description": "Trigger on bounce"
-        },
-        {
-          "name": "Click",
-          "value": "click",
-          "description": "Trigger on click"
-        },
-        {
-          "name": "Delivery",
-          "value": "delivery",
-          "description": "Trigger on delivery"
-        },
-        {
-          "name": "Open",
-          "value": "open",
-          "description": "Trigger webhook on open"
-        },
-        {
-          "name": "Spam Complaint",
-          "value": "spamComplaint",
-          "description": "Trigger on spam complaint"
-        },
-        {
-          "name": "Subscription Change",
-          "value": "subscriptionChange",
-          "description": "Trigger on subscription change"
-        }
-      ],
-      "default": [],
       "required": true,
+      "default": [],
       "description": "Webhook events that will be enabled for that endpoint",
-      "ai_hint": "Webhook events that will be enabled for that endpoint"
+      "natural_language_description": "参数名: Events | 作用: Webhook events that will be enabled for that endpoint | 默认值: [] | (必填项)",
+      "available_options": [
+        "Bounce (值: bounce) - Trigger on bounce",
+        "Click (值: click) - Trigger on click",
+        "Delivery (值: delivery) - Trigger on delivery",
+        "Open (值: open) - Trigger webhook on open",
+        "Spam Complaint (值: spamComplaint) - Trigger on spam complaint",
+        "Subscription Change (值: subscriptionChange) - Trigger on subscription change"
+      ]
     },
     "firstOpen": {
       "displayName": "First Open",
       "name": "firstOpen",
-      "description": "Only fires on first open for event \"Open\"",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "events": [
-            "open"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "Only fires on first open for event \"Open\"",
+      "natural_language_description": "参数名: First Open | 作用: Only fires on first open for event \"Open\" | 默认值: False"
     },
     "includeContent": {
       "displayName": "Include Content",
       "name": "includeContent",
-      "description": "Whether to include message content for events \"Bounce\" and \"Spam Complaint\"",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "events": [
-            "bounce",
-            "spamComplaint"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "Whether to include message content for events \"Bounce\" and \"Spam Complaint\"",
+      "natural_language_description": "参数名: Include Content | 作用: Whether to include message content for events \"Bounce\" and \"Spam Complaint\" | 默认值: False"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "events",
-      "firstOpen",
-      "includeContent"
-    ],
-    "conditional_rules": [
-      "IF events == 'open' THEN SHOW parameter 'firstOpen'",
-      "IF events IN [\"bounce\", \"spamComplaint\"] THEN SHOW parameter 'includeContent'"
-    ]
   }
 }

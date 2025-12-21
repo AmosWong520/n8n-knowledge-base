@@ -1,150 +1,57 @@
 {
   "node_id": "n8n-nodes-base.totpTool",
-  "name": "n8n-nodes-base.totpTool",
+  "name": "TOTP Tool",
   "version": 1,
   "semantic_context": "Generate a time-based one-time password",
+  "natural_language_description": "这是 TOTP Tool 节点。主要用于: Generate a time-based one-time password",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Generate a time-based one-time password",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Generate a time-based one-time password",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Generate a time-based one-time password | (必填项)"
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Generate Secret",
-          "value": "generateSecret",
-          "action": "Generate secret"
-        }
-      ],
+      "required": false,
       "default": "generateSecret",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: generateSecret",
+      "available_options": [
+        "Generate Secret (值: generateSecret)"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "generateSecret"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "placeholder": "Add option",
-      "options": [
-        {
-          "displayName": "Algorithm",
-          "name": "algorithm",
-          "type": "options",
-          "default": "SHA1",
-          "description": "HMAC hashing algorithm. Defaults to SHA1.",
-          "options": [
-            {
-              "name": "SHA1",
-              "value": "SHA1"
-            },
-            {
-              "name": "SHA224",
-              "value": "SHA224"
-            },
-            {
-              "name": "SHA256",
-              "value": "SHA256"
-            },
-            {
-              "name": "SHA3-224",
-              "value": "SHA3-224"
-            },
-            {
-              "name": "SHA3-256",
-              "value": "SHA3-256"
-            },
-            {
-              "name": "SHA3-384",
-              "value": "SHA3-384"
-            },
-            {
-              "name": "SHA3-512",
-              "value": "SHA3-512"
-            },
-            {
-              "name": "SHA384",
-              "value": "SHA384"
-            },
-            {
-              "name": "SHA512",
-              "value": "SHA512"
-            }
-          ]
-        },
-        {
-          "displayName": "Digits",
-          "name": "digits",
-          "type": "number",
-          "default": 6,
-          "description": "Number of digits in the generated TOTP code. Defaults to 6 digits."
-        },
-        {
-          "displayName": "Period",
-          "name": "period",
-          "type": "number",
-          "default": 30,
-          "description": "How many seconds the generated TOTP code is valid for. Defaults to 30 seconds."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "algorithm (值: None) - HMAC hashing algorithm. Defaults to SHA1.",
+        "digits (值: None) - Number of digits in the generated TOTP code. Defaults to 6 digits.",
+        "period (值: None) - How many seconds the generated TOTP code is valid for. Defaults to 30 seconds."
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "operation",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF operation == 'generateSecret' THEN SHOW parameter 'options'"
-    ]
   }
 }

@@ -1,406 +1,146 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.toolWorkflow",
-  "name": "@n8n/n8n-nodes-langchain.toolWorkflow",
-  "version": [
-    1,
-    1.1,
-    1.2,
-    1.3
-  ],
+  "name": "Call n8n Workflow Tool",
+  "version": 1,
   "semantic_context": "Uses another n8n workflow as a tool. Allows packaging any n8n node(s) as a tool.",
+  "natural_language_description": "这是 Call n8n Workflow Tool 节点。主要用于: Uses another n8n workflow as a tool. Allows packaging any n8n node(s) as a tool.",
   "parameters": {
     "notice": {
       "displayName": "This node must be connected to an AI agent. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "containerClass": "ndv-connection-hint-notice"
-      }
+      "description": "",
+      "natural_language_description": "参数名: This node must be connected to an AI agent. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>"
     },
     "noticeTemplateExample": {
       "displayName": "See an example of a workflow to suggest meeting slots using AI <a href=\"/templates/1953\" target=\"_blank\">here</a>.",
       "name": "noticeTemplateExample",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: See an example of a workflow to suggest meeting slots using AI <a href=\"/templates/1953\" target=\"_blank\">here</a>."
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "e.g. My_Color_Tool",
-      "validateType": "string-alphanumeric",
       "description": "The name of the function to be called, could contain letters, numbers, and underscores only",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 1.1
-              }
-            }
-          ]
-        }
-      },
-      "ai_hint": "The name of the function to be called, could contain letters, numbers, and underscores only"
+      "natural_language_description": "参数名: Name | 作用: The name of the function to be called, could contain letters, numbers, and underscores only"
     },
     "description": {
       "displayName": "Description",
       "name": "description",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "Call this tool to get a random color. The input should be a string with comma separted names of colors to exclude.",
-      "typeOptions": {
-        "rows": 3
-      }
+      "description": "",
+      "natural_language_description": "参数名: Description"
     },
     "executeNotice": {
       "displayName": "This tool will call the workflow you define below, and look in the last node for the response. The workflow needs to start with an Execute Workflow trigger",
       "name": "executeNotice",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: This tool will call the workflow you define below, and look in the last node for the response. The workflow needs to start with an Execute Workflow trigger"
     },
     "source": {
       "displayName": "Source",
       "name": "source",
       "type": "options",
-      "options": [
-        {
-          "name": "Database",
-          "value": "database",
-          "description": "Load the workflow from the database by ID"
-        },
-        {
-          "name": "Define Below",
-          "value": "parameter",
-          "description": "Pass the JSON code of a workflow"
-        }
-      ],
+      "required": false,
       "default": "database",
       "description": "Where to get the workflow to execute from",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Source | 作用: Where to get the workflow to execute from | 默认值: database",
+      "available_options": [
+        "Database (值: database) - Load the workflow from the database by ID",
+        "Define Below (值: parameter) - Pass the JSON code of a workflow"
+      ]
     },
     "workflowId": {
       "displayName": "Workflow",
       "name": "workflowId",
       "type": "workflowSelector",
-      "displayOptions": {
-        "show": {
-          "source": [
-            "database"
-          ],
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 1.2
-              }
-            }
-          ]
-        }
-      },
+      "required": true,
       "default": "",
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Workflow | (必填项)"
     },
     "workflowJson": {
       "displayName": "Workflow JSON",
       "name": "workflowJson",
       "type": "json",
-      "typeOptions": {
-        "rows": 10
-      },
-      "displayOptions": {
-        "show": {
-          "source": [
-            "parameter"
-          ]
-        }
-      },
-      "default": "\n\n\n\n\n\n\n\n\n",
       "required": true,
+      "default": "\n\n\n\n\n\n\n\n\n",
       "description": "The workflow JSON code to execute",
-      "ai_hint": "The workflow JSON code to execute"
+      "natural_language_description": "参数名: Workflow JSON | 作用: The workflow JSON code to execute | 默认值: \n\n\n\n\n\n\n\n\n | (必填项)"
     },
     "responsePropertyName": {
       "displayName": "Field to Return",
       "name": "responsePropertyName",
       "type": "string",
-      "default": "response",
       "required": true,
-      "hint": "The field in the last-executed node of the workflow that contains the response",
+      "default": "response",
       "description": "Where to find the data that this tool should return. n8n will look in the output of the last-executed node of the workflow for a field with this name, and return its value.",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "lt": 1.3
-              }
-            }
-          ]
-        }
-      },
-      "ai_hint": "Where to find the data that this tool should return. n8n will look in the output of the last-executed node of the workflow for a field with this name, and return its value."
+      "natural_language_description": "参数名: Field to Return | 作用: Where to find the data that this tool should return. n8n will look in the output of the last-executed node of the workflow for a field with this name, and return its value. | 提示: The field in the last-executed node of the workflow that contains the response | 默认值: response | (必填项)"
     },
     "fields": {
       "displayName": "Extra Workflow Inputs",
       "name": "fields",
-      "placeholder": "Add Value",
       "type": "fixedCollection",
-      "description": "These will be output by the 'execute workflow' trigger of the workflow being called",
-      "typeOptions": {
-        "multipleValues": true,
-        "sortable": true
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "values",
-          "displayName": "Values",
-          "values": [
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": "",
-              "placeholder": "e.g. fieldName",
-              "description": "Name of the field to set the value of. Supports dot-notation. Example: data.person[0].name.",
-              "requiresDataPath": "single"
-            },
-            {
-              "displayName": "Type",
-              "name": "type",
-              "type": "options",
-              "description": "The field value type",
-              "options": [
-                {
-                  "name": "String",
-                  "value": "stringValue"
-                },
-                {
-                  "name": "Number",
-                  "value": "numberValue"
-                },
-                {
-                  "name": "Boolean",
-                  "value": "booleanValue"
-                },
-                {
-                  "name": "Array",
-                  "value": "arrayValue"
-                },
-                {
-                  "name": "Object",
-                  "value": "objectValue"
-                }
-              ],
-              "default": "stringValue"
-            },
-            {
-              "displayName": "Value",
-              "name": "stringValue",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "stringValue"
-                  ]
-                }
-              },
-              "validateType": "string",
-              "ignoreValidationDuringExecution": true
-            },
-            {
-              "displayName": "Value",
-              "name": "numberValue",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "numberValue"
-                  ]
-                }
-              },
-              "validateType": "number",
-              "ignoreValidationDuringExecution": true
-            },
-            {
-              "displayName": "Value",
-              "name": "booleanValue",
-              "type": "options",
-              "default": "true",
-              "options": [
-                {
-                  "name": "True",
-                  "value": "true"
-                },
-                {
-                  "name": "False",
-                  "value": "false"
-                }
-              ],
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "booleanValue"
-                  ]
-                }
-              },
-              "validateType": "boolean",
-              "ignoreValidationDuringExecution": true
-            },
-            {
-              "displayName": "Value",
-              "name": "arrayValue",
-              "type": "string",
-              "default": "",
-              "placeholder": "e.g. [ arrayItem1, arrayItem2, arrayItem3 ]",
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "arrayValue"
-                  ]
-                }
-              },
-              "validateType": "array",
-              "ignoreValidationDuringExecution": true
-            },
-            {
-              "displayName": "Value",
-              "name": "objectValue",
-              "type": "json",
-              "default": "={}",
-              "typeOptions": {
-                "rows": 2
-              },
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "objectValue"
-                  ]
-                }
-              },
-              "validateType": "object",
-              "ignoreValidationDuringExecution": true
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "These will be output by the 'execute workflow' trigger of the workflow being called",
+      "natural_language_description": "参数名: Extra Workflow Inputs | 作用: These will be output by the 'execute workflow' trigger of the workflow being called | 默认值: {}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "specifyInputSchema": {
       "displayName": "Specify Input Schema",
       "name": "specifyInputSchema",
       "type": "boolean",
-      "description": "Whether to specify the schema for the function. This would require the LLM to provide the input in the correct format and would validate it against the schema.",
-      "noDataExpression": true,
+      "required": false,
       "default": false,
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "Whether to specify the schema for the function. This would require the LLM to provide the input in the correct format and would validate it against the schema.",
+      "natural_language_description": "参数名: Specify Input Schema | 作用: Whether to specify the schema for the function. This would require the LLM to provide the input in the correct format and would validate it against the schema. | 默认值: False"
     },
     "schemaType": {
       "displayName": "Schema Type",
       "name": "schemaType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Generate From JSON Example",
-          "value": "fromJson",
-          "description": "Generate a schema from an example JSON object"
-        },
-        {
-          "name": "Define using JSON Schema",
-          "value": "manual",
-          "description": "Define the JSON schema manually"
-        }
-      ],
+      "required": false,
       "default": "fromJson",
       "description": "How to specify the schema for the function",
-      "displayOptions": {
-        "show": {
-          "specifyInputSchema": [
-            true
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Schema Type | 作用: How to specify the schema for the function | 默认值: fromJson",
+      "available_options": [
+        "Generate From JSON Example (值: fromJson) - Generate a schema from an example JSON object",
+        "Define using JSON Schema (值: manual) - Define the JSON schema manually"
+      ]
     },
     "jsonSchemaExample": {
       "displayName": "JSON Example",
       "name": "jsonSchemaExample",
       "type": "json",
+      "required": false,
       "default": "{\n\t\"some_input\": \"some_value\"\n}",
-      "noDataExpression": true,
-      "typeOptions": {
-        "rows": 10
-      },
-      "displayOptions": {
-        "show": {
-          "schemaType": [
-            "fromJson"
-          ]
-        }
-      },
       "description": "Example JSON object to use to generate the schema",
-      "ai_hint": "Example JSON object to use to generate the schema"
+      "natural_language_description": "参数名: JSON Example | 作用: Example JSON object to use to generate the schema | 默认值: {\n\t\"some_input\": \"some_value\"\n}"
     },
     "inputSchema": {
       "displayName": "Input Schema",
       "name": "inputSchema",
       "type": "json",
+      "required": false,
       "default": "{\n\"type\": \"object\",\n\"properties\": {\n\t\"some_input\": {\n\t\t\"type\": \"string\",\n\t\t\"description\": \"Some input to the function\"\n\t\t}\n\t}\n}",
-      "noDataExpression": false,
-      "typeOptions": {
-        "rows": 10
-      },
-      "displayOptions": {
-        "show": {
-          "schemaType": [
-            "manual"
-          ]
-        }
-      },
       "description": "Schema to use for the function",
-      "hint": "Use <a target=\"_blank\" href=\"https://json-schema.org/\">JSON Schema</a> format (<a target=\"_blank\" href=\"https://json-schema.org/learn/miscellaneous-examples.html\">examples</a>). $refs syntax is currently not supported.",
-      "ai_hint": "Schema to use for the function"
+      "natural_language_description": "参数名: Input Schema | 作用: Schema to use for the function | 提示: Use JSON Schema format (examples). $refs syntax is currently not supported. | 默认值: {\n\"type\": \"object\",\n\"properties\": {\n\t\"some_input\": {\n\t\t\"type\": \"string\",\n\t\t\"description\": \"Some input to the function\"\n\t\t}\n\t}\n}"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "notice",
-      "noticeTemplateExample",
-      "name",
-      "name",
-      "description",
-      "executeNotice",
-      "source",
-      "workflowId",
-      "workflowId",
-      "workflowJson",
-      "responsePropertyName",
-      "fields",
-      "specifyInputSchema",
-      "schemaType",
-      "jsonSchemaExample",
-      "inputSchema"
-    ],
-    "conditional_rules": [
-      "IF @version == 1 THEN SHOW parameter 'name'",
-      "IF @version == {'_cnd': {'gte': 1.1}} THEN SHOW parameter 'name'",
-      "IF source == 'database' AND @version == {'_cnd': {'lte': 1.1}} THEN SHOW parameter 'workflowId'",
-      "IF source == 'database' AND @version == {'_cnd': {'gte': 1.2}} THEN SHOW parameter 'workflowId'",
-      "IF source == 'parameter' THEN SHOW parameter 'workflowJson'",
-      "IF @version == {'_cnd': {'lt': 1.3}} THEN SHOW parameter 'responsePropertyName'",
-      "IF type == 'stringValue' THEN SHOW parameter 'stringValue'",
-      "IF type == 'numberValue' THEN SHOW parameter 'numberValue'",
-      "IF type == 'booleanValue' THEN SHOW parameter 'booleanValue'",
-      "IF type == 'arrayValue' THEN SHOW parameter 'arrayValue'",
-      "IF type == 'objectValue' THEN SHOW parameter 'objectValue'",
-      "IF specifyInputSchema == True THEN SHOW parameter 'schemaType'",
-      "IF schemaType == 'fromJson' THEN SHOW parameter 'jsonSchemaExample'",
-      "IF schemaType == 'manual' THEN SHOW parameter 'inputSchema'"
-    ]
   }
 }

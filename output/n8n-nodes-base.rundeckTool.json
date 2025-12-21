@@ -1,190 +1,88 @@
 {
   "node_id": "n8n-nodes-base.rundeckTool",
-  "name": "n8n-nodes-base.rundeckTool",
+  "name": "Rundeck Tool",
   "version": 1,
   "semantic_context": "Manage Rundeck API",
+  "natural_language_description": "这是 Rundeck Tool 节点。主要用于: Manage Rundeck API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Manage Rundeck API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Manage Rundeck API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Manage Rundeck API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Job",
-          "value": "job"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "job",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: job",
+      "available_options": [
+        "Job (值: job)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Execute",
-          "value": "execute",
-          "description": "Execute a job",
-          "action": "Execute a job"
-        },
-        {
-          "name": "Get Metadata",
-          "value": "getMetadata",
-          "description": "Get metadata of a job",
-          "action": "Get metadata of a job"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "execute",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: execute",
+      "available_options": [
+        "Execute (值: execute) - Execute a job",
+        "Get Metadata (值: getMetadata) - Get metadata of a job",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "jobid": {
       "displayName": "Job ID",
       "name": "jobid",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getMetadata"
-          ],
-          "resource": [
-            "job"
-          ]
-        }
-      },
-      "default": "",
-      "placeholder": "Rundeck Job ID",
       "required": true,
+      "default": "",
       "description": "The job ID to get metadata off",
-      "ai_hint": "The job ID to get metadata off"
+      "natural_language_description": "参数名: Job ID | 作用: The job ID to get metadata off | (必填项)"
     },
     "arguments": {
       "displayName": "Arguments",
       "name": "arguments",
-      "placeholder": "Add Argument",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "execute"
-          ],
-          "resource": [
-            "job"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "arguments",
-          "displayName": "Arguments",
-          "values": [
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Arguments | 默认值: {}",
+      "available_options": [
+        "arguments (值: None)"
+      ]
     },
     "filter": {
       "displayName": "Filter",
       "name": "filter",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "execute"
-          ],
-          "resource": [
-            "job"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "placeholder": "Add Filters",
       "description": "Filter Rundeck nodes by name",
-      "ai_hint": "Filter Rundeck nodes by name"
+      "natural_language_description": "参数名: Filter | 作用: Filter Rundeck nodes by name"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "jobid",
-      "arguments",
-      "filter",
-      "jobid"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF operation == 'execute' AND resource == 'job' THEN SHOW parameter 'jobid'",
-      "IF operation == 'execute' AND resource == 'job' THEN SHOW parameter 'arguments'",
-      "IF operation == 'execute' AND resource == 'job' THEN SHOW parameter 'filter'",
-      "IF operation == 'getMetadata' AND resource == 'job' THEN SHOW parameter 'jobid'"
-    ]
   }
 }

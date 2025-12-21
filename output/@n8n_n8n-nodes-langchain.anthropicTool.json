@@ -1,540 +1,214 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.anthropicTool",
-  "name": "@n8n/n8n-nodes-langchain.anthropicTool",
+  "name": "Anthropic Tool",
   "version": 1,
   "semantic_context": "Interact with Anthropic AI models",
+  "natural_language_description": "这是 Anthropic Tool 节点。主要用于: Interact with Anthropic AI models",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Interact with Anthropic AI models",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Interact with Anthropic AI models",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Interact with Anthropic AI models | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Document",
-          "value": "document"
-        },
-        {
-          "name": "File",
-          "value": "file"
-        },
-        {
-          "name": "Image",
-          "value": "image"
-        },
-        {
-          "name": "Prompt",
-          "value": "prompt"
-        },
-        {
-          "name": "Text",
-          "value": "text"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "text",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: text",
+      "available_options": [
+        "Document (值: document)",
+        "File (值: file)",
+        "Image (值: image)",
+        "Prompt (值: prompt)",
+        "Text (值: text)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Message a Model",
-          "value": "message",
-          "action": "Message a model",
-          "description": "Create a completion with Anthropic model"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "message",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "text"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: message",
+      "available_options": [
+        "Message a Model (值: message) - Create a completion with Anthropic model",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "modelId": {
       "displayName": "Model",
       "name": "modelId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "modelSearch",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "placeholder": "e.g. claude-sonnet-4-5-20250929"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "message"
-          ],
-          "resource": [
-            "text"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Model | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "text": {
       "displayName": "Text Input",
       "name": "text",
       "type": "string",
-      "placeholder": "e.g. What's in this image?",
+      "required": false,
       "default": "What's in this image?",
-      "typeOptions": {
-        "rows": 2
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "analyze"
-          ],
-          "resource": [
-            "image"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Text Input | 默认值: What's in this image?"
     },
     "inputType": {
       "displayName": "Input Type",
       "name": "inputType",
       "type": "options",
+      "required": false,
       "default": "url",
-      "options": [
-        {
-          "name": "Image URL(s)",
-          "value": "url"
-        },
-        {
-          "name": "Binary File(s)",
-          "value": "binary"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "analyze"
-          ],
-          "resource": [
-            "image"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Input Type | 默认值: url",
+      "available_options": [
+        "Image URL(s) (值: url)",
+        "Binary File(s) (值: binary)"
+      ]
     },
     "documentUrls": {
       "displayName": "URL(s)",
       "name": "documentUrls",
       "type": "string",
-      "placeholder": "e.g. https://example.com/document.pdf",
-      "description": "URL(s) of the document(s) to analyze, multiple URLs can be added separated by comma",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "inputType": [
-            "url"
-          ],
-          "operation": [
-            "analyze"
-          ],
-          "resource": [
-            "document"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "description": "URL(s) of the document(s) to analyze, multiple URLs can be added separated by comma",
+      "natural_language_description": "参数名: URL(s) | 作用: URL(s) of the document(s) to analyze, multiple URLs can be added separated by comma"
     },
     "binaryPropertyName": {
       "displayName": "Attachment Input Data Field Name(s)",
       "name": "binaryPropertyName",
       "type": "string",
+      "required": false,
       "default": "data",
-      "placeholder": "e.g. data",
       "description": "Name of the binary field(s) which contains the file(s) to attach, multiple field names can be added separated by comma",
-      "displayOptions": {
-        "show": {
-          "addAttachments": [
-            true
-          ],
-          "attachmentsInputType": [
-            "binary"
-          ],
-          "operation": [
-            "message"
-          ],
-          "resource": [
-            "text"
-          ]
-        }
-      },
-      "ai_hint": "Name of the binary field(s) which contains the file(s) to attach, multiple field names can be added separated by comma"
+      "natural_language_description": "参数名: Attachment Input Data Field Name(s) | 作用: Name of the binary field(s) which contains the file(s) to attach, multiple field names can be added separated by comma | 默认值: data"
     },
     "simplify": {
       "displayName": "Simplify Output",
       "name": "simplify",
       "type": "boolean",
+      "required": false,
       "default": true,
       "description": "Whether to return a simplified version of the response instead of the raw data",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "message"
-          ],
-          "resource": [
-            "text"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Simplify Output | 作用: Whether to return a simplified version of the response instead of the raw data | 默认值: True"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
-      "placeholder": "Add Option",
       "type": "collection",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Include Merged Response",
-          "name": "includeMergedResponse",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to include a single output string merging all text parts of the response"
-        },
-        {
-          "displayName": "System Message",
-          "name": "system",
-          "type": "string",
-          "default": "",
-          "placeholder": "e.g. You are a helpful assistant"
-        },
-        {
-          "displayName": "Code Execution",
-          "name": "codeExecution",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to enable code execution. Not supported by all models."
-        },
-        {
-          "displayName": "Web Search",
-          "name": "webSearch",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to enable web search"
-        },
-        {
-          "displayName": "Web Search Max Uses",
-          "name": "maxUses",
-          "type": "number",
-          "default": 5,
-          "description": "The maximum number of web search uses per request",
-          "typeOptions": {
-            "minValue": 0,
-            "numberPrecision": 0
-          }
-        },
-        {
-          "displayName": "Web Search Allowed Domains",
-          "name": "allowedDomains",
-          "type": "string",
-          "default": "",
-          "description": "Comma-separated list of domains to search. Only domains in this list will be searched. Conflicts with \"Web Search Blocked Domains\".",
-          "placeholder": "e.g. google.com, wikipedia.org"
-        },
-        {
-          "displayName": "Web Search Blocked Domains",
-          "name": "blockedDomains",
-          "type": "string",
-          "default": "",
-          "description": "Comma-separated list of domains to block from search. Conflicts with \"Web Search Allowed Domains\".",
-          "placeholder": "e.g. google.com, wikipedia.org"
-        },
-        {
-          "displayName": "Maximum Number of Tokens",
-          "name": "maxTokens",
-          "default": 1024,
-          "description": "The maximum number of tokens to generate in the completion",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 1,
-            "numberPrecision": 0
-          }
-        },
-        {
-          "displayName": "Output Randomness (Temperature)",
-          "name": "temperature",
-          "default": 1,
-          "description": "Controls the randomness of the output. Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 0,
-            "maxValue": 1,
-            "numberPrecision": 1
-          }
-        },
-        {
-          "displayName": "Output Randomness (Top P)",
-          "name": "topP",
-          "default": 0.7,
-          "description": "The maximum cumulative probability of tokens to consider when sampling",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 0,
-            "maxValue": 1,
-            "numberPrecision": 1
-          }
-        },
-        {
-          "displayName": "Output Randomness (Top K)",
-          "name": "topK",
-          "default": 5,
-          "description": "The maximum number of tokens to consider when sampling",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 0,
-            "numberPrecision": 0
-          }
-        },
-        {
-          "displayName": "Max Tool Calls Iterations",
-          "name": "maxToolsIterations",
-          "type": "number",
-          "default": 15,
-          "description": "The maximum number of tool iteration cycles the LLM will run before stopping. A single iteration can contain multiple tool calls. Set to 0 for no limit",
-          "typeOptions": {
-            "minValue": 0,
-            "numberPrecision": 0
-          }
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "message"
-          ],
-          "resource": [
-            "text"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "includeMergedResponse (值: None) - Whether to include a single output string merging all text parts of the response",
+        "system (值: None)",
+        "codeExecution (值: None) - Whether to enable code execution. Not supported by all models.",
+        "webSearch (值: None) - Whether to enable web search",
+        "maxUses (值: None) - The maximum number of web search uses per request",
+        "allowedDomains (值: None) - Comma-separated list of domains to search. Only domains in this list will be searched. Conflicts with \"Web Search Blocked Domains\".",
+        "blockedDomains (值: None) - Comma-separated list of domains to block from search. Conflicts with \"Web Search Allowed Domains\".",
+        "maxTokens (值: None) - The maximum number of tokens to generate in the completion",
+        "temperature (值: None) - Controls the randomness of the output. Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive",
+        "topP (值: None) - The maximum cumulative probability of tokens to consider when sampling",
+        "topK (值: None) - The maximum number of tokens to consider when sampling",
+        "maxToolsIterations (值: None) - The maximum number of tool iteration cycles the LLM will run before stopping. A single iteration can contain multiple tool calls. Set to 0 for no limit"
+      ]
     },
     "fileId": {
       "displayName": "File ID",
       "name": "fileId",
       "type": "string",
-      "placeholder": "e.g. file_123",
-      "description": "ID of the file to get metadata for",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get"
-          ],
-          "resource": [
-            "file"
-          ]
-        }
-      },
-      "ai_hint": "ID of the file to get metadata for"
+      "description": "ID of the file to get metadata for",
+      "natural_language_description": "参数名: File ID | 作用: ID of the file to get metadata for"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ],
-          "resource": [
-            "file"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 1000
-      },
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "displayOptions": {
-        "show": {
-          "returnAll": [
-            false
-          ],
-          "operation": [
-            "list"
-          ],
-          "resource": [
-            "file"
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "fileUrl": {
       "displayName": "URL",
       "name": "fileUrl",
       "type": "string",
-      "placeholder": "e.g. https://example.com/file.pdf",
-      "description": "URL of the file to upload",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "inputType": [
-            "url"
-          ],
-          "operation": [
-            "upload"
-          ],
-          "resource": [
-            "file"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "description": "URL of the file to upload",
+      "natural_language_description": "参数名: URL | 作用: URL of the file to upload"
     },
     "imageUrls": {
       "displayName": "URL(s)",
       "name": "imageUrls",
       "type": "string",
-      "placeholder": "e.g. https://example.com/image.png",
-      "description": "URL(s) of the image(s) to analyze, multiple URLs can be added separated by comma",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "inputType": [
-            "url"
-          ],
-          "operation": [
-            "analyze"
-          ],
-          "resource": [
-            "image"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "description": "URL(s) of the image(s) to analyze, multiple URLs can be added separated by comma",
+      "natural_language_description": "参数名: URL(s) | 作用: URL(s) of the image(s) to analyze, multiple URLs can be added separated by comma"
     },
     "experimentalNotice": {
       "displayName": "The <a href=\"https://docs.anthropic.com/en/api/prompt-tools-generate\">prompt tools APIs</a> are in a closed research preview. Your organization must request access to use them.",
       "name": "experimentalNotice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "prompt"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: The <a href=\"https://docs.anthropic.com/en/api/prompt-tools-generate\">prompt tools APIs</a> are in a closed research preview. Your organization must request access to use them."
     },
     "task": {
       "displayName": "Task",
       "name": "task",
       "type": "string",
-      "description": "Description of the prompt's purpose",
-      "placeholder": "e.g. A chef for a meal prep planning service",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "rows": 2
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "generate"
-          ],
-          "resource": [
-            "prompt"
-          ]
-        }
-      },
-      "ai_hint": "Description of the prompt's purpose"
+      "description": "Description of the prompt's purpose",
+      "natural_language_description": "参数名: Task | 作用: Description of the prompt's purpose"
     },
     "messages": {
       "displayName": "Messages",
       "name": "messages",
       "type": "fixedCollection",
-      "typeOptions": {
-        "sortable": true,
-        "multipleValues": true
-      },
-      "placeholder": "Add Message",
+      "required": false,
       "default": {
         "values": [
           {
@@ -543,227 +217,42 @@
           }
         ]
       },
-      "options": [
-        {
-          "displayName": "Values",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Prompt",
-              "name": "content",
-              "type": "string",
-              "description": "The content of the message to be sent",
-              "default": "",
-              "placeholder": "e.g. Hello, how can you help me?",
-              "typeOptions": {
-                "rows": 2
-              }
-            },
-            {
-              "displayName": "Role",
-              "name": "role",
-              "type": "options",
-              "description": "Role in shaping the model's response, it tells the model how it should behave and interact with the user",
-              "options": [
-                {
-                  "name": "User",
-                  "value": "user",
-                  "description": "Send a message as a user and get a response from the model"
-                },
-                {
-                  "name": "Assistant",
-                  "value": "assistant",
-                  "description": "Tell the model to adopt a specific tone or personality"
-                }
-              ],
-              "default": "user"
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "message"
-          ],
-          "resource": [
-            "text"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Messages | 默认值: {'values': [{'content': '', 'role': 'user'}]}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "addAttachments": {
       "displayName": "Add Attachments",
       "name": "addAttachments",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to add attachments to the message",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "message"
-          ],
-          "resource": [
-            "text"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Add Attachments | 作用: Whether to add attachments to the message | 默认值: False"
     },
     "attachmentsInputType": {
       "displayName": "Attachments Input Type",
       "name": "attachmentsInputType",
       "type": "options",
+      "required": false,
       "default": "url",
       "description": "The type of input to use for the attachments",
-      "options": [
-        {
-          "name": "URL(s)",
-          "value": "url"
-        },
-        {
-          "name": "Binary File(s)",
-          "value": "binary"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "addAttachments": [
-            true
-          ],
-          "operation": [
-            "message"
-          ],
-          "resource": [
-            "text"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Attachments Input Type | 作用: The type of input to use for the attachments | 默认值: url",
+      "available_options": [
+        "URL(s) (值: url)",
+        "Binary File(s) (值: binary)"
+      ]
     },
     "attachmentsUrls": {
       "displayName": "Attachment URL(s)",
       "name": "attachmentsUrls",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "e.g. https://example.com/image.png",
       "description": "URL(s) of the file(s) to attach, multiple URLs can be added separated by comma",
-      "displayOptions": {
-        "show": {
-          "addAttachments": [
-            true
-          ],
-          "attachmentsInputType": [
-            "url"
-          ],
-          "operation": [
-            "message"
-          ],
-          "resource": [
-            "text"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "natural_language_description": "参数名: Attachment URL(s) | 作用: URL(s) of the file(s) to attach, multiple URLs can be added separated by comma"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "modelId",
-      "text",
-      "inputType",
-      "documentUrls",
-      "binaryPropertyName",
-      "simplify",
-      "options",
-      "operation",
-      "fileId",
-      "fileId",
-      "returnAll",
-      "limit",
-      "inputType",
-      "fileUrl",
-      "binaryPropertyName",
-      "options",
-      "operation",
-      "modelId",
-      "text",
-      "inputType",
-      "imageUrls",
-      "binaryPropertyName",
-      "simplify",
-      "options",
-      "operation",
-      "experimentalNotice",
-      "task",
-      "simplify",
-      "messages",
-      "simplify",
-      "options",
-      "messages",
-      "simplify",
-      "options",
-      "operation",
-      "modelId",
-      "messages",
-      "addAttachments",
-      "attachmentsInputType",
-      "attachmentsUrls",
-      "binaryPropertyName",
-      "simplify",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'document' THEN SHOW parameter 'operation'",
-      "IF operation == 'analyze' AND resource == 'document' THEN SHOW parameter 'modelId'",
-      "IF operation == 'analyze' AND resource == 'document' THEN SHOW parameter 'text'",
-      "IF operation == 'analyze' AND resource == 'document' THEN SHOW parameter 'inputType'",
-      "IF inputType == 'url' AND operation == 'analyze' AND resource == 'document' THEN SHOW parameter 'documentUrls'",
-      "IF inputType == 'binary' AND operation == 'analyze' AND resource == 'document' THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'analyze' AND resource == 'document' THEN SHOW parameter 'simplify'",
-      "IF operation == 'analyze' AND resource == 'document' THEN SHOW parameter 'options'",
-      "IF resource == 'file' THEN SHOW parameter 'operation'",
-      "IF operation == 'deleteFile' AND resource == 'file' THEN SHOW parameter 'fileId'",
-      "IF operation == 'get' AND resource == 'file' THEN SHOW parameter 'fileId'",
-      "IF operation == 'list' AND resource == 'file' THEN SHOW parameter 'returnAll'",
-      "IF returnAll == False AND operation == 'list' AND resource == 'file' THEN SHOW parameter 'limit'",
-      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'inputType'",
-      "IF inputType == 'url' AND operation == 'upload' AND resource == 'file' THEN SHOW parameter 'fileUrl'",
-      "IF inputType == 'binary' AND operation == 'upload' AND resource == 'file' THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'options'",
-      "IF resource == 'image' THEN SHOW parameter 'operation'",
-      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'modelId'",
-      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'text'",
-      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'inputType'",
-      "IF inputType == 'url' AND operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'imageUrls'",
-      "IF inputType == 'binary' AND operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'simplify'",
-      "IF operation == 'analyze' AND resource == 'image' THEN SHOW parameter 'options'",
-      "IF resource == 'prompt' THEN SHOW parameter 'operation'",
-      "IF resource == 'prompt' THEN SHOW parameter 'experimentalNotice'",
-      "IF operation == 'generate' AND resource == 'prompt' THEN SHOW parameter 'task'",
-      "IF operation == 'generate' AND resource == 'prompt' THEN SHOW parameter 'simplify'",
-      "IF operation == 'improve' AND resource == 'prompt' THEN SHOW parameter 'messages'",
-      "IF operation == 'improve' AND resource == 'prompt' THEN SHOW parameter 'simplify'",
-      "IF operation == 'improve' AND resource == 'prompt' THEN SHOW parameter 'options'",
-      "IF operation == 'templatize' AND resource == 'prompt' THEN SHOW parameter 'messages'",
-      "IF operation == 'templatize' AND resource == 'prompt' THEN SHOW parameter 'simplify'",
-      "IF operation == 'templatize' AND resource == 'prompt' THEN SHOW parameter 'options'",
-      "IF resource == 'text' THEN SHOW parameter 'operation'",
-      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'modelId'",
-      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'messages'",
-      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'addAttachments'",
-      "IF addAttachments == True AND operation == 'message' AND resource == 'text' THEN SHOW parameter 'attachmentsInputType'",
-      "IF addAttachments == True AND attachmentsInputType == 'url' AND operation == 'message' AND resource == 'text' THEN SHOW parameter 'attachmentsUrls'",
-      "IF addAttachments == True AND attachmentsInputType == 'binary' AND operation == 'message' AND resource == 'text' THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'simplify'",
-      "IF operation == 'message' AND resource == 'text' THEN SHOW parameter 'options'"
-    ]
   }
 }

@@ -1,968 +1,245 @@
 {
   "node_id": "n8n-nodes-base.stravaTool",
-  "name": "n8n-nodes-base.stravaTool",
-  "version": [
-    1,
-    1.1
-  ],
+  "name": "Strava Tool",
+  "version": 1,
   "semantic_context": "Consume Strava API",
+  "natural_language_description": "这是 Strava Tool 节点。主要用于: Consume Strava API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Strava API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Strava API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Strava API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Activity",
-          "value": "activity"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "activity",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: activity",
+      "available_options": [
+        "Activity (值: activity)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "activity"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a new activity",
-          "action": "Create an activity"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get an activity",
-          "action": "Get an activity"
-        },
-        {
-          "name": "Get Comments",
-          "value": "getComments",
-          "description": "Get all activity comments",
-          "action": "Get all activity comments"
-        },
-        {
-          "name": "Get Kudos",
-          "value": "getKudos",
-          "description": "Get all activity kudos",
-          "action": "Get all activity kudos"
-        },
-        {
-          "name": "Get Laps",
-          "value": "getLaps",
-          "description": "Get all activity laps",
-          "action": "Get all activity laps"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many activities",
-          "action": "Get many activities"
-        },
-        {
-          "name": "Get Streams",
-          "value": "getStreams",
-          "description": "Get activity streams",
-          "action": "Get all activity streams"
-        },
-        {
-          "name": "Get Zones",
-          "value": "getZones",
-          "description": "Get all activity zones",
-          "action": "Get all activity zones"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update an activity",
-          "action": "Update an activity"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a new activity",
+        "Get (值: get) - Get an activity",
+        "Get Comments (值: getComments) - Get all activity comments",
+        "Get Kudos (值: getKudos) - Get all activity kudos",
+        "Get Laps (值: getLaps) - Get all activity laps",
+        "Get Many (值: getAll) - Get many activities",
+        "Get Streams (值: getStreams) - Get activity streams",
+        "Get Zones (值: getZones) - Get all activity zones",
+        "Update (值: update) - Update an activity",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "activity"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "",
       "description": "The name of the activity",
-      "ai_hint": "The name of the activity"
+      "natural_language_description": "参数名: Name | 作用: The name of the activity | (必填项)"
     },
     "type": {
       "displayName": "Type",
       "name": "type",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "activity"
-          ],
-          "operation": [
-            "create"
-          ],
-          "@version": [
-            1
-          ]
-        }
-      },
       "default": "",
       "description": "Type of activity. For example - Run, Ride etc.",
-      "ai_hint": "Type of activity. For example - Run, Ride etc."
+      "natural_language_description": "参数名: Type | 作用: Type of activity. For example - Run, Ride etc. | (必填项)"
     },
     "sport_type": {
       "displayName": "Sport Type",
       "name": "sport_type",
       "type": "options",
-      "options": [
-        {
-          "name": "Alpine Ski",
-          "value": "AlpineSki"
-        },
-        {
-          "name": "Backcountry Ski",
-          "value": "BackcountrySki"
-        },
-        {
-          "name": "Badminton",
-          "value": "Badminton"
-        },
-        {
-          "name": "Canoeing",
-          "value": "Canoeing"
-        },
-        {
-          "name": "Crossfit",
-          "value": "Crossfit"
-        },
-        {
-          "name": "EBike Ride",
-          "value": "EBikeRide"
-        },
-        {
-          "name": "Elliptical",
-          "value": "Elliptical"
-        },
-        {
-          "name": "EMountain Bike Ride",
-          "value": "EMountainBikeRide"
-        },
-        {
-          "name": "Golf",
-          "value": "Golf"
-        },
-        {
-          "name": "Gravel Ride",
-          "value": "GravelRide"
-        },
-        {
-          "name": "Handcycle",
-          "value": "Handcycle"
-        },
-        {
-          "name": "HIIT",
-          "value": "HighIntensityIntervalTraining"
-        },
-        {
-          "name": "Hike",
-          "value": "Hike"
-        },
-        {
-          "name": "Ice Skate",
-          "value": "IceSkate"
-        },
-        {
-          "name": "Inline Skate",
-          "value": "InlineSkate"
-        },
-        {
-          "name": "Kayaking",
-          "value": "Kayaking"
-        },
-        {
-          "name": "Kitesurf",
-          "value": "Kitesurf"
-        },
-        {
-          "name": "Mountain Bike Ride",
-          "value": "MountainBikeRide"
-        },
-        {
-          "name": "Nordic Ski",
-          "value": "NordicSki"
-        },
-        {
-          "name": "Pickleball",
-          "value": "Pickleball"
-        },
-        {
-          "name": "Pilates",
-          "value": "Pilates"
-        },
-        {
-          "name": "Racquetball",
-          "value": "Racquetball"
-        },
-        {
-          "name": "Ride",
-          "value": "Ride"
-        },
-        {
-          "name": "Rock Climbing",
-          "value": "RockClimbing"
-        },
-        {
-          "name": "Roller Ski",
-          "value": "RollerSki"
-        },
-        {
-          "name": "Rowing",
-          "value": "Rowing"
-        },
-        {
-          "name": "Run",
-          "value": "Run"
-        },
-        {
-          "name": "Sail",
-          "value": "Sail"
-        },
-        {
-          "name": "Skateboard",
-          "value": "Skateboard"
-        },
-        {
-          "name": "Snowboard",
-          "value": "Snowboard"
-        },
-        {
-          "name": "Snowshoe",
-          "value": "Snowshoe"
-        },
-        {
-          "name": "Soccer",
-          "value": "Soccer"
-        },
-        {
-          "name": "Squash",
-          "value": "Squash"
-        },
-        {
-          "name": "Stair Stepper",
-          "value": "StairStepper"
-        },
-        {
-          "name": "Stand Up Paddling",
-          "value": "StandUpPaddling"
-        },
-        {
-          "name": "Surfing",
-          "value": "Surfing"
-        },
-        {
-          "name": "Swim",
-          "value": "Swim"
-        },
-        {
-          "name": "Table Tennis",
-          "value": "TableTennis"
-        },
-        {
-          "name": "Tennis",
-          "value": "Tennis"
-        },
-        {
-          "name": "Trail Run",
-          "value": "TrailRun"
-        },
-        {
-          "name": "Velomobile",
-          "value": "Velomobile"
-        },
-        {
-          "name": "Virtual Ride",
-          "value": "VirtualRide"
-        },
-        {
-          "name": "Virtual Row",
-          "value": "VirtualRow"
-        },
-        {
-          "name": "Virtual Run",
-          "value": "VirtualRun"
-        },
-        {
-          "name": "Walk",
-          "value": "Walk"
-        },
-        {
-          "name": "Weight Training",
-          "value": "WeightTraining"
-        },
-        {
-          "name": "Wheelchair",
-          "value": "Wheelchair"
-        },
-        {
-          "name": "Windsurf",
-          "value": "Windsurf"
-        },
-        {
-          "name": "Workout",
-          "value": "Workout"
-        },
-        {
-          "name": "Yoga",
-          "value": "Yoga"
-        }
-      ],
+      "required": false,
       "default": "Run",
       "description": "Type of sport",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "activity"
-          ],
-          "operation": [
-            "create"
-          ]
-        },
-        "hide": {
-          "@version": [
-            1
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Sport Type | 作用: Type of sport | 默认值: Run",
+      "available_options": [
+        "Alpine Ski (值: AlpineSki)",
+        "Backcountry Ski (值: BackcountrySki)",
+        "Badminton (值: Badminton)",
+        "Canoeing (值: Canoeing)",
+        "Crossfit (值: Crossfit)",
+        "EBike Ride (值: EBikeRide)",
+        "Elliptical (值: Elliptical)",
+        "EMountain Bike Ride (值: EMountainBikeRide)",
+        "Golf (值: Golf)",
+        "Gravel Ride (值: GravelRide)",
+        "Handcycle (值: Handcycle)",
+        "HIIT (值: HighIntensityIntervalTraining)",
+        "Hike (值: Hike)",
+        "Ice Skate (值: IceSkate)",
+        "Inline Skate (值: InlineSkate)",
+        "Kayaking (值: Kayaking)",
+        "Kitesurf (值: Kitesurf)",
+        "Mountain Bike Ride (值: MountainBikeRide)",
+        "Nordic Ski (值: NordicSki)",
+        "Pickleball (值: Pickleball)",
+        "Pilates (值: Pilates)",
+        "Racquetball (值: Racquetball)",
+        "Ride (值: Ride)",
+        "Rock Climbing (值: RockClimbing)",
+        "Roller Ski (值: RollerSki)",
+        "Rowing (值: Rowing)",
+        "Run (值: Run)",
+        "Sail (值: Sail)",
+        "Skateboard (值: Skateboard)",
+        "Snowboard (值: Snowboard)",
+        "Snowshoe (值: Snowshoe)",
+        "Soccer (值: Soccer)",
+        "Squash (值: Squash)",
+        "Stair Stepper (值: StairStepper)",
+        "Stand Up Paddling (值: StandUpPaddling)",
+        "Surfing (值: Surfing)",
+        "Swim (值: Swim)",
+        "Table Tennis (值: TableTennis)",
+        "Tennis (值: Tennis)",
+        "Trail Run (值: TrailRun)",
+        "Velomobile (值: Velomobile)",
+        "Virtual Ride (值: VirtualRide)",
+        "Virtual Row (值: VirtualRow)",
+        "Virtual Run (值: VirtualRun)",
+        "Walk (值: Walk)",
+        "Weight Training (值: WeightTraining)",
+        "Wheelchair (值: Wheelchair)",
+        "Windsurf (值: Windsurf)",
+        "Workout (值: Workout)",
+        "Yoga (值: Yoga)"
+      ]
     },
     "startDate": {
       "displayName": "Start Date",
       "name": "startDate",
       "type": "dateTime",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "activity"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "default": "",
       "description": "ISO 8601 formatted date time",
-      "ai_hint": "ISO 8601 formatted date time"
+      "natural_language_description": "参数名: Start Date | 作用: ISO 8601 formatted date time | (必填项)"
     },
     "elapsedTime": {
       "displayName": "Elapsed Time (Seconds)",
       "name": "elapsedTime",
       "type": "number",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "activity"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 0
-      },
       "default": 0,
       "description": "In seconds",
-      "ai_hint": "In seconds"
+      "natural_language_description": "参数名: Elapsed Time (Seconds) | 作用: In seconds | 默认值: 0 | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "activity"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Commute",
-          "name": "commute",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to mark as commute"
-        },
-        {
-          "displayName": "Description",
-          "name": "description",
-          "type": "string",
-          "default": "",
-          "description": "Description of the activity"
-        },
-        {
-          "displayName": "Distance",
-          "name": "distance",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 0
-          },
-          "default": 0,
-          "description": "In meters"
-        },
-        {
-          "displayName": "Trainer",
-          "name": "trainer",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to mark as a trainer activity"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "commute (值: None) - Whether to mark as commute",
+        "description (值: None) - Description of the activity",
+        "distance (值: None) - In meters",
+        "trainer (值: None) - Whether to mark as a trainer activity"
+      ]
     },
     "activityId": {
       "displayName": "Activity ID",
       "name": "activityId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "activity"
-          ],
-          "operation": [
-            "getComments",
-            "getLaps",
-            "getKudos",
-            "getZones",
-            "getStreams"
-          ]
-        }
-      },
       "default": "",
       "description": "ID or email of activity",
-      "ai_hint": "ID or email of activity"
+      "natural_language_description": "参数名: Activity ID | 作用: ID or email of activity | (必填项)"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "activity"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Commute",
-          "name": "commute",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to mark as commute"
-        },
-        {
-          "displayName": "Description",
-          "name": "description",
-          "type": "string",
-          "default": "",
-          "description": "Description of the activity"
-        },
-        {
-          "displayName": "Gear ID",
-          "name": "gear_id",
-          "type": "string",
-          "default": "",
-          "description": "Identifier for the gear associated with the activity. ‘none’ clears gear from activity."
-        },
-        {
-          "displayName": "Mute Activity",
-          "name": "hide_from_home",
-          "type": "boolean",
-          "default": false,
-          "description": "Do not publish to Home or Club feeds"
-        },
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": "",
-          "description": "The name of the activity"
-        },
-        {
-          "displayName": "Type",
-          "name": "type",
-          "type": "string",
-          "default": "",
-          "description": "Type of activity. For example - Run, Ride etc.",
-          "displayOptions": {
-            "show": {
-              "@version": [
-                1
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Sport Type",
-          "name": "sport_type",
-          "type": "options",
-          "options": [
-            {
-              "name": "Alpine Ski",
-              "value": "AlpineSki"
-            },
-            {
-              "name": "Backcountry Ski",
-              "value": "BackcountrySki"
-            },
-            {
-              "name": "Badminton",
-              "value": "Badminton"
-            },
-            {
-              "name": "Canoeing",
-              "value": "Canoeing"
-            },
-            {
-              "name": "Crossfit",
-              "value": "Crossfit"
-            },
-            {
-              "name": "EBike Ride",
-              "value": "EBikeRide"
-            },
-            {
-              "name": "Elliptical",
-              "value": "Elliptical"
-            },
-            {
-              "name": "EMountain Bike Ride",
-              "value": "EMountainBikeRide"
-            },
-            {
-              "name": "Golf",
-              "value": "Golf"
-            },
-            {
-              "name": "Gravel Ride",
-              "value": "GravelRide"
-            },
-            {
-              "name": "Handcycle",
-              "value": "Handcycle"
-            },
-            {
-              "name": "HIIT",
-              "value": "HighIntensityIntervalTraining"
-            },
-            {
-              "name": "Hike",
-              "value": "Hike"
-            },
-            {
-              "name": "Ice Skate",
-              "value": "IceSkate"
-            },
-            {
-              "name": "Inline Skate",
-              "value": "InlineSkate"
-            },
-            {
-              "name": "Kayaking",
-              "value": "Kayaking"
-            },
-            {
-              "name": "Kitesurf",
-              "value": "Kitesurf"
-            },
-            {
-              "name": "Mountain Bike Ride",
-              "value": "MountainBikeRide"
-            },
-            {
-              "name": "Nordic Ski",
-              "value": "NordicSki"
-            },
-            {
-              "name": "Pickleball",
-              "value": "Pickleball"
-            },
-            {
-              "name": "Pilates",
-              "value": "Pilates"
-            },
-            {
-              "name": "Racquetball",
-              "value": "Racquetball"
-            },
-            {
-              "name": "Ride",
-              "value": "Ride"
-            },
-            {
-              "name": "Rock Climbing",
-              "value": "RockClimbing"
-            },
-            {
-              "name": "Roller Ski",
-              "value": "RollerSki"
-            },
-            {
-              "name": "Rowing",
-              "value": "Rowing"
-            },
-            {
-              "name": "Run",
-              "value": "Run"
-            },
-            {
-              "name": "Sail",
-              "value": "Sail"
-            },
-            {
-              "name": "Skateboard",
-              "value": "Skateboard"
-            },
-            {
-              "name": "Snowboard",
-              "value": "Snowboard"
-            },
-            {
-              "name": "Snowshoe",
-              "value": "Snowshoe"
-            },
-            {
-              "name": "Soccer",
-              "value": "Soccer"
-            },
-            {
-              "name": "Squash",
-              "value": "Squash"
-            },
-            {
-              "name": "Stair Stepper",
-              "value": "StairStepper"
-            },
-            {
-              "name": "Stand Up Paddling",
-              "value": "StandUpPaddling"
-            },
-            {
-              "name": "Surfing",
-              "value": "Surfing"
-            },
-            {
-              "name": "Swim",
-              "value": "Swim"
-            },
-            {
-              "name": "Table Tennis",
-              "value": "TableTennis"
-            },
-            {
-              "name": "Tennis",
-              "value": "Tennis"
-            },
-            {
-              "name": "Trail Run",
-              "value": "TrailRun"
-            },
-            {
-              "name": "Velomobile",
-              "value": "Velomobile"
-            },
-            {
-              "name": "Virtual Ride",
-              "value": "VirtualRide"
-            },
-            {
-              "name": "Virtual Row",
-              "value": "VirtualRow"
-            },
-            {
-              "name": "Virtual Run",
-              "value": "VirtualRun"
-            },
-            {
-              "name": "Walk",
-              "value": "Walk"
-            },
-            {
-              "name": "Weight Training",
-              "value": "WeightTraining"
-            },
-            {
-              "name": "Wheelchair",
-              "value": "Wheelchair"
-            },
-            {
-              "name": "Windsurf",
-              "value": "Windsurf"
-            },
-            {
-              "name": "Workout",
-              "value": "Workout"
-            },
-            {
-              "name": "Yoga",
-              "value": "Yoga"
-            }
-          ],
-          "default": "Run",
-          "description": "Type of sport",
-          "displayOptions": {
-            "hide": {
-              "@version": [
-                1
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Trainer",
-          "name": "trainer",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to mark as a trainer activity"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "commute (值: None) - Whether to mark as commute",
+        "description (值: None) - Description of the activity",
+        "gear_id (值: None) - Identifier for the gear associated with the activity. ‘none’ clears gear from activity.",
+        "hide_from_home (值: None) - Do not publish to Home or Club feeds",
+        "name (值: None) - The name of the activity",
+        "type (值: None) - Type of activity. For example - Run, Ride etc.",
+        "sport_type (值: None) - Type of sport",
+        "trainer (值: None) - Whether to mark as a trainer activity"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "activity"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "activity"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 100
-      },
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "keys": {
       "displayName": "Keys",
       "name": "keys",
       "type": "multiOptions",
-      "options": [
-        {
-          "name": "Altitude",
-          "value": "altitude"
-        },
-        {
-          "name": "Cadence",
-          "value": "cadence"
-        },
-        {
-          "name": "Distance",
-          "value": "distance"
-        },
-        {
-          "name": "Gradient",
-          "value": "grade_smooth"
-        },
-        {
-          "name": "Heartrate",
-          "value": "heartrate"
-        },
-        {
-          "name": "Latitude / Longitude",
-          "value": "latlng"
-        },
-        {
-          "name": "Moving",
-          "value": "moving"
-        },
-        {
-          "name": "Temperature",
-          "value": "temp"
-        },
-        {
-          "name": "Time",
-          "value": "time"
-        },
-        {
-          "name": "Velocity",
-          "value": "velocity_smooth"
-        },
-        {
-          "name": "Watts",
-          "value": "watts"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "activity"
-          ],
-          "operation": [
-            "getStreams"
-          ]
-        }
-      },
       "required": true,
       "default": [],
       "description": "Desired stream types to return",
-      "ai_hint": "Desired stream types to return"
+      "natural_language_description": "参数名: Keys | 作用: Desired stream types to return | 默认值: [] | (必填项)",
+      "available_options": [
+        "Altitude (值: altitude)",
+        "Cadence (值: cadence)",
+        "Distance (值: distance)",
+        "Gradient (值: grade_smooth)",
+        "Heartrate (值: heartrate)",
+        "Latitude / Longitude (值: latlng)",
+        "Moving (值: moving)",
+        "Temperature (值: temp)",
+        "Time (值: time)",
+        "Velocity (值: velocity_smooth)",
+        "Watts (值: watts)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "name",
-      "type",
-      "sport_type",
-      "startDate",
-      "elapsedTime",
-      "additionalFields",
-      "activityId",
-      "updateFields",
-      "activityId",
-      "activityId",
-      "returnAll",
-      "limit",
-      "keys",
-      "returnAll",
-      "limit"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'activity' THEN SHOW parameter 'operation'",
-      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'activity' AND operation == 'create' AND @version == 1 THEN SHOW parameter 'type'",
-      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'sport_type'",
-      "IF @version == 1 THEN HIDE parameter 'sport_type'",
-      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'startDate'",
-      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'elapsedTime'",
-      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'activity' AND operation == 'update' THEN SHOW parameter 'activityId'",
-      "IF resource == 'activity' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF @version == 1 THEN SHOW parameter 'type'",
-      "IF resource == 'activity' AND operation == 'get' THEN SHOW parameter 'activityId'",
-      "IF resource == 'activity' AND operation IN [\"getComments\", \"getLaps\", \"getKudos\", \"getZones\", \"getStreams\"] THEN SHOW parameter 'activityId'",
-      "IF resource == 'activity' AND operation IN [\"getComments\", \"getLaps\", \"getKudos\", \"getZones\"] THEN SHOW parameter 'returnAll'",
-      "IF resource == 'activity' AND operation IN [\"getComments\", \"getLaps\", \"getKudos\", \"getZones\"] AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'activity' AND operation == 'getStreams' THEN SHOW parameter 'keys'",
-      "IF resource == 'activity' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'activity' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'"
-    ]
   }
 }

@@ -1,291 +1,131 @@
 {
   "node_id": "n8n-nodes-base.googleBigQuery",
-  "name": "n8n-nodes-base.googleBigQuery",
+  "name": "Google BigQuery",
   "version": 1,
   "semantic_context": "Consume Google BigQuery API",
+  "natural_language_description": "这是 Google BigQuery 节点。主要用于: Consume Google BigQuery API",
   "parameters": {
     "oldVersionNotice": {
       "displayName": "<strong>New node version available:</strong> get the latest version with added features from the nodes panel.",
       "name": "oldVersionNotice",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: <strong>New node version available:</strong> get the latest version with added features from the nodes panel."
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "OAuth2 (recommended)",
-          "value": "oAuth2"
-        },
-        {
-          "name": "Service Account",
-          "value": "serviceAccount"
-        }
-      ],
+      "required": false,
       "default": "oAuth2",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: oAuth2",
+      "available_options": [
+        "OAuth2 (recommended) (值: oAuth2)",
+        "Service Account (值: serviceAccount)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Record",
-          "value": "record"
-        }
-      ],
+      "required": false,
       "default": "record",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: record",
+      "available_options": [
+        "Record (值: record)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "record"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a new record",
-          "action": "Create a record"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Retrieve many records",
-          "action": "Get many records"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a new record",
+        "Get Many (值: getAll) - Retrieve many records"
+      ]
     },
     "projectId": {
       "displayName": "Project Name or ID",
       "name": "projectId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getProjects"
-      },
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "record"
-          ]
-        }
-      },
       "default": "",
-      "description": "ID of the project to retrieve all rows from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "ID of the project to retrieve all rows from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "ID of the project to retrieve all rows from. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Project Name or ID | 作用: ID of the project to retrieve all rows from. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "datasetId": {
       "displayName": "Dataset Name or ID",
       "name": "datasetId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getDatasets",
-        "loadOptionsDependsOn": [
-          "projectId"
-        ]
-      },
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "record"
-          ]
-        }
-      },
       "default": "",
-      "description": "ID of the dataset to retrieve all rows from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "ID of the dataset to retrieve all rows from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "ID of the dataset to retrieve all rows from. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Dataset Name or ID | 作用: ID of the dataset to retrieve all rows from. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "tableId": {
       "displayName": "Table Name or ID",
       "name": "tableId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getTables",
-        "loadOptionsDependsOn": [
-          "projectId",
-          "datasetId"
-        ]
-      },
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "record"
-          ]
-        }
-      },
       "default": "",
-      "description": "ID of the table to retrieve all rows from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "ID of the table to retrieve all rows from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "ID of the table to retrieve all rows from. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Table Name or ID | 作用: ID of the table to retrieve all rows from. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "columns": {
       "displayName": "Columns",
       "name": "columns",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "record"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
-      "placeholder": "id,name,description",
+      "default": "",
       "description": "Comma-separated list of the item properties to use as columns",
-      "ai_hint": "Comma-separated list of the item properties to use as columns"
+      "natural_language_description": "参数名: Columns | 作用: Comma-separated list of the item properties to use as columns | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "record"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Fields",
-          "name": "selectedFields",
-          "type": "string",
-          "default": "",
-          "description": "Subset of fields to return, supports select into sub fields. Example: <code>selectedFields = \"a,e.d.f\"</code>"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "selectedFields (值: None) - Subset of fields to return, supports select into sub fields. Example: `selectedFields = \"a,e.d.f\"`"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "record"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "record"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "simple": {
       "displayName": "Simplify",
       "name": "simple",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "record"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether to return a simplified version of the response instead of the raw data",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Simplify | 作用: Whether to return a simplified version of the response instead of the raw data | 默认值: True"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "oldVersionNotice",
-      "authentication",
-      "resource",
-      "operation",
-      "projectId",
-      "datasetId",
-      "tableId",
-      "columns",
-      "options",
-      "projectId",
-      "datasetId",
-      "tableId",
-      "returnAll",
-      "limit",
-      "simple",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF resource == 'record' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'record' THEN SHOW parameter 'projectId'",
-      "IF operation == 'create' AND resource == 'record' THEN SHOW parameter 'datasetId'",
-      "IF operation == 'create' AND resource == 'record' THEN SHOW parameter 'tableId'",
-      "IF resource == 'record' AND operation == 'create' THEN SHOW parameter 'columns'",
-      "IF operation == 'create' AND resource == 'record' THEN SHOW parameter 'options'",
-      "IF operation == 'getAll' AND resource == 'record' THEN SHOW parameter 'projectId'",
-      "IF operation == 'getAll' AND resource == 'record' THEN SHOW parameter 'datasetId'",
-      "IF operation == 'getAll' AND resource == 'record' THEN SHOW parameter 'tableId'",
-      "IF operation == 'getAll' AND resource == 'record' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'record' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'record' AND operation == 'getAll' THEN SHOW parameter 'simple'",
-      "IF operation == 'getAll' AND resource == 'record' THEN SHOW parameter 'options'"
-    ]
   }
 }

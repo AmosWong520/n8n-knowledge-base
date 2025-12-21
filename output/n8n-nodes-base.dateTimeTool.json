@@ -1,627 +1,263 @@
 {
   "node_id": "n8n-nodes-base.dateTimeTool",
-  "name": "n8n-nodes-base.dateTimeTool",
-  "version": 2,
+  "name": "Date & Time Tool",
+  "version": 1,
   "semantic_context": "Manipulate date and time values",
+  "natural_language_description": "这是 Date & Time Tool 节点。主要用于: Manipulate date and time values",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Manipulate date and time values",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Manipulate date and time values",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Manipulate date and time values | (必填项)"
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Add to a Date",
-          "value": "addToDate"
-        },
-        {
-          "name": "Extract Part of a Date",
-          "value": "extractDate"
-        },
-        {
-          "name": "Format a Date",
-          "value": "formatDate"
-        },
-        {
-          "name": "Get Current Date",
-          "value": "getCurrentDate"
-        },
-        {
-          "name": "Get Time Between Dates",
-          "value": "getTimeBetweenDates"
-        },
-        {
-          "name": "Round a Date",
-          "value": "roundDate"
-        },
-        {
-          "name": "Subtract From a Date",
-          "value": "subtractFromDate"
-        }
-      ],
+      "required": false,
       "default": "getCurrentDate",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getCurrentDate",
+      "available_options": [
+        "Add to a Date (值: addToDate)",
+        "Extract Part of a Date (值: extractDate)",
+        "Format a Date (值: formatDate)",
+        "Get Current Date (值: getCurrentDate)",
+        "Get Time Between Dates (值: getTimeBetweenDates)",
+        "Round a Date (值: roundDate)",
+        "Subtract From a Date (值: subtractFromDate)"
+      ]
     },
     "notice": {
       "displayName": "You can also do this using an expression, e.g. <code>{{ your_date.extract(\"month\") }}}</code>. <a target=\"_blank\" href=\"https://docs.n8n.io/code/cookbook/luxon/\">More info</a>",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "extractDate"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: You can also do this using an expression, e.g. <code>{{ your_date.extract(\"month\") }}}</code>. <a target=\"_blank\" href=\"https://docs.n8n.io/code/cookbook/luxon/\">More info</a>"
     },
     "includeTime": {
       "displayName": "Include Current Time",
       "name": "includeTime",
       "type": "boolean",
+      "required": false,
       "default": true,
       "description": "When deactivated, the time will be set to midnight",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getCurrentDate"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Include Current Time | 作用: When deactivated, the time will be set to midnight | 默认值: True"
     },
     "outputFieldName": {
       "displayName": "Output Field Name",
       "name": "outputFieldName",
       "type": "string",
+      "required": false,
       "default": "datePart",
       "description": "Name of the field to put the output in",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "extractDate"
-          ]
-        }
-      },
-      "ai_hint": "Name of the field to put the output in"
+      "natural_language_description": "参数名: Output Field Name | 作用: Name of the field to put the output in | 默认值: datePart"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "extractDate"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Include Input Fields",
-          "name": "includeInputFields",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to include all fields of the input item in the output item"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "includeInputFields (值: None) - Whether to include all fields of the input item in the output item"
+      ]
     },
     "magnitude": {
       "displayName": "Date to Subtract From",
       "name": "magnitude",
       "type": "string",
-      "description": "The date that you want to change",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "subtractFromDate"
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "The date that you want to change"
+      "default": "",
+      "description": "The date that you want to change",
+      "natural_language_description": "参数名: Date to Subtract From | 作用: The date that you want to change | (必填项)"
     },
     "timeUnit": {
       "displayName": "Time Unit to Subtract",
       "name": "timeUnit",
-      "description": "Time unit for Duration parameter below",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "subtractFromDate"
-          ]
-        }
-      },
       "type": "options",
-      "options": [
-        {
-          "name": "Years",
-          "value": "years"
-        },
-        {
-          "name": "Quarters",
-          "value": "quarters"
-        },
-        {
-          "name": "Months",
-          "value": "months"
-        },
-        {
-          "name": "Weeks",
-          "value": "weeks"
-        },
-        {
-          "name": "Days",
-          "value": "days"
-        },
-        {
-          "name": "Hours",
-          "value": "hours"
-        },
-        {
-          "name": "Minutes",
-          "value": "minutes"
-        },
-        {
-          "name": "Seconds",
-          "value": "seconds"
-        },
-        {
-          "name": "Milliseconds",
-          "value": "milliseconds"
-        }
-      ],
-      "default": "days",
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "days",
+      "description": "Time unit for Duration parameter below",
+      "natural_language_description": "参数名: Time Unit to Subtract | 作用: Time unit for Duration parameter below | 默认值: days | (必填项)",
+      "available_options": [
+        "Years (值: years)",
+        "Quarters (值: quarters)",
+        "Months (值: months)",
+        "Weeks (值: weeks)",
+        "Days (值: days)",
+        "Hours (值: hours)",
+        "Minutes (值: minutes)",
+        "Seconds (值: seconds)",
+        "Milliseconds (值: milliseconds)"
+      ]
     },
     "duration": {
       "displayName": "Duration",
       "name": "duration",
       "type": "number",
-      "description": "The number of time units to subtract from the date",
+      "required": false,
       "default": 0,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "subtractFromDate"
-          ]
-        }
-      },
-      "ai_hint": "The number of time units to subtract from the date"
+      "description": "The number of time units to subtract from the date",
+      "natural_language_description": "参数名: Duration | 作用: The number of time units to subtract from the date | 默认值: 0"
     },
     "date": {
       "displayName": "Date",
       "name": "date",
       "type": "string",
-      "description": "The date that you want to round",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "extractDate"
-          ]
-        }
-      },
-      "ai_hint": "The date that you want to round"
+      "description": "The date that you want to round",
+      "natural_language_description": "参数名: Date | 作用: The date that you want to round"
     },
     "format": {
       "displayName": "Format",
       "name": "format",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "formatDate"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Custom Format",
-          "value": "custom"
-        },
-        {
-          "name": "MM/DD/YYYY",
-          "value": "MM/dd/yyyy",
-          "description": "Example: 09/04/1986"
-        },
-        {
-          "name": "YYYY/MM/DD",
-          "value": "yyyy/MM/dd",
-          "description": "Example: 1986/04/09"
-        },
-        {
-          "name": "MMMM DD YYYY",
-          "value": "MMMM dd yyyy",
-          "description": "Example: April 09 1986"
-        },
-        {
-          "name": "MM-DD-YYYY",
-          "value": "MM-dd-yyyy",
-          "description": "Example: 09-04-1986"
-        },
-        {
-          "name": "YYYY-MM-DD",
-          "value": "yyyy-MM-dd",
-          "description": "Example: 1986-04-09"
-        },
-        {
-          "name": "Unix Timestamp",
-          "value": "X",
-          "description": "Example: 1672531200"
-        },
-        {
-          "name": "Unix Ms Timestamp",
-          "value": "x",
-          "description": "Example: 1674691200000"
-        }
-      ],
+      "required": false,
       "default": "MM/dd/yyyy",
       "description": "The format to convert the date to",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Format | 作用: The format to convert the date to | 默认值: MM/dd/yyyy",
+      "available_options": [
+        "Custom Format (值: custom)",
+        "MM/DD/YYYY (值: MM/dd/yyyy) - Example: 09/04/1986",
+        "YYYY/MM/DD (值: yyyy/MM/dd) - Example: 1986/04/09",
+        "MMMM DD YYYY (值: MMMM dd yyyy) - Example: April 09 1986",
+        "MM-DD-YYYY (值: MM-dd-yyyy) - Example: 09-04-1986",
+        "YYYY-MM-DD (值: yyyy-MM-dd) - Example: 1986-04-09",
+        "Unix Timestamp (值: X) - Example: 1672531200",
+        "Unix Ms Timestamp (值: x) - Example: 1674691200000"
+      ]
     },
     "customFormat": {
       "displayName": "Custom Format",
       "name": "customFormat",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "format": [
-            "custom"
-          ],
-          "operation": [
-            "formatDate"
-          ]
-        }
-      },
-      "hint": "List of special tokens <a target=\"_blank\" href=\"https://moment.github.io/luxon/#/formatting?id=table-of-tokens\">More info</a>",
+      "required": false,
       "default": "",
-      "placeholder": "yyyy-MM-dd"
+      "description": "",
+      "natural_language_description": "参数名: Custom Format | 提示: List of special tokens More info"
     },
     "mode": {
       "displayName": "Mode",
       "name": "mode",
       "type": "options",
-      "options": [
-        {
-          "name": "Round Down",
-          "value": "roundDown"
-        },
-        {
-          "name": "Round Up",
-          "value": "roundUp"
-        }
-      ],
+      "required": false,
       "default": "roundDown",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "roundDate"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Mode | 默认值: roundDown",
+      "available_options": [
+        "Round Down (值: roundDown)",
+        "Round Up (值: roundUp)"
+      ]
     },
     "toNearest": {
       "displayName": "To Nearest",
       "name": "toNearest",
       "type": "options",
-      "options": [
-        {
-          "name": "Year",
-          "value": "year"
-        },
-        {
-          "name": "Month",
-          "value": "month"
-        },
-        {
-          "name": "Week",
-          "value": "week"
-        },
-        {
-          "name": "Day",
-          "value": "day"
-        },
-        {
-          "name": "Hour",
-          "value": "hour"
-        },
-        {
-          "name": "Minute",
-          "value": "minute"
-        },
-        {
-          "name": "Second",
-          "value": "second"
-        }
-      ],
+      "required": false,
       "default": "month",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "roundDate"
-          ],
-          "mode": [
-            "roundDown"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: To Nearest | 默认值: month",
+      "available_options": [
+        "Year (值: year)",
+        "Month (值: month)",
+        "Week (值: week)",
+        "Day (值: day)",
+        "Hour (值: hour)",
+        "Minute (值: minute)",
+        "Second (值: second)"
+      ]
     },
     "to": {
       "displayName": "To",
       "name": "to",
       "type": "options",
-      "options": [
-        {
-          "name": "End of Month",
-          "value": "month"
-        }
-      ],
+      "required": false,
       "default": "month",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "roundDate"
-          ],
-          "mode": [
-            "roundUp"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: To | 默认值: month",
+      "available_options": [
+        "End of Month (值: month)"
+      ]
     },
     "startDate": {
       "displayName": "Start Date",
       "name": "startDate",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getTimeBetweenDates"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Start Date"
     },
     "endDate": {
       "displayName": "End Date",
       "name": "endDate",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getTimeBetweenDates"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: End Date"
     },
     "units": {
       "displayName": "Units",
       "name": "units",
       "type": "multiOptions",
-      "options": [
-        {
-          "name": "Year",
-          "value": "year"
-        },
-        {
-          "name": "Month",
-          "value": "month"
-        },
-        {
-          "name": "Week",
-          "value": "week"
-        },
-        {
-          "name": "Day",
-          "value": "day"
-        },
-        {
-          "name": "Hour",
-          "value": "hour"
-        },
-        {
-          "name": "Minute",
-          "value": "minute"
-        },
-        {
-          "name": "Second",
-          "value": "second"
-        },
-        {
-          "name": "Millisecond",
-          "value": "millisecond"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getTimeBetweenDates"
-          ]
-        }
-      },
+      "required": false,
       "default": [
         "day"
+      ],
+      "description": "",
+      "natural_language_description": "参数名: Units | 默认值: ['day']",
+      "available_options": [
+        "Year (值: year)",
+        "Month (值: month)",
+        "Week (值: week)",
+        "Day (值: day)",
+        "Hour (值: hour)",
+        "Minute (值: minute)",
+        "Second (值: second)",
+        "Millisecond (值: millisecond)"
       ]
     },
     "part": {
       "displayName": "Part",
       "name": "part",
       "type": "options",
-      "options": [
-        {
-          "name": "Year",
-          "value": "year"
-        },
-        {
-          "name": "Month",
-          "value": "month"
-        },
-        {
-          "name": "Week",
-          "value": "week"
-        },
-        {
-          "name": "Day",
-          "value": "day"
-        },
-        {
-          "name": "Hour",
-          "value": "hour"
-        },
-        {
-          "name": "Minute",
-          "value": "minute"
-        },
-        {
-          "name": "Second",
-          "value": "second"
-        }
-      ],
+      "required": false,
       "default": "month",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "extractDate"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Part | 默认值: month",
+      "available_options": [
+        "Year (值: year)",
+        "Month (值: month)",
+        "Week (值: week)",
+        "Day (值: day)",
+        "Hour (值: hour)",
+        "Minute (值: minute)",
+        "Second (值: second)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "operation",
-      "notice",
-      "includeTime",
-      "outputFieldName",
-      "options",
-      "notice",
-      "magnitude",
-      "timeUnit",
-      "duration",
-      "outputFieldName",
-      "options",
-      "notice",
-      "magnitude",
-      "timeUnit",
-      "duration",
-      "outputFieldName",
-      "options",
-      "notice",
-      "date",
-      "format",
-      "customFormat",
-      "outputFieldName",
-      "options",
-      "notice",
-      "date",
-      "mode",
-      "toNearest",
-      "to",
-      "outputFieldName",
-      "options",
-      "startDate",
-      "endDate",
-      "units",
-      "outputFieldName",
-      "options",
-      "notice",
-      "date",
-      "part",
-      "outputFieldName",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF operation == 'getCurrentDate' THEN SHOW parameter 'notice'",
-      "IF operation == 'getCurrentDate' THEN SHOW parameter 'includeTime'",
-      "IF operation == 'getCurrentDate' THEN SHOW parameter 'outputFieldName'",
-      "IF operation == 'getCurrentDate' THEN SHOW parameter 'options'",
-      "IF operation == 'addToDate' THEN SHOW parameter 'notice'",
-      "IF operation == 'addToDate' THEN SHOW parameter 'magnitude'",
-      "IF operation == 'addToDate' THEN SHOW parameter 'timeUnit'",
-      "IF operation == 'addToDate' THEN SHOW parameter 'duration'",
-      "IF operation == 'addToDate' THEN SHOW parameter 'outputFieldName'",
-      "IF operation == 'addToDate' THEN SHOW parameter 'options'",
-      "IF operation == 'subtractFromDate' THEN SHOW parameter 'notice'",
-      "IF operation == 'subtractFromDate' THEN SHOW parameter 'magnitude'",
-      "IF operation == 'subtractFromDate' THEN SHOW parameter 'timeUnit'",
-      "IF operation == 'subtractFromDate' THEN SHOW parameter 'duration'",
-      "IF operation == 'subtractFromDate' THEN SHOW parameter 'outputFieldName'",
-      "IF operation == 'subtractFromDate' THEN SHOW parameter 'options'",
-      "IF operation == 'formatDate' THEN SHOW parameter 'notice'",
-      "IF operation == 'formatDate' THEN SHOW parameter 'date'",
-      "IF operation == 'formatDate' THEN SHOW parameter 'format'",
-      "IF format == 'custom' AND operation == 'formatDate' THEN SHOW parameter 'customFormat'",
-      "IF operation == 'formatDate' THEN SHOW parameter 'outputFieldName'",
-      "IF operation == 'formatDate' THEN SHOW parameter 'options'",
-      "IF operation == 'roundDate' THEN SHOW parameter 'notice'",
-      "IF operation == 'roundDate' THEN SHOW parameter 'date'",
-      "IF operation == 'roundDate' THEN SHOW parameter 'mode'",
-      "IF operation == 'roundDate' AND mode == 'roundDown' THEN SHOW parameter 'toNearest'",
-      "IF operation == 'roundDate' AND mode == 'roundUp' THEN SHOW parameter 'to'",
-      "IF operation == 'roundDate' THEN SHOW parameter 'outputFieldName'",
-      "IF operation == 'roundDate' THEN SHOW parameter 'options'",
-      "IF operation == 'getTimeBetweenDates' THEN SHOW parameter 'startDate'",
-      "IF operation == 'getTimeBetweenDates' THEN SHOW parameter 'endDate'",
-      "IF operation == 'getTimeBetweenDates' THEN SHOW parameter 'units'",
-      "IF operation == 'getTimeBetweenDates' THEN SHOW parameter 'outputFieldName'",
-      "IF operation == 'getTimeBetweenDates' THEN SHOW parameter 'options'",
-      "IF operation == 'extractDate' THEN SHOW parameter 'notice'",
-      "IF operation == 'extractDate' THEN SHOW parameter 'date'",
-      "IF operation == 'extractDate' THEN SHOW parameter 'part'",
-      "IF operation == 'extractDate' THEN SHOW parameter 'outputFieldName'",
-      "IF operation == 'extractDate' THEN SHOW parameter 'options'"
-    ]
   }
 }

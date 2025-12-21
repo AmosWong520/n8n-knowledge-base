@@ -1,665 +1,179 @@
 {
   "node_id": "n8n-nodes-base.getResponseTool",
-  "name": "n8n-nodes-base.getResponseTool",
+  "name": "GetResponse Tool",
   "version": 1,
   "semantic_context": "Consume GetResponse API",
+  "natural_language_description": "这是 GetResponse Tool 节点。主要用于: Consume GetResponse API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume GetResponse API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume GetResponse API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume GetResponse API | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "API Key",
-          "value": "apiKey"
-        },
-        {
-          "name": "OAuth2",
-          "value": "oAuth2"
-        }
-      ],
+      "required": false,
       "default": "apiKey",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: apiKey",
+      "available_options": [
+        "API Key (值: apiKey)",
+        "OAuth2 (值: oAuth2)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Contact",
-          "value": "contact"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "contact",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: contact",
+      "available_options": [
+        "Contact (值: contact)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a new contact",
-          "action": "Create a contact"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a contact",
-          "action": "Delete a contact"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a contact",
-          "action": "Get a contact"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many contacts",
-          "action": "Get many contacts"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update contact properties",
-          "action": "Update a contact"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Create (值: create) - Create a new contact",
+        "Delete (值: delete) - Delete a contact",
+        "Get (值: get) - Get a contact",
+        "Get Many (值: getAll) - Get many contacts",
+        "Update (值: update) - Update contact properties",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Email"
     },
     "campaignId": {
       "displayName": "Campaign Name or ID",
       "name": "campaignId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getCampaigns"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Campaign Name or ID | 作用: Choose from the list, or specify an ID using an expression"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Custom Fields",
-          "name": "customFieldsUi",
-          "type": "fixedCollection",
-          "default": {},
-          "placeholder": "Add Custom Field",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "options": [
-            {
-              "name": "customFieldValues",
-              "displayName": "Custom Field",
-              "values": [
-                {
-                  "displayName": "Field Name or ID",
-                  "name": "customFieldId",
-                  "type": "options",
-                  "typeOptions": {
-                    "loadOptionsMethod": "getCustomFields"
-                  },
-                  "description": "The end user specified key of the user defined data. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-                  "default": ""
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "description": "The end user specified value of the user defined data",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Day Of Cycle",
-          "name": "dayOfCycle",
-          "type": "string",
-          "description": "The day on which the contact is in the Autoresponder cycle. null indicates the contacts is not in the cycle.",
-          "default": ""
-        },
-        {
-          "displayName": "IP Address",
-          "name": "ipAddress",
-          "type": "string",
-          "description": "The contact's IP address. IPv4 and IPv6 formats are accepted.",
-          "default": ""
-        },
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Note",
-          "name": "note",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Scoring",
-          "name": "scoring",
-          "type": "number",
-          "default": "",
-          "description": "Contact scoring, pass null to remove the score from a contact",
-          "typeOptions": {
-            "minValue": 0
-          }
-        },
-        {
-          "displayName": "Tag Names or IDs",
-          "name": "tags",
-          "type": "multiOptions",
-          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "typeOptions": {
-            "loadOptionsMethod": "getTags"
-          },
-          "default": []
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "customFieldsUi (值: None)",
+        "dayOfCycle (值: None) - The day on which the contact is in the Autoresponder cycle. null indicates the contacts is not in the cycle.",
+        "ipAddress (值: None) - The contact's IP address. IPv4 and IPv6 formats are accepted.",
+        "name (值: None)",
+        "note (值: None)",
+        "scoring (值: None) - Contact scoring, pass null to remove the score from a contact",
+        "tags (值: None) - Choose from the list, or specify IDs using an expression"
+      ]
     },
     "contactId": {
       "displayName": "Contact ID",
       "name": "contactId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
       "default": "",
       "description": "Unique identifier for a particular contact",
-      "ai_hint": "Unique identifier for a particular contact"
+      "natural_language_description": "参数名: Contact ID | 作用: Unique identifier for a particular contact | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Campaign ID",
-          "name": "campaignId",
-          "type": "string",
-          "description": "Search contacts by campaign ID",
-          "default": ""
-        },
-        {
-          "displayName": "Change On From",
-          "name": "changeOnFrom",
-          "type": "dateTime",
-          "default": "",
-          "description": "Search contacts edited from this date"
-        },
-        {
-          "displayName": "Change On To",
-          "name": "changeOnTo",
-          "type": "dateTime",
-          "default": "",
-          "description": "Search contacts edited to this date"
-        },
-        {
-          "displayName": "Created On From",
-          "name": "createdOnFrom",
-          "type": "dateTime",
-          "default": "",
-          "description": "Count data from this date"
-        },
-        {
-          "displayName": "Created On To",
-          "name": "createdOnTo",
-          "type": "dateTime",
-          "default": "",
-          "description": "Count data from this date"
-        },
-        {
-          "displayName": "Exact Match",
-          "name": "exactMatch",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to search for contacts with the exact value of the email and name provided in the query string. Without this flag, matching is done via a standard 'like' comparison, which may sometimes be slow."
-        },
-        {
-          "displayName": "Fields",
-          "name": "fields",
-          "type": "string",
-          "description": "List of fields that should be returned. ID is always returned. Fields should be separated by comma",
-          "default": ""
-        },
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "description": "Search contacts by name",
-          "default": ""
-        },
-        {
-          "displayName": "Origin",
-          "name": "origin",
-          "type": "options",
-          "options": [
-            {
-              "name": "API",
-              "value": "api"
-            },
-            {
-              "name": "Copy",
-              "value": "copy"
-            },
-            {
-              "name": "Email",
-              "value": "email"
-            },
-            {
-              "name": "Forward",
-              "value": "forward"
-            },
-            {
-              "name": "Import",
-              "value": "import"
-            },
-            {
-              "name": "Iphone",
-              "value": "iphone"
-            },
-            {
-              "name": "Landing Page",
-              "value": "landing_page"
-            },
-            {
-              "name": "Leads",
-              "value": "leads"
-            },
-            {
-              "name": "Panel",
-              "value": "panel"
-            },
-            {
-              "name": "Sale",
-              "value": "sale"
-            },
-            {
-              "name": "Survey",
-              "value": "survey"
-            },
-            {
-              "name": "Webinar",
-              "value": "webinar"
-            },
-            {
-              "name": "WWW",
-              "value": "www"
-            }
-          ],
-          "description": "Search contacts by origin",
-          "default": ""
-        },
-        {
-          "displayName": "Sort By",
-          "name": "sortBy",
-          "type": "options",
-          "options": [
-            {
-              "name": "Campaign ID",
-              "value": "campaignId"
-            },
-            {
-              "name": "Changed On",
-              "value": "changedOn"
-            },
-            {
-              "name": "Created On",
-              "value": "createdOn"
-            },
-            {
-              "name": "Email",
-              "value": "email"
-            }
-          ],
-          "default": ""
-        },
-        {
-          "displayName": "Sort Order",
-          "name": "sortOrder",
-          "type": "options",
-          "options": [
-            {
-              "name": "ASC",
-              "value": "ASC"
-            },
-            {
-              "name": "DESC",
-              "value": "DESC"
-            }
-          ],
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "campaignId (值: None) - Search contacts by campaign ID",
+        "changeOnFrom (值: None) - Search contacts edited from this date",
+        "changeOnTo (值: None) - Search contacts edited to this date",
+        "createdOnFrom (值: None) - Count data from this date",
+        "createdOnTo (值: None) - Count data from this date",
+        "exactMatch (值: None) - Whether to search for contacts with the exact value of the email and name provided in the query string. Without this flag, matching is done via a standard 'like' comparison, which may sometimes be slow.",
+        "fields (值: None) - List of fields that should be returned. ID is always returned. Fields should be separated by comma",
+        "name (值: None) - Search contacts by name",
+        "origin (值: None) - Search contacts by origin",
+        "sortBy (值: None)",
+        "sortOrder (值: None)"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "description": "Max number of results to return",
+      "required": false,
       "default": 20,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "description": "Max number of results to return",
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 20"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Campaign Name or ID",
-          "name": "campaignId",
-          "type": "options",
-          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "typeOptions": {
-            "loadOptionsMethod": "getCampaigns"
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Custom Fields",
-          "name": "customFieldsUi",
-          "type": "fixedCollection",
-          "default": {},
-          "placeholder": "Add Custom Field",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "options": [
-            {
-              "name": "customFieldValues",
-              "displayName": "Custom Field",
-              "values": [
-                {
-                  "displayName": "Field Name or ID",
-                  "name": "customFieldId",
-                  "type": "options",
-                  "typeOptions": {
-                    "loadOptionsMethod": "getCustomFields"
-                  },
-                  "description": "The end user specified key of the user defined data. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-                  "default": ""
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "description": "The end user specified value of the user defined data",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Day Of Cycle",
-          "name": "dayOfCycle",
-          "type": "string",
-          "description": "The day on which the contact is in the Autoresponder cycle. null indicates the contacts is not in the cycle.",
-          "default": ""
-        },
-        {
-          "displayName": "Email",
-          "name": "email",
-          "type": "string",
-          "placeholder": "name@email.com",
-          "default": ""
-        },
-        {
-          "displayName": "IP Address",
-          "name": "ipAddress",
-          "type": "string",
-          "description": "The contact's IP address. IPv4 and IPv6 formats are accepted.",
-          "default": ""
-        },
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Note",
-          "name": "note",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Scoring",
-          "name": "scoring",
-          "type": "number",
-          "default": "",
-          "description": "Contact scoring, pass null to remove the score from a contact",
-          "typeOptions": {
-            "minValue": 0
-          }
-        },
-        {
-          "displayName": "Tag Names or IDs",
-          "name": "tags",
-          "type": "multiOptions",
-          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "typeOptions": {
-            "loadOptionsMethod": "getTags"
-          },
-          "default": []
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "campaignId (值: None) - Choose from the list, or specify an ID using an expression",
+        "customFieldsUi (值: None)",
+        "dayOfCycle (值: None) - The day on which the contact is in the Autoresponder cycle. null indicates the contacts is not in the cycle.",
+        "email (值: None)",
+        "ipAddress (值: None) - The contact's IP address. IPv4 and IPv6 formats are accepted.",
+        "name (值: None)",
+        "note (值: None)",
+        "scoring (值: None) - Contact scoring, pass null to remove the score from a contact",
+        "tags (值: None) - Choose from the list, or specify IDs using an expression"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "resource",
-      "operation",
-      "email",
-      "campaignId",
-      "additionalFields",
-      "contactId",
-      "options",
-      "contactId",
-      "options",
-      "returnAll",
-      "limit",
-      "options",
-      "contactId",
-      "updateFields"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'contact' THEN SHOW parameter 'operation'",
-      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'email'",
-      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'campaignId'",
-      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'contact' AND operation == 'delete' THEN SHOW parameter 'contactId'",
-      "IF resource == 'contact' AND operation == 'delete' THEN SHOW parameter 'options'",
-      "IF resource == 'contact' AND operation == 'get' THEN SHOW parameter 'contactId'",
-      "IF resource == 'contact' AND operation == 'get' THEN SHOW parameter 'options'",
-      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'contact' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'contact' AND operation == 'update' THEN SHOW parameter 'contactId'",
-      "IF resource == 'contact' AND operation == 'update' THEN SHOW parameter 'updateFields'"
-    ]
   }
 }

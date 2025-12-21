@@ -1,752 +1,167 @@
 {
   "node_id": "n8n-nodes-base.azureCosmosDb",
-  "name": "n8n-nodes-base.azureCosmosDb",
+  "name": "Azure Cosmos DB",
   "version": 1,
   "semantic_context": "Interact with Azure Cosmos DB API",
+  "natural_language_description": "这是 Azure Cosmos DB 节点。主要用于: Interact with Azure Cosmos DB API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Container",
-          "value": "container"
-        },
-        {
-          "name": "Item",
-          "value": "item"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "container",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: container",
+      "available_options": [
+        "Container (值: container)",
+        "Item (值: item)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "item"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a new item",
-          "routing": {
-            "send": {
-              "preSend": [
-                null
-              ]
-            },
-            "request": {
-              "method": "POST",
-              "url": "=/colls/{{ $parameter[\"container\"] }}/docs",
-              "headers": {
-                "x-ms-documentdb-is-upsert": "True"
-              }
-            },
-            "output": {
-              "postReceive": [
-                null
-              ]
-            }
-          },
-          "action": "Create item"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete an existing item",
-          "routing": {
-            "send": {
-              "preSend": [
-                null
-              ]
-            },
-            "request": {
-              "method": "DELETE",
-              "url": "=/colls/{{ $parameter[\"container\"] }}/docs/{{ $parameter[\"item\"] }}"
-            },
-            "output": {
-              "postReceive": [
-                null,
-                {
-                  "type": "set",
-                  "properties": {
-                    "value": "={{ { \"deleted\": true } }}"
-                  }
-                }
-              ]
-            }
-          },
-          "action": "Delete item"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Retrieve an item",
-          "routing": {
-            "send": {
-              "preSend": [
-                null
-              ]
-            },
-            "request": {
-              "method": "GET",
-              "url": "=/colls/{{ $parameter[\"container\"]}}/docs/{{$parameter[\"item\"]}}",
-              "headers": {
-                "x-ms-documentdb-is-upsert": "True"
-              }
-            },
-            "output": {
-              "postReceive": [
-                null,
-                null
-              ]
-            }
-          },
-          "action": "Get item"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Retrieve a list of items",
-          "routing": {
-            "request": {
-              "method": "GET",
-              "url": "=/colls/{{ $parameter[\"container\"] }}/docs"
-            },
-            "output": {
-              "postReceive": [
-                null,
-                {
-                  "type": "rootProperty",
-                  "properties": {
-                    "property": "Documents"
-                  }
-                },
-                null
-              ]
-            }
-          },
-          "action": "Get many items"
-        },
-        {
-          "name": "Execute Query",
-          "value": "query",
-          "routing": {
-            "request": {
-              "method": "POST",
-              "url": "=/colls/{{ $parameter[\"container\"] }}/docs",
-              "headers": {
-                "Content-Type": "application/query+json",
-                "x-ms-documentdb-isquery": "True",
-                "x-ms-documentdb-query-enablecrosspartition": "True"
-              }
-            },
-            "output": {
-              "postReceive": [
-                null,
-                {
-                  "type": "rootProperty",
-                  "properties": {
-                    "property": "Documents"
-                  }
-                },
-                null
-              ]
-            }
-          },
-          "action": "Query items"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update an existing item",
-          "routing": {
-            "send": {
-              "preSend": [
-                null
-              ]
-            },
-            "request": {
-              "method": "PUT",
-              "url": "=/colls/{{ $parameter[\"container\"] }}/docs/{{ $parameter[\"item\"] }}",
-              "headers": {
-                "Content-Type": "application/json-patch+json"
-              }
-            },
-            "output": {
-              "postReceive": [
-                null
-              ]
-            }
-          },
-          "action": "Update item"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "getAll",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getAll",
+      "available_options": [
+        "Create (值: create) - Create a new item",
+        "Delete (值: delete) - Delete an existing item",
+        "Get (值: get) - Retrieve an item",
+        "Get Many (值: getAll) - Retrieve a list of items",
+        "Execute Query (值: query)",
+        "Update (值: update) - Update an existing item",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "containerCreate": {
       "displayName": "ID",
       "name": "containerCreate",
+      "type": "string",
+      "required": true,
       "default": "",
       "description": "Unique identifier for the new container",
-      "placeholder": "e.g. Container1",
-      "required": true,
-      "routing": {
-        "send": {
-          "preSend": [
-            null
-          ]
-        }
-      },
-      "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "container"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Unique identifier for the new container"
+      "natural_language_description": "参数名: ID | 作用: Unique identifier for the new container | (必填项)"
     },
     "partitionKey": {
       "displayName": "Partition Key",
       "name": "partitionKey",
+      "type": "json",
+      "required": true,
       "default": "{\n\t\"paths\": [\n\t\t\"/id\"\n\t],\n\t\"kind\": \"Hash\",\n\t\"version\": 2\n}",
       "description": "The partition key is used to automatically distribute data across partitions for scalability. Choose a property in your JSON document that has a wide range of values and evenly distributes request volume.",
-      "required": true,
-      "routing": {
-        "send": {
-          "preSend": [
-            null
-          ]
-        }
-      },
-      "type": "json",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "container"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "The partition key is used to automatically distribute data across partitions for scalability. Choose a property in your JSON document that has a wide range of values and evenly distributes request volume."
+      "natural_language_description": "参数名: Partition Key | 作用: The partition key is used to automatically distribute data across partitions for scalability. Choose a property in your JSON document that has a wide range of values and evenly distributes request volume. | 默认值: {\n\t\"paths\": [\n\t\t\"/id\"\n\t],\n\t\"kind\": \"Hash\",\n\t\"version\": 2\n} | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
-      "default": {},
-      "displayOptions": {
-        "hide": {
-          "container": [
-            ""
-          ],
-          "item": [
-            ""
-          ]
-        },
-        "show": {
-          "resource": [
-            "item"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Partition Key",
-          "name": "partitionKey",
-          "type": "string",
-          "hint": "Only required if a custom partition key is set for the container",
-          "default": ""
-        }
-      ],
-      "placeholder": "Add Partition Key",
       "type": "collection",
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "required": false,
+      "default": {},
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "partitionKey (值: None)"
+      ]
     },
     "container": {
       "displayName": "Container",
       "name": "container",
+      "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "modes": [
-        {
-          "displayName": "From list",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "searchContainers",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "hint": "Enter the container ID",
-          "placeholder": "e.g. AndersenFamily",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "^[\\w+=,.@-]+$",
-                "errorMessage": "The container ID must follow the allowed pattern"
-              }
-            }
-          ]
-        }
-      ],
-      "required": true,
-      "type": "resourceLocator",
       "description": "Select the container you want to use",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "item"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "Select the container you want to use"
+      "natural_language_description": "参数名: Container | 作用: Select the container you want to use | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "simple": {
       "displayName": "Simplify",
       "name": "simple",
+      "type": "boolean",
+      "required": false,
       "default": true,
       "description": "Whether to return a simplified version of the response instead of the raw data",
-      "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "item"
-          ],
-          "operation": [
-            "query"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Simplify | 作用: Whether to return a simplified version of the response instead of the raw data | 默认值: True"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
+      "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "routing": {
-        "send": {
-          "paginate": "={{ $value }}"
-        },
-        "operations": {
-          "pagination": {
-            "type": "generic",
-            "properties": {
-              "continue": "={{ !!$response.headers?.[\"x-ms-continuation\"] }}",
-              "request": {
-                "headers": {
-                  "x-ms-continuation": "={{ $response.headers?.[\"x-ms-continuation\"] }}"
-                }
-              }
-            }
-          }
-        }
-      },
-      "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "item"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
+      "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "displayOptions": {
-        "show": {
-          "returnAll": [
-            false
-          ],
-          "resource": [
-            "item"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "routing": {
-        "request": {
-          "headers": {
-            "x-ms-max-item-count": "={{ $value || undefined }}"
-          }
-        }
-      },
-      "type": "number",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "validateType": "number",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "customProperties": {
       "displayName": "Item Contents",
       "name": "customProperties",
+      "type": "json",
+      "required": true,
       "default": "{}",
       "description": "The item contents as a JSON object",
-      "displayOptions": {
-        "hide": {
-          "container": [
-            ""
-          ],
-          "item": [
-            ""
-          ]
-        },
-        "show": {
-          "resource": [
-            "item"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "required": true,
-      "routing": {
-        "send": {
-          "preSend": [
-            null
-          ]
-        }
-      },
-      "type": "json",
-      "ai_hint": "The item contents as a JSON object"
+      "natural_language_description": "参数名: Item Contents | 作用: The item contents as a JSON object | 默认值: {} | (必填项)"
     },
     "item": {
       "displayName": "Item",
       "name": "item",
+      "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "displayOptions": {
-        "hide": {
-          "container": [
-            ""
-          ]
-        },
-        "show": {
-          "resource": [
-            "item"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "modes": [
-        {
-          "displayName": "From list",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "searchItems",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "hint": "Enter the item ID",
-          "placeholder": "e.g. AndersenFamily",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "^[\\w+=,.@-]+$",
-                "errorMessage": "The item ID must follow the allowed pattern"
-              }
-            }
-          ]
-        }
-      ],
-      "required": true,
-      "type": "resourceLocator",
       "description": "Select the item to be updated",
-      "ai_hint": "Select the item to be updated"
+      "natural_language_description": "参数名: Item | 作用: Select the item to be updated | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "query": {
       "displayName": "Query",
       "name": "query",
+      "type": "string",
+      "required": true,
       "default": "",
       "description": "The SQL query to execute. Use $1, $2, $3, etc., to reference the 'Query Parameters' set in the options below.",
-      "hint": "Consider using query parameters to prevent SQL injection attacks. Add them in the options below.",
-      "noDataExpression": true,
-      "placeholder": "e.g. SELECT id, name FROM c WHERE c.name = $1",
-      "required": true,
-      "routing": {
-        "send": {
-          "type": "body",
-          "property": "query",
-          "value": "={{ $value.replace(/\\$(\\d+)/g, '@Param$1') }}"
-        }
-      },
-      "type": "string",
-      "typeOptions": {
-        "editor": "sqlEditor",
-        "sqlDialect": "StandardSQL"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "item"
-          ],
-          "operation": [
-            "query"
-          ]
-        }
-      },
-      "ai_hint": "The SQL query to execute. Use $1, $2, $3, etc., to reference the 'Query Parameters' set in the options below."
+      "natural_language_description": "参数名: Query | 作用: The SQL query to execute. Use $1, $2, $3, etc., to reference the 'Query Parameters' set in the options below. | 提示: Consider using query parameters to prevent SQL injection attacks. Add them in the options below. | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
-      "default": {},
-      "options": [
-        {
-          "displayName": "Query Options",
-          "name": "queryOptions",
-          "values": [
-            {
-              "displayName": "Query Parameters",
-              "name": "queryParameters",
-              "default": "",
-              "description": "Comma-separated list of values used as query parameters. Use $1, $2, $3, etc., in your query.",
-              "hint": "Reference them in your query as $1, $2, $3…",
-              "placeholder": "e.g. value1,value2,value3",
-              "routing": {
-                "send": {
-                  "preSend": [
-                    null
-                  ]
-                }
-              },
-              "type": "string"
-            }
-          ]
-        }
-      ],
-      "placeholder": "Add options",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": false
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "item"
-          ],
-          "operation": [
-            "query"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "required": false,
+      "default": {},
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "queryOptions (值: None)"
+      ]
     },
     "requestOptions": {
       "displayName": "Request Options",
       "name": "requestOptions",
       "type": "collection",
-      "isNodeSetting": true,
-      "placeholder": "Add Option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Batching",
-          "name": "batching",
-          "placeholder": "Add Batching",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": {
-            "batch": {}
-          },
-          "options": [
-            {
-              "displayName": "Batching",
-              "name": "batch",
-              "values": [
-                {
-                  "displayName": "Items per Batch",
-                  "name": "batchSize",
-                  "type": "number",
-                  "typeOptions": {
-                    "minValue": -1
-                  },
-                  "default": 50,
-                  "description": "Input will be split in batches to throttle requests. -1 for disabled. 0 will be treated as 1."
-                },
-                {
-                  "displayName": "Batch Interval (ms)",
-                  "name": "batchInterval",
-                  "type": "number",
-                  "typeOptions": {
-                    "minValue": 0
-                  },
-                  "default": 1000,
-                  "description": "Time (in milliseconds) between each batch of requests. 0 for disabled."
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Ignore SSL Issues (Insecure)",
-          "name": "allowUnauthorizedCerts",
-          "type": "boolean",
-          "noDataExpression": true,
-          "default": false,
-          "description": "Whether to accept the response even if SSL certificate validation is not possible"
-        },
-        {
-          "displayName": "Proxy",
-          "name": "proxy",
-          "type": "string",
-          "default": "",
-          "placeholder": "e.g. http://myproxy:3128",
-          "description": "HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128"
-        },
-        {
-          "displayName": "Timeout",
-          "name": "timeout",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 1
-          },
-          "default": 10000,
-          "description": "Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Request Options | 默认值: {}",
+      "available_options": [
+        "batching (值: None)",
+        "allowUnauthorizedCerts (值: None) - Whether to accept the response even if SSL certificate validation is not possible",
+        "proxy (值: None) - HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128",
+        "timeout (值: None) - Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "containerCreate",
-      "partitionKey",
-      "additionalFields",
-      "container",
-      "container",
-      "simple",
-      "returnAll",
-      "limit",
-      "simple",
-      "operation",
-      "container",
-      "customProperties",
-      "container",
-      "item",
-      "additionalFields",
-      "container",
-      "item",
-      "simple",
-      "additionalFields",
-      "container",
-      "returnAll",
-      "limit",
-      "simple",
-      "container",
-      "query",
-      "simple",
-      "options",
-      "container",
-      "item",
-      "customProperties",
-      "additionalFields",
-      "requestOptions"
-    ],
-    "conditional_rules": [
-      "IF resource == 'container' THEN SHOW parameter 'operation'",
-      "IF resource == 'container' AND operation == 'create' THEN SHOW parameter 'containerCreate'",
-      "IF resource == 'container' AND operation == 'create' THEN SHOW parameter 'partitionKey'",
-      "IF resource == 'container' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF /additionalFields.offerThroughput == {'_cnd': {'exists': True}} THEN HIDE parameter 'maxThroughput'",
-      "IF /additionalFields.maxThroughput == {'_cnd': {'exists': True}} THEN HIDE parameter 'offerThroughput'",
-      "IF resource == 'container' AND operation == 'delete' THEN SHOW parameter 'container'",
-      "IF resource == 'container' AND operation == 'get' THEN SHOW parameter 'container'",
-      "IF resource == 'container' AND operation == 'get' THEN SHOW parameter 'simple'",
-      "IF resource == 'container' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF returnAll == False AND resource == 'container' AND operation == 'getAll' THEN SHOW parameter 'limit'",
-      "IF resource == 'container' AND operation == 'getAll' THEN SHOW parameter 'simple'",
-      "IF resource == 'item' THEN SHOW parameter 'operation'",
-      "IF resource == 'item' AND operation == 'create' THEN SHOW parameter 'container'",
-      "IF resource == 'item' AND operation == 'create' THEN SHOW parameter 'customProperties'",
-      "IF container == '' THEN HIDE parameter 'customProperties'",
-      "IF resource == 'item' AND operation == 'delete' THEN SHOW parameter 'container'",
-      "IF resource == 'item' AND operation == 'delete' THEN SHOW parameter 'item'",
-      "IF container == '' THEN HIDE parameter 'item'",
-      "IF resource == 'item' AND operation == 'delete' THEN SHOW parameter 'additionalFields'",
-      "IF container == '' AND item == '' THEN HIDE parameter 'additionalFields'",
-      "IF resource == 'item' AND operation == 'get' THEN SHOW parameter 'container'",
-      "IF resource == 'item' AND operation == 'get' THEN SHOW parameter 'item'",
-      "IF resource == 'item' AND operation == 'get' THEN SHOW parameter 'simple'",
-      "IF container == '' AND item == '' THEN HIDE parameter 'simple'",
-      "IF resource == 'item' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'container'",
-      "IF resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF returnAll == False AND resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'limit'",
-      "IF resource == 'item' AND operation == 'getAll' THEN SHOW parameter 'simple'",
-      "IF resource == 'item' AND operation == 'query' THEN SHOW parameter 'container'",
-      "IF resource == 'item' AND operation == 'query' THEN SHOW parameter 'query'",
-      "IF resource == 'item' AND operation == 'query' THEN SHOW parameter 'simple'",
-      "IF resource == 'item' AND operation == 'query' THEN SHOW parameter 'options'",
-      "IF resource == 'item' AND operation == 'update' THEN SHOW parameter 'container'",
-      "IF resource == 'item' AND operation == 'update' THEN SHOW parameter 'item'",
-      "IF resource == 'item' AND operation == 'update' THEN SHOW parameter 'customProperties'",
-      "IF container == '' AND item == '' THEN HIDE parameter 'customProperties'",
-      "IF resource == 'item' AND operation == 'update' THEN SHOW parameter 'additionalFields'"
-    ]
   }
 }

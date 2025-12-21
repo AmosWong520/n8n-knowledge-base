@@ -1,465 +1,150 @@
 {
   "node_id": "n8n-nodes-base.twitterTool",
-  "name": "n8n-nodes-base.twitterTool",
-  "version": 2,
+  "name": "X (Formerly Twitter) Tool",
+  "version": 1,
   "semantic_context": "Post, like, and search tweets, send messages, search users, and add users to lists",
+  "natural_language_description": "这是 X (Formerly Twitter) Tool 节点。主要用于: Post, like, and search tweets, send messages, search users, and add users to lists",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Post, like, and search tweets, send messages, search users, and add users to lists",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Post, like, and search tweets, send messages, search users, and add users to lists",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Post, like, and search tweets, send messages, search users, and add users to lists | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Direct Message",
-          "value": "directMessage",
-          "description": "Send a direct message to a user"
-        },
-        {
-          "name": "List",
-          "value": "list",
-          "description": "Add a user to a list"
-        },
-        {
-          "name": "Tweet",
-          "value": "tweet",
-          "description": "Create, like, search, or delete a tweet"
-        },
-        {
-          "name": "User",
-          "value": "user",
-          "description": "Search users by username"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "tweet",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: tweet",
+      "available_options": [
+        "Direct Message (值: directMessage) - Send a direct message to a user",
+        "List (值: list) - Add a user to a list",
+        "Tweet (值: tweet) - Create, like, search, or delete a tweet",
+        "User (值: user) - Search users by username",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get",
-          "value": "searchUser",
-          "description": "Retrieve a user by username",
-          "action": "Get User"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "searchUser",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: searchUser",
+      "available_options": [
+        "Get (值: searchUser) - Retrieve a user by username",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "user": {
       "displayName": "User",
       "name": "user",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "username",
         "value": ""
       },
-      "required": true,
       "description": "The user you want to search",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "searchUser"
-          ],
-          "resource": [
-            "user"
-          ]
-        },
-        "hide": {
-          "me": [
-            true
-          ]
-        }
-      },
-      "modes": [
-        {
-          "displayName": "By Username",
-          "name": "username",
-          "type": "string",
-          "validation": [],
-          "placeholder": "e.g. n8n",
-          "url": ""
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "type": "string",
-          "validation": [],
-          "placeholder": "e.g. 1068479892537384960",
-          "url": ""
-        }
-      ],
-      "ai_hint": "The user you want to search"
+      "natural_language_description": "参数名: User | 作用: The user you want to search | 默认值: {'mode': 'username', 'value': ''} | (必填项)"
     },
     "text": {
       "displayName": "Text",
       "name": "text",
       "type": "string",
-      "typeOptions": {
-        "rows": 2
-      },
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "tweet"
-          ]
-        }
-      },
+      "default": "",
       "description": "The text of the status update. URLs must be encoded. Links wrapped with the t.co shortener will affect character count",
-      "ai_hint": "The text of the status update. URLs must be encoded. Links wrapped with the t.co shortener will affect character count"
+      "natural_language_description": "参数名: Text | 作用: The text of the status update. URLs must be encoded. Links wrapped with the t.co shortener will affect character count | (必填项)"
     },
     "additionalFields": {
       "displayName": "Options",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "search"
-          ],
-          "resource": [
-            "tweet"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Sort Order",
-          "name": "sortOrder",
-          "type": "options",
-          "options": [
-            {
-              "name": "Recent",
-              "value": "recency"
-            },
-            {
-              "name": "Relevant",
-              "value": "relevancy"
-            }
-          ],
-          "description": "The order in which to return results",
-          "default": "recency"
-        },
-        {
-          "displayName": "After",
-          "name": "startTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "Tweets before this date will not be returned. This date must be within the last 7 days if you don't have Academic Research access."
-        },
-        {
-          "displayName": "Before",
-          "name": "endTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "Tweets after this date will not be returned. This date must be within the last 7 days if you don't have Academic Research access."
-        },
-        {
-          "displayName": "Tweet Fields",
-          "name": "tweetFieldsObject",
-          "type": "multiOptions",
-          "options": [
-            {
-              "name": "Attachments",
-              "value": "attachments"
-            },
-            {
-              "name": "Author ID",
-              "value": "author_id"
-            },
-            {
-              "name": "Context Annotations",
-              "value": "context_annotations"
-            },
-            {
-              "name": "Conversation ID",
-              "value": "conversation_id"
-            },
-            {
-              "name": "Created At",
-              "value": "created_at"
-            },
-            {
-              "name": "Edit Controls",
-              "value": "edit_controls"
-            },
-            {
-              "name": "Entities",
-              "value": "entities"
-            },
-            {
-              "name": "Geo",
-              "value": "geo"
-            },
-            {
-              "name": "ID",
-              "value": "id"
-            },
-            {
-              "name": "In Reply To User ID",
-              "value": "in_reply_to_user_id"
-            },
-            {
-              "name": "Lang",
-              "value": "lang"
-            },
-            {
-              "name": "Non Public Metrics",
-              "value": "non_public_metrics"
-            },
-            {
-              "name": "Public Metrics",
-              "value": "public_metrics"
-            },
-            {
-              "name": "Organic Metrics",
-              "value": "organic_metrics"
-            },
-            {
-              "name": "Promoted Metrics",
-              "value": "promoted_metrics"
-            },
-            {
-              "name": "Possibly Sensitive",
-              "value": "possibly_sensitive"
-            },
-            {
-              "name": "Referenced Tweets",
-              "value": "referenced_tweets"
-            },
-            {
-              "name": "Reply Settings",
-              "value": "reply_settings"
-            },
-            {
-              "name": "Source",
-              "value": "source"
-            },
-            {
-              "name": "Text",
-              "value": "text"
-            },
-            {
-              "name": "Withheld",
-              "value": "withheld"
-            }
-          ],
-          "default": [],
-          "description": "The fields to add to each returned tweet object. Default fields are: ID, text, edit_history_tweet_ids."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "sortOrder (值: None) - The order in which to return results",
+        "startTime (值: None) - Tweets before this date will not be returned. This date must be within the last 7 days if you don't have Academic Research access.",
+        "endTime (值: None) - Tweets after this date will not be returned. This date must be within the last 7 days if you don't have Academic Research access.",
+        "tweetFieldsObject (值: None) - The fields to add to each returned tweet object. Default fields are: ID, text, edit_history_tweet_ids."
+      ]
     },
     "list": {
       "displayName": "List",
       "name": "list",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "id",
         "value": ""
       },
-      "required": true,
       "description": "The list you want to add the user to",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "add"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
-      "modes": [
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "type": "string",
-          "validation": [],
-          "placeholder": "e.g. 99923132",
-          "url": ""
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "validation": [],
-          "placeholder": "e.g. https://twitter.com/i/lists/99923132",
-          "url": ""
-        }
-      ],
-      "ai_hint": "The list you want to add the user to"
+      "natural_language_description": "参数名: List | 作用: The list you want to add the user to | 默认值: {'mode': 'id', 'value': ''} | (必填项)"
     },
     "noticeLocation": {
       "displayName": "Locations are not supported due to Twitter V2 API limitations",
       "name": "noticeLocation",
       "type": "notice",
-      "displayOptions": {
-        "show": {
-          "/additionalFields.location": [
-            ""
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Locations are not supported due to Twitter V2 API limitations"
     },
     "noticeAttachments": {
       "displayName": "Attachements are not supported due to Twitter V2 API limitations",
       "name": "noticeAttachments",
       "type": "notice",
-      "displayOptions": {
-        "show": {
-          "/additionalFields.attachments": [
-            ""
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Attachements are not supported due to Twitter V2 API limitations"
     },
     "tweetDeleteId": {
       "displayName": "Tweet",
       "name": "tweetDeleteId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "id",
         "value": ""
       },
-      "required": true,
       "description": "The tweet to delete",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "tweet"
-          ],
-          "operation": [
-            "delete"
-          ]
-        }
-      },
-      "modes": [
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "type": "string",
-          "validation": [],
-          "placeholder": "e.g. 1187836157394112513",
-          "url": ""
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "validation": [],
-          "placeholder": "e.g. https://twitter.com/n8n_io/status/1187836157394112513",
-          "url": ""
-        }
-      ],
-      "ai_hint": "The tweet to delete"
+      "natural_language_description": "参数名: Tweet | 作用: The tweet to delete | 默认值: {'mode': 'id', 'value': ''} | (必填项)"
     },
     "tweetId": {
       "displayName": "Tweet",
       "name": "tweetId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "id",
         "value": ""
       },
-      "required": true,
       "description": "The tweet to retweet",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "retweet"
-          ],
-          "resource": [
-            "tweet"
-          ]
-        }
-      },
-      "modes": [
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "type": "string",
-          "validation": [],
-          "placeholder": "e.g. 1187836157394112513",
-          "url": ""
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "validation": [],
-          "placeholder": "e.g. https://twitter.com/n8n_io/status/1187836157394112513",
-          "url": ""
-        }
-      ],
-      "ai_hint": "The tweet to retweet"
+      "natural_language_description": "参数名: Tweet | 作用: The tweet to retweet | 默认值: {'mode': 'id', 'value': ''} | (必填项)"
     },
     "searchText": {
       "displayName": "Search Term",
@@ -467,134 +152,35 @@
       "type": "string",
       "required": true,
       "default": "",
-      "placeholder": "e.g. automation",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "search"
-          ],
-          "resource": [
-            "tweet"
-          ]
-        }
-      },
-      "description": "A UTF-8, URL-encoded search query of 500 characters maximum, including operators. Queries may additionally be limited by complexity. Check the searching examples <a href=\"https://developer.twitter.com/en/docs/tweets/search/guides/standard-operators\">here</a>.",
-      "ai_hint": "A UTF-8, URL-encoded search query of 500 characters maximum, including operators. Queries may additionally be limited by complexity. Check the searching examples <a href=\"https://developer.twitter.com/en/docs/tweets/search/guides/standard-operators\">here</a>."
+      "description": "A UTF-8, URL-encoded search query of 500 characters maximum, including operators. Queries may additionally be limited by complexity. Check the searching examples here.",
+      "natural_language_description": "参数名: Search Term | 作用: A UTF-8, URL-encoded search query of 500 characters maximum, including operators. Queries may additionally be limited by complexity. Check the searching examples here. | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "tweet"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "tweet"
-          ],
-          "operation": [
-            "search"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "me": {
       "displayName": "Me",
       "name": "me",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "searchUser"
-          ],
-          "resource": [
-            "user"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether you want to search the authenticated user",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Me | 作用: Whether you want to search the authenticated user | 默认值: False"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "user",
-      "text",
-      "additionalFields",
-      "operation",
-      "list",
-      "user",
-      "operation",
-      "text",
-      "additionalFields",
-      "noticeLocation",
-      "noticeAttachments",
-      "tweetDeleteId",
-      "tweetId",
-      "searchText",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "tweetId",
-      "operation",
-      "user",
-      "me"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'directMessage' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'directMessage' THEN SHOW parameter 'user'",
-      "IF operation == 'create' AND resource == 'directMessage' THEN SHOW parameter 'text'",
-      "IF operation == 'create' AND resource == 'directMessage' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'list' THEN SHOW parameter 'operation'",
-      "IF operation == 'add' AND resource == 'list' THEN SHOW parameter 'list'",
-      "IF operation == 'add' AND resource == 'list' THEN SHOW parameter 'user'",
-      "IF resource == 'tweet' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'tweet' THEN SHOW parameter 'text'",
-      "IF operation == 'create' AND resource == 'tweet' THEN SHOW parameter 'additionalFields'",
-      "IF /additionalFields.location == '' THEN SHOW parameter 'noticeLocation'",
-      "IF /additionalFields.attachments == '' THEN SHOW parameter 'noticeAttachments'",
-      "IF resource == 'tweet' AND operation == 'delete' THEN SHOW parameter 'tweetDeleteId'",
-      "IF operation == 'like' AND resource == 'tweet' THEN SHOW parameter 'tweetId'",
-      "IF operation == 'search' AND resource == 'tweet' THEN SHOW parameter 'searchText'",
-      "IF resource == 'tweet' AND operation == 'search' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'tweet' AND operation == 'search' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'search' AND resource == 'tweet' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'retweet' AND resource == 'tweet' THEN SHOW parameter 'tweetId'",
-      "IF resource == 'user' THEN SHOW parameter 'operation'",
-      "IF operation == 'searchUser' AND resource == 'user' THEN SHOW parameter 'user'",
-      "IF me == True THEN HIDE parameter 'user'",
-      "IF operation == 'searchUser' AND resource == 'user' THEN SHOW parameter 'me'"
-    ]
   }
 }

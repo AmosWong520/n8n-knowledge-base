@@ -1,401 +1,150 @@
 {
   "node_id": "n8n-nodes-base.trello",
-  "name": "n8n-nodes-base.trello",
+  "name": "Trello",
   "version": 1,
   "semantic_context": "Create, change and delete boards and cards",
+  "natural_language_description": "这是 Trello 节点。主要用于: Create, change and delete boards and cards",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Attachment",
-          "value": "attachment"
-        },
-        {
-          "name": "Board",
-          "value": "board"
-        },
-        {
-          "name": "Board Member",
-          "value": "boardMember"
-        },
-        {
-          "name": "Card",
-          "value": "card"
-        },
-        {
-          "name": "Card Comment",
-          "value": "cardComment"
-        },
-        {
-          "name": "Checklist",
-          "value": "checklist"
-        },
-        {
-          "name": "Label",
-          "value": "label"
-        },
-        {
-          "name": "List",
-          "value": "list"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "card",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: card",
+      "available_options": [
+        "Attachment (值: attachment)",
+        "Board (值: board)",
+        "Board Member (值: boardMember)",
+        "Card (值: card)",
+        "Card Comment (值: cardComment)",
+        "Checklist (值: checklist)",
+        "Label (值: label)",
+        "List (值: list)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "list"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Archive",
-          "value": "archive",
-          "description": "Archive/Unarchive a list",
-          "action": "Archive/unarchive a list"
-        },
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a new list",
-          "action": "Create a list"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get the data of a list",
-          "action": "Get a list"
-        },
-        {
-          "name": "Get Cards",
-          "value": "getCards",
-          "description": "Get all the cards in a list",
-          "action": "Get all cards in a list"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many lists",
-          "action": "Get many lists"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a list",
-          "action": "Update a list"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Archive (值: archive) - Archive/Unarchive a list",
+        "Create (值: create) - Create a new list",
+        "Get (值: get) - Get the data of a list",
+        "Get Cards (值: getCards) - Get all the cards in a list",
+        "Get Many (值: getAll) - Get many lists",
+        "Update (值: update) - Update a list",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "cardId": {
       "displayName": "Card ID",
       "name": "cardId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Choose...",
-          "typeOptions": {
-            "searchListMethod": "searchCards",
-            "searchFilterRequired": true,
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "placeholder": "https://trello.com/c/e123456/card-name",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "http(s)?://trello.com/c/([a-zA-Z0-9]{2,})/.*",
-                "errorMessage": "Not a valid Trello Card URL"
-              }
-            }
-          ],
-          "extractValue": {
-            "type": "regex",
-            "regex": "https://trello.com/c/([a-zA-Z0-9]{2,})"
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9]{2,}",
-                "errorMessage": "Not a valid Trello Card ID"
-              }
-            }
-          ],
-          "placeholder": "wiIaGwqE",
-          "url": "=https://trello.com/c/{{$value}}"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "addLabel",
-            "removeLabel"
-          ],
-          "resource": [
-            "label"
-          ]
-        }
-      },
       "description": "The ID of the card",
-      "ai_hint": "The ID of the card"
+      "natural_language_description": "参数名: Card ID | 作用: The ID of the card | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "url": {
       "displayName": "Source URL",
       "name": "url",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "attachment"
-          ]
-        }
-      },
+      "default": "",
       "description": "The URL of the attachment to add",
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "natural_language_description": "参数名: Source URL | 作用: The URL of the attachment to add | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Fields",
-          "name": "fields",
-          "type": "string",
-          "default": "all",
-          "description": "Fields to return. Either \"all\" or a comma-separated list of fields."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "fields (值: None) - Fields to return. Either \"all\" or a comma-separated list of fields."
+      ]
     },
     "id": {
       "displayName": "List ID",
       "name": "id",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the list to update",
-      "ai_hint": "The ID of the list to update"
+      "natural_language_description": "参数名: List ID | 作用: The ID of the list to update | (必填项)"
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
-      "default": "",
-      "placeholder": "My list",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
+      "default": "",
       "description": "The name of the list",
-      "ai_hint": "The name of the list"
+      "natural_language_description": "参数名: Name | 作用: The name of the list | (必填项)"
     },
     "description": {
       "displayName": "Description",
       "name": "description",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "card"
-          ]
-        }
-      },
       "description": "The description of the card",
-      "ai_hint": "The description of the card"
+      "natural_language_description": "参数名: Description | 作用: The description of the card"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Board ID",
-          "name": "idBoard",
-          "type": "string",
-          "default": "",
-          "description": "ID of a board the list should be moved to"
-        },
-        {
-          "displayName": "Closed",
-          "name": "closed",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the list is closed"
-        },
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": "",
-          "description": "New name of the list"
-        },
-        {
-          "displayName": "Position",
-          "name": "pos",
-          "type": "string",
-          "default": "bottom",
-          "description": "The position of the list. top, bottom, or a positive float."
-        },
-        {
-          "displayName": "Subscribed",
-          "name": "subscribed",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the acting user is subscribed to the list"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "idBoard (值: None) - ID of a board the list should be moved to",
+        "closed (值: None) - Whether the list is closed",
+        "name (值: None) - New name of the list",
+        "pos (值: None) - The position of the list. top, bottom, or a positive float.",
+        "subscribed (值: None) - Whether the acting user is subscribed to the list"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "list"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "description": "Max number of results to return",
+      "required": false,
       "default": 20,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "list"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "description": "Max number of results to return",
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 20"
     },
     "idMember": {
       "displayName": "Member ID",
       "name": "idMember",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "remove"
-          ],
-          "resource": [
-            "boardMember"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the member to remove from the board",
-      "ai_hint": "The ID of the member to remove from the board"
+      "natural_language_description": "参数名: Member ID | 作用: The ID of the member to remove from the board | (必填项)"
     },
     "type": {
       "displayName": "Type",
@@ -403,511 +152,119 @@
       "type": "options",
       "required": true,
       "default": "normal",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "add"
-          ],
-          "resource": [
-            "boardMember"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Normal",
-          "value": "normal",
-          "description": "Invite as normal member"
-        },
-        {
-          "name": "Admin",
-          "value": "admin",
-          "description": "Invite as admin"
-        },
-        {
-          "name": "Observer",
-          "value": "observer",
-          "description": "Invite as observer (Trello premium feature)"
-        }
-      ],
       "description": "Determines the type of membership the user being added should have",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Type | 作用: Determines the type of membership the user being added should have | 默认值: normal | (必填项)",
+      "available_options": [
+        "Normal (值: normal) - Invite as normal member",
+        "Admin (值: admin) - Invite as admin",
+        "Observer (值: observer) - Invite as observer (Trello premium feature)"
+      ]
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "invite"
-          ],
-          "resource": [
-            "boardMember"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the board to update",
-      "ai_hint": "The ID of the board to update"
+      "natural_language_description": "参数名: Email | 作用: The ID of the board to update | (必填项)"
     },
     "listId": {
       "displayName": "List ID",
       "name": "listId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "card"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the list to create card in",
-      "ai_hint": "The ID of the list to create card in"
+      "natural_language_description": "参数名: List ID | 作用: The ID of the list to create card in | (必填项)"
     },
     "text": {
       "displayName": "Text",
       "name": "text",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "cardComment"
-          ]
-        }
-      },
+      "default": "",
       "description": "Text of the comment",
-      "ai_hint": "Text of the comment"
+      "natural_language_description": "参数名: Text | 作用: Text of the comment | (必填项)"
     },
     "commentId": {
       "displayName": "Comment ID",
       "name": "commentId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "cardComment"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the comment to delete",
-      "ai_hint": "The ID of the comment to delete"
+      "natural_language_description": "参数名: Comment ID | 作用: The ID of the comment to delete | (必填项)"
     },
     "checklistId": {
       "displayName": "Checklist ID",
       "name": "checklistId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "createCheckItem"
-          ],
-          "resource": [
-            "checklist"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the checklist to update",
-      "ai_hint": "The ID of the checklist to update"
+      "natural_language_description": "参数名: Checklist ID | 作用: The ID of the checklist to update | (必填项)"
     },
     "checkItemId": {
       "displayName": "CheckItem ID",
       "name": "checkItemId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "updateCheckItem"
-          ],
-          "resource": [
-            "checklist"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the checklist item to update",
-      "ai_hint": "The ID of the checklist item to update"
+      "natural_language_description": "参数名: CheckItem ID | 作用: The ID of the checklist item to update | (必填项)"
     },
     "boardId": {
       "displayName": "Board",
       "name": "boardId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create",
-            "getAll"
-          ],
-          "resource": [
-            "label"
-          ]
-        }
-      },
       "description": "The ID of the board",
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a Board...",
-          "initType": "board",
-          "typeOptions": {
-            "searchListMethod": "searchBoards",
-            "searchFilterRequired": true,
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "placeholder": "https://trello.com/b/e123456/board-name",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "http(s)?://trello.com/b/([a-zA-Z0-9]{2,})/.*",
-                "errorMessage": "Not a valid Trello Board URL"
-              }
-            }
-          ],
-          "extractValue": {
-            "type": "regex",
-            "regex": "https://trello.com/b/([a-zA-Z0-9]{2,})"
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9]{2,}",
-                "errorMessage": "Not a valid Trello Board ID"
-              }
-            }
-          ],
-          "placeholder": "KdEAAdde",
-          "url": "=https://trello.com/b/{{$value}}"
-        }
-      ],
-      "ai_hint": "The ID of the board"
+      "natural_language_description": "参数名: Board | 作用: The ID of the board | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "color": {
       "displayName": "Color",
       "name": "color",
       "type": "options",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "label"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Black",
-          "value": "black"
-        },
-        {
-          "name": "Blue",
-          "value": "blue"
-        },
-        {
-          "name": "Green",
-          "value": "green"
-        },
-        {
-          "name": "Lime",
-          "value": "lime"
-        },
-        {
-          "name": "Null",
-          "value": "null"
-        },
-        {
-          "name": "Orange",
-          "value": "orange"
-        },
-        {
-          "name": "Pink",
-          "value": "pink"
-        },
-        {
-          "name": "Purple",
-          "value": "purple"
-        },
-        {
-          "name": "Red",
-          "value": "red"
-        },
-        {
-          "name": "Sky",
-          "value": "sky"
-        },
-        {
-          "name": "Yellow",
-          "value": "yellow"
-        }
-      ],
       "default": "null",
       "description": "The color for the label",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Color | 作用: The color for the label | 默认值: null | (必填项)",
+      "available_options": [
+        "Black (值: black)",
+        "Blue (值: blue)",
+        "Green (值: green)",
+        "Lime (值: lime)",
+        "Null (值: null)",
+        "Orange (值: orange)",
+        "Pink (值: pink)",
+        "Purple (值: purple)",
+        "Red (值: red)",
+        "Sky (值: sky)",
+        "Yellow (值: yellow)"
+      ]
     },
     "archive": {
       "displayName": "Archive",
       "name": "archive",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "archive"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
       "description": "Whether the list should be archived or unarchived",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Archive | 作用: Whether the list should be archived or unarchived | 默认值: False"
     },
     "idBoard": {
       "displayName": "Board ID",
       "name": "idBoard",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the board the list should be created in",
-      "ai_hint": "The ID of the board the list should be created in"
+      "natural_language_description": "参数名: Board ID | 作用: The ID of the board the list should be created in | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "cardId",
-      "url",
-      "additionalFields",
-      "id",
-      "additionalFields",
-      "id",
-      "additionalFields",
-      "name",
-      "description",
-      "additionalFields",
-      "id",
-      "additionalFields",
-      "updateFields",
-      "id",
-      "returnAll",
-      "limit",
-      "id",
-      "idMember",
-      "type",
-      "additionalFields",
-      "id",
-      "email",
-      "additionalFields",
-      "id",
-      "idMember",
-      "listId",
-      "name",
-      "description",
-      "additionalFields",
-      "id",
-      "additionalFields",
-      "updateFields",
-      "cardId",
-      "text",
-      "commentId",
-      "commentId",
-      "text",
-      "cardId",
-      "name",
-      "additionalFields",
-      "id",
-      "additionalFields",
-      "id",
-      "additionalFields",
-      "checklistId",
-      "name",
-      "additionalFields",
-      "checkItemId",
-      "checkItemId",
-      "additionalFields",
-      "checkItemId",
-      "additionalFields",
-      "additionalFields",
-      "boardId",
-      "name",
-      "color",
-      "id",
-      "additionalFields",
-      "id",
-      "additionalFields",
-      "cardId",
-      "id",
-      "id",
-      "id",
-      "updateFields",
-      "id",
-      "archive",
-      "idBoard",
-      "name",
-      "additionalFields",
-      "id",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "id",
-      "additionalFields",
-      "id",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "id",
-      "updateFields"
-    ],
-    "conditional_rules": [
-      "IF resource == 'attachment' THEN SHOW parameter 'operation'",
-      "IF resource == 'board' THEN SHOW parameter 'operation'",
-      "IF resource == 'boardMember' THEN SHOW parameter 'operation'",
-      "IF resource == 'card' THEN SHOW parameter 'operation'",
-      "IF resource == 'cardComment' THEN SHOW parameter 'operation'",
-      "IF resource == 'checklist' THEN SHOW parameter 'operation'",
-      "IF resource == 'label' THEN SHOW parameter 'operation'",
-      "IF resource == 'list' THEN SHOW parameter 'operation'",
-      "IF operation IN [\"delete\", \"create\", \"get\", \"getAll\"] AND resource == 'attachment' THEN SHOW parameter 'cardId'",
-      "IF operation == 'create' AND resource == 'attachment' THEN SHOW parameter 'url'",
-      "IF operation == 'create' AND resource == 'attachment' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'delete' AND resource == 'attachment' THEN SHOW parameter 'id'",
-      "IF operation == 'getAll' AND resource == 'attachment' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'get' AND resource == 'attachment' THEN SHOW parameter 'id'",
-      "IF operation == 'get' AND resource == 'attachment' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'create' AND resource == 'board' THEN SHOW parameter 'name'",
-      "IF operation == 'create' AND resource == 'board' THEN SHOW parameter 'description'",
-      "IF operation == 'create' AND resource == 'board' THEN SHOW parameter 'additionalFields'",
-      "IF operation IN [\"get\", \"delete\", \"update\"] AND resource == 'board' THEN SHOW parameter 'id'",
-      "IF operation == 'get' AND resource == 'board' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'update' AND resource == 'board' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'getAll' AND resource == 'boardMember' THEN SHOW parameter 'id'",
-      "IF operation == 'getAll' AND resource == 'boardMember' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'boardMember' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'add' AND resource == 'boardMember' THEN SHOW parameter 'id'",
-      "IF operation == 'add' AND resource == 'boardMember' THEN SHOW parameter 'idMember'",
-      "IF operation == 'add' AND resource == 'boardMember' THEN SHOW parameter 'type'",
-      "IF operation == 'add' AND resource == 'boardMember' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'invite' AND resource == 'boardMember' THEN SHOW parameter 'id'",
-      "IF operation == 'invite' AND resource == 'boardMember' THEN SHOW parameter 'email'",
-      "IF operation == 'invite' AND resource == 'boardMember' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'remove' AND resource == 'boardMember' THEN SHOW parameter 'id'",
-      "IF operation == 'remove' AND resource == 'boardMember' THEN SHOW parameter 'idMember'",
-      "IF operation == 'create' AND resource == 'card' THEN SHOW parameter 'listId'",
-      "IF operation == 'create' AND resource == 'card' THEN SHOW parameter 'name'",
-      "IF operation == 'create' AND resource == 'card' THEN SHOW parameter 'description'",
-      "IF operation == 'create' AND resource == 'card' THEN SHOW parameter 'additionalFields'",
-      "IF operation IN [\"get\", \"delete\", \"update\"] AND resource == 'card' THEN SHOW parameter 'id'",
-      "IF operation == 'get' AND resource == 'card' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'update' AND resource == 'card' THEN SHOW parameter 'updateFields'",
-      "IF operation IN [\"update\", \"delete\", \"create\"] AND resource == 'cardComment' THEN SHOW parameter 'cardId'",
-      "IF operation == 'create' AND resource == 'cardComment' THEN SHOW parameter 'text'",
-      "IF operation == 'delete' AND resource == 'cardComment' THEN SHOW parameter 'commentId'",
-      "IF operation == 'update' AND resource == 'cardComment' THEN SHOW parameter 'commentId'",
-      "IF operation == 'update' AND resource == 'cardComment' THEN SHOW parameter 'text'",
-      "IF operation IN [\"delete\", \"create\", \"getAll\", \"deleteCheckItem\", \"getCheckItem\", \"updateCheckItem\", \"completeCheckItems\"] AND resource == 'checklist' THEN SHOW parameter 'cardId'",
-      "IF operation == 'create' AND resource == 'checklist' THEN SHOW parameter 'name'",
-      "IF operation == 'create' AND resource == 'checklist' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'delete' AND resource == 'checklist' THEN SHOW parameter 'id'",
-      "IF operation == 'getAll' AND resource == 'checklist' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'get' AND resource == 'checklist' THEN SHOW parameter 'id'",
-      "IF operation == 'get' AND resource == 'checklist' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'createCheckItem' AND resource == 'checklist' THEN SHOW parameter 'checklistId'",
-      "IF operation == 'createCheckItem' AND resource == 'checklist' THEN SHOW parameter 'name'",
-      "IF operation == 'createCheckItem' AND resource == 'checklist' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'deleteCheckItem' AND resource == 'checklist' THEN SHOW parameter 'checkItemId'",
-      "IF operation == 'getCheckItem' AND resource == 'checklist' THEN SHOW parameter 'checkItemId'",
-      "IF operation == 'getCheckItem' AND resource == 'checklist' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'updateCheckItem' AND resource == 'checklist' THEN SHOW parameter 'checkItemId'",
-      "IF operation == 'updateCheckItem' AND resource == 'checklist' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'completedCheckItems' AND resource == 'checklist' THEN SHOW parameter 'additionalFields'",
-      "IF operation IN [\"create\", \"getAll\"] AND resource == 'label' THEN SHOW parameter 'boardId'",
-      "IF operation == 'create' AND resource == 'label' THEN SHOW parameter 'name'",
-      "IF operation == 'create' AND resource == 'label' THEN SHOW parameter 'color'",
-      "IF operation == 'delete' AND resource == 'label' THEN SHOW parameter 'id'",
-      "IF operation == 'getAll' AND resource == 'label' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'get' AND resource == 'label' THEN SHOW parameter 'id'",
-      "IF operation == 'get' AND resource == 'label' THEN SHOW parameter 'additionalFields'",
-      "IF operation IN [\"addLabel\", \"removeLabel\"] AND resource == 'label' THEN SHOW parameter 'cardId'",
-      "IF operation == 'addLabel' AND resource == 'label' THEN SHOW parameter 'id'",
-      "IF operation == 'removeLabel' AND resource == 'label' THEN SHOW parameter 'id'",
-      "IF operation == 'update' AND resource == 'label' THEN SHOW parameter 'id'",
-      "IF operation == 'update' AND resource == 'label' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'archive' AND resource == 'list' THEN SHOW parameter 'id'",
-      "IF operation == 'archive' AND resource == 'list' THEN SHOW parameter 'archive'",
-      "IF operation == 'create' AND resource == 'list' THEN SHOW parameter 'idBoard'",
-      "IF operation == 'create' AND resource == 'list' THEN SHOW parameter 'name'",
-      "IF operation == 'create' AND resource == 'list' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'getCards' AND resource == 'list' THEN SHOW parameter 'id'",
-      "IF resource == 'list' AND operation == 'getCards' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'list' AND operation == 'getCards' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getCards' AND resource == 'list' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'get' AND resource == 'list' THEN SHOW parameter 'id'",
-      "IF operation == 'get' AND resource == 'list' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'getAll' AND resource == 'list' THEN SHOW parameter 'id'",
-      "IF resource == 'list' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'list' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'list' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'update' AND resource == 'list' THEN SHOW parameter 'id'",
-      "IF operation == 'update' AND resource == 'list' THEN SHOW parameter 'updateFields'"
-    ]
   }
 }

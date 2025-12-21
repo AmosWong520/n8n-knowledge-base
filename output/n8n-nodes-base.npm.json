@@ -1,80 +1,37 @@
 {
   "node_id": "n8n-nodes-base.npm",
-  "name": "n8n-nodes-base.npm",
+  "name": "Npm",
   "version": 1,
   "semantic_context": "Consume NPM registry API",
+  "natural_language_description": "这是 Npm 节点。主要用于: Consume NPM registry API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Package",
-          "value": "package"
-        },
-        {
-          "name": "Distribution Tag",
-          "value": "distTag"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "package",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: package",
+      "available_options": [
+        "Package (值: package)",
+        "Distribution Tag (值: distTag)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
+      "required": false,
       "default": "getMany",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "distTag"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get All",
-          "value": "getMany",
-          "action": "Returns all the dist-tags for a package",
-          "description": "Returns all the dist-tags for a package",
-          "routing": {
-            "request": {
-              "method": "GET",
-              "url": "=/-/package/{{ encodeURIComponent($parameter.packageName) }}/dist-tags"
-            }
-          }
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "action": "Update a the dist-tags for a package",
-          "description": "Update a the dist-tags for a package",
-          "routing": {
-            "request": {
-              "method": "PUT",
-              "url": "=/-/package/{{ encodeURIComponent($parameter.packageName) }}/dist-tags/{{ encodeURIComponent($parameter.distTagName) }}"
-            },
-            "send": {
-              "preSend": [
-                null
-              ]
-            }
-          }
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getMany",
+      "available_options": [
+        "Get All (值: getMany) - Returns all the dist-tags for a package",
+        "Update (值: update) - Update a the dist-tags for a package",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "packageName": {
       "displayName": "Package Name",
@@ -82,17 +39,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "distTag"
-          ],
-          "operation": [
-            "getMany",
-            "update"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Package Name | (必填项)"
     },
     "packageVersion": {
       "displayName": "Package Version",
@@ -100,78 +48,35 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "distTag"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Package Version | (必填项)"
     },
     "query": {
       "displayName": "Query",
       "name": "query",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "package"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
       "default": "",
       "description": "The query text used to search for packages",
-      "ai_hint": "The query text used to search for packages"
+      "natural_language_description": "参数名: Query | 作用: The query text used to search for packages | (必填项)"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 10,
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 100
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "package"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 10"
     },
     "offset": {
       "displayName": "Offset",
       "name": "offset",
       "type": "number",
+      "required": false,
       "default": 0,
-      "typeOptions": {
-        "minValue": 0
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "package"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
       "description": "Offset to return results from",
-      "ai_hint": "Offset to return results from"
+      "natural_language_description": "参数名: Offset | 作用: Offset to return results from | 默认值: 0"
     },
     "distTagName": {
       "displayName": "Distribution Tag Name",
@@ -179,121 +84,23 @@
       "type": "string",
       "required": true,
       "default": "latest",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "distTag"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Distribution Tag Name | 默认值: latest | (必填项)"
     },
     "requestOptions": {
       "displayName": "Request Options",
       "name": "requestOptions",
       "type": "collection",
-      "isNodeSetting": true,
-      "placeholder": "Add Option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Batching",
-          "name": "batching",
-          "placeholder": "Add Batching",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": {
-            "batch": {}
-          },
-          "options": [
-            {
-              "displayName": "Batching",
-              "name": "batch",
-              "values": [
-                {
-                  "displayName": "Items per Batch",
-                  "name": "batchSize",
-                  "type": "number",
-                  "typeOptions": {
-                    "minValue": -1
-                  },
-                  "default": 50,
-                  "description": "Input will be split in batches to throttle requests. -1 for disabled. 0 will be treated as 1."
-                },
-                {
-                  "displayName": "Batch Interval (ms)",
-                  "name": "batchInterval",
-                  "type": "number",
-                  "typeOptions": {
-                    "minValue": 0
-                  },
-                  "default": 1000,
-                  "description": "Time (in milliseconds) between each batch of requests. 0 for disabled."
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Ignore SSL Issues (Insecure)",
-          "name": "allowUnauthorizedCerts",
-          "type": "boolean",
-          "noDataExpression": true,
-          "default": false,
-          "description": "Whether to accept the response even if SSL certificate validation is not possible"
-        },
-        {
-          "displayName": "Proxy",
-          "name": "proxy",
-          "type": "string",
-          "default": "",
-          "placeholder": "e.g. http://myproxy:3128",
-          "description": "HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128"
-        },
-        {
-          "displayName": "Timeout",
-          "name": "timeout",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 1
-          },
-          "default": 10000,
-          "description": "Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Request Options | 默认值: {}",
+      "available_options": [
+        "batching (值: None)",
+        "allowUnauthorizedCerts (值: None) - Whether to accept the response even if SSL certificate validation is not possible",
+        "proxy (值: None) - HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128",
+        "timeout (值: None) - Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "packageName",
-      "packageVersion",
-      "query",
-      "limit",
-      "offset",
-      "operation",
-      "packageName",
-      "packageVersion",
-      "distTagName",
-      "requestOptions"
-    ],
-    "conditional_rules": [
-      "IF resource == 'package' THEN SHOW parameter 'operation'",
-      "IF resource == 'package' AND operation IN [\"getMetadata\", \"getVersions\"] THEN SHOW parameter 'packageName'",
-      "IF resource == 'package' AND operation == 'getMetadata' THEN SHOW parameter 'packageVersion'",
-      "IF resource == 'package' AND operation == 'search' THEN SHOW parameter 'query'",
-      "IF resource == 'package' AND operation == 'search' THEN SHOW parameter 'limit'",
-      "IF resource == 'package' AND operation == 'search' THEN SHOW parameter 'offset'",
-      "IF resource == 'distTag' THEN SHOW parameter 'operation'",
-      "IF resource == 'distTag' AND operation IN [\"getMany\", \"update\"] THEN SHOW parameter 'packageName'",
-      "IF resource == 'distTag' AND operation == 'update' THEN SHOW parameter 'packageVersion'",
-      "IF resource == 'distTag' AND operation == 'update' THEN SHOW parameter 'distTagName'"
-    ]
   }
 }

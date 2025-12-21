@@ -1,27 +1,22 @@
 {
   "node_id": "n8n-nodes-base.flowTrigger",
-  "name": "n8n-nodes-base.flowTrigger",
+  "name": "Flow Trigger",
   "version": 1,
   "semantic_context": "Handle Flow events via webhooks",
+  "natural_language_description": "这是 Flow Trigger 节点。主要用于: Handle Flow events via webhooks",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
+      "required": false,
       "default": "",
-      "options": [
-        {
-          "name": "Project",
-          "value": "list"
-        },
-        {
-          "name": "Task",
-          "value": "task"
-        }
-      ],
       "description": "Resource that triggers the webhook",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Resource | 作用: Resource that triggers the webhook",
+      "available_options": [
+        "Project (值: list)",
+        "Task (值: task)"
+      ]
     },
     "listIds": {
       "displayName": "Project ID",
@@ -29,20 +24,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "list"
-          ]
-        },
-        "hide": {
-          "resource": [
-            "task"
-          ]
-        }
-      },
       "description": "Lists IDs, perhaps known better as \"Projects\" separated by a comma (,)",
-      "ai_hint": "Lists IDs, perhaps known better as \"Projects\" separated by a comma (,)"
+      "natural_language_description": "参数名: Project ID | 作用: Lists IDs, perhaps known better as \"Projects\" separated by a comma (,) | (必填项)"
     },
     "taskIds": {
       "displayName": "Task ID",
@@ -50,33 +33,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ]
-        },
-        "hide": {
-          "resource": [
-            "list"
-          ]
-        }
-      },
       "description": "Task IDs separated by a comma (,)",
-      "ai_hint": "Task IDs separated by a comma (,)"
+      "natural_language_description": "参数名: Task ID | 作用: Task IDs separated by a comma (,) | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "listIds",
-      "taskIds"
-    ],
-    "conditional_rules": [
-      "IF resource == 'list' THEN SHOW parameter 'listIds'",
-      "IF resource == 'task' THEN HIDE parameter 'listIds'",
-      "IF resource == 'task' THEN SHOW parameter 'taskIds'",
-      "IF resource == 'list' THEN HIDE parameter 'taskIds'"
-    ]
   }
 }

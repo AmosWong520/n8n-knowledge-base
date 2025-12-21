@@ -1,228 +1,119 @@
 {
   "node_id": "n8n-nodes-base.webhook",
-  "name": "n8n-nodes-base.webhook",
-  "version": [
-    1,
-    1.1,
-    2,
-    2.1
-  ],
+  "name": "Webhook",
+  "version": 1,
   "semantic_context": "Starts the workflow when a webhook is called",
+  "natural_language_description": "这是 Webhook 节点。主要用于: Starts the workflow when a webhook is called",
   "parameters": {
     "multipleMethods": {
       "displayName": "Allow Multiple HTTP Methods",
       "name": "multipleMethods",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "isNodeSetting": true,
       "description": "Whether to allow the webhook to listen for multiple HTTP methods",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Allow Multiple HTTP Methods | 作用: Whether to allow the webhook to listen for multiple HTTP methods | 默认值: False"
     },
     "httpMethod": {
       "displayName": "HTTP Methods",
       "name": "httpMethod",
       "type": "multiOptions",
-      "options": [
-        {
-          "name": "DELETE",
-          "value": "DELETE"
-        },
-        {
-          "name": "GET",
-          "value": "GET"
-        },
-        {
-          "name": "HEAD",
-          "value": "HEAD"
-        },
-        {
-          "name": "PATCH",
-          "value": "PATCH"
-        },
-        {
-          "name": "POST",
-          "value": "POST"
-        },
-        {
-          "name": "PUT",
-          "value": "PUT"
-        }
-      ],
+      "required": false,
       "default": [
         "GET",
         "POST"
       ],
       "description": "The HTTP methods to listen to",
-      "displayOptions": {
-        "show": {
-          "multipleMethods": [
-            true
-          ]
-        }
-      },
-      "ai_hint": "The HTTP methods to listen to"
+      "natural_language_description": "参数名: HTTP Methods | 作用: The HTTP methods to listen to | 默认值: ['GET', 'POST']",
+      "available_options": [
+        "DELETE (值: DELETE)",
+        "GET (值: GET)",
+        "HEAD (值: HEAD)",
+        "PATCH (值: PATCH)",
+        "POST (值: POST)",
+        "PUT (值: PUT)"
+      ]
     },
     "path": {
       "displayName": "Path",
       "name": "path",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "webhook",
       "description": "The path to listen to, dynamic values could be specified by using ':', e.g. 'your-path/:dynamic-value'. If dynamic values are set 'webhookId' would be prepended to path.",
-      "ai_hint": "The path to listen to, dynamic values could be specified by using ':', e.g. 'your-path/:dynamic-value'. If dynamic values are set 'webhookId' would be prepended to path."
+      "natural_language_description": "参数名: Path | 作用: The path to listen to, dynamic values could be specified by using ':', e.g. 'your-path/:dynamic-value'. If dynamic values are set 'webhookId' would be prepended to path."
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Basic Auth",
-          "value": "basicAuth"
-        },
-        {
-          "name": "Header Auth",
-          "value": "headerAuth"
-        },
-        {
-          "name": "JWT Auth",
-          "value": "jwtAuth"
-        },
-        {
-          "name": "None",
-          "value": "none"
-        }
-      ],
+      "required": false,
       "default": "none",
       "description": "The way to authenticate",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "natural_language_description": "参数名: Authentication | 作用: The way to authenticate | 默认值: none",
+      "available_options": [
+        "Basic Auth (值: basicAuth)",
+        "Header Auth (值: headerAuth)",
+        "JWT Auth (值: jwtAuth)",
+        "None (值: none)"
+      ]
     },
     "responseMode": {
       "displayName": "Respond",
       "name": "responseMode",
       "type": "options",
-      "options": [
-        {
-          "name": "Immediately",
-          "value": "onReceived",
-          "description": "As soon as this node executes"
-        },
-        {
-          "name": "When Last Node Finishes",
-          "value": "lastNode",
-          "description": "Returns data of the last-executed node"
-        },
-        {
-          "name": "Using 'Respond to Webhook' Node",
-          "value": "responseNode",
-          "description": "Response defined in that node"
-        },
-        {
-          "name": "Streaming",
-          "value": "streaming",
-          "description": "Returns data in real time from streaming enabled nodes"
-        }
-      ],
+      "required": false,
       "default": "onReceived",
       "description": "When and how to respond to the webhook",
-      "displayOptions": {
-        "hide": {
-          "@version": [
-            1,
-            1.1,
-            2
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Respond | 作用: When and how to respond to the webhook | 默认值: onReceived",
+      "available_options": [
+        "Immediately (值: onReceived) - As soon as this node executes",
+        "When Last Node Finishes (值: lastNode) - Returns data of the last-executed node",
+        "Using 'Respond to Webhook' Node (值: responseNode) - Response defined in that node",
+        "Streaming (值: streaming) - Returns data in real time from streaming enabled nodes"
+      ]
     },
     "webhookNotice": {
       "displayName": "Insert a 'Respond to Webhook' node to control when and how you respond. <a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.respondtowebhook/\" target=\"_blank\">More details</a>",
       "name": "webhookNotice",
       "type": "notice",
-      "displayOptions": {
-        "show": {
-          "responseMode": [
-            "responseNode"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Insert a 'Respond to Webhook' node to control when and how you respond. <a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.respondtowebhook/\" target=\"_blank\">More details</a>"
     },
     "webhookStreamingNotice": {
       "displayName": "Insert a node that supports streaming (e.g. 'AI Agent') and enable streaming to stream directly to the response while the workflow is executed. <a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.respondtowebhook/\" target=\"_blank\">More details</a>",
       "name": "webhookStreamingNotice",
       "type": "notice",
-      "displayOptions": {
-        "show": {
-          "responseMode": [
-            "streaming"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Insert a node that supports streaming (e.g. 'AI Agent') and enable streaming to stream directly to the response while the workflow is executed. <a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.respondtowebhook/\" target=\"_blank\">More details</a>"
     },
     "responseCode": {
       "displayName": "Response Code",
       "name": "responseCode",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            1,
-            1.1
-          ]
-        },
-        "hide": {
-          "responseMode": [
-            "responseNode"
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 100,
-        "maxValue": 599
-      },
+      "required": false,
       "default": 200,
       "description": "The HTTP Response code to return",
-      "ai_hint": "The HTTP Response code to return"
+      "natural_language_description": "参数名: Response Code | 作用: The HTTP Response code to return | 默认值: 200"
     },
     "responseData": {
       "displayName": "Response Data",
       "name": "responseData",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "responseMode": [
-            "lastNode"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "All Entries",
-          "value": "allEntries",
-          "description": "Returns all the entries of the last node. Always returns an array."
-        },
-        {
-          "name": "First Entry JSON",
-          "value": "firstEntryJson",
-          "description": "Returns the JSON data of the first entry of the last node. Always returns a JSON object."
-        },
-        {
-          "name": "First Entry Binary",
-          "value": "firstEntryBinary",
-          "description": "Returns the binary data of the first entry of the last node. Always returns a binary file."
-        },
-        {
-          "name": "No Response Body",
-          "value": "noData",
-          "description": "Returns without a body"
-        }
-      ],
+      "required": false,
       "default": "firstEntryJson",
       "description": "What data should be returned. If it should return all items as an array or only the first item as object.",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Response Data | 作用: What data should be returned. If it should return all items as an array or only the first item as object. | 默认值: firstEntryJson",
+      "available_options": [
+        "All Entries (值: allEntries) - Returns all the entries of the last node. Always returns an array.",
+        "First Entry JSON (值: firstEntryJson) - Returns the JSON data of the first entry of the last node. Always returns a JSON object.",
+        "First Entry Binary (值: firstEntryBinary) - Returns the binary data of the first entry of the last node. Always returns a binary file.",
+        "No Response Body (值: noData) - Returns without a body"
+      ]
     },
     "responseBinaryPropertyName": {
       "displayName": "Property Name",
@@ -230,419 +121,42 @@
       "type": "string",
       "required": true,
       "default": "data",
-      "displayOptions": {
-        "show": {
-          "responseData": [
-            "firstEntryBinary"
-          ]
-        }
-      },
       "description": "Name of the binary property to return",
-      "ai_hint": "Name of the binary property to return"
+      "natural_language_description": "参数名: Property Name | 作用: Name of the binary property to return | 默认值: data | (必填项)"
     },
     "contentTypeNotice": {
       "displayName": "If you are sending back a response, add a \"Content-Type\" response header with the appropriate value to avoid unexpected behavior",
       "name": "contentTypeNotice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "responseMode": [
-            "onReceived"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: If you are sending back a response, add a \"Content-Type\" response header with the appropriate value to avoid unexpected behavior"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Allowed Origins (CORS)",
-          "name": "allowedOrigins",
-          "type": "string",
-          "default": "*",
-          "description": "Comma-separated list of URLs allowed for cross-origin non-preflight requests. Use * (default) to allow all origins."
-        },
-        {
-          "displayName": "Binary File",
-          "name": "binaryData",
-          "type": "boolean",
-          "displayOptions": {
-            "show": {
-              "/httpMethod": [
-                "PATCH",
-                "PUT",
-                "POST"
-              ],
-              "@version": [
-                1
-              ]
-            }
-          },
-          "default": false,
-          "description": "Whether the webhook will receive binary data"
-        },
-        {
-          "displayName": "Field Name for Binary Data",
-          "name": "binaryPropertyName",
-          "type": "string",
-          "default": "data",
-          "displayOptions": {
-            "hide": {
-              "@version": [
-                1
-              ]
-            }
-          },
-          "description": "The name of the output field to put any binary file data in. Only relevant if binary data is received."
-        },
-        {
-          "displayName": "Ignore Bots",
-          "name": "ignoreBots",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to ignore requests from bots like link previewers and web crawlers"
-        },
-        {
-          "displayName": "IP(s) Whitelist",
-          "name": "ipWhitelist",
-          "type": "string",
-          "placeholder": "e.g. 127.0.0.1",
-          "default": "",
-          "description": "Comma-separated list of allowed IP addresses. Leave empty to allow all IPs."
-        },
-        {
-          "displayName": "No Response Body",
-          "name": "noResponseBody",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to send any body in the response",
-          "displayOptions": {
-            "hide": {
-              "rawBody": [
-                true
-              ]
-            },
-            "show": {
-              "/responseMode": [
-                "onReceived"
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Property Name",
-          "name": "responsePropertyName",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/responseData": [
-                "firstEntryJson"
-              ],
-              "/responseMode": [
-                "lastNode"
-              ]
-            }
-          },
-          "default": "data",
-          "description": "Name of the property to return the data of instead of the whole JSON"
-        },
-        {
-          "displayName": "Put Output File in Field",
-          "name": "binaryPropertyName",
-          "type": "string",
-          "default": "data",
-          "displayOptions": {
-            "show": {
-              "binaryData": [
-                true
-              ],
-              "@version": [
-                1
-              ]
-            }
-          },
-          "hint": "The name of the output binary field to put the file in",
-          "description": "If the data gets received via \"Form-Data Multipart\" it will be the prefix and a number starting with 0 will be attached to it"
-        },
-        {
-          "displayName": "Raw Body",
-          "name": "rawBody",
-          "type": "boolean",
-          "displayOptions": {
-            "show": {
-              "@version": [
-                1
-              ]
-            },
-            "hide": {
-              "binaryData": [
-                true
-              ],
-              "noResponseBody": [
-                true
-              ]
-            }
-          },
-          "default": false,
-          "description": "Raw body (binary)"
-        },
-        {
-          "displayName": "Raw Body",
-          "name": "rawBody",
-          "type": "boolean",
-          "displayOptions": {
-            "hide": {
-              "noResponseBody": [
-                true
-              ],
-              "@version": [
-                1
-              ]
-            }
-          },
-          "default": false,
-          "description": "Whether to return the raw body"
-        },
-        {
-          "displayName": "Response Code",
-          "name": "responseCode",
-          "placeholder": "Add Response Code",
-          "type": "fixedCollection",
-          "default": {
-            "values": {
-              "responseCode": 200
-            }
-          },
-          "options": [
-            {
-              "name": "values",
-              "displayName": "Values",
-              "values": [
-                {
-                  "displayName": "Response Code",
-                  "name": "responseCode",
-                  "type": "options",
-                  "options": [
-                    {
-                      "name": "200",
-                      "value": 200,
-                      "description": "OK - Request has succeeded"
-                    },
-                    {
-                      "name": "201",
-                      "value": 201,
-                      "description": "Created - Request has been fulfilled"
-                    },
-                    {
-                      "name": "204",
-                      "value": 204,
-                      "description": "No Content - Request processed, no content returned"
-                    },
-                    {
-                      "name": "301",
-                      "value": 301,
-                      "description": "Moved Permanently - Requested resource moved permanently"
-                    },
-                    {
-                      "name": "302",
-                      "value": 302,
-                      "description": "Found - Requested resource moved temporarily"
-                    },
-                    {
-                      "name": "304",
-                      "value": 304,
-                      "description": "Not Modified - Resource has not been modified"
-                    },
-                    {
-                      "name": "400",
-                      "value": 400,
-                      "description": "Bad Request - Request could not be understood"
-                    },
-                    {
-                      "name": "401",
-                      "value": 401,
-                      "description": "Unauthorized - Request requires user authentication"
-                    },
-                    {
-                      "name": "403",
-                      "value": 403,
-                      "description": "Forbidden - Server understood, but refuses to fulfill"
-                    },
-                    {
-                      "name": "404",
-                      "value": 404,
-                      "description": "Not Found - Server has not found a match"
-                    },
-                    {
-                      "name": "Custom Code",
-                      "value": "customCode",
-                      "description": "Write any HTTP code"
-                    }
-                  ],
-                  "default": 200,
-                  "description": "The HTTP response code to return"
-                },
-                {
-                  "displayName": "Code",
-                  "name": "customCode",
-                  "type": "number",
-                  "default": 200,
-                  "placeholder": "e.g. 400",
-                  "typeOptions": {
-                    "minValue": 100
-                  },
-                  "displayOptions": {
-                    "show": {
-                      "responseCode": [
-                        "customCode"
-                      ]
-                    }
-                  }
-                }
-              ]
-            }
-          ],
-          "displayOptions": {
-            "show": {
-              "@version": [
-                {
-                  "_cnd": {
-                    "gte": 2
-                  }
-                }
-              ]
-            },
-            "hide": {
-              "/responseMode": [
-                "responseNode"
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Response Content-Type",
-          "name": "responseContentType",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/responseData": [
-                "firstEntryJson"
-              ],
-              "/responseMode": [
-                "lastNode"
-              ]
-            }
-          },
-          "default": "",
-          "placeholder": "application/xml",
-          "description": "Set a custom content-type to return if another one as the \"application/json\" should be returned"
-        },
-        {
-          "displayName": "Response Data",
-          "name": "responseData",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/responseMode": [
-                "onReceived"
-              ]
-            },
-            "hide": {
-              "noResponseBody": [
-                true
-              ]
-            }
-          },
-          "default": "",
-          "placeholder": "success",
-          "description": "Custom response data to send"
-        },
-        {
-          "displayName": "Response Headers",
-          "name": "responseHeaders",
-          "placeholder": "Add Response Header",
-          "description": "Add headers to the webhook response",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "entries",
-              "displayName": "Entries",
-              "values": [
-                {
-                  "displayName": "Name",
-                  "name": "name",
-                  "type": "string",
-                  "default": "",
-                  "description": "Name of the header"
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": "",
-                  "description": "Value of the header"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "allowedOrigins (值: None) - Comma-separated list of URLs allowed for cross-origin non-preflight requests. Use * (default) to allow all origins.",
+        "binaryData (值: None) - Whether the webhook will receive binary data",
+        "binaryPropertyName (值: None) - The name of the output field to put any binary file data in. Only relevant if binary data is received.",
+        "ignoreBots (值: None) - Whether to ignore requests from bots like link previewers and web crawlers",
+        "ipWhitelist (值: None) - Comma-separated list of allowed IP addresses. Leave empty to allow all IPs.",
+        "noResponseBody (值: None) - Whether to send any body in the response",
+        "responsePropertyName (值: None) - Name of the property to return the data of instead of the whole JSON",
+        "binaryPropertyName (值: None) - If the data gets received via \"Form-Data Multipart\" it will be the prefix and a number starting with 0 will be attached to it",
+        "rawBody (值: None) - Raw body (binary)",
+        "rawBody (值: None) - Whether to return the raw body",
+        "responseCode (值: None)",
+        "responseContentType (值: None) - Set a custom content-type to return if another one as the \"application/json\" should be returned",
+        "responseData (值: None) - Custom response data to send",
+        "responseHeaders (值: None) - Add headers to the webhook response"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "multipleMethods",
-      "httpMethod",
-      "httpMethod",
-      "path",
-      "authentication",
-      "responseMode",
-      "responseMode",
-      "webhookNotice",
-      "webhookStreamingNotice",
-      "responseCode",
-      "responseData",
-      "responseBinaryPropertyName",
-      "contentTypeNotice",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF multipleMethods == False THEN SHOW parameter 'httpMethod'",
-      "IF multipleMethods == True THEN SHOW parameter 'httpMethod'",
-      "IF @version IN [1, 1.1, 2] THEN SHOW parameter 'responseMode'",
-      "IF @version IN [1, 1.1, 2] THEN HIDE parameter 'responseMode'",
-      "IF responseMode == 'responseNode' THEN SHOW parameter 'webhookNotice'",
-      "IF responseMode == 'streaming' THEN SHOW parameter 'webhookStreamingNotice'",
-      "IF @version IN [1, 1.1] THEN SHOW parameter 'responseCode'",
-      "IF responseMode == 'responseNode' THEN HIDE parameter 'responseCode'",
-      "IF responseMode == 'lastNode' THEN SHOW parameter 'responseData'",
-      "IF responseData == 'firstEntryBinary' THEN SHOW parameter 'responseBinaryPropertyName'",
-      "IF responseMode == 'onReceived' THEN SHOW parameter 'contentTypeNotice'",
-      "IF /httpMethod IN [\"PATCH\", \"PUT\", \"POST\"] AND @version == 1 THEN SHOW parameter 'binaryData'",
-      "IF @version == 1 THEN HIDE parameter 'binaryPropertyName'",
-      "IF /responseMode == 'onReceived' THEN SHOW parameter 'noResponseBody'",
-      "IF rawBody == True THEN HIDE parameter 'noResponseBody'",
-      "IF /responseData == 'firstEntryJson' AND /responseMode == 'lastNode' THEN SHOW parameter 'responsePropertyName'",
-      "IF binaryData == True AND @version == 1 THEN SHOW parameter 'binaryPropertyName'",
-      "IF @version == 1 THEN SHOW parameter 'rawBody'",
-      "IF binaryData == True AND noResponseBody == True THEN HIDE parameter 'rawBody'",
-      "IF noResponseBody == True AND @version == 1 THEN HIDE parameter 'rawBody'",
-      "IF @version == {'_cnd': {'gte': 2}} THEN SHOW parameter 'responseCode'",
-      "IF /responseMode == 'responseNode' THEN HIDE parameter 'responseCode'",
-      "IF responseCode == 'customCode' THEN SHOW parameter 'customCode'",
-      "IF /responseData == 'firstEntryJson' AND /responseMode == 'lastNode' THEN SHOW parameter 'responseContentType'",
-      "IF /responseMode == 'onReceived' THEN SHOW parameter 'responseData'",
-      "IF noResponseBody == True THEN HIDE parameter 'responseData'"
-    ]
   }
 }

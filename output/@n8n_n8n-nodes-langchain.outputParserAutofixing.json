@@ -1,52 +1,39 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.outputParserAutofixing",
-  "name": "@n8n/n8n-nodes-langchain.outputParserAutofixing",
+  "name": "Auto-fixing Output Parser",
   "version": 1,
   "semantic_context": "Deprecated, use structured output parser",
+  "natural_language_description": "这是 Auto-fixing Output Parser 节点。主要用于: Deprecated, use structured output parser",
   "parameters": {
     "info": {
       "displayName": "This node wraps another output parser. If the first one fails it calls an LLM to fix the format",
       "name": "info",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: This node wraps another output parser. If the first one fails it calls an LLM to fix the format"
     },
     "notice": {
       "displayName": "This node must be connected to an AI chain. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "containerClass": "ndv-connection-hint-notice"
-      }
+      "description": "",
+      "natural_language_description": "参数名: This node must be connected to an AI chain. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Retry Prompt",
-          "name": "prompt",
-          "type": "string",
-          "default": "Instructions:\n--------------\n{instructions}\n--------------\nCompletion:\n--------------\n{completion}\n--------------\n\nAbove, the Completion did not satisfy the constraints given in the Instructions.\nError:\n--------------\n{error}\n--------------\n\nPlease try again. Please only respond with an answer that satisfies the constraints laid out in the Instructions:",
-          "typeOptions": {
-            "rows": 10
-          },
-          "hint": "Should include \"{error}\", \"{instructions}\", and \"{completion}\" placeholders",
-          "description": "Prompt template used for fixing the output. Uses placeholders: \"{instructions}\" for parsing rules, \"{completion}\" for the failed attempt, and \"{error}\" for the validation error message."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "prompt (值: None) - Prompt template used for fixing the output. Uses placeholders: \"{instructions}\" for parsing rules, \"{completion}\" for the failed attempt, and \"{error}\" for the validation error message."
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "info",
-      "notice",
-      "options"
-    ],
-    "conditional_rules": []
   }
 }

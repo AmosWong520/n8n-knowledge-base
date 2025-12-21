@@ -1,491 +1,164 @@
 {
   "node_id": "n8n-nodes-base.googleBigQueryTool",
-  "name": "n8n-nodes-base.googleBigQueryTool",
-  "version": [
-    2,
-    2.1
-  ],
+  "name": "Google BigQuery Tool",
+  "version": 1,
   "semantic_context": "Consume Google BigQuery API",
+  "natural_language_description": "这是 Google BigQuery Tool 节点。主要用于: Consume Google BigQuery API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Google BigQuery API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Google BigQuery API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Google BigQuery API | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "OAuth2 (recommended)",
-          "value": "oAuth2"
-        },
-        {
-          "name": "Service Account",
-          "value": "serviceAccount"
-        }
-      ],
+      "required": false,
       "default": "oAuth2",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: oAuth2",
+      "available_options": [
+        "OAuth2 (recommended) (值: oAuth2)",
+        "Service Account (值: serviceAccount)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "hidden",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Database",
-          "value": "database"
-        }
-      ],
-      "default": "database"
+      "required": false,
+      "default": "database",
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: database",
+      "available_options": [
+        "Database (值: database)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Execute Query",
-          "value": "executeQuery",
-          "description": "Execute a SQL query",
-          "action": "Execute a SQL query"
-        },
-        {
-          "name": "Insert",
-          "value": "insert",
-          "description": "Insert rows in a table",
-          "action": "Insert rows in a table"
-        }
-      ],
+      "required": false,
       "default": "executeQuery",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: executeQuery",
+      "available_options": [
+        "Execute Query (值: executeQuery) - Execute a SQL query",
+        "Insert (值: insert) - Insert rows in a table"
+      ]
     },
     "projectId": {
       "displayName": "Project",
       "name": "projectId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "searchProjects",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "extractValue": {
-            "type": "regex",
-            "regex": "https:\\/\\/console.cloud.google.com\\/bigquery\\?project=([0-9a-zA-Z\\-_]+).{0,}"
-          },
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "https:\\/\\/console.cloud.google.com\\/bigquery\\?project=([0-9a-zA-Z\\-_]+).{0,}",
-                "errorMessage": "Not a valid BigQuery Project URL"
-              }
-            }
-          ]
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9\\-_]{2,}",
-                "errorMessage": "Not a valid BigQuery Project ID"
-              }
-            }
-          ],
-          "url": "=https://console.cloud.google.com/bigquery?project={{$value}}"
-        }
-      ],
       "description": "Projects to which you have been granted any project role",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "executeQuery",
-            "insert"
-          ]
-        }
-      },
-      "ai_hint": "Projects to which you have been granted any project role"
+      "natural_language_description": "参数名: Project | 作用: Projects to which you have been granted any project role | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "datasetId": {
       "displayName": "Dataset",
       "name": "datasetId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "searchDatasets",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9\\-_]{2,}",
-                "errorMessage": "Not a valid Dataset ID"
-              }
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "insert"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Dataset | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "tableId": {
       "displayName": "Table",
       "name": "tableId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "searchTables",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9\\-_]{2,}",
-                "errorMessage": "Not a valid Table ID"
-              }
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "insert"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Table | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "sqlQuery": {
       "displayName": "SQL Query",
       "name": "sqlQuery",
       "type": "string",
-      "noDataExpression": true,
-      "typeOptions": {
-        "editor": "sqlEditor"
-      },
-      "displayOptions": {
-        "show": {
-          "/options.useLegacySql": [
-            true
-          ],
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "executeQuery"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "placeholder": "SELECT * FROM [project:dataset.table] LIMIT 100;",
-      "hint": "Legacy SQL syntax",
-      "description": "SQL query to execute, you can find more information about Legacy SQL syntax <a href=\"https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax\" target=\"_blank\">here</a>",
-      "ai_hint": "SQL query to execute, you can find more information about Legacy SQL syntax <a href=\"https://cloud.google.com/bigquery/docs/reference/standard-sql/query-syntax\" target=\"_blank\">here</a>"
+      "description": "SQL query to execute, you can find more information about Legacy SQL syntax here",
+      "natural_language_description": "参数名: SQL Query | 作用: SQL query to execute, you can find more information about Legacy SQL syntax here | 提示: Legacy SQL syntax"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Batch Size",
-          "name": "batchSize",
-          "type": "number",
-          "default": 100,
-          "typeOptions": {
-            "minValue": 1
-          }
-        },
-        {
-          "displayName": "Ignore Unknown Values",
-          "name": "ignoreUnknownValues",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to gnore row values that do not match the schema"
-        },
-        {
-          "displayName": "Skip Invalid Rows",
-          "name": "skipInvalidRows",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to skip rows with values that do not match the schema"
-        },
-        {
-          "displayName": "Template Suffix",
-          "name": "templateSuffix",
-          "type": "string",
-          "default": "",
-          "description": "Create a new table based on the destination table and insert rows into the new table. The new table will be named <code>{destinationTable}{templateSuffix}</code>"
-        },
-        {
-          "displayName": "Trace ID",
-          "name": "traceId",
-          "type": "string",
-          "default": "",
-          "description": "Unique ID for the request, for debugging only. It is case-sensitive, limited to up to 36 ASCII characters. A UUID is recommended."
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "insert"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "batchSize (值: None)",
+        "ignoreUnknownValues (值: None) - Whether to gnore row values that do not match the schema",
+        "skipInvalidRows (值: None) - Whether to skip rows with values that do not match the schema",
+        "templateSuffix (值: None) - Create a new table based on the destination table and insert rows into the new table. The new table will be named `{destinationTable}{templateSuffix}`",
+        "traceId (值: None) - Unique ID for the request, for debugging only. It is case-sensitive, limited to up to 36 ASCII characters. A UUID is recommended."
+      ]
     },
     "dataMode": {
       "displayName": "Data Mode",
       "name": "dataMode",
       "type": "options",
-      "options": [
-        {
-          "name": "Auto-Map Input Data",
-          "value": "autoMap",
-          "description": "Use when node input properties match destination field names"
-        },
-        {
-          "name": "Map Each Field Below",
-          "value": "define",
-          "description": "Set the value for each destination field"
-        }
-      ],
+      "required": false,
       "default": "autoMap",
       "description": "Whether to insert the input data this node receives in the new row",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "insert"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Data Mode | 作用: Whether to insert the input data this node receives in the new row | 默认值: autoMap",
+      "available_options": [
+        "Auto-Map Input Data (值: autoMap) - Use when node input properties match destination field names",
+        "Map Each Field Below (值: define) - Set the value for each destination field"
+      ]
     },
     "info": {
       "displayName": "In this mode, make sure the incoming data fields are named the same as the columns in BigQuery. (Use an 'Edit Fields' node before this node to change them if required.)",
       "name": "info",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "dataMode": [
-            "autoMap"
-          ],
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "insert"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: In this mode, make sure the incoming data fields are named the same as the columns in BigQuery. (Use an 'Edit Fields' node before this node to change them if required.)"
     },
     "fieldsUi": {
       "displayName": "Fields to Send",
       "name": "fieldsUi",
-      "placeholder": "Add Field",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValueButtonText": "Add Field",
-        "multipleValues": true
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Field",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Field Name or ID",
-              "name": "fieldId",
-              "type": "options",
-              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-              "typeOptions": {
-                "loadOptionsDependsOn": [
-                  "projectId.value",
-                  "datasetId.value",
-                  "tableId.value"
-                ],
-                "loadOptionsMethod": "getSchema"
-              },
-              "default": ""
-            },
-            {
-              "displayName": "Field Value",
-              "name": "fieldValue",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "dataMode": [
-            "define"
-          ],
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "insert"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Fields to Send | 默认值: {}",
+      "available_options": [
+        "values (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "resource",
-      "operation",
-      "projectId",
-      "datasetId",
-      "tableId",
-      "sqlQuery",
-      "sqlQuery",
-      "options",
-      "dataMode",
-      "info",
-      "fieldsUi",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'database' THEN SHOW parameter 'operation'",
-      "IF resource == 'database' AND operation IN [\"executeQuery\", \"insert\"] THEN SHOW parameter 'projectId'",
-      "IF resource == 'database' AND operation == 'insert' THEN SHOW parameter 'datasetId'",
-      "IF resource == 'database' AND operation == 'insert' THEN SHOW parameter 'tableId'",
-      "IF resource == 'database' AND operation == 'executeQuery' THEN SHOW parameter 'sqlQuery'",
-      "IF /options.useLegacySql == True THEN HIDE parameter 'sqlQuery'",
-      "IF /options.useLegacySql == True AND resource == 'database' AND operation == 'executeQuery' THEN SHOW parameter 'sqlQuery'",
-      "IF resource == 'database' AND operation == 'executeQuery' THEN SHOW parameter 'options'",
-      "IF rawOutput == True THEN HIDE parameter 'includeSchema'",
-      "IF dryRun == True THEN HIDE parameter 'rawOutput'",
-      "IF /options.useLegacySql == True THEN HIDE parameter 'queryParameters'",
-      "IF resource == 'database' AND operation == 'insert' THEN SHOW parameter 'dataMode'",
-      "IF dataMode == 'autoMap' AND resource == 'database' AND operation == 'insert' THEN SHOW parameter 'info'",
-      "IF dataMode == 'define' AND resource == 'database' AND operation == 'insert' THEN SHOW parameter 'fieldsUi'",
-      "IF resource == 'database' AND operation == 'insert' THEN SHOW parameter 'options'"
-    ]
   }
 }

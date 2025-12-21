@@ -1,1257 +1,314 @@
 {
   "node_id": "n8n-nodes-base.helpScoutTool",
-  "name": "n8n-nodes-base.helpScoutTool",
+  "name": "Help Scout Tool",
   "version": 1,
   "semantic_context": "Consume Help Scout API",
+  "natural_language_description": "这是 Help Scout Tool 节点。主要用于: Consume Help Scout API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Help Scout API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Help Scout API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Help Scout API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Conversation",
-          "value": "conversation"
-        },
-        {
-          "name": "Customer",
-          "value": "customer"
-        },
-        {
-          "name": "Mailbox",
-          "value": "mailbox"
-        },
-        {
-          "name": "Thread",
-          "value": "thread"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "conversation",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: conversation",
+      "available_options": [
+        "Conversation (值: conversation)",
+        "Customer (值: customer)",
+        "Mailbox (值: mailbox)",
+        "Thread (值: thread)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "thread"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a new chat thread",
-          "action": "Create a thread"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many chat threads",
-          "action": "Get many threads"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a new chat thread",
+        "Get Many (值: getAll) - Get many chat threads",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "mailboxId": {
       "displayName": "Mailbox ID",
       "name": "mailboxId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "mailbox"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Mailbox ID | (必填项)"
     },
     "status": {
       "displayName": "Status",
       "name": "status",
       "type": "options",
       "required": true,
-      "options": [
-        {
-          "name": "Active",
-          "value": "active"
-        },
-        {
-          "name": "Closed",
-          "value": "closed"
-        },
-        {
-          "name": "Pending",
-          "value": "pending"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "conversation"
-          ]
-        }
-      },
       "default": "",
       "description": "Conversation status",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Status | 作用: Conversation status | (必填项)",
+      "available_options": [
+        "Active (值: active)",
+        "Closed (值: closed)",
+        "Pending (值: pending)"
+      ]
     },
     "subject": {
       "displayName": "Subject",
       "name": "subject",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "conversation"
-          ]
-        }
-      },
       "default": "",
       "description": "Conversation’s subject",
-      "ai_hint": "Conversation’s subject"
+      "natural_language_description": "参数名: Subject | 作用: Conversation’s subject | (必填项)"
     },
     "type": {
       "displayName": "Type",
       "name": "type",
       "type": "options",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "thread"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Chat",
-          "value": "chat"
-        },
-        {
-          "name": "Customer",
-          "value": "customer"
-        },
-        {
-          "name": "Note",
-          "value": "note"
-        },
-        {
-          "name": "Phone",
-          "value": "phone"
-        },
-        {
-          "name": "Reply",
-          "value": "reply"
-        }
-      ],
       "default": "",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Type | (必填项)",
+      "available_options": [
+        "Chat (值: chat)",
+        "Customer (值: customer)",
+        "Note (值: note)",
+        "Phone (值: phone)",
+        "Reply (值: reply)"
+      ]
     },
     "resolveData": {
       "displayName": "Resolve Data",
       "name": "resolveData",
       "type": "boolean",
+      "required": false,
       "default": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "customer"
-          ]
-        }
-      },
       "description": "By default the response only contain the ID to resource. If this option gets activated, it will resolve the data automatically.",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Resolve Data | 作用: By default the response only contain the ID to resource. If this option gets activated, it will resolve the data automatically. | 默认值: True"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "thread"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Created At",
-          "name": "createdAt",
-          "type": "dateTime",
-          "default": ""
-        },
-        {
-          "displayName": "Customer Email",
-          "name": "customerEmail",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Customer ID",
-          "name": "customerId",
-          "type": "number",
-          "default": 0
-        },
-        {
-          "displayName": "Draft",
-          "name": "draft",
-          "type": "boolean",
-          "default": false,
-          "displayOptions": {
-            "show": {
-              "/type": [
-                "note"
-              ]
-            }
-          },
-          "description": "Whether a draft reply is created"
-        },
-        {
-          "displayName": "Imported",
-          "name": "imported",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether no outgoing emails or notifications will be generated"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "createdAt (值: None)",
+        "customerEmail (值: None)",
+        "customerId (值: None)",
+        "draft (值: None) - Whether a draft reply is created",
+        "imported (值: None) - Whether no outgoing emails or notifications will be generated"
+      ]
     },
     "threadsUi": {
       "displayName": "Threads",
       "name": "threadsUi",
-      "placeholder": "Add Thread",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "conversation"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Thread",
-          "name": "threadsValues",
-          "values": [
-            {
-              "displayName": "Type",
-              "name": "type",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Chat",
-                  "value": "chat"
-                },
-                {
-                  "name": "Customer",
-                  "value": "customer"
-                },
-                {
-                  "name": "Note",
-                  "value": "note"
-                },
-                {
-                  "name": "Phone",
-                  "value": "phone"
-                },
-                {
-                  "name": "Reply",
-                  "value": "reply"
-                }
-              ],
-              "default": ""
-            },
-            {
-              "displayName": "Text",
-              "name": "text",
-              "type": "string",
-              "default": "",
-              "description": "The message text"
-            },
-            {
-              "displayName": "Bcc",
-              "name": "bcc",
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "customer"
-                  ]
-                }
-              },
-              "type": "string",
-              "typeOptions": {
-                "multipleValues": true,
-                "multipleValueButtonText": "Add Email"
-              },
-              "default": [],
-              "description": "Email addresses"
-            },
-            {
-              "displayName": "Cc",
-              "name": "cc",
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "customer"
-                  ]
-                }
-              },
-              "type": "string",
-              "typeOptions": {
-                "multipleValues": true,
-                "multipleValueButtonText": "Add Email"
-              },
-              "default": [],
-              "description": "Email addresses"
-            },
-            {
-              "displayName": "Draft",
-              "name": "draft",
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "reply"
-                  ]
-                }
-              },
-              "type": "boolean",
-              "default": false,
-              "description": "Whether true, a draft reply is created"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Threads | 默认值: {}",
+      "available_options": [
+        "threadsValues (值: None)"
+      ]
     },
     "conversationId": {
       "displayName": "Conversation ID",
       "name": "conversationId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "thread"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Conversation ID | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "thread"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "thread"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1
-      },
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "customer"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "First Name",
-          "name": "firstName",
-          "type": "string",
-          "default": "",
-          "description": "Filters customers by first name"
-        },
-        {
-          "displayName": "Last Name",
-          "name": "lastName",
-          "type": "string",
-          "default": "",
-          "description": "Filters customers by last name"
-        },
-        {
-          "displayName": "Mailbox ID",
-          "name": "mailbox",
-          "type": "string",
-          "default": "",
-          "description": "Filters customers from a specific mailbox"
-        },
-        {
-          "displayName": "Modified Since",
-          "name": "modifiedSince",
-          "type": "dateTime",
-          "default": "",
-          "description": "Returns only customers that were modified after this date"
-        },
-        {
-          "displayName": "Sort Field",
-          "name": "sortField",
-          "type": "options",
-          "options": [
-            {
-              "name": "Score",
-              "value": "score"
-            },
-            {
-              "name": "First Name",
-              "value": "firstName"
-            },
-            {
-              "name": "Last Name",
-              "value": "lastName"
-            },
-            {
-              "name": "Modified At",
-              "value": "modifiedAt"
-            }
-          ],
-          "default": "score",
-          "description": "Sorts the result by specified field"
-        },
-        {
-          "displayName": "Sort Order",
-          "name": "sortOrder",
-          "type": "options",
-          "options": [
-            {
-              "name": "ASC",
-              "value": "asc"
-            },
-            {
-              "name": "DESC",
-              "value": "desc"
-            }
-          ],
-          "default": "desc"
-        },
-        {
-          "displayName": "Query",
-          "name": "query",
-          "type": "string",
-          "default": "",
-          "description": "Advanced search <a href=\"https://developer.helpscout.com/mailbox-api/endpoints/customers/list/#query\">Examples</a>"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "firstName (值: None) - Filters customers by first name",
+        "lastName (值: None) - Filters customers by last name",
+        "mailbox (值: None) - Filters customers from a specific mailbox",
+        "modifiedSince (值: None) - Returns only customers that were modified after this date",
+        "sortField (值: None) - Sorts the result by specified field",
+        "sortOrder (值: None)",
+        "query (值: None) - Advanced search Examples"
+      ]
     },
     "addressUi": {
       "displayName": "Address",
       "name": "addressUi",
-      "placeholder": "Add Address",
       "type": "fixedCollection",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "customer"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Address",
-          "name": "addressValue",
-          "values": [
-            {
-              "displayName": "Line 1",
-              "name": "line1",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Line 2",
-              "name": "line2",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "City",
-              "name": "city",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "State",
-              "name": "state",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Country Name or ID",
-              "name": "country",
-              "type": "options",
-              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-              "typeOptions": {
-                "loadOptionsMethod": "getCountriesCodes"
-              },
-              "default": ""
-            },
-            {
-              "displayName": "Postal Code",
-              "name": "postalCode",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Address | 默认值: {}",
+      "available_options": [
+        "addressValue (值: None)"
+      ]
     },
     "chatsUi": {
       "displayName": "Chat Handles",
       "name": "chatsUi",
-      "placeholder": "Add Chat Handle",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "customer"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Chat Handle",
-          "name": "chatsValues",
-          "values": [
-            {
-              "displayName": "Type",
-              "name": "type",
-              "type": "options",
-              "options": [
-                {
-                  "name": "AIM",
-                  "value": "aim"
-                },
-                {
-                  "name": "Google Talk",
-                  "value": "gtalk"
-                },
-                {
-                  "name": "ICQ",
-                  "value": "icq"
-                },
-                {
-                  "name": "MSN",
-                  "value": "msn"
-                },
-                {
-                  "name": "Other",
-                  "value": "other"
-                },
-                {
-                  "name": "QQ",
-                  "value": "qq"
-                },
-                {
-                  "name": "Skype",
-                  "value": "skype"
-                },
-                {
-                  "name": "XMPP",
-                  "value": "xmpp"
-                },
-                {
-                  "name": "Yahoo",
-                  "value": "yahoo"
-                }
-              ],
-              "description": "Chat type",
-              "default": ""
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Chat handle"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Chat Handles | 默认值: {}",
+      "available_options": [
+        "chatsValues (值: None)"
+      ]
     },
     "emailsUi": {
       "displayName": "Emails",
       "name": "emailsUi",
-      "placeholder": "Add Email",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "customer"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Email",
-          "name": "emailsValues",
-          "values": [
-            {
-              "displayName": "Type",
-              "name": "type",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Home",
-                  "value": "home"
-                },
-                {
-                  "name": "Other",
-                  "value": "other"
-                },
-                {
-                  "name": "Work",
-                  "value": "work"
-                }
-              ],
-              "description": "Location for this email address",
-              "default": ""
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Email"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Emails | 默认值: {}",
+      "available_options": [
+        "emailsValues (值: None)"
+      ]
     },
     "phonesUi": {
       "displayName": "Phones",
       "name": "phonesUi",
-      "placeholder": "Add Phone",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "customer"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Email",
-          "name": "phonesValues",
-          "values": [
-            {
-              "displayName": "Type",
-              "name": "type",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Fax",
-                  "value": "fax"
-                },
-                {
-                  "name": "Home",
-                  "value": "home"
-                },
-                {
-                  "name": "Other",
-                  "value": "other"
-                },
-                {
-                  "name": "Pager",
-                  "value": "pager"
-                },
-                {
-                  "name": "Work",
-                  "value": "work"
-                }
-              ],
-              "description": "Location for this phone",
-              "default": ""
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Phone"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Phones | 默认值: {}",
+      "available_options": [
+        "phonesValues (值: None)"
+      ]
     },
     "socialProfilesUi": {
       "displayName": "Social Profiles",
       "name": "socialProfilesUi",
-      "placeholder": "Add Social Profile",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "customer"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Social Profile",
-          "name": "socialProfilesValues",
-          "values": [
-            {
-              "displayName": "Type",
-              "name": "type",
-              "type": "options",
-              "options": [
-                {
-                  "name": "About Me",
-                  "value": "aboutMe"
-                },
-                {
-                  "name": "Facebook",
-                  "value": "facebook"
-                },
-                {
-                  "name": "Flickr",
-                  "value": "flickr"
-                },
-                {
-                  "name": "Forsquare",
-                  "value": "forsquare"
-                },
-                {
-                  "name": "Google",
-                  "value": "google"
-                },
-                {
-                  "name": "Google Plus",
-                  "value": "googleplus"
-                },
-                {
-                  "name": "Linkedin",
-                  "value": "linkedin"
-                },
-                {
-                  "name": "Other",
-                  "value": "other"
-                },
-                {
-                  "name": "Quora",
-                  "value": "quora"
-                },
-                {
-                  "name": "Tungleme",
-                  "value": "tungleme"
-                },
-                {
-                  "name": "Twitter",
-                  "value": "twitter"
-                },
-                {
-                  "name": "Youtube",
-                  "value": "youtube"
-                }
-              ],
-              "description": "Type of social profile",
-              "default": ""
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Social Profile handle (URL for example)"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Social Profiles | 默认值: {}",
+      "available_options": [
+        "socialProfilesValues (值: None)"
+      ]
     },
     "websitesUi": {
       "displayName": "Websites",
       "name": "websitesUi",
-      "placeholder": "Add Website",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "customer"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Website",
-          "name": "websitesValues",
-          "values": [
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Website URL"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Websites | 默认值: {}",
+      "available_options": [
+        "websitesValues (值: None)"
+      ]
     },
     "customerId": {
       "displayName": "Customer ID",
       "name": "customerId",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "customer"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Customer ID"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "customer"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Age",
-          "name": "age",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 1
-          },
-          "default": 1,
-          "description": "Customer’s age"
-        },
-        {
-          "displayName": "First Name",
-          "name": "firstName",
-          "type": "string",
-          "default": "",
-          "description": "First name of the customer. When defined it must be between 1 and 40 characters."
-        },
-        {
-          "displayName": "Gender",
-          "name": "gender",
-          "type": "options",
-          "options": [
-            {
-              "name": "Female",
-              "value": "female"
-            },
-            {
-              "name": "Male",
-              "value": "male"
-            },
-            {
-              "name": "Unknown",
-              "value": "unknown"
-            }
-          ],
-          "default": "",
-          "description": "Gender of this customer"
-        },
-        {
-          "displayName": "Job Title",
-          "name": "jobTitle",
-          "type": "string",
-          "default": "",
-          "description": "Job title. Max length 60 characters."
-        },
-        {
-          "displayName": "Last Name",
-          "name": "lastName",
-          "type": "string",
-          "default": "",
-          "description": "Last name of the customer"
-        },
-        {
-          "displayName": "Location",
-          "name": "location",
-          "type": "string",
-          "default": "",
-          "description": "Location of the customer"
-        },
-        {
-          "displayName": "Notes",
-          "name": "background",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Organization",
-          "name": "organization",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Photo Url",
-          "name": "photoUrl",
-          "type": "string",
-          "default": "",
-          "description": "URL of the customer’s photo"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "age (值: None) - Customer’s age",
+        "firstName (值: None) - First name of the customer. When defined it must be between 1 and 40 characters.",
+        "gender (值: None) - Gender of this customer",
+        "jobTitle (值: None) - Job title. Max length 60 characters.",
+        "lastName (值: None) - Last name of the customer",
+        "location (值: None) - Location of the customer",
+        "background (值: None)",
+        "organization (值: None)",
+        "photoUrl (值: None) - URL of the customer’s photo"
+      ]
     },
     "text": {
       "displayName": "Text",
       "name": "text",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "thread"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "default": "",
       "description": "The chat text",
-      "ai_hint": "The chat text"
+      "natural_language_description": "参数名: Text | 作用: The chat text | (必填项)"
     },
     "attachmentsUi": {
       "displayName": "Attachments",
       "name": "attachmentsUi",
-      "placeholder": "Add Attachments",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "thread"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "attachmentsValues",
-          "displayName": "Attachments Values",
-          "values": [
-            {
-              "displayName": "FileName",
-              "name": "fileName",
-              "type": "string",
-              "default": "",
-              "description": "Attachment’s file name"
-            },
-            {
-              "displayName": "Mime Type",
-              "name": "mimeType",
-              "type": "string",
-              "default": "",
-              "description": "Attachment’s mime type"
-            },
-            {
-              "displayName": "Data",
-              "name": "data",
-              "type": "string",
-              "default": "",
-              "placeholder": "ZXhhbXBsZSBmaWxl",
-              "description": "Base64-encoded stream of data"
-            }
-          ]
-        },
-        {
-          "name": "attachmentsBinary",
-          "displayName": "Attachments Binary",
-          "values": [
-            {
-              "displayName": "Property",
-              "name": "property",
-              "type": "string",
-              "default": "data",
-              "description": "Name of the binary properties which contain data which should be added to email as attachment"
-            }
-          ]
-        }
-      ],
+      "required": false,
       "default": {},
       "description": "Array of supported attachments to add to the message",
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Attachments | 作用: Array of supported attachments to add to the message | 默认值: {}",
+      "available_options": [
+        "attachmentsValues (值: None)",
+        "attachmentsBinary (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "mailboxId",
-      "status",
-      "subject",
-      "type",
-      "resolveData",
-      "additionalFields",
-      "threadsUi",
-      "conversationId",
-      "conversationId",
-      "returnAll",
-      "limit",
-      "options",
-      "operation",
-      "resolveData",
-      "additionalFields",
-      "addressUi",
-      "chatsUi",
-      "emailsUi",
-      "phonesUi",
-      "socialProfilesUi",
-      "websitesUi",
-      "returnAll",
-      "limit",
-      "options",
-      "customerId",
-      "customerId",
-      "updateFields",
-      "operation",
-      "mailboxId",
-      "returnAll",
-      "limit",
-      "operation",
-      "conversationId",
-      "type",
-      "text",
-      "additionalFields",
-      "attachmentsUi",
-      "conversationId",
-      "returnAll",
-      "limit"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'conversation' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'conversation' THEN SHOW parameter 'mailboxId'",
-      "IF operation == 'create' AND resource == 'conversation' THEN SHOW parameter 'status'",
-      "IF operation == 'create' AND resource == 'conversation' THEN SHOW parameter 'subject'",
-      "IF operation == 'create' AND resource == 'conversation' THEN SHOW parameter 'type'",
-      "IF operation == 'create' AND resource == 'conversation' THEN SHOW parameter 'resolveData'",
-      "IF operation == 'create' AND resource == 'conversation' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'create' AND resource == 'conversation' THEN SHOW parameter 'threadsUi'",
-      "IF type == 'customer' THEN SHOW parameter 'bcc'",
-      "IF type == 'customer' THEN SHOW parameter 'cc'",
-      "IF type == 'reply' THEN SHOW parameter 'draft'",
-      "IF resource == 'conversation' AND operation == 'get' THEN SHOW parameter 'conversationId'",
-      "IF resource == 'conversation' AND operation == 'delete' THEN SHOW parameter 'conversationId'",
-      "IF operation == 'getAll' AND resource == 'conversation' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'conversation' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'conversation' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'customer' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'resolveData'",
-      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'addressUi'",
-      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'chatsUi'",
-      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'emailsUi'",
-      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'phonesUi'",
-      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'socialProfilesUi'",
-      "IF operation == 'create' AND resource == 'customer' THEN SHOW parameter 'websitesUi'",
-      "IF operation == 'getAll' AND resource == 'customer' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'customer' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'customer' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'customer' AND operation == 'get' THEN SHOW parameter 'customerId'",
-      "IF operation == 'update' AND resource == 'customer' THEN SHOW parameter 'customerId'",
-      "IF operation == 'update' AND resource == 'customer' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'mailbox' THEN SHOW parameter 'operation'",
-      "IF resource == 'mailbox' AND operation == 'get' THEN SHOW parameter 'mailboxId'",
-      "IF operation == 'getAll' AND resource == 'mailbox' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'mailbox' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'thread' THEN SHOW parameter 'operation'",
-      "IF resource == 'thread' AND operation == 'create' THEN SHOW parameter 'conversationId'",
-      "IF resource == 'thread' AND operation == 'create' THEN SHOW parameter 'type'",
-      "IF resource == 'thread' AND operation == 'create' THEN SHOW parameter 'text'",
-      "IF operation == 'create' AND resource == 'thread' THEN SHOW parameter 'additionalFields'",
-      "IF /type == 'note' THEN SHOW parameter 'draft'",
-      "IF operation == 'create' AND resource == 'thread' THEN SHOW parameter 'attachmentsUi'",
-      "IF resource == 'thread' AND operation == 'getAll' THEN SHOW parameter 'conversationId'",
-      "IF operation == 'getAll' AND resource == 'thread' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'thread' AND returnAll == False THEN SHOW parameter 'limit'"
-    ]
   }
 }

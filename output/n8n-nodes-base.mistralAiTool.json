@@ -1,314 +1,127 @@
 {
   "node_id": "n8n-nodes-base.mistralAiTool",
-  "name": "n8n-nodes-base.mistralAiTool",
+  "name": "Mistral AI Tool",
   "version": 1,
   "semantic_context": "Consume Mistral AI API",
+  "natural_language_description": "这是 Mistral AI Tool 节点。主要用于: Consume Mistral AI API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Mistral AI API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Mistral AI API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Mistral AI API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Document",
-          "value": "document"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "document",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: document",
+      "available_options": [
+        "Document (值: document)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Extract Text",
-          "value": "extractText",
-          "description": "Extract text from document using OCR",
-          "action": "Extract text"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "extractText",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: extractText",
+      "available_options": [
+        "Extract Text (值: extractText) - Extract text from document using OCR",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "model": {
       "displayName": "Model",
       "name": "model",
       "type": "options",
-      "options": [
-        {
-          "name": "mistral-ocr-latest",
-          "value": "mistral-ocr-latest"
-        }
-      ],
-      "description": "The OCR model to use",
       "required": true,
       "default": "mistral-ocr-latest",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "extractText"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "The OCR model to use",
+      "natural_language_description": "参数名: Model | 作用: The OCR model to use | 默认值: mistral-ocr-latest | (必填项)",
+      "available_options": [
+        "mistral-ocr-latest (值: mistral-ocr-latest)"
+      ]
     },
     "documentType": {
       "displayName": "Document Type",
       "name": "documentType",
       "type": "options",
-      "options": [
-        {
-          "name": "Document",
-          "value": "document_url"
-        },
-        {
-          "name": "Image",
-          "value": "image_url"
-        }
-      ],
-      "description": "The type of document to process",
       "required": true,
       "default": "document_url",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "extractText"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "The type of document to process",
+      "natural_language_description": "参数名: Document Type | 作用: The type of document to process | 默认值: document_url | (必填项)",
+      "available_options": [
+        "Document (值: document_url)",
+        "Image (值: image_url)"
+      ]
     },
     "inputType": {
       "displayName": "Input Type",
       "name": "inputType",
       "type": "options",
-      "options": [
-        {
-          "name": "Binary Data",
-          "value": "binary"
-        },
-        {
-          "name": "URL",
-          "value": "url"
-        }
-      ],
-      "description": "How the document will be provided",
       "required": true,
       "default": "binary",
-      "disabledOptions": {
-        "show": {
-          "options.batch": [
-            true
-          ]
-        }
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "extractText"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "How the document will be provided",
+      "natural_language_description": "参数名: Input Type | 作用: How the document will be provided | 默认值: binary | (必填项)",
+      "available_options": [
+        "Binary Data (值: binary)",
+        "URL (值: url)"
+      ]
     },
     "binaryProperty": {
       "displayName": "Input Binary Field",
       "name": "binaryProperty",
       "type": "string",
-      "description": "Name of the input binary field that contains the file to process",
-      "placeholder": "e.g. data",
-      "hint": "Uploaded document files must not exceed 50 MB in size and should be no longer than 1,000 pages.",
       "required": true,
       "default": "data",
-      "displayOptions": {
-        "show": {
-          "inputType": [
-            "binary"
-          ],
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "extractText"
-          ]
-        }
-      },
-      "ai_hint": "Name of the input binary field that contains the file to process"
+      "description": "Name of the input binary field that contains the file to process",
+      "natural_language_description": "参数名: Input Binary Field | 作用: Name of the input binary field that contains the file to process | 提示: Uploaded document files must not exceed 50 MB in size and should be no longer than 1,000 pages. | 默认值: data | (必填项)"
     },
     "url": {
       "displayName": "URL",
       "name": "url",
       "type": "string",
-      "description": "URL of the document or image to process",
-      "placeholder": "e.g. https://example.com/document.pdf",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "inputType": [
-            "url"
-          ],
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "extractText"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "description": "URL of the document or image to process",
+      "natural_language_description": "参数名: URL | 作用: URL of the document or image to process | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Enable Batch Processing",
-          "name": "batch",
-          "type": "boolean",
-          "description": "Whether to process multiple documents in a single API call (more cost-efficient)",
-          "default": false
-        },
-        {
-          "displayName": "Batch Size",
-          "name": "batchSize",
-          "type": "number",
-          "description": "Maximum number of documents to process in a single batch",
-          "default": 50,
-          "typeOptions": {
-            "maxValue": 2048
-          },
-          "required": true,
-          "displayOptions": {
-            "show": {
-              "batch": [
-                true
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Delete Files After Processing",
-          "name": "deleteFiles",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to delete the files on Mistral Cloud after processing",
-          "displayOptions": {
-            "show": {
-              "batch": [
-                true
-              ]
-            }
-          }
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "document"
-          ],
-          "operation": [
-            "extractText"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "batch (值: None) - Whether to process multiple documents in a single API call (more cost-efficient)",
+        "batchSize (值: None) - Maximum number of documents to process in a single batch",
+        "deleteFiles (值: None) - Whether to delete the files on Mistral Cloud after processing"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "model",
-      "documentType",
-      "inputType",
-      "binaryProperty",
-      "url",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'document' THEN SHOW parameter 'operation'",
-      "IF resource == 'document' AND operation == 'extractText' THEN SHOW parameter 'model'",
-      "IF resource == 'document' AND operation == 'extractText' THEN SHOW parameter 'documentType'",
-      "IF resource == 'document' AND operation == 'extractText' THEN SHOW parameter 'inputType'",
-      "IF inputType == 'binary' AND resource == 'document' AND operation == 'extractText' THEN SHOW parameter 'binaryProperty'",
-      "IF inputType == 'url' AND resource == 'document' AND operation == 'extractText' THEN SHOW parameter 'url'",
-      "IF resource == 'document' AND operation == 'extractText' THEN SHOW parameter 'options'",
-      "IF batch == True THEN SHOW parameter 'batchSize'",
-      "IF batch == True THEN SHOW parameter 'deleteFiles'"
-    ]
   }
 }

@@ -1,283 +1,114 @@
 {
   "node_id": "n8n-nodes-base.microsoftGraphSecurity",
-  "name": "n8n-nodes-base.microsoftGraphSecurity",
+  "name": "Microsoft Graph Security",
   "version": 1,
   "semantic_context": "Consume the Microsoft Graph Security API",
+  "natural_language_description": "这是 Microsoft Graph Security 节点。主要用于: Consume the Microsoft Graph Security API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Secure Score",
-          "value": "secureScore"
-        },
-        {
-          "name": "Secure Score Control Profile",
-          "value": "secureScoreControlProfile"
-        }
-      ],
+      "required": false,
       "default": "secureScore",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: secureScore",
+      "available_options": [
+        "Secure Score (值: secureScore)",
+        "Secure Score Control Profile (值: secureScoreControlProfile)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "secureScoreControlProfile"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "action": "Get a secure score control profile"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "action": "Get many secure score control profiles"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "action": "Update a secure score control profile"
-        }
-      ],
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Get (值: get)",
+        "Get Many (值: getAll)",
+        "Update (值: update)"
+      ]
     },
     "secureScoreId": {
       "displayName": "Secure Score ID",
       "name": "secureScoreId",
-      "description": "ID of the secure score to retrieve",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "secureScore"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "ID of the secure score to retrieve"
+      "description": "ID of the secure score to retrieve",
+      "natural_language_description": "参数名: Secure Score ID | 作用: ID of the secure score to retrieve | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "secureScoreControlProfile"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 1000
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "secureScoreControlProfile"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
+      "required": false,
       "default": {},
-      "placeholder": "Add Filter",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "secureScoreControlProfile"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Filter Query Parameter",
-          "name": "filter",
-          "description": "<a href=\"https://docs.microsoft.com/en-us/graph/query-parameters#filter-parameter\">Query parameter</a> to filter results by",
-          "type": "string",
-          "default": "",
-          "placeholder": "startsWith(id, 'AATP')"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "filter (值: None) - Query parameter to filter results by"
+      ]
     },
     "secureScoreControlProfileId": {
       "displayName": "Secure Score Control Profile ID",
       "name": "secureScoreControlProfileId",
-      "description": "ID of the secure score control profile to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "secureScoreControlProfile"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the secure score control profile to update"
+      "description": "ID of the secure score control profile to update",
+      "natural_language_description": "参数名: Secure Score Control Profile ID | 作用: ID of the secure score control profile to update | (必填项)"
     },
     "provider": {
       "displayName": "Provider",
       "name": "provider",
       "type": "string",
-      "description": "Name of the provider of the security product or service",
-      "default": "",
-      "placeholder": "SecureScore",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "secureScoreControlProfile"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "Name of the provider of the security product or service"
+      "default": "",
+      "description": "Name of the provider of the security product or service",
+      "natural_language_description": "参数名: Provider | 作用: Name of the provider of the security product or service | (必填项)"
     },
     "vendor": {
       "displayName": "Vendor",
       "name": "vendor",
       "type": "string",
-      "description": "Name of the vendor of the security product or service",
-      "default": "",
-      "placeholder": "Microsoft",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "secureScoreControlProfile"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "Name of the vendor of the security product or service"
+      "default": "",
+      "description": "Name of the vendor of the security product or service",
+      "natural_language_description": "参数名: Vendor | 作用: Name of the vendor of the security product or service | (必填项)"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "secureScoreControlProfile"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "State",
-          "name": "state",
-          "type": "options",
-          "default": "Default",
-          "description": "Analyst driven setting on the control",
-          "options": [
-            {
-              "name": "Default",
-              "value": "Default"
-            },
-            {
-              "name": "Ignored",
-              "value": "Ignored"
-            },
-            {
-              "name": "Third Party",
-              "value": "ThirdParty"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "state (值: None) - Analyst driven setting on the control"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "secureScoreId",
-      "returnAll",
-      "limit",
-      "filters",
-      "operation",
-      "secureScoreControlProfileId",
-      "returnAll",
-      "limit",
-      "filters",
-      "secureScoreControlProfileId",
-      "provider",
-      "vendor",
-      "updateFields"
-    ],
-    "conditional_rules": [
-      "IF resource == 'secureScore' THEN SHOW parameter 'operation'",
-      "IF resource == 'secureScore' AND operation == 'get' THEN SHOW parameter 'secureScoreId'",
-      "IF resource == 'secureScore' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'secureScore' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'secureScore' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'secureScoreControlProfile' THEN SHOW parameter 'operation'",
-      "IF resource == 'secureScoreControlProfile' AND operation == 'get' THEN SHOW parameter 'secureScoreControlProfileId'",
-      "IF resource == 'secureScoreControlProfile' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'secureScoreControlProfile' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'secureScoreControlProfile' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'secureScoreControlProfile' AND operation == 'update' THEN SHOW parameter 'secureScoreControlProfileId'",
-      "IF resource == 'secureScoreControlProfile' AND operation == 'update' THEN SHOW parameter 'provider'",
-      "IF resource == 'secureScoreControlProfile' AND operation == 'update' THEN SHOW parameter 'vendor'",
-      "IF resource == 'secureScoreControlProfile' AND operation == 'update' THEN SHOW parameter 'updateFields'"
-    ]
   }
 }

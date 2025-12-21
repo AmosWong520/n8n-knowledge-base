@@ -1,190 +1,94 @@
 {
   "node_id": "n8n-nodes-base.lemlistTool",
-  "name": "n8n-nodes-base.lemlistTool",
-  "version": 2,
+  "name": "Lemlist Tool",
+  "version": 1,
   "semantic_context": "Consume the Lemlist API",
+  "natural_language_description": "这是 Lemlist Tool 节点。主要用于: Consume the Lemlist API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume the Lemlist API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume the Lemlist API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume the Lemlist API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Activity",
-          "value": "activity"
-        },
-        {
-          "name": "Campaign",
-          "value": "campaign"
-        },
-        {
-          "name": "Enrichment",
-          "value": "enrich"
-        },
-        {
-          "name": "Lead",
-          "value": "lead"
-        },
-        {
-          "name": "Team",
-          "value": "team"
-        },
-        {
-          "name": "Unsubscribe",
-          "value": "unsubscribe"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "activity",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: activity",
+      "available_options": [
+        "Activity (值: activity)",
+        "Campaign (值: campaign)",
+        "Enrichment (值: enrich)",
+        "Lead (值: lead)",
+        "Team (值: team)",
+        "Unsubscribe (值: unsubscribe)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
+      "required": false,
       "default": "add",
-      "options": [
-        {
-          "name": "Add",
-          "value": "add",
-          "action": "Add an email to an unsubscribe list"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "action": "Delete an email from an unsubscribe list"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "action": "Get many unsubscribed emails"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "unsubscribe"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: add",
+      "available_options": [
+        "Add (值: add)",
+        "Delete (值: delete)",
+        "Get Many (值: getAll)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "unsubscribe"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 5,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 1000
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "unsubscribe"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 5"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "campaign"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Version",
-          "name": "version",
-          "type": "string",
-          "default": "v2"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "version (值: None)"
+      ]
     },
     "campaignId": {
       "displayName": "Campaign Name or ID",
@@ -192,400 +96,123 @@
       "type": "options",
       "required": true,
       "default": [],
-      "typeOptions": {
-        "loadOptionsMethod": "getCampaigns"
-      },
-      "description": "ID of the campaign to unsubscribe the lead from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "lead"
-          ],
-          "operation": [
-            "unsubscribe"
-          ]
-        }
-      },
-      "ai_hint": "ID of the campaign to unsubscribe the lead from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "ID of the campaign to unsubscribe the lead from. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Campaign Name or ID | 作用: ID of the campaign to unsubscribe the lead from. Choose from the list, or specify an ID using an expression. | 默认值: [] | (必填项)"
     },
     "startDate": {
       "displayName": "Start Date",
       "name": "startDate",
       "type": "dateTime",
-      "default": "",
       "required": true,
-      "placeholder": "e.g. 2024-09-03 00:00:00Z",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "campaign"
-          ],
-          "operation": [
-            "getStats"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Start Date | (必填项)"
     },
     "endDate": {
       "displayName": "End Date",
       "name": "endDate",
       "type": "dateTime",
-      "default": "",
-      "placeholder": "e.g. 2024-09-03 00:00:00Z",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "campaign"
-          ],
-          "operation": [
-            "getStats"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: End Date | (必填项)"
     },
     "timezone": {
       "displayName": "Timezone",
       "name": "timezone",
       "type": "string",
-      "default": "",
       "required": true,
-      "placeholder": "e.g. Europe/Paris",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "campaign"
-          ],
-          "operation": [
-            "getStats"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Timezone | (必填项)"
     },
     "enrichId": {
       "displayName": "Enrichment ID",
       "name": "enrichId",
       "type": "string",
-      "default": "",
       "required": true,
+      "default": "",
       "description": "ID of the enrichment to retrieve",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "enrich"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "ID of the enrichment to retrieve"
+      "natural_language_description": "参数名: Enrichment ID | 作用: ID of the enrichment to retrieve | (必填项)"
     },
     "leadId": {
       "displayName": "Lead ID",
       "name": "leadId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "enrich"
-          ],
-          "operation": [
-            "enrichLead"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Lead ID | (必填项)"
     },
     "findEmail": {
       "displayName": "Find Email",
       "name": "findEmail",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "enrich"
-          ],
-          "operation": [
-            "enrichLead",
-            "enrichPerson"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: Find Email | 默认值: False"
     },
     "verifyEmail": {
       "displayName": "Verify Email",
       "name": "verifyEmail",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "enrich"
-          ],
-          "operation": [
-            "enrichLead",
-            "enrichPerson"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: Verify Email | 默认值: False"
     },
     "linkedinEnrichment": {
       "displayName": "LinkedIn Enrichment",
       "name": "linkedinEnrichment",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "enrich"
-          ],
-          "operation": [
-            "enrichLead",
-            "enrichPerson"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: LinkedIn Enrichment | 默认值: False"
     },
     "findPhone": {
       "displayName": "Find Phone",
       "name": "findPhone",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "enrich"
-          ],
-          "operation": [
-            "enrichLead",
-            "enrichPerson"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: Find Phone | 默认值: False"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "lead"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Company Name",
-          "name": "companyName",
-          "type": "string",
-          "default": "",
-          "description": "Company name of the lead to create"
-        },
-        {
-          "displayName": "Company Domain",
-          "name": "companyDomain",
-          "type": "string",
-          "default": "",
-          "description": "Company domain of the lead to create"
-        },
-        {
-          "displayName": "Deduplicate",
-          "name": "deduplicate",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to do not insert if this email is already present in another campaign"
-        },
-        {
-          "displayName": "Find Email",
-          "name": "findEmail",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to find verified email"
-        },
-        {
-          "displayName": "Find Phone",
-          "name": "findPhone",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to find phone number"
-        },
-        {
-          "displayName": "First Name",
-          "name": "firstName",
-          "type": "string",
-          "default": "",
-          "description": "First name of the lead to create"
-        },
-        {
-          "displayName": "Icebreaker",
-          "name": "icebreaker",
-          "type": "string",
-          "default": "",
-          "description": "Icebreaker of the lead to create"
-        },
-        {
-          "displayName": "Job Title",
-          "name": "jobTitle",
-          "type": "string",
-          "default": "",
-          "description": "Job title of the lead to create"
-        },
-        {
-          "displayName": "Last Name",
-          "name": "lastName",
-          "type": "string",
-          "default": "",
-          "description": "Last name of the lead to create"
-        },
-        {
-          "displayName": "LinkedIn Enrichment",
-          "name": "linkedinEnrichment",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to run the LinkedIn enrichment"
-        },
-        {
-          "displayName": "LinkedIn URL",
-          "name": "linkedinUrl",
-          "type": "string",
-          "default": "",
-          "description": "LinkedIn URL of the lead to create"
-        },
-        {
-          "displayName": "Phone",
-          "name": "phone",
-          "type": "string",
-          "default": "",
-          "description": "Phone number of the lead to create"
-        },
-        {
-          "displayName": "Picture URL",
-          "name": "picture",
-          "type": "string",
-          "default": "",
-          "description": "Picture URL of the lead to create"
-        },
-        {
-          "displayName": "Verify Email",
-          "name": "verifyEmail",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to verify existing email (debounce)"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "companyName (值: None) - Company name of the lead to create",
+        "companyDomain (值: None) - Company domain of the lead to create",
+        "deduplicate (值: None) - Whether to do not insert if this email is already present in another campaign",
+        "findEmail (值: None) - Whether to find verified email",
+        "findPhone (值: None) - Whether to find phone number",
+        "firstName (值: None) - First name of the lead to create",
+        "icebreaker (值: None) - Icebreaker of the lead to create",
+        "jobTitle (值: None) - Job title of the lead to create",
+        "lastName (值: None) - Last name of the lead to create",
+        "linkedinEnrichment (值: None) - Whether to run the LinkedIn enrichment",
+        "linkedinUrl (值: None) - LinkedIn URL of the lead to create",
+        "phone (值: None) - Phone number of the lead to create",
+        "picture (值: None) - Picture URL of the lead to create",
+        "verifyEmail (值: None) - Whether to verify existing email (debounce)"
+      ]
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
+      "required": false,
       "default": "",
       "description": "Email to delete from the unsubscribes",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "unsubscribe"
-          ],
-          "operation": [
-            "delete"
-          ]
-        }
-      },
-      "ai_hint": "Email to delete from the unsubscribes"
+      "natural_language_description": "参数名: Email | 作用: Email to delete from the unsubscribes"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "returnAll",
-      "limit",
-      "filters",
-      "operation",
-      "returnAll",
-      "limit",
-      "filters",
-      "campaignId",
-      "startDate",
-      "endDate",
-      "timezone",
-      "operation",
-      "enrichId",
-      "leadId",
-      "findEmail",
-      "verifyEmail",
-      "linkedinEnrichment",
-      "findPhone",
-      "additionalFields",
-      "operation",
-      "campaignId",
-      "email",
-      "additionalFields",
-      "campaignId",
-      "email",
-      "email",
-      "campaignId",
-      "email",
-      "operation",
-      "operation",
-      "email",
-      "email",
-      "returnAll",
-      "limit"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'activity' THEN SHOW parameter 'operation'",
-      "IF resource == 'activity' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'activity' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'activity' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'campaign' THEN SHOW parameter 'operation'",
-      "IF resource == 'campaign' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'campaign' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'campaign' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'campaign' AND operation == 'getStats' THEN SHOW parameter 'campaignId'",
-      "IF resource == 'campaign' AND operation == 'getStats' THEN SHOW parameter 'startDate'",
-      "IF resource == 'campaign' AND operation == 'getStats' THEN SHOW parameter 'endDate'",
-      "IF resource == 'campaign' AND operation == 'getStats' THEN SHOW parameter 'timezone'",
-      "IF resource == 'enrich' THEN SHOW parameter 'operation'",
-      "IF resource == 'enrich' AND operation == 'get' THEN SHOW parameter 'enrichId'",
-      "IF resource == 'enrich' AND operation == 'enrichLead' THEN SHOW parameter 'leadId'",
-      "IF resource == 'enrich' AND operation IN [\"enrichLead\", \"enrichPerson\"] THEN SHOW parameter 'findEmail'",
-      "IF resource == 'enrich' AND operation IN [\"enrichLead\", \"enrichPerson\"] THEN SHOW parameter 'verifyEmail'",
-      "IF resource == 'enrich' AND operation IN [\"enrichLead\", \"enrichPerson\"] THEN SHOW parameter 'linkedinEnrichment'",
-      "IF resource == 'enrich' AND operation IN [\"enrichLead\", \"enrichPerson\"] THEN SHOW parameter 'findPhone'",
-      "IF resource == 'enrich' AND operation == 'enrichPerson' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'lead' THEN SHOW parameter 'operation'",
-      "IF resource == 'lead' AND operation == 'create' THEN SHOW parameter 'campaignId'",
-      "IF resource == 'lead' AND operation == 'create' THEN SHOW parameter 'email'",
-      "IF resource == 'lead' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'lead' AND operation == 'delete' THEN SHOW parameter 'campaignId'",
-      "IF resource == 'lead' AND operation == 'delete' THEN SHOW parameter 'email'",
-      "IF resource == 'lead' AND operation == 'get' THEN SHOW parameter 'email'",
-      "IF resource == 'lead' AND operation == 'unsubscribe' THEN SHOW parameter 'campaignId'",
-      "IF resource == 'lead' AND operation == 'unsubscribe' THEN SHOW parameter 'email'",
-      "IF resource == 'team' THEN SHOW parameter 'operation'",
-      "IF resource == 'unsubscribe' THEN SHOW parameter 'operation'",
-      "IF resource == 'unsubscribe' AND operation == 'add' THEN SHOW parameter 'email'",
-      "IF resource == 'unsubscribe' AND operation == 'delete' THEN SHOW parameter 'email'",
-      "IF resource == 'unsubscribe' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'unsubscribe' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'"
-    ]
   }
 }

@@ -1,237 +1,83 @@
 {
   "node_id": "n8n-nodes-base.executeWorkflowTrigger",
-  "name": "n8n-nodes-base.executeWorkflowTrigger",
-  "version": [
-    1,
-    1.1
-  ],
+  "name": "Execute Workflow Trigger",
+  "version": 1,
   "semantic_context": "Helpers for calling other n8n workflows. Used for designing modular, microservice-like workflows.",
+  "natural_language_description": "这是 Execute Workflow Trigger 节点。主要用于: Helpers for calling other n8n workflows. Used for designing modular, microservice-like workflows.",
   "parameters": {
     "events": {
       "displayName": "Events",
       "name": "events",
       "type": "hidden",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Workflow Call",
-          "value": "worklfow_call",
-          "description": "When executed by another workflow using Execute Workflow Trigger",
-          "action": "When executed by Another Workflow"
-        }
-      ],
-      "default": "worklfow_call"
+      "required": false,
+      "default": "worklfow_call",
+      "description": "",
+      "natural_language_description": "参数名: Events | 默认值: worklfow_call",
+      "available_options": [
+        "Workflow Call (值: worklfow_call) - When executed by another workflow using Execute Workflow Trigger"
+      ]
     },
     "notice": {
       "displayName": "When an ‘execute workflow’ node calls this workflow, the execution starts here. Any data passed into the 'execute workflow' node will be output by this node.",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "eq": 1
-              }
-            }
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: When an ‘execute workflow’ node calls this workflow, the execution starts here. Any data passed into the 'execute workflow' node will be output by this node."
     },
     "outdatedVersionWarning": {
       "displayName": "This node is out of date. Please upgrade by removing it and adding a new one",
       "name": "outdatedVersionWarning",
       "type": "notice",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "eq": 1
-              }
-            }
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: This node is out of date. Please upgrade by removing it and adding a new one"
     },
     "inputSource": {
       "displayName": "Input data mode",
       "name": "inputSource",
       "type": "options",
-      "options": [
-        {
-          "name": "Define using fields below",
-          "value": "workflowInputs",
-          "description": "Provide input fields via UI"
-        },
-        {
-          "name": "Define using JSON example",
-          "value": "jsonExample",
-          "description": "Generate a schema from an example JSON object"
-        },
-        {
-          "name": "Accept all data",
-          "value": "passthrough",
-          "description": "Use all incoming data from the parent workflow"
-        }
-      ],
+      "required": false,
       "default": "workflowInputs",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 1.1
-              }
-            }
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Input data mode | 默认值: workflowInputs",
+      "available_options": [
+        "Define using fields below (值: workflowInputs) - Provide input fields via UI",
+        "Define using JSON example (值: jsonExample) - Generate a schema from an example JSON object",
+        "Accept all data (值: passthrough) - Use all incoming data from the parent workflow"
+      ]
     },
     "jsonExample_notice": {
       "displayName": "Provide an example object to infer fields and their types.<br>To allow any type for a given field, set the value to null.",
       "name": "jsonExample_notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 1.1
-              }
-            }
-          ],
-          "inputSource": [
-            "jsonExample"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Provide an example object to infer fields and their types.<br>To allow any type for a given field, set the value to null."
     },
     "jsonExample": {
       "displayName": "JSON Example",
       "name": "jsonExample",
       "type": "json",
+      "required": false,
       "default": "{\n  \"aField\": \"a string\",\n  \"aNumber\": 123,\n  \"thisFieldAcceptsAnyType\": null,\n  \"anArray\": []\n}",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 1.1
-              }
-            }
-          ],
-          "inputSource": [
-            "jsonExample"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: JSON Example | 默认值: {\n  \"aField\": \"a string\",\n  \"aNumber\": 123,\n  \"thisFieldAcceptsAnyType\": null,\n  \"anArray\": []\n}"
     },
     "workflowInputs": {
       "displayName": "Workflow Input Schema",
       "name": "workflowInputs",
-      "placeholder": "Add field",
       "type": "fixedCollection",
-      "description": "Define expected input fields. If no inputs are provided, all data from the calling workflow will be passed through.",
-      "typeOptions": {
-        "multipleValues": true,
-        "sortable": true,
-        "minRequiredFields": 1
-      },
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 1.1
-              }
-            }
-          ],
-          "inputSource": [
-            "workflowInputs"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "values",
-          "displayName": "Values",
-          "values": [
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": "",
-              "placeholder": "e.g. fieldName",
-              "description": "A unique name for this workflow input, used to reference it from another workflows",
-              "required": true,
-              "noDataExpression": true
-            },
-            {
-              "displayName": "Type",
-              "name": "type",
-              "type": "options",
-              "description": "Expected data type for this input value. Determines how this field's values are stored, validated, and displayed.",
-              "options": [
-                {
-                  "name": "Allow Any Type",
-                  "value": "any"
-                },
-                {
-                  "name": "String",
-                  "value": "string"
-                },
-                {
-                  "name": "Number",
-                  "value": "number"
-                },
-                {
-                  "name": "Boolean",
-                  "value": "boolean"
-                },
-                {
-                  "name": "Array",
-                  "value": "array"
-                },
-                {
-                  "name": "Object",
-                  "value": "object"
-                }
-              ],
-              "required": true,
-              "default": "string",
-              "noDataExpression": true
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "Define expected input fields. If no inputs are provided, all data from the calling workflow will be passed through.",
+      "natural_language_description": "参数名: Workflow Input Schema | 作用: Define expected input fields. If no inputs are provided, all data from the calling workflow will be passed through. | 默认值: {}",
+      "available_options": [
+        "values (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "events",
-      "notice",
-      "outdatedVersionWarning",
-      "inputSource",
-      "jsonExample_notice",
-      "jsonExample",
-      "workflowInputs"
-    ],
-    "conditional_rules": [
-      "IF @version == {'_cnd': {'eq': 1}} THEN SHOW parameter 'notice'",
-      "IF @version == {'_cnd': {'eq': 1}} THEN SHOW parameter 'outdatedVersionWarning'",
-      "IF @version == {'_cnd': {'gte': 1.1}} THEN SHOW parameter 'inputSource'",
-      "IF @version == {'_cnd': {'gte': 1.1}} AND inputSource == 'jsonExample' THEN SHOW parameter 'jsonExample_notice'",
-      "IF @version == {'_cnd': {'gte': 1.1}} AND inputSource == 'jsonExample' THEN SHOW parameter 'jsonExample'",
-      "IF @version == {'_cnd': {'gte': 1.1}} AND inputSource == 'workflowInputs' THEN SHOW parameter 'workflowInputs'"
-    ]
   }
 }

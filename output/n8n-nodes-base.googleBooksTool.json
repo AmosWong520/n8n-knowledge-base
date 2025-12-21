@@ -1,335 +1,145 @@
 {
   "node_id": "n8n-nodes-base.googleBooksTool",
-  "name": "n8n-nodes-base.googleBooksTool",
-  "version": [
-    1,
-    2
-  ],
+  "name": "Google Books Tool",
+  "version": 1,
   "semantic_context": "Read data from Google Books",
+  "natural_language_description": "这是 Google Books Tool 节点。主要用于: Read data from Google Books",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Read data from Google Books",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Read data from Google Books",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Read data from Google Books | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "OAuth2 (recommended)",
-          "value": "oAuth2"
-        },
-        {
-          "name": "Service Account",
-          "value": "serviceAccount"
-        }
-      ],
+      "required": false,
       "default": "oAuth2",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            2
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: oAuth2",
+      "available_options": [
+        "OAuth2 (recommended) (值: oAuth2)",
+        "Service Account (值: serviceAccount)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Bookshelf",
-          "value": "bookshelf"
-        },
-        {
-          "name": "Bookshelf Volume",
-          "value": "bookshelfVolume"
-        },
-        {
-          "name": "Volume",
-          "value": "volume"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "bookshelf",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: bookshelf",
+      "available_options": [
+        "Bookshelf (值: bookshelf)",
+        "Bookshelf Volume (值: bookshelfVolume)",
+        "Volume (值: volume)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a volume resource based on ID",
-          "action": "Get a volume"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many volumes filtered by query",
-          "action": "Get many volumes"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "volume"
-          ]
-        }
-      },
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Get (值: get) - Get a volume resource based on ID",
+        "Get Many (值: getAll) - Get many volumes filtered by query",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "myLibrary": {
       "displayName": "My Library",
       "name": "myLibrary",
       "type": "boolean",
-      "default": false,
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get",
-            "getAll"
-          ],
-          "resource": [
-            "bookshelf",
-            "bookshelfVolume"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "default": false,
+      "description": "",
+      "natural_language_description": "参数名: My Library | 默认值: False | (必填项)"
     },
     "searchQuery": {
       "displayName": "Search Query",
       "name": "searchQuery",
       "type": "string",
-      "description": "Full-text search query string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "volume"
-          ]
-        }
-      },
-      "ai_hint": "Full-text search query string"
+      "default": "",
+      "description": "Full-text search query string",
+      "natural_language_description": "参数名: Search Query | 作用: Full-text search query string | (必填项)"
     },
     "userId": {
       "displayName": "User ID",
       "name": "userId",
       "type": "string",
-      "description": "ID of user",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get",
-            "getAll"
-          ],
-          "resource": [
-            "bookshelf",
-            "bookshelfVolume"
-          ]
-        },
-        "hide": {
-          "myLibrary": [
-            true
-          ]
-        }
-      },
-      "ai_hint": "ID of user"
+      "default": "",
+      "description": "ID of user",
+      "natural_language_description": "参数名: User ID | 作用: ID of user | (必填项)"
     },
     "shelfId": {
       "displayName": "Bookshelf ID",
       "name": "shelfId",
       "type": "string",
-      "description": "ID of the bookshelf",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "bookshelfVolume"
-          ]
-        }
-      },
-      "ai_hint": "ID of the bookshelf"
+      "default": "",
+      "description": "ID of the bookshelf",
+      "natural_language_description": "参数名: Bookshelf ID | 作用: ID of the bookshelf | (必填项)"
     },
     "volumeId": {
       "displayName": "Volume ID",
       "name": "volumeId",
       "type": "string",
-      "description": "ID of the volume",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "add",
-            "move",
-            "remove",
-            "get"
-          ],
-          "resource": [
-            "bookshelfVolume",
-            "volume"
-          ]
-        }
-      },
-      "ai_hint": "ID of the volume"
+      "default": "",
+      "description": "ID of the volume",
+      "natural_language_description": "参数名: Volume ID | 作用: ID of the volume | (必填项)"
     },
     "volumePosition": {
       "displayName": "Volume Position",
       "name": "volumePosition",
       "type": "string",
-      "description": "Position on shelf to move the item (0 puts the item before the current first item, 1 puts it between the first and the second and so on)",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "move"
-          ],
-          "resource": [
-            "bookshelfVolume"
-          ]
-        }
-      },
-      "ai_hint": "Position on shelf to move the item (0 puts the item before the current first item, 1 puts it between the first and the second and so on)"
+      "default": "",
+      "description": "Position on shelf to move the item (0 puts the item before the current first item, 1 puts it between the first and the second and so on)",
+      "natural_language_description": "参数名: Volume Position | 作用: Position on shelf to move the item (0 puts the item before the current first item, 1 puts it between the first and the second and so on) | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 40
-      },
+      "required": false,
       "default": 40,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 40"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "authentication",
-      "resource",
-      "operation",
-      "operation",
-      "operation",
-      "myLibrary",
-      "searchQuery",
-      "userId",
-      "shelfId",
-      "shelfId",
-      "volumeId",
-      "volumePosition",
-      "returnAll",
-      "limit"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF @version == 1 THEN SHOW parameter 'authentication'",
-      "IF @version == 2 THEN SHOW parameter 'authentication'",
-      "IF resource == 'bookshelf' THEN SHOW parameter 'operation'",
-      "IF resource == 'bookshelfVolume' THEN SHOW parameter 'operation'",
-      "IF resource == 'volume' THEN SHOW parameter 'operation'",
-      "IF operation IN [\"get\", \"getAll\"] AND resource IN [\"bookshelf\", \"bookshelfVolume\"] THEN SHOW parameter 'myLibrary'",
-      "IF operation == 'getAll' AND resource == 'volume' THEN SHOW parameter 'searchQuery'",
-      "IF operation IN [\"get\", \"getAll\"] AND resource IN [\"bookshelf\", \"bookshelfVolume\"] THEN SHOW parameter 'userId'",
-      "IF myLibrary == True THEN HIDE parameter 'userId'",
-      "IF operation IN [\"get\", \"add\", \"clear\", \"move\", \"remove\"] AND resource IN [\"bookshelf\", \"bookshelfVolume\"] THEN SHOW parameter 'shelfId'",
-      "IF operation == 'getAll' AND resource == 'bookshelfVolume' THEN SHOW parameter 'shelfId'",
-      "IF operation IN [\"add\", \"move\", \"remove\", \"get\"] AND resource IN [\"bookshelfVolume\", \"volume\"] THEN SHOW parameter 'volumeId'",
-      "IF operation == 'move' AND resource == 'bookshelfVolume' THEN SHOW parameter 'volumePosition'",
-      "IF operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'"
-    ]
   }
 }

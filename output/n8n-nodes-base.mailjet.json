@@ -1,57 +1,36 @@
 {
   "node_id": "n8n-nodes-base.mailjet",
-  "name": "n8n-nodes-base.mailjet",
+  "name": "Mailjet",
   "version": 1,
   "semantic_context": "Consume Mailjet API",
+  "natural_language_description": "这是 Mailjet 节点。主要用于: Consume Mailjet API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Email",
-          "value": "email"
-        },
-        {
-          "name": "SMS",
-          "value": "sms"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "email",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: email",
+      "available_options": [
+        "Email (值: email)",
+        "SMS (值: sms)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "sms"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Send",
-          "value": "send",
-          "description": "Send a sms",
-          "action": "Send an SMS"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "send",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: send",
+      "available_options": [
+        "Send (值: send) - Send a sms",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "fromEmail": {
       "displayName": "From Email",
@@ -59,48 +38,26 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ],
-          "operation": [
-            "sendTemplate"
-          ]
-        }
-      },
-      "placeholder": "admin@example.com",
       "description": "The title for the email",
-      "ai_hint": "The title for the email"
+      "natural_language_description": "参数名: From Email | 作用: The title for the email | (必填项)"
     },
     "toEmail": {
       "displayName": "To Email",
       "name": "toEmail",
       "type": "string",
-      "default": "",
       "required": true,
-      "placeholder": "info@example.com",
+      "default": "",
       "description": "Email address of the recipient. Multiple ones can be separated by comma.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ],
-          "operation": [
-            "sendTemplate"
-          ]
-        }
-      },
-      "ai_hint": "Email address of the recipient. Multiple ones can be separated by comma."
+      "natural_language_description": "参数名: To Email | 作用: Email address of the recipient. Multiple ones can be separated by comma. | (必填项)"
     },
     "subject": {
       "displayName": "Subject",
       "name": "subject",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "My subject line",
       "description": "Subject line of the email",
-      "ai_hint": "Subject line of the email"
+      "natural_language_description": "参数名: Subject | 作用: Subject line of the email"
     },
     "text": {
       "displayName": "Text",
@@ -108,217 +65,76 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "sms"
-          ],
-          "operation": [
-            "send"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Text | (必填项)"
     },
     "html": {
       "displayName": "HTML",
       "name": "html",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ],
-          "operation": [
-            "send"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "HTML text message of email",
-      "ai_hint": "HTML text message of email"
+      "natural_language_description": "参数名: HTML | 作用: HTML text message of email"
     },
     "jsonParameters": {
       "displayName": "JSON Parameters",
       "name": "jsonParameters",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ],
-          "operation": [
-            "sendTemplate"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: JSON Parameters | 默认值: False"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ],
-          "operation": [
-            "sendTemplate"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Bcc Email",
-          "name": "bccEmail",
-          "type": "string",
-          "description": "BCC Recipients of the email separated by ,",
-          "default": ""
-        },
-        {
-          "displayName": "Cc Email",
-          "name": "ccEmail",
-          "type": "string",
-          "description": "Cc recipients of the email separated by ,",
-          "default": ""
-        },
-        {
-          "displayName": "From Name",
-          "name": "fromName",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Priority",
-          "name": "priority",
-          "type": "number",
-          "default": 2
-        },
-        {
-          "displayName": "Reply To",
-          "name": "replyTo",
-          "type": "string",
-          "description": "The reply-to email address. Multiple ones can be separated by comma.",
-          "default": ""
-        },
-        {
-          "displayName": "Subject",
-          "name": "subject",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Template Language",
-          "name": "templateLanguage",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "Track Clicks",
-          "name": "trackClicks",
-          "type": "string",
-          "description": "Enable or disable open tracking on this message",
-          "default": ""
-        },
-        {
-          "displayName": "Track Opens",
-          "name": "trackOpens",
-          "type": "string",
-          "description": "Enable or disable open tracking on this message",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "bccEmail (值: None) - BCC Recipients of the email separated by ,",
+        "ccEmail (值: None) - Cc recipients of the email separated by ,",
+        "fromName (值: None)",
+        "priority (值: None)",
+        "replyTo (值: None) - The reply-to email address. Multiple ones can be separated by comma.",
+        "subject (值: None)",
+        "templateLanguage (值: None)",
+        "trackClicks (值: None) - Enable or disable open tracking on this message",
+        "trackOpens (值: None) - Enable or disable open tracking on this message"
+      ]
     },
     "variablesJson": {
       "displayName": "Variables (JSON)",
       "name": "variablesJson",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ],
-          "operation": [
-            "sendTemplate"
-          ],
-          "jsonParameters": [
-            true
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "HTML text message of email",
-      "ai_hint": "HTML text message of email"
+      "natural_language_description": "参数名: Variables (JSON) | 作用: HTML text message of email"
     },
     "variablesUi": {
       "displayName": "Variables",
       "name": "variablesUi",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ],
-          "operation": [
-            "sendTemplate"
-          ],
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
-      "placeholder": "Add Variable",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "variablesValues",
-          "displayName": "Variable",
-          "values": [
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Variables | 默认值: {}",
+      "available_options": [
+        "variablesValues (值: None)"
+      ]
     },
     "templateId": {
       "displayName": "Template Name or ID",
       "name": "templateId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getTemplates"
-      },
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ],
-          "operation": [
-            "sendTemplate"
-          ]
-        }
-      },
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Template Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "from": {
       "displayName": "From",
@@ -326,18 +142,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "sms"
-          ],
-          "operation": [
-            "send"
-          ]
-        }
-      },
       "description": "Customizable sender name. Should be between 3 and 11 characters in length, only alphanumeric characters are allowed.",
-      "ai_hint": "Customizable sender name. Should be between 3 and 11 characters in length, only alphanumeric characters are allowed."
+      "natural_language_description": "参数名: From | 作用: Customizable sender name. Should be between 3 and 11 characters in length, only alphanumeric characters are allowed. | (必填项)"
     },
     "to": {
       "displayName": "To",
@@ -345,66 +151,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "sms"
-          ],
-          "operation": [
-            "send"
-          ]
-        }
-      },
       "description": "Message recipient. Should be between 3 and 15 characters in length. The number always starts with a plus sign followed by a country code, followed by the number. Phone numbers are expected to comply with the E.164 format.",
-      "ai_hint": "Message recipient. Should be between 3 and 15 characters in length. The number always starts with a plus sign followed by a country code, followed by the number. Phone numbers are expected to comply with the E.164 format."
+      "natural_language_description": "参数名: To | 作用: Message recipient. Should be between 3 and 15 characters in length. The number always starts with a plus sign followed by a country code, followed by the number. Phone numbers are expected to comply with the E.164 format. | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "fromEmail",
-      "toEmail",
-      "subject",
-      "text",
-      "html",
-      "jsonParameters",
-      "additionalFields",
-      "variablesJson",
-      "variablesUi",
-      "fromEmail",
-      "toEmail",
-      "templateId",
-      "jsonParameters",
-      "additionalFields",
-      "variablesUi",
-      "variablesJson",
-      "operation",
-      "from",
-      "to",
-      "text"
-    ],
-    "conditional_rules": [
-      "IF resource == 'email' THEN SHOW parameter 'operation'",
-      "IF resource == 'email' AND operation == 'send' THEN SHOW parameter 'fromEmail'",
-      "IF resource == 'email' AND operation == 'send' THEN SHOW parameter 'toEmail'",
-      "IF resource == 'email' AND operation == 'send' THEN SHOW parameter 'text'",
-      "IF resource == 'email' AND operation == 'send' THEN SHOW parameter 'html'",
-      "IF resource == 'email' AND operation == 'send' THEN SHOW parameter 'jsonParameters'",
-      "IF resource == 'email' AND operation == 'send' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'email' AND operation == 'send' AND jsonParameters == True THEN SHOW parameter 'variablesJson'",
-      "IF resource == 'email' AND operation == 'send' AND jsonParameters == False THEN SHOW parameter 'variablesUi'",
-      "IF resource == 'email' AND operation == 'sendTemplate' THEN SHOW parameter 'fromEmail'",
-      "IF resource == 'email' AND operation == 'sendTemplate' THEN SHOW parameter 'toEmail'",
-      "IF resource == 'email' AND operation == 'sendTemplate' THEN SHOW parameter 'templateId'",
-      "IF resource == 'email' AND operation == 'sendTemplate' THEN SHOW parameter 'jsonParameters'",
-      "IF resource == 'email' AND operation == 'sendTemplate' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'email' AND operation == 'sendTemplate' AND jsonParameters == False THEN SHOW parameter 'variablesUi'",
-      "IF resource == 'email' AND operation == 'sendTemplate' AND jsonParameters == True THEN SHOW parameter 'variablesJson'",
-      "IF resource == 'sms' THEN SHOW parameter 'operation'",
-      "IF resource == 'sms' AND operation == 'send' THEN SHOW parameter 'from'",
-      "IF resource == 'sms' AND operation == 'send' THEN SHOW parameter 'to'",
-      "IF resource == 'sms' AND operation == 'send' THEN SHOW parameter 'text'"
-    ]
   }
 }

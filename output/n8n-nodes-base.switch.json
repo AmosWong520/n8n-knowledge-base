@@ -1,288 +1,83 @@
 {
   "node_id": "n8n-nodes-base.switch",
-  "name": "n8n-nodes-base.switch",
-  "version": [
-    1
-  ],
+  "name": "Switch",
+  "version": 1,
   "semantic_context": "Route items depending on defined expression or rules",
+  "natural_language_description": "这是 Switch 节点。主要用于: Route items depending on defined expression or rules",
   "parameters": {
     "mode": {
       "displayName": "Mode",
       "name": "mode",
       "type": "options",
-      "options": [
-        {
-          "name": "Expression",
-          "value": "expression",
-          "description": "Expression decides how to route data"
-        },
-        {
-          "name": "Rules",
-          "value": "rules",
-          "description": "Rules decide how to route data"
-        }
-      ],
+      "required": false,
       "default": "rules",
       "description": "How data should be routed",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Mode | 作用: How data should be routed | 默认值: rules",
+      "available_options": [
+        "Expression (值: expression) - Expression decides how to route data",
+        "Rules (值: rules) - Rules decide how to route data"
+      ]
     },
     "output": {
       "displayName": "Output",
       "name": "output",
       "type": "number",
-      "typeOptions": {
-        "minValue": 0,
-        "maxValue": 3
-      },
-      "displayOptions": {
-        "show": {
-          "mode": [
-            "expression"
-          ]
-        }
-      },
+      "required": false,
       "default": 0,
       "description": "The index of output to which to send data to",
-      "ai_hint": "The index of output to which to send data to"
+      "natural_language_description": "参数名: Output | 作用: The index of output to which to send data to | 默认值: 0"
     },
     "dataType": {
       "displayName": "Data Type",
       "name": "dataType",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "mode": [
-            "rules"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Boolean",
-          "value": "boolean"
-        },
-        {
-          "name": "Date & Time",
-          "value": "dateTime"
-        },
-        {
-          "name": "Number",
-          "value": "number"
-        },
-        {
-          "name": "String",
-          "value": "string"
-        }
-      ],
+      "required": false,
       "default": "number",
       "description": "The type of data to route on",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Data Type | 作用: The type of data to route on | 默认值: number",
+      "available_options": [
+        "Boolean (值: boolean)",
+        "Date & Time (值: dateTime)",
+        "Number (值: number)",
+        "String (值: string)"
+      ]
     },
     "value1": {
       "displayName": "Value 1",
       "name": "value1",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "dataType": [
-            "string"
-          ],
-          "mode": [
-            "rules"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "The value to compare with the second one",
-      "ai_hint": "The value to compare with the second one"
+      "natural_language_description": "参数名: Value 1 | 作用: The value to compare with the second one"
     },
     "rules": {
       "displayName": "Routing Rules",
       "name": "rules",
-      "placeholder": "Add Routing Rule",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "dataType": [
-            "string"
-          ],
-          "mode": [
-            "rules"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "rules",
-          "displayName": "Strings",
-          "values": [
-            {
-              "displayName": "Operation",
-              "name": "operation",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Contains",
-                  "value": "contains"
-                },
-                {
-                  "name": "Not Contains",
-                  "value": "notContains"
-                },
-                {
-                  "name": "Ends With",
-                  "value": "endsWith"
-                },
-                {
-                  "name": "Not Ends With",
-                  "value": "notEndsWith"
-                },
-                {
-                  "name": "Equal",
-                  "value": "equal"
-                },
-                {
-                  "name": "Not Equal",
-                  "value": "notEqual"
-                },
-                {
-                  "name": "Regex Match",
-                  "value": "regex"
-                },
-                {
-                  "name": "Regex Not Match",
-                  "value": "notRegex"
-                },
-                {
-                  "name": "Starts With",
-                  "value": "startsWith"
-                },
-                {
-                  "name": "Not Starts With",
-                  "value": "notStartsWith"
-                }
-              ],
-              "default": "equal",
-              "description": "Operation to decide where the data should be mapped to"
-            },
-            {
-              "displayName": "Value 2",
-              "name": "value2",
-              "type": "string",
-              "displayOptions": {
-                "hide": {
-                  "operation": [
-                    "regex",
-                    "notRegex"
-                  ]
-                }
-              },
-              "default": "",
-              "description": "The value to compare with the first one"
-            },
-            {
-              "displayName": "Regex",
-              "name": "value2",
-              "type": "string",
-              "displayOptions": {
-                "show": {
-                  "operation": [
-                    "regex",
-                    "notRegex"
-                  ]
-                }
-              },
-              "default": "",
-              "placeholder": "/text/i",
-              "description": "The regex which has to match"
-            },
-            {
-              "displayName": "Output",
-              "name": "output",
-              "type": "number",
-              "typeOptions": {
-                "minValue": 0,
-                "maxValue": 3
-              },
-              "default": 0,
-              "description": "The index of output to which to send data to if rule matches"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Routing Rules | 默认值: {}",
+      "available_options": [
+        "rules (值: None)"
+      ]
     },
     "fallbackOutput": {
       "displayName": "Fallback Output",
       "name": "fallbackOutput",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "mode": [
-            "rules"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "None",
-          "value": -1
-        },
-        {
-          "name": "0",
-          "value": 0
-        },
-        {
-          "name": "1",
-          "value": 1
-        },
-        {
-          "name": "2",
-          "value": 2
-        },
-        {
-          "name": "3",
-          "value": 3
-        }
-      ],
+      "required": false,
       "default": -1,
       "description": "The output to which to route all items which do not match any of the rules",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Fallback Output | 作用: The output to which to route all items which do not match any of the rules | 默认值: -1",
+      "available_options": [
+        "None (值: -1)",
+        "0 (值: 0)",
+        "1 (值: 1)",
+        "2 (值: 2)",
+        "3 (值: 3)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "mode",
-      "output",
-      "dataType",
-      "value1",
-      "rules",
-      "value1",
-      "rules",
-      "value1",
-      "rules",
-      "value1",
-      "rules",
-      "fallbackOutput"
-    ],
-    "conditional_rules": [
-      "IF mode == 'expression' THEN SHOW parameter 'output'",
-      "IF mode == 'rules' THEN SHOW parameter 'dataType'",
-      "IF dataType == 'boolean' AND mode == 'rules' THEN SHOW parameter 'value1'",
-      "IF dataType == 'boolean' AND mode == 'rules' THEN SHOW parameter 'rules'",
-      "IF dataType == 'dateTime' AND mode == 'rules' THEN SHOW parameter 'value1'",
-      "IF dataType == 'dateTime' AND mode == 'rules' THEN SHOW parameter 'rules'",
-      "IF dataType == 'number' AND mode == 'rules' THEN SHOW parameter 'value1'",
-      "IF dataType == 'number' AND mode == 'rules' THEN SHOW parameter 'rules'",
-      "IF dataType == 'string' AND mode == 'rules' THEN SHOW parameter 'value1'",
-      "IF dataType == 'string' AND mode == 'rules' THEN SHOW parameter 'rules'",
-      "IF operation IN [\"regex\", \"notRegex\"] THEN HIDE parameter 'value2'",
-      "IF operation IN [\"regex\", \"notRegex\"] THEN SHOW parameter 'value2'",
-      "IF mode == 'rules' THEN SHOW parameter 'fallbackOutput'"
-    ]
   }
 }

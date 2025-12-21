@@ -1,88 +1,53 @@
 {
   "node_id": "n8n-nodes-base.peekalinkTool",
-  "name": "n8n-nodes-base.peekalinkTool",
+  "name": "Peekalink Tool",
   "version": 1,
   "semantic_context": "Consume the Peekalink API",
+  "natural_language_description": "这是 Peekalink Tool 节点。主要用于: Consume the Peekalink API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume the Peekalink API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume the Peekalink API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume the Peekalink API | (必填项)"
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Is Available",
-          "value": "isAvailable",
-          "description": "Check whether preview for a given link is available",
-          "action": "Check whether the preview for a given link is available"
-        },
-        {
-          "name": "Preview",
-          "value": "preview",
-          "description": "Return the preview for a link",
-          "action": "Return the preview for a link"
-        }
-      ],
+      "required": false,
       "default": "preview",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: preview",
+      "available_options": [
+        "Is Available (值: isAvailable) - Check whether preview for a given link is available",
+        "Preview (值: preview) - Return the preview for a link"
+      ]
     },
     "url": {
       "displayName": "URL",
       "name": "url",
       "type": "string",
-      "default": "",
       "required": true,
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: URL | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "operation",
-      "url"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'"
-    ]
   }
 }

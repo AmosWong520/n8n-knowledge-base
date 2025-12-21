@@ -1,280 +1,125 @@
 {
   "node_id": "n8n-nodes-base.executeWorkflow",
-  "name": "n8n-nodes-base.executeWorkflow",
-  "version": [
-    1,
-    1.1,
-    1.2,
-    1.3
-  ],
+  "name": "Execute Sub-workflow",
+  "version": 1,
   "semantic_context": "Execute another workflow",
+  "natural_language_description": "这是 Execute Sub-workflow 节点。主要用于: Execute another workflow",
   "parameters": {
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "hidden",
-      "noDataExpression": true,
+      "required": false,
       "default": "call_workflow",
-      "options": [
-        {
-          "name": "Execute a Sub-Workflow",
-          "value": "call_workflow"
-        }
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: call_workflow",
+      "available_options": [
+        "Execute a Sub-Workflow (值: call_workflow)"
       ]
     },
     "outdatedVersionWarning": {
       "displayName": "This node is out of date. Please upgrade by removing it and adding a new one",
       "name": "outdatedVersionWarning",
       "type": "notice",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "lte": 1.1
-              }
-            }
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: This node is out of date. Please upgrade by removing it and adding a new one"
     },
     "source": {
       "displayName": "Source",
       "name": "source",
       "type": "options",
-      "options": [
-        {
-          "name": "Database",
-          "value": "database",
-          "description": "Load the workflow from the database by ID"
-        },
-        {
-          "name": "Define Below",
-          "value": "parameter",
-          "description": "Pass the JSON code of a workflow"
-        }
-      ],
+      "required": false,
       "default": "database",
       "description": "Where to get the workflow to execute from",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 1.2
-              }
-            }
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Source | 作用: Where to get the workflow to execute from | 默认值: database",
+      "available_options": [
+        "Database (值: database) - Load the workflow from the database by ID",
+        "Define Below (值: parameter) - Pass the JSON code of a workflow"
+      ]
     },
     "workflowId": {
       "displayName": "Workflow",
       "name": "workflowId",
       "type": "workflowSelector",
-      "displayOptions": {
-        "show": {
-          "source": [
-            "database"
-          ],
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 1.1
-              }
-            }
-          ]
-        }
-      },
+      "required": true,
       "default": "",
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Workflow | (必填项)"
     },
     "workflowPath": {
       "displayName": "Workflow Path",
       "name": "workflowPath",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "source": [
-            "localFile"
-          ]
-        }
-      },
-      "default": "",
-      "placeholder": "/data/workflow.json",
       "required": true,
+      "default": "",
       "description": "The path to local JSON workflow file to execute",
-      "ai_hint": "The path to local JSON workflow file to execute"
+      "natural_language_description": "参数名: Workflow Path | 作用: The path to local JSON workflow file to execute | (必填项)"
     },
     "workflowJson": {
       "displayName": "Workflow JSON",
       "name": "workflowJson",
       "type": "json",
-      "typeOptions": {
-        "rows": 10
-      },
-      "displayOptions": {
-        "show": {
-          "source": [
-            "parameter"
-          ]
-        }
-      },
-      "default": "\n\n\n",
       "required": true,
+      "default": "\n\n\n",
       "description": "The workflow JSON code to execute",
-      "ai_hint": "The workflow JSON code to execute"
+      "natural_language_description": "参数名: Workflow JSON | 作用: The workflow JSON code to execute | 默认值: \n\n\n | (必填项)"
     },
     "workflowUrl": {
       "displayName": "Workflow URL",
       "name": "workflowUrl",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "source": [
-            "url"
-          ]
-        }
-      },
-      "default": "",
-      "placeholder": "https://example.com/workflow.json",
       "required": true,
+      "default": "",
       "description": "The URL from which to load the workflow from",
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "natural_language_description": "参数名: Workflow URL | 作用: The URL from which to load the workflow from | (必填项)"
     },
     "executeWorkflowNotice": {
       "displayName": "Any data you pass into this node will be output by the Execute Workflow Trigger. <a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.executeworkflow/\" target=\"_blank\">More info</a>",
       "name": "executeWorkflowNotice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "lte": 1.1
-              }
-            }
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Any data you pass into this node will be output by the Execute Workflow Trigger. <a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.executeworkflow/\" target=\"_blank\">More info</a>"
     },
     "workflowInputs": {
       "displayName": "Workflow Inputs",
       "name": "workflowInputs",
       "type": "resourceMapper",
-      "noDataExpression": true,
+      "required": true,
       "default": {
         "mappingMode": "defineBelow",
         "value": null
       },
-      "required": true,
-      "typeOptions": {
-        "loadOptionsDependsOn": [
-          "workflowId.value"
-        ],
-        "resourceMapper": {
-          "localResourceMapperMethod": "loadSubWorkflowInputs",
-          "valuesLabel": "Workflow Inputs",
-          "mode": "map",
-          "fieldWords": {
-            "singular": "input",
-            "plural": "inputs"
-          },
-          "addAllFields": true,
-          "multiKeyMatch": false,
-          "supportAutoMap": false,
-          "showTypeConversionOptions": true
-        }
-      },
-      "displayOptions": {
-        "show": {
-          "source": [
-            "database"
-          ],
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 1.2
-              }
-            }
-          ]
-        },
-        "hide": {
-          "workflowId": [
-            ""
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Workflow Inputs | 默认值: {'mappingMode': 'defineBelow', 'value': None} | (必填项)"
     },
     "mode": {
       "displayName": "Mode",
       "name": "mode",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Run once with all items",
-          "value": "once",
-          "description": "Pass all items into a single execution of the sub-workflow"
-        },
-        {
-          "name": "Run once for each item",
-          "value": "each",
-          "description": "Call the sub-workflow individually for each item"
-        }
-      ],
+      "required": false,
       "default": "once",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Mode | 默认值: once",
+      "available_options": [
+        "Run once with all items (值: once) - Pass all items into a single execution of the sub-workflow",
+        "Run once for each item (值: each) - Call the sub-workflow individually for each item"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
+      "required": false,
       "default": {},
-      "placeholder": "Add option",
-      "options": [
-        {
-          "displayName": "Wait For Sub-Workflow Completion",
-          "name": "waitForSubWorkflow",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether the main workflow should wait for the sub-workflow to complete its execution before proceeding"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "waitForSubWorkflow (值: None) - Whether the main workflow should wait for the sub-workflow to complete its execution before proceeding"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "operation",
-      "outdatedVersionWarning",
-      "source",
-      "source",
-      "workflowId",
-      "workflowId",
-      "workflowPath",
-      "workflowJson",
-      "workflowUrl",
-      "executeWorkflowNotice",
-      "workflowInputs",
-      "mode",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF @version == {'_cnd': {'lte': 1.1}} THEN SHOW parameter 'outdatedVersionWarning'",
-      "IF @version == {'_cnd': {'lte': 1.1}} THEN SHOW parameter 'source'",
-      "IF @version == {'_cnd': {'gte': 1.2}} THEN SHOW parameter 'source'",
-      "IF source == 'database' AND @version == 1 THEN SHOW parameter 'workflowId'",
-      "IF source == 'database' AND @version == {'_cnd': {'gte': 1.1}} THEN SHOW parameter 'workflowId'",
-      "IF source == 'localFile' THEN SHOW parameter 'workflowPath'",
-      "IF source == 'parameter' THEN SHOW parameter 'workflowJson'",
-      "IF source == 'url' THEN SHOW parameter 'workflowUrl'",
-      "IF @version == {'_cnd': {'lte': 1.1}} THEN SHOW parameter 'executeWorkflowNotice'",
-      "IF source == 'database' AND @version == {'_cnd': {'gte': 1.2}} THEN SHOW parameter 'workflowInputs'",
-      "IF workflowId == '' THEN HIDE parameter 'workflowInputs'"
-    ]
   }
 }

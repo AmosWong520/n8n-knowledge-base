@@ -1,106 +1,40 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.embeddingsMistralCloud",
-  "name": "@n8n/n8n-nodes-langchain.embeddingsMistralCloud",
+  "name": "Embeddings Mistral Cloud",
   "version": 1,
   "semantic_context": "Use Embeddings Mistral Cloud",
+  "natural_language_description": "这是 Embeddings Mistral Cloud 节点。主要用于: Use Embeddings Mistral Cloud",
   "parameters": {
     "notice": {
       "displayName": "This node must be connected to a vector store. <a data-action='openSelectiveNodeCreator' data-action-parameter-connectiontype='ai_vectorStore'>Insert one</a>",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "containerClass": "ndv-connection-hint-notice"
-      }
+      "description": "",
+      "natural_language_description": "参数名: This node must be connected to a vector store. <a data-action='openSelectiveNodeCreator' data-action-parameter-connectiontype='ai_vectorStore'>Insert one</a>"
     },
     "model": {
       "displayName": "Model",
       "name": "model",
       "type": "options",
-      "description": "The model which will compute the embeddings. <a href=\"https://docs.mistral.ai/platform/endpoints/\">Learn more</a>.",
-      "typeOptions": {
-        "loadOptions": {
-          "routing": {
-            "request": {
-              "method": "GET",
-              "url": "/models"
-            },
-            "output": {
-              "postReceive": [
-                {
-                  "type": "rootProperty",
-                  "properties": {
-                    "property": "data"
-                  }
-                },
-                {
-                  "type": "filter",
-                  "properties": {
-                    "pass": "={{ $responseItem.id.includes('embed') }}"
-                  }
-                },
-                {
-                  "type": "setKeyValue",
-                  "properties": {
-                    "name": "={{ $responseItem.id }}",
-                    "value": "={{ $responseItem.id }}"
-                  }
-                },
-                {
-                  "type": "sort",
-                  "properties": {
-                    "key": "name"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      },
-      "routing": {
-        "send": {
-          "type": "body",
-          "property": "model"
-        }
-      },
+      "required": false,
       "default": "mistral-embed",
-      "ai_hint": "The model which will compute the embeddings. <a href=\"https://docs.mistral.ai/platform/endpoints/\">Learn more</a>."
+      "description": "The model which will compute the embeddings. Learn more.",
+      "natural_language_description": "参数名: Model | 作用: The model which will compute the embeddings. Learn more. | 默认值: mistral-embed"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
-      "placeholder": "Add Option",
-      "description": "Additional options to add",
       "type": "collection",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Batch Size",
-          "name": "batchSize",
-          "default": 512,
-          "typeOptions": {
-            "maxValue": 2048
-          },
-          "description": "Maximum number of documents to send in each request",
-          "type": "number"
-        },
-        {
-          "displayName": "Strip New Lines",
-          "name": "stripNewLines",
-          "default": true,
-          "description": "Whether to strip new lines from the input text",
-          "type": "boolean"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "Additional options to add",
+      "natural_language_description": "参数名: Options | 作用: Additional options to add | 默认值: {}",
+      "available_options": [
+        "batchSize (值: None) - Maximum number of documents to send in each request",
+        "stripNewLines (值: None) - Whether to strip new lines from the input text"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "notice",
-      "model",
-      "options"
-    ],
-    "conditional_rules": []
   }
 }

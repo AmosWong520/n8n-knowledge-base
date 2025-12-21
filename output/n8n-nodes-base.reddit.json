@@ -1,68 +1,39 @@
 {
   "node_id": "n8n-nodes-base.reddit",
-  "name": "n8n-nodes-base.reddit",
+  "name": "Reddit",
   "version": 1,
   "semantic_context": "Consume the Reddit API",
+  "natural_language_description": "这是 Reddit 节点。主要用于: Consume the Reddit API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Post",
-          "value": "post"
-        },
-        {
-          "name": "Post Comment",
-          "value": "postComment"
-        },
-        {
-          "name": "Profile",
-          "value": "profile"
-        },
-        {
-          "name": "Subreddit",
-          "value": "subreddit"
-        },
-        {
-          "name": "User",
-          "value": "user"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "post",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: post",
+      "available_options": [
+        "Post (值: post)",
+        "Post Comment (值: postComment)",
+        "Profile (值: profile)",
+        "Subreddit (值: subreddit)",
+        "User (值: user)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "action": "Get a user"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Get (值: get)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "postId": {
       "displayName": "Post ID",
@@ -70,19 +41,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "description": "ID of the post to retrieve. Found in the post URL: <code>/r/[subreddit_name]/comments/[post_id]/[post_title]</code>",
-      "placeholder": "l0me7x",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "ID of the post to retrieve. Found in the post URL: <code>/r/[subreddit_name]/comments/[post_id]/[post_title]</code>"
+      "description": "ID of the post to retrieve. Found in the post URL: `/r/[subreddit_name]/comments/[post_id]/[post_title]`",
+      "natural_language_description": "参数名: Post ID | 作用: ID of the post to retrieve. Found in the post URL: `/r/[subreddit_name]/comments/[post_id]/[post_title]` | (必填项)"
     },
     "commentText": {
       "displayName": "Comment Text",
@@ -91,17 +51,7 @@
       "required": true,
       "default": "",
       "description": "Text of the comment. Markdown supported.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "postComment"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Text of the comment. Markdown supported."
+      "natural_language_description": "参数名: Comment Text | 作用: Text of the comment. Markdown supported. | (必填项)"
     },
     "subreddit": {
       "displayName": "Subreddit",
@@ -110,75 +60,25 @@
       "required": true,
       "default": "",
       "description": "The name of subreddit to search in",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "search"
-          ],
-          "location": [
-            "subreddit"
-          ]
-        }
-      },
-      "ai_hint": "The name of subreddit to search in"
+      "natural_language_description": "参数名: Subreddit | 作用: The name of subreddit to search in | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "get"
-          ],
-          "details": [
-            "overview",
-            "submitted",
-            "comments",
-            "gilded"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 100
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "get"
-          ],
-          "details": [
-            "comments",
-            "gilded",
-            "overview",
-            "submitted"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "commentId": {
       "displayName": "Comment ID",
@@ -186,19 +86,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "description": "ID of the comment to reply to. To be found in the comment URL: <code>www.reddit.com/r/[subreddit_name]/comments/[post_id]/[post_title]/[comment_id]</code>",
-      "placeholder": "gl9iroa",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "postComment"
-          ],
-          "operation": [
-            "reply"
-          ]
-        }
-      },
-      "ai_hint": "ID of the comment to reply to. To be found in the comment URL: <code>www.reddit.com/r/[subreddit_name]/comments/[post_id]/[post_title]/[comment_id]</code>"
+      "description": "ID of the comment to reply to. To be found in the comment URL: `www.reddit.com/r/[subreddit_name]/comments/[post_id]/[post_title]/[comment_id]`",
+      "natural_language_description": "参数名: Comment ID | 作用: ID of the comment to reply to. To be found in the comment URL: `www.reddit.com/r/[subreddit_name]/comments/[post_id]/[post_title]/[comment_id]` | (必填项)"
     },
     "replyText": {
       "displayName": "Reply Text",
@@ -207,17 +96,7 @@
       "required": true,
       "default": "",
       "description": "Text of the reply. Markdown supported.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "postComment"
-          ],
-          "operation": [
-            "reply"
-          ]
-        }
-      },
-      "ai_hint": "Text of the reply. Markdown supported."
+      "natural_language_description": "参数名: Reply Text | 作用: Text of the reply. Markdown supported. | (必填项)"
     },
     "details": {
       "displayName": "Details",
@@ -226,39 +105,14 @@
       "required": true,
       "default": "about",
       "description": "Details of the user to retrieve",
-      "options": [
-        {
-          "name": "About",
-          "value": "about"
-        },
-        {
-          "name": "Comments",
-          "value": "comments"
-        },
-        {
-          "name": "Gilded",
-          "value": "gilded"
-        },
-        {
-          "name": "Overview",
-          "value": "overview"
-        },
-        {
-          "name": "Submitted",
-          "value": "submitted"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Details | 作用: Details of the user to retrieve | 默认值: about | (必填项)",
+      "available_options": [
+        "About (值: about)",
+        "Comments (值: comments)",
+        "Gilded (值: gilded)",
+        "Overview (值: overview)",
+        "Submitted (值: submitted)"
+      ]
     },
     "content": {
       "displayName": "Content",
@@ -267,104 +121,37 @@
       "required": true,
       "default": "about",
       "description": "Subreddit content to retrieve",
-      "options": [
-        {
-          "name": "About",
-          "value": "about"
-        },
-        {
-          "name": "Rules",
-          "value": "rules"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "subreddit"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Content | 作用: Subreddit content to retrieve | 默认值: about | (必填项)",
+      "available_options": [
+        "About (值: about)",
+        "Rules (值: rules)"
+      ]
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "placeholder": "Add Field",
-      "options": [
-        {
-          "displayName": "Category",
-          "name": "category",
-          "type": "options",
-          "default": "top",
-          "description": "Category of the posts to retrieve",
-          "options": [
-            {
-              "name": "Top Posts",
-              "value": "top"
-            },
-            {
-              "name": "Hot Posts",
-              "value": "hot"
-            },
-            {
-              "name": "New Posts",
-              "value": "new"
-            },
-            {
-              "name": "Rising Posts",
-              "value": "rising"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "category (值: None) - Category of the posts to retrieve"
+      ]
     },
     "kind": {
       "displayName": "Kind",
       "name": "kind",
       "type": "options",
-      "options": [
-        {
-          "name": "Text Post",
-          "value": "self"
-        },
-        {
-          "name": "Link Post",
-          "value": "link"
-        },
-        {
-          "name": "Image Post",
-          "value": "image"
-        }
-      ],
+      "required": false,
       "default": "self",
       "description": "The kind of the post to create",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Kind | 作用: The kind of the post to create | 默认值: self",
+      "available_options": [
+        "Text Post (值: self)",
+        "Link Post (值: link)",
+        "Image Post (值: image)"
+      ]
     },
     "title": {
       "displayName": "Title",
@@ -373,17 +160,7 @@
       "required": true,
       "default": "",
       "description": "Title of the post, up to 300 characters long",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Title of the post, up to 300 characters long"
+      "natural_language_description": "参数名: Title | 作用: Title of the post, up to 300 characters long | (必填项)"
     },
     "url": {
       "displayName": "URL",
@@ -392,21 +169,7 @@
       "required": true,
       "default": "",
       "description": "URL of the post",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ],
-          "kind": [
-            "link",
-            "image"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "natural_language_description": "参数名: URL | 作用: URL of the post | (必填项)"
     },
     "text": {
       "displayName": "Text",
@@ -415,141 +178,50 @@
       "required": true,
       "default": "",
       "description": "Text of the post. Markdown supported.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ],
-          "kind": [
-            "self"
-          ]
-        }
-      },
-      "ai_hint": "Text of the post. Markdown supported."
+      "natural_language_description": "参数名: Text | 作用: Text of the post. Markdown supported. | (必填项)"
     },
     "resubmit": {
       "displayName": "Resubmit",
       "name": "resubmit",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether the URL will be posted even if it was already posted to the subreddit before. Otherwise, the re-posting will trigger an error.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ],
-          "kind": [
-            "link",
-            "image"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Resubmit | 作用: Whether the URL will be posted even if it was already posted to the subreddit before. Otherwise, the re-posting will trigger an error. | 默认值: False"
     },
     "location": {
       "displayName": "Location",
       "name": "location",
       "type": "options",
+      "required": false,
       "default": "subreddit",
       "description": "Location where to search for posts",
-      "options": [
-        {
-          "name": "All Reddit",
-          "value": "allReddit",
-          "description": "Search for posts in all of Reddit"
-        },
-        {
-          "name": "Subreddit",
-          "value": "subreddit",
-          "description": "Search for posts in a specific subreddit"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Location | 作用: Location where to search for posts | 默认值: subreddit",
+      "available_options": [
+        "All Reddit (值: allReddit) - Search for posts in all of Reddit",
+        "Subreddit (值: subreddit) - Search for posts in a specific subreddit"
+      ]
     },
     "keyword": {
       "displayName": "Keyword",
       "name": "keyword",
       "type": "string",
-      "default": "",
       "required": true,
+      "default": "",
       "description": "The keyword for the search",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "ai_hint": "The keyword for the search"
+      "natural_language_description": "参数名: Keyword | 作用: The keyword for the search | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Sort",
-          "name": "sort",
-          "placeholder": "",
-          "type": "options",
-          "default": "relevance",
-          "description": "The category to sort results by",
-          "options": [
-            {
-              "name": "Comments",
-              "value": "comments"
-            },
-            {
-              "name": "Hot",
-              "value": "hot"
-            },
-            {
-              "name": "New",
-              "value": "new"
-            },
-            {
-              "name": "Relevance",
-              "value": "relevance"
-            },
-            {
-              "name": "Top",
-              "value": "top"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "sort (值: None) - The category to sort results by"
+      ]
     },
     "username": {
       "displayName": "Username",
@@ -558,114 +230,7 @@
       "required": true,
       "default": "",
       "description": "Reddit ID of the user to retrieve",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "Reddit ID of the user to retrieve"
+      "natural_language_description": "参数名: Username | 作用: Reddit ID of the user to retrieve | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "postId",
-      "commentText",
-      "subreddit",
-      "postId",
-      "returnAll",
-      "limit",
-      "commentId",
-      "commentId",
-      "replyText",
-      "operation",
-      "details",
-      "returnAll",
-      "limit",
-      "operation",
-      "content",
-      "subreddit",
-      "returnAll",
-      "limit",
-      "filters",
-      "operation",
-      "subreddit",
-      "kind",
-      "title",
-      "url",
-      "text",
-      "resubmit",
-      "postId",
-      "subreddit",
-      "postId",
-      "subreddit",
-      "returnAll",
-      "limit",
-      "filters",
-      "location",
-      "subreddit",
-      "keyword",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "operation",
-      "username",
-      "details",
-      "returnAll",
-      "limit"
-    ],
-    "conditional_rules": [
-      "IF resource == 'postComment' THEN SHOW parameter 'operation'",
-      "IF resource == 'postComment' AND operation == 'create' THEN SHOW parameter 'postId'",
-      "IF resource == 'postComment' AND operation == 'create' THEN SHOW parameter 'commentText'",
-      "IF resource == 'postComment' AND operation == 'getAll' THEN SHOW parameter 'subreddit'",
-      "IF resource == 'postComment' AND operation == 'getAll' THEN SHOW parameter 'postId'",
-      "IF resource == 'postComment' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'postComment' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'postComment' AND operation == 'delete' THEN SHOW parameter 'commentId'",
-      "IF resource == 'postComment' AND operation == 'reply' THEN SHOW parameter 'commentId'",
-      "IF resource == 'postComment' AND operation == 'reply' THEN SHOW parameter 'replyText'",
-      "IF resource == 'profile' THEN SHOW parameter 'operation'",
-      "IF resource == 'profile' AND operation == 'get' THEN SHOW parameter 'details'",
-      "IF resource == 'profile' AND operation == 'get' AND details == 'saved' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'profile' AND operation == 'get' AND details == 'saved' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'subreddit' THEN SHOW parameter 'operation'",
-      "IF resource == 'subreddit' AND operation == 'get' THEN SHOW parameter 'content'",
-      "IF resource == 'subreddit' AND operation == 'get' THEN SHOW parameter 'subreddit'",
-      "IF resource == 'subreddit' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'subreddit' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'subreddit' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'post' THEN SHOW parameter 'operation'",
-      "IF resource == 'post' AND operation == 'create' THEN SHOW parameter 'subreddit'",
-      "IF resource == 'post' AND operation == 'create' THEN SHOW parameter 'kind'",
-      "IF resource == 'post' AND operation == 'create' THEN SHOW parameter 'title'",
-      "IF resource == 'post' AND operation == 'create' AND kind IN [\"link\", \"image\"] THEN SHOW parameter 'url'",
-      "IF resource == 'post' AND operation == 'create' AND kind == 'self' THEN SHOW parameter 'text'",
-      "IF resource == 'post' AND operation == 'create' AND kind IN [\"link\", \"image\"] THEN SHOW parameter 'resubmit'",
-      "IF resource == 'post' AND operation == 'delete' THEN SHOW parameter 'postId'",
-      "IF resource == 'post' AND operation == 'get' THEN SHOW parameter 'subreddit'",
-      "IF resource == 'post' AND operation == 'get' THEN SHOW parameter 'postId'",
-      "IF resource == 'post' AND operation == 'getAll' THEN SHOW parameter 'subreddit'",
-      "IF resource == 'post' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'post' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'post' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'post' AND operation == 'search' THEN SHOW parameter 'location'",
-      "IF resource == 'post' AND operation == 'search' AND location == 'subreddit' THEN SHOW parameter 'subreddit'",
-      "IF resource == 'post' AND operation == 'search' THEN SHOW parameter 'keyword'",
-      "IF resource == 'post' AND operation == 'search' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'post' AND operation == 'search' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'post' AND operation == 'search' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'user' THEN SHOW parameter 'operation'",
-      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'username'",
-      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'details'",
-      "IF resource == 'user' AND operation == 'get' AND details IN [\"overview\", \"submitted\", \"comments\", \"gilded\"] THEN SHOW parameter 'returnAll'",
-      "IF resource == 'user' AND operation == 'get' AND details IN [\"comments\", \"gilded\", \"overview\", \"submitted\"] AND returnAll == False THEN SHOW parameter 'limit'"
-    ]
   }
 }

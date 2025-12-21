@@ -1,133 +1,66 @@
 {
   "node_id": "n8n-nodes-base.twake",
-  "name": "n8n-nodes-base.twake",
+  "name": "Twake",
   "version": 1,
   "semantic_context": "Consume Twake API",
+  "natural_language_description": "这是 Twake 节点。主要用于: Consume Twake API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Message",
-          "value": "message",
-          "description": "Send data to the message app"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "message",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: message",
+      "available_options": [
+        "Message (值: message) - Send data to the message app",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Send",
-          "value": "send",
-          "description": "Send a message",
-          "action": "Send a message"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "send",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: send",
+      "available_options": [
+        "Send (值: send) - Send a message",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "channelId": {
       "displayName": "Channel Name or ID",
       "name": "channelId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getChannels"
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "send"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "description": "Channel's ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "Channel's ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "Channel's ID. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Channel Name or ID | 作用: Channel's ID. Choose from the list, or specify an ID using an expression."
     },
     "content": {
       "displayName": "Content",
       "name": "content",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "send"
-          ]
-        }
-      },
       "default": "",
       "description": "Message content",
-      "ai_hint": "Message content"
+      "natural_language_description": "参数名: Content | 作用: Message content | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "send"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Sender Icon",
-          "name": "senderIcon",
-          "type": "string",
-          "default": "",
-          "description": "URL of the image/icon"
-        },
-        {
-          "displayName": "Sender Name",
-          "name": "senderName",
-          "type": "string",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "senderIcon (值: None) - URL of the image/icon",
+        "senderName (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "channelId",
-      "content",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF resource == 'message' THEN SHOW parameter 'operation'",
-      "IF operation == 'send' THEN SHOW parameter 'channelId'",
-      "IF operation == 'send' THEN SHOW parameter 'content'",
-      "IF operation == 'send' THEN SHOW parameter 'additionalFields'"
-    ]
   }
 }

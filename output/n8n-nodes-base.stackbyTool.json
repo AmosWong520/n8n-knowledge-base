@@ -1,211 +1,112 @@
 {
   "node_id": "n8n-nodes-base.stackbyTool",
-  "name": "n8n-nodes-base.stackbyTool",
+  "name": "Stackby Tool",
   "version": 1,
   "semantic_context": "Read, write, and delete data in Stackby",
+  "natural_language_description": "这是 Stackby Tool 节点。主要用于: Read, write, and delete data in Stackby",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Read, write, and delete data in Stackby",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Read, write, and delete data in Stackby",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Read, write, and delete data in Stackby | (必填项)"
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Append",
-          "value": "append"
-        },
-        {
-          "name": "Delete",
-          "value": "delete"
-        },
-        {
-          "name": "List",
-          "value": "list"
-        },
-        {
-          "name": "Read",
-          "value": "read"
-        }
-      ],
+      "required": false,
       "default": "append",
-      "placeholder": "Action to perform",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: append",
+      "available_options": [
+        "Append (值: append)",
+        "Delete (值: delete)",
+        "List (值: list)",
+        "Read (值: read)"
+      ]
     },
     "stackId": {
       "displayName": "Stack ID",
       "name": "stackId",
       "type": "string",
-      "default": "",
       "required": true,
+      "default": "",
       "description": "The ID of the stack to access",
-      "ai_hint": "The ID of the stack to access"
+      "natural_language_description": "参数名: Stack ID | 作用: The ID of the stack to access | (必填项)"
     },
     "table": {
       "displayName": "Table",
       "name": "table",
       "type": "string",
-      "default": "",
-      "placeholder": "Stories",
       "required": true,
+      "default": "",
       "description": "Enter Table Name",
-      "ai_hint": "Enter Table Name"
+      "natural_language_description": "参数名: Table | 作用: Enter Table Name | (必填项)"
     },
     "id": {
       "displayName": "ID",
       "name": "id",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "read",
-            "delete"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "ID of the record to return",
-      "ai_hint": "ID of the record to return"
+      "natural_language_description": "参数名: ID | 作用: ID of the record to return | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: True"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 1000
-      },
+      "required": false,
       "default": 1000,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 1000"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "placeholder": "Add Field",
-      "options": [
-        {
-          "displayName": "View",
-          "name": "view",
-          "type": "string",
-          "default": "",
-          "placeholder": "All Stories",
-          "description": "The name or ID of a view in the Stories table. If set, only the records in that view will be returned. The records will be sorted according to the order of the view."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "view (值: None) - The name or ID of a view in the Stories table. If set, only the records in that view will be returned. The records will be sorted according to the order of the view."
+      ]
     },
     "columns": {
       "displayName": "Columns",
       "name": "columns",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "append"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
-      "placeholder": "id,name,description",
+      "default": "",
       "description": "Comma-separated list of the properties which should used as columns for the new rows",
-      "ai_hint": "Comma-separated list of the properties which should used as columns for the new rows"
+      "natural_language_description": "参数名: Columns | 作用: Comma-separated list of the properties which should used as columns for the new rows | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "operation",
-      "stackId",
-      "table",
-      "id",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "columns"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF operation IN [\"read\", \"delete\"] THEN SHOW parameter 'id'",
-      "IF operation == 'list' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'list' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'list' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'append' THEN SHOW parameter 'columns'"
-    ]
   }
 }

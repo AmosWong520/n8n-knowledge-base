@@ -1,130 +1,64 @@
 {
   "node_id": "n8n-nodes-base.gitlabTrigger",
-  "name": "n8n-nodes-base.gitlabTrigger",
+  "name": "GitLab Trigger",
   "version": 1,
   "semantic_context": "Starts the workflow when GitLab events occur",
+  "natural_language_description": "这是 GitLab Trigger 节点。主要用于: Starts the workflow when GitLab events occur",
   "parameters": {
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Access Token",
-          "value": "accessToken"
-        },
-        {
-          "name": "OAuth2",
-          "value": "oAuth2"
-        }
-      ],
+      "required": false,
       "default": "accessToken",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: accessToken",
+      "available_options": [
+        "Access Token (值: accessToken)",
+        "OAuth2 (值: oAuth2)"
+      ]
     },
     "owner": {
       "displayName": "Repository Owner",
       "name": "owner",
       "type": "string",
-      "default": "",
       "required": true,
-      "placeholder": "n8n-io",
+      "default": "",
       "description": "Owner of the repository",
-      "ai_hint": "Owner of the repository"
+      "natural_language_description": "参数名: Repository Owner | 作用: Owner of the repository | (必填项)"
     },
     "repository": {
       "displayName": "Repository Name",
       "name": "repository",
       "type": "string",
-      "default": "",
       "required": true,
-      "placeholder": "n8n",
+      "default": "",
       "description": "The name of the repository",
-      "ai_hint": "The name of the repository"
+      "natural_language_description": "参数名: Repository Name | 作用: The name of the repository | (必填项)"
     },
     "events": {
       "displayName": "Events",
       "name": "events",
       "type": "multiOptions",
-      "options": [
-        {
-          "name": "Comment",
-          "value": "note",
-          "description": "Triggered when a new comment is made on commits, merge requests, issues, and code snippets"
-        },
-        {
-          "name": "Confidential Issues",
-          "value": "confidential_issues",
-          "description": "Triggered on confidential issues' events"
-        },
-        {
-          "name": "Confidential Comments",
-          "value": "confidential_note",
-          "description": "Triggered when a confidential comment is made"
-        },
-        {
-          "name": "Deployments",
-          "value": "deployment",
-          "description": "Triggered when a deployment starts/succeeds/fails/is cancelled"
-        },
-        {
-          "name": "Issue",
-          "value": "issues",
-          "description": "Triggered when a new issue is created or an existing issue was updated/closed/reopened"
-        },
-        {
-          "name": "Job",
-          "value": "job",
-          "description": "Triggered on status change of a job"
-        },
-        {
-          "name": "Merge Request",
-          "value": "merge_requests",
-          "description": "Triggered when a new merge request is created, an existing merge request was updated/merged/closed or a commit is added in the source branch"
-        },
-        {
-          "name": "Pipeline",
-          "value": "pipeline",
-          "description": "Triggered on status change of Pipeline"
-        },
-        {
-          "name": "Push",
-          "value": "push",
-          "description": "Triggered when you push to the repository except when pushing tags"
-        },
-        {
-          "name": "Release",
-          "value": "releases",
-          "description": "Release events are triggered when a release is created or updated"
-        },
-        {
-          "name": "Tag",
-          "value": "tag_push",
-          "description": "Triggered when you create (or delete) tags to the repository"
-        },
-        {
-          "name": "Wiki Page",
-          "value": "wiki_page",
-          "description": "Triggered when a wiki page is created, updated or deleted"
-        },
-        {
-          "name": "*",
-          "value": "*",
-          "description": "Any time any event is triggered (Wildcard Event)"
-        }
-      ],
       "required": true,
       "default": [],
       "description": "The events to listen to",
-      "ai_hint": "The events to listen to"
+      "natural_language_description": "参数名: Events | 作用: The events to listen to | 默认值: [] | (必填项)",
+      "available_options": [
+        "Comment (值: note) - Triggered when a new comment is made on commits, merge requests, issues, and code snippets",
+        "Confidential Issues (值: confidential_issues) - Triggered on confidential issues' events",
+        "Confidential Comments (值: confidential_note) - Triggered when a confidential comment is made",
+        "Deployments (值: deployment) - Triggered when a deployment starts/succeeds/fails/is cancelled",
+        "Issue (值: issues) - Triggered when a new issue is created or an existing issue was updated/closed/reopened",
+        "Job (值: job) - Triggered on status change of a job",
+        "Merge Request (值: merge_requests) - Triggered when a new merge request is created, an existing merge request was updated/merged/closed or a commit is added in the source branch",
+        "Pipeline (值: pipeline) - Triggered on status change of Pipeline",
+        "Push (值: push) - Triggered when you push to the repository except when pushing tags",
+        "Release (值: releases) - Release events are triggered when a release is created or updated",
+        "Tag (值: tag_push) - Triggered when you create (or delete) tags to the repository",
+        "Wiki Page (值: wiki_page) - Triggered when a wiki page is created, updated or deleted",
+        "* (值: *) - Any time any event is triggered (Wildcard Event)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "authentication",
-      "owner",
-      "repository",
-      "events"
-    ],
-    "conditional_rules": []
   }
 }

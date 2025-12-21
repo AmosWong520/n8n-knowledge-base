@@ -1,687 +1,220 @@
 {
   "node_id": "n8n-nodes-base.splunkTool",
-  "name": "n8n-nodes-base.splunkTool",
-  "version": 2,
+  "name": "Splunk Tool",
+  "version": 1,
   "semantic_context": "Consume the Splunk Enterprise API",
+  "natural_language_description": "这是 Splunk Tool 节点。主要用于: Consume the Splunk Enterprise API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume the Splunk Enterprise API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume the Splunk Enterprise API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume the Splunk Enterprise API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Alert",
-          "value": "alert"
-        },
-        {
-          "name": "Report",
-          "value": "report"
-        },
-        {
-          "name": "Search",
-          "value": "search"
-        },
-        {
-          "name": "User",
-          "value": "user"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "search",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: search",
+      "available_options": [
+        "Alert (值: alert)",
+        "Report (值: report)",
+        "Search (值: search)",
+        "User (值: user)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create an user",
-          "action": "Create a user"
-        },
-        {
-          "name": "Delete",
-          "value": "deleteUser",
-          "description": "Delete an user",
-          "action": "Delete a user"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Retrieve an user",
-          "action": "Get a user"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Retrieve many users",
-          "action": "Get many users"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update an user",
-          "action": "Update a user"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create an user",
+        "Delete (值: deleteUser) - Delete an user",
+        "Get (值: get) - Retrieve an user",
+        "Get Many (值: getAll) - Retrieve many users",
+        "Update (值: update) - Update an user",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "searchJobId": {
       "displayName": "Search Job",
       "name": "searchJobId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a search job...",
-          "typeOptions": {
-            "searchListMethod": "searchJobs",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "placeholder": "e.g. 1718944376.178"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "search"
-          ],
-          "operation": [
-            "getResult"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Search Job | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "name": {
       "displayName": "Name",
       "name": "name",
-      "description": "Login name of the user",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Login name of the user"
+      "description": "Login name of the user",
+      "natural_language_description": "参数名: Name | 作用: Login name of the user | (必填项)"
     },
     "reportId": {
       "displayName": "Report",
       "name": "reportId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a report...",
-          "typeOptions": {
-            "searchListMethod": "searchReports",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "placeholder": "e.g. Errors%20in%20the%20last%20hour"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "report"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Report | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "displayOptions": {
-        "show": {
-          "returnAll": [
-            false
-          ],
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Add Summary to Metadata",
-          "name": "add_summary_to_metadata",
-          "description": "Whether to include field summary statistics in the response",
-          "type": "boolean",
-          "default": false
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "search"
-          ],
-          "operation": [
-            "getResult"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "add_summary_to_metadata (值: None) - Whether to include field summary statistics in the response"
+      ]
     },
     "search": {
       "displayName": "Query",
       "name": "search",
-      "description": "Search language string to execute, in Splunk's <a href=\"https://docs.splunk.com/Documentation/Splunk/latest/SearchReference/WhatsInThisManual\">Search Processing Language</a>",
-      "placeholder": "e.g. search index=_internal | stats count by source",
       "type": "string",
       "required": true,
       "default": "",
-      "typeOptions": {
-        "rows": 2
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "search"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Search language string to execute, in Splunk's <a href=\"https://docs.splunk.com/Documentation/Splunk/latest/SearchReference/WhatsInThisManual\">Search Processing Language</a>"
+      "description": "Search language string to execute, in Splunk's Search Processing Language",
+      "natural_language_description": "参数名: Query | 作用: Search language string to execute, in Splunk's Search Processing Language | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Email",
-          "name": "email",
-          "type": "string",
-          "placeholder": "name@email.com",
-          "default": ""
-        },
-        {
-          "displayName": "Full Name",
-          "name": "realname",
-          "type": "string",
-          "default": "",
-          "description": "Full name of the user"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "email (值: None)",
+        "realname (值: None) - Full name of the user"
+      ]
     },
     "sort": {
       "displayName": "Sort",
       "name": "sort",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Values",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Sort Direction",
-              "name": "sort_dir",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Ascending",
-                  "value": "asc"
-                },
-                {
-                  "name": "Descending",
-                  "value": "desc"
-                }
-              ],
-              "default": "asc"
-            },
-            {
-              "displayName": "Sort Key",
-              "name": "sort_key",
-              "description": "Key name to use for sorting",
-              "type": "string",
-              "placeholder": "e.g. diskUsage",
-              "default": ""
-            },
-            {
-              "displayName": "Sort Mode",
-              "name": "sort_mode",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Automatic",
-                  "value": "auto",
-                  "description": "If all field values are numeric, collate numerically. Otherwise, collate alphabetically."
-                },
-                {
-                  "name": "Alphabetic",
-                  "value": "alpha",
-                  "description": "Collate alphabetically, case-insensitive"
-                },
-                {
-                  "name": "Alphabetic and Case-Sensitive",
-                  "value": "alpha_case",
-                  "description": "Collate alphabetically, case-sensitive"
-                },
-                {
-                  "name": "Numeric",
-                  "value": "num",
-                  "description": "Collate numerically"
-                }
-              ],
-              "default": "auto"
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "search"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Sort | 默认值: {}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Key-Value Match",
-          "name": "keyValueMatch",
-          "description": "Key-value pair to match against. Example: if \"Key\" is set to <code>user</code> and \"Field\" is set to <code>john</code>, only the results where <code>user</code> is <code>john</code> will be returned.",
-          "type": "fixedCollection",
-          "default": {},
-          "placeholder": "Add Key-Value Pair",
-          "options": [
-            {
-              "displayName": "Key-Value Pair",
-              "name": "keyValuePair",
-              "values": [
-                {
-                  "displayName": "Key",
-                  "name": "key",
-                  "description": "Key to match against",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "description": "Value to match against",
-                  "type": "string",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "search"
-          ],
-          "operation": [
-            "getResult"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "keyValueMatch (值: None) - Key-value pair to match against. Example: if \"Key\" is set to `user` and \"Field\" is set to `john`, only the results where `user` is `john` will be returned."
+      ]
     },
     "roles": {
       "displayName": "Roles",
       "name": "roles",
       "type": "multiOptions",
-      "description": "Comma-separated list of roles to assign to the user. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
       "required": true,
       "default": [
         "user"
       ],
-      "typeOptions": {
-        "loadOptionsMethod": "getRoles"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Comma-separated list of roles to assign to the user. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "Comma-separated list of roles to assign to the user. Choose from the list, or specify IDs using an expression.",
+      "natural_language_description": "参数名: Roles | 作用: Comma-separated list of roles to assign to the user. Choose from the list, or specify IDs using an expression. | 默认值: ['user'] | (必填项)"
     },
     "password": {
       "displayName": "Password",
       "name": "password",
       "type": "string",
-      "typeOptions": {
-        "password": true
-      },
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Password | (必填项)"
     },
     "userId": {
       "displayName": "User",
       "name": "userId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a user...",
-          "typeOptions": {
-            "searchListMethod": "searchUsers",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "placeholder": "e.g. admin"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: User | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Email",
-          "name": "email",
-          "type": "string",
-          "placeholder": "name@email.com",
-          "default": ""
-        },
-        {
-          "displayName": "Full Name",
-          "name": "realname",
-          "type": "string",
-          "default": "",
-          "description": "Full name of the user"
-        },
-        {
-          "displayName": "Password",
-          "name": "password",
-          "type": "string",
-          "typeOptions": {
-            "password": true
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Role Names or IDs",
-          "name": "roles",
-          "type": "multiOptions",
-          "description": "Comma-separated list of roles to assign to the user. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-          "default": [],
-          "typeOptions": {
-            "loadOptionsMethod": "getRoles"
-          }
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "email (值: None)",
+        "realname (值: None) - Full name of the user",
+        "password (值: None)",
+        "roles (值: None) - Comma-separated list of roles to assign to the user. Choose from the list, or specify IDs using an expression."
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "operation",
-      "searchJobId",
-      "name",
-      "reportId",
-      "reportId",
-      "returnAll",
-      "limit",
-      "options",
-      "operation",
-      "search",
-      "additionalFields",
-      "searchJobId",
-      "searchJobId",
-      "returnAll",
-      "limit",
-      "sort",
-      "searchJobId",
-      "returnAll",
-      "limit",
-      "filters",
-      "options",
-      "operation",
-      "name",
-      "roles",
-      "password",
-      "additionalFields",
-      "userId",
-      "userId",
-      "returnAll",
-      "limit",
-      "userId",
-      "updateFields"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'alert' THEN SHOW parameter 'operation'",
-      "IF resource == 'report' THEN SHOW parameter 'operation'",
-      "IF resource == 'report' AND operation == 'create' THEN SHOW parameter 'searchJobId'",
-      "IF resource == 'report' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'report' AND operation == 'deleteReport' THEN SHOW parameter 'reportId'",
-      "IF resource == 'report' AND operation == 'get' THEN SHOW parameter 'reportId'",
-      "IF resource == 'report' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF returnAll == False AND resource == 'report' AND operation == 'getAll' THEN SHOW parameter 'limit'",
-      "IF resource == 'report' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'search' THEN SHOW parameter 'operation'",
-      "IF resource == 'search' AND operation == 'create' THEN SHOW parameter 'search'",
-      "IF resource == 'search' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'search' AND operation == 'deleteJob' THEN SHOW parameter 'searchJobId'",
-      "IF resource == 'search' AND operation == 'get' THEN SHOW parameter 'searchJobId'",
-      "IF resource == 'search' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF returnAll == False AND resource == 'search' AND operation == 'getAll' THEN SHOW parameter 'limit'",
-      "IF resource == 'search' AND operation == 'getAll' THEN SHOW parameter 'sort'",
-      "IF resource == 'search' AND operation == 'getResult' THEN SHOW parameter 'searchJobId'",
-      "IF resource == 'search' AND operation == 'getResult' THEN SHOW parameter 'returnAll'",
-      "IF returnAll == False AND resource == 'search' AND operation == 'getResult' THEN SHOW parameter 'limit'",
-      "IF resource == 'search' AND operation == 'getResult' THEN SHOW parameter 'filters'",
-      "IF resource == 'search' AND operation == 'getResult' THEN SHOW parameter 'options'",
-      "IF resource == 'user' THEN SHOW parameter 'operation'",
-      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'roles'",
-      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'password'",
-      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'user' AND operation == 'deleteUser' THEN SHOW parameter 'userId'",
-      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'userId'",
-      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF returnAll == False AND resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'limit'",
-      "IF resource == 'user' AND operation == 'update' THEN SHOW parameter 'userId'",
-      "IF resource == 'user' AND operation == 'update' THEN SHOW parameter 'updateFields'"
-    ]
   }
 }

@@ -1,201 +1,84 @@
 {
   "node_id": "n8n-nodes-base.mySql",
-  "name": "n8n-nodes-base.mySql",
+  "name": "MySQL",
   "version": 1,
   "semantic_context": "Get, add and update data in MySQL",
+  "natural_language_description": "这是 MySQL 节点。主要用于: Get, add and update data in MySQL",
   "parameters": {
     "oldVersionNotice": {
       "displayName": "<strong>New node version available:</strong> get the latest version with added features from the nodes panel.",
       "name": "oldVersionNotice",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: <strong>New node version available:</strong> get the latest version with added features from the nodes panel."
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Execute Query",
-          "value": "executeQuery",
-          "description": "Execute an SQL query",
-          "action": "Execute a SQL query"
-        },
-        {
-          "name": "Insert",
-          "value": "insert",
-          "description": "Insert rows in database",
-          "action": "Insert rows in database"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update rows in database",
-          "action": "Update rows in database"
-        }
-      ],
+      "required": false,
       "default": "insert",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: insert",
+      "available_options": [
+        "Execute Query (值: executeQuery) - Execute an SQL query",
+        "Insert (值: insert) - Insert rows in database",
+        "Update (值: update) - Update rows in database"
+      ]
     },
     "query": {
       "displayName": "Query",
       "name": "query",
       "type": "string",
-      "noDataExpression": true,
-      "typeOptions": {
-        "editor": "sqlEditor",
-        "sqlDialect": "MySQL"
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "executeQuery"
-          ]
-        }
-      },
-      "default": "",
-      "placeholder": "SELECT id, name FROM product WHERE id < 40",
       "required": true,
+      "default": "",
       "description": "The SQL query to execute",
-      "ai_hint": "The SQL query to execute"
+      "natural_language_description": "参数名: Query | 作用: The SQL query to execute | (必填项)"
     },
     "table": {
       "displayName": "Table",
       "name": "table",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a Table...",
-          "typeOptions": {
-            "searchListMethod": "searchTables",
-            "searchFilterRequired": false,
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "placeholder": "table_name"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ]
-        }
-      },
       "description": "Name of the table in which to update data in",
-      "ai_hint": "Name of the table in which to update data in"
+      "natural_language_description": "参数名: Table | 作用: Name of the table in which to update data in | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "columns": {
       "displayName": "Columns",
       "name": "columns",
       "type": "string",
-      "requiresDataPath": "multiple",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "placeholder": "name,description",
       "description": "Comma-separated list of the properties which should used as columns for rows to update",
-      "ai_hint": "Comma-separated list of the properties which should used as columns for rows to update"
+      "natural_language_description": "参数名: Columns | 作用: Comma-separated list of the properties which should used as columns for rows to update"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "insert"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "placeholder": "Add modifiers",
       "description": "Modifiers for INSERT statement",
-      "options": [
-        {
-          "displayName": "Ignore",
-          "name": "ignore",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to ignore any ignorable errors that occur while executing the INSERT statement"
-        },
-        {
-          "displayName": "Priority",
-          "name": "priority",
-          "type": "options",
-          "options": [
-            {
-              "name": "Low Prioirity",
-              "value": "LOW_PRIORITY",
-              "description": "Delays execution of the INSERT until no other clients are reading from the table"
-            },
-            {
-              "name": "High Priority",
-              "value": "HIGH_PRIORITY",
-              "description": "Overrides the effect of the --low-priority-updates option if the server was started with that option. It also causes concurrent inserts not to be used."
-            }
-          ],
-          "default": "LOW_PRIORITY",
-          "description": "Ignore any ignorable errors that occur while executing the INSERT statement"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Options | 作用: Modifiers for INSERT statement | 默认值: {}",
+      "available_options": [
+        "ignore (值: None) - Whether to ignore any ignorable errors that occur while executing the INSERT statement",
+        "priority (值: None) - Ignore any ignorable errors that occur while executing the INSERT statement"
+      ]
     },
     "updateKey": {
       "displayName": "Update Key",
       "name": "updateKey",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "default": "id",
       "required": true,
+      "default": "id",
       "description": "Name of the property which decides which rows in the database should be updated. Normally that would be \"id\".",
-      "ai_hint": "Name of the property which decides which rows in the database should be updated. Normally that would be \"id\"."
+      "natural_language_description": "参数名: Update Key | 作用: Name of the property which decides which rows in the database should be updated. Normally that would be \"id\". | 默认值: id | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "oldVersionNotice",
-      "operation",
-      "query",
-      "table",
-      "columns",
-      "options",
-      "table",
-      "updateKey",
-      "columns"
-    ],
-    "conditional_rules": [
-      "IF operation == 'executeQuery' THEN SHOW parameter 'query'",
-      "IF operation == 'insert' THEN SHOW parameter 'table'",
-      "IF operation == 'insert' THEN SHOW parameter 'columns'",
-      "IF operation == 'insert' THEN SHOW parameter 'options'",
-      "IF operation == 'update' THEN SHOW parameter 'table'",
-      "IF operation == 'update' THEN SHOW parameter 'updateKey'",
-      "IF operation == 'update' THEN SHOW parameter 'columns'"
-    ]
   }
 }

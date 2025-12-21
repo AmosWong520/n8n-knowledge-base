@@ -1,2039 +1,529 @@
 {
   "node_id": "n8n-nodes-base.todoistTool",
-  "name": "n8n-nodes-base.todoistTool",
-  "version": [
-    2,
-    2.1
-  ],
+  "name": "Todoist Tool",
+  "version": 1,
   "semantic_context": "Consume Todoist API",
+  "natural_language_description": "这是 Todoist Tool 节点。主要用于: Consume Todoist API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Todoist API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Todoist API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Todoist API | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "API Key",
-          "value": "apiKey"
-        },
-        {
-          "name": "OAuth2",
-          "value": "oAuth2"
-        }
-      ],
+      "required": false,
       "default": "apiKey",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: apiKey",
+      "available_options": [
+        "API Key (值: apiKey)",
+        "OAuth2 (值: oAuth2)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Task",
-          "value": "task",
-          "description": "Task resource"
-        },
-        {
-          "name": "Project",
-          "value": "project",
-          "description": "Project resource"
-        },
-        {
-          "name": "Section",
-          "value": "section",
-          "description": "Section resource"
-        },
-        {
-          "name": "Comment",
-          "value": "comment",
-          "description": "Comment resource"
-        },
-        {
-          "name": "Label",
-          "value": "label",
-          "description": "Label resource"
-        },
-        {
-          "name": "Reminder",
-          "value": "reminder",
-          "description": "Reminder resource"
-        }
-      ],
-      "default": "task",
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "task",
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: task | (必填项)",
+      "available_options": [
+        "Task (值: task) - Task resource",
+        "Project (值: project) - Project resource",
+        "Section (值: section) - Section resource",
+        "Comment (值: comment) - Comment resource",
+        "Label (值: label) - Label resource",
+        "Reminder (值: reminder) - Reminder resource"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "reminder"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a new reminder",
-          "action": "Create a reminder"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a reminder",
-          "action": "Delete a reminder"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many reminders",
-          "action": "Get many reminders"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a reminder",
-          "action": "Update a reminder"
-        }
-      ],
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create | (必填项)",
+      "available_options": [
+        "Create (值: create) - Create a new reminder",
+        "Delete (值: delete) - Delete a reminder",
+        "Get Many (值: getAll) - Get many reminders",
+        "Update (值: update) - Update a reminder"
+      ]
     },
     "taskId": {
       "displayName": "Task ID",
       "name": "taskId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "delete",
-            "close",
-            "get",
-            "reopen",
-            "update",
-            "move"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Task ID | (必填项)"
     },
     "project": {
       "displayName": "Project Name or ID",
       "name": "project",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a project...",
-          "typeOptions": {
-            "searchListMethod": "searchProjects",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "placeholder": "2302163813"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "create",
-            "move"
-          ]
-        }
-      },
       "description": "The destination project. Choose from the list, or specify an ID.",
-      "ai_hint": "The destination project. Choose from the list, or specify an ID."
+      "natural_language_description": "参数名: Project Name or ID | 作用: The destination project. Choose from the list, or specify an ID. | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "section": {
       "displayName": "Section Name or ID",
       "name": "section",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getSections",
-        "loadOptionsDependsOn": [
-          "project.value"
-        ]
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "move"
-          ]
-        },
-        "hide": {
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 2.1
-              }
-            }
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "description": "Section to which you want move the task. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "Section to which you want move the task. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "Section to which you want move the task. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Section Name or ID | 作用: Section to which you want move the task. Choose from the list, or specify an ID using an expression."
     },
     "options": {
       "displayName": "Additional Fields",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Description",
-          "name": "description",
-          "type": "string",
-          "default": "",
-          "description": "A description for the task"
-        },
-        {
-          "displayName": "Due Date Time",
-          "name": "dueDateTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "Specific date and time in RFC3339 format in UTC"
-        },
-        {
-          "displayName": "Due String Locale",
-          "name": "dueLang",
-          "type": "string",
-          "default": "",
-          "description": "2-letter code specifying language in case due_string is not written in English"
-        },
-        {
-          "displayName": "Due String",
-          "name": "dueString",
-          "type": "string",
-          "default": "",
-          "description": "Human defined task due date (ex.: “next Monday”, “Tomorrow”). Value is set using local (not UTC) time."
-        },
-        {
-          "displayName": "Parent Name or ID",
-          "name": "parentId",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getItems",
-            "loadOptionsDependsOn": [
-              "project.value",
-              "options.section"
-            ]
-          },
-          "default": {},
-          "description": "The parent task you want to operate on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Priority",
-          "name": "priority",
-          "type": "number",
-          "typeOptions": {
-            "maxValue": 4,
-            "minValue": 1
-          },
-          "default": 1,
-          "description": "Task priority from 1 (normal) to 4 (urgent)"
-        },
-        {
-          "displayName": "Section Name or ID",
-          "name": "section",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getSections",
-            "loadOptionsDependsOn": [
-              "project.value"
-            ]
-          },
-          "default": {},
-          "description": "The section you want to operate on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Order",
-          "name": "order",
-          "type": "number",
-          "default": 0,
-          "description": "Non-zero integer used to sort tasks under the same parent"
-        },
-        {
-          "displayName": "Due Date",
-          "name": "dueDate",
-          "type": "string",
-          "default": "",
-          "placeholder": "YYYY-MM-DD",
-          "description": "Specific date in YYYY-MM-DD format"
-        },
-        {
-          "displayName": "Assignee ID",
-          "name": "assigneeId",
-          "type": "string",
-          "default": "",
-          "description": "Responsible user ID (for shared tasks)"
-        },
-        {
-          "displayName": "Duration",
-          "name": "duration",
-          "type": "number",
-          "default": 0,
-          "description": "Positive integer for task duration (must be used with Duration Unit)"
-        },
-        {
-          "displayName": "Duration Unit",
-          "name": "durationUnit",
-          "type": "options",
-          "options": [
-            {
-              "name": "Minute",
-              "value": "minute"
-            },
-            {
-              "name": "Day",
-              "value": "day"
-            }
-          ],
-          "default": "minute",
-          "description": "Unit of time for duration (must be used with Duration)"
-        },
-        {
-          "displayName": "Deadline Date",
-          "name": "deadlineDate",
-          "type": "string",
-          "default": "",
-          "placeholder": "YYYY-MM-DD",
-          "description": "Specific deadline date in YYYY-MM-DD format"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "description (值: None) - A description for the task",
+        "dueDateTime (值: None) - Specific date and time in RFC3339 format in UTC",
+        "dueLang (值: None) - 2-letter code specifying language in case due_string is not written in English",
+        "dueString (值: None) - Human defined task due date (ex.: “next Monday”, “Tomorrow”). Value is set using local (not UTC) time.",
+        "parentId (值: None) - The parent task you want to operate on. Choose from the list, or specify an ID using an expression.",
+        "priority (值: None) - Task priority from 1 (normal) to 4 (urgent)",
+        "section (值: None) - The section you want to operate on. Choose from the list, or specify an ID using an expression.",
+        "order (值: None) - Non-zero integer used to sort tasks under the same parent",
+        "dueDate (值: None) - Specific date in YYYY-MM-DD format",
+        "assigneeId (值: None) - Responsible user ID (for shared tasks)",
+        "duration (值: None) - Positive integer for task duration (must be used with Duration Unit)",
+        "durationUnit (值: None) - Unit of time for duration (must be used with Duration)",
+        "deadlineDate (值: None) - Specific deadline date in YYYY-MM-DD format"
+      ]
     },
     "labels": {
       "displayName": "Label Names",
       "name": "labels",
       "type": "multiOptions",
-      "typeOptions": {
-        "loadOptionsMethod": "getLabels"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": false,
       "default": [],
-      "description": "Optional labels that will be assigned to a created task. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "Optional labels that will be assigned to a created task. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "Optional labels that will be assigned to a created task. Choose from the list, or specify IDs using an expression.",
+      "natural_language_description": "参数名: Label Names | 作用: Optional labels that will be assigned to a created task. Choose from the list, or specify IDs using an expression. | 默认值: []"
     },
     "content": {
       "displayName": "Content",
       "name": "content",
       "type": "string",
-      "typeOptions": {
-        "rows": 5
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "Task content",
-      "ai_hint": "Task content"
+      "natural_language_description": "参数名: Content | 作用: Task content | (必填项)"
     },
     "text": {
       "displayName": "Text",
       "name": "text",
       "type": "string",
-      "typeOptions": {
-        "rows": 3
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "quickAdd"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "Natural language text for quick adding task (e.g., \"Buy milk @Grocery #shopping tomorrow\"). It can include a due date in free form text, a project name starting with the \"#\" character (without spaces), a label starting with the \"@\" character, an assignee starting with the \"+\" character, a priority (e.g., p1), a deadline between \"{}\" (e.g. {in 3 days}), or a description starting from \"//\" until the end of the text.",
-      "ai_hint": "Natural language text for quick adding task (e.g., \"Buy milk @Grocery #shopping tomorrow\"). It can include a due date in free form text, a project name starting with the \"#\" character (without spaces), a label starting with the \"@\" character, an assignee starting with the \"+\" character, a priority (e.g., p1), a deadline between \"{}\" (e.g. {in 3 days}), or a description starting from \"//\" until the end of the text."
+      "natural_language_description": "参数名: Text | 作用: Natural language text for quick adding task (e.g., \"Buy milk @Grocery #shopping tomorrow\"). It can include a due date in free form text, a project name starting with the \"#\" character (without spaces), a label starting with the \"@\" character, an assignee starting with the \"+\" character, a priority (e.g., p1), a deadline between \"{}\" (e.g. {in 3 days}), or a description starting from \"//\" until the end of the text. | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "task"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "task"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Filter",
-          "name": "filter",
-          "type": "string",
-          "default": "",
-          "description": "Filter by any <a href=\"https://get.todoist.help/hc/en-us/articles/205248842\">supported filter.</a>"
-        },
-        {
-          "displayName": "IDs",
-          "name": "ids",
-          "type": "string",
-          "default": "",
-          "description": "A list of the task IDs to retrieve, this should be a comma-separated list"
-        },
-        {
-          "displayName": "Label Name or ID",
-          "name": "labelId",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getLabels"
-          },
-          "default": {},
-          "description": "Filter tasks by label. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Lang",
-          "name": "lang",
-          "type": "string",
-          "default": "",
-          "description": "IETF language tag defining what language filter is written in, if differs from default English"
-        },
-        {
-          "displayName": "Parent Name or ID",
-          "name": "parentId",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getItems",
-            "loadOptionsDependsOn": [
-              "filters.projectId",
-              "filters.sectionId"
-            ]
-          },
-          "default": "",
-          "description": "Filter tasks by parent task ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Project Name or ID",
-          "name": "projectId",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getProjects"
-          },
-          "default": "",
-          "description": "Filter tasks by project ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Section Name or ID",
-          "name": "sectionId",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getSections",
-            "loadOptionsDependsOn": [
-              "filters.projectId"
-            ]
-          },
-          "default": "",
-          "description": "Filter tasks by section ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "filter (值: None) - Filter by any supported filter.",
+        "ids (值: None) - A list of the task IDs to retrieve, this should be a comma-separated list",
+        "labelId (值: None) - Filter tasks by label. Choose from the list, or specify an ID using an expression.",
+        "lang (值: None) - IETF language tag defining what language filter is written in, if differs from default English",
+        "parentId (值: None) - Filter tasks by parent task ID. Choose from the list, or specify an ID using an expression.",
+        "projectId (值: None) - Filter tasks by project ID. Choose from the list, or specify an ID using an expression.",
+        "sectionId (值: None) - Filter tasks by section ID. Choose from the list, or specify an ID using an expression."
+      ]
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Content",
-          "name": "content",
-          "type": "string",
-          "default": "",
-          "description": "Task content"
-        },
-        {
-          "displayName": "Description",
-          "name": "description",
-          "type": "string",
-          "default": "",
-          "description": "A description for the task"
-        },
-        {
-          "displayName": "Due Date Time",
-          "name": "dueDateTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "Specific date and time in RFC3339 format in UTC"
-        },
-        {
-          "displayName": "Due String Locale",
-          "name": "dueLang",
-          "type": "string",
-          "default": "",
-          "description": "2-letter code specifying language in case due_string is not written in English"
-        },
-        {
-          "displayName": "Due String",
-          "name": "dueString",
-          "type": "string",
-          "default": "",
-          "description": "Human defined task due date (ex.: “next Monday”, “Tomorrow”). Value is set using local (not UTC) time."
-        },
-        {
-          "displayName": "Due String Locale",
-          "name": "dueLang",
-          "type": "string",
-          "default": "",
-          "description": "2-letter code specifying language in case due_string is not written in English"
-        },
-        {
-          "displayName": "Label Names",
-          "name": "labels",
-          "type": "multiOptions",
-          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "typeOptions": {
-            "loadOptionsMethod": "getLabels"
-          },
-          "default": []
-        },
-        {
-          "displayName": "Priority",
-          "name": "priority",
-          "type": "number",
-          "typeOptions": {
-            "maxValue": 4,
-            "minValue": 1
-          },
-          "default": 1,
-          "description": "Task priority from 1 (normal) to 4 (urgent)"
-        },
-        {
-          "displayName": "Order",
-          "name": "order",
-          "type": "number",
-          "default": 0,
-          "description": "Non-zero integer used to sort tasks under the same parent"
-        },
-        {
-          "displayName": "Due Date",
-          "name": "dueDate",
-          "type": "string",
-          "default": "",
-          "placeholder": "YYYY-MM-DD",
-          "description": "Specific date in YYYY-MM-DD format"
-        },
-        {
-          "displayName": "Assignee ID",
-          "name": "assigneeId",
-          "type": "string",
-          "default": "",
-          "description": "Responsible user ID (for shared tasks)"
-        },
-        {
-          "displayName": "Duration",
-          "name": "duration",
-          "type": "number",
-          "default": 0,
-          "description": "Positive integer for task duration (must be used with Duration Unit)"
-        },
-        {
-          "displayName": "Duration Unit",
-          "name": "durationUnit",
-          "type": "options",
-          "options": [
-            {
-              "name": "Minute",
-              "value": "minute"
-            },
-            {
-              "name": "Day",
-              "value": "day"
-            }
-          ],
-          "default": "minute",
-          "description": "Unit of time for duration (must be used with Duration)"
-        },
-        {
-          "displayName": "Deadline Date",
-          "name": "deadlineDate",
-          "type": "string",
-          "default": "",
-          "placeholder": "YYYY-MM-DD",
-          "description": "Specific deadline date in YYYY-MM-DD format"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "content (值: None) - Task content",
+        "description (值: None) - A description for the task",
+        "dueDateTime (值: None) - Specific date and time in RFC3339 format in UTC",
+        "dueLang (值: None) - 2-letter code specifying language in case due_string is not written in English",
+        "dueString (值: None) - Human defined task due date (ex.: “next Monday”, “Tomorrow”). Value is set using local (not UTC) time.",
+        "dueLang (值: None) - 2-letter code specifying language in case due_string is not written in English",
+        "labels (值: None) - Choose from the list, or specify IDs using an expression",
+        "priority (值: None) - Task priority from 1 (normal) to 4 (urgent)",
+        "order (值: None) - Non-zero integer used to sort tasks under the same parent",
+        "dueDate (值: None) - Specific date in YYYY-MM-DD format",
+        "assigneeId (值: None) - Responsible user ID (for shared tasks)",
+        "duration (值: None) - Positive integer for task duration (must be used with Duration Unit)",
+        "durationUnit (值: None) - Unit of time for duration (must be used with Duration)",
+        "deadlineDate (值: None) - Specific deadline date in YYYY-MM-DD format"
+      ]
     },
     "projectId": {
       "displayName": "Project ID",
       "name": "projectId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "project"
-          ],
-          "operation": [
-            "archive",
-            "delete",
-            "get",
-            "getCollaborators",
-            "unarchive",
-            "update"
-          ]
-        }
-      },
+      "default": "",
       "description": "The project ID - can be either a string or number",
-      "ai_hint": "The project ID - can be either a string or number"
+      "natural_language_description": "参数名: Project ID | 作用: The project ID - can be either a string or number | (必填项)"
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "project"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "default": "",
       "description": "Name of the project",
-      "ai_hint": "Name of the project"
+      "natural_language_description": "参数名: Name | 作用: Name of the project | (必填项)"
     },
     "projectOptions": {
       "displayName": "Additional Fields",
       "name": "projectOptions",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "project"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Color",
-          "name": "color",
-          "type": "options",
-          "options": [
-            {
-              "name": "Berry Red",
-              "value": "berry_red"
-            },
-            {
-              "name": "Red",
-              "value": "red"
-            },
-            {
-              "name": "Orange",
-              "value": "orange"
-            },
-            {
-              "name": "Yellow",
-              "value": "yellow"
-            },
-            {
-              "name": "Olive Green",
-              "value": "olive_green"
-            },
-            {
-              "name": "Lime Green",
-              "value": "lime_green"
-            },
-            {
-              "name": "Green",
-              "value": "green"
-            },
-            {
-              "name": "Mint Green",
-              "value": "mint_green"
-            },
-            {
-              "name": "Teal",
-              "value": "teal"
-            },
-            {
-              "name": "Sky Blue",
-              "value": "sky_blue"
-            },
-            {
-              "name": "Light Blue",
-              "value": "light_blue"
-            },
-            {
-              "name": "Blue",
-              "value": "blue"
-            },
-            {
-              "name": "Grape",
-              "value": "grape"
-            },
-            {
-              "name": "Violet",
-              "value": "violet"
-            },
-            {
-              "name": "Lavender",
-              "value": "lavender"
-            },
-            {
-              "name": "Magenta",
-              "value": "magenta"
-            },
-            {
-              "name": "Salmon",
-              "value": "salmon"
-            },
-            {
-              "name": "Charcoal",
-              "value": "charcoal"
-            },
-            {
-              "name": "Grey",
-              "value": "grey"
-            },
-            {
-              "name": "Taupe",
-              "value": "taupe"
-            }
-          ],
-          "default": "",
-          "description": "The color of the project"
-        },
-        {
-          "displayName": "Is Favorite",
-          "name": "is_favorite",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the project is a favorite"
-        },
-        {
-          "displayName": "Parent ID",
-          "name": "parent_id",
-          "type": "string",
-          "default": "",
-          "description": "Parent project ID"
-        },
-        {
-          "displayName": "View Style",
-          "name": "view_style",
-          "type": "options",
-          "options": [
-            {
-              "name": "List",
-              "value": "list"
-            },
-            {
-              "name": "Board",
-              "value": "board"
-            }
-          ],
-          "default": "list",
-          "description": "The default view style of the project"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "color (值: None) - The color of the project",
+        "is_favorite (值: None) - Whether the project is a favorite",
+        "parent_id (值: None) - Parent project ID",
+        "view_style (值: None) - The default view style of the project"
+      ]
     },
     "projectUpdateFields": {
       "displayName": "Update Fields",
       "name": "projectUpdateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "project"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": "",
-          "description": "Name of the project"
-        },
-        {
-          "displayName": "Color",
-          "name": "color",
-          "type": "options",
-          "options": [
-            {
-              "name": "Berry Red",
-              "value": "berry_red"
-            },
-            {
-              "name": "Red",
-              "value": "red"
-            },
-            {
-              "name": "Orange",
-              "value": "orange"
-            },
-            {
-              "name": "Yellow",
-              "value": "yellow"
-            },
-            {
-              "name": "Olive Green",
-              "value": "olive_green"
-            },
-            {
-              "name": "Lime Green",
-              "value": "lime_green"
-            },
-            {
-              "name": "Green",
-              "value": "green"
-            },
-            {
-              "name": "Mint Green",
-              "value": "mint_green"
-            },
-            {
-              "name": "Teal",
-              "value": "teal"
-            },
-            {
-              "name": "Sky Blue",
-              "value": "sky_blue"
-            },
-            {
-              "name": "Light Blue",
-              "value": "light_blue"
-            },
-            {
-              "name": "Blue",
-              "value": "blue"
-            },
-            {
-              "name": "Grape",
-              "value": "grape"
-            },
-            {
-              "name": "Violet",
-              "value": "violet"
-            },
-            {
-              "name": "Lavender",
-              "value": "lavender"
-            },
-            {
-              "name": "Magenta",
-              "value": "magenta"
-            },
-            {
-              "name": "Salmon",
-              "value": "salmon"
-            },
-            {
-              "name": "Charcoal",
-              "value": "charcoal"
-            },
-            {
-              "name": "Grey",
-              "value": "grey"
-            },
-            {
-              "name": "Taupe",
-              "value": "taupe"
-            }
-          ],
-          "default": "",
-          "description": "The color of the project"
-        },
-        {
-          "displayName": "Is Favorite",
-          "name": "is_favorite",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the project is a favorite"
-        },
-        {
-          "displayName": "View Style",
-          "name": "view_style",
-          "type": "options",
-          "options": [
-            {
-              "name": "List",
-              "value": "list"
-            },
-            {
-              "name": "Board",
-              "value": "board"
-            }
-          ],
-          "default": "list",
-          "description": "The default view style of the project"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "name (值: None) - Name of the project",
+        "color (值: None) - The color of the project",
+        "is_favorite (值: None) - Whether the project is a favorite",
+        "view_style (值: None) - The default view style of the project"
+      ]
     },
     "sectionId": {
       "displayName": "Section ID",
       "name": "sectionId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "section"
-          ],
-          "operation": [
-            "delete",
-            "get",
-            "update"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Section ID | (必填项)"
     },
     "sectionProject": {
       "displayName": "Project Name or ID",
       "name": "sectionProject",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a project...",
-          "typeOptions": {
-            "searchListMethod": "searchProjects",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "placeholder": "2302163813"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "section"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "description": "The project to add the section to",
-      "ai_hint": "The project to add the section to"
+      "natural_language_description": "参数名: Project Name or ID | 作用: The project to add the section to | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "sectionName": {
       "displayName": "Name",
       "name": "sectionName",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "section"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "default": "",
       "description": "Name of the section",
-      "ai_hint": "Name of the section"
+      "natural_language_description": "参数名: Name | 作用: Name of the section | (必填项)"
     },
     "sectionOptions": {
       "displayName": "Additional Fields",
       "name": "sectionOptions",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "section"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Order",
-          "name": "order",
-          "type": "number",
-          "default": 0,
-          "description": "The order of the section"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "order (值: None) - The order of the section"
+      ]
     },
     "sectionUpdateFields": {
       "displayName": "Update Fields",
       "name": "sectionUpdateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "section"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": "",
-          "description": "Name of the section"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "name (值: None) - Name of the section"
+      ]
     },
     "sectionFilters": {
       "displayName": "Filters",
       "name": "sectionFilters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "section"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Project Name or ID",
-          "name": "project_id",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getProjects"
-          },
-          "default": "",
-          "description": "Filter sections by project. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "project_id (值: None) - Filter sections by project. Choose from the list, or specify an ID using an expression."
+      ]
     },
     "commentId": {
       "displayName": "Comment ID",
       "name": "commentId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "comment"
-          ],
-          "operation": [
-            "delete",
-            "get",
-            "update"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Comment ID | (必填项)"
     },
     "commentTaskId": {
       "displayName": "Task ID",
       "name": "commentTaskId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "comment"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the task to comment on",
-      "ai_hint": "The ID of the task to comment on"
+      "natural_language_description": "参数名: Task ID | 作用: The ID of the task to comment on | (必填项)"
     },
     "commentContent": {
       "displayName": "Content",
       "name": "commentContent",
       "type": "string",
-      "typeOptions": {
-        "rows": 3
-      },
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "comment"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "default": "",
       "description": "Comment content",
-      "ai_hint": "Comment content"
+      "natural_language_description": "参数名: Content | 作用: Comment content | (必填项)"
     },
     "commentUpdateFields": {
       "displayName": "Update Fields",
       "name": "commentUpdateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "comment"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Content",
-          "name": "content",
-          "type": "string",
-          "typeOptions": {
-            "rows": 3
-          },
-          "default": "",
-          "description": "Comment content"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "content (值: None) - Comment content"
+      ]
     },
     "commentFilters": {
       "displayName": "Filters",
       "name": "commentFilters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "comment"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Task ID",
-          "name": "task_id",
-          "type": "string",
-          "default": "",
-          "description": "Filter comments by task ID"
-        },
-        {
-          "displayName": "Project ID",
-          "name": "project_id",
-          "type": "string",
-          "default": "",
-          "description": "Filter comments by project ID"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "task_id (值: None) - Filter comments by task ID",
+        "project_id (值: None) - Filter comments by project ID"
+      ]
     },
     "labelId": {
       "displayName": "Label ID",
       "name": "labelId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "label"
-          ],
-          "operation": [
-            "delete",
-            "get",
-            "update"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Label ID | (必填项)"
     },
     "labelName": {
       "displayName": "Name",
       "name": "labelName",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "label"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "default": "",
       "description": "Name of the label",
-      "ai_hint": "Name of the label"
+      "natural_language_description": "参数名: Name | 作用: Name of the label | (必填项)"
     },
     "labelOptions": {
       "displayName": "Additional Fields",
       "name": "labelOptions",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "label"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Color",
-          "name": "color",
-          "type": "options",
-          "options": [
-            {
-              "name": "Berry Red",
-              "value": "berry_red"
-            },
-            {
-              "name": "Red",
-              "value": "red"
-            },
-            {
-              "name": "Orange",
-              "value": "orange"
-            },
-            {
-              "name": "Yellow",
-              "value": "yellow"
-            },
-            {
-              "name": "Olive Green",
-              "value": "olive_green"
-            },
-            {
-              "name": "Lime Green",
-              "value": "lime_green"
-            },
-            {
-              "name": "Green",
-              "value": "green"
-            },
-            {
-              "name": "Mint Green",
-              "value": "mint_green"
-            },
-            {
-              "name": "Teal",
-              "value": "teal"
-            },
-            {
-              "name": "Sky Blue",
-              "value": "sky_blue"
-            },
-            {
-              "name": "Light Blue",
-              "value": "light_blue"
-            },
-            {
-              "name": "Blue",
-              "value": "blue"
-            },
-            {
-              "name": "Grape",
-              "value": "grape"
-            },
-            {
-              "name": "Violet",
-              "value": "violet"
-            },
-            {
-              "name": "Lavender",
-              "value": "lavender"
-            },
-            {
-              "name": "Magenta",
-              "value": "magenta"
-            },
-            {
-              "name": "Salmon",
-              "value": "salmon"
-            },
-            {
-              "name": "Charcoal",
-              "value": "charcoal"
-            },
-            {
-              "name": "Grey",
-              "value": "grey"
-            },
-            {
-              "name": "Taupe",
-              "value": "taupe"
-            }
-          ],
-          "default": "",
-          "description": "The color of the label"
-        },
-        {
-          "displayName": "Order",
-          "name": "order",
-          "type": "number",
-          "default": 0,
-          "description": "Label order"
-        },
-        {
-          "displayName": "Is Favorite",
-          "name": "is_favorite",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the label is a favorite"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "color (值: None) - The color of the label",
+        "order (值: None) - Label order",
+        "is_favorite (值: None) - Whether the label is a favorite"
+      ]
     },
     "labelUpdateFields": {
       "displayName": "Update Fields",
       "name": "labelUpdateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "label"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": "",
-          "description": "Name of the label"
-        },
-        {
-          "displayName": "Color",
-          "name": "color",
-          "type": "options",
-          "options": [
-            {
-              "name": "Berry Red",
-              "value": "berry_red"
-            },
-            {
-              "name": "Red",
-              "value": "red"
-            },
-            {
-              "name": "Orange",
-              "value": "orange"
-            },
-            {
-              "name": "Yellow",
-              "value": "yellow"
-            },
-            {
-              "name": "Olive Green",
-              "value": "olive_green"
-            },
-            {
-              "name": "Lime Green",
-              "value": "lime_green"
-            },
-            {
-              "name": "Green",
-              "value": "green"
-            },
-            {
-              "name": "Mint Green",
-              "value": "mint_green"
-            },
-            {
-              "name": "Teal",
-              "value": "teal"
-            },
-            {
-              "name": "Sky Blue",
-              "value": "sky_blue"
-            },
-            {
-              "name": "Light Blue",
-              "value": "light_blue"
-            },
-            {
-              "name": "Blue",
-              "value": "blue"
-            },
-            {
-              "name": "Grape",
-              "value": "grape"
-            },
-            {
-              "name": "Violet",
-              "value": "violet"
-            },
-            {
-              "name": "Lavender",
-              "value": "lavender"
-            },
-            {
-              "name": "Magenta",
-              "value": "magenta"
-            },
-            {
-              "name": "Salmon",
-              "value": "salmon"
-            },
-            {
-              "name": "Charcoal",
-              "value": "charcoal"
-            },
-            {
-              "name": "Grey",
-              "value": "grey"
-            },
-            {
-              "name": "Taupe",
-              "value": "taupe"
-            }
-          ],
-          "default": "",
-          "description": "The color of the label"
-        },
-        {
-          "displayName": "Order",
-          "name": "order",
-          "type": "number",
-          "default": 0,
-          "description": "Label order"
-        },
-        {
-          "displayName": "Is Favorite",
-          "name": "is_favorite",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the label is a favorite"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "name (值: None) - Name of the label",
+        "color (值: None) - The color of the label",
+        "order (值: None) - Label order",
+        "is_favorite (值: None) - Whether the label is a favorite"
+      ]
     },
     "reminderId": {
       "displayName": "Reminder ID",
       "name": "reminderId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "reminder"
-          ],
-          "operation": [
-            "delete",
-            "update"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Reminder ID | (必填项)"
     },
     "itemId": {
       "displayName": "Task ID",
       "name": "itemId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "reminder"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the task to attach reminder to",
-      "ai_hint": "The ID of the task to attach reminder to"
+      "natural_language_description": "参数名: Task ID | 作用: The ID of the task to attach reminder to | (必填项)"
     },
     "dueDateType": {
       "displayName": "Due Date Type",
       "name": "dueDateType",
       "type": "options",
-      "options": [
-        {
-          "name": "Natural Language",
-          "value": "natural_language",
-          "description": "Human-readable date and time (e.g., \"tomorrow 2pm\")"
-        },
-        {
-          "name": "Full-Day Date",
-          "value": "full_day",
-          "description": "Date without specific time (floating)"
-        },
-        {
-          "name": "Floating Date with Time",
-          "value": "floating_time",
-          "description": "Date and time without timezone"
-        },
-        {
-          "name": "Fixed Timezone Date with Time",
-          "value": "fixed_timezone",
-          "description": "Date and time with specific timezone"
-        }
-      ],
-      "default": "natural_language",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "reminder"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "default": "natural_language",
       "description": "How to specify when the reminder should trigger",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Due Date Type | 作用: How to specify when the reminder should trigger | 默认值: natural_language | (必填项)",
+      "available_options": [
+        "Natural Language (值: natural_language) - Human-readable date and time (e.g., \"tomorrow 2pm\")",
+        "Full-Day Date (值: full_day) - Date without specific time (floating)",
+        "Floating Date with Time (值: floating_time) - Date and time without timezone",
+        "Fixed Timezone Date with Time (值: fixed_timezone) - Date and time with specific timezone"
+      ]
     },
     "natural_language_representation": {
       "displayName": "Natural Language Representation",
       "name": "natural_language_representation",
       "type": "string",
-      "default": "",
-      "placeholder": "e.g., \"tomorrow 2pm\", \"monday 10:45am\"",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "reminder"
-          ],
-          "operation": [
-            "create"
-          ],
-          "dueDateType": [
-            "natural_language"
-          ]
-        }
-      },
+      "default": "",
       "description": "Human-readable date and time",
-      "ai_hint": "Human-readable date and time"
+      "natural_language_description": "参数名: Natural Language Representation | 作用: Human-readable date and time | (必填项)"
     },
     "date": {
       "displayName": "Date",
       "name": "date",
       "type": "string",
-      "default": "",
-      "placeholder": "YYYY-MM-DD",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "reminder"
-          ],
-          "operation": [
-            "create"
-          ],
-          "dueDateType": [
-            "full_day"
-          ]
-        }
-      },
+      "default": "",
       "description": "Full-day date in YYYY-MM-DD format",
-      "ai_hint": "Full-day date in YYYY-MM-DD format"
+      "natural_language_description": "参数名: Date | 作用: Full-day date in YYYY-MM-DD format | (必填项)"
     },
     "datetime": {
       "displayName": "Date Time",
       "name": "datetime",
       "type": "dateTime",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "reminder"
-          ],
-          "operation": [
-            "create"
-          ],
-          "dueDateType": [
-            "fixed_timezone"
-          ]
-        }
-      },
+      "default": "",
       "description": "Date and time with timezone",
-      "ai_hint": "Date and time with timezone"
+      "natural_language_description": "参数名: Date Time | 作用: Date and time with timezone | (必填项)"
     },
     "timezone": {
       "displayName": "Timezone",
       "name": "timezone",
       "type": "string",
-      "default": "",
-      "placeholder": "e.g., \"America/New_York\"",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "reminder"
-          ],
-          "operation": [
-            "create"
-          ],
-          "dueDateType": [
-            "fixed_timezone"
-          ]
-        }
-      },
+      "default": "",
       "description": "Timezone for the fixed timezone date",
-      "ai_hint": "Timezone for the fixed timezone date"
+      "natural_language_description": "参数名: Timezone | 作用: Timezone for the fixed timezone date | (必填项)"
     },
     "reminderOptions": {
       "displayName": "Additional Fields",
       "name": "reminderOptions",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "reminder"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Type",
-          "name": "type",
-          "type": "options",
-          "options": [
-            {
-              "name": "Absolute",
-              "value": "absolute"
-            },
-            {
-              "name": "Relative",
-              "value": "relative"
-            }
-          ],
-          "default": "absolute",
-          "description": "The reminder type"
-        },
-        {
-          "displayName": "Minute Offset",
-          "name": "minute_offset",
-          "type": "number",
-          "default": 0,
-          "description": "Minutes before the task due date"
-        },
-        {
-          "displayName": "Notify User ID",
-          "name": "notify_uid",
-          "type": "string",
-          "default": "",
-          "description": "User ID to notify (for shared tasks)"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "type (值: None) - The reminder type",
+        "minute_offset (值: None) - Minutes before the task due date",
+        "notify_uid (值: None) - User ID to notify (for shared tasks)"
+      ]
     },
     "reminderUpdateFields": {
       "displayName": "Update Fields",
       "name": "reminderUpdateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "reminder"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Due",
-          "name": "due",
-          "type": "collection",
-          "placeholder": "Add Due Date Option",
-          "default": {},
-          "options": [
-            {
-              "displayName": "Natural Language",
-              "name": "string",
-              "type": "string",
-              "default": "",
-              "placeholder": "e.g., \"tomorrow 2pm\", \"monday 10:45am\"",
-              "description": "Human-readable date and time"
-            },
-            {
-              "displayName": "Date",
-              "name": "date",
-              "type": "string",
-              "default": "",
-              "placeholder": "YYYY-MM-DD",
-              "description": "Specific date in YYYY-MM-DD format"
-            },
-            {
-              "displayName": "Date Time",
-              "name": "datetime",
-              "type": "dateTime",
-              "default": "",
-              "description": "Specific date and time"
-            },
-            {
-              "displayName": "Timezone",
-              "name": "timezone",
-              "type": "string",
-              "default": "",
-              "placeholder": "e.g., \"America/New_York\"",
-              "description": "Timezone for the reminder"
-            }
-          ],
-          "description": "When the reminder should trigger"
-        },
-        {
-          "displayName": "Type",
-          "name": "type",
-          "type": "options",
-          "options": [
-            {
-              "name": "Absolute",
-              "value": "absolute"
-            },
-            {
-              "name": "Relative",
-              "value": "relative"
-            }
-          ],
-          "default": "absolute",
-          "description": "The reminder type"
-        },
-        {
-          "displayName": "Minute Offset",
-          "name": "minute_offset",
-          "type": "number",
-          "default": 0,
-          "description": "Minutes before the task due date"
-        },
-        {
-          "displayName": "Notify User ID",
-          "name": "notify_uid",
-          "type": "string",
-          "default": "",
-          "description": "User ID to notify (for shared tasks)"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "due (值: None) - When the reminder should trigger",
+        "type (值: None) - The reminder type",
+        "minute_offset (值: None) - Minutes before the task due date",
+        "notify_uid (值: None) - User ID to notify (for shared tasks)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "resource",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "taskId",
-      "project",
-      "section",
-      "options",
-      "labels",
-      "content",
-      "text",
-      "options",
-      "options",
-      "returnAll",
-      "limit",
-      "filters",
-      "updateFields",
-      "projectId",
-      "name",
-      "projectOptions",
-      "projectUpdateFields",
-      "sectionId",
-      "sectionProject",
-      "sectionName",
-      "sectionOptions",
-      "sectionUpdateFields",
-      "sectionFilters",
-      "commentId",
-      "commentTaskId",
-      "commentContent",
-      "commentUpdateFields",
-      "commentFilters",
-      "labelId",
-      "labelName",
-      "labelOptions",
-      "labelUpdateFields",
-      "reminderId",
-      "itemId",
-      "dueDateType",
-      "natural_language_representation",
-      "date",
-      "datetime",
-      "datetime",
-      "timezone",
-      "reminderOptions",
-      "reminderUpdateFields"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'task' THEN SHOW parameter 'operation'",
-      "IF resource == 'project' THEN SHOW parameter 'operation'",
-      "IF resource == 'section' THEN SHOW parameter 'operation'",
-      "IF resource == 'comment' THEN SHOW parameter 'operation'",
-      "IF resource == 'label' THEN SHOW parameter 'operation'",
-      "IF resource == 'reminder' THEN SHOW parameter 'operation'",
-      "IF resource == 'task' AND operation IN [\"delete\", \"close\", \"get\", \"reopen\", \"update\", \"move\"] THEN SHOW parameter 'taskId'",
-      "IF resource == 'task' AND operation IN [\"create\", \"move\"] THEN SHOW parameter 'project'",
-      "IF resource == 'task' AND operation == 'move' THEN SHOW parameter 'section'",
-      "IF @version == {'_cnd': {'gte': 2.1}} THEN HIDE parameter 'section'",
-      "IF resource == 'task' AND operation == 'move' AND @version == {'_cnd': {'gte': 2.1}} THEN SHOW parameter 'options'",
-      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'labels'",
-      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'content'",
-      "IF resource == 'task' AND operation == 'quickAdd' THEN SHOW parameter 'text'",
-      "IF resource == 'task' AND operation == 'quickAdd' THEN SHOW parameter 'options'",
-      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'options'",
-      "IF operation == 'getAll' AND resource == 'task' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'task' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'project' AND operation IN [\"archive\", \"delete\", \"get\", \"getCollaborators\", \"unarchive\", \"update\"] THEN SHOW parameter 'projectId'",
-      "IF resource == 'project' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'project' AND operation == 'create' THEN SHOW parameter 'projectOptions'",
-      "IF resource == 'project' AND operation == 'update' THEN SHOW parameter 'projectUpdateFields'",
-      "IF resource == 'section' AND operation IN [\"delete\", \"get\", \"update\"] THEN SHOW parameter 'sectionId'",
-      "IF resource == 'section' AND operation == 'create' THEN SHOW parameter 'sectionProject'",
-      "IF resource == 'section' AND operation == 'create' THEN SHOW parameter 'sectionName'",
-      "IF resource == 'section' AND operation == 'create' THEN SHOW parameter 'sectionOptions'",
-      "IF resource == 'section' AND operation == 'update' THEN SHOW parameter 'sectionUpdateFields'",
-      "IF resource == 'section' AND operation == 'getAll' THEN SHOW parameter 'sectionFilters'",
-      "IF resource == 'comment' AND operation IN [\"delete\", \"get\", \"update\"] THEN SHOW parameter 'commentId'",
-      "IF resource == 'comment' AND operation == 'create' THEN SHOW parameter 'commentTaskId'",
-      "IF resource == 'comment' AND operation == 'create' THEN SHOW parameter 'commentContent'",
-      "IF resource == 'comment' AND operation == 'update' THEN SHOW parameter 'commentUpdateFields'",
-      "IF resource == 'comment' AND operation == 'getAll' THEN SHOW parameter 'commentFilters'",
-      "IF resource == 'label' AND operation IN [\"delete\", \"get\", \"update\"] THEN SHOW parameter 'labelId'",
-      "IF resource == 'label' AND operation == 'create' THEN SHOW parameter 'labelName'",
-      "IF resource == 'label' AND operation == 'create' THEN SHOW parameter 'labelOptions'",
-      "IF resource == 'label' AND operation == 'update' THEN SHOW parameter 'labelUpdateFields'",
-      "IF resource == 'reminder' AND operation IN [\"delete\", \"update\"] THEN SHOW parameter 'reminderId'",
-      "IF resource == 'reminder' AND operation == 'create' THEN SHOW parameter 'itemId'",
-      "IF resource == 'reminder' AND operation == 'create' THEN SHOW parameter 'dueDateType'",
-      "IF resource == 'reminder' AND operation == 'create' AND dueDateType == 'natural_language' THEN SHOW parameter 'natural_language_representation'",
-      "IF resource == 'reminder' AND operation == 'create' AND dueDateType == 'full_day' THEN SHOW parameter 'date'",
-      "IF resource == 'reminder' AND operation == 'create' AND dueDateType == 'floating_time' THEN SHOW parameter 'datetime'",
-      "IF resource == 'reminder' AND operation == 'create' AND dueDateType == 'fixed_timezone' THEN SHOW parameter 'datetime'",
-      "IF resource == 'reminder' AND operation == 'create' AND dueDateType == 'fixed_timezone' THEN SHOW parameter 'timezone'",
-      "IF resource == 'reminder' AND operation == 'create' THEN SHOW parameter 'reminderOptions'",
-      "IF resource == 'reminder' AND operation == 'update' THEN SHOW parameter 'reminderUpdateFields'"
-    ]
   }
 }

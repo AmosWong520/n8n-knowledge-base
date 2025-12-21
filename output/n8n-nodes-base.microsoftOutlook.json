@@ -1,67 +1,46 @@
 {
   "node_id": "n8n-nodes-base.microsoftOutlook",
-  "name": "n8n-nodes-base.microsoftOutlook",
+  "name": "Microsoft Outlook",
   "version": 1,
   "semantic_context": "Consume Microsoft Outlook API",
+  "natural_language_description": "这是 Microsoft Outlook 节点。主要用于: Consume Microsoft Outlook API",
   "parameters": {
     "oldVersionNotice": {
       "displayName": "<strong>New node version available:</strong> get the latest version with added features from the nodes panel.",
       "name": "oldVersionNotice",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: <strong>New node version available:</strong> get the latest version with added features from the nodes panel."
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
+      "required": false,
       "default": "message",
-      "options": [
-        {
-          "name": "Draft",
-          "value": "draft"
-        },
-        {
-          "name": "Folder",
-          "value": "folder"
-        },
-        {
-          "name": "Folder Message",
-          "value": "folderMessage"
-        },
-        {
-          "name": "Message",
-          "value": "message"
-        },
-        {
-          "name": "Message Attachment",
-          "value": "messageAttachment"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: message",
+      "available_options": [
+        "Draft (值: draft)",
+        "Folder (值: folder)",
+        "Folder Message (值: folderMessage)",
+        "Message (值: message)",
+        "Message Attachment (值: messageAttachment)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folderMessage"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many messages in a folder",
-          "action": "Get many folder messages"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Get Many (值: getAll) - Get many messages in a folder"
+      ]
     },
     "messageId": {
       "displayName": "Message ID",
@@ -69,246 +48,107 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "messageAttachment"
-          ],
-          "operation": [
-            "add",
-            "download",
-            "get",
-            "getAll"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Message ID | (必填项)"
     },
     "subject": {
       "displayName": "Subject",
       "name": "subject",
-      "description": "The subject of the message",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "create",
-            "send"
-          ]
-        }
-      },
       "type": "string",
+      "required": false,
       "default": "",
-      "ai_hint": "The subject of the message"
+      "description": "The subject of the message",
+      "natural_language_description": "参数名: Subject | 作用: The subject of the message"
     },
     "bodyContent": {
       "displayName": "Body Content",
       "name": "bodyContent",
-      "description": "Message body content",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "create",
-            "send"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "ai_hint": "Message body content"
+      "description": "Message body content",
+      "natural_language_description": "参数名: Body Content | 作用: Message body content"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "draft",
-            "message"
-          ],
-          "operation": [
-            "get",
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Attachments Prefix",
-          "name": "dataPropertyAttachmentsPrefixName",
-          "type": "string",
-          "default": "attachment_",
-          "description": "Prefix for name of the binary property to which to write the attachments. An index starting with 0 will be added. So if name is \"attachment_\" the first attachment is saved to \"attachment_0\""
-        },
-        {
-          "displayName": "Fields",
-          "name": "fields",
-          "type": "string",
-          "default": "",
-          "description": "Fields the response will contain. Multiple can be added separated by comma."
-        },
-        {
-          "displayName": "Filter",
-          "name": "filter",
-          "type": "string",
-          "default": "",
-          "placeholder": "isRead eq false",
-          "description": "Microsoft Graph API OData $filter query. Information about the syntax can be found <a href=\"https://docs.microsoft.com/en-us/graph/query-parameters#filter-parameter\">here</a>."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "dataPropertyAttachmentsPrefixName (值: None) - Prefix for name of the binary property to which to write the attachments. An index starting with 0 will be added. So if name is \"attachment_\" the first attachment is saved to \"attachment_0\"",
+        "fields (值: None) - Fields the response will contain. Multiple can be added separated by comma.",
+        "filter (值: None) - Microsoft Graph API OData $filter query. Information about the syntax can be found here."
+      ]
     },
     "replyType": {
       "displayName": "Reply Type",
       "name": "replyType",
       "type": "options",
-      "options": [
-        {
-          "name": "Reply",
-          "value": "reply"
-        },
-        {
-          "name": "Reply All",
-          "value": "replyAll"
-        }
-      ],
-      "default": "reply",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "reply"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "reply",
+      "description": "",
+      "natural_language_description": "参数名: Reply Type | 默认值: reply | (必填项)",
+      "available_options": [
+        "Reply (值: reply)",
+        "Reply All (值: replyAll)"
+      ]
     },
     "comment": {
       "displayName": "Comment",
       "name": "comment",
-      "description": "A comment to include. Can be an empty string.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "reply"
-          ]
-        }
-      },
       "type": "string",
+      "required": false,
       "default": "",
-      "ai_hint": "A comment to include. Can be an empty string."
+      "description": "A comment to include. Can be an empty string.",
+      "natural_language_description": "参数名: Comment | 作用: A comment to include. Can be an empty string."
     },
     "send": {
       "displayName": "Send",
       "name": "send",
-      "description": "Whether to send the reply message directly. If not set, it will be saved as draft.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "reply"
-          ]
-        }
-      },
       "type": "boolean",
+      "required": false,
       "default": true,
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "Whether to send the reply message directly. If not set, it will be saved as draft.",
+      "natural_language_description": "参数名: Send | 作用: Whether to send the reply message directly. If not set, it will be saved as draft. | 默认值: True"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folderMessage"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folderMessage"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "toRecipients": {
       "displayName": "Recipients",
       "name": "toRecipients",
-      "description": "Email addresses of recipients. Multiple can be added separated by comma.",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "send"
-          ]
-        }
-      },
       "required": true,
       "default": "",
-      "ai_hint": "Email addresses of recipients. Multiple can be added separated by comma."
+      "description": "Email addresses of recipients. Multiple can be added separated by comma.",
+      "natural_language_description": "参数名: Recipients | 作用: Email addresses of recipients. Multiple can be added separated by comma. | (必填项)"
     },
     "binaryPropertyName": {
       "displayName": "Put Output File in Field",
       "name": "binaryPropertyName",
-      "hint": "The name of the output binary field to put the file in",
       "type": "string",
       "required": true,
       "default": "data",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "messageAttachment"
-          ],
-          "operation": [
-            "add",
-            "download"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Put Output File in Field | 提示: The name of the output binary field to put the file in | 默认值: data | (必填项)"
     },
     "folderId": {
       "displayName": "Folder ID",
@@ -316,16 +156,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folderMessage"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Folder ID | (必填项)"
     },
     "attachmentId": {
       "displayName": "Attachment ID",
@@ -333,395 +165,81 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "messageAttachment"
-          ],
-          "operation": [
-            "download",
-            "get"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Attachment ID | (必填项)"
     },
     "folderType": {
       "displayName": "Type",
       "name": "folderType",
-      "description": "Folder Type",
       "type": "options",
-      "options": [
-        {
-          "name": "Folder",
-          "value": "folder"
-        },
-        {
-          "name": "Search Folder",
-          "value": "searchFolder"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folder"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": false,
       "default": "folder",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "Folder Type",
+      "natural_language_description": "参数名: Type | 作用: Folder Type | 默认值: folder",
+      "available_options": [
+        "Folder (值: folder)",
+        "Search Folder (值: searchFolder)"
+      ]
     },
     "displayName": {
       "displayName": "Display Name",
       "name": "displayName",
-      "description": "Name of the folder",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folder"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Name of the folder"
+      "description": "Name of the folder",
+      "natural_language_description": "参数名: Display Name | 作用: Name of the folder | (必填项)"
     },
     "includeNestedFolders": {
       "displayName": "Include Nested Folders",
       "name": "includeNestedFolders",
-      "description": "Whether to include child folders in the search",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folder"
-          ],
-          "operation": [
-            "create"
-          ],
-          "folderType": [
-            "searchFolder"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "Whether to include child folders in the search",
+      "natural_language_description": "参数名: Include Nested Folders | 作用: Whether to include child folders in the search | 默认值: False"
     },
     "sourceFolderIds": {
       "displayName": "Source Folder IDs",
       "name": "sourceFolderIds",
-      "description": "The mailbox folders that should be mined",
       "type": "string",
-      "typeOptions": {
-        "multipleValues": true
-      },
+      "required": false,
       "default": [],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folder"
-          ],
-          "operation": [
-            "create"
-          ],
-          "folderType": [
-            "searchFolder"
-          ]
-        }
-      },
-      "ai_hint": "The mailbox folders that should be mined"
+      "description": "The mailbox folders that should be mined",
+      "natural_language_description": "参数名: Source Folder IDs | 作用: The mailbox folders that should be mined | 默认值: []"
     },
     "filterQuery": {
       "displayName": "Filter Query",
       "name": "filterQuery",
-      "description": "The OData query to filter the messages",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folder"
-          ],
-          "operation": [
-            "create"
-          ],
-          "folderType": [
-            "searchFolder"
-          ]
-        }
-      },
-      "ai_hint": "The OData query to filter the messages"
+      "default": "",
+      "description": "The OData query to filter the messages",
+      "natural_language_description": "参数名: Filter Query | 作用: The OData query to filter the messages | (必填项)"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "draft",
-            "message"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "BCC Recipients",
-          "name": "bccRecipients",
-          "description": "Email addresses of BCC recipients",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Body Content",
-          "name": "bodyContent",
-          "description": "Message body content",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Body Content Type",
-          "name": "bodyContentType",
-          "description": "Message body content type",
-          "type": "options",
-          "options": [
-            {
-              "name": "HTML",
-              "value": "html"
-            },
-            {
-              "name": "Text",
-              "value": "Text"
-            }
-          ],
-          "default": "html"
-        },
-        {
-          "displayName": "Category Names or IDs",
-          "name": "categories",
-          "type": "multiOptions",
-          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "typeOptions": {
-            "loadOptionsMethod": "getCategories"
-          },
-          "default": []
-        },
-        {
-          "displayName": "CC Recipients",
-          "name": "ccRecipients",
-          "description": "Email addresses of CC recipients",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Custom Headers",
-          "name": "internetMessageHeaders",
-          "placeholder": "Add Header",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "headers",
-              "displayName": "Header",
-              "values": [
-                {
-                  "displayName": "Name",
-                  "name": "name",
-                  "type": "string",
-                  "default": "",
-                  "description": "Name of the header"
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": "",
-                  "description": "Value to set for the header"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "From",
-          "name": "from",
-          "description": "The owner of the mailbox which the message is sent. Must correspond to the actual mailbox used.",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Importance",
-          "name": "importance",
-          "description": "The importance of the message",
-          "type": "options",
-          "options": [
-            {
-              "name": "Low",
-              "value": "Low"
-            },
-            {
-              "name": "Normal",
-              "value": "Normal"
-            },
-            {
-              "name": "High",
-              "value": "High"
-            }
-          ],
-          "default": "Low"
-        },
-        {
-          "displayName": "Is Read",
-          "name": "isRead",
-          "description": "Whether the message has been read",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "Read Receipt Requested",
-          "name": "isReadReceiptRequested",
-          "description": "Whether a read receipt is requested for the message",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "Recipients",
-          "name": "toRecipients",
-          "description": "Email addresses of recipients. Multiple can be added separated by comma.",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Reply To",
-          "name": "replyTo",
-          "description": "Email addresses to use when replying",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Subject",
-          "name": "subject",
-          "description": "The subject of the message",
-          "type": "string",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "bccRecipients (值: None) - Email addresses of BCC recipients",
+        "bodyContent (值: None) - Message body content",
+        "bodyContentType (值: None) - Message body content type",
+        "categories (值: None) - Choose from the list, or specify IDs using an expression",
+        "ccRecipients (值: None) - Email addresses of CC recipients",
+        "internetMessageHeaders (值: None)",
+        "from (值: None) - The owner of the mailbox which the message is sent. Must correspond to the actual mailbox used.",
+        "importance (值: None) - The importance of the message",
+        "isRead (值: None) - Whether the message has been read",
+        "isReadReceiptRequested (值: None) - Whether a read receipt is requested for the message",
+        "toRecipients (值: None) - Email addresses of recipients. Multiple can be added separated by comma.",
+        "replyTo (值: None) - Email addresses to use when replying",
+        "subject (值: None) - The subject of the message"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "oldVersionNotice",
-      "resource",
-      "operation",
-      "messageId",
-      "subject",
-      "bodyContent",
-      "additionalFields",
-      "additionalFields",
-      "operation",
-      "messageId",
-      "replyType",
-      "comment",
-      "send",
-      "additionalFields",
-      "returnAll",
-      "limit",
-      "subject",
-      "bodyContent",
-      "toRecipients",
-      "additionalFields",
-      "binaryPropertyName",
-      "folderId",
-      "operation",
-      "messageId",
-      "attachmentId",
-      "returnAll",
-      "limit",
-      "binaryPropertyName",
-      "additionalFields",
-      "additionalFields",
-      "operation",
-      "folderId",
-      "returnAll",
-      "limit",
-      "folderType",
-      "displayName",
-      "includeNestedFolders",
-      "sourceFolderIds",
-      "filterQuery",
-      "additionalFields",
-      "updateFields",
-      "operation",
-      "folderId",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "additionalFields",
-      "updateFields"
-    ],
-    "conditional_rules": [
-      "IF resource == 'draft' THEN SHOW parameter 'operation'",
-      "IF resource == 'draft' AND operation IN [\"delete\", \"get\", \"send\", \"update\"] THEN SHOW parameter 'messageId'",
-      "IF resource == 'draft' AND operation == 'create' THEN SHOW parameter 'subject'",
-      "IF resource == 'draft' AND operation == 'create' THEN SHOW parameter 'bodyContent'",
-      "IF resource == 'draft' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'draft' AND operation == 'send' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'message' THEN SHOW parameter 'operation'",
-      "IF resource == 'message' AND operation IN [\"addAttachment\", \"delete\", \"get\", \"getAttachment\", \"getMime\", \"move\", \"update\", \"reply\"] THEN SHOW parameter 'messageId'",
-      "IF resource == 'message' AND operation == 'reply' THEN SHOW parameter 'replyType'",
-      "IF resource == 'message' AND operation == 'reply' THEN SHOW parameter 'comment'",
-      "IF resource == 'message' AND operation == 'reply' THEN SHOW parameter 'send'",
-      "IF resource == 'message' AND operation == 'reply' AND replyType == 'reply' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'message' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'message' AND operation IN [\"create\", \"send\"] THEN SHOW parameter 'subject'",
-      "IF resource == 'message' AND operation IN [\"create\", \"send\"] THEN SHOW parameter 'bodyContent'",
-      "IF resource == 'message' AND operation == 'send' THEN SHOW parameter 'toRecipients'",
-      "IF resource == 'message' AND operation == 'send' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'message' AND operation == 'getMime' THEN SHOW parameter 'binaryPropertyName'",
-      "IF resource == 'message' AND operation == 'move' THEN SHOW parameter 'folderId'",
-      "IF resource == 'messageAttachment' THEN SHOW parameter 'operation'",
-      "IF resource == 'messageAttachment' AND operation IN [\"add\", \"download\", \"get\", \"getAll\"] THEN SHOW parameter 'messageId'",
-      "IF resource == 'messageAttachment' AND operation IN [\"download\", \"get\"] THEN SHOW parameter 'attachmentId'",
-      "IF resource == 'messageAttachment' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'messageAttachment' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'messageAttachment' AND operation IN [\"add\", \"download\"] THEN SHOW parameter 'binaryPropertyName'",
-      "IF resource == 'messageAttachment' AND operation == 'add' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'messageAttachment' AND operation IN [\"get\", \"getAll\"] THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'folder' THEN SHOW parameter 'operation'",
-      "IF resource == 'folder' AND operation IN [\"delete\", \"get\", \"getChildren\", \"update\"] THEN SHOW parameter 'folderId'",
-      "IF resource == 'folder' AND operation IN [\"getAll\", \"getChildren\"] THEN SHOW parameter 'returnAll'",
-      "IF resource == 'folder' AND operation IN [\"getAll\", \"getChildren\"] AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'folder' AND operation == 'create' THEN SHOW parameter 'folderType'",
-      "IF resource == 'folder' AND operation == 'create' THEN SHOW parameter 'displayName'",
-      "IF resource == 'folder' AND operation == 'create' AND folderType == 'searchFolder' THEN SHOW parameter 'includeNestedFolders'",
-      "IF resource == 'folder' AND operation == 'create' AND folderType == 'searchFolder' THEN SHOW parameter 'sourceFolderIds'",
-      "IF resource == 'folder' AND operation == 'create' AND folderType == 'searchFolder' THEN SHOW parameter 'filterQuery'",
-      "IF resource == 'folder' AND operation IN [\"get\", \"getAll\", \"getChildren\"] THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'folder' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'folderMessage' THEN SHOW parameter 'operation'",
-      "IF resource == 'folderMessage' AND operation == 'getAll' THEN SHOW parameter 'folderId'",
-      "IF resource == 'folderMessage' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'folderMessage' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'folderMessage' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
-      "IF resource IN [\"draft\", \"message\"] AND operation IN [\"get\", \"getAll\"] THEN SHOW parameter 'additionalFields'",
-      "IF resource IN [\"draft\", \"message\"] AND operation == 'update' THEN SHOW parameter 'updateFields'"
-    ]
   }
 }

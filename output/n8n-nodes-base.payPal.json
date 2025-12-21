@@ -1,408 +1,124 @@
 {
   "node_id": "n8n-nodes-base.payPal",
-  "name": "n8n-nodes-base.payPal",
+  "name": "PayPal",
   "version": 1,
   "semantic_context": "Consume PayPal API",
+  "natural_language_description": "这是 PayPal 节点。主要用于: Consume PayPal API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Payout",
-          "value": "payout"
-        },
-        {
-          "name": "Payout Item",
-          "value": "payoutItem"
-        }
-      ],
+      "required": false,
       "default": "payout",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: payout",
+      "available_options": [
+        "Payout (值: payout)",
+        "Payout Item (值: payoutItem)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "payoutItem"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Cancel",
-          "value": "cancel",
-          "description": "Cancels an unclaimed payout item",
-          "action": "Cancel a payout item"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Show payout item details",
-          "action": "Get a payout item"
-        }
-      ],
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Cancel (值: cancel) - Cancels an unclaimed payout item",
+        "Get (值: get) - Show payout item details"
+      ]
     },
     "senderBatchId": {
       "displayName": "Sender Batch ID",
       "name": "senderBatchId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "payout"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "",
       "description": "A sender-specified ID number. Tracks the payout in an accounting system.",
-      "ai_hint": "A sender-specified ID number. Tracks the payout in an accounting system."
+      "natural_language_description": "参数名: Sender Batch ID | 作用: A sender-specified ID number. Tracks the payout in an accounting system. | (必填项)"
     },
     "jsonParameters": {
       "displayName": "JSON Parameters",
       "name": "jsonParameters",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "payout"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: JSON Parameters | 默认值: False"
     },
     "itemsUi": {
       "displayName": "Items",
       "name": "itemsUi",
-      "placeholder": "Add Item",
       "type": "fixedCollection",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "payout"
-          ],
-          "operation": [
-            "create"
-          ],
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "multipleValues": true
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "itemsValues",
-          "displayName": "Item",
-          "values": [
-            {
-              "displayName": "Recipient Type",
-              "name": "recipientType",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Phone",
-                  "value": "phone",
-                  "description": "The unencrypted phone number"
-                },
-                {
-                  "name": "Email",
-                  "value": "email",
-                  "description": "The unencrypted email"
-                },
-                {
-                  "name": "PayPal ID",
-                  "value": "paypalId",
-                  "description": "The encrypted PayPal account number"
-                }
-              ],
-              "default": "email",
-              "description": "The ID type that identifies the recipient of the payment"
-            },
-            {
-              "displayName": "Receiver Value",
-              "name": "receiverValue",
-              "type": "string",
-              "required": true,
-              "default": "",
-              "description": "The receiver of the payment. Corresponds to the recipient_type value in the request. Max length: 127 characters."
-            },
-            {
-              "displayName": "Currency",
-              "name": "currency",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Australian Dollar",
-                  "value": "AUD"
-                },
-                {
-                  "name": "Brazilian Real",
-                  "value": "BRL"
-                },
-                {
-                  "name": "Canadian Dollar",
-                  "value": "CAD"
-                },
-                {
-                  "name": "Czech Koruna",
-                  "value": "CZK"
-                },
-                {
-                  "name": "Danish Krone",
-                  "value": "DKK"
-                },
-                {
-                  "name": "Euro",
-                  "value": "EUR"
-                },
-                {
-                  "name": "United States Dollar",
-                  "value": "USD"
-                }
-              ],
-              "default": "USD"
-            },
-            {
-              "displayName": "Amount",
-              "name": "amount",
-              "type": "string",
-              "required": true,
-              "default": "",
-              "description": "The value, which might be"
-            },
-            {
-              "displayName": "Note",
-              "name": "note",
-              "type": "string",
-              "default": "",
-              "description": "The sender-specified note for notifications. Supports up to 4000 ASCII characters and 1000 non-ASCII characters."
-            },
-            {
-              "displayName": "Sender Item ID",
-              "name": "senderItemId",
-              "type": "string",
-              "default": "",
-              "description": "The sender-specified ID number. Tracks the payout in an accounting system."
-            },
-            {
-              "displayName": "Recipient Wallet",
-              "name": "recipientWallet",
-              "type": "options",
-              "options": [
-                {
-                  "name": "PayPal",
-                  "value": "paypal",
-                  "description": "PayPal Wallet"
-                },
-                {
-                  "name": "Venmo",
-                  "value": "venmo",
-                  "description": "Venmo Wallet"
-                }
-              ],
-              "default": "paypal"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Items | 默认值: {}",
+      "available_options": [
+        "itemsValues (值: None)"
+      ]
     },
     "itemsJson": {
       "displayName": "Items",
       "name": "itemsJson",
       "type": "json",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "alwaysOpenEditWindow": true
-      },
       "description": "An array of individual payout items",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "payout"
-          ],
-          "operation": [
-            "create"
-          ],
-          "jsonParameters": [
-            true
-          ]
-        }
-      },
-      "ai_hint": "An array of individual payout items"
+      "natural_language_description": "参数名: Items | 作用: An array of individual payout items"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "payout"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Email Subject",
-          "name": "emailSubject",
-          "type": "string",
-          "default": "",
-          "description": "The subject line for the email that PayPal sends when payment for a payout item completes. The subject line is the same for all recipients. Max length: 255 characters."
-        },
-        {
-          "displayName": "Email Message",
-          "name": "emailMessage",
-          "type": "string",
-          "default": "",
-          "description": "The email message that PayPal sends when the payout item completes. The message is the same for all recipients."
-        },
-        {
-          "displayName": "Note",
-          "name": "note",
-          "type": "string",
-          "default": "",
-          "description": "The payouts and item-level notes are concatenated in the email. Max length: 1000 characters."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "emailSubject (值: None) - The subject line for the email that PayPal sends when payment for a payout item completes. The subject line is the same for all recipients. Max length: 255 characters.",
+        "emailMessage (值: None) - The email message that PayPal sends when the payout item completes. The message is the same for all recipients.",
+        "note (值: None) - The payouts and item-level notes are concatenated in the email. Max length: 1000 characters."
+      ]
     },
     "payoutBatchId": {
       "displayName": "Payout Batch ID",
       "name": "payoutBatchId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "payout"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the payout for which to show details",
-      "ai_hint": "The ID of the payout for which to show details"
+      "natural_language_description": "参数名: Payout Batch ID | 作用: The ID of the payout for which to show details | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "payout"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "typeOptions": {
-        "maxValue": 1000,
-        "minValue": 1
-      },
+      "required": false,
       "default": 100,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "payout"
-          ],
-          "operation": [
-            "get"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "payoutItemId": {
       "displayName": "Payout Item ID",
       "name": "payoutItemId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "payoutItem"
-          ],
-          "operation": [
-            "cancel"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the payout item to cancel",
-      "ai_hint": "The ID of the payout item to cancel"
+      "natural_language_description": "参数名: Payout Item ID | 作用: The ID of the payout item to cancel | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "operation",
-      "senderBatchId",
-      "jsonParameters",
-      "itemsUi",
-      "itemsJson",
-      "additionalFields",
-      "payoutBatchId",
-      "returnAll",
-      "limit",
-      "payoutItemId",
-      "payoutItemId"
-    ],
-    "conditional_rules": [
-      "IF resource == 'payout' THEN SHOW parameter 'operation'",
-      "IF resource == 'payoutItem' THEN SHOW parameter 'operation'",
-      "IF resource == 'payout' AND operation == 'create' THEN SHOW parameter 'senderBatchId'",
-      "IF resource == 'payout' AND operation == 'create' THEN SHOW parameter 'jsonParameters'",
-      "IF resource == 'payout' AND operation == 'create' AND jsonParameters == False THEN SHOW parameter 'itemsUi'",
-      "IF resource == 'payout' AND operation == 'create' AND jsonParameters == True THEN SHOW parameter 'itemsJson'",
-      "IF resource == 'payout' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'payout' AND operation == 'get' THEN SHOW parameter 'payoutBatchId'",
-      "IF resource == 'payout' AND operation == 'get' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'payout' AND operation == 'get' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'payoutItem' AND operation == 'get' THEN SHOW parameter 'payoutItemId'",
-      "IF resource == 'payoutItem' AND operation == 'cancel' THEN SHOW parameter 'payoutItemId'"
-    ]
   }
 }

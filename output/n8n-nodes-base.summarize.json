@@ -1,17 +1,15 @@
 {
   "node_id": "n8n-nodes-base.summarize",
-  "name": "n8n-nodes-base.summarize",
-  "version": [
-    1,
-    1.1
-  ],
+  "name": "Summarize",
+  "version": 1,
   "semantic_context": "Sum, count, max, etc. across items",
+  "natural_language_description": "这是 Summarize 节点。主要用于: Sum, count, max, etc. across items",
   "parameters": {
     "fieldsToSummarize": {
       "displayName": "Fields to Summarize",
       "name": "fieldsToSummarize",
       "type": "fixedCollection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {
         "values": [
           {
@@ -20,285 +18,35 @@
           }
         ]
       },
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "options": [
-        {
-          "displayName": "",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Aggregation",
-              "name": "aggregation",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Append",
-                  "value": "append"
-                },
-                {
-                  "name": "Average",
-                  "value": "average"
-                },
-                {
-                  "name": "Concatenate",
-                  "value": "concatenate"
-                },
-                {
-                  "name": "Count",
-                  "value": "count"
-                },
-                {
-                  "name": "Count Unique",
-                  "value": "countUnique"
-                },
-                {
-                  "name": "Max",
-                  "value": "max"
-                },
-                {
-                  "name": "Min",
-                  "value": "min"
-                },
-                {
-                  "name": "Sum",
-                  "value": "sum"
-                }
-              ],
-              "default": "count",
-              "description": "How to combine the values of the field you want to summarize"
-            },
-            {
-              "displayName": "Field",
-              "name": "field",
-              "type": "string",
-              "default": "",
-              "description": "The name of an input field that you want to summarize",
-              "placeholder": "e.g. cost",
-              "hint": " Enter the field name as text",
-              "displayOptions": {
-                "hide": {
-                  "aggregation": [
-                    "average",
-                    "sum",
-                    "countUnique",
-                    "count",
-                    "max",
-                    "min"
-                  ]
-                }
-              },
-              "requiresDataPath": "single"
-            },
-            {
-              "displayName": "Field",
-              "name": "field",
-              "type": "string",
-              "default": "",
-              "description": "The name of an input field that you want to summarize. The field should contain numerical values; null, undefined, empty strings would be ignored.",
-              "placeholder": "e.g. cost",
-              "hint": " Enter the field name as text",
-              "displayOptions": {
-                "show": {
-                  "aggregation": [
-                    "average",
-                    "sum"
-                  ]
-                }
-              },
-              "requiresDataPath": "single"
-            },
-            {
-              "displayName": "Field",
-              "name": "field",
-              "type": "string",
-              "default": "",
-              "description": "The name of an input field that you want to summarize; null, undefined, empty strings would be ignored",
-              "placeholder": "e.g. cost",
-              "hint": " Enter the field name as text",
-              "displayOptions": {
-                "show": {
-                  "aggregation": [
-                    "countUnique",
-                    "count",
-                    "max",
-                    "min"
-                  ]
-                }
-              },
-              "requiresDataPath": "single"
-            },
-            {
-              "displayName": "Include Empty Values",
-              "name": "includeEmpty",
-              "type": "boolean",
-              "default": false,
-              "displayOptions": {
-                "show": {
-                  "aggregation": [
-                    "append",
-                    "concatenate",
-                    "count",
-                    "countUnique"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Separator",
-              "name": "separateBy",
-              "type": "options",
-              "default": ",",
-              "options": [
-                {
-                  "name": "Comma",
-                  "value": ","
-                },
-                {
-                  "name": "Comma and Space",
-                  "value": ", "
-                },
-                {
-                  "name": "New Line",
-                  "value": "\n"
-                },
-                {
-                  "name": "None",
-                  "value": ""
-                },
-                {
-                  "name": "Space",
-                  "value": " "
-                },
-                {
-                  "name": "Other",
-                  "value": "other"
-                }
-              ],
-              "hint": "What to insert between values",
-              "displayOptions": {
-                "show": {
-                  "aggregation": [
-                    "concatenate"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Custom Separator",
-              "name": "customSeparator",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "aggregation": [
-                    "concatenate"
-                  ],
-                  "separateBy": [
-                    "other"
-                  ]
-                }
-              }
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Fields to Summarize | 默认值: {'values': [{'aggregation': 'count', 'field': ''}]}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "fieldsToSplitBy": {
       "displayName": "Fields to Group By",
       "name": "fieldsToSplitBy",
       "type": "string",
-      "placeholder": "e.g. country, city",
+      "required": false,
       "default": "",
       "description": "The name of the input fields that you want to split the summary by",
-      "hint": "Enter the name of the fields as text (separated by commas)",
-      "displayOptions": {
-        "show": {
-          "/options.outputFormat": [
-            "singleItem"
-          ]
-        }
-      },
-      "requiresDataPath": "multiple",
-      "ai_hint": "The name of the input fields that you want to split the summary by"
+      "natural_language_description": "参数名: Fields to Group By | 作用: The name of the input fields that you want to split the summary by | 提示: Enter the name of the fields as text (separated by commas)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Continue if Field Not Found",
-          "name": "continueIfFieldNotFound",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to continue if field to summarize can't be found in any items and return single empty item, otherwise an error would be thrown",
-          "displayOptions": {
-            "hide": {
-              "@version": [
-                {
-                  "_cnd": {
-                    "gte": 1.1
-                  }
-                }
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Disable Dot Notation",
-          "name": "disableDotNotation",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to disallow referencing child fields using `parent.child` in the field name"
-        },
-        {
-          "displayName": "Output Format",
-          "name": "outputFormat",
-          "type": "options",
-          "default": "separateItems",
-          "options": [
-            {
-              "name": "Each Split in a Separate Item",
-              "value": "separateItems"
-            },
-            {
-              "name": "All Splits in a Single Item",
-              "value": "singleItem"
-            }
-          ]
-        },
-        {
-          "displayName": "Ignore items without valid fields to group by",
-          "name": "skipEmptySplitFields",
-          "type": "boolean",
-          "default": false
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "continueIfFieldNotFound (值: None) - Whether to continue if field to summarize can't be found in any items and return single empty item, otherwise an error would be thrown",
+        "disableDotNotation (值: None) - Whether to disallow referencing child fields using `parent.child` in the field name",
+        "outputFormat (值: None)",
+        "skipEmptySplitFields (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "fieldsToSummarize",
-      "fieldsToSplitBy",
-      "fieldsToSplitBy",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF aggregation IN [\"average\", \"sum\", \"countUnique\", \"count\", \"max\", \"min\"] THEN HIDE parameter 'field'",
-      "IF aggregation IN [\"average\", \"sum\"] THEN SHOW parameter 'field'",
-      "IF aggregation IN [\"countUnique\", \"count\", \"max\", \"min\"] THEN SHOW parameter 'field'",
-      "IF aggregation IN [\"append\", \"concatenate\", \"count\", \"countUnique\"] THEN SHOW parameter 'includeEmpty'",
-      "IF aggregation == 'concatenate' THEN SHOW parameter 'separateBy'",
-      "IF aggregation == 'concatenate' AND separateBy == 'other' THEN SHOW parameter 'customSeparator'",
-      "IF /options.outputFormat == 'singleItem' THEN HIDE parameter 'fieldsToSplitBy'",
-      "IF /options.outputFormat == 'singleItem' THEN SHOW parameter 'fieldsToSplitBy'",
-      "IF @version == {'_cnd': {'gte': 1.1}} THEN HIDE parameter 'continueIfFieldNotFound'"
-    ]
   }
 }

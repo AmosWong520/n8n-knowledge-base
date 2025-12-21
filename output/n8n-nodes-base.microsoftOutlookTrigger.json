@@ -1,17 +1,15 @@
 {
   "node_id": "n8n-nodes-base.microsoftOutlookTrigger",
-  "name": "n8n-nodes-base.microsoftOutlookTrigger",
+  "name": "Microsoft Outlook Trigger",
   "version": 1,
   "semantic_context": "Fetches emails from Microsoft Outlook and starts the workflow on specified polling intervals.",
+  "natural_language_description": "这是 Microsoft Outlook Trigger 节点。主要用于: Fetches emails from Microsoft Outlook and starts the workflow on specified polling intervals.",
   "parameters": {
     "pollTimes": {
       "displayName": "Poll Times",
       "name": "pollTimes",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true,
-        "multipleValueButtonText": "Add Poll Time"
-      },
+      "required": false,
       "default": {
         "item": [
           {
@@ -20,487 +18,104 @@
         ]
       },
       "description": "Time at which polling should occur",
-      "placeholder": "Add Poll Time",
-      "options": [
-        {
-          "name": "item",
-          "displayName": "Item",
-          "values": [
-            {
-              "displayName": "Mode",
-              "name": "mode",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Every Minute",
-                  "value": "everyMinute"
-                },
-                {
-                  "name": "Every Hour",
-                  "value": "everyHour"
-                },
-                {
-                  "name": "Every Day",
-                  "value": "everyDay"
-                },
-                {
-                  "name": "Every Week",
-                  "value": "everyWeek"
-                },
-                {
-                  "name": "Every Month",
-                  "value": "everyMonth"
-                },
-                {
-                  "name": "Every X",
-                  "value": "everyX"
-                },
-                {
-                  "name": "Custom",
-                  "value": "custom"
-                }
-              ],
-              "default": "everyDay",
-              "description": "How often to trigger."
-            },
-            {
-              "displayName": "Hour",
-              "name": "hour",
-              "type": "number",
-              "typeOptions": {
-                "minValue": 0,
-                "maxValue": 23
-              },
-              "displayOptions": {
-                "hide": {
-                  "mode": [
-                    "custom",
-                    "everyHour",
-                    "everyMinute",
-                    "everyX"
-                  ]
-                }
-              },
-              "default": 14,
-              "description": "The hour of the day to trigger (24h format)"
-            },
-            {
-              "displayName": "Minute",
-              "name": "minute",
-              "type": "number",
-              "typeOptions": {
-                "minValue": 0,
-                "maxValue": 59
-              },
-              "displayOptions": {
-                "hide": {
-                  "mode": [
-                    "custom",
-                    "everyMinute",
-                    "everyX"
-                  ]
-                }
-              },
-              "default": 0,
-              "description": "The minute of the day to trigger"
-            },
-            {
-              "displayName": "Day of Month",
-              "name": "dayOfMonth",
-              "type": "number",
-              "displayOptions": {
-                "show": {
-                  "mode": [
-                    "everyMonth"
-                  ]
-                }
-              },
-              "typeOptions": {
-                "minValue": 1,
-                "maxValue": 31
-              },
-              "default": 1,
-              "description": "The day of the month to trigger"
-            },
-            {
-              "displayName": "Weekday",
-              "name": "weekday",
-              "type": "options",
-              "displayOptions": {
-                "show": {
-                  "mode": [
-                    "everyWeek"
-                  ]
-                }
-              },
-              "options": [
-                {
-                  "name": "Monday",
-                  "value": "1"
-                },
-                {
-                  "name": "Tuesday",
-                  "value": "2"
-                },
-                {
-                  "name": "Wednesday",
-                  "value": "3"
-                },
-                {
-                  "name": "Thursday",
-                  "value": "4"
-                },
-                {
-                  "name": "Friday",
-                  "value": "5"
-                },
-                {
-                  "name": "Saturday",
-                  "value": "6"
-                },
-                {
-                  "name": "Sunday",
-                  "value": "0"
-                }
-              ],
-              "default": "1",
-              "description": "The weekday to trigger"
-            },
-            {
-              "displayName": "Cron Expression",
-              "name": "cronExpression",
-              "type": "string",
-              "displayOptions": {
-                "show": {
-                  "mode": [
-                    "custom"
-                  ]
-                }
-              },
-              "default": "* * * * * *",
-              "description": "Use custom cron expression. Values and ranges as follows:<ul><li>Seconds: 0-59</li><li>Minutes: 0 - 59</li><li>Hours: 0 - 23</li><li>Day of Month: 1 - 31</li><li>Months: 0 - 11 (Jan - Dec)</li><li>Day of Week: 0 - 6 (Sun - Sat)</li></ul>"
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "number",
-              "typeOptions": {
-                "minValue": 0,
-                "maxValue": 1000
-              },
-              "displayOptions": {
-                "show": {
-                  "mode": [
-                    "everyX"
-                  ]
-                }
-              },
-              "default": 2,
-              "description": "All how many X minutes/hours it should trigger"
-            },
-            {
-              "displayName": "Unit",
-              "name": "unit",
-              "type": "options",
-              "displayOptions": {
-                "show": {
-                  "mode": [
-                    "everyX"
-                  ]
-                }
-              },
-              "options": [
-                {
-                  "name": "Minutes",
-                  "value": "minutes"
-                },
-                {
-                  "name": "Hours",
-                  "value": "hours"
-                }
-              ],
-              "default": "hours",
-              "description": "If it should trigger all X minutes or hours"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Poll Times | 作用: Time at which polling should occur | 默认值: {'item': [{'mode': 'everyMinute'}]}",
+      "available_options": [
+        "item (值: None)"
+      ]
     },
     "event": {
       "displayName": "Trigger On",
       "name": "event",
       "type": "options",
+      "required": false,
       "default": "messageReceived",
-      "options": [
-        {
-          "name": "Message Received",
-          "value": "messageReceived"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Trigger On | 默认值: messageReceived",
+      "available_options": [
+        "Message Received (值: messageReceived)"
+      ]
     },
     "output": {
       "displayName": "Output",
       "name": "output",
       "type": "options",
+      "required": false,
       "default": "simple",
-      "options": [
-        {
-          "name": "Simplified",
-          "value": "simple"
-        },
-        {
-          "name": "Raw",
-          "value": "raw"
-        },
-        {
-          "name": "Select Included Fields",
-          "value": "fields"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Output | 默认值: simple",
+      "available_options": [
+        "Simplified (值: simple)",
+        "Raw (值: raw)",
+        "Select Included Fields (值: fields)"
+      ]
     },
     "fields": {
       "displayName": "Fields",
       "name": "fields",
       "type": "multiOptions",
-      "description": "The fields to add to the output",
-      "displayOptions": {
-        "show": {
-          "output": [
-            "fields"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "bccRecipients",
-          "value": "bccRecipients"
-        },
-        {
-          "name": "body",
-          "value": "body"
-        },
-        {
-          "name": "bodyPreview",
-          "value": "bodyPreview"
-        },
-        {
-          "name": "categories",
-          "value": "categories"
-        },
-        {
-          "name": "ccRecipients",
-          "value": "ccRecipients"
-        },
-        {
-          "name": "changeKey",
-          "value": "changeKey"
-        },
-        {
-          "name": "conversationId",
-          "value": "conversationId"
-        },
-        {
-          "name": "createdDateTime",
-          "value": "createdDateTime"
-        },
-        {
-          "name": "flag",
-          "value": "flag"
-        },
-        {
-          "name": "from",
-          "value": "from"
-        },
-        {
-          "name": "hasAttachments",
-          "value": "hasAttachments"
-        },
-        {
-          "name": "importance",
-          "value": "importance"
-        },
-        {
-          "name": "inferenceClassification",
-          "value": "inferenceClassification"
-        },
-        {
-          "name": "internetMessageId",
-          "value": "internetMessageId"
-        },
-        {
-          "name": "isDeliveryReceiptRequested",
-          "value": "isDeliveryReceiptRequested"
-        },
-        {
-          "name": "isDraft",
-          "value": "isDraft"
-        },
-        {
-          "name": "isRead",
-          "value": "isRead"
-        },
-        {
-          "name": "isReadReceiptRequested",
-          "value": "isReadReceiptRequested"
-        },
-        {
-          "name": "lastModifiedDateTime",
-          "value": "lastModifiedDateTime"
-        },
-        {
-          "name": "parentFolderId",
-          "value": "parentFolderId"
-        },
-        {
-          "name": "receivedDateTime",
-          "value": "receivedDateTime"
-        },
-        {
-          "name": "replyTo",
-          "value": "replyTo"
-        },
-        {
-          "name": "sender",
-          "value": "sender"
-        },
-        {
-          "name": "sentDateTime",
-          "value": "sentDateTime"
-        },
-        {
-          "name": "subject",
-          "value": "subject"
-        },
-        {
-          "name": "toRecipients",
-          "value": "toRecipients"
-        },
-        {
-          "name": "webLink",
-          "value": "webLink"
-        }
-      ],
+      "required": false,
       "default": [],
-      "ai_hint": "The fields to add to the output"
+      "description": "The fields to add to the output",
+      "natural_language_description": "参数名: Fields | 作用: The fields to add to the output | 默认值: []",
+      "available_options": [
+        "bccRecipients (值: bccRecipients)",
+        "body (值: body)",
+        "bodyPreview (值: bodyPreview)",
+        "categories (值: categories)",
+        "ccRecipients (值: ccRecipients)",
+        "changeKey (值: changeKey)",
+        "conversationId (值: conversationId)",
+        "createdDateTime (值: createdDateTime)",
+        "flag (值: flag)",
+        "from (值: from)",
+        "hasAttachments (值: hasAttachments)",
+        "importance (值: importance)",
+        "inferenceClassification (值: inferenceClassification)",
+        "internetMessageId (值: internetMessageId)",
+        "isDeliveryReceiptRequested (值: isDeliveryReceiptRequested)",
+        "isDraft (值: isDraft)",
+        "isRead (值: isRead)",
+        "isReadReceiptRequested (值: isReadReceiptRequested)",
+        "lastModifiedDateTime (值: lastModifiedDateTime)",
+        "parentFolderId (值: parentFolderId)",
+        "receivedDateTime (值: receivedDateTime)",
+        "replyTo (值: replyTo)",
+        "sender (值: sender)",
+        "sentDateTime (值: sentDateTime)",
+        "subject (值: subject)",
+        "toRecipients (值: toRecipients)",
+        "webLink (值: webLink)"
+      ]
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Filter Query",
-          "name": "custom",
-          "type": "string",
-          "default": "",
-          "placeholder": "e.g. isRead eq false",
-          "hint": "Search query to filter messages. <a href=\"https://learn.microsoft.com/en-us/graph/filter-query-parameter\">More info</a>."
-        },
-        {
-          "displayName": "Has Attachments",
-          "name": "hasAttachments",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "Folders to Exclude",
-          "name": "foldersToExclude",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getFolders"
-          },
-          "default": [],
-          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
-        },
-        {
-          "displayName": "Folders to Include",
-          "name": "foldersToInclude",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getFolders"
-          },
-          "default": [],
-          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
-        },
-        {
-          "displayName": "Read Status",
-          "name": "readStatus",
-          "type": "options",
-          "default": "unread",
-          "hint": "Filter messages by whether they have been read or not",
-          "options": [
-            {
-              "name": "Unread and read messages",
-              "value": "both"
-            },
-            {
-              "name": "Unread messages only",
-              "value": "unread"
-            },
-            {
-              "name": "Read messages only",
-              "value": "read"
-            }
-          ]
-        },
-        {
-          "displayName": "Sender",
-          "name": "sender",
-          "type": "string",
-          "default": "",
-          "description": "Sender name or email to filter by"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "custom (值: None)",
+        "hasAttachments (值: None)",
+        "foldersToExclude (值: None) - Choose from the list, or specify IDs using an expression",
+        "foldersToInclude (值: None) - Choose from the list, or specify IDs using an expression",
+        "readStatus (值: None)",
+        "sender (值: None) - Sender name or email to filter by"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Attachments Prefix",
-          "name": "attachmentsPrefix",
-          "type": "string",
-          "default": "attachment_",
-          "description": "Prefix for name of the output fields to put the binary files data in. An index starting from 0 will be added. So if name is \"attachment_\" the first attachment is saved to \"attachment_0\"."
-        },
-        {
-          "displayName": "Download Attachments",
-          "name": "downloadAttachments",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the message's attachments will be downloaded and included in the output"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "attachmentsPrefix (值: None) - Prefix for name of the output fields to put the binary files data in. An index starting from 0 will be added. So if name is \"attachment_\" the first attachment is saved to \"attachment_0\".",
+        "downloadAttachments (值: None) - Whether the message's attachments will be downloaded and included in the output"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "pollTimes",
-      "event",
-      "output",
-      "fields",
-      "filters",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF mode IN [\"custom\", \"everyHour\", \"everyMinute\", \"everyX\"] THEN HIDE parameter 'hour'",
-      "IF mode IN [\"custom\", \"everyMinute\", \"everyX\"] THEN HIDE parameter 'minute'",
-      "IF mode == 'everyMonth' THEN SHOW parameter 'dayOfMonth'",
-      "IF mode == 'everyWeek' THEN SHOW parameter 'weekday'",
-      "IF mode == 'custom' THEN SHOW parameter 'cronExpression'",
-      "IF mode == 'everyX' THEN SHOW parameter 'value'",
-      "IF mode == 'everyX' THEN SHOW parameter 'unit'",
-      "IF output == 'fields' THEN SHOW parameter 'fields'"
-    ]
   }
 }

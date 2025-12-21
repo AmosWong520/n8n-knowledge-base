@@ -1,240 +1,128 @@
 {
   "node_id": "n8n-nodes-base.openWeatherMapTool",
-  "name": "n8n-nodes-base.openWeatherMapTool",
+  "name": "OpenWeatherMap Tool",
   "version": 1,
   "semantic_context": "Gets current and future weather information",
+  "natural_language_description": "这是 OpenWeatherMap Tool 节点。主要用于: Gets current and future weather information",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Gets current and future weather information",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Gets current and future weather information",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Gets current and future weather information | (必填项)"
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Current Weather",
-          "value": "currentWeather",
-          "description": "Returns the current weather data",
-          "action": "Return current weather data"
-        },
-        {
-          "name": "5 Day Forecast",
-          "value": "5DayForecast",
-          "description": "Returns the weather data for the next 5 days",
-          "action": "Return weather data for the next 5 days"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "currentWeather",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: currentWeather",
+      "available_options": [
+        "Current Weather (值: currentWeather) - Returns the current weather data",
+        "5 Day Forecast (值: 5DayForecast) - Returns the weather data for the next 5 days",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "format": {
       "displayName": "Format",
       "name": "format",
       "type": "options",
-      "options": [
-        {
-          "name": "Imperial",
-          "value": "imperial",
-          "description": "Fahrenheit | miles/hour"
-        },
-        {
-          "name": "Metric",
-          "value": "metric",
-          "description": "Celsius | meter/sec"
-        },
-        {
-          "name": "Scientific",
-          "value": "standard",
-          "description": "Kelvin | meter/sec"
-        }
-      ],
+      "required": false,
       "default": "metric",
       "description": "The format in which format the data should be returned",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Format | 作用: The format in which format the data should be returned | 默认值: metric",
+      "available_options": [
+        "Imperial (值: imperial) - Fahrenheit | miles/hour",
+        "Metric (值: metric) - Celsius | meter/sec",
+        "Scientific (值: standard) - Kelvin | meter/sec"
+      ]
     },
     "locationSelection": {
       "displayName": "Location Selection",
       "name": "locationSelection",
       "type": "options",
-      "options": [
-        {
-          "name": "City Name",
-          "value": "cityName"
-        },
-        {
-          "name": "City ID",
-          "value": "cityId"
-        },
-        {
-          "name": "Coordinates",
-          "value": "coordinates"
-        },
-        {
-          "name": "Zip Code",
-          "value": "zipCode"
-        }
-      ],
+      "required": false,
       "default": "cityName",
       "description": "How to define the location for which to return the weather",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Location Selection | 作用: How to define the location for which to return the weather | 默认值: cityName",
+      "available_options": [
+        "City Name (值: cityName)",
+        "City ID (值: cityId)",
+        "Coordinates (值: coordinates)",
+        "Zip Code (值: zipCode)"
+      ]
     },
     "cityName": {
       "displayName": "City",
       "name": "cityName",
       "type": "string",
-      "default": "",
-      "placeholder": "berlin,de",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "locationSelection": [
-            "cityName"
-          ]
-        }
-      },
+      "default": "",
       "description": "The name of the city to return the weather of",
-      "ai_hint": "The name of the city to return the weather of"
+      "natural_language_description": "参数名: City | 作用: The name of the city to return the weather of | (必填项)"
     },
     "cityId": {
       "displayName": "City ID",
       "name": "cityId",
       "type": "number",
-      "default": 160001123,
       "required": true,
-      "displayOptions": {
-        "show": {
-          "locationSelection": [
-            "cityId"
-          ]
-        }
-      },
+      "default": 160001123,
       "description": "The ID of city to return the weather of. List can be downloaded here: http://bulk.openweathermap.org/sample/.",
-      "ai_hint": "The ID of city to return the weather of. List can be downloaded here: http://bulk.openweathermap.org/sample/."
+      "natural_language_description": "参数名: City ID | 作用: The ID of city to return the weather of. List can be downloaded here: http://bulk.openweathermap.org/sample/. | 默认值: 160001123 | (必填项)"
     },
     "latitude": {
       "displayName": "Latitude",
       "name": "latitude",
       "type": "string",
-      "default": "",
-      "placeholder": "13.39",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "locationSelection": [
-            "coordinates"
-          ]
-        }
-      },
+      "default": "",
       "description": "The latitude of the location to return the weather of",
-      "ai_hint": "The latitude of the location to return the weather of"
+      "natural_language_description": "参数名: Latitude | 作用: The latitude of the location to return the weather of | (必填项)"
     },
     "longitude": {
       "displayName": "Longitude",
       "name": "longitude",
       "type": "string",
-      "default": "",
-      "placeholder": "52.52",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "locationSelection": [
-            "coordinates"
-          ]
-        }
-      },
+      "default": "",
       "description": "The longitude of the location to return the weather of",
-      "ai_hint": "The longitude of the location to return the weather of"
+      "natural_language_description": "参数名: Longitude | 作用: The longitude of the location to return the weather of | (必填项)"
     },
     "zipCode": {
       "displayName": "Zip Code",
       "name": "zipCode",
       "type": "string",
-      "default": "",
-      "placeholder": "10115,de",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "locationSelection": [
-            "zipCode"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of city to return the weather of. List can be downloaded here: http://bulk.openweathermap.org/sample/.",
-      "ai_hint": "The ID of city to return the weather of. List can be downloaded here: http://bulk.openweathermap.org/sample/."
+      "natural_language_description": "参数名: Zip Code | 作用: The ID of city to return the weather of. List can be downloaded here: http://bulk.openweathermap.org/sample/. | (必填项)"
     },
     "language": {
       "displayName": "Language",
       "name": "language",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "en",
       "description": "The two letter language code to get your output in (eg. en, de, ...).",
-      "ai_hint": "The two letter language code to get your output in (eg. en, de, ...)."
+      "natural_language_description": "参数名: Language | 作用: The two letter language code to get your output in (eg. en, de, ...)."
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "operation",
-      "format",
-      "locationSelection",
-      "cityName",
-      "cityId",
-      "latitude",
-      "longitude",
-      "zipCode",
-      "language"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF locationSelection == 'cityName' THEN SHOW parameter 'cityName'",
-      "IF locationSelection == 'cityId' THEN SHOW parameter 'cityId'",
-      "IF locationSelection == 'coordinates' THEN SHOW parameter 'latitude'",
-      "IF locationSelection == 'coordinates' THEN SHOW parameter 'longitude'",
-      "IF locationSelection == 'zipCode' THEN SHOW parameter 'zipCode'"
-    ]
   }
 }

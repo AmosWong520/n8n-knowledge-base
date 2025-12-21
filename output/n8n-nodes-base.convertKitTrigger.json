@@ -1,8 +1,9 @@
 {
   "node_id": "n8n-nodes-base.convertKitTrigger",
-  "name": "n8n-nodes-base.convertKitTrigger",
+  "name": "ConvertKit Trigger",
   "version": 1,
   "semantic_context": "Handle ConvertKit events via webhooks",
+  "natural_language_description": "这是 ConvertKit Trigger 节点。主要用于: Handle ConvertKit events via webhooks",
   "parameters": {
     "event": {
       "displayName": "Event",
@@ -11,88 +12,37 @@
       "required": true,
       "default": "",
       "description": "The events that can trigger the webhook and whether they are enabled",
-      "options": [
-        {
-          "name": "Form Subscribe",
-          "value": "formSubscribe"
-        },
-        {
-          "name": "Link Click",
-          "value": "linkClick"
-        },
-        {
-          "name": "Product Purchase",
-          "value": "productPurchase"
-        },
-        {
-          "name": "Purchase Created",
-          "value": "purchaseCreate"
-        },
-        {
-          "name": "Sequence Complete",
-          "value": "courseComplete"
-        },
-        {
-          "name": "Sequence Subscribe",
-          "value": "courseSubscribe"
-        },
-        {
-          "name": "Subscriber Activated",
-          "value": "subscriberActivate"
-        },
-        {
-          "name": "Subscriber Unsubscribe",
-          "value": "subscriberUnsubscribe"
-        },
-        {
-          "name": "Tag Add",
-          "value": "tagAdd"
-        },
-        {
-          "name": "Tag Remove",
-          "value": "tagRemove"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Event | 作用: The events that can trigger the webhook and whether they are enabled | (必填项)",
+      "available_options": [
+        "Form Subscribe (值: formSubscribe)",
+        "Link Click (值: linkClick)",
+        "Product Purchase (值: productPurchase)",
+        "Purchase Created (值: purchaseCreate)",
+        "Sequence Complete (值: courseComplete)",
+        "Sequence Subscribe (值: courseSubscribe)",
+        "Subscriber Activated (值: subscriberActivate)",
+        "Subscriber Unsubscribe (值: subscriberUnsubscribe)",
+        "Tag Add (值: tagAdd)",
+        "Tag Remove (值: tagRemove)"
+      ]
     },
     "formId": {
       "displayName": "Form Name or ID",
       "name": "formId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getForms"
-      },
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "event": [
-            "formSubscribe"
-          ]
-        }
-      },
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Form Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "courseId": {
       "displayName": "Sequence Name or ID",
       "name": "courseId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getSequences"
-      },
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "event": [
-            "courseSubscribe",
-            "courseComplete"
-          ]
-        }
-      },
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Sequence Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "link": {
       "displayName": "Initiating Link",
@@ -101,14 +51,7 @@
       "required": true,
       "default": "",
       "description": "The URL of the initiating link",
-      "displayOptions": {
-        "show": {
-          "event": [
-            "linkClick"
-          ]
-        }
-      },
-      "ai_hint": "The URL of the initiating link"
+      "natural_language_description": "参数名: Initiating Link | 作用: The URL of the initiating link | (必填项)"
     },
     "productId": {
       "displayName": "Product ID",
@@ -116,50 +59,17 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "event": [
-            "productPurchase"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Product ID | (必填项)"
     },
     "tagId": {
       "displayName": "Tag Name or ID",
       "name": "tagId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getTags"
-      },
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "event": [
-            "tagAdd",
-            "tagRemove"
-          ]
-        }
-      },
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Tag Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "event",
-      "formId",
-      "courseId",
-      "link",
-      "productId",
-      "tagId"
-    ],
-    "conditional_rules": [
-      "IF event == 'formSubscribe' THEN SHOW parameter 'formId'",
-      "IF event IN [\"courseSubscribe\", \"courseComplete\"] THEN SHOW parameter 'courseId'",
-      "IF event == 'linkClick' THEN SHOW parameter 'link'",
-      "IF event == 'productPurchase' THEN SHOW parameter 'productId'",
-      "IF event IN [\"tagAdd\", \"tagRemove\"] THEN SHOW parameter 'tagId'"
-    ]
   }
 }

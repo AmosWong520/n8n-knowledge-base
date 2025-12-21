@@ -1,99 +1,49 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.memoryMotorhead",
-  "name": "@n8n/n8n-nodes-langchain.memoryMotorhead",
-  "version": [
-    1,
-    1.1,
-    1.2,
-    1.3
-  ],
+  "name": "Motorhead",
+  "version": 1,
   "semantic_context": "Use Motorhead Memory",
+  "natural_language_description": "这是 Motorhead 节点。主要用于: Use Motorhead Memory",
   "parameters": {
     "notice": {
       "displayName": "This node must be connected to an AI agent. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "containerClass": "ndv-connection-hint-notice"
-      }
+      "description": "",
+      "natural_language_description": "参数名: This node must be connected to an AI agent. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>"
     },
     "sessionId": {
       "displayName": "Session ID",
       "name": "sessionId",
       "type": "string",
+      "required": false,
       "default": "={{ $json.sessionId }}",
       "description": "The key to use to store the memory",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            1.1
-          ]
-        }
-      },
-      "ai_hint": "The key to use to store the memory"
+      "natural_language_description": "参数名: Session ID | 作用: The key to use to store the memory | 默认值: ={{ $json.sessionId }}"
     },
     "sessionIdType": {
       "displayName": "Session ID",
       "name": "sessionIdType",
       "type": "options",
-      "options": [
-        {
-          "name": "Connected Chat Trigger Node",
-          "value": "fromInput",
-          "description": "Looks for an input field called 'sessionId' that is coming from a directly connected Chat Trigger"
-        },
-        {
-          "name": "Define below",
-          "value": "customKey",
-          "description": "Use an expression to reference data in previous nodes or enter static text"
-        }
-      ],
+      "required": false,
       "default": "fromInput",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 1.2
-              }
-            }
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Session ID | 默认值: fromInput",
+      "available_options": [
+        "Connected Chat Trigger Node (值: fromInput) - Looks for an input field called 'sessionId' that is coming from a directly connected Chat Trigger",
+        "Define below (值: customKey) - Use an expression to reference data in previous nodes or enter static text"
+      ]
     },
     "sessionKey": {
       "displayName": "Key",
       "name": "sessionKey",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "The key to use to store session ID in the memory",
-      "displayOptions": {
-        "show": {
-          "sessionIdType": [
-            "customKey"
-          ]
-        }
-      },
-      "ai_hint": "The key to use to store session ID in the memory"
+      "natural_language_description": "参数名: Key | 作用: The key to use to store session ID in the memory"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "notice",
-      "sessionId",
-      "sessionId",
-      "sessionIdType",
-      "sessionKey",
-      "sessionKey"
-    ],
-    "conditional_rules": [
-      "IF @version == 1 THEN SHOW parameter 'sessionId'",
-      "IF @version == 1.1 THEN SHOW parameter 'sessionId'",
-      "IF @version == {'_cnd': {'gte': 1.2}} THEN SHOW parameter 'sessionIdType'",
-      "IF sessionIdType == 'fromInput' AND @version == {'_cnd': {'gte': 1.3}} THEN SHOW parameter 'sessionKey'",
-      "IF sessionIdType == 'customKey' THEN SHOW parameter 'sessionKey'"
-    ]
   }
 }

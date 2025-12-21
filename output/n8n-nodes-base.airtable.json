@@ -1,522 +1,182 @@
 {
   "node_id": "n8n-nodes-base.airtable",
-  "name": "n8n-nodes-base.airtable",
+  "name": "Airtable",
   "version": 1,
   "semantic_context": "Read, update, write and delete data from Airtable",
+  "natural_language_description": "这是 Airtable 节点。主要用于: Read, update, write and delete data from Airtable",
   "parameters": {
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Access Token",
-          "value": "airtableTokenApi"
-        },
-        {
-          "name": "OAuth2",
-          "value": "airtableOAuth2Api"
-        },
-        {
-          "name": "API Key (Deprecated)",
-          "value": "airtableApi"
-        }
-      ],
+      "required": false,
       "default": "airtableApi",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: airtableApi",
+      "available_options": [
+        "Access Token (值: airtableTokenApi)",
+        "OAuth2 (值: airtableOAuth2Api)",
+        "API Key (Deprecated) (值: airtableApi)"
+      ]
     },
     "oldVersionNotice": {
       "displayName": "<strong>New node version available:</strong> get the latest version with added features from the nodes panel.",
       "name": "oldVersionNotice",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: <strong>New node version available:</strong> get the latest version with added features from the nodes panel."
     },
     "deprecated": {
       "displayName": "This type of connection (API Key) was deprecated and can't be used anymore. Please create a new credential of type 'Access Token' instead.",
       "name": "deprecated",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "authentication": [
-            "airtableApi"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: This type of connection (API Key) was deprecated and can't be used anymore. Please create a new credential of type 'Access Token' instead."
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Append",
-          "value": "append",
-          "description": "Append the data to a table",
-          "action": "Append data to a table"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete data from a table",
-          "action": "Delete data from a table"
-        },
-        {
-          "name": "List",
-          "value": "list",
-          "description": "List data from a table",
-          "action": "List data from a table"
-        },
-        {
-          "name": "Read",
-          "value": "read",
-          "description": "Read data from a table",
-          "action": "Read data from a table"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update data in a table",
-          "action": "Update data in a table"
-        }
-      ],
+      "required": false,
       "default": "read",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: read",
+      "available_options": [
+        "Append (值: append) - Append the data to a table",
+        "Delete (值: delete) - Delete data from a table",
+        "List (值: list) - List data from a table",
+        "Read (值: read) - Read data from a table",
+        "Update (值: update) - Update data in a table"
+      ]
     },
     "application": {
       "displayName": "Base",
       "name": "application",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "url",
         "value": ""
       },
-      "required": true,
       "description": "The Airtable Base in which to operate on",
-      "modes": [
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "placeholder": "https://airtable.com/app12DiScdfes/tblAAAAAAAAAAAAA/viwHdfasdfeieg5p",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "https://airtable.com/([a-zA-Z0-9]{2,})/.*",
-                "errorMessage": "Not a valid Airtable Base URL"
-              }
-            }
-          ],
-          "extractValue": {
-            "type": "regex",
-            "regex": "https://airtable.com/([a-zA-Z0-9]{2,})"
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9]{2,}",
-                "errorMessage": "Not a valid Airtable Base ID"
-              }
-            }
-          ],
-          "placeholder": "appD3dfaeidke",
-          "url": "=https://airtable.com/{{$value}}"
-        }
-      ],
-      "ai_hint": "The Airtable Base in which to operate on"
+      "natural_language_description": "参数名: Base | 作用: The Airtable Base in which to operate on | 默认值: {'mode': 'url', 'value': ''} | (必填项)"
     },
     "table": {
       "displayName": "Table",
       "name": "table",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "url",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "placeholder": "https://airtable.com/app12DiScdfes/tblAAAAAAAAAAAAA/viwHdfasdfeieg5p",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "https://airtable.com/[a-zA-Z0-9]{2,}/([a-zA-Z0-9]{2,})/.*",
-                "errorMessage": "Not a valid Airtable Table URL"
-              }
-            }
-          ],
-          "extractValue": {
-            "type": "regex",
-            "regex": "https://airtable.com/[a-zA-Z0-9]{2,}/([a-zA-Z0-9]{2,})"
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9]{2,}",
-                "errorMessage": "Not a valid Airtable Table ID"
-              }
-            }
-          ],
-          "placeholder": "tbl3dirwqeidke"
-        }
-      ]
+      "description": "",
+      "natural_language_description": "参数名: Table | 默认值: {'mode': 'url', 'value': ''} | (必填项)"
     },
     "addAllFields": {
       "displayName": "Add All Fields",
       "name": "addAllFields",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "append"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether all fields should be sent to Airtable or only specific ones",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Add All Fields | 作用: Whether all fields should be sent to Airtable or only specific ones | 默认值: True"
     },
     "fields": {
       "displayName": "Fields",
       "name": "fields",
       "type": "string",
-      "typeOptions": {
-        "multipleValues": true,
-        "multipleValueButtonText": "Add Field"
-      },
-      "requiresDataPath": "single",
-      "displayOptions": {
-        "show": {
-          "updateAllFields": [
-            false
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "default": [],
-      "placeholder": "Name",
       "required": true,
+      "default": [],
       "description": "The name of fields for which data should be sent to Airtable",
-      "ai_hint": "The name of fields for which data should be sent to Airtable"
+      "natural_language_description": "参数名: Fields | 作用: The name of fields for which data should be sent to Airtable | 默认值: [] | (必填项)"
     },
     "id": {
       "displayName": "ID",
       "name": "id",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "ID of the record to update",
-      "ai_hint": "ID of the record to update"
+      "natural_language_description": "参数名: ID | 作用: ID of the record to update | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: True"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 100
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "downloadAttachments": {
       "displayName": "Download Attachments",
       "name": "downloadAttachments",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether the attachment fields define in 'Download Fields' will be downloaded",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Download Attachments | 作用: Whether the attachment fields define in 'Download Fields' will be downloaded | 默认值: False"
     },
     "downloadFieldNames": {
       "displayName": "Download Fields",
       "name": "downloadFieldNames",
       "type": "string",
       "required": true,
-      "requiresDataPath": "multiple",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ],
-          "downloadAttachments": [
-            true
-          ]
-        }
-      },
       "default": "",
       "description": "Name of the fields of type 'attachment' that should be downloaded. Multiple ones can be defined separated by comma. Case sensitive and cannot include spaces after a comma.",
-      "ai_hint": "Name of the fields of type 'attachment' that should be downloaded. Multiple ones can be defined separated by comma. Case sensitive and cannot include spaces after a comma."
+      "natural_language_description": "参数名: Download Fields | 作用: Name of the fields of type 'attachment' that should be downloaded. Multiple ones can be defined separated by comma. Case sensitive and cannot include spaces after a comma. | (必填项)"
     },
     "additionalOptions": {
       "displayName": "Additional Options",
       "name": "additionalOptions",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
       "description": "Additional options which decide which records should be returned",
-      "placeholder": "Add option",
-      "options": [
-        {
-          "displayName": "Fields",
-          "name": "fields",
-          "type": "string",
-          "requiresDataPath": "single",
-          "typeOptions": {
-            "multipleValues": true,
-            "multipleValueButtonText": "Add Field"
-          },
-          "default": [],
-          "placeholder": "Name",
-          "description": "Only data for fields whose names are in this list will be included in the records"
-        },
-        {
-          "displayName": "Filter By Formula",
-          "name": "filterByFormula",
-          "type": "string",
-          "default": "",
-          "placeholder": "NOT({Name} = '')",
-          "description": "A formula used to filter records. The formula will be evaluated for each record, and if the result is not 0, false, \"\", NaN, [], or #Error! the record will be included in the response."
-        },
-        {
-          "displayName": "Sort",
-          "name": "sort",
-          "placeholder": "Add Sort Rule",
-          "description": "Defines how the returned records should be ordered",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "property",
-              "displayName": "Property",
-              "values": [
-                {
-                  "displayName": "Field",
-                  "name": "field",
-                  "type": "string",
-                  "default": "",
-                  "description": "Name of the field to sort on"
-                },
-                {
-                  "displayName": "Direction",
-                  "name": "direction",
-                  "type": "options",
-                  "options": [
-                    {
-                      "name": "ASC",
-                      "value": "asc",
-                      "description": "Sort in ascending order (small -> large)"
-                    },
-                    {
-                      "name": "DESC",
-                      "value": "desc",
-                      "description": "Sort in descending order (large -> small)"
-                    }
-                  ],
-                  "default": "asc",
-                  "description": "The sort direction"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "View",
-          "name": "view",
-          "type": "string",
-          "default": "",
-          "placeholder": "All Stories",
-          "description": "The name or ID of a view in the Stories table. If set, only the records in that view will be returned. The records will be sorted according to the order of the view."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Additional Options | 作用: Additional options which decide which records should be returned | 默认值: {}",
+      "available_options": [
+        "fields (值: None) - Only data for fields whose names are in this list will be included in the records",
+        "filterByFormula (值: None) - A formula used to filter records. The formula will be evaluated for each record, and if the result is not 0, false, \"\", NaN, [], or #Error! the record will be included in the response.",
+        "sort (值: None) - Defines how the returned records should be ordered",
+        "view (值: None) - The name or ID of a view in the Stories table. If set, only the records in that view will be returned. The records will be sorted according to the order of the view."
+      ]
     },
     "updateAllFields": {
       "displayName": "Update All Fields",
       "name": "updateAllFields",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether all fields should be sent to Airtable or only specific ones",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Update All Fields | 作用: Whether all fields should be sent to Airtable or only specific ones | 默认值: True"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "append",
-            "delete",
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Bulk Size",
-          "name": "bulkSize",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 1,
-            "maxValue": 10
-          },
-          "default": 10,
-          "description": "Number of records to process at once"
-        },
-        {
-          "displayName": "Ignore Fields",
-          "name": "ignoreFields",
-          "type": "string",
-          "requiresDataPath": "multiple",
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "update"
-              ],
-              "/updateAllFields": [
-                true
-              ]
-            }
-          },
-          "default": "",
-          "description": "Comma-separated list of fields to ignore"
-        },
-        {
-          "displayName": "Typecast",
-          "name": "typecast",
-          "type": "boolean",
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "append",
-                "update"
-              ]
-            }
-          },
-          "default": false,
-          "description": "Whether the Airtable API should attempt mapping of string values for linked records & select options"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "bulkSize (值: None) - Number of records to process at once",
+        "ignoreFields (值: None) - Comma-separated list of fields to ignore",
+        "typecast (值: None) - Whether the Airtable API should attempt mapping of string values for linked records & select options"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "authentication",
-      "oldVersionNotice",
-      "deprecated",
-      "operation",
-      "application",
-      "table",
-      "addAllFields",
-      "fields",
-      "id",
-      "returnAll",
-      "limit",
-      "downloadAttachments",
-      "downloadFieldNames",
-      "additionalOptions",
-      "id",
-      "id",
-      "updateAllFields",
-      "fields",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF authentication == 'airtableApi' THEN SHOW parameter 'deprecated'",
-      "IF operation == 'append' THEN SHOW parameter 'addAllFields'",
-      "IF addAllFields == False AND operation == 'append' THEN SHOW parameter 'fields'",
-      "IF operation == 'delete' THEN SHOW parameter 'id'",
-      "IF operation == 'list' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'list' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'list' THEN SHOW parameter 'downloadAttachments'",
-      "IF operation == 'list' AND downloadAttachments == True THEN SHOW parameter 'downloadFieldNames'",
-      "IF operation == 'list' THEN SHOW parameter 'additionalOptions'",
-      "IF operation == 'read' THEN SHOW parameter 'id'",
-      "IF operation == 'update' THEN SHOW parameter 'id'",
-      "IF operation == 'update' THEN SHOW parameter 'updateAllFields'",
-      "IF updateAllFields == False AND operation == 'update' THEN SHOW parameter 'fields'",
-      "IF operation IN [\"append\", \"delete\", \"update\"] THEN SHOW parameter 'options'",
-      "IF /operation == 'update' AND /updateAllFields == True THEN SHOW parameter 'ignoreFields'",
-      "IF /operation IN [\"append\", \"update\"] THEN SHOW parameter 'typecast'"
-    ]
   }
 }

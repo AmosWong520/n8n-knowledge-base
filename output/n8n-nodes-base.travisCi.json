@@ -1,252 +1,95 @@
 {
   "node_id": "n8n-nodes-base.travisCi",
-  "name": "n8n-nodes-base.travisCi",
+  "name": "TravisCI",
   "version": 1,
   "semantic_context": "Consume TravisCI API",
+  "natural_language_description": "这是 TravisCI 节点。主要用于: Consume TravisCI API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Build",
-          "value": "build"
-        }
-      ],
+      "required": false,
       "default": "build",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: build",
+      "available_options": [
+        "Build (值: build)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "build"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Cancel",
-          "value": "cancel",
-          "description": "Cancel a build",
-          "action": "Cancel a build"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a build",
-          "action": "Get a build"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many builds",
-          "action": "Get many builds"
-        },
-        {
-          "name": "Restart",
-          "value": "restart",
-          "description": "Restart a build",
-          "action": "Restart a build"
-        },
-        {
-          "name": "Trigger",
-          "value": "trigger",
-          "description": "Trigger a build",
-          "action": "Trigger a build"
-        }
-      ],
+      "required": false,
       "default": "cancel",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: cancel",
+      "available_options": [
+        "Cancel (值: cancel) - Cancel a build",
+        "Get (值: get) - Get a build",
+        "Get Many (值: getAll) - Get many builds",
+        "Restart (值: restart) - Restart a build",
+        "Trigger (值: trigger) - Trigger a build"
+      ]
     },
     "buildId": {
       "displayName": "Build ID",
       "name": "buildId",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "restart"
-          ],
-          "resource": [
-            "build"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "Value uniquely identifying the build",
-      "ai_hint": "Value uniquely identifying the build"
+      "natural_language_description": "参数名: Build ID | 作用: Value uniquely identifying the build"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "build"
-          ],
-          "operation": [
-            "trigger"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Message",
-          "name": "message",
-          "type": "string",
-          "default": "",
-          "description": "Travis-ci status message attached to the request"
-        },
-        {
-          "displayName": "Merge Mode",
-          "name": "mergeMode",
-          "type": "options",
-          "options": [
-            {
-              "name": "Deep Merge",
-              "value": "deep_merge"
-            },
-            {
-              "name": "Deep Merge Append",
-              "value": "deep_merge_append"
-            },
-            {
-              "name": "Deep Merge Prepend",
-              "value": "deep_merge_prepend"
-            },
-            {
-              "name": "Merge",
-              "value": "merge"
-            },
-            {
-              "name": "Replace",
-              "value": "replace"
-            }
-          ],
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "message (值: None) - Travis-ci status message attached to the request",
+        "mergeMode (值: None)"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "build"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "build"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "slug": {
       "displayName": "Slug",
       "name": "slug",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "trigger"
-          ],
-          "resource": [
-            "build"
-          ]
-        }
-      },
-      "placeholder": "n8n-io/n8n",
+      "required": false,
       "default": "",
       "description": "Same as {ownerName}/{repositoryName}",
-      "ai_hint": "Same as {ownerName}/{repositoryName}"
+      "natural_language_description": "参数名: Slug | 作用: Same as {ownerName}/{repositoryName}"
     },
     "branch": {
       "displayName": "Branch",
       "name": "branch",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "trigger"
-          ],
-          "resource": [
-            "build"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "placeholder": "master",
       "description": "Branch requested to be built",
-      "ai_hint": "Branch requested to be built"
+      "natural_language_description": "参数名: Branch | 作用: Branch requested to be built"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "buildId",
-      "buildId",
-      "additionalFields",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "buildId",
-      "slug",
-      "branch",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF resource == 'build' THEN SHOW parameter 'operation'",
-      "IF operation == 'cancel' AND resource == 'build' THEN SHOW parameter 'buildId'",
-      "IF operation == 'get' AND resource == 'build' THEN SHOW parameter 'buildId'",
-      "IF resource == 'build' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'getAll' AND resource == 'build' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'build' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'build' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'restart' AND resource == 'build' THEN SHOW parameter 'buildId'",
-      "IF operation == 'trigger' AND resource == 'build' THEN SHOW parameter 'slug'",
-      "IF operation == 'trigger' AND resource == 'build' THEN SHOW parameter 'branch'",
-      "IF resource == 'build' AND operation == 'trigger' THEN SHOW parameter 'additionalFields'"
-    ]
   }
 }

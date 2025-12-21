@@ -1,468 +1,153 @@
 {
   "node_id": "n8n-nodes-base.evaluationTrigger",
-  "name": "n8n-nodes-base.evaluationTrigger",
-  "version": [
-    4.6,
-    4.7
-  ],
+  "name": "Evaluation Trigger",
+  "version": 1,
   "semantic_context": "Run a test dataset through your workflow to check performance",
+  "natural_language_description": "这是 Evaluation Trigger 节点。主要用于: Run a test dataset through your workflow to check performance",
   "parameters": {
     "source": {
       "displayName": "Source",
       "name": "source",
       "type": "options",
-      "options": [
-        {
-          "name": "Data table",
-          "value": "dataTable",
-          "description": "Load the test dataset from a local Data table"
-        },
-        {
-          "name": "Google Sheets",
-          "value": "googleSheets",
-          "description": "Load the test dataset from a Google Sheets document"
-        }
-      ],
+      "required": false,
       "default": "googleSheets",
       "description": "Where to get the test dataset from",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "lte": 4.6
-              }
-            }
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Source | 作用: Where to get the test dataset from | 默认值: googleSheets",
+      "available_options": [
+        "Data table (值: dataTable) - Load the test dataset from a local Data table",
+        "Google Sheets (值: googleSheets) - Load the test dataset from a Google Sheets document"
+      ]
     },
     "notice": {
       "displayName": "Pulls a test dataset from a Google Sheet. The workflow will run once for each row, in sequence. Tips for wiring this node up <a href=\"https://docs.n8n.io/advanced-ai/evaluations/tips-and-common-issues/#combining-multiple-triggers\">here</a>.",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "hide": {
-          "source": [
-            "dataTable"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Pulls a test dataset from a Google Sheet. The workflow will run once for each row, in sequence. Tips for wiring this node up <a href=\"https://docs.n8n.io/advanced-ai/evaluations/tips-and-common-issues/#combining-multiple-triggers\">here</a>."
     },
     "credentials": {
       "displayName": "Credentials",
       "name": "credentials",
       "type": "credentials",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "hide": {
-          "source": [
-            "dataTable"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Credentials"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Service Account",
-          "value": "serviceAccount"
-        },
-        {
-          "name": "OAuth2 (recommended)",
-          "value": "oAuth2"
-        }
-      ],
+      "required": false,
       "default": "oAuth2",
-      "displayOptions": {
-        "hide": {
-          "source": [
-            "dataTable"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: oAuth2",
+      "available_options": [
+        "Service Account (值: serviceAccount)",
+        "OAuth2 (recommended) (值: oAuth2)"
+      ]
     },
     "documentId": {
       "displayName": "Document Containing Dataset",
       "name": "documentId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "spreadSheetsSearch",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "extractValue": {
-            "type": "regex",
-            "regex": "https:\\/\\/(?:drive|docs)\\.google\\.com(?:\\/.*|)\\/d\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
-          },
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "https:\\/\\/(?:drive|docs)\\.google\\.com(?:\\/.*|)\\/d\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)",
-                "errorMessage": "Not a valid Google Drive File URL"
-              }
-            }
-          ]
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9\\-_]{2,}",
-                "errorMessage": "Not a valid Google Drive File ID"
-              }
-            }
-          ],
-          "url": "=https://docs.google.com/spreadsheets/d/{{$value}}/edit"
-        }
-      ],
-      "hint": "Example dataset format <a href=\"https://docs.google.com/spreadsheets/d/1vD_IdeFUg7sHsK9okL6Doy1rGOkWTnPJV3Dro4FBUsY/edit?gid=0#gid=0\">here</a>",
-      "displayOptions": {
-        "hide": {
-          "source": [
-            "dataTable"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Document Containing Dataset | 提示: Example dataset format here | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "sheetName": {
       "displayName": "Sheet Containing Dataset",
       "name": "sheetName",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "typeOptions": {
-        "loadOptionsDependsOn": [
-          "documentId.value"
-        ]
-      },
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "sheetsSearch",
-            "searchable": false
-          }
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "extractValue": {
-            "type": "regex",
-            "regex": "https:\\/\\/docs\\.google\\.com\\/spreadsheets\\/d\\/[0-9a-zA-Z\\-_]+.*\\#gid=([0-9]+)"
-          },
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "https:\\/\\/docs\\.google\\.com\\/spreadsheets\\/d\\/[0-9a-zA-Z\\-_]+.*\\#gid=([0-9]+)",
-                "errorMessage": "Not a valid Sheet URL"
-              }
-            }
-          ]
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "((gid=)?[0-9]{1,})",
-                "errorMessage": "Not a valid Sheet ID"
-              }
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "hide": {
-          "source": [
-            "dataTable"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Sheet Containing Dataset | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "dataTableId": {
       "displayName": "Data table",
       "name": "dataTableId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "dataTableSearch",
-            "searchable": true,
-            "skipCredentialsCheckInRLC": true
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "source": [
-            "dataTable"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Data table | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "limitRows": {
       "displayName": "Limit Rows",
       "name": "limitRows",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "noDataExpression": true,
       "description": "Whether to limit number of rows to process",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Limit Rows | 作用: Whether to limit number of rows to process | 默认值: False"
     },
     "maxRows": {
       "displayName": "Max Rows to Process",
       "name": "maxRows",
       "type": "number",
+      "required": false,
       "default": 10,
       "description": "Maximum number of rows to process",
-      "noDataExpression": false,
-      "displayOptions": {
-        "show": {
-          "limitRows": [
-            true
-          ]
-        }
-      },
-      "ai_hint": "Maximum number of rows to process"
+      "natural_language_description": "参数名: Max Rows to Process | 作用: Maximum number of rows to process | 默认值: 10"
     },
     "filtersUI": {
       "displayName": "Filters",
       "name": "filtersUI",
-      "placeholder": "Add Filter",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValueButtonText": "Add Filter",
-        "multipleValues": true
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Filter",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Column",
-              "name": "lookupColumn",
-              "type": "options",
-              "typeOptions": {
-                "loadOptionsDependsOn": [
-                  "sheetName.value"
-                ],
-                "loadOptionsMethod": "getSheetHeaderRowWithGeneratedColumnNames"
-              },
-              "default": "",
-              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
-            },
-            {
-              "displayName": "Value",
-              "name": "lookupValue",
-              "type": "string",
-              "default": "",
-              "hint": "The column must have this value to be matched"
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "hide": {
-          "source": [
-            "dataTable"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "filterRows": {
       "displayName": "Filter Rows",
       "name": "filterRows",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "noDataExpression": true,
       "description": "Whether to filter rows to process",
-      "displayOptions": {
-        "show": {
-          "source": [
-            "dataTable"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Filter Rows | 作用: Whether to filter rows to process | 默认值: False"
     },
     "matchType": {
       "displayName": "Must Match",
       "name": "matchType",
       "type": "options",
-      "options": [
-        {
-          "name": "Any Condition",
-          "value": "anyCondition"
-        },
-        {
-          "name": "All Conditions",
-          "value": "allConditions"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "filterRows": [
-            true
-          ]
-        }
-      },
+      "required": false,
       "default": "anyCondition",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Must Match | 默认值: anyCondition",
+      "available_options": [
+        "Any Condition (值: anyCondition)",
+        "All Conditions (值: allConditions)"
+      ]
     },
     "filters": {
       "displayName": "Conditions",
       "name": "filters",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true,
-        "minRequiredFields": 0
-      },
-      "displayOptions": {
-        "show": {
-          "filterRows": [
-            true
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "placeholder": "Add Condition",
-      "options": [
-        {
-          "displayName": "Conditions",
-          "name": "conditions",
-          "values": [
-            {
-              "displayName": "Column",
-              "name": "keyName",
-              "type": "options",
-              "description": "Choose from the list, or specify using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-              "typeOptions": {
-                "loadOptionsDependsOn": [
-                  "dataTableId.value"
-                ],
-                "loadOptionsMethod": "getDataTableColumns"
-              },
-              "default": "id"
-            },
-            {
-              "displayName": "Condition",
-              "name": "condition",
-              "type": "options",
-              "typeOptions": {
-                "loadOptionsDependsOn": [
-                  "&keyName"
-                ],
-                "loadOptionsMethod": "getConditionsForColumn"
-              },
-              "default": "eq"
-            },
-            {
-              "displayName": "Value",
-              "name": "keyValue",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "hide": {
-                  "condition": [
-                    "isEmpty",
-                    "isNotEmpty",
-                    "isTrue",
-                    "isFalse"
-                  ]
-                }
-              }
-            }
-          ]
-        }
-      ],
       "description": "Filter to decide which rows get",
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Conditions | 作用: Filter to decide which rows get | 默认值: {}",
+      "available_options": [
+        "conditions (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "source",
-      "source",
-      "notice",
-      "credentials",
-      "authentication",
-      "documentId",
-      "sheetName",
-      "dataTableId",
-      "limitRows",
-      "maxRows",
-      "filtersUI",
-      "filterRows",
-      "matchType",
-      "filters"
-    ],
-    "conditional_rules": [
-      "IF @version == {'_cnd': {'gte': 4.7}} THEN SHOW parameter 'source'",
-      "IF @version == {'_cnd': {'lte': 4.6}} THEN SHOW parameter 'source'",
-      "IF source == 'dataTable' THEN HIDE parameter 'notice'",
-      "IF source == 'dataTable' THEN HIDE parameter 'credentials'",
-      "IF source == 'dataTable' THEN HIDE parameter 'authentication'",
-      "IF source == 'dataTable' THEN HIDE parameter 'documentId'",
-      "IF source == 'dataTable' THEN HIDE parameter 'sheetName'",
-      "IF source == 'dataTable' THEN SHOW parameter 'dataTableId'",
-      "IF limitRows == True THEN SHOW parameter 'maxRows'",
-      "IF source == 'dataTable' THEN HIDE parameter 'filtersUI'",
-      "IF source == 'dataTable' THEN SHOW parameter 'filterRows'",
-      "IF filterRows == True THEN SHOW parameter 'matchType'",
-      "IF filterRows == True THEN SHOW parameter 'filters'",
-      "IF condition IN [\"isEmpty\", \"isNotEmpty\", \"isTrue\", \"isFalse\"] THEN HIDE parameter 'keyValue'"
-    ]
   }
 }

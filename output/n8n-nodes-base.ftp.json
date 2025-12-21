@@ -1,243 +1,113 @@
 {
   "node_id": "n8n-nodes-base.ftp",
-  "name": "n8n-nodes-base.ftp",
+  "name": "FTP",
   "version": 1,
   "semantic_context": "Transfer files via FTP or SFTP",
+  "natural_language_description": "这是 FTP 节点。主要用于: Transfer files via FTP or SFTP",
   "parameters": {
     "protocol": {
       "displayName": "Protocol",
       "name": "protocol",
       "type": "options",
-      "options": [
-        {
-          "name": "FTP",
-          "value": "ftp"
-        },
-        {
-          "name": "SFTP",
-          "value": "sftp"
-        }
-      ],
+      "required": false,
       "default": "ftp",
       "description": "File transfer protocol",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Protocol | 作用: File transfer protocol | 默认值: ftp",
+      "available_options": [
+        "FTP (值: ftp)",
+        "SFTP (值: sftp)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "options": [
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a file/folder",
-          "action": "Delete a file or folder"
-        },
-        {
-          "name": "Download",
-          "value": "download",
-          "description": "Download a file",
-          "action": "Download a file"
-        },
-        {
-          "name": "List",
-          "value": "list",
-          "description": "List folder content",
-          "action": "List folder content"
-        },
-        {
-          "name": "Rename",
-          "value": "rename",
-          "description": "Rename/move oldPath to newPath",
-          "action": "Rename / move a file or folder"
-        },
-        {
-          "name": "Upload",
-          "value": "upload",
-          "description": "Upload a file",
-          "action": "Upload a file"
-        }
-      ],
+      "required": false,
       "default": "download",
-      "noDataExpression": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: download",
+      "available_options": [
+        "Delete (值: delete) - Delete a file/folder",
+        "Download (值: download) - Download a file",
+        "List (值: list) - List folder content",
+        "Rename (值: rename) - Rename/move oldPath to newPath",
+        "Upload (值: upload) - Upload a file"
+      ]
     },
     "path": {
       "displayName": "Path",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ]
-        }
-      },
       "name": "path",
       "type": "string",
-      "default": "/",
-      "placeholder": "e.g. /public/folder",
-      "description": "Path of directory to list contents of",
       "required": true,
-      "ai_hint": "Path of directory to list contents of"
+      "default": "/",
+      "description": "Path of directory to list contents of",
+      "natural_language_description": "参数名: Path | 作用: Path of directory to list contents of | 默认值: / | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "rename"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Create Directories",
-          "name": "createDirectories",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to recursively create destination directory when renaming an existing file or folder"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "createDirectories (值: None) - Whether to recursively create destination directory when renaming an existing file or folder"
+      ]
     },
     "binaryPropertyName": {
       "displayName": "Input Binary Field",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upload"
-          ],
-          "binaryData": [
-            true
-          ]
-        }
-      },
       "name": "binaryPropertyName",
       "type": "string",
+      "required": true,
       "default": "data",
-      "hint": "The name of the input binary field containing the file to be written",
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Input Binary Field | 提示: The name of the input binary field containing the file to be written | 默认值: data | (必填项)"
     },
     "oldPath": {
       "displayName": "Old Path",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "rename"
-          ]
-        }
-      },
       "name": "oldPath",
       "type": "string",
+      "required": true,
       "default": "",
-      "placeholder": "e.g. /public/documents/old-file.txt",
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Old Path | (必填项)"
     },
     "newPath": {
       "displayName": "New Path",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "rename"
-          ]
-        }
-      },
       "name": "newPath",
       "type": "string",
+      "required": true,
       "default": "",
-      "placeholder": "e.g. /public/documents/new-file.txt",
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: New Path | (必填项)"
     },
     "binaryData": {
       "displayName": "Binary File",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upload"
-          ]
-        }
-      },
       "name": "binaryData",
       "type": "boolean",
+      "required": false,
       "default": true,
       "description": "The text content of the file to upload",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Binary File | 作用: The text content of the file to upload | 默认值: True"
     },
     "fileContent": {
       "displayName": "File Content",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upload"
-          ],
-          "binaryData": [
-            false
-          ]
-        }
-      },
       "name": "fileContent",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "The text content of the file to upload",
-      "ai_hint": "The text content of the file to upload"
+      "natural_language_description": "参数名: File Content | 作用: The text content of the file to upload"
     },
     "recursive": {
       "displayName": "Recursive",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ]
-        }
-      },
       "name": "recursive",
       "type": "boolean",
+      "required": true,
       "default": false,
       "description": "Whether to return object representing all directories / objects recursively found within SFTP server",
-      "required": true,
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Recursive | 作用: Whether to return object representing all directories / objects recursively found within SFTP server | 默认值: False | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "protocol",
-      "operation",
-      "path",
-      "options",
-      "path",
-      "binaryPropertyName",
-      "options",
-      "oldPath",
-      "newPath",
-      "options",
-      "path",
-      "binaryData",
-      "binaryPropertyName",
-      "fileContent",
-      "path",
-      "recursive"
-    ],
-    "conditional_rules": [
-      "IF operation == 'delete' THEN SHOW parameter 'path'",
-      "IF operation == 'delete' THEN SHOW parameter 'options'",
-      "IF folder == True THEN SHOW parameter 'recursive'",
-      "IF operation == 'download' THEN SHOW parameter 'path'",
-      "IF operation == 'download' THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'download' THEN SHOW parameter 'options'",
-      "IF enableConcurrentReads == True THEN SHOW parameter 'maxConcurrentReads'",
-      "IF enableConcurrentReads == True THEN SHOW parameter 'chunkSize'",
-      "IF operation == 'rename' THEN SHOW parameter 'oldPath'",
-      "IF operation == 'rename' THEN SHOW parameter 'newPath'",
-      "IF operation == 'rename' THEN SHOW parameter 'options'",
-      "IF operation == 'upload' THEN SHOW parameter 'path'",
-      "IF operation == 'upload' THEN SHOW parameter 'binaryData'",
-      "IF operation == 'upload' AND binaryData == True THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'upload' AND binaryData == False THEN SHOW parameter 'fileContent'",
-      "IF operation == 'list' THEN SHOW parameter 'path'",
-      "IF operation == 'list' THEN SHOW parameter 'recursive'"
-    ]
   }
 }

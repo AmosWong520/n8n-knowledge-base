@@ -1,285 +1,182 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 import json
+import os
+import shutil
 import re
 from pathlib import Path
-from typing import Any, Dict, List, Tuple, Union
 
+# =================配置区域=================
+# 定义源文件路径 (单一大文件)
 ROOT = Path(".")
 SRC_FILE = ROOT / "raw" / "n8n_nodes_library.json"
-OUT_DIR = ROOT / "output"
+OUTPUT_DIR = ROOT / "output"
+# =========================================
 
-def sanitize_filename(name: str) -> str:
-    name = name or "unnamed_node"
-    name = re.sub(r"[\\/:*?\"<>|]+", "_", name)
-    name = name.replace(" ", "_")
-    return name
-
-def ensure_out_dir() -> None:
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-
-def values_list_to_expr(values: Union[List[Any], Any]) -> str:
-    if not isinstance(values, (list, tuple)):
-        values = [values]
-    if len(values) == 1:
-        v = values[0]
-        return f"'{v}'" if isinstance(v, str) else str(v)
-    return json.dumps(values, ensure_ascii=False)
-
-def flatten_display_options_display(d: Dict[str, Any], prefix: str = "") -> List[Tuple[str, Any]]:
-    """
-    Flatten nested displayOptions dict into list of (key_path, values)
-    e.g. {"resource": {"operation": ["create"]}} -> [("resource.operation", ["create"])]
-    """
-    pairs: List[Tuple[str, Any]] = []
-    for k, v in d.items():
-        if isinstance(v, dict):
-            for subk, subv in flatten_display_options_display(v, prefix="").items() if False else []:
-                pass
-        if isinstance(v, dict):
-            # nested dict: recurse
-            for subk, subv in flatten_display_options_display(v, prefix=""):
-                pairs.append((f"{k}.{subk}", subv))
-        else:
-            pairs.append((k if not prefix else f"{prefix}.{k}", v))
-    return pairs
-
-def flatten_display_options(d: Dict[str, Any]) -> List[Tuple[str, Any]]:
-    """
-    Takes a displayOptions mapping (show/hide) and flattens into conditions
-    Returns list of tuples (field_path, values)
-    """
-    out: List[Tuple[str, Any]] = []
-    for k, v in d.items():
-        if k in ("show", "hide") and isinstance(v, dict):
-            for field, vals in v.items():
-                if isinstance(vals, dict):
-                    # nested dict like {"resource": {"operation": ["create"]}}
-                    for sub_field, sub_vals in vals.items():
-                        out.append((f"{field}.{sub_field}", sub_vals))
-                else:
-                    out.append((field, vals))
-    return out
-
-def display_options_to_rules(display_options: Dict[str, Any], target: str = None) -> List[str]:
-    """
-    Convert a displayOptions object (common in n8n nodes) into human-readable IF...THEN... rules.
-    Produces rules for both 'show' and 'hide' cases.
-    """
-    rules: List[str] = []
-    if not isinstance(display_options, dict):
-        return rules
-    # handle show/hide at top-level
-    for mode in ("show", "hide"):
-        if mode in display_options and isinstance(display_options[mode], dict):
-            conds = []
-            for field, val in display_options[mode].items():
-                if isinstance(val, dict):
-                    # nested dict: join nested conditions with AND
-                    for sub_field, sub_vals in val.items():
-                        expr = _single_condition_expr(f"{field}.{sub_field}", sub_vals)
-                        conds.append(expr)
-                else:
-                    expr = _single_condition_expr(field, val)
-                    conds.append(expr)
-            if conds:
-                cond_expr = " AND ".join(conds)
-                action = "SHOW" if mode == "show" else "HIDE"
-                target_desc = f" parameter '{target}'" if target else ""
-                rules.append(f"IF {cond_expr} THEN {action}{target_desc}")
-    return rules
-
-def _single_condition_expr(field: str, val: Any) -> str:
-    if isinstance(val, (list, tuple)):
-        if len(val) == 1:
-            v = val[0]
-            return f"{field} == '{v}'" if isinstance(v, str) else f"{field} == {v}"
-        return f"{field} IN {json.dumps(val, ensure_ascii=False)}"
-    else:
-        return f"{field} == '{val}'" if isinstance(val, str) else f"{field} == {val}"
-
-def generate_ai_hint_for_param(name: str, param: Dict[str, Any]) -> str:
-    """
-    Heuristic rules to auto-generate ai_hint for a parameter based on its name and type.
-    """
-    ptype = (param.get("type") or "").lower()
-    name_lower = (name or "").lower()
-    hints: List[str] = []
-    if ptype in ("fixedcollection", "fixed_collection", "fixedCollection", "collection"):
-        hints.append("此参数为 fixedCollection，包含嵌套字段，不要扁平化。")
-    if "url" in name_lower:
-        hints.append("必须包含协议头 (http:// 或 https://)。支持表达式注入。")
-    if name_lower in ("method",) or ptype == "options" and param.get("options"):
-        hints.append("根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。")
-    if ptype == "boolean" or name_lower.startswith("is") or name_lower.startswith("has"):
-        hints.append("布尔值：true 或 false。")
-    if "token" in name_lower or "auth" in name_lower:
-        hints.append("与鉴权相关，注意不要在公共日志中输出敏感信息。")
-    if not hints:
-        # default short hint if description exists
-        desc = param.get("description") or param.get("note") or ""
-        if desc:
-            return desc
+def clean_html(text):
+    """简单的去除HTML标签，保留纯文本"""
+    if not isinstance(text, str):
         return ""
-    return " ".join(hints)
+    text = text.replace("<code>", "`").replace("</code>", "`")
+    text = text.replace("<b>", "**").replace("</b>", "**")
+    text = text.replace("<br>", " ").replace("\n", " ")
+    # 去除链接标签但保留文字
+    text = re.sub(r'<a[^>]*>(.*?)</a>', r'\1', text)
+    # 去除其他残留标签
+    text = re.sub(r'<[^>]+>', '', text)
+    return text.strip()
 
-def find_nodes_in_object(obj: Any) -> List[Dict[str, Any]]:
+def generate_natural_description(param):
     """
-    Try to locate node objects within a loaded JSON file. Common shapes:
-    - top-level list of nodes
-    - dict with 'nodes' or 'items' or similar
-    - single node dict
+    【核心逻辑】这就是你问的“谁生成的描述”
+    答案：这里通过代码，把分散的字段拼成了一句话。
     """
-    if isinstance(obj, list):
-        return [o for o in obj if isinstance(o, dict)]
-    if isinstance(obj, dict):
-        # common container keys
-        for key in ("nodes", "items", "resources", "elements"):
-            if key in obj and isinstance(obj[key], list):
-                return [o for o in obj[key] if isinstance(o, dict)]
-        # assume this dict itself might be a node (has name or displayOptions or properties)
-        if any(k in obj for k in ("name", "displayOptions", "properties", "parameters", "credentials")):
-            return [obj]
-    return []
+    parts = []
+    
+    # 1. 拿名字
+    display_name = param.get('displayName', param.get('name', ''))
+    if display_name:
+        parts.append(f"参数名: {display_name}")
+    
+    # 2. 拿描述 (去掉原本难懂的 HTML 标签)
+    desc = clean_html(param.get('description', ''))
+    if desc:
+        parts.append(f"作用: {desc}")
+        
+    # 3. 拿提示 (Hint)
+    hint = clean_html(param.get('hint', param.get('ai_hint', ''))) # 兼容旧脚本的 ai_hint
+    if hint:
+        parts.append(f"提示: {hint}")
+        
+    # 4. 拿默认值
+    default_val = param.get('default')
+    if default_val is not None and str(default_val) != "":
+        parts.append(f"默认值: {default_val}")
+        
+    # 5. 看看是不是必填
+    if param.get('required') is True:
+        parts.append("(必填项)")
+        
+    # 拼成一句话返回
+    return " | ".join(parts)
 
-def clean_parameter(param: Dict[str, Any], name: str = None) -> Dict[str, Any]:
-    p = dict(param)  # shallow copy
-    if name:
-        p.setdefault("name", name)
-    # ensure ai_hint
-    if not p.get("ai_hint"):
-        generated = generate_ai_hint_for_param(p.get("name") or name, p)
-        if generated:
-            p["ai_hint"] = generated
-    return p
+def process_parameters(params_list):
+    """递归处理参数列表"""
+    cleaned_params = {}
+    
+    # 如果参数是字典形式（旧格式兼容）
+    if isinstance(params_list, dict):
+        temp_list = []
+        for key, val in params_list.items():
+            val['name'] = key
+            temp_list.append(val)
+        params_list = temp_list
 
-def collect_conditional_rules_from_params(params: Union[Dict[str, Any], List[Any]]) -> List[str]:
-    rules: List[str] = []
-    if isinstance(params, dict):
-        iterator = params.items()
-    elif isinstance(params, list):
-        # list of parameter dicts or collections
-        iterator = enumerate(params)
-    else:
-        return rules
-    for key, val in iterator:
-        # val might be a dict defining a parameter
-        if isinstance(val, dict):
-            # parameter-level displayOptions
-            display = val.get("displayOptions") or val.get("display_options") or val.get("display")
-            param_name = val.get("name") or (key if isinstance(key, str) else None)
-            if display:
-                rules.extend(display_options_to_rules(display, target=param_name))
-            # nested parameters in fixedCollection / collection
-            if val.get("type") and "collection" in str(val.get("type")).lower():
-                # attempt to find nested values
-                for nested_key in ("options", "values", "fields", "properties", "collection"):
-                    nested = val.get(nested_key)
-                    if nested and isinstance(nested, (list, dict)):
-                        rules.extend(collect_conditional_rules_from_params(nested))
-            # also check for nested "options" which may be a list of groups
-            if isinstance(val.get("options"), list):
-                for opt in val.get("options"):
-                    if isinstance(opt, dict):
-                        rules.extend(collect_conditional_rules_from_params(opt.get("values") or opt.get("options") or opt.get("fields") or opt.get("properties") or []))
-    return rules
+    if not isinstance(params_list, list):
+        return {}
 
-def clean_node(node: Dict[str, Any]) -> Dict[str, Any]:
-    cleaned: Dict[str, Any] = {}
-    # map top-level identifiers
-    cleaned["node_id"] = node.get("node_id") or node.get("id") or node.get("name") or node.get("type")
-    cleaned["name"] = node.get("name") or cleaned["node_id"]
-    # preserve version or default
-    cleaned["version"] = node.get("version") or node.get("versionId") or 1
-    # semantic context / description
-    cleaned["semantic_context"] = node.get("description") or node.get("summary") or node.get("note") or ""
-    # parameters: try to canonicalize into a dict of name->param
-    raw_params = node.get("properties") or node.get("parameters") or node.get("options") or node.get("inputs") or node.get("parametersList") or node.get("fields") or node.get("attributes") or node.get("props") or node.get("params")
-    params_out: Dict[str, Any] = {}
-    if isinstance(raw_params, dict):
-        for pname, pval in raw_params.items():
-            params_out[pname] = clean_parameter(pval, name=pname)
-    elif isinstance(raw_params, list):
-        # list of param dicts
-        for p in raw_params:
-            if isinstance(p, dict):
-                pname = p.get("name") or p.get("key") or p.get("id")
-                if not pname:
-                    # generate a unique placeholder name
-                    pname = p.get("label") or ("param_" + str(len(params_out) + 1))
-                params_out[pname] = clean_parameter(p, name=pname)
-    else:
-        # try to pull 'parameters' key from node children
-        params_out = {}
-    cleaned["parameters"] = params_out
-    # configuration logic
-    config_logic: Dict[str, Any] = {}
-    # required sequence - try to infer from an ordered list or from a known field
-    if isinstance(raw_params, list):
-        config_logic["required_sequence"] = [p.get("name") or p.get("key") or p.get("id") for p in raw_params if isinstance(p, dict) and (p.get("name") or p.get("key") or p.get("id"))]
-    else:
-        config_logic["required_sequence"] = list(params_out.keys())
-    # collect conditional rules from parameters and node-level displayOptions
-    rules: List[str] = []
-    # node-level displayOptions
-    node_display = node.get("displayOptions") or node.get("display_options") or node.get("display")
-    if node_display:
-        rules.extend(display_options_to_rules(node_display, target=node.get("name")))
-    # parameter-level
-    rules.extend(collect_conditional_rules_from_params(raw_params or []))
-    # deduplicate while preserving order
-    seen = set()
-    deduped_rules = []
-    for r in rules:
-        if r not in seen:
-            deduped_rules.append(r)
-            seen.add(r)
-    config_logic["conditional_rules"] = deduped_rules
-    cleaned["configuration_logic"] = config_logic
-    # preserve an example snippet if present
-    if node.get("workflow_json_snippet"):
-        cleaned["workflow_json_snippet"] = node.get("workflow_json_snippet")
-    return cleaned
+    for param in params_list:
+        if not isinstance(param, dict): continue
+        
+        name = param.get('name') or param.get('id')
+        if not name: continue
+            
+        # 基础提取
+        param_obj = {
+            "displayName": param.get('displayName', name),
+            "name": name,
+            "type": param.get('type'),
+            "required": param.get('required', False),
+            "default": param.get('default'),
+            "description": clean_html(param.get('description', '')),
+            # === ✨ 就在这里增加了新字段 ✨ ===
+            "natural_language_description": generate_natural_description(param)
+        }
 
-def process_all_sources() -> None:
-    ensure_out_dir()
-    master: List[Dict[str, Any]] = []
-    found_any = False
+        # 处理选项 (Options)
+        if 'options' in param and isinstance(param['options'], list):
+            clean_options = []
+            for opt in param['options']:
+                if isinstance(opt, dict):
+                    opt_desc = f"{opt.get('name')} (值: {opt.get('value')})"
+                    if opt.get('description'):
+                        opt_desc += f" - {clean_html(opt['description'])}"
+                    clean_options.append(opt_desc)
+            if clean_options:
+                param_obj['available_options'] = clean_options
+
+        cleaned_params[name] = param_obj
+        
+    return cleaned_params
+
+def main():
     if not SRC_FILE.exists():
-        print(f"Source file {SRC_FILE} not found.")
+        print(f"Error: Source file {SRC_FILE} not found.")
         return
+
+    # 清理并重建输出目录
+    if OUTPUT_DIR.exists():
+        shutil.rmtree(OUTPUT_DIR)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    print(f"Reading source file: {SRC_FILE}...")
+    
     try:
-        text = SRC_FILE.read_text(encoding="utf-8")
-        data = json.loads(text)
+        # 读取原始大文件
+        with open(SRC_FILE, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            
+        # 兼容处理：有时候 source 是 list，有时候可能是 dict
+        nodes_data = []
+        if isinstance(data, list):
+            nodes_data = data
+        elif isinstance(data, dict):
+            # 尝试找 nodes 列表
+            for key in ['nodes', 'items', 'elements']:
+                if key in data and isinstance(data[key], list):
+                    nodes_data = data[key]
+                    break
+        
+        if not nodes_data:
+            print("Warning: No nodes found in JSON file.")
+            return
+
+        count = 0
+        for node in nodes_data:
+            if not isinstance(node, dict): continue
+            
+            # 1. 确定文件名
+            raw_name = node.get('name') or node.get('displayName') or f"node_{count}"
+            # 简单的文件名清洗
+            safe_filename = re.sub(r"[\\/:*?\"<>|]+", "_", raw_name).replace(" ", "_").strip()
+            
+            # 2. 提取核心数据
+            clean_node = {
+                "node_id": raw_name,
+                "name": node.get('displayName', raw_name),
+                "version": node.get('defaults', {}).get('version', 1),
+                "semantic_context": clean_html(node.get('description', '')),
+                # 节点级别的描述也拼一下
+                "natural_language_description": f"这是 {node.get('displayName')} 节点。主要用于: {clean_html(node.get('description', ''))}",
+                "parameters": {},
+            }
+            
+            # 3. 处理参数
+            raw_params = node.get('properties') or node.get('parameters') or []
+            if raw_params:
+                clean_node['parameters'] = process_parameters(raw_params)
+            
+            # 4. 写入文件
+            file_path = OUTPUT_DIR / f"{safe_filename}.json"
+            with open(file_path, 'w', encoding='utf-8') as out_f:
+                json.dump(clean_node, out_f, indent=2, ensure_ascii=False)
+            
+            count += 1
+
+        print(f"Success! Processed {count} nodes. Output written to {OUTPUT_DIR}/")
+
     except Exception as e:
-        print(f"Failed to load source file {SRC_FILE}: {e}")
-        return
-    # data expected to be a list of node objects
-    if isinstance(data, list):
-        nodes = [n for n in data if isinstance(n, dict)]
-    else:
-        nodes = find_nodes_in_object(data)
-        if not nodes and isinstance(data, dict):
-            nodes = [data]
-    for idx, node in enumerate(nodes, start=1):
-        try:
-            cleaned = clean_node(node)
-            name = sanitize_filename(cleaned.get("name") or cleaned.get("node_id") or f"node_{idx}")
-            out_path = OUT_DIR / f"{name}.json"
-            out_path.write_text(json.dumps(cleaned, ensure_ascii=False, indent=2), encoding="utf-8")
-            master.append(cleaned)
-            found_any = True
-        except Exception as e:
-            print(f"Failed to process node index {idx}: {e}")
-    # write master file
-    master_path = ROOT / "n8n_nodes_master.json"
-    master_path.write_text(json.dumps(master, ensure_ascii=False, indent=2), encoding="utf-8")
-    if found_any:
-        print(f"Processed {len(master)} nodes. Output written to {OUT_DIR} and {master_path}")
-    else:
-        print("No nodes were found in source files.")
+        print(f"An error occurred: {e}")
+        import traceback
+        traceback.print_exc()
 
 if __name__ == "__main__":
-    process_all_sources()
-
-
+    main()

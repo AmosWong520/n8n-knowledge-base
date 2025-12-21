@@ -1,136 +1,58 @@
 {
   "node_id": "n8n-nodes-base.code",
-  "name": "n8n-nodes-base.code",
-  "version": [
-    1,
-    2
-  ],
+  "name": "Code",
+  "version": 1,
   "semantic_context": "Run custom JavaScript or Python code",
+  "natural_language_description": "这是 Code 节点。主要用于: Run custom JavaScript or Python code",
   "parameters": {
     "mode": {
       "displayName": "Mode",
       "name": "mode",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Run Once for All Items",
-          "value": "runOnceForAllItems",
-          "description": "Run this code only once, no matter how many input items there are"
-        },
-        {
-          "name": "Run Once for Each Item",
-          "value": "runOnceForEachItem",
-          "description": "Run this code as many times as there are input items"
-        }
-      ],
+      "required": false,
       "default": "runOnceForAllItems",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Mode | 默认值: runOnceForAllItems",
+      "available_options": [
+        "Run Once for All Items (值: runOnceForAllItems) - Run this code only once, no matter how many input items there are",
+        "Run Once for Each Item (值: runOnceForEachItem) - Run this code as many times as there are input items"
+      ]
     },
     "language": {
       "displayName": "Language",
       "name": "language",
       "type": "hidden",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            1
-          ]
-        }
-      },
-      "default": "javaScript"
+      "required": false,
+      "default": "javaScript",
+      "description": "",
+      "natural_language_description": "参数名: Language | 默认值: javaScript"
     },
     "jsCode": {
       "displayName": "JavaScript",
       "name": "jsCode",
       "type": "string",
-      "typeOptions": {
-        "editor": "codeNodeEditor",
-        "editorLanguage": "javaScript"
-      },
+      "required": false,
       "default": "",
-      "description": "JavaScript code to execute.<br><br>Tip: You can use luxon vars like <code>$today</code> for dates and <code>$jmespath</code> for querying JSON structures. <a href=\"https://docs.n8n.io/nodes/n8n-nodes-base.function\">Learn more</a>.",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "@version": [
-            2
-          ],
-          "language": [
-            "javaScript"
-          ],
-          "mode": [
-            "runOnceForEachItem"
-          ]
-        }
-      },
-      "ai_hint": "JavaScript code to execute.<br><br>Tip: You can use luxon vars like <code>$today</code> for dates and <code>$jmespath</code> for querying JSON structures. <a href=\"https://docs.n8n.io/nodes/n8n-nodes-base.function\">Learn more</a>."
+      "description": "JavaScript code to execute.  Tip: You can use luxon vars like `$today` for dates and `$jmespath` for querying JSON structures. Learn more.",
+      "natural_language_description": "参数名: JavaScript | 作用: JavaScript code to execute.  Tip: You can use luxon vars like `$today` for dates and `$jmespath` for querying JSON structures. Learn more."
     },
     "notice": {
       "displayName": "Debug by using <code>print()</code> statements and viewing their output in the browser console.<br><br>The native Python option does not support <code>_</code> syntax and helpers, except for <code>_items</code> in all-items mode and <code>_item</code> in per-item mode.",
       "name": "notice",
       "type": "notice",
-      "displayOptions": {
-        "show": {
-          "language": [
-            "pythonNative"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Debug by using <code>print()</code> statements and viewing their output in the browser console.<br><br>The native Python option does not support <code>_</code> syntax and helpers, except for <code>_items</code> in all-items mode and <code>_item</code> in per-item mode."
     },
     "pythonCode": {
       "displayName": "Python",
       "name": "pythonCode",
       "type": "string",
-      "typeOptions": {
-        "editor": "codeNodeEditor",
-        "editorLanguage": "python"
-      },
+      "required": false,
       "default": "",
-      "description": "Python code to execute.<br><br>Tip: You can use built-in methods and variables like <code>_today</code> for dates and <code>_jmespath</code> for querying JSON structures. <a href=\"https://docs.n8n.io/code/builtin/\">Learn more</a>.",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "language": [
-            "python",
-            "pythonNative"
-          ],
-          "mode": [
-            "runOnceForEachItem"
-          ]
-        }
-      },
-      "ai_hint": "Python code to execute.<br><br>Tip: You can use built-in methods and variables like <code>_today</code> for dates and <code>_jmespath</code> for querying JSON structures. <a href=\"https://docs.n8n.io/code/builtin/\">Learn more</a>."
+      "description": "Python code to execute.  Tip: You can use built-in methods and variables like `_today` for dates and `_jmespath` for querying JSON structures. Learn more.",
+      "natural_language_description": "参数名: Python | 作用: Python code to execute.  Tip: You can use built-in methods and variables like `_today` for dates and `_jmespath` for querying JSON structures. Learn more."
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "mode",
-      "language",
-      "language",
-      "jsCode",
-      "jsCode",
-      "jsCode",
-      "jsCode",
-      "notice",
-      "pythonCode",
-      "pythonCode",
-      "notice",
-      "notice"
-    ],
-    "conditional_rules": [
-      "IF @version == 2 THEN SHOW parameter 'language'",
-      "IF @version == 1 THEN SHOW parameter 'language'",
-      "IF @version == 1 AND mode == 'runOnceForAllItems' THEN SHOW parameter 'jsCode'",
-      "IF @version == 1 AND mode == 'runOnceForEachItem' THEN SHOW parameter 'jsCode'",
-      "IF @version == 2 AND language == 'javaScript' AND mode == 'runOnceForAllItems' THEN SHOW parameter 'jsCode'",
-      "IF @version == 2 AND language == 'javaScript' AND mode == 'runOnceForEachItem' THEN SHOW parameter 'jsCode'",
-      "IF language == 'javaScript' THEN SHOW parameter 'notice'",
-      "IF language IN [\"python\", \"pythonNative\"] AND mode == 'runOnceForAllItems' THEN SHOW parameter 'pythonCode'",
-      "IF language IN [\"python\", \"pythonNative\"] AND mode == 'runOnceForEachItem' THEN SHOW parameter 'pythonCode'",
-      "IF language == 'python' THEN SHOW parameter 'notice'",
-      "IF language == 'pythonNative' THEN SHOW parameter 'notice'"
-    ]
   }
 }

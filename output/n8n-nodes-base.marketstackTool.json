@@ -1,294 +1,119 @@
 {
   "node_id": "n8n-nodes-base.marketstackTool",
-  "name": "n8n-nodes-base.marketstackTool",
+  "name": "Marketstack Tool",
   "version": 1,
   "semantic_context": "Consume Marketstack API",
+  "natural_language_description": "这是 Marketstack Tool 节点。主要用于: Consume Marketstack API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Marketstack API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Marketstack API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Marketstack API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "End-of-Day Data",
-          "value": "endOfDayData",
-          "description": "Stock market closing data"
-        },
-        {
-          "name": "Exchange",
-          "value": "exchange",
-          "description": "Stock market exchange"
-        },
-        {
-          "name": "Ticker",
-          "value": "ticker",
-          "description": "Stock market symbol"
-        }
-      ],
-      "default": "endOfDayData",
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "endOfDayData",
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: endOfDayData | (必填项)",
+      "available_options": [
+        "End-of-Day Data (值: endOfDayData) - Stock market closing data",
+        "Exchange (值: exchange) - Stock market exchange",
+        "Ticker (值: ticker) - Stock market symbol"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "action": "Get a ticker"
-        }
-      ],
+      "required": false,
       "default": "get",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticker"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Get (值: get)"
+      ]
     },
     "symbols": {
       "displayName": "Ticker",
       "name": "symbols",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "endOfDayData"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
       "default": "",
-      "description": "One or multiple comma-separated stock symbols (tickers) to retrieve, e.g. <code>AAPL</code> or <code>AAPL,MSFT</code>",
-      "ai_hint": "One or multiple comma-separated stock symbols (tickers) to retrieve, e.g. <code>AAPL</code> or <code>AAPL,MSFT</code>"
+      "description": "One or multiple comma-separated stock symbols (tickers) to retrieve, e.g. `AAPL` or `AAPL,MSFT`",
+      "natural_language_description": "参数名: Ticker | 作用: One or multiple comma-separated stock symbols (tickers) to retrieve, e.g. `AAPL` or `AAPL,MSFT` | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "endOfDayData"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "endOfDayData"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "endOfDayData"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Exchange",
-          "name": "exchange",
-          "type": "string",
-          "default": "",
-          "description": "Stock exchange to filter results by, specified by <a href=\"https://en.wikipedia.org/wiki/Market_Identifier_Code\">Market Identifier Code</a>, e.g. <code>XNAS</code>"
-        },
-        {
-          "displayName": "Latest",
-          "name": "latest",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to fetch the most recent stock market data"
-        },
-        {
-          "displayName": "Sort Order",
-          "name": "sort",
-          "description": "Order to sort results in",
-          "type": "options",
-          "options": [
-            {
-              "name": "Ascending",
-              "value": "ASC"
-            },
-            {
-              "name": "Descending",
-              "value": "DESC"
-            }
-          ],
-          "default": "DESC"
-        },
-        {
-          "displayName": "Specific Date",
-          "name": "specificDate",
-          "type": "dateTime",
-          "default": "",
-          "description": "Date in YYYY-MM-DD format, e.g. <code>2020-01-01</code>, or in ISO-8601 date format, e.g. <code>2020-05-21T00:00:00+0000</code>"
-        },
-        {
-          "displayName": "Timeframe Start Date",
-          "name": "dateFrom",
-          "type": "dateTime",
-          "default": "",
-          "description": "Timeframe start date in YYYY-MM-DD format, e.g. <code>2020-01-01</code>, or in ISO-8601 date format, e.g. <code>2020-05-21T00:00:00+0000</code>"
-        },
-        {
-          "displayName": "Timeframe End Date",
-          "name": "dateTo",
-          "type": "dateTime",
-          "default": "",
-          "description": "Timeframe end date in YYYY-MM-DD format, e.g. <code>2020-01-01</code>, or in ISO-8601 date format, e.g. <code>2020-05-21T00:00:00+0000</code>"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "exchange (值: None) - Stock exchange to filter results by, specified by Market Identifier Code, e.g. `XNAS`",
+        "latest (值: None) - Whether to fetch the most recent stock market data",
+        "sort (值: None) - Order to sort results in",
+        "specificDate (值: None) - Date in YYYY-MM-DD format, e.g. `2020-01-01`, or in ISO-8601 date format, e.g. `2020-05-21T00:00:00+0000`",
+        "dateFrom (值: None) - Timeframe start date in YYYY-MM-DD format, e.g. `2020-01-01`, or in ISO-8601 date format, e.g. `2020-05-21T00:00:00+0000`",
+        "dateTo (值: None) - Timeframe end date in YYYY-MM-DD format, e.g. `2020-01-01`, or in ISO-8601 date format, e.g. `2020-05-21T00:00:00+0000`"
+      ]
     },
     "exchange": {
       "displayName": "Exchange",
       "name": "exchange",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "exchange"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
       "default": "",
-      "description": "Stock exchange to retrieve, specified by <a href=\"https://en.wikipedia.org/wiki/Market_Identifier_Code\">Market Identifier Code</a>, e.g. <code>XNAS</code>",
-      "ai_hint": "Stock exchange to retrieve, specified by <a href=\"https://en.wikipedia.org/wiki/Market_Identifier_Code\">Market Identifier Code</a>, e.g. <code>XNAS</code>"
+      "description": "Stock exchange to retrieve, specified by Market Identifier Code, e.g. `XNAS`",
+      "natural_language_description": "参数名: Exchange | 作用: Stock exchange to retrieve, specified by Market Identifier Code, e.g. `XNAS` | (必填项)"
     },
     "symbol": {
       "displayName": "Ticker",
       "name": "symbol",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticker"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
       "default": "",
-      "description": "Stock symbol (ticker) to retrieve, e.g. <code>AAPL</code>",
-      "ai_hint": "Stock symbol (ticker) to retrieve, e.g. <code>AAPL</code>"
+      "description": "Stock symbol (ticker) to retrieve, e.g. `AAPL`",
+      "natural_language_description": "参数名: Ticker | 作用: Stock symbol (ticker) to retrieve, e.g. `AAPL` | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "symbols",
-      "returnAll",
-      "limit",
-      "filters",
-      "operation",
-      "exchange",
-      "operation",
-      "symbol"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'endOfDayData' THEN SHOW parameter 'operation'",
-      "IF resource == 'endOfDayData' AND operation == 'getAll' THEN SHOW parameter 'symbols'",
-      "IF resource == 'endOfDayData' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'endOfDayData' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'endOfDayData' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'exchange' THEN SHOW parameter 'operation'",
-      "IF resource == 'exchange' AND operation == 'get' THEN SHOW parameter 'exchange'",
-      "IF resource == 'ticker' THEN SHOW parameter 'operation'",
-      "IF resource == 'ticker' AND operation == 'get' THEN SHOW parameter 'symbol'"
-    ]
   }
 }

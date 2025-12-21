@@ -1,72 +1,27 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.embeddingsLemonade",
-  "name": "@n8n/n8n-nodes-langchain.embeddingsLemonade",
+  "name": "Embeddings Lemonade",
   "version": 1,
   "semantic_context": "Use Lemonade Embeddings",
+  "natural_language_description": "这是 Embeddings Lemonade 节点。主要用于: Use Lemonade Embeddings",
   "parameters": {
     "notice": {
       "displayName": "This node must be connected to a vector store. <a data-action='openSelectiveNodeCreator' data-action-parameter-connectiontype='ai_vectorStore'>Insert one</a>",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "containerClass": "ndv-connection-hint-notice"
-      }
+      "description": "",
+      "natural_language_description": "参数名: This node must be connected to a vector store. <a data-action='openSelectiveNodeCreator' data-action-parameter-connectiontype='ai_vectorStore'>Insert one</a>"
     },
     "model": {
       "displayName": "Model",
       "name": "model",
       "type": "options",
+      "required": true,
       "default": "",
       "description": "The model which will generate the completion. Models are loaded and managed through the Lemonade server.",
-      "typeOptions": {
-        "loadOptions": {
-          "routing": {
-            "request": {
-              "method": "GET",
-              "url": "/models"
-            },
-            "output": {
-              "postReceive": [
-                {
-                  "type": "rootProperty",
-                  "properties": {
-                    "property": "data"
-                  }
-                },
-                {
-                  "type": "setKeyValue",
-                  "properties": {
-                    "name": "={{$responseItem.id}}",
-                    "value": "={{$responseItem.id}}"
-                  }
-                },
-                {
-                  "type": "sort",
-                  "properties": {
-                    "key": "name"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      },
-      "routing": {
-        "send": {
-          "type": "body",
-          "property": "model"
-        }
-      },
-      "required": true,
-      "ai_hint": "The model which will generate the completion. Models are loaded and managed through the Lemonade server."
+      "natural_language_description": "参数名: Model | 作用: The model which will generate the completion. Models are loaded and managed through the Lemonade server. | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "notice",
-      "model"
-    ],
-    "conditional_rules": []
   }
 }

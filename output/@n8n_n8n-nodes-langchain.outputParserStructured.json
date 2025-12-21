@@ -1,194 +1,85 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.outputParserStructured",
-  "name": "@n8n/n8n-nodes-langchain.outputParserStructured",
-  "version": [
-    1,
-    1.1,
-    1.2,
-    1.3
-  ],
+  "name": "Structured Output Parser",
+  "version": 1,
   "semantic_context": "Return data in a defined JSON format",
+  "natural_language_description": "这是 Structured Output Parser 节点。主要用于: Return data in a defined JSON format",
   "parameters": {
     "notice": {
       "displayName": "All properties will be required. To make them optional, use the 'JSON Schema' schema type instead",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 1.3
-              }
-            }
-          ],
-          "schemaType": [
-            "fromJson"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: All properties will be required. To make them optional, use the 'JSON Schema' schema type instead"
     },
     "schemaType": {
       "displayName": "Schema Type",
       "name": "schemaType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Generate From JSON Example",
-          "value": "fromJson",
-          "description": "Generate a schema from an example JSON object"
-        },
-        {
-          "name": "Define using JSON Schema",
-          "value": "manual",
-          "description": "Define the JSON schema manually"
-        }
-      ],
+      "required": false,
       "default": "fromJson",
       "description": "How to specify the schema for the function",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 1.2
-              }
-            }
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Schema Type | 作用: How to specify the schema for the function | 默认值: fromJson",
+      "available_options": [
+        "Generate From JSON Example (值: fromJson) - Generate a schema from an example JSON object",
+        "Define using JSON Schema (值: manual) - Define the JSON schema manually"
+      ]
     },
     "jsonSchemaExample": {
       "displayName": "JSON Example",
       "name": "jsonSchemaExample",
       "type": "json",
+      "required": false,
       "default": "{\n\t\"state\": \"California\",\n\t\"cities\": [\"Los Angeles\", \"San Francisco\", \"San Diego\"]\n}",
-      "noDataExpression": true,
-      "typeOptions": {
-        "rows": 10
-      },
-      "displayOptions": {
-        "show": {
-          "schemaType": [
-            "fromJson"
-          ]
-        }
-      },
       "description": "Example JSON object to use to generate the schema",
-      "ai_hint": "Example JSON object to use to generate the schema"
+      "natural_language_description": "参数名: JSON Example | 作用: Example JSON object to use to generate the schema | 默认值: {\n\t\"state\": \"California\",\n\t\"cities\": [\"Los Angeles\", \"San Francisco\", \"San Diego\"]\n}"
     },
     "inputSchema": {
       "displayName": "Input Schema",
       "name": "inputSchema",
       "type": "json",
+      "required": false,
       "default": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"state\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"cities\": {\n\t\t\t\"type\": \"array\",\n\t\t\t\"items\": {\n\t\t\t\t\"type\": \"string\"\n\t\t\t}\n\t\t}\n\t}\n}",
-      "noDataExpression": false,
-      "typeOptions": {
-        "rows": 10
-      },
-      "displayOptions": {
-        "show": {
-          "schemaType": [
-            "manual"
-          ]
-        }
-      },
       "description": "Schema to use for the function",
-      "hint": "Use <a target=\"_blank\" href=\"https://json-schema.org/\">JSON Schema</a> format (<a target=\"_blank\" href=\"https://json-schema.org/learn/miscellaneous-examples.html\">examples</a>). $refs syntax is currently not supported.",
-      "ai_hint": "Schema to use for the function"
+      "natural_language_description": "参数名: Input Schema | 作用: Schema to use for the function | 提示: Use JSON Schema format (examples). $refs syntax is currently not supported. | 默认值: {\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"state\": {\n\t\t\t\"type\": \"string\"\n\t\t},\n\t\t\"cities\": {\n\t\t\t\"type\": \"array\",\n\t\t\t\"items\": {\n\t\t\t\t\"type\": \"string\"\n\t\t\t}\n\t\t}\n\t}\n}"
     },
     "jsonSchema": {
       "displayName": "JSON Schema",
       "name": "jsonSchema",
       "type": "json",
-      "description": "JSON Schema to structure and validate the output against",
-      "default": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"state\": {\n      \"type\": \"string\"\n    },\n    \"cities\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    }\n  }\n}",
-      "typeOptions": {
-        "rows": 10
-      },
       "required": true,
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "lte": 1.1
-              }
-            }
-          ]
-        }
-      },
-      "ai_hint": "JSON Schema to structure and validate the output against"
+      "default": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"state\": {\n      \"type\": \"string\"\n    },\n    \"cities\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    }\n  }\n}",
+      "description": "JSON Schema to structure and validate the output against",
+      "natural_language_description": "参数名: JSON Schema | 作用: JSON Schema to structure and validate the output against | 默认值: {\n  \"type\": \"object\",\n  \"properties\": {\n    \"state\": {\n      \"type\": \"string\"\n    },\n    \"cities\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\"\n      }\n    }\n  }\n} | (必填项)"
     },
     "autoFix": {
       "displayName": "Auto-Fix Format",
-      "description": "Whether to automatically fix the output when it is not in the correct format. Will cause another LLM call.",
       "name": "autoFix",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "Whether to automatically fix the output when it is not in the correct format. Will cause another LLM call.",
+      "natural_language_description": "参数名: Auto-Fix Format | 作用: Whether to automatically fix the output when it is not in the correct format. Will cause another LLM call. | 默认值: False"
     },
     "customizeRetryPrompt": {
       "displayName": "Customize Retry Prompt",
       "name": "customizeRetryPrompt",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "autoFix": [
-            true
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to customize the prompt used for retrying the output parsing. If disabled, a default prompt will be used.",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Customize Retry Prompt | 作用: Whether to customize the prompt used for retrying the output parsing. If disabled, a default prompt will be used. | 默认值: False"
     },
     "prompt": {
       "displayName": "Custom Prompt",
       "name": "prompt",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "autoFix": [
-            true
-          ],
-          "customizeRetryPrompt": [
-            true
-          ]
-        }
-      },
+      "required": false,
       "default": "Instructions:\n--------------\n{instructions}\n--------------\nCompletion:\n--------------\n{completion}\n--------------\n\nAbove, the Completion did not satisfy the constraints given in the Instructions.\nError:\n--------------\n{error}\n--------------\n\nPlease try again. Please only respond with an answer that satisfies the constraints laid out in the Instructions:",
-      "typeOptions": {
-        "rows": 10
-      },
-      "hint": "Should include \"{error}\", \"{instructions}\", and \"{completion}\" placeholders",
       "description": "Prompt template used for fixing the output. Uses placeholders: \"{instructions}\" for parsing rules, \"{completion}\" for the failed attempt, and \"{error}\" for the validation error message.",
-      "ai_hint": "Prompt template used for fixing the output. Uses placeholders: \"{instructions}\" for parsing rules, \"{completion}\" for the failed attempt, and \"{error}\" for the validation error message."
+      "natural_language_description": "参数名: Custom Prompt | 作用: Prompt template used for fixing the output. Uses placeholders: \"{instructions}\" for parsing rules, \"{completion}\" for the failed attempt, and \"{error}\" for the validation error message. | 提示: Should include \"{error}\", \"{instructions}\", and \"{completion}\" placeholders | 默认值: Instructions:\n--------------\n{instructions}\n--------------\nCompletion:\n--------------\n{completion}\n--------------\n\nAbove, the Completion did not satisfy the constraints given in the Instructions.\nError:\n--------------\n{error}\n--------------\n\nPlease try again. Please only respond with an answer that satisfies the constraints laid out in the Instructions:"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "notice",
-      "schemaType",
-      "jsonSchemaExample",
-      "notice",
-      "inputSchema",
-      "jsonSchema",
-      "autoFix",
-      "customizeRetryPrompt",
-      "prompt"
-    ],
-    "conditional_rules": [
-      "IF @version == {'_cnd': {'gte': 1.2}} THEN SHOW parameter 'schemaType'",
-      "IF schemaType == 'fromJson' THEN SHOW parameter 'jsonSchemaExample'",
-      "IF @version == {'_cnd': {'gte': 1.3}} AND schemaType == 'fromJson' THEN SHOW parameter 'notice'",
-      "IF schemaType == 'manual' THEN SHOW parameter 'inputSchema'",
-      "IF @version == {'_cnd': {'lte': 1.1}} THEN SHOW parameter 'jsonSchema'",
-      "IF autoFix == True THEN SHOW parameter 'customizeRetryPrompt'",
-      "IF autoFix == True AND customizeRetryPrompt == True THEN SHOW parameter 'prompt'"
-    ]
   }
 }

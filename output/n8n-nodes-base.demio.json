@@ -1,368 +1,119 @@
 {
   "node_id": "n8n-nodes-base.demio",
-  "name": "n8n-nodes-base.demio",
+  "name": "Demio",
   "version": 1,
   "semantic_context": "Consume the Demio API",
+  "natural_language_description": "这是 Demio 节点。主要用于: Consume the Demio API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Event",
-          "value": "event"
-        },
-        {
-          "name": "Report",
-          "value": "report"
-        }
-      ],
+      "required": false,
       "default": "event",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: event",
+      "available_options": [
+        "Event (值: event)",
+        "Report (值: report)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "report"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get an event report",
-          "action": "Get a report"
-        }
-      ],
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Get (值: get) - Get an event report"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "event"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "event"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "report"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Attended",
-              "value": "attended"
-            },
-            {
-              "name": "Banned",
-              "value": "banned"
-            },
-            {
-              "name": "Completed",
-              "value": "completed"
-            },
-            {
-              "name": "Did Not Attend",
-              "value": "did-not-attend"
-            },
-            {
-              "name": "Left Early",
-              "value": "left-early"
-            }
-          ],
-          "default": "",
-          "description": "Filter results by participation status"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "status (值: None) - Filter results by participation status"
+      ]
     },
     "eventId": {
       "displayName": "Event Name or ID",
       "name": "eventId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getEvents"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "report"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Event Name or ID | 作用: Choose from the list, or specify an ID using an expression"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "event"
-          ],
-          "operation": [
-            "register"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Company",
-          "name": "company",
-          "type": "string",
-          "default": "",
-          "description": "The value for the predefined Company field"
-        },
-        {
-          "displayName": "Custom Fields",
-          "name": "customFieldsUi",
-          "placeholder": "Add Field",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "customFieldsValues",
-              "displayName": "Custom Field",
-              "values": [
-                {
-                  "displayName": "Field ID",
-                  "name": "fieldId",
-                  "type": "string",
-                  "default": "",
-                  "description": "Each custom field's unique identifier can be found within the Event's Registration block in the Customize tab"
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": "",
-                  "description": "The value to set on custom field"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Event Registration URL",
-          "name": "ref_url",
-          "type": "string",
-          "default": "",
-          "description": "Event Registration page URL. It can be useful when you do not know Event ID, but have Event link."
-        },
-        {
-          "displayName": "GDPR",
-          "name": "gdpr",
-          "type": "string",
-          "default": "",
-          "description": "The value for the predefined GDPR field"
-        },
-        {
-          "displayName": "Last Name",
-          "name": "last_name",
-          "type": "string",
-          "default": "",
-          "description": "The value for the predefined Last Name field"
-        },
-        {
-          "displayName": "Phone Number",
-          "name": "phone_number",
-          "type": "string",
-          "default": "",
-          "description": "The value for the predefined Phone Number field"
-        },
-        {
-          "displayName": "Session Name or ID",
-          "name": "date_id",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getEventSessions",
-            "loadOptionsDependsOn": [
-              "eventId"
-            ]
-          },
-          "default": "",
-          "description": "Event Session ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Website",
-          "name": "website",
-          "type": "string",
-          "default": "",
-          "description": "The value for the predefined Website field"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "company (值: None) - The value for the predefined Company field",
+        "customFieldsUi (值: None)",
+        "ref_url (值: None) - Event Registration page URL. It can be useful when you do not know Event ID, but have Event link.",
+        "gdpr (值: None) - The value for the predefined GDPR field",
+        "last_name (值: None) - The value for the predefined Last Name field",
+        "phone_number (值: None) - The value for the predefined Phone Number field",
+        "date_id (值: None) - Event Session ID. Choose from the list, or specify an ID using an expression.",
+        "website (值: None) - The value for the predefined Website field"
+      ]
     },
     "firstName": {
       "displayName": "First Name",
       "name": "firstName",
       "type": "string",
-      "default": "",
       "required": true,
+      "default": "",
       "description": "The registrant's first name",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "event"
-          ],
-          "operation": [
-            "register"
-          ]
-        }
-      },
-      "ai_hint": "The registrant's first name"
+      "natural_language_description": "参数名: First Name | 作用: The registrant's first name | (必填项)"
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
-      "default": "",
       "required": true,
+      "default": "",
       "description": "The registrant's email address",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "event"
-          ],
-          "operation": [
-            "register"
-          ]
-        }
-      },
-      "ai_hint": "The registrant's email address"
+      "natural_language_description": "参数名: Email | 作用: The registrant's email address | (必填项)"
     },
     "dateId": {
       "displayName": "Session Name or ID",
       "name": "dateId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getEventSessions",
-        "loadOptionsDependsOn": [
-          "eventId"
-        ]
-      },
-      "default": "",
       "required": true,
-      "description": "ID of the session. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "report"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "ID of the session. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "ID of the session. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Session Name or ID | 作用: ID of the session. Choose from the list, or specify an ID using an expression. | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "returnAll",
-      "limit",
-      "filters",
-      "eventId",
-      "additionalFields",
-      "eventId",
-      "firstName",
-      "email",
-      "additionalFields",
-      "operation",
-      "eventId",
-      "dateId",
-      "filters"
-    ],
-    "conditional_rules": [
-      "IF resource == 'event' THEN SHOW parameter 'operation'",
-      "IF operation == 'getAll' AND resource == 'event' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'event' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'event' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'event' AND operation == 'get' THEN SHOW parameter 'eventId'",
-      "IF resource == 'event' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'event' AND operation == 'register' THEN SHOW parameter 'eventId'",
-      "IF resource == 'event' AND operation == 'register' THEN SHOW parameter 'firstName'",
-      "IF resource == 'event' AND operation == 'register' THEN SHOW parameter 'email'",
-      "IF resource == 'event' AND operation == 'register' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'report' THEN SHOW parameter 'operation'",
-      "IF resource == 'report' AND operation == 'get' THEN SHOW parameter 'eventId'",
-      "IF resource == 'report' AND operation == 'get' THEN SHOW parameter 'dateId'",
-      "IF resource == 'report' AND operation == 'get' THEN SHOW parameter 'filters'"
-    ]
   }
 }

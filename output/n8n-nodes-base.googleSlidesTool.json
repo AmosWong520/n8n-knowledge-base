@@ -1,343 +1,150 @@
 {
   "node_id": "n8n-nodes-base.googleSlidesTool",
-  "name": "n8n-nodes-base.googleSlidesTool",
-  "version": [
-    1,
-    2
-  ],
+  "name": "Google Slides Tool",
+  "version": 1,
   "semantic_context": "Consume the Google Slides API",
+  "natural_language_description": "这是 Google Slides Tool 节点。主要用于: Consume the Google Slides API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume the Google Slides API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume the Google Slides API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume the Google Slides API | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "OAuth2 (recommended)",
-          "value": "oAuth2"
-        },
-        {
-          "name": "Service Account",
-          "value": "serviceAccount"
-        }
-      ],
+      "required": false,
       "default": "oAuth2",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            2
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: oAuth2",
+      "available_options": [
+        "OAuth2 (recommended) (值: oAuth2)",
+        "Service Account (值: serviceAccount)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Page",
-          "value": "page"
-        },
-        {
-          "name": "Presentation",
-          "value": "presentation"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "presentation",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: presentation",
+      "available_options": [
+        "Page (值: page)",
+        "Presentation (值: presentation)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a page",
-          "action": "Get a page"
-        },
-        {
-          "name": "Get Thumbnail",
-          "value": "getThumbnail",
-          "description": "Get a thumbnail",
-          "action": "Get the thumbnail for a page"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "page"
-          ]
-        }
-      },
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Get (值: get) - Get a page",
+        "Get Thumbnail (值: getThumbnail) - Get a thumbnail",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "title": {
       "displayName": "Title",
       "name": "title",
-      "description": "Title of the presentation to create",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "presentation"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Title of the presentation to create"
+      "default": "",
+      "description": "Title of the presentation to create",
+      "natural_language_description": "参数名: Title | 作用: Title of the presentation to create | (必填项)"
     },
     "presentationId": {
       "displayName": "Presentation ID",
       "name": "presentationId",
-      "description": "ID of the presentation to retrieve. Found in the presentation URL: <code>https://docs.google.com/presentation/d/PRESENTATION_ID/edit</code>",
-      "placeholder": "1wZtNFZ8MO-WKrxhYrOLMvyiqSgFwdSz5vn8_l_7eNqw",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "presentation",
-            "page"
-          ],
-          "operation": [
-            "get",
-            "getThumbnail",
-            "getSlides",
-            "replaceText"
-          ]
-        }
-      },
-      "ai_hint": "ID of the presentation to retrieve. Found in the presentation URL: <code>https://docs.google.com/presentation/d/PRESENTATION_ID/edit</code>"
+      "default": "",
+      "description": "ID of the presentation to retrieve. Found in the presentation URL: `https://docs.google.com/presentation/d/PRESENTATION_ID/edit`",
+      "natural_language_description": "参数名: Presentation ID | 作用: ID of the presentation to retrieve. Found in the presentation URL: `https://docs.google.com/presentation/d/PRESENTATION_ID/edit` | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getSlides"
-          ],
-          "resource": [
-            "presentation"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getSlides"
-          ],
-          "resource": [
-            "presentation"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "pageObjectId": {
       "displayName": "Page Object ID",
       "name": "pageObjectId",
-      "description": "ID of the page object to retrieve",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "page"
-          ],
-          "operation": [
-            "get",
-            "getThumbnail"
-          ]
-        }
-      },
-      "ai_hint": "ID of the page object to retrieve"
+      "default": "",
+      "description": "ID of the page object to retrieve",
+      "natural_language_description": "参数名: Page Object ID | 作用: ID of the page object to retrieve | (必填项)"
     },
     "textUi": {
       "displayName": "Texts To Replace",
       "name": "textUi",
-      "placeholder": "Add Text",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "presentation"
-          ],
-          "operation": [
-            "replaceText"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "textValues",
-          "displayName": "Text",
-          "values": [
-            {
-              "displayName": "Match Case",
-              "name": "matchCase",
-              "type": "boolean",
-              "default": false,
-              "description": "Whether the search should respect case. True : the search is case sensitive. False : the search is case insensitive."
-            },
-            {
-              "displayName": "Slide Names or IDs",
-              "name": "pageObjectIds",
-              "type": "multiOptions",
-              "default": [],
-              "typeOptions": {
-                "loadOptionsMethod": "getPages",
-                "loadOptionsDependsOn": [
-                  "presentationId"
-                ]
-              },
-              "description": "If non-empty, limits the matches to slide elements only on the given slides. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-            },
-            {
-              "displayName": "Search For",
-              "name": "text",
-              "type": "string",
-              "default": "",
-              "description": "The text to search for in the slide"
-            },
-            {
-              "displayName": "Replace With",
-              "name": "replaceText",
-              "type": "string",
-              "default": "",
-              "description": "The text that will replace the matched text"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Texts To Replace | 默认值: {}",
+      "available_options": [
+        "textValues (值: None)"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "replaceText"
-          ],
-          "resource": [
-            "presentation"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Revision ID",
-          "name": "revisionId",
-          "type": "string",
-          "default": "",
-          "description": "The revision ID of the presentation required for the write request. If specified and the requiredRevisionId doesn't exactly match the presentation's current revisionId, the request will not be processed and will return a 400 bad request error."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "revisionId (值: None) - The revision ID of the presentation required for the write request. If specified and the requiredRevisionId doesn't exactly match the presentation's current revisionId, the request will not be processed and will return a 400 bad request error."
+      ]
     },
     "download": {
       "displayName": "Download",
       "name": "download",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "page"
-          ],
-          "operation": [
-            "getThumbnail"
-          ]
-        }
-      },
       "description": "Name of the binary property to which to write the data of the read page",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Download | 作用: Name of the binary property to which to write the data of the read page | 默认值: False"
     },
     "binaryProperty": {
       "displayName": "Put Output File in Field",
@@ -345,56 +152,8 @@
       "type": "string",
       "required": true,
       "default": "data",
-      "hint": "The name of the output binary field to put the file in",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "page"
-          ],
-          "operation": [
-            "getThumbnail"
-          ],
-          "download": [
-            true
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Put Output File in Field | 提示: The name of the output binary field to put the file in | 默认值: data | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "authentication",
-      "resource",
-      "operation",
-      "operation",
-      "title",
-      "presentationId",
-      "returnAll",
-      "limit",
-      "pageObjectId",
-      "textUi",
-      "options",
-      "download",
-      "binaryProperty"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF @version == 1 THEN SHOW parameter 'authentication'",
-      "IF @version == 2 THEN SHOW parameter 'authentication'",
-      "IF resource == 'presentation' THEN SHOW parameter 'operation'",
-      "IF resource == 'page' THEN SHOW parameter 'operation'",
-      "IF resource == 'presentation' AND operation == 'create' THEN SHOW parameter 'title'",
-      "IF resource IN [\"presentation\", \"page\"] AND operation IN [\"get\", \"getThumbnail\", \"getSlides\", \"replaceText\"] THEN SHOW parameter 'presentationId'",
-      "IF operation == 'getSlides' AND resource == 'presentation' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getSlides' AND resource == 'presentation' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'page' AND operation IN [\"get\", \"getThumbnail\"] THEN SHOW parameter 'pageObjectId'",
-      "IF resource == 'presentation' AND operation == 'replaceText' THEN SHOW parameter 'textUi'",
-      "IF operation == 'replaceText' AND resource == 'presentation' THEN SHOW parameter 'options'",
-      "IF resource == 'page' AND operation == 'getThumbnail' THEN SHOW parameter 'download'",
-      "IF resource == 'page' AND operation == 'getThumbnail' AND download == True THEN SHOW parameter 'binaryProperty'"
-    ]
   }
 }

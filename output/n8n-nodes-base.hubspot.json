@@ -1,1396 +1,363 @@
 {
   "node_id": "n8n-nodes-base.hubspot",
-  "name": "n8n-nodes-base.hubspot",
+  "name": "HubSpot",
   "version": 1,
   "semantic_context": "Consume HubSpot API",
+  "natural_language_description": "这是 HubSpot 节点。主要用于: Consume HubSpot API",
   "parameters": {
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "API Key",
-          "value": "apiKey"
-        },
-        {
-          "name": "APP Token",
-          "value": "appToken"
-        },
-        {
-          "name": "OAuth2",
-          "value": "oAuth2"
-        }
-      ],
+      "required": false,
       "default": "apiKey",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: apiKey",
+      "available_options": [
+        "API Key (值: apiKey)",
+        "APP Token (值: appToken)",
+        "OAuth2 (值: oAuth2)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Company",
-          "value": "company"
-        },
-        {
-          "name": "Contact",
-          "value": "contact"
-        },
-        {
-          "name": "Contact List",
-          "value": "contactList"
-        },
-        {
-          "name": "Deal",
-          "value": "deal"
-        },
-        {
-          "name": "Engagement",
-          "value": "engagement"
-        },
-        {
-          "name": "Form",
-          "value": "form"
-        },
-        {
-          "name": "Ticket",
-          "value": "ticket"
-        }
-      ],
+      "required": false,
       "default": "deal",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: deal",
+      "available_options": [
+        "Company (值: company)",
+        "Contact (值: contact)",
+        "Contact List (值: contactList)",
+        "Deal (值: deal)",
+        "Engagement (值: engagement)",
+        "Form (值: form)",
+        "Ticket (值: ticket)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a ticket",
-          "action": "Create a ticket"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a ticket",
-          "action": "Delete a ticket"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a ticket",
-          "action": "Get a ticket"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many tickets",
-          "action": "Get many tickets"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a ticket",
-          "action": "Update a ticket"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a ticket",
+        "Delete (值: delete) - Delete a ticket",
+        "Get (值: get) - Get a ticket",
+        "Get Many (值: getAll) - Get many tickets",
+        "Update (值: update) - Update a ticket"
+      ]
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contactList"
-          ],
-          "operation": [
-            "add"
-          ],
-          "by": [
-            "email"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Email | (必填项)"
     },
     "resolveData": {
       "displayName": "Resolve Data",
       "name": "resolveData",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "By default the response only includes the ID. If this option gets activated, it will resolve the data automatically.",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Resolve Data | 作用: By default the response only includes the ID. If this option gets activated, it will resolve the data automatically. | 默认值: True"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Property Names or IDs",
-          "name": "properties",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getTicketProperties"
-          },
-          "default": [],
-          "description": "<p>Used to include specific ticket properties in the results. By default, the results will only include ticket ID and will not include the values for any properties for your company.</p><p>Including this parameter will include the data for the specified property in the results. You can include this parameter multiple times to request multiple properties separated by a comma: <code>,</code>.</p>. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Properties With History",
-          "name": "propertiesWithHistory",
-          "type": "string",
-          "default": "",
-          "description": "Works similarly to properties=, but this parameter will include the history for the specified property, instead of just including the current value. Use this parameter when you need the full history of changes to a property's value."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "properties (值: None) - Used to include specific ticket properties in the results. By default, the results will only include ticket ID and will not include the values for any properties for your company.Including this parameter will include the data for the specified property in the results. You can include this parameter multiple times to request multiple properties separated by a comma: `,`.. Choose from the list, or specify IDs using an expression.",
+        "propertiesWithHistory (值: None) - Works similarly to properties=, but this parameter will include the history for the specified property, instead of just including the current value. Use this parameter when you need the full history of changes to a property's value."
+      ]
     },
     "contactId": {
       "displayName": "Contact ID",
       "name": "contactId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "delete"
-          ]
-        }
-      },
       "default": "",
       "description": "Unique identifier for a particular contact",
-      "ai_hint": "Unique identifier for a particular contact"
+      "natural_language_description": "参数名: Contact ID | 作用: Unique identifier for a particular contact | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 250
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "getRecentlyCreated",
-            "getRecentlyModified"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Since",
-          "name": "since",
-          "type": "dateTime",
-          "default": "",
-          "description": "Only return deals created after timestamp x"
-        },
-        {
-          "displayName": "Include Property Versions",
-          "name": "includePropertyVersions",
-          "type": "boolean",
-          "default": false,
-          "description": "By default, you will only get data for the most recent version of a property in the \"versions\" data. If you include this parameter, you will get data for all previous versions."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "since (值: None) - Only return deals created after timestamp x",
+        "includePropertyVersions (值: None) - By default, you will only get data for the most recent version of a property in the \"versions\" data. If you include this parameter, you will get data for all previous versions."
+      ]
     },
     "filterGroupsUi": {
       "displayName": "Filter Groups",
       "name": "filterGroupsUi",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "placeholder": "Add Filter Group",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "filterGroupsValues",
-          "displayName": "Filter Group",
-          "values": [
-            {
-              "displayName": "Filters",
-              "name": "filtersUi",
-              "type": "fixedCollection",
-              "default": {},
-              "placeholder": "Add Filter",
-              "typeOptions": {
-                "multipleValues": true
-              },
-              "options": [
-                {
-                  "name": "filterValues",
-                  "displayName": "Filter",
-                  "values": [
-                    {
-                      "displayName": "Property Name or ID",
-                      "name": "propertyName",
-                      "type": "options",
-                      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-                      "typeOptions": {
-                        "loadOptionsMethod": "getDealProperties"
-                      },
-                      "default": ""
-                    },
-                    {
-                      "displayName": "Operator",
-                      "name": "operator",
-                      "type": "options",
-                      "options": [
-                        {
-                          "name": "Contains Exactly",
-                          "value": "CONTAINS_TOKEN"
-                        },
-                        {
-                          "name": "Equal",
-                          "value": "EQ"
-                        },
-                        {
-                          "name": "Greater Than",
-                          "value": "GT"
-                        },
-                        {
-                          "name": "Greater Than Or Equal",
-                          "value": "GTE"
-                        },
-                        {
-                          "name": "Is Known",
-                          "value": "HAS_PROPERTY"
-                        },
-                        {
-                          "name": "Is Unknown",
-                          "value": "NOT_HAS_PROPERTY"
-                        },
-                        {
-                          "name": "Less Than",
-                          "value": "LT"
-                        },
-                        {
-                          "name": "Less Than Or Equal",
-                          "value": "LTE"
-                        },
-                        {
-                          "name": "Not Equal",
-                          "value": "NEQ"
-                        }
-                      ],
-                      "default": "EQ"
-                    },
-                    {
-                      "displayName": "Value",
-                      "name": "value",
-                      "displayOptions": {
-                        "hide": {
-                          "operator": [
-                            "HAS_PROPERTY",
-                            "NOT_HAS_PROPERTY"
-                          ]
-                        }
-                      },
-                      "type": "string",
-                      "default": ""
-                    }
-                  ]
-                }
-              ],
-              "description": "Use filters to limit the results to only CRM objects with matching property values. More info <a href=\"https://developers.hubspot.com/docs/api/crm/search\">here</a>."
-            }
-          ]
-        }
-      ],
-      "description": "When multiple filters are provided within a filterGroup, they will be combined using a logical AND operator. When multiple filterGroups are provided, they will be combined using a logical OR operator. The system supports a maximum of three filterGroups with up to three filters each. More info <a href=\"https://developers.hubspot.com/docs/api/crm/search\">here</a>",
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "When multiple filters are provided within a filterGroup, they will be combined using a logical AND operator. When multiple filterGroups are provided, they will be combined using a logical OR operator. The system supports a maximum of three filterGroups with up to three filters each. More info here",
+      "natural_language_description": "参数名: Filter Groups | 作用: When multiple filters are provided within a filterGroup, they will be combined using a logical AND operator. When multiple filterGroups are provided, they will be combined using a logical OR operator. The system supports a maximum of three filterGroups with up to three filters each. More info here | 默认值: {}",
+      "available_options": [
+        "filterGroupsValues (值: None)"
+      ]
     },
     "by": {
       "displayName": "By",
       "name": "by",
       "type": "options",
-      "options": [
-        {
-          "name": "Contact ID",
-          "value": "id"
-        },
-        {
-          "name": "Email",
-          "value": "email"
-        }
-      ],
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contactList"
-          ],
-          "operation": [
-            "add"
-          ]
-        }
-      },
       "default": "email",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: By | 默认值: email | (必填项)",
+      "available_options": [
+        "Contact ID (值: id)",
+        "Email (值: email)"
+      ]
     },
     "id": {
       "displayName": "Contact ID",
       "name": "id",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contactList"
-          ],
-          "operation": [
-            "remove"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Contact ID | (必填项)"
     },
     "listId": {
       "displayName": "List ID",
       "name": "listId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contactList"
-          ],
-          "operation": [
-            "remove"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: List ID | (必填项)"
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "company"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Name | (必填项)"
     },
     "companyId": {
       "displayName": "Company ID",
       "name": "companyId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "company"
-          ],
-          "operation": [
-            "delete"
-          ]
-        }
-      },
       "default": "",
       "description": "Unique identifier for a particular company",
-      "ai_hint": "Unique identifier for a particular company"
+      "natural_language_description": "参数名: Company ID | 作用: Unique identifier for a particular company | (必填项)"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Company Names or IDs",
-          "name": "associatedCompanyIds",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getCompanies"
-          },
-          "default": [],
-          "description": "Companies associated with the ticket. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Contact Names or IDs",
-          "name": "associatedContactIds",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getContacts"
-          },
-          "default": [],
-          "description": "Contact associated with the ticket. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Category Name or ID",
-          "name": "category",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getTicketCategories"
-          },
-          "default": "",
-          "description": "Main reason customer reached out for help. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Close Date",
-          "name": "closeDate",
-          "type": "dateTime",
-          "default": "",
-          "description": "The date the ticket was closed"
-        },
-        {
-          "displayName": "Create Date",
-          "name": "createDate",
-          "type": "dateTime",
-          "default": "",
-          "description": "The date the ticket was created"
-        },
-        {
-          "displayName": "Description",
-          "name": "description",
-          "type": "string",
-          "default": "",
-          "description": "Description of the ticket"
-        },
-        {
-          "displayName": "Pipeline Name or ID",
-          "name": "pipelineId",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getTicketPipelines"
-          },
-          "default": "",
-          "description": "The ID of the pipeline the ticket is in. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Priority Name or ID",
-          "name": "priority",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getTicketPriorities"
-          },
-          "default": "",
-          "description": "The level of attention needed on the ticket. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Resolution Name or ID",
-          "name": "resolution",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getTicketResolutions"
-          },
-          "default": "",
-          "description": "The action taken to resolve the ticket. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Source Name or ID",
-          "name": "source",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getTicketSources"
-          },
-          "default": "",
-          "description": "Channel where ticket was originally submitted. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Stage Name or ID",
-          "name": "stageId",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getTicketStages",
-            "loadOptionsDependsOn": [
-              "updateFields.pipelineId"
-            ]
-          },
-          "default": "",
-          "description": "The stage ID of the pipeline the ticket is in; depends on Pipeline ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Ticket Name",
-          "name": "ticketName",
-          "type": "string",
-          "default": "",
-          "description": "The ID of the pipeline the ticket is in"
-        },
-        {
-          "displayName": "Ticket Owner Name or ID",
-          "name": "ticketOwnerId",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getOwners"
-          },
-          "default": "",
-          "description": "The user from your team that the ticket is assigned to. You can assign additional users to a ticket record by creating a custom HubSpot user property. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "associatedCompanyIds (值: None) - Companies associated with the ticket. Choose from the list, or specify IDs using an expression.",
+        "associatedContactIds (值: None) - Contact associated with the ticket. Choose from the list, or specify IDs using an expression.",
+        "category (值: None) - Main reason customer reached out for help. Choose from the list, or specify an ID using an expression.",
+        "closeDate (值: None) - The date the ticket was closed",
+        "createDate (值: None) - The date the ticket was created",
+        "description (值: None) - Description of the ticket",
+        "pipelineId (值: None) - The ID of the pipeline the ticket is in. Choose from the list, or specify an ID using an expression.",
+        "priority (值: None) - The level of attention needed on the ticket. Choose from the list, or specify an ID using an expression.",
+        "resolution (值: None) - The action taken to resolve the ticket. Choose from the list, or specify an ID using an expression.",
+        "source (值: None) - Channel where ticket was originally submitted. Choose from the list, or specify an ID using an expression.",
+        "stageId (值: None) - The stage ID of the pipeline the ticket is in; depends on Pipeline ID. Choose from the list, or specify an ID using an expression.",
+        "ticketName (值: None) - The ID of the pipeline the ticket is in",
+        "ticketOwnerId (值: None) - The user from your team that the ticket is assigned to. You can assign additional users to a ticket record by creating a custom HubSpot user property. Choose from the list, or specify an ID using an expression."
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "company"
-          ],
-          "operation": [
-            "searchByDomain"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Property Names or IDs",
-          "name": "properties",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getCompanyProperties"
-          },
-          "default": [],
-          "description": "<p>Used to include specific company properties in the results. By default, the results will only include company ID and will not include the values for any properties for your company.</p><p>Including this parameter will include the data for the specified property in the results. You can include this parameter multiple times to request multiple properties separated by a comma: <code>,</code>.</p>. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "properties (值: None) - Used to include specific company properties in the results. By default, the results will only include company ID and will not include the values for any properties for your company.Including this parameter will include the data for the specified property in the results. You can include this parameter multiple times to request multiple properties separated by a comma: `,`.. Choose from the list, or specify IDs using an expression."
+      ]
     },
     "domain": {
       "displayName": "Domain",
       "name": "domain",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "company"
-          ],
-          "operation": [
-            "searchByDomain"
-          ]
-        }
-      },
       "required": true,
-      "description": "The company's website domain to search for, like n8n.io",
       "default": "",
-      "ai_hint": "The company's website domain to search for, like n8n.io"
+      "description": "The company's website domain to search for, like n8n.io",
+      "natural_language_description": "参数名: Domain | 作用: The company's website domain to search for, like n8n.io | (必填项)"
     },
     "stage": {
       "displayName": "Deal Stage Name or ID",
       "name": "stage",
       "type": "options",
       "required": true,
-      "typeOptions": {
-        "loadOptionsMethod": "getDealStages"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "",
-      "options": [],
-      "description": "The dealstage is required when creating a deal. See the CRM Pipelines API for details on managing pipelines and stages. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The dealstage is required when creating a deal. See the CRM Pipelines API for details on managing pipelines and stages. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The dealstage is required when creating a deal. See the CRM Pipelines API for details on managing pipelines and stages. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Deal Stage Name or ID | 作用: The dealstage is required when creating a deal. See the CRM Pipelines API for details on managing pipelines and stages. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "dealId": {
       "displayName": "Deal ID",
       "name": "dealId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "delete"
-          ]
-        }
-      },
       "default": "",
       "description": "Unique identifier for a particular deal",
-      "ai_hint": "Unique identifier for a particular deal"
+      "natural_language_description": "参数名: Deal ID | 作用: Unique identifier for a particular deal | (必填项)"
     },
     "type": {
       "displayName": "Type",
       "name": "type",
       "type": "options",
       "required": true,
-      "options": [
-        {
-          "name": "Call",
-          "value": "call"
-        },
-        {
-          "name": "Email",
-          "value": "email"
-        },
-        {
-          "name": "Meeting",
-          "value": "meeting"
-        },
-        {
-          "name": "Task",
-          "value": "task"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "engagement"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Type | (必填项)",
+      "available_options": [
+        "Call (值: call)",
+        "Email (值: email)",
+        "Meeting (值: meeting)",
+        "Task (值: task)"
+      ]
     },
     "metadata": {
       "displayName": "Metadata",
       "name": "metadata",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "engagement"
-          ],
-          "operation": [
-            "create"
-          ],
-          "type": [
-            "call"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Body",
-          "name": "body",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Duration Milliseconds",
-          "name": "durationMilliseconds",
-          "type": "number",
-          "default": 0
-        },
-        {
-          "displayName": "From Number",
-          "name": "fromNumber",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Recording URL",
-          "name": "recordingUrl",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Busy",
-              "value": "BUSY"
-            },
-            {
-              "name": "Calling CRM User",
-              "value": "CALLING_CRM_USER"
-            },
-            {
-              "name": "Canceled",
-              "value": "CANCELED"
-            },
-            {
-              "name": "Completed",
-              "value": "COMPLETED"
-            },
-            {
-              "name": "Connecting",
-              "value": "CONNECTING"
-            },
-            {
-              "name": "Failed",
-              "value": "FAILED"
-            },
-            {
-              "name": "In Progress",
-              "value": "IN_PROGRESS"
-            },
-            {
-              "name": "No Answer",
-              "value": "NO_ANSWER"
-            },
-            {
-              "name": "Queued",
-              "value": "QUEUED"
-            },
-            {
-              "name": "Ringing",
-              "value": "RINGING"
-            }
-          ],
-          "default": "QUEUED"
-        },
-        {
-          "displayName": "To Number",
-          "name": "toNumber",
-          "type": "string",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Metadata | 默认值: {}",
+      "available_options": [
+        "body (值: None)",
+        "durationMilliseconds (值: None)",
+        "fromNumber (值: None)",
+        "recordingUrl (值: None)",
+        "status (值: None)",
+        "toNumber (值: None)"
+      ]
     },
     "engagementId": {
       "displayName": "Engagement ID",
       "name": "engagementId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "engagement"
-          ],
-          "operation": [
-            "get",
-            "delete"
-          ]
-        }
-      },
       "default": "",
       "description": "Unique identifier for a particular engagement",
-      "ai_hint": "Unique identifier for a particular engagement"
+      "natural_language_description": "参数名: Engagement ID | 作用: Unique identifier for a particular engagement | (必填项)"
     },
     "formId": {
       "displayName": "Form Name or ID",
       "name": "formId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getForms"
-      },
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "form"
-          ],
-          "operation": [
-            "getFields"
-          ]
-        }
-      },
       "default": "",
-      "description": "The ID of the form. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The ID of the form. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The ID of the form. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Form Name or ID | 作用: The ID of the form. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "contextUi": {
       "displayName": "Context",
       "name": "contextUi",
-      "placeholder": "Add Context",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": false
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "form"
-          ],
-          "operation": [
-            "submit"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Context",
-          "name": "contextValue",
-          "values": [
-            {
-              "displayName": "HubSpot Usertoken",
-              "name": "hutk",
-              "type": "string",
-              "default": "",
-              "description": "Include this parameter and set it to the hubspotutk cookie value to enable cookie tracking on your submission"
-            },
-            {
-              "displayName": "IP Address",
-              "name": "ipAddress",
-              "type": "string",
-              "default": "",
-              "description": "The IP address of the visitor filling out the form"
-            },
-            {
-              "displayName": "Page URI",
-              "name": "pageUri",
-              "type": "string",
-              "default": "",
-              "description": "The URI of the page the submission happened on"
-            },
-            {
-              "displayName": "Page Name",
-              "name": "pageName",
-              "type": "string",
-              "default": "",
-              "description": "The name or title of the page the submission happened on"
-            },
-            {
-              "displayName": "Page ID",
-              "name": "pageId",
-              "type": "string",
-              "default": "",
-              "description": "The ID of a page created on the HubSpot CMS"
-            },
-            {
-              "displayName": "SFDC Campaign ID",
-              "name": "sfdcCampaignId",
-              "type": "string",
-              "default": "",
-              "description": "If the form is for an account using the HubSpot Salesforce Integration, you can include the ID of a Salesforce campaign to add the contact to the specified campaign"
-            },
-            {
-              "displayName": "Go to Webinar Webinar ID",
-              "name": "goToWebinarWebinarKey",
-              "type": "string",
-              "default": "",
-              "description": "If the form is for an account using the HubSpot GoToWebinar Integration, you can include the ID of a webinar to enroll the contact in that webinar when they submit the form"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Context | 默认值: {}",
+      "available_options": [
+        "contextValue (值: None)"
+      ]
     },
     "lengalConsentUi": {
       "displayName": "Legal Consent",
       "name": "lengalConsentUi",
-      "placeholder": "Add Legal Consent",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": false
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "form"
-          ],
-          "operation": [
-            "submit"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Consent",
-          "name": "lengalConsentValues",
-          "values": [
-            {
-              "displayName": "Consent To Process",
-              "name": "consentToProcess",
-              "type": "boolean",
-              "default": false,
-              "description": "Whether or not the visitor checked the Consent to process checkbox"
-            },
-            {
-              "displayName": "Text",
-              "name": "text",
-              "type": "string",
-              "default": "",
-              "description": "The text displayed to the visitor for the Consent to process checkbox"
-            },
-            {
-              "displayName": "Communications",
-              "name": "communicationsUi",
-              "placeholder": "Add Communication",
-              "type": "fixedCollection",
-              "typeOptions": {
-                "multipleValues": true
-              },
-              "default": {},
-              "options": [
-                {
-                  "displayName": "Communication",
-                  "name": "communicationValues",
-                  "values": [
-                    {
-                      "displayName": "Subcription Type Name or ID",
-                      "name": "subscriptionTypeId",
-                      "type": "options",
-                      "typeOptions": {
-                        "loadOptionsMethod": "getSubscriptionTypes"
-                      },
-                      "default": "",
-                      "description": "The ID of the specific subscription type. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-                    },
-                    {
-                      "displayName": "Value",
-                      "name": "value",
-                      "type": "boolean",
-                      "default": false,
-                      "description": "Whether or not the visitor checked the checkbox for this subscription type"
-                    },
-                    {
-                      "displayName": "Text",
-                      "name": "text",
-                      "type": "string",
-                      "default": "",
-                      "description": "The text displayed to the visitor for this specific subscription checkbox"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Legitimate Interest",
-          "name": "legitimateInterestValues",
-          "values": [
-            {
-              "displayName": "Subcription Type Name or ID",
-              "name": "subscriptionTypeId",
-              "type": "options",
-              "typeOptions": {
-                "loadOptionsMethod": "getSubscriptionTypes"
-              },
-              "default": "",
-              "description": "The ID of the specific subscription type that this forms indicates interest to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "boolean",
-              "default": false,
-              "description": "This must be true when using the 'legitimateInterest' option, as it reflects the consent indicated by the visitor when submitting the form"
-            },
-            {
-              "displayName": "Legal Basis",
-              "name": "legalBasis",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Customer",
-                  "value": "CUSTOMER"
-                },
-                {
-                  "name": "Lead",
-                  "value": "LEAD"
-                }
-              ],
-              "default": "",
-              "description": "The privacy text displayed to the visitor"
-            },
-            {
-              "displayName": "Text",
-              "name": "text",
-              "type": "string",
-              "default": "",
-              "description": "The privacy text displayed to the visitor"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Legal Consent | 默认值: {}",
+      "available_options": [
+        "lengalConsentValues (值: None)",
+        "legitimateInterestValues (值: None)"
+      ]
     },
     "pipelineId": {
       "displayName": "Pipeline Name or ID",
       "name": "pipelineId",
       "type": "options",
       "required": true,
-      "typeOptions": {
-        "loadOptionsMethod": "getTicketPipelines"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "",
-      "description": "The ID of the pipeline the ticket is in. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The ID of the pipeline the ticket is in. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The ID of the pipeline the ticket is in. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Pipeline Name or ID | 作用: The ID of the pipeline the ticket is in. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "stageId": {
       "displayName": "Stage Name or ID",
       "name": "stageId",
       "type": "options",
       "required": true,
-      "typeOptions": {
-        "loadOptionsMethod": "getTicketStages",
-        "loadOptionsDependsOn": [
-          "pipelineId"
-        ]
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "",
-      "description": "The ID of the pipeline the ticket is in. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The ID of the pipeline the ticket is in. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The ID of the pipeline the ticket is in. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Stage Name or ID | 作用: The ID of the pipeline the ticket is in. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "ticketName": {
       "displayName": "Ticket Name",
       "name": "ticketName",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "",
       "description": "The ID of the pipeline the ticket is in",
-      "ai_hint": "The ID of the pipeline the ticket is in"
+      "natural_language_description": "参数名: Ticket Name | 作用: The ID of the pipeline the ticket is in | (必填项)"
     },
     "ticketId": {
       "displayName": "Ticket ID",
       "name": "ticketId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "delete"
-          ]
-        }
-      },
       "default": "",
       "description": "Unique identifier for a particular ticket",
-      "ai_hint": "Unique identifier for a particular ticket"
+      "natural_language_description": "参数名: Ticket ID | 作用: Unique identifier for a particular ticket | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "authentication",
-      "resource",
-      "operation",
-      "email",
-      "resolveData",
-      "additionalFields",
-      "contactId",
-      "additionalFields",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "contactId",
-      "returnAll",
-      "limit",
-      "filters",
-      "returnAll",
-      "limit",
-      "filterGroupsUi",
-      "additionalFields",
-      "operation",
-      "by",
-      "email",
-      "id",
-      "listId",
-      "id",
-      "listId",
-      "operation",
-      "name",
-      "additionalFields",
-      "companyId",
-      "updateFields",
-      "companyId",
-      "additionalFields",
-      "returnAll",
-      "limit",
-      "options",
-      "companyId",
-      "returnAll",
-      "limit",
-      "filters",
-      "domain",
-      "returnAll",
-      "limit",
-      "options",
-      "operation",
-      "stage",
-      "additionalFields",
-      "dealId",
-      "updateFields",
-      "dealId",
-      "additionalFields",
-      "returnAll",
-      "limit",
-      "filters",
-      "dealId",
-      "returnAll",
-      "limit",
-      "filters",
-      "returnAll",
-      "limit",
-      "filterGroupsUi",
-      "additionalFields",
-      "operation",
-      "type",
-      "metadata",
-      "metadata",
-      "metadata",
-      "metadata",
-      "additionalFields",
-      "engagementId",
-      "returnAll",
-      "limit",
-      "operation",
-      "formId",
-      "additionalFields",
-      "contextUi",
-      "lengalConsentUi",
-      "formId",
-      "operation",
-      "pipelineId",
-      "stageId",
-      "ticketName",
-      "additionalFields",
-      "ticketId",
-      "updateFields",
-      "ticketId",
-      "additionalFields",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "ticketId"
-    ],
-    "conditional_rules": [
-      "IF resource == 'contact' THEN SHOW parameter 'operation'",
-      "IF resource == 'contact' AND operation == 'upsert' THEN SHOW parameter 'email'",
-      "IF resource == 'contact' AND operation == 'upsert' THEN SHOW parameter 'resolveData'",
-      "IF resource == 'contact' AND operation == 'upsert' THEN SHOW parameter 'additionalFields'",
-      "IF /resolveData == True THEN SHOW parameter 'properties'",
-      "IF resource == 'contact' AND operation == 'get' THEN SHOW parameter 'contactId'",
-      "IF resource == 'contact' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'contact' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'contact' AND operation == 'delete' THEN SHOW parameter 'contactId'",
-      "IF resource == 'contact' AND operation == 'getRecentlyCreatedUpdated' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'contact' AND operation == 'getRecentlyCreatedUpdated' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'contact' AND operation == 'getRecentlyCreatedUpdated' THEN SHOW parameter 'filters'",
-      "IF resource == 'contact' AND operation == 'search' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'contact' AND operation == 'search' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'contact' AND operation == 'search' THEN SHOW parameter 'filterGroupsUi'",
-      "IF operator IN [\"HAS_PROPERTY\", \"NOT_HAS_PROPERTY\"] THEN HIDE parameter 'value'",
-      "IF resource == 'contact' AND operation == 'search' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'contactList' THEN SHOW parameter 'operation'",
-      "IF resource == 'contactList' AND operation == 'add' THEN SHOW parameter 'by'",
-      "IF resource == 'contactList' AND operation == 'add' AND by == 'email' THEN SHOW parameter 'email'",
-      "IF resource == 'contactList' AND operation == 'add' AND by == 'id' THEN SHOW parameter 'id'",
-      "IF resource == 'contactList' AND operation == 'add' THEN SHOW parameter 'listId'",
-      "IF resource == 'contactList' AND operation == 'remove' THEN SHOW parameter 'id'",
-      "IF resource == 'contactList' AND operation == 'remove' THEN SHOW parameter 'listId'",
-      "IF resource == 'company' THEN SHOW parameter 'operation'",
-      "IF resource == 'company' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'company' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'company' AND operation == 'update' THEN SHOW parameter 'companyId'",
-      "IF resource == 'company' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'company' AND operation == 'get' THEN SHOW parameter 'companyId'",
-      "IF resource == 'company' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'company' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'company' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'company' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'company' AND operation == 'delete' THEN SHOW parameter 'companyId'",
-      "IF resource == 'company' AND operation IN [\"getRecentlyCreated\", \"getRecentlyModified\"] THEN SHOW parameter 'returnAll'",
-      "IF resource == 'company' AND operation IN [\"getRecentlyCreated\", \"getRecentlyModified\"] AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'company' AND operation == 'getRecentlyModified' THEN SHOW parameter 'filters'",
-      "IF resource == 'company' AND operation == 'searchByDomain' THEN SHOW parameter 'domain'",
-      "IF resource == 'company' AND operation == 'searchByDomain' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'company' AND operation == 'searchByDomain' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'company' AND operation == 'searchByDomain' THEN SHOW parameter 'options'",
-      "IF resource == 'deal' THEN SHOW parameter 'operation'",
-      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'stage'",
-      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'deal' AND operation == 'update' THEN SHOW parameter 'dealId'",
-      "IF resource == 'deal' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'deal' AND operation == 'get' THEN SHOW parameter 'dealId'",
-      "IF resource == 'deal' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'deal' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'deal' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'deal' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'deal' AND operation == 'delete' THEN SHOW parameter 'dealId'",
-      "IF resource == 'deal' AND operation IN [\"getRecentlyCreated\", \"getRecentlyModified\"] THEN SHOW parameter 'returnAll'",
-      "IF resource == 'deal' AND operation IN [\"getRecentlyCreated\", \"getRecentlyModified\"] AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'deal' AND operation IN [\"getRecentlyCreated\", \"getRecentlyModified\"] THEN SHOW parameter 'filters'",
-      "IF resource == 'deal' AND operation == 'search' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'deal' AND operation == 'search' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'deal' AND operation == 'search' THEN SHOW parameter 'filterGroupsUi'",
-      "IF resource == 'deal' AND operation == 'search' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'engagement' THEN SHOW parameter 'operation'",
-      "IF resource == 'engagement' AND operation == 'create' THEN SHOW parameter 'type'",
-      "IF resource == 'engagement' AND operation == 'create' AND type == 'task' THEN SHOW parameter 'metadata'",
-      "IF resource == 'engagement' AND operation == 'create' AND type == 'email' THEN SHOW parameter 'metadata'",
-      "IF resource == 'engagement' AND operation == 'create' AND type == 'meeting' THEN SHOW parameter 'metadata'",
-      "IF resource == 'engagement' AND operation == 'create' AND type == 'call' THEN SHOW parameter 'metadata'",
-      "IF resource == 'engagement' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'engagement' AND operation IN [\"get\", \"delete\"] THEN SHOW parameter 'engagementId'",
-      "IF resource == 'engagement' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'engagement' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'form' THEN SHOW parameter 'operation'",
-      "IF resource == 'form' AND operation == 'submit' THEN SHOW parameter 'formId'",
-      "IF resource == 'form' AND operation == 'submit' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'form' AND operation == 'submit' THEN SHOW parameter 'contextUi'",
-      "IF resource == 'form' AND operation == 'submit' THEN SHOW parameter 'lengalConsentUi'",
-      "IF resource == 'form' AND operation == 'getFields' THEN SHOW parameter 'formId'",
-      "IF resource == 'ticket' THEN SHOW parameter 'operation'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'pipelineId'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'stageId'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'ticketName'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'ticket' AND operation == 'update' THEN SHOW parameter 'ticketId'",
-      "IF resource == 'ticket' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'ticket' AND operation == 'get' THEN SHOW parameter 'ticketId'",
-      "IF resource == 'ticket' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'ticket' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'ticket' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'ticket' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'ticket' AND operation == 'delete' THEN SHOW parameter 'ticketId'"
-    ]
   }
 }

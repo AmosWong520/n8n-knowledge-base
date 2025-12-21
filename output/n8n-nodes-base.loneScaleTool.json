@@ -1,401 +1,150 @@
 {
   "node_id": "n8n-nodes-base.loneScaleTool",
-  "name": "n8n-nodes-base.loneScaleTool",
+  "name": "LoneScale Tool",
   "version": 1,
   "semantic_context": "Create List, add / delete items",
+  "natural_language_description": "这是 LoneScale Tool 节点。主要用于: Create List, add / delete items",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Create List, add / delete items",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Create List, add / delete items",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Create List, add / delete items | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "options": [
-        {
-          "name": "List",
-          "value": "list",
-          "description": "Manipulate list"
-        },
-        {
-          "name": "Item",
-          "value": "item",
-          "description": "Manipulate item"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
-      "default": "list",
-      "noDataExpression": true,
       "required": true,
+      "default": "list",
       "description": "Create a new list",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Resource | 作用: Create a new list | 默认值: list | (必填项)",
+      "available_options": [
+        "List (值: list) - Manipulate list",
+        "Item (值: item) - Manipulate item",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "item"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "add",
-          "description": "Create an item",
-          "action": "Create a item"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "add",
-      "noDataExpression": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: add",
+      "available_options": [
+        "Create (值: add) - Create an item",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "type": {
       "displayName": "Type",
       "name": "type",
       "type": "options",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Company",
-          "value": "COMPANY",
-          "description": "Create a list of companies",
-          "action": "Create a list of companies"
-        },
-        {
-          "name": "Contact",
-          "value": "PEOPLE",
-          "description": "Create a list of contacts",
-          "action": "Create a list of contacts"
-        }
-      ],
       "default": "COMPANY",
       "description": "Type of your list",
-      "noDataExpression": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Type | 作用: Type of your list | 默认值: COMPANY | (必填项)",
+      "available_options": [
+        "Company (值: COMPANY) - Create a list of companies",
+        "Contact (值: PEOPLE) - Create a list of contacts"
+      ]
     },
     "list": {
       "displayName": "List Name or ID",
       "name": "list",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "item"
-          ]
-        }
-      },
-      "typeOptions": {
-        "loadOptionsMethod": "getLists",
-        "loadOptionsDependsOn": [
-          "type"
-        ]
-      },
-      "default": "",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
       "required": true,
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "default": "",
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: List Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "first_name": {
       "displayName": "First Name",
       "name": "first_name",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "add"
-          ],
-          "resource": [
-            "item"
-          ],
-          "type": [
-            "PEOPLE"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
       "description": "Contact first name",
-      "required": true,
-      "ai_hint": "Contact first name"
+      "natural_language_description": "参数名: First Name | 作用: Contact first name | (必填项)"
     },
     "last_name": {
       "displayName": "Last Name",
       "name": "last_name",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "add"
-          ],
-          "resource": [
-            "item"
-          ],
-          "type": [
-            "PEOPLE"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
       "description": "Contact last name",
-      "required": true,
-      "ai_hint": "Contact last name"
+      "natural_language_description": "参数名: Last Name | 作用: Contact last name | (必填项)"
     },
     "company_name": {
       "displayName": "Company Name",
       "name": "company_name",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "add"
-          ],
-          "resource": [
-            "item"
-          ],
-          "type": [
-            "COMPANY"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "Contact company name",
-      "ai_hint": "Contact company name"
+      "natural_language_description": "参数名: Company Name | 作用: Contact company name"
     },
     "peopleAdditionalFields": {
       "displayName": "Additional Fields",
       "name": "peopleAdditionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "add"
-          ],
-          "resource": [
-            "item"
-          ],
-          "type": [
-            "PEOPLE"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Full Name",
-          "name": "full_name",
-          "type": "string",
-          "default": "",
-          "description": "Contact full name"
-        },
-        {
-          "displayName": "Contact Email",
-          "name": "email",
-          "type": "string",
-          "placeholder": "name@email.com",
-          "default": ""
-        },
-        {
-          "displayName": "Company Name",
-          "name": "company_name",
-          "type": "string",
-          "default": "",
-          "description": "Contact company name"
-        },
-        {
-          "displayName": "Current Position",
-          "name": "current_position",
-          "type": "string",
-          "default": "",
-          "description": "Contact current position"
-        },
-        {
-          "displayName": "Company Domain",
-          "name": "domain",
-          "type": "string",
-          "default": "",
-          "description": "Contact company domain"
-        },
-        {
-          "displayName": "Linkedin Url",
-          "name": "linkedin_url",
-          "type": "string",
-          "default": "",
-          "description": "Contact Linkedin URL"
-        },
-        {
-          "displayName": "Contact Location",
-          "name": "location",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Contact ID",
-          "name": "contact_id",
-          "type": "string",
-          "default": "",
-          "description": "Contact ID from your source"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "full_name (值: None) - Contact full name",
+        "email (值: None)",
+        "company_name (值: None) - Contact company name",
+        "current_position (值: None) - Contact current position",
+        "domain (值: None) - Contact company domain",
+        "linkedin_url (值: None) - Contact Linkedin URL",
+        "location (值: None)",
+        "contact_id (值: None) - Contact ID from your source"
+      ]
     },
     "companyAdditionalFields": {
       "displayName": "Additional Fields",
       "name": "companyAdditionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "add"
-          ],
-          "resource": [
-            "item"
-          ],
-          "type": [
-            "COMPANY"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Linkedin Url",
-          "name": "linkedin_url",
-          "type": "string",
-          "default": "",
-          "description": "Company Linkedin URL"
-        },
-        {
-          "displayName": "Company Domain",
-          "name": "domain",
-          "type": "string",
-          "default": "",
-          "description": "Company company domain"
-        },
-        {
-          "displayName": "Contact Location",
-          "name": "location",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Contact ID",
-          "name": "contact_id",
-          "type": "string",
-          "default": "",
-          "description": "Contact ID from your source"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "linkedin_url (值: None) - Company Linkedin URL",
+        "domain (值: None) - Company company domain",
+        "location (值: None)",
+        "contact_id (值: None) - Contact ID from your source"
+      ]
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
       "default": "",
-      "placeholder": "list name",
       "description": "Name of your list",
-      "ai_hint": "Name of your list"
+      "natural_language_description": "参数名: Name | 作用: Name of your list | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "operation",
-      "type",
-      "list",
-      "first_name",
-      "last_name",
-      "company_name",
-      "peopleAdditionalFields",
-      "companyAdditionalFields",
-      "name",
-      "type"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'list' THEN SHOW parameter 'operation'",
-      "IF resource == 'item' THEN SHOW parameter 'operation'",
-      "IF resource == 'item' THEN SHOW parameter 'type'",
-      "IF resource == 'item' THEN SHOW parameter 'list'",
-      "IF operation == 'add' AND resource == 'item' AND type == 'PEOPLE' THEN SHOW parameter 'first_name'",
-      "IF operation == 'add' AND resource == 'item' AND type == 'PEOPLE' THEN SHOW parameter 'last_name'",
-      "IF operation == 'add' AND resource == 'item' AND type == 'COMPANY' THEN SHOW parameter 'company_name'",
-      "IF operation == 'add' AND resource == 'item' AND type == 'PEOPLE' THEN SHOW parameter 'peopleAdditionalFields'",
-      "IF operation == 'add' AND resource == 'item' AND type == 'COMPANY' THEN SHOW parameter 'companyAdditionalFields'",
-      "IF operation == 'create' AND resource == 'list' THEN SHOW parameter 'name'",
-      "IF operation == 'create' AND resource == 'list' THEN SHOW parameter 'type'"
-    ]
   }
 }

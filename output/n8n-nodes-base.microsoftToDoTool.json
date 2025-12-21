@@ -1,544 +1,175 @@
 {
   "node_id": "n8n-nodes-base.microsoftToDoTool",
-  "name": "n8n-nodes-base.microsoftToDoTool",
+  "name": "Microsoft To Do Tool",
   "version": 1,
   "semantic_context": "Consume Microsoft To Do API.",
+  "natural_language_description": "这是 Microsoft To Do Tool 节点。主要用于: Consume Microsoft To Do API.",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Microsoft To Do API.",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Microsoft To Do API.",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Microsoft To Do API. | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Linked Resource",
-          "value": "linkedResource"
-        },
-        {
-          "name": "List",
-          "value": "list"
-        },
-        {
-          "name": "Task",
-          "value": "task"
-        }
-      ],
+      "required": false,
       "default": "task",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: task",
+      "available_options": [
+        "Linked Resource (值: linkedResource)",
+        "List (值: list)",
+        "Task (值: task)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "list"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "action": "Create a list"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "action": "Delete a list"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "action": "Get a list"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "action": "Get many lists"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "action": "Update a list"
-        }
-      ],
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Create (值: create)",
+        "Delete (值: delete)",
+        "Get (值: get)",
+        "Get Many (值: getAll)",
+        "Update (值: update)"
+      ]
     },
     "taskListId": {
       "displayName": "List Name or ID",
       "name": "taskListId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getTaskLists"
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "delete",
-            "get",
-            "getAll",
-            "update"
-          ],
-          "resource": [
-            "task"
-          ]
-        }
-      },
       "required": true,
       "default": "",
-      "description": "The identifier of the list, unique in the user's mailbox. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The identifier of the list, unique in the user's mailbox. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The identifier of the list, unique in the user's mailbox. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: List Name or ID | 作用: The identifier of the list, unique in the user's mailbox. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "taskId": {
       "displayName": "Task ID",
       "name": "taskId",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "delete",
-            "get",
-            "update"
-          ],
-          "resource": [
-            "task"
-          ]
-        }
-      },
       "required": true,
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Task ID | (必填项)"
     },
     "displayName": {
       "displayName": "New List Name",
       "name": "displayName",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
       "required": true,
       "default": "",
       "description": "List display name",
-      "ai_hint": "List display name"
+      "natural_language_description": "参数名: New List Name | 作用: List display name | (必填项)"
     },
     "applicationName": {
       "displayName": "Application Name",
       "name": "applicationName",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "linkedResource"
-          ]
-        }
-      },
       "required": true,
       "default": "",
       "description": "App name of the source that is sending the linked entity",
-      "ai_hint": "App name of the source that is sending the linked entity"
+      "natural_language_description": "参数名: Application Name | 作用: App name of the source that is sending the linked entity | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Content",
-          "name": "content",
-          "type": "string",
-          "default": "",
-          "description": "The content of the task"
-        },
-        {
-          "displayName": "Due",
-          "name": "dueDateTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "The date in the specified time zone that the task is to be finished"
-        },
-        {
-          "displayName": "Reminder",
-          "name": "reminderDateTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "The date in the specified time zone that the task is to be reminded"
-        },
-        {
-          "displayName": "Importance",
-          "name": "importance",
-          "type": "options",
-          "options": [
-            {
-              "name": "Low",
-              "value": "low"
-            },
-            {
-              "name": "Normal",
-              "value": "normal"
-            },
-            {
-              "name": "High",
-              "value": "high"
-            }
-          ],
-          "default": "normal",
-          "description": "The importance of the task"
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Not Started",
-              "value": "notStarted"
-            },
-            {
-              "name": "In Progress",
-              "value": "inProgress"
-            },
-            {
-              "name": "Completed",
-              "value": "completed"
-            },
-            {
-              "name": "Waiting On Others",
-              "value": "waitingOnOthers"
-            },
-            {
-              "name": "Deferred",
-              "value": "deferred"
-            }
-          ],
-          "default": "notStarted",
-          "description": "Indicates the state or progress of the task"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "content (值: None) - The content of the task",
+        "dueDateTime (值: None) - The date in the specified time zone that the task is to be finished",
+        "reminderDateTime (值: None) - The date in the specified time zone that the task is to be reminded",
+        "importance (值: None) - The importance of the task",
+        "status (值: None) - Indicates the state or progress of the task"
+      ]
     },
     "linkedResourceId": {
       "displayName": "Linked Resource ID",
       "name": "linkedResourceId",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "linkedResource"
-          ],
-          "operation": [
-            "delete",
-            "get",
-            "update"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Linked Resource ID | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "list"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "list"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 100
-      },
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Content",
-          "name": "content",
-          "type": "string",
-          "default": "",
-          "description": "The content of the task"
-        },
-        {
-          "displayName": "Due Date Time",
-          "name": "dueDateTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "The date in the specified time zone that the task is to be finished"
-        },
-        {
-          "displayName": "Reminder",
-          "name": "reminderDateTime",
-          "type": "dateTime",
-          "default": "",
-          "description": "The date in the specified time zone that the task is to be reminded"
-        },
-        {
-          "displayName": "Importance",
-          "name": "importance",
-          "type": "options",
-          "options": [
-            {
-              "name": "Low",
-              "value": "low"
-            },
-            {
-              "name": "Normal",
-              "value": "normal"
-            },
-            {
-              "name": "High",
-              "value": "high"
-            }
-          ],
-          "default": "normal",
-          "description": "The importance of the task"
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Not Started",
-              "value": "notStarted"
-            },
-            {
-              "name": "In Progress",
-              "value": "inProgress"
-            },
-            {
-              "name": "Completed",
-              "value": "completed"
-            },
-            {
-              "name": "Waiting On Others",
-              "value": "waitingOnOthers"
-            },
-            {
-              "name": "Deferred",
-              "value": "deferred"
-            }
-          ],
-          "default": "notStarted",
-          "description": "Indicates the state or progress of the task"
-        },
-        {
-          "displayName": "Subject",
-          "name": "title",
-          "type": "string",
-          "default": "",
-          "description": "A brief description of the task"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "content (值: None) - The content of the task",
+        "dueDateTime (值: None) - The date in the specified time zone that the task is to be finished",
+        "reminderDateTime (值: None) - The date in the specified time zone that the task is to be reminded",
+        "importance (值: None) - The importance of the task",
+        "status (值: None) - Indicates the state or progress of the task",
+        "title (值: None) - A brief description of the task"
+      ]
     },
     "title": {
       "displayName": "Subject",
       "name": "title",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "task"
-          ]
-        }
-      },
       "required": true,
       "default": "",
       "description": "A brief description of the task",
-      "ai_hint": "A brief description of the task"
+      "natural_language_description": "参数名: Subject | 作用: A brief description of the task | (必填项)"
     },
     "listId": {
       "displayName": "List ID",
       "name": "listId",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "delete",
-            "get",
-            "update"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
       "required": true,
       "default": "",
       "description": "The identifier of the list, unique in the user's mailbox",
-      "ai_hint": "The identifier of the list, unique in the user's mailbox"
+      "natural_language_description": "参数名: List ID | 作用: The identifier of the list, unique in the user's mailbox | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "taskListId",
-      "taskId",
-      "displayName",
-      "applicationName",
-      "additionalFields",
-      "linkedResourceId",
-      "returnAll",
-      "limit",
-      "updateFields",
-      "operation",
-      "taskListId",
-      "title",
-      "additionalFields",
-      "taskListId",
-      "taskId",
-      "returnAll",
-      "limit",
-      "updateFields",
-      "operation",
-      "displayName",
-      "listId",
-      "returnAll",
-      "limit",
-      "displayName"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'linkedResource' THEN SHOW parameter 'operation'",
-      "IF operation IN [\"create\", \"delete\", \"get\", \"getAll\", \"update\"] AND resource == 'linkedResource' THEN SHOW parameter 'taskListId'",
-      "IF operation IN [\"create\", \"delete\", \"get\", \"getAll\", \"update\"] AND resource == 'linkedResource' THEN SHOW parameter 'taskId'",
-      "IF operation == 'create' AND resource == 'linkedResource' THEN SHOW parameter 'displayName'",
-      "IF operation == 'create' AND resource == 'linkedResource' THEN SHOW parameter 'applicationName'",
-      "IF resource == 'linkedResource' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'linkedResource' AND operation IN [\"delete\", \"get\", \"update\"] THEN SHOW parameter 'linkedResourceId'",
-      "IF resource == 'linkedResource' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'linkedResource' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'linkedResource' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'task' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'task' THEN SHOW parameter 'taskListId'",
-      "IF operation == 'create' AND resource == 'task' THEN SHOW parameter 'title'",
-      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF operation IN [\"delete\", \"get\", \"getAll\", \"update\"] AND resource == 'task' THEN SHOW parameter 'taskListId'",
-      "IF operation IN [\"delete\", \"get\", \"update\"] AND resource == 'task' THEN SHOW parameter 'taskId'",
-      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'task' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'list' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'list' THEN SHOW parameter 'displayName'",
-      "IF operation IN [\"delete\", \"get\", \"update\"] AND resource == 'list' THEN SHOW parameter 'listId'",
-      "IF resource == 'list' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'list' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'update' AND resource == 'list' THEN SHOW parameter 'displayName'"
-    ]
   }
 }

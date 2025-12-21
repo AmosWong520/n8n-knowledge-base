@@ -1,261 +1,51 @@
 {
   "node_id": "n8n-nodes-base.rabbitmqTrigger",
-  "name": "n8n-nodes-base.rabbitmqTrigger",
+  "name": "RabbitMQ Trigger",
   "version": 1,
   "semantic_context": "Listens to RabbitMQ messages",
+  "natural_language_description": "这是 RabbitMQ Trigger 节点。主要用于: Listens to RabbitMQ messages",
   "parameters": {
     "queue": {
       "displayName": "Queue / Topic",
       "name": "queue",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "queue-name",
       "description": "The name of the queue to read from",
-      "ai_hint": "The name of the queue to read from"
+      "natural_language_description": "参数名: Queue / Topic | 作用: The name of the queue to read from"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
+      "required": false,
       "default": {},
-      "placeholder": "Add option",
-      "options": [
-        {
-          "displayName": "Arguments",
-          "name": "arguments",
-          "placeholder": "Add Argument",
-          "description": "Arguments to add",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "argument",
-              "displayName": "Argument",
-              "values": [
-                {
-                  "displayName": "Key",
-                  "name": "key",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Assert Exchange",
-          "name": "assertExchange",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to assert the exchange exists before sending"
-        },
-        {
-          "displayName": "Assert Queue",
-          "name": "assertQueue",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to assert the queue exists before sending"
-        },
-        {
-          "displayName": "Auto Delete Queue",
-          "name": "autoDelete",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the queue will be deleted when the number of consumers drops to zero"
-        },
-        {
-          "displayName": "Binding",
-          "name": "binding",
-          "placeholder": "Add Binding",
-          "description": "Add binding to queu",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "bindings",
-              "displayName": "Binding",
-              "values": [
-                {
-                  "displayName": "Exchange",
-                  "name": "exchange",
-                  "type": "string",
-                  "default": "",
-                  "placeholder": "exchange"
-                },
-                {
-                  "displayName": "RoutingKey",
-                  "name": "routingKey",
-                  "type": "string",
-                  "default": "",
-                  "placeholder": "routing-key"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Content Is Binary",
-          "name": "contentIsBinary",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to save the content as binary"
-        },
-        {
-          "displayName": "Delete From Queue When",
-          "name": "acknowledge",
-          "type": "options",
-          "options": [
-            {
-              "name": "Execution Finishes",
-              "value": "executionFinishes",
-              "description": "After the workflow execution finished. No matter if the execution was successful or not."
-            },
-            {
-              "name": "Execution Finishes Successfully",
-              "value": "executionFinishesSuccessfully",
-              "description": "After the workflow execution finished successfully"
-            },
-            {
-              "name": "Immediately",
-              "value": "immediately",
-              "description": "As soon as the message got received"
-            },
-            {
-              "name": "Specified Later in Workflow",
-              "value": "laterMessageNode",
-              "description": "Using a RabbitMQ node to remove the item from the queue"
-            }
-          ],
-          "default": "immediately",
-          "description": "When to acknowledge the message"
-        },
-        {
-          "displayName": "Durable",
-          "name": "durable",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether the queue will survive broker restarts"
-        },
-        {
-          "displayName": "Exclusive",
-          "name": "exclusive",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to scope the queue to the connection"
-        },
-        {
-          "displayName": "Headers",
-          "name": "headers",
-          "placeholder": "Add Header",
-          "description": "Headers to add",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "header",
-              "displayName": "Header",
-              "values": [
-                {
-                  "displayName": "Key",
-                  "name": "key",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "JSON Parse Body",
-          "name": "jsonParseBody",
-          "type": "boolean",
-          "displayOptions": {
-            "hide": {
-              "contentIsBinary": [
-                true
-              ]
-            }
-          },
-          "default": false,
-          "description": "Whether to parse the body to an object"
-        },
-        {
-          "displayName": "Only Content",
-          "name": "onlyContent",
-          "type": "boolean",
-          "displayOptions": {
-            "hide": {
-              "contentIsBinary": [
-                true
-              ]
-            }
-          },
-          "default": false,
-          "description": "Whether to return only the content property"
-        },
-        {
-          "displayName": "Parallel Message Processing Limit",
-          "name": "parallelMessages",
-          "type": "number",
-          "default": -1,
-          "displayOptions": {
-            "hide": {
-              "acknowledge": [
-                "immediately"
-              ]
-            }
-          },
-          "description": "Max number of executions at a time. Use -1 for no limit."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "arguments (值: None) - Arguments to add",
+        "assertExchange (值: None) - Whether to assert the exchange exists before sending",
+        "assertQueue (值: None) - Whether to assert the queue exists before sending",
+        "autoDelete (值: None) - Whether the queue will be deleted when the number of consumers drops to zero",
+        "binding (值: None) - Add binding to queu",
+        "contentIsBinary (值: None) - Whether to save the content as binary",
+        "acknowledge (值: None) - When to acknowledge the message",
+        "durable (值: None) - Whether the queue will survive broker restarts",
+        "exclusive (值: None) - Whether to scope the queue to the connection",
+        "headers (值: None) - Headers to add",
+        "jsonParseBody (值: None) - Whether to parse the body to an object",
+        "onlyContent (值: None) - Whether to return only the content property",
+        "parallelMessages (值: None) - Max number of executions at a time. Use -1 for no limit."
+      ]
     },
     "laterMessageNode": {
       "displayName": "To delete an item from the queue, insert a RabbitMQ node later in the workflow and use the 'Delete from queue' operation",
       "name": "laterMessageNode",
       "type": "notice",
-      "displayOptions": {
-        "show": {
-          "/options.acknowledge": [
-            "laterMessageNode"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: To delete an item from the queue, insert a RabbitMQ node later in the workflow and use the 'Delete from queue' operation"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "queue",
-      "options",
-      "laterMessageNode"
-    ],
-    "conditional_rules": [
-      "IF contentIsBinary == True THEN HIDE parameter 'jsonParseBody'",
-      "IF contentIsBinary == True THEN HIDE parameter 'onlyContent'",
-      "IF acknowledge == 'immediately' THEN HIDE parameter 'parallelMessages'",
-      "IF /options.acknowledge == 'laterMessageNode' THEN SHOW parameter 'laterMessageNode'"
-    ]
   }
 }

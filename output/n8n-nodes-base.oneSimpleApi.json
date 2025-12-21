@@ -1,344 +1,140 @@
 {
   "node_id": "n8n-nodes-base.oneSimpleApi",
-  "name": "n8n-nodes-base.oneSimpleApi",
+  "name": "One Simple API",
   "version": 1,
   "semantic_context": "A toolbox of no-code utilities",
+  "natural_language_description": "这是 One Simple API 节点。主要用于: A toolbox of no-code utilities",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Information",
-          "value": "information"
-        },
-        {
-          "name": "Social Profile",
-          "value": "socialProfile"
-        },
-        {
-          "name": "Utility",
-          "value": "utility"
-        },
-        {
-          "name": "Website",
-          "value": "website"
-        }
-      ],
-      "default": "website",
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "website",
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: website | (必填项)",
+      "available_options": [
+        "Information (值: information)",
+        "Social Profile (值: socialProfile)",
+        "Utility (值: utility)",
+        "Website (值: website)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "utility"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Expand URL",
-          "value": "expandURL",
-          "description": "Expand a shortened URL",
-          "action": "Expand a shortened URL"
-        },
-        {
-          "name": "Generate QR Code",
-          "value": "qrCode",
-          "description": "Generate a QR Code",
-          "action": "Generate a QR code utility"
-        },
-        {
-          "name": "Validate Email",
-          "value": "validateEmail",
-          "description": "Validate an email address",
-          "action": "Validate an email address"
-        }
-      ],
+      "required": false,
       "default": "validateEmail",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: validateEmail",
+      "available_options": [
+        "Expand URL (值: expandURL) - Expand a shortened URL",
+        "Generate QR Code (值: qrCode) - Generate a QR Code",
+        "Validate Email (值: validateEmail) - Validate an email address"
+      ]
     },
     "link": {
       "displayName": "URL",
       "name": "link",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "expandURL"
-          ],
-          "resource": [
-            "utility"
-          ]
-        }
-      },
       "default": "",
       "description": "URL to unshorten",
-      "ai_hint": "URL to unshorten"
+      "natural_language_description": "参数名: URL | 作用: URL to unshorten | (必填项)"
     },
     "download": {
       "displayName": "Download Screenshot?",
       "name": "download",
       "type": "boolean",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "screenshot"
-          ],
-          "resource": [
-            "website"
-          ]
-        }
-      },
       "default": false,
       "description": "Whether to download the screenshot or return a link to it",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Download Screenshot? | 作用: Whether to download the screenshot or return a link to it | 默认值: False | (必填项)"
     },
     "output": {
       "displayName": "Put Output In Field",
       "name": "output",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "screenshot"
-          ],
-          "resource": [
-            "website"
-          ],
-          "download": [
-            true
-          ]
-        }
-      },
       "default": "data",
       "description": "The name of the output field to put the binary file data in",
-      "ai_hint": "The name of the output field to put the binary file data in"
+      "natural_language_description": "参数名: Put Output In Field | 作用: The name of the output field to put the binary file data in | 默认值: data | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "website"
-          ],
-          "operation": [
-            "seo"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Include Headers?",
-          "name": "headers",
-          "type": "boolean",
-          "default": false
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "headers (值: None)"
+      ]
     },
     "message": {
       "displayName": "QR Content",
       "name": "message",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "qrCode"
-          ],
-          "resource": [
-            "utility"
-          ]
-        }
-      },
       "default": "",
       "description": "The text that should be turned into a QR code - like a website URL",
-      "ai_hint": "The text that should be turned into a QR code - like a website URL"
+      "natural_language_description": "参数名: QR Content | 作用: The text that should be turned into a QR code - like a website URL | (必填项)"
     },
     "profileName": {
       "displayName": "Profile Name",
       "name": "profileName",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "instagramProfile"
-          ],
-          "resource": [
-            "socialProfile"
-          ]
-        }
-      },
       "default": "",
       "description": "Profile name to get details of",
-      "ai_hint": "Profile name to get details of"
+      "natural_language_description": "参数名: Profile Name | 作用: Profile name to get details of | (必填项)"
     },
     "artistName": {
       "displayName": "Artist Name",
       "name": "artistName",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "spotifyArtistProfile"
-          ],
-          "resource": [
-            "socialProfile"
-          ]
-        }
-      },
       "default": "",
       "description": "Artist name to get details for",
-      "ai_hint": "Artist name to get details for"
+      "natural_language_description": "参数名: Artist Name | 作用: Artist name to get details for | (必填项)"
     },
     "value": {
       "displayName": "Value",
       "name": "value",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "exchangeRate"
-          ],
-          "resource": [
-            "information"
-          ]
-        }
-      },
       "default": "",
       "description": "Value to convert",
-      "ai_hint": "Value to convert"
+      "natural_language_description": "参数名: Value | 作用: Value to convert | (必填项)"
     },
     "fromCurrency": {
       "displayName": "From Currency",
       "name": "fromCurrency",
       "type": "string",
       "required": true,
-      "placeholder": "USD",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "exchangeRate"
-          ],
-          "resource": [
-            "information"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: From Currency | (必填项)"
     },
     "toCurrency": {
       "displayName": "To Currency",
       "name": "toCurrency",
       "type": "string",
-      "placeholder": "EUR",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "exchangeRate"
-          ],
-          "resource": [
-            "information"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: To Currency | (必填项)"
     },
     "emailAddress": {
       "displayName": "Email Address",
       "name": "emailAddress",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "validateEmail"
-          ],
-          "resource": [
-            "utility"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Email Address | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "link",
-      "download",
-      "output",
-      "options",
-      "message",
-      "download",
-      "output",
-      "options",
-      "link",
-      "download",
-      "output",
-      "options",
-      "profileName",
-      "artistName",
-      "value",
-      "fromCurrency",
-      "toCurrency",
-      "link",
-      "link",
-      "options",
-      "emailAddress",
-      "link"
-    ],
-    "conditional_rules": [
-      "IF resource == 'website' THEN SHOW parameter 'operation'",
-      "IF resource == 'socialProfile' THEN SHOW parameter 'operation'",
-      "IF resource == 'information' THEN SHOW parameter 'operation'",
-      "IF resource == 'utility' THEN SHOW parameter 'operation'",
-      "IF operation == 'pdf' AND resource == 'website' THEN SHOW parameter 'link'",
-      "IF operation == 'pdf' AND resource == 'website' THEN SHOW parameter 'download'",
-      "IF operation == 'pdf' AND resource == 'website' AND download == True THEN SHOW parameter 'output'",
-      "IF resource == 'website' AND operation == 'pdf' THEN SHOW parameter 'options'",
-      "IF operation == 'qrCode' AND resource == 'utility' THEN SHOW parameter 'message'",
-      "IF operation == 'qrCode' AND resource == 'utility' THEN SHOW parameter 'download'",
-      "IF operation == 'qrCode' AND resource == 'utility' AND download == True THEN SHOW parameter 'output'",
-      "IF resource == 'utility' AND operation == 'qrCode' THEN SHOW parameter 'options'",
-      "IF operation == 'screenshot' AND resource == 'website' THEN SHOW parameter 'link'",
-      "IF operation == 'screenshot' AND resource == 'website' THEN SHOW parameter 'download'",
-      "IF operation == 'screenshot' AND resource == 'website' AND download == True THEN SHOW parameter 'output'",
-      "IF resource == 'website' AND operation == 'screenshot' THEN SHOW parameter 'options'",
-      "IF operation == 'instagramProfile' AND resource == 'socialProfile' THEN SHOW parameter 'profileName'",
-      "IF operation == 'spotifyArtistProfile' AND resource == 'socialProfile' THEN SHOW parameter 'artistName'",
-      "IF operation == 'exchangeRate' AND resource == 'information' THEN SHOW parameter 'value'",
-      "IF operation == 'exchangeRate' AND resource == 'information' THEN SHOW parameter 'fromCurrency'",
-      "IF operation == 'exchangeRate' AND resource == 'information' THEN SHOW parameter 'toCurrency'",
-      "IF operation == 'imageMetadata' AND resource == 'information' THEN SHOW parameter 'link'",
-      "IF operation == 'seo' AND resource == 'website' THEN SHOW parameter 'link'",
-      "IF resource == 'website' AND operation == 'seo' THEN SHOW parameter 'options'",
-      "IF operation == 'validateEmail' AND resource == 'utility' THEN SHOW parameter 'emailAddress'",
-      "IF operation == 'expandURL' AND resource == 'utility' THEN SHOW parameter 'link'"
-    ]
   }
 }

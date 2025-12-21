@@ -1,1050 +1,280 @@
 {
   "node_id": "n8n-nodes-base.salesmateTool",
-  "name": "n8n-nodes-base.salesmateTool",
+  "name": "Salesmate Tool",
   "version": 1,
   "semantic_context": "Consume Salesmate API",
+  "natural_language_description": "这是 Salesmate Tool 节点。主要用于: Consume Salesmate API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Salesmate API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Salesmate API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Salesmate API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Activity",
-          "value": "activity"
-        },
-        {
-          "name": "Company",
-          "value": "company"
-        },
-        {
-          "name": "Deal",
-          "value": "deal"
-        }
-      ],
+      "required": false,
       "default": "activity",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: activity",
+      "available_options": [
+        "Activity (值: activity)",
+        "Company (值: company)",
+        "Deal (值: deal)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a deal",
-          "action": "Create a deal"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a deal",
-          "action": "Delete a deal"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a deal",
-          "action": "Get a deal"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many deals",
-          "action": "Get many deals"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a deal",
-          "action": "Update a deal"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a deal",
+        "Delete (值: delete) - Delete a deal",
+        "Get (值: get) - Get a deal",
+        "Get Many (值: getAll) - Get many deals",
+        "Update (值: update) - Update a deal"
+      ]
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
+      "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "company"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Name | (必填项)"
     },
     "owner": {
       "displayName": "Owner Name or ID",
       "name": "owner",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "default": "",
-      "typeOptions": {
-        "loadOptionsMethod": "getUsers"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "default": "",
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Owner Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "rawData": {
       "displayName": "RAW Data",
       "name": "rawData",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether the data should include the fields details",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: RAW Data | 作用: Whether the data should include the fields details | 默认值: False"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Description",
-          "name": "description",
-          "type": "string",
-          "default": "",
-          "description": "This field contains details related to the deal"
-        },
-        {
-          "displayName": "Tags",
-          "name": "tags",
-          "type": "string",
-          "default": "",
-          "description": "This field contains tags associated with an deal"
-        },
-        {
-          "displayName": "Primary Company Name or ID",
-          "name": "primaryCompany",
-          "type": "options",
-          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "typeOptions": {
-            "loadOptionsMethod": "getCompanies"
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Source",
-          "name": "source",
-          "type": "options",
-          "options": [
-            {
-              "name": "Ads",
-              "value": "Ads"
-            },
-            {
-              "name": "Referrals",
-              "value": "Referrals"
-            },
-            {
-              "name": "Website",
-              "value": "Website"
-            },
-            {
-              "name": "Word of Mouth",
-              "value": "Word of mouth"
-            }
-          ],
-          "default": "Ads"
-        },
-        {
-          "displayName": "Estimated Close Date",
-          "name": "estimatedCloseDate",
-          "type": "dateTime",
-          "default": ""
-        },
-        {
-          "displayName": "Deal Value",
-          "name": "dealValue",
-          "type": "number",
-          "typeOptions": {
-            "numberPrecision": 2
-          },
-          "default": 0
-        },
-        {
-          "displayName": "Priority",
-          "name": "priority",
-          "type": "options",
-          "default": "Medium",
-          "options": [
-            {
-              "name": "High",
-              "value": "High"
-            },
-            {
-              "name": "Medium",
-              "value": "Medium"
-            },
-            {
-              "name": "Low",
-              "value": "Low"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "description (值: None) - This field contains details related to the deal",
+        "tags (值: None) - This field contains tags associated with an deal",
+        "primaryCompany (值: None) - Choose from the list, or specify an ID using an expression",
+        "source (值: None)",
+        "estimatedCloseDate (值: None)",
+        "dealValue (值: None)",
+        "priority (值: None)"
+      ]
     },
     "id": {
       "displayName": "Deal ID",
       "name": "id",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "delete"
-          ]
-        }
-      },
+      "default": "",
       "description": "If more than one deal add them separated by ,",
-      "ai_hint": "If more than one deal add them separated by ,"
+      "natural_language_description": "参数名: Deal ID | 作用: If more than one deal add them separated by , | (必填项)"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Title",
-          "name": "title",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Owner Name or ID",
-          "name": "owner",
-          "type": "options",
-          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getUsers"
-          }
-        },
-        {
-          "displayName": "Primary Contact Name or ID",
-          "name": "primaryContact",
-          "type": "options",
-          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getContacts"
-          }
-        },
-        {
-          "displayName": "Pipeline",
-          "name": "pipeline",
-          "type": "options",
-          "options": [
-            {
-              "name": "Sales",
-              "value": "Sales"
-            }
-          ],
-          "default": ""
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "default": "Open",
-          "options": [
-            {
-              "name": "Open",
-              "value": "Open"
-            },
-            {
-              "name": "Close",
-              "value": "Close"
-            },
-            {
-              "name": "Lost",
-              "value": "Lost"
-            }
-          ]
-        },
-        {
-          "displayName": "Stage",
-          "name": "stage",
-          "type": "options",
-          "default": "",
-          "options": [
-            {
-              "name": "Contacted",
-              "value": "Contacted"
-            },
-            {
-              "name": "In Negotiation",
-              "value": "In Negotiation"
-            },
-            {
-              "name": "New (Untouched)",
-              "value": "New (Untouched)"
-            },
-            {
-              "name": "Proposal Presented",
-              "value": "Proposal Presented"
-            },
-            {
-              "name": "Qualified",
-              "value": "Qualified"
-            }
-          ]
-        },
-        {
-          "displayName": "Currency",
-          "name": "currency",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Description",
-          "name": "description",
-          "type": "string",
-          "default": "",
-          "description": "This field contains details related to the deal"
-        },
-        {
-          "displayName": "Tags",
-          "name": "tags",
-          "type": "string",
-          "default": "",
-          "description": "This field contains tags associated with an deal"
-        },
-        {
-          "displayName": "Primary Company Name or ID",
-          "name": "primaryCompany",
-          "type": "options",
-          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "typeOptions": {
-            "loadOptionsMethod": "getCompanies"
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Source",
-          "name": "source",
-          "type": "options",
-          "options": [
-            {
-              "name": "Ads",
-              "value": "Ads"
-            },
-            {
-              "name": "Referrals",
-              "value": "Referrals"
-            },
-            {
-              "name": "Website",
-              "value": "Website"
-            },
-            {
-              "name": "Word of Mouth",
-              "value": "Word of mouth"
-            }
-          ],
-          "default": "Ads"
-        },
-        {
-          "displayName": "Estimated Close Date",
-          "name": "estimatedCloseDate",
-          "type": "dateTime",
-          "default": ""
-        },
-        {
-          "displayName": "Deal Value",
-          "name": "dealValue",
-          "type": "number",
-          "typeOptions": {
-            "numberPrecision": 2
-          },
-          "default": 0
-        },
-        {
-          "displayName": "Priority",
-          "name": "priority",
-          "type": "options",
-          "default": "Medium",
-          "options": [
-            {
-              "name": "High",
-              "value": "High"
-            },
-            {
-              "name": "Medium",
-              "value": "Medium"
-            },
-            {
-              "name": "Low",
-              "value": "Low"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "title (值: None)",
+        "owner (值: None) - Choose from the list, or specify an ID using an expression",
+        "primaryContact (值: None) - Choose from the list, or specify an ID using an expression",
+        "pipeline (值: None)",
+        "status (值: None)",
+        "stage (值: None)",
+        "currency (值: None)",
+        "description (值: None) - This field contains details related to the deal",
+        "tags (值: None) - This field contains tags associated with an deal",
+        "primaryCompany (值: None) - Choose from the list, or specify an ID using an expression",
+        "source (值: None)",
+        "estimatedCloseDate (值: None)",
+        "dealValue (值: None)",
+        "priority (值: None)"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 25
-      },
+      "required": false,
       "default": 10,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 10"
     },
     "jsonParameters": {
       "displayName": "JSON Parameters",
       "name": "jsonParameters",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "deal"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: JSON Parameters | 默认值: False"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Fields",
-          "name": "fields",
-          "type": "string",
-          "default": "",
-          "description": "Comma-separated list of fields to return"
-        },
-        {
-          "displayName": "Sort By",
-          "name": "sortBy",
-          "type": "string",
-          "default": "",
-          "description": "The field to sort by"
-        },
-        {
-          "displayName": "Sort Order",
-          "name": "sortOrder",
-          "type": "options",
-          "options": [
-            {
-              "name": "ASC",
-              "value": "asc"
-            },
-            {
-              "name": "DESC",
-              "value": "desc"
-            }
-          ],
-          "default": "desc"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "fields (值: None) - Comma-separated list of fields to return",
+        "sortBy (值: None) - The field to sort by",
+        "sortOrder (值: None)"
+      ]
     },
     "filtersJson": {
       "displayName": "Filters",
       "name": "filtersJson",
       "type": "json",
-      "typeOptions": {
-        "alwaysOpenEditWindow": true
-      },
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "deal"
-          ],
-          "jsonParameters": [
-            true
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Filters"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
-      "placeholder": "Add filter",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": false
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "filtersUi",
-          "displayName": "Filters",
-          "values": [
-            {
-              "displayName": "Operator",
-              "name": "operator",
-              "type": "options",
-              "options": [
-                {
-                  "name": "AND",
-                  "value": "AND"
-                },
-                {
-                  "name": "OR",
-                  "value": "OR"
-                }
-              ],
-              "default": "AND"
-            },
-            {
-              "displayName": "Conditions",
-              "name": "conditions",
-              "placeholder": "Add Condition",
-              "type": "fixedCollection",
-              "typeOptions": {
-                "multipleValues": true
-              },
-              "default": {},
-              "options": [
-                {
-                  "name": "conditionsUi",
-                  "displayName": "Conditions",
-                  "values": [
-                    {
-                      "displayName": "Field",
-                      "name": "field",
-                      "type": "options",
-                      "options": [
-                        {
-                          "name": "Title",
-                          "value": "title"
-                        },
-                        {
-                          "name": "Tags",
-                          "value": "tags"
-                        },
-                        {
-                          "name": "Last Communication Mode",
-                          "value": "lastCommunicationMode"
-                        }
-                      ],
-                      "default": "title"
-                    },
-                    {
-                      "displayName": "Condition",
-                      "name": "condition",
-                      "type": "options",
-                      "options": [
-                        {
-                          "name": "Equals",
-                          "value": "EQUALS"
-                        },
-                        {
-                          "name": "Not Equals",
-                          "value": "NOT_EQUALS"
-                        },
-                        {
-                          "name": "CONTAINS",
-                          "value": "Contains"
-                        },
-                        {
-                          "name": "Does Not Contains",
-                          "value": "DOES_NOT_CONTAINS"
-                        },
-                        {
-                          "name": "Empty",
-                          "value": "EMPTY"
-                        },
-                        {
-                          "name": "Not Empty",
-                          "value": "NOT_EMPTY"
-                        },
-                        {
-                          "name": "Starts With",
-                          "value": "STARTS_WITH"
-                        },
-                        {
-                          "name": "Ends With",
-                          "value": "ENDS_WITH"
-                        }
-                      ],
-                      "default": "EQUALS",
-                      "description": "Value of the property to set"
-                    },
-                    {
-                      "displayName": "Value",
-                      "name": "value",
-                      "type": "string",
-                      "default": ""
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "filtersUi (值: None)"
+      ]
     },
     "title": {
       "displayName": "Title",
       "name": "title",
       "type": "string",
+      "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Title | (必填项)"
     },
     "type": {
       "displayName": "Type",
       "name": "type",
       "type": "string",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "activity"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "description": "This field displays activity type such as call, meeting etc",
       "required": true,
-      "ai_hint": "This field displays activity type such as call, meeting etc"
+      "default": "",
+      "description": "This field displays activity type such as call, meeting etc",
+      "natural_language_description": "参数名: Type | 作用: This field displays activity type such as call, meeting etc | (必填项)"
     },
     "primaryContact": {
       "displayName": "Primary Contact Name or ID",
       "name": "primaryContact",
       "type": "options",
-      "default": "",
-      "typeOptions": {
-        "loadOptionsMethod": "getContacts"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "description": "Primary contact for the deal. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
       "required": true,
-      "ai_hint": "Primary contact for the deal. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "Primary contact for the deal. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Primary Contact Name or ID | 作用: Primary contact for the deal. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "pipeline": {
       "displayName": "Pipeline",
       "name": "pipeline",
       "type": "options",
-      "options": [
-        {
-          "name": "Sales",
-          "value": "Sales"
-        }
-      ],
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Pipeline | (必填项)",
+      "available_options": [
+        "Sales (值: Sales)"
+      ]
     },
     "status": {
       "displayName": "Status",
       "name": "status",
       "type": "options",
-      "default": "Open",
-      "options": [
-        {
-          "name": "Open",
-          "value": "Open"
-        },
-        {
-          "name": "Close",
-          "value": "Close"
-        },
-        {
-          "name": "Lost",
-          "value": "Lost"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "Open",
+      "description": "",
+      "natural_language_description": "参数名: Status | 默认值: Open | (必填项)",
+      "available_options": [
+        "Open (值: Open)",
+        "Close (值: Close)",
+        "Lost (值: Lost)"
+      ]
     },
     "stage": {
       "displayName": "Stage",
       "name": "stage",
       "type": "options",
-      "default": "",
-      "options": [
-        {
-          "name": "New (Untouched)",
-          "value": "New (Untouched)"
-        },
-        {
-          "name": "Contacted",
-          "value": "Contacted"
-        },
-        {
-          "name": "Qualified",
-          "value": "Qualified"
-        },
-        {
-          "name": "In Negotiation",
-          "value": "In Negotiation"
-        },
-        {
-          "name": "Proposal Presented",
-          "value": "Proposal Presented"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Stage | (必填项)",
+      "available_options": [
+        "New (Untouched) (值: New (Untouched))",
+        "Contacted (值: Contacted)",
+        "Qualified (值: Qualified)",
+        "In Negotiation (值: In Negotiation)",
+        "Proposal Presented (值: Proposal Presented)"
+      ]
     },
     "currency": {
       "displayName": "Currency",
       "name": "currency",
       "type": "string",
+      "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Currency | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "operation",
-      "operation",
-      "name",
-      "owner",
-      "rawData",
-      "additionalFields",
-      "id",
-      "rawData",
-      "updateFields",
-      "id",
-      "rawData",
-      "returnAll",
-      "limit",
-      "jsonParameters",
-      "options",
-      "filtersJson",
-      "filters",
-      "id",
-      "title",
-      "owner",
-      "type",
-      "rawData",
-      "additionalFields",
-      "id",
-      "rawData",
-      "updateFields",
-      "id",
-      "rawData",
-      "returnAll",
-      "limit",
-      "jsonParameters",
-      "options",
-      "filtersJson",
-      "filters",
-      "id",
-      "title",
-      "owner",
-      "primaryContact",
-      "pipeline",
-      "status",
-      "stage",
-      "currency",
-      "rawData",
-      "additionalFields",
-      "id",
-      "rawData",
-      "updateFields",
-      "id",
-      "rawData",
-      "returnAll",
-      "limit",
-      "jsonParameters",
-      "options",
-      "filtersJson",
-      "filters",
-      "id"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'company' THEN SHOW parameter 'operation'",
-      "IF resource == 'activity' THEN SHOW parameter 'operation'",
-      "IF resource == 'deal' THEN SHOW parameter 'operation'",
-      "IF resource == 'company' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'company' AND operation == 'create' THEN SHOW parameter 'owner'",
-      "IF resource == 'company' AND operation == 'create' THEN SHOW parameter 'rawData'",
-      "IF resource == 'company' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'company' AND operation == 'update' THEN SHOW parameter 'id'",
-      "IF resource == 'company' AND operation == 'update' THEN SHOW parameter 'rawData'",
-      "IF resource == 'company' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'company' AND operation == 'get' THEN SHOW parameter 'id'",
-      "IF resource == 'company' AND operation == 'get' THEN SHOW parameter 'rawData'",
-      "IF resource == 'company' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'company' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'company' THEN SHOW parameter 'jsonParameters'",
-      "IF resource == 'company' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF operation == 'getAll' AND resource == 'company' AND jsonParameters == True THEN SHOW parameter 'filtersJson'",
-      "IF resource == 'company' AND operation == 'getAll' AND jsonParameters == False THEN SHOW parameter 'filters'",
-      "IF resource == 'company' AND operation == 'delete' THEN SHOW parameter 'id'",
-      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'title'",
-      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'owner'",
-      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'type'",
-      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'rawData'",
-      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'activity' AND operation == 'update' THEN SHOW parameter 'id'",
-      "IF resource == 'activity' AND operation == 'update' THEN SHOW parameter 'rawData'",
-      "IF resource == 'activity' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'activity' AND operation == 'get' THEN SHOW parameter 'id'",
-      "IF resource == 'activity' AND operation == 'get' THEN SHOW parameter 'rawData'",
-      "IF resource == 'activity' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'activity' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'activity' THEN SHOW parameter 'jsonParameters'",
-      "IF resource == 'activity' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF operation == 'getAll' AND resource == 'activity' AND jsonParameters == True THEN SHOW parameter 'filtersJson'",
-      "IF resource == 'activity' AND operation == 'getAll' AND jsonParameters == False THEN SHOW parameter 'filters'",
-      "IF resource == 'activity' AND operation == 'delete' THEN SHOW parameter 'id'",
-      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'title'",
-      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'owner'",
-      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'primaryContact'",
-      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'pipeline'",
-      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'status'",
-      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'stage'",
-      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'currency'",
-      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'rawData'",
-      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'deal' AND operation == 'update' THEN SHOW parameter 'id'",
-      "IF resource == 'deal' AND operation == 'update' THEN SHOW parameter 'rawData'",
-      "IF resource == 'deal' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'deal' AND operation == 'get' THEN SHOW parameter 'id'",
-      "IF resource == 'deal' AND operation == 'get' THEN SHOW parameter 'rawData'",
-      "IF resource == 'deal' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'deal' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'deal' THEN SHOW parameter 'jsonParameters'",
-      "IF resource == 'deal' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF operation == 'getAll' AND resource == 'deal' AND jsonParameters == True THEN SHOW parameter 'filtersJson'",
-      "IF resource == 'deal' AND operation == 'getAll' AND jsonParameters == False THEN SHOW parameter 'filters'",
-      "IF resource == 'deal' AND operation == 'delete' THEN SHOW parameter 'id'"
-    ]
   }
 }

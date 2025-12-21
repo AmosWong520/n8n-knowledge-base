@@ -1,407 +1,134 @@
 {
   "node_id": "n8n-nodes-base.rocketchatTool",
-  "name": "n8n-nodes-base.rocketchatTool",
+  "name": "RocketChat Tool",
   "version": 1,
   "semantic_context": "Consume RocketChat API",
+  "natural_language_description": "这是 RocketChat Tool 节点。主要用于: Consume RocketChat API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume RocketChat API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume RocketChat API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume RocketChat API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Chat",
-          "value": "chat"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "chat",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: chat",
+      "available_options": [
+        "Chat (值: chat)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "chat"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Post Message",
-          "value": "postMessage",
-          "description": "Post a message to a channel or a direct message",
-          "action": "Post a message"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "postMessage",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: postMessage",
+      "available_options": [
+        "Post Message (值: postMessage) - Post a message to a channel or a direct message",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "channel": {
       "displayName": "Channel",
       "name": "channel",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "chat"
-          ],
-          "operation": [
-            "postMessage"
-          ]
-        }
-      },
       "default": "",
       "description": "The channel name with the prefix in front of it",
-      "ai_hint": "The channel name with the prefix in front of it"
+      "natural_language_description": "参数名: Channel | 作用: The channel name with the prefix in front of it | (必填项)"
     },
     "text": {
       "displayName": "Text",
       "name": "text",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "chat"
-          ],
-          "operation": [
-            "postMessage"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "The text of the message to send, is optional because of attachments",
-      "ai_hint": "The text of the message to send, is optional because of attachments"
+      "natural_language_description": "参数名: Text | 作用: The text of the message to send, is optional because of attachments"
     },
     "jsonParameters": {
       "displayName": "JSON Parameters",
       "name": "jsonParameters",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "chat"
-          ],
-          "operation": [
-            "postMessage"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: JSON Parameters | 默认值: False"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "chat"
-          ],
-          "operation": [
-            "postMessage"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Alias",
-          "name": "alias",
-          "type": "string",
-          "default": "",
-          "description": "This will cause the message’s name to appear as the given alias, but your username will still display"
-        },
-        {
-          "displayName": "Avatar",
-          "name": "avatar",
-          "type": "string",
-          "default": "",
-          "description": "If provided, this will make the avatar use the provided image URL"
-        },
-        {
-          "displayName": "Emoji",
-          "name": "emoji",
-          "type": "string",
-          "default": "",
-          "description": "This will cause the message’s name to appear as the given alias, but your username will still display"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "alias (值: None) - This will cause the message’s name to appear as the given alias, but your username will still display",
+        "avatar (值: None) - If provided, this will make the avatar use the provided image URL",
+        "emoji (值: None) - This will cause the message’s name to appear as the given alias, but your username will still display"
+      ]
     },
     "attachments": {
       "displayName": "Attachments",
       "name": "attachments",
       "type": "collection",
+      "required": false,
       "default": {},
-      "placeholder": "Add Attachment Item",
-      "typeOptions": {
-        "multipleValues": true,
-        "multipleValueButtonText": "Add Attachment"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "chat"
-          ],
-          "operation": [
-            "postMessage"
-          ],
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Color",
-          "name": "color",
-          "type": "color",
-          "default": "#ff0000",
-          "description": "The color you want the order on the left side to be, any value background-css supports"
-        },
-        {
-          "displayName": "Text",
-          "name": "text",
-          "type": "string",
-          "default": "",
-          "description": "The text to display for this attachment, it is different than the message’s text"
-        },
-        {
-          "displayName": "Timestamp",
-          "name": "ts",
-          "type": "dateTime",
-          "default": "",
-          "description": "Displays the time next to the text portion"
-        },
-        {
-          "displayName": "Thumb URL",
-          "name": "thumbUrl",
-          "type": "string",
-          "default": "",
-          "description": "An image that displays to the left of the text, looks better when this is relatively small"
-        },
-        {
-          "displayName": "Message Link",
-          "name": "messageLink",
-          "type": "string",
-          "default": "",
-          "description": "Only applicable if the timestamp is provided, as it makes the time clickable to this link"
-        },
-        {
-          "displayName": "Collapsed",
-          "name": "collapsed",
-          "type": "boolean",
-          "default": false,
-          "description": "Causes the image, audio, and video sections to be hiding when collapsed is true"
-        },
-        {
-          "displayName": "Author Name",
-          "name": "authorName",
-          "type": "string",
-          "default": "",
-          "description": "Name of the author"
-        },
-        {
-          "displayName": "Author Link",
-          "name": "authorLink",
-          "type": "string",
-          "default": "",
-          "description": "Providing this makes the author name clickable and points to this link"
-        },
-        {
-          "displayName": "Author Icon",
-          "name": "authorIcon",
-          "type": "string",
-          "default": "",
-          "placeholder": "https://site.com/img.png",
-          "description": "Displays a tiny icon to the left of the Author’s name"
-        },
-        {
-          "displayName": "Title",
-          "name": "title",
-          "type": "string",
-          "default": "",
-          "description": "Title to display for this attachment, displays under the author"
-        },
-        {
-          "displayName": "Title Link",
-          "name": "titleLink",
-          "type": "string",
-          "default": "",
-          "description": "Providing this makes the title clickable, pointing to this link"
-        },
-        {
-          "displayName": "Title Link Download",
-          "name": "titleLinkDownload",
-          "type": "boolean",
-          "default": false,
-          "description": "When this is true, a download icon appears and clicking this saves the link to file"
-        },
-        {
-          "displayName": "Image URL",
-          "name": "imageUrl",
-          "type": "string",
-          "default": "",
-          "description": "The image to display, will be “big” and easy to see"
-        },
-        {
-          "displayName": "Audio URL",
-          "name": "audioUrl",
-          "type": "string",
-          "default": "",
-          "placeholder": "https://site.com/aud.mp3",
-          "description": "Audio file to play, only supports what html audio does"
-        },
-        {
-          "displayName": "Video URL",
-          "name": "videoUrl",
-          "type": "string",
-          "default": "",
-          "placeholder": "https://site.com/vid.mp4",
-          "description": "Video file to play, only supports what html video does"
-        },
-        {
-          "displayName": "Fields",
-          "name": "fields",
-          "type": "fixedCollection",
-          "placeholder": "Add Field Item",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "fieldsValues",
-              "displayName": "Fields",
-              "values": [
-                {
-                  "displayName": "Short",
-                  "name": "short",
-                  "type": "boolean",
-                  "default": false,
-                  "description": "Whether this field should be a short field"
-                },
-                {
-                  "displayName": "Title",
-                  "name": "title",
-                  "type": "string",
-                  "default": "",
-                  "description": "The title of this field"
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": "",
-                  "description": "The value of this field, displayed underneath the title value"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Attachments | 默认值: {}",
+      "available_options": [
+        "color (值: None) - The color you want the order on the left side to be, any value background-css supports",
+        "text (值: None) - The text to display for this attachment, it is different than the message’s text",
+        "ts (值: None) - Displays the time next to the text portion",
+        "thumbUrl (值: None) - An image that displays to the left of the text, looks better when this is relatively small",
+        "messageLink (值: None) - Only applicable if the timestamp is provided, as it makes the time clickable to this link",
+        "collapsed (值: None) - Causes the image, audio, and video sections to be hiding when collapsed is true",
+        "authorName (值: None) - Name of the author",
+        "authorLink (值: None) - Providing this makes the author name clickable and points to this link",
+        "authorIcon (值: None) - Displays a tiny icon to the left of the Author’s name",
+        "title (值: None) - Title to display for this attachment, displays under the author",
+        "titleLink (值: None) - Providing this makes the title clickable, pointing to this link",
+        "titleLinkDownload (值: None) - When this is true, a download icon appears and clicking this saves the link to file",
+        "imageUrl (值: None) - The image to display, will be “big” and easy to see",
+        "audioUrl (值: None) - Audio file to play, only supports what html audio does",
+        "videoUrl (值: None) - Video file to play, only supports what html video does",
+        "fields (值: None)"
+      ]
     },
     "attachmentsJson": {
       "displayName": "Attachments",
       "name": "attachmentsJson",
       "type": "json",
-      "typeOptions": {
-        "alwaysOpenEditWindow": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "chat"
-          ],
-          "operation": [
-            "postMessage"
-          ],
-          "jsonParameters": [
-            true
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Attachments"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "channel",
-      "text",
-      "jsonParameters",
-      "options",
-      "attachments",
-      "attachmentsJson"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'chat' THEN SHOW parameter 'operation'",
-      "IF resource == 'chat' AND operation == 'postMessage' THEN SHOW parameter 'channel'",
-      "IF resource == 'chat' AND operation == 'postMessage' THEN SHOW parameter 'text'",
-      "IF resource == 'chat' AND operation == 'postMessage' THEN SHOW parameter 'jsonParameters'",
-      "IF resource == 'chat' AND operation == 'postMessage' THEN SHOW parameter 'options'",
-      "IF resource == 'chat' AND operation == 'postMessage' AND jsonParameters == False THEN SHOW parameter 'attachments'",
-      "IF resource == 'chat' AND operation == 'postMessage' AND jsonParameters == True THEN SHOW parameter 'attachmentsJson'"
-    ]
   }
 }

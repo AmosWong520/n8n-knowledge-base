@@ -1,154 +1,69 @@
 {
   "node_id": "n8n-nodes-base.oura",
-  "name": "n8n-nodes-base.oura",
+  "name": "Oura",
   "version": 1,
   "semantic_context": "Consume Oura API",
+  "natural_language_description": "这是 Oura 节点。主要用于: Consume Oura API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Profile",
-          "value": "profile"
-        },
-        {
-          "name": "Summary",
-          "value": "summary"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "summary",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: summary",
+      "available_options": [
+        "Profile (值: profile)",
+        "Summary (值: summary)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "summary"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get Activity Summary",
-          "value": "getActivity",
-          "description": "Get the user's activity summary",
-          "action": "Get activity summary"
-        },
-        {
-          "name": "Get Readiness Summary",
-          "value": "getReadiness",
-          "description": "Get the user's readiness summary",
-          "action": "Get readiness summary"
-        },
-        {
-          "name": "Get Sleep Periods",
-          "value": "getSleep",
-          "description": "Get the user's sleep summary",
-          "action": "Get sleep summary"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "getSleep",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getSleep",
+      "available_options": [
+        "Get Activity Summary (值: getActivity) - Get the user's activity summary",
+        "Get Readiness Summary (值: getReadiness) - Get the user's readiness summary",
+        "Get Sleep Periods (值: getSleep) - Get the user's sleep summary",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "summary"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "summary"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 10
-      },
+      "required": false,
       "default": 5,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 5"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "summary"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "End Date",
-          "name": "end",
-          "type": "dateTime",
-          "default": "",
-          "description": "End date for the summary retrieval. If omitted, it defaults to the current day."
-        },
-        {
-          "displayName": "Start Date",
-          "name": "start",
-          "type": "dateTime",
-          "default": "",
-          "description": "Start date for the summary retrieval. If omitted, it defaults to a week ago."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "end (值: None) - End date for the summary retrieval. If omitted, it defaults to the current day.",
+        "start (值: None) - Start date for the summary retrieval. If omitted, it defaults to a week ago."
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "operation",
-      "returnAll",
-      "limit",
-      "filters"
-    ],
-    "conditional_rules": [
-      "IF resource == 'profile' THEN SHOW parameter 'operation'",
-      "IF resource == 'summary' THEN SHOW parameter 'operation'",
-      "IF resource == 'summary' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'summary' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'summary' THEN SHOW parameter 'filters'"
-    ]
   }
 }

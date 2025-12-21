@@ -1,182 +1,58 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.openAiAssistant",
-  "name": "@n8n/n8n-nodes-langchain.openAiAssistant",
-  "version": [
-    1,
-    1.1
-  ],
+  "name": "OpenAI Assistant",
+  "version": 1,
   "semantic_context": "Utilizes Assistant API from Open AI.",
+  "natural_language_description": "这是 OpenAI Assistant 节点。主要用于: Utilizes Assistant API from Open AI.",
   "parameters": {
     "mode": {
       "displayName": "Operation",
       "name": "mode",
       "type": "options",
-      "noDataExpression": true,
+      "required": false,
       "default": "existing",
-      "options": [
-        {
-          "name": "Use New Assistant",
-          "value": "new"
-        },
-        {
-          "name": "Use Existing Assistant",
-          "value": "existing"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: existing",
+      "available_options": [
+        "Use New Assistant (值: new)",
+        "Use Existing Assistant (值: existing)"
+      ]
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "/mode": [
-            "new"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Name | (必填项)"
     },
     "instructions": {
       "displayName": "Instructions",
       "name": "instructions",
       "type": "string",
-      "description": "How the Assistant and model should behave or respond",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "rows": 5
-      },
-      "displayOptions": {
-        "show": {
-          "/mode": [
-            "new"
-          ]
-        }
-      },
-      "ai_hint": "How the Assistant and model should behave or respond"
+      "description": "How the Assistant and model should behave or respond",
+      "natural_language_description": "参数名: Instructions | 作用: How the Assistant and model should behave or respond"
     },
     "model": {
       "displayName": "Model",
       "name": "model",
       "type": "options",
-      "description": "The model which will be used to power the assistant. <a href=\"https://beta.openai.com/docs/models/overview\">Learn more</a>. The Retrieval tool requires gpt-3.5-turbo-1106 and gpt-4-1106-preview models.",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "/mode": [
-            "new"
-          ]
-        }
-      },
-      "typeOptions": {
-        "loadOptions": {
-          "routing": {
-            "request": {
-              "method": "GET",
-              "url": "={{ $parameter.options?.baseURL?.split(\"/\").slice(-1).pop() || \"v1\"  }}/models"
-            },
-            "output": {
-              "postReceive": [
-                {
-                  "type": "rootProperty",
-                  "properties": {
-                    "property": "data"
-                  }
-                },
-                {
-                  "type": "filter",
-                  "properties": {
-                    "pass": "={{ $responseItem.id.startsWith('gpt-') && !$responseItem.id.includes('instruct') }}"
-                  }
-                },
-                {
-                  "type": "setKeyValue",
-                  "properties": {
-                    "name": "={{$responseItem.id}}",
-                    "value": "={{$responseItem.id}}"
-                  }
-                },
-                {
-                  "type": "sort",
-                  "properties": {
-                    "key": "name"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      },
-      "routing": {
-        "send": {
-          "type": "body",
-          "property": "model"
-        }
-      },
       "default": "gpt-3.5-turbo-1106",
-      "ai_hint": "The model which will be used to power the assistant. <a href=\"https://beta.openai.com/docs/models/overview\">Learn more</a>. The Retrieval tool requires gpt-3.5-turbo-1106 and gpt-4-1106-preview models."
+      "description": "The model which will be used to power the assistant. Learn more. The Retrieval tool requires gpt-3.5-turbo-1106 and gpt-4-1106-preview models.",
+      "natural_language_description": "参数名: Model | 作用: The model which will be used to power the assistant. Learn more. The Retrieval tool requires gpt-3.5-turbo-1106 and gpt-4-1106-preview models. | 默认值: gpt-3.5-turbo-1106 | (必填项)"
     },
     "assistantId": {
       "displayName": "Assistant",
       "name": "assistantId",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "/mode": [
-            "existing"
-          ]
-        }
-      },
-      "description": "The assistant to use. <a href=\"https://beta.openai.com/docs/assistants/overview\">Learn more</a>.",
-      "typeOptions": {
-        "loadOptions": {
-          "routing": {
-            "request": {
-              "method": "GET",
-              "headers": {
-                "OpenAI-Beta": "assistants=v1"
-              },
-              "url": "={{ $parameter.options?.baseURL?.split(\"/\").slice(-1).pop() || \"v1\"  }}/assistants"
-            },
-            "output": {
-              "postReceive": [
-                {
-                  "type": "rootProperty",
-                  "properties": {
-                    "property": "data"
-                  }
-                },
-                {
-                  "type": "setKeyValue",
-                  "properties": {
-                    "name": "={{$responseItem.name}}",
-                    "value": "={{$responseItem.id}}",
-                    "description": "={{$responseItem.model}}"
-                  }
-                },
-                {
-                  "type": "sort",
-                  "properties": {
-                    "key": "name"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      },
-      "routing": {
-        "send": {
-          "type": "body",
-          "property": "assistant"
-        }
-      },
       "required": true,
       "default": "",
-      "ai_hint": "The assistant to use. <a href=\"https://beta.openai.com/docs/assistants/overview\">Learn more</a>."
+      "description": "The assistant to use. Learn more.",
+      "natural_language_description": "参数名: Assistant | 作用: The assistant to use. Learn more. | (必填项)"
     },
     "text": {
       "displayName": "Text",
@@ -184,101 +60,44 @@
       "type": "string",
       "required": true,
       "default": "={{ $json.chatInput }}",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            1.1
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Text | 默认值: ={{ $json.chatInput }} | (必填项)"
     },
     "nativeTools": {
       "displayName": "OpenAI Tools",
       "name": "nativeTools",
       "type": "multiOptions",
+      "required": false,
       "default": [],
-      "options": [
-        {
-          "name": "Code Interpreter",
-          "value": "code_interpreter"
-        },
-        {
-          "name": "Knowledge Retrieval",
-          "value": "retrieval"
-        }
+      "description": "",
+      "natural_language_description": "参数名: OpenAI Tools | 默认值: []",
+      "available_options": [
+        "Code Interpreter (值: code_interpreter)",
+        "Knowledge Retrieval (值: retrieval)"
       ]
     },
     "noticeTools": {
       "displayName": "Upload files for retrieval using the <a href=\"https://platform.openai.com/playground\" target=\"_blank\">OpenAI website<a/>",
       "name": "noticeTools",
       "type": "notice",
-      "typeOptions": {
-        "noticeTheme": "info"
-      },
-      "displayOptions": {
-        "show": {
-          "/nativeTools": [
-            "retrieval"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Upload files for retrieval using the <a href=\"https://platform.openai.com/playground\" target=\"_blank\">OpenAI website<a/>"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
-      "placeholder": "Add Option",
-      "description": "Additional options to add",
       "type": "collection",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Base URL",
-          "name": "baseURL",
-          "default": "https://api.openai.com/v1",
-          "description": "Override the default base URL for the API",
-          "type": "string"
-        },
-        {
-          "displayName": "Max Retries",
-          "name": "maxRetries",
-          "default": 2,
-          "description": "Maximum number of retries to attempt",
-          "type": "number"
-        },
-        {
-          "displayName": "Timeout",
-          "name": "timeout",
-          "default": 10000,
-          "description": "Maximum amount of time a request is allowed to take in milliseconds",
-          "type": "number"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "Additional options to add",
+      "natural_language_description": "参数名: Options | 作用: Additional options to add | 默认值: {}",
+      "available_options": [
+        "baseURL (值: None) - Override the default base URL for the API",
+        "maxRetries (值: None) - Maximum number of retries to attempt",
+        "timeout (值: None) - Maximum amount of time a request is allowed to take in milliseconds"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "mode",
-      "name",
-      "instructions",
-      "model",
-      "assistantId",
-      "text",
-      "text",
-      "nativeTools",
-      "noticeTools",
-      "noticeTools",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF /mode == 'new' THEN SHOW parameter 'name'",
-      "IF /mode == 'new' THEN SHOW parameter 'instructions'",
-      "IF /mode == 'new' THEN SHOW parameter 'model'",
-      "IF /mode == 'existing' THEN SHOW parameter 'assistantId'",
-      "IF @version == 1 THEN SHOW parameter 'text'",
-      "IF @version == 1.1 THEN SHOW parameter 'text'",
-      "IF /nativeTools == 'retrieval' THEN SHOW parameter 'noticeTools'"
-    ]
   }
 }

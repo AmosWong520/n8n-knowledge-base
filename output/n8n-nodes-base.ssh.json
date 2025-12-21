@@ -1,200 +1,96 @@
 {
   "node_id": "n8n-nodes-base.ssh",
-  "name": "n8n-nodes-base.ssh",
+  "name": "SSH",
   "version": 1,
   "semantic_context": "Execute commands via SSH",
+  "natural_language_description": "这是 SSH 节点。主要用于: Execute commands via SSH",
   "parameters": {
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Password",
-          "value": "password"
-        },
-        {
-          "name": "Private Key",
-          "value": "privateKey"
-        }
-      ],
+      "required": false,
       "default": "password",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: password",
+      "available_options": [
+        "Password (值: password)",
+        "Private Key (值: privateKey)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Command",
-          "value": "command"
-        },
-        {
-          "name": "File",
-          "value": "file"
-        }
-      ],
+      "required": false,
       "default": "command",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: command",
+      "available_options": [
+        "Command (值: command)",
+        "File (值: file)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Download",
-          "value": "download",
-          "description": "Download a file",
-          "action": "Download a file"
-        },
-        {
-          "name": "Upload",
-          "value": "upload",
-          "description": "Upload a file",
-          "action": "Upload a file"
-        }
-      ],
+      "required": false,
       "default": "upload",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: upload",
+      "available_options": [
+        "Download (值: download) - Download a file",
+        "Upload (值: upload) - Upload a file"
+      ]
     },
     "command": {
       "displayName": "Command",
       "name": "command",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "command"
-          ],
-          "operation": [
-            "execute"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "The command to be executed on a remote device",
-      "ai_hint": "The command to be executed on a remote device"
+      "natural_language_description": "参数名: Command | 作用: The command to be executed on a remote device"
     },
     "cwd": {
       "displayName": "Working Directory",
       "name": "cwd",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "command"
-          ],
-          "operation": [
-            "execute"
-          ]
-        }
-      },
+      "required": true,
       "default": "/",
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Working Directory | 默认值: / | (必填项)"
     },
     "binaryPropertyName": {
       "displayName": "File Property",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "download"
-          ]
-        }
-      },
       "name": "binaryPropertyName",
       "type": "string",
+      "required": true,
       "default": "data",
       "description": "Object property name which holds binary data",
-      "required": true,
-      "ai_hint": "Object property name which holds binary data"
+      "natural_language_description": "参数名: File Property | 作用: Object property name which holds binary data | 默认值: data | (必填项)"
     },
     "path": {
       "displayName": "Path",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "download"
-          ]
-        }
-      },
       "name": "path",
       "type": "string",
-      "default": "",
-      "placeholder": "/home/user/invoice.txt",
-      "description": "The file path of the file to download. Has to contain the full path including file name.",
       "required": true,
-      "ai_hint": "The file path of the file to download. Has to contain the full path including file name."
+      "default": "",
+      "description": "The file path of the file to download. Has to contain the full path including file name.",
+      "natural_language_description": "参数名: Path | 作用: The file path of the file to download. Has to contain the full path including file name. | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "upload",
-            "download"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "File Name",
-          "name": "fileName",
-          "type": "string",
-          "default": "",
-          "description": "Overrides the binary data file name"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "fileName (值: None) - Overrides the binary data file name"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "authentication",
-      "resource",
-      "operation",
-      "command",
-      "cwd",
-      "operation",
-      "binaryPropertyName",
-      "path",
-      "path",
-      "binaryPropertyName",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF resource == 'command' THEN SHOW parameter 'operation'",
-      "IF resource == 'command' AND operation == 'execute' THEN SHOW parameter 'command'",
-      "IF resource == 'command' AND operation == 'execute' THEN SHOW parameter 'cwd'",
-      "IF resource == 'file' THEN SHOW parameter 'operation'",
-      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'binaryPropertyName'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'path'",
-      "IF resource == 'file' AND operation == 'download' THEN SHOW parameter 'path'",
-      "IF resource == 'file' AND operation == 'download' THEN SHOW parameter 'binaryPropertyName'",
-      "IF resource == 'file' AND operation IN [\"upload\", \"download\"] THEN SHOW parameter 'options'"
-    ]
   }
 }

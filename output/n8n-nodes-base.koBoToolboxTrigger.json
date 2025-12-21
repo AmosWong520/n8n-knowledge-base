@@ -1,20 +1,18 @@
 {
   "node_id": "n8n-nodes-base.koBoToolboxTrigger",
-  "name": "n8n-nodes-base.koBoToolboxTrigger",
+  "name": "KoBoToolbox Trigger",
   "version": 1,
   "semantic_context": "Process KoBoToolbox submissions",
+  "natural_language_description": "这是 KoBoToolbox Trigger 节点。主要用于: Process KoBoToolbox submissions",
   "parameters": {
     "formId": {
       "displayName": "Form Name or ID",
       "name": "formId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "loadForms"
-      },
       "required": true,
       "default": "",
-      "description": "Form ID (e.g. aSAvYreNzVEkrWg5Gdcvg). Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "Form ID (e.g. aSAvYreNzVEkrWg5Gdcvg). Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "Form ID (e.g. aSAvYreNzVEkrWg5Gdcvg). Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Form Name or ID | 作用: Form ID (e.g. aSAvYreNzVEkrWg5Gdcvg). Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "triggerOn": {
       "displayName": "Trigger On",
@@ -22,135 +20,29 @@
       "type": "options",
       "required": true,
       "default": "formSubmission",
-      "options": [
-        {
-          "name": "On Form Submission",
-          "value": "formSubmission"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Trigger On | 默认值: formSubmission | (必填项)",
+      "available_options": [
+        "On Form Submission (值: formSubmission)"
+      ]
     },
     "formatOptions": {
       "displayName": "Options",
-      "placeholder": "Add option",
       "name": "formatOptions",
       "type": "collection",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Download Attachments",
-          "name": "download",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to download submitted attachments"
-        },
-        {
-          "displayName": "Attachments Naming Scheme",
-          "name": "binaryNamingScheme",
-          "type": "options",
-          "default": "sequence",
-          "displayOptions": {
-            "show": {
-              "download": [
-                true
-              ]
-            }
-          },
-          "options": [
-            {
-              "name": "Sequence (e.g. attachment_N)",
-              "value": "sequence"
-            },
-            {
-              "name": "Use Original Form Question ID",
-              "value": "question"
-            }
-          ]
-        },
-        {
-          "displayName": "Attachments Prefix",
-          "name": "dataPropertyAttachmentsPrefixName",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "download": [
-                true
-              ],
-              "binaryNamingScheme": [
-                "sequence"
-              ]
-            }
-          },
-          "default": "attachment_",
-          "description": "Prefix for name of the binary property to which to write the attachments. An index starting with 0 will be added. So if name is \"attachment_\" the first attachment is saved to \"attachment_0\""
-        },
-        {
-          "displayName": "File Size",
-          "name": "version",
-          "type": "options",
-          "displayOptions": {
-            "show": {
-              "download": [
-                true
-              ]
-            }
-          },
-          "default": "download_url",
-          "description": "Attachment size to retrieve, if multiple versions are available",
-          "options": [
-            {
-              "name": "Original",
-              "value": "download_url"
-            },
-            {
-              "name": "Small",
-              "value": "download_small_url"
-            },
-            {
-              "name": "Medium",
-              "value": "download_medium_url"
-            },
-            {
-              "name": "Large",
-              "value": "download_large_url"
-            }
-          ]
-        },
-        {
-          "displayName": "Multiselect Mask",
-          "name": "selectMask",
-          "type": "string",
-          "default": "select_*",
-          "description": "Comma-separated list of wildcard-style selectors for fields that should be treated as multiselect fields, i.e. parsed as arrays."
-        },
-        {
-          "displayName": "Number Mask",
-          "name": "numberMask",
-          "type": "string",
-          "default": "n_*, f_*",
-          "description": "Comma-separated list of wildcard-style selectors for fields that should be treated as numbers"
-        },
-        {
-          "displayName": "Reformat",
-          "name": "reformat",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to apply some reformatting to the submission data, such as parsing GeoJSON coordinates"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "download (值: None) - Whether to download submitted attachments",
+        "binaryNamingScheme (值: None)",
+        "dataPropertyAttachmentsPrefixName (值: None) - Prefix for name of the binary property to which to write the attachments. An index starting with 0 will be added. So if name is \"attachment_\" the first attachment is saved to \"attachment_0\"",
+        "version (值: None) - Attachment size to retrieve, if multiple versions are available",
+        "selectMask (值: None) - Comma-separated list of wildcard-style selectors for fields that should be treated as multiselect fields, i.e. parsed as arrays.",
+        "numberMask (值: None) - Comma-separated list of wildcard-style selectors for fields that should be treated as numbers",
+        "reformat (值: None) - Whether to apply some reformatting to the submission data, such as parsing GeoJSON coordinates"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "formId",
-      "triggerOn",
-      "formatOptions"
-    ],
-    "conditional_rules": [
-      "IF download == True THEN SHOW parameter 'binaryNamingScheme'",
-      "IF download == True AND binaryNamingScheme == 'sequence' THEN SHOW parameter 'dataPropertyAttachmentsPrefixName'",
-      "IF download == True THEN SHOW parameter 'version'"
-    ]
   }
 }

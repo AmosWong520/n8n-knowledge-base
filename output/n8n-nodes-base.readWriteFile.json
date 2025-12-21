@@ -1,129 +1,70 @@
 {
   "node_id": "n8n-nodes-base.readWriteFile",
-  "name": "n8n-nodes-base.readWriteFile",
+  "name": "Read/Write Files from Disk",
   "version": 1,
   "semantic_context": "Read or write files from the computer that runs n8n",
+  "natural_language_description": "这是 Read/Write Files from Disk 节点。主要用于: Read or write files from the computer that runs n8n",
   "parameters": {
     "info": {
       "displayName": "Use this node to read and write files on the same computer running n8n. To handle files between different computers please use other nodes (e.g. FTP, HTTP Request, AWS).",
       "name": "info",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Use this node to read and write files on the same computer running n8n. To handle files between different computers please use other nodes (e.g. FTP, HTTP Request, AWS)."
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Read File(s) From Disk",
-          "value": "read",
-          "description": "Retrieve one or more files from the computer that runs n8n",
-          "action": "Read File(s) From Disk"
-        },
-        {
-          "name": "Write File to Disk",
-          "value": "write",
-          "description": "Create a binary file on the computer that runs n8n",
-          "action": "Write File to Disk"
-        }
-      ],
+      "required": false,
       "default": "read",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: read",
+      "available_options": [
+        "Read File(s) From Disk (值: read) - Retrieve one or more files from the computer that runs n8n",
+        "Write File to Disk (值: write) - Create a binary file on the computer that runs n8n"
+      ]
     },
     "fileSelector": {
       "displayName": "File(s) Selector",
       "name": "fileSelector",
       "type": "string",
-      "default": "",
       "required": true,
-      "placeholder": "e.g. /home/user/Pictures/**/*.png",
-      "hint": "Supports patterns, learn more <a href=\"https://github.com/micromatch/picomatch#basic-globbing\" target=\"_blank\">here</a>",
+      "default": "",
       "description": "Specify a file's path or path pattern to read multiple files. Always use forward-slashes for path separator even on Windows.",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "read"
-          ]
-        }
-      },
-      "ai_hint": "Specify a file's path or path pattern to read multiple files. Always use forward-slashes for path separator even on Windows."
+      "natural_language_description": "参数名: File(s) Selector | 作用: Specify a file's path or path pattern to read multiple files. Always use forward-slashes for path separator even on Windows. | 提示: Supports patterns, learn more here | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Append",
-          "name": "append",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to append to an existing file. While it's commonly used with text files, it's not limited to them, however, it wouldn't be applicable for file types that have a specific structure like most binary formats."
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "write"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "append (值: None) - Whether to append to an existing file. While it's commonly used with text files, it's not limited to them, however, it wouldn't be applicable for file types that have a specific structure like most binary formats."
+      ]
     },
     "fileName": {
       "displayName": "File Path and Name",
       "name": "fileName",
       "type": "string",
-      "default": "",
       "required": true,
-      "placeholder": "e.g. /data/example.jpg",
+      "default": "",
       "description": "Path and name of the file that should be written. Also include the file extension.",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "write"
-          ]
-        }
-      },
-      "ai_hint": "Path and name of the file that should be written. Also include the file extension."
+      "natural_language_description": "参数名: File Path and Name | 作用: Path and name of the file that should be written. Also include the file extension. | (必填项)"
     },
     "dataPropertyName": {
       "displayName": "Input Binary Field",
       "name": "dataPropertyName",
       "type": "string",
-      "default": "data",
-      "placeholder": "e.g. data",
       "required": true,
-      "hint": "The name of the input binary field containing the file to be written",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "write"
-          ]
-        }
-      }
+      "default": "data",
+      "description": "",
+      "natural_language_description": "参数名: Input Binary Field | 提示: The name of the input binary field containing the file to be written | 默认值: data | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "info",
-      "operation",
-      "fileSelector",
-      "options",
-      "fileName",
-      "dataPropertyName",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF operation == 'read' THEN SHOW parameter 'fileSelector'",
-      "IF operation == 'read' THEN SHOW parameter 'options'",
-      "IF operation == 'write' THEN SHOW parameter 'fileName'",
-      "IF operation == 'write' THEN SHOW parameter 'dataPropertyName'",
-      "IF operation == 'write' THEN SHOW parameter 'options'"
-    ]
   }
 }

@@ -1,260 +1,101 @@
 {
   "node_id": "n8n-nodes-base.urlScanIo",
-  "name": "n8n-nodes-base.urlScanIo",
+  "name": "urlscan.io",
   "version": 1,
   "semantic_context": "Provides various utilities for monitoring websites like health checks or screenshots",
+  "natural_language_description": "这是 urlscan.io 节点。主要用于: Provides various utilities for monitoring websites like health checks or screenshots",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
-      "noDataExpression": true,
       "type": "options",
-      "options": [
-        {
-          "name": "Scan",
-          "value": "scan"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "scan",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: scan",
+      "available_options": [
+        "Scan (值: scan)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "scan"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "action": "Get a scan"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "action": "Get many scans"
-        },
-        {
-          "name": "Perform",
-          "value": "perform",
-          "action": "Perform a scan"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "perform",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: perform",
+      "available_options": [
+        "Get (值: get)",
+        "Get Many (值: getAll)",
+        "Perform (值: perform)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "scanId": {
       "displayName": "Scan ID",
       "name": "scanId",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "ID of the scan to retrieve",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "scan"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "ID of the scan to retrieve"
+      "natural_language_description": "参数名: Scan ID | 作用: ID of the scan to retrieve"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "scan"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "scan"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "scan"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Query",
-          "name": "query",
-          "type": "string",
-          "description": "Query using the <a href=\"https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html#query-dsl-query-string-query\">Elastic Search Query String syntax</a>. See <a href=\"https://urlscan.io/docs/search/\">supported fields</a> in the documentation.",
-          "default": "",
-          "placeholder": "domain:n8n.io"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "query (值: None) - Query using the Elastic Search Query String syntax. See supported fields in the documentation."
+      ]
     },
     "url": {
       "displayName": "URL",
       "name": "url",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "https://n8n.io",
       "description": "URL to scan",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "scan"
-          ],
-          "operation": [
-            "perform"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "natural_language_description": "参数名: URL | 作用: URL to scan"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "scan"
-          ],
-          "operation": [
-            "perform"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Custom Agent",
-          "name": "customAgent",
-          "description": "<code>User-Agent</code> header to set for this scan. Defaults to <code>n8n</code>",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Override Safety",
-          "name": "overrideSafety",
-          "description": "Disable reclassification of URLs with potential PII in them",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Referer",
-          "name": "referer",
-          "description": "HTTP referer to set for this scan",
-          "type": "string",
-          "placeholder": "https://n8n.io",
-          "default": ""
-        },
-        {
-          "displayName": "Tags",
-          "name": "tags",
-          "description": "Comma-separated list of user-defined tags to add to this scan. Limited to 10 tags.",
-          "placeholder": "phishing, malicious",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Visibility",
-          "name": "visibility",
-          "type": "options",
-          "default": "private",
-          "options": [
-            {
-              "name": "Private",
-              "value": "private"
-            },
-            {
-              "name": "Public",
-              "value": "public"
-            },
-            {
-              "name": "Unlisted",
-              "value": "unlisted"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "customAgent (值: None) - `User-Agent` header to set for this scan. Defaults to `n8n`",
+        "overrideSafety (值: None) - Disable reclassification of URLs with potential PII in them",
+        "referer (值: None) - HTTP referer to set for this scan",
+        "tags (值: None) - Comma-separated list of user-defined tags to add to this scan. Limited to 10 tags.",
+        "visibility (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "scanId",
-      "returnAll",
-      "limit",
-      "filters",
-      "url",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF resource == 'scan' THEN SHOW parameter 'operation'",
-      "IF resource == 'scan' AND operation == 'get' THEN SHOW parameter 'scanId'",
-      "IF resource == 'scan' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'scan' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'scan' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'scan' AND operation == 'perform' THEN SHOW parameter 'url'",
-      "IF resource == 'scan' AND operation == 'perform' THEN SHOW parameter 'additionalFields'"
-    ]
   }
 }

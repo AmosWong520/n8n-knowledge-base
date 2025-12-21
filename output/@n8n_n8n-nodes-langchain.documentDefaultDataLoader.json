@@ -1,343 +1,122 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
-  "name": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
-  "version": [
-    1,
-    1.1
-  ],
+  "name": "Default Data Loader",
+  "version": 1,
   "semantic_context": "Load data from previous step in the workflow",
+  "natural_language_description": "这是 Default Data Loader 节点。主要用于: Load data from previous step in the workflow",
   "parameters": {
     "notice": {
       "displayName": "This will load data from a previous step in the workflow. <a href=\"/templates/1962\" target=\"_blank\">Example</a>",
       "name": "notice",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: This will load data from a previous step in the workflow. <a href=\"/templates/1962\" target=\"_blank\">Example</a>"
     },
     "dataType": {
       "displayName": "Type of Data",
       "name": "dataType",
       "type": "options",
-      "default": "json",
       "required": true,
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "JSON",
-          "value": "json",
-          "description": "Process JSON data from previous step in the workflow"
-        },
-        {
-          "name": "Binary",
-          "value": "binary",
-          "description": "Process binary data from previous step in the workflow"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "json",
+      "description": "",
+      "natural_language_description": "参数名: Type of Data | 默认值: json | (必填项)",
+      "available_options": [
+        "JSON (值: json) - Process JSON data from previous step in the workflow",
+        "Binary (值: binary) - Process binary data from previous step in the workflow"
+      ]
     },
     "jsonMode": {
       "displayName": "Mode",
       "name": "jsonMode",
       "type": "options",
-      "default": "allInputData",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "dataType": [
-            "json"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Load All Input Data",
-          "value": "allInputData",
-          "description": "Use all JSON data that flows into the parent agent or chain"
-        },
-        {
-          "name": "Load Specific Data",
-          "value": "expressionData",
-          "description": "Load a subset of data, and/or data from any previous step in the workflow"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "allInputData",
+      "description": "",
+      "natural_language_description": "参数名: Mode | 默认值: allInputData | (必填项)",
+      "available_options": [
+        "Load All Input Data (值: allInputData) - Use all JSON data that flows into the parent agent or chain",
+        "Load Specific Data (值: expressionData) - Load a subset of data, and/or data from any previous step in the workflow"
+      ]
     },
     "binaryMode": {
       "displayName": "Mode",
       "name": "binaryMode",
       "type": "options",
-      "default": "allInputData",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "dataType": [
-            "binary"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Load All Input Data",
-          "value": "allInputData",
-          "description": "Use all Binary data that flows into the parent agent or chain"
-        },
-        {
-          "name": "Load Specific Data",
-          "value": "specificField",
-          "description": "Load data from a specific field in the parent agent or chain"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "allInputData",
+      "description": "",
+      "natural_language_description": "参数名: Mode | 默认值: allInputData | (必填项)",
+      "available_options": [
+        "Load All Input Data (值: allInputData) - Use all Binary data that flows into the parent agent or chain",
+        "Load Specific Data (值: specificField) - Load data from a specific field in the parent agent or chain"
+      ]
     },
     "loader": {
       "displayName": "Data Format",
       "name": "loader",
       "type": "options",
-      "default": "auto",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "dataType": [
-            "binary"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Automatically Detect by Mime Type",
-          "value": "auto",
-          "description": "Uses the mime type to detect the format"
-        },
-        {
-          "name": "CSV",
-          "value": "csvLoader",
-          "description": "Load CSV files"
-        },
-        {
-          "name": "Docx",
-          "value": "docxLoader",
-          "description": "Load Docx documents"
-        },
-        {
-          "name": "EPub",
-          "value": "epubLoader",
-          "description": "Load EPub files"
-        },
-        {
-          "name": "JSON",
-          "value": "jsonLoader",
-          "description": "Load JSON files"
-        },
-        {
-          "name": "PDF",
-          "value": "pdfLoader",
-          "description": "Load PDF documents"
-        },
-        {
-          "name": "Text",
-          "value": "textLoader",
-          "description": "Load plain text files"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "auto",
+      "description": "",
+      "natural_language_description": "参数名: Data Format | 默认值: auto | (必填项)",
+      "available_options": [
+        "Automatically Detect by Mime Type (值: auto) - Uses the mime type to detect the format",
+        "CSV (值: csvLoader) - Load CSV files",
+        "Docx (值: docxLoader) - Load Docx documents",
+        "EPub (值: epubLoader) - Load EPub files",
+        "JSON (值: jsonLoader) - Load JSON files",
+        "PDF (值: pdfLoader) - Load PDF documents",
+        "Text (值: textLoader) - Load plain text files"
+      ]
     },
     "jsonData": {
       "displayName": "Data",
       "name": "jsonData",
       "type": "string",
-      "typeOptions": {
-        "rows": 6
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "Drag and drop fields from the input pane, or use an expression",
-      "displayOptions": {
-        "show": {
-          "dataType": [
-            "json"
-          ],
-          "jsonMode": [
-            "expressionData"
-          ]
-        }
-      },
-      "ai_hint": "Drag and drop fields from the input pane, or use an expression"
+      "natural_language_description": "参数名: Data | 作用: Drag and drop fields from the input pane, or use an expression | (必填项)"
     },
     "binaryDataKey": {
       "displayName": "Input Data Field Name",
       "name": "binaryDataKey",
       "type": "string",
-      "default": "data",
       "required": true,
+      "default": "data",
       "description": "The name of the field in the agent or chain’s input that contains the binary file to be processed",
-      "displayOptions": {
-        "show": {
-          "dataType": [
-            "binary"
-          ]
-        },
-        "hide": {
-          "binaryMode": [
-            "allInputData"
-          ]
-        }
-      },
-      "ai_hint": "The name of the field in the agent or chain’s input that contains the binary file to be processed"
+      "natural_language_description": "参数名: Input Data Field Name | 作用: The name of the field in the agent or chain’s input that contains the binary file to be processed | 默认值: data | (必填项)"
     },
     "textSplittingMode": {
       "displayName": "Text Splitting",
       "name": "textSplittingMode",
       "type": "options",
-      "default": "simple",
       "required": true,
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "@version": [
-            1.1
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Simple",
-          "value": "simple",
-          "description": "Splits every 1000 characters with a 200 character overlap"
-        },
-        {
-          "name": "Custom",
-          "value": "custom",
-          "description": "Connect a custom text-splitting sub-node"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "simple",
+      "description": "",
+      "natural_language_description": "参数名: Text Splitting | 默认值: simple | (必填项)",
+      "available_options": [
+        "Simple (值: simple) - Splits every 1000 characters with a 200 character overlap",
+        "Custom (值: custom) - Connect a custom text-splitting sub-node"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "JSON Pointers",
-          "name": "pointers",
-          "type": "string",
-          "default": "",
-          "description": "Pointers to extract from JSON, e.g. \"/text\" or \"/text, /meta/title\"",
-          "displayOptions": {
-            "show": {
-              "/loader": [
-                "jsonLoader",
-                "auto"
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "CSV Separator",
-          "name": "separator",
-          "type": "string",
-          "description": "Separator to use for CSV",
-          "default": ",",
-          "displayOptions": {
-            "show": {
-              "/loader": [
-                "csvLoader",
-                "auto"
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "CSV Column",
-          "name": "column",
-          "type": "string",
-          "default": "",
-          "description": "Column to extract from CSV",
-          "displayOptions": {
-            "show": {
-              "/loader": [
-                "csvLoader",
-                "auto"
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Split Pages in PDF",
-          "description": "Whether to split PDF pages into separate documents",
-          "name": "splitPages",
-          "type": "boolean",
-          "default": true,
-          "displayOptions": {
-            "show": {
-              "/loader": [
-                "pdfLoader",
-                "auto"
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Metadata",
-          "name": "metadata",
-          "type": "fixedCollection",
-          "description": "Metadata to add to each document. Could be used for filtering during retrieval",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "placeholder": "Add property",
-          "options": [
-            {
-              "name": "metadataValues",
-              "displayName": "Fields to Set",
-              "values": [
-                {
-                  "displayName": "Name",
-                  "name": "name",
-                  "type": "string",
-                  "default": "",
-                  "required": true
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "pointers (值: None) - Pointers to extract from JSON, e.g. \"/text\" or \"/text, /meta/title\"",
+        "separator (值: None) - Separator to use for CSV",
+        "column (值: None) - Column to extract from CSV",
+        "splitPages (值: None) - Whether to split PDF pages into separate documents",
+        "metadata (值: None) - Metadata to add to each document. Could be used for filtering during retrieval"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "notice",
-      "dataType",
-      "jsonMode",
-      "binaryMode",
-      "loader",
-      "jsonData",
-      "binaryDataKey",
-      "textSplittingMode",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF dataType == 'json' THEN SHOW parameter 'jsonMode'",
-      "IF dataType == 'binary' THEN SHOW parameter 'binaryMode'",
-      "IF dataType == 'binary' THEN SHOW parameter 'loader'",
-      "IF dataType == 'json' AND jsonMode == 'expressionData' THEN SHOW parameter 'jsonData'",
-      "IF dataType == 'binary' THEN SHOW parameter 'binaryDataKey'",
-      "IF binaryMode == 'allInputData' THEN HIDE parameter 'binaryDataKey'",
-      "IF @version == 1.1 THEN SHOW parameter 'textSplittingMode'",
-      "IF /loader IN [\"jsonLoader\", \"auto\"] THEN SHOW parameter 'pointers'",
-      "IF /loader IN [\"csvLoader\", \"auto\"] THEN SHOW parameter 'separator'",
-      "IF /loader IN [\"csvLoader\", \"auto\"] THEN SHOW parameter 'column'",
-      "IF /loader IN [\"pdfLoader\", \"auto\"] THEN SHOW parameter 'splitPages'"
-    ]
   }
 }

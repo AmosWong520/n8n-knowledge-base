@@ -1,700 +1,246 @@
 {
   "node_id": "n8n-nodes-base.discourse",
-  "name": "n8n-nodes-base.discourse",
+  "name": "Discourse",
   "version": 1,
   "semantic_context": "Consume Discourse API",
+  "natural_language_description": "这是 Discourse 节点。主要用于: Consume Discourse API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Category",
-          "value": "category"
-        },
-        {
-          "name": "Group",
-          "value": "group"
-        },
-        {
-          "name": "Post",
-          "value": "post"
-        },
-        {
-          "name": "User",
-          "value": "user"
-        },
-        {
-          "name": "User Group",
-          "value": "userGroup"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "post",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: post",
+      "available_options": [
+        "Category (值: category)",
+        "Group (值: group)",
+        "Post (值: post)",
+        "User (值: user)",
+        "User Group (值: userGroup)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "description": "Choose an operation",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "userGroup"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Add",
-          "value": "add",
-          "description": "Create a user to group",
-          "action": "Add a user to a group"
-        },
-        {
-          "name": "Remove",
-          "value": "remove",
-          "description": "Remove user from group",
-          "action": "Remove a user from a group"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
       "default": "add",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "Choose an operation",
+      "natural_language_description": "参数名: Operation | 作用: Choose an operation | 默认值: add | (必填项)",
+      "available_options": [
+        "Add (值: add) - Create a user to group",
+        "Remove (值: remove) - Remove user from group",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "",
       "description": "Name of the user to create",
-      "ai_hint": "Name of the user to create"
+      "natural_language_description": "参数名: Name | 作用: Name of the user to create | (必填项)"
     },
     "color": {
       "displayName": "Color",
       "name": "color",
       "type": "color",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "category"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "0000FF",
       "description": "Color of the category",
-      "ai_hint": "Color of the category"
+      "natural_language_description": "参数名: Color | 作用: Color of the category | 默认值: 0000FF | (必填项)"
     },
     "textColor": {
       "displayName": "Text Color",
       "name": "textColor",
       "type": "color",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "category"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "0000FF",
       "description": "Text color of the category",
-      "ai_hint": "Text color of the category"
+      "natural_language_description": "参数名: Text Color | 作用: Text color of the category | 默认值: 0000FF | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 100
-      },
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "categoryId": {
       "displayName": "Category ID",
       "name": "categoryId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "category"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
       "default": "",
       "description": "ID of the category",
-      "ai_hint": "ID of the category"
+      "natural_language_description": "参数名: Category ID | 作用: ID of the category | (必填项)"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Edit Reason",
-          "name": "edit_reason",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Cooked",
-          "name": "cooked",
-          "type": "boolean",
-          "default": false
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "edit_reason (值: None)",
+        "cooked (值: None)"
+      ]
     },
     "groupId": {
       "displayName": "Group ID",
       "name": "groupId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "userGroup"
-          ],
-          "operation": [
-            "remove"
-          ]
-        }
-      },
       "default": "",
       "description": "ID of the group to remove",
-      "ai_hint": "ID of the group to remove"
+      "natural_language_description": "参数名: Group ID | 作用: ID of the group to remove | (必填项)"
     },
     "title": {
       "displayName": "Title",
       "name": "title",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "Title of the post",
-      "ai_hint": "Title of the post"
+      "natural_language_description": "参数名: Title | 作用: Title of the post"
     },
     "content": {
       "displayName": "Content",
       "name": "content",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
       "default": "",
       "description": "Content of the post. HTML is supported.",
-      "ai_hint": "Content of the post. HTML is supported."
+      "natural_language_description": "参数名: Content | 作用: Content of the post. HTML is supported. | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Active",
-          "name": "active",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "Approved",
-          "name": "approved",
-          "type": "boolean",
-          "default": false
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "active (值: None)",
+        "approved (值: None)"
+      ]
     },
     "postId": {
       "displayName": "Post ID",
       "name": "postId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
       "default": "",
       "description": "ID of the post",
-      "ai_hint": "ID of the post"
+      "natural_language_description": "参数名: Post ID | 作用: ID of the post | (必填项)"
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "",
       "description": "Email of the user to create",
-      "ai_hint": "Email of the user to create"
+      "natural_language_description": "参数名: Email | 作用: Email of the user to create | (必填项)"
     },
     "username": {
       "displayName": "Username",
       "name": "username",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "get"
-          ],
-          "by": [
-            "username"
-          ]
-        }
-      },
       "default": "",
       "description": "The username of the user to return",
-      "ai_hint": "The username of the user to return"
+      "natural_language_description": "参数名: Username | 作用: The username of the user to return | (必填项)"
     },
     "password": {
       "displayName": "Password",
       "name": "password",
       "type": "string",
-      "typeOptions": {
-        "password": true
-      },
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "",
       "description": "The password of the user to create",
-      "ai_hint": "The password of the user to create"
+      "natural_language_description": "参数名: Password | 作用: The password of the user to create | (必填项)"
     },
     "by": {
       "displayName": "By",
       "name": "by",
       "type": "options",
-      "options": [
-        {
-          "name": "Username",
-          "value": "username"
-        },
-        {
-          "name": "SSO External ID",
-          "value": "externalId"
-        }
-      ],
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
       "default": "username",
       "description": "What to search by",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: By | 作用: What to search by | 默认值: username | (必填项)",
+      "available_options": [
+        "Username (值: username)",
+        "SSO External ID (值: externalId)"
+      ]
     },
     "externalId": {
       "displayName": "SSO External ID",
       "name": "externalId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "get"
-          ],
-          "by": [
-            "externalId"
-          ]
-        }
-      },
       "default": "",
       "description": "Discourse SSO external ID",
-      "ai_hint": "Discourse SSO external ID"
+      "natural_language_description": "参数名: SSO External ID | 作用: Discourse SSO external ID | (必填项)"
     },
     "flag": {
       "displayName": "Flag",
       "name": "flag",
       "type": "options",
-      "options": [
-        {
-          "name": "Active",
-          "value": "active"
-        },
-        {
-          "name": "Blocked",
-          "value": "blocked"
-        },
-        {
-          "name": "New",
-          "value": "new"
-        },
-        {
-          "name": "Staff",
-          "value": "staff"
-        },
-        {
-          "name": "Suspect",
-          "value": "suspect"
-        },
-        {
-          "name": "Suspended",
-          "value": "suspended"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "User flags to search for",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Flag | 作用: User flags to search for",
+      "available_options": [
+        "Active (值: active)",
+        "Blocked (值: blocked)",
+        "New (值: new)",
+        "Staff (值: staff)",
+        "Suspect (值: suspect)",
+        "Suspended (值: suspended)"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Ascending",
-          "name": "asc",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to sort ascending"
-        },
-        {
-          "displayName": "Order",
-          "name": "order",
-          "type": "options",
-          "options": [
-            {
-              "name": "Created",
-              "value": "created"
-            },
-            {
-              "name": "Days Visited",
-              "value": "days_visited"
-            },
-            {
-              "name": "Email",
-              "value": "email"
-            },
-            {
-              "name": "Last Emailed",
-              "value": "last_emailed"
-            },
-            {
-              "name": "Posts",
-              "value": "posts"
-            },
-            {
-              "name": "Posts Read",
-              "value": "posts_read"
-            },
-            {
-              "name": "Read Time",
-              "value": "read_time"
-            },
-            {
-              "name": "Seen",
-              "value": "seen"
-            },
-            {
-              "name": "Topics Viewed",
-              "value": "topics_viewed"
-            },
-            {
-              "name": "Trust Level",
-              "value": "trust_level"
-            },
-            {
-              "name": "Username",
-              "value": "username"
-            }
-          ],
-          "default": "created",
-          "description": "What to order by"
-        },
-        {
-          "displayName": "Show Emails",
-          "name": "showEmails",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to include user email addresses"
-        },
-        {
-          "displayName": "Stats",
-          "name": "stats",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to return user stats"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "asc (值: None) - Whether to sort ascending",
+        "order (值: None) - What to order by",
+        "showEmails (值: None) - Whether to include user email addresses",
+        "stats (值: None) - Whether to return user stats"
+      ]
     },
     "usernames": {
       "displayName": "Usernames",
       "name": "usernames",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "userGroup"
-          ],
-          "operation": [
-            "remove"
-          ]
-        }
-      },
       "default": "",
       "description": "Usernames to remove from group. Multiples can be defined separated by comma.",
-      "ai_hint": "Usernames to remove from group. Multiples can be defined separated by comma."
+      "natural_language_description": "参数名: Usernames | 作用: Usernames to remove from group. Multiples can be defined separated by comma. | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "name",
-      "color",
-      "textColor",
-      "returnAll",
-      "limit",
-      "categoryId",
-      "name",
-      "updateFields",
-      "operation",
-      "name",
-      "returnAll",
-      "limit",
-      "groupId",
-      "name",
-      "operation",
-      "title",
-      "content",
-      "additionalFields",
-      "postId",
-      "returnAll",
-      "limit",
-      "postId",
-      "content",
-      "updateFields",
-      "operation",
-      "name",
-      "email",
-      "username",
-      "password",
-      "additionalFields",
-      "by",
-      "username",
-      "externalId",
-      "flag",
-      "returnAll",
-      "limit",
-      "options",
-      "operation",
-      "usernames",
-      "groupId",
-      "usernames",
-      "groupId"
-    ],
-    "conditional_rules": [
-      "IF resource == 'category' THEN SHOW parameter 'operation'",
-      "IF resource == 'category' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'category' AND operation == 'create' THEN SHOW parameter 'color'",
-      "IF resource == 'category' AND operation == 'create' THEN SHOW parameter 'textColor'",
-      "IF resource == 'category' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'category' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'category' AND operation == 'update' THEN SHOW parameter 'categoryId'",
-      "IF resource == 'category' AND operation == 'update' THEN SHOW parameter 'name'",
-      "IF resource == 'category' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'group' THEN SHOW parameter 'operation'",
-      "IF resource == 'group' AND operation IN [\"get\", \"create\"] THEN SHOW parameter 'name'",
-      "IF resource == 'group' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'group' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'group' AND operation == 'update' THEN SHOW parameter 'groupId'",
-      "IF resource == 'group' AND operation == 'update' THEN SHOW parameter 'name'",
-      "IF resource == 'post' THEN SHOW parameter 'operation'",
-      "IF resource == 'post' AND operation == 'create' THEN SHOW parameter 'title'",
-      "IF resource == 'post' AND operation == 'create' THEN SHOW parameter 'content'",
-      "IF operation == 'create' AND resource == 'post' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'post' AND operation == 'get' THEN SHOW parameter 'postId'",
-      "IF resource == 'post' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'post' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'post' AND operation == 'update' THEN SHOW parameter 'postId'",
-      "IF resource == 'post' AND operation == 'update' THEN SHOW parameter 'content'",
-      "IF resource == 'post' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'user' THEN SHOW parameter 'operation'",
-      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'email'",
-      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'username'",
-      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'password'",
-      "IF resource == 'user' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'by'",
-      "IF resource == 'user' AND operation == 'get' AND by == 'username' THEN SHOW parameter 'username'",
-      "IF resource == 'user' AND operation == 'get' AND by == 'externalId' THEN SHOW parameter 'externalId'",
-      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'flag'",
-      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'user' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'userGroup' THEN SHOW parameter 'operation'",
-      "IF resource == 'userGroup' AND operation == 'add' THEN SHOW parameter 'usernames'",
-      "IF resource == 'userGroup' AND operation == 'add' THEN SHOW parameter 'groupId'",
-      "IF resource == 'userGroup' AND operation == 'remove' THEN SHOW parameter 'usernames'",
-      "IF resource == 'userGroup' AND operation == 'remove' THEN SHOW parameter 'groupId'"
-    ]
   }
 }

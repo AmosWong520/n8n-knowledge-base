@@ -1,257 +1,118 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.mcpClientTool",
-  "name": "@n8n/n8n-nodes-langchain.mcpClientTool",
-  "version": [
-    1,
-    1.1,
-    1.2
-  ],
+  "name": "MCP Client Tool",
+  "version": 1,
   "semantic_context": "Connect tools from an MCP Server",
+  "natural_language_description": "这是 MCP Client Tool 节点。主要用于: Connect tools from an MCP Server",
   "parameters": {
     "notice": {
       "displayName": "This node must be connected to an AI agent. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "containerClass": "ndv-connection-hint-notice"
-      }
+      "description": "",
+      "natural_language_description": "参数名: This node must be connected to an AI agent. <a data-action='openSelectiveNodeCreator' data-action-parameter-creatorview='AI'>Insert one</a>"
     },
     "sseEndpoint": {
       "displayName": "SSE Endpoint",
       "name": "sseEndpoint",
       "type": "string",
-      "description": "SSE Endpoint of your MCP server",
-      "placeholder": "e.g. https://my-mcp-server.ai/sse",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "@version": [
-            1
-          ]
-        }
-      },
-      "ai_hint": "SSE Endpoint of your MCP server"
+      "default": "",
+      "description": "SSE Endpoint of your MCP server",
+      "natural_language_description": "参数名: SSE Endpoint | 作用: SSE Endpoint of your MCP server | (必填项)"
     },
     "endpointUrl": {
       "displayName": "Endpoint",
       "name": "endpointUrl",
       "type": "string",
-      "description": "Endpoint of your MCP server",
-      "placeholder": "e.g. https://my-mcp-server.ai/mcp",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 1.1
-              }
-            }
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "default": "",
+      "description": "Endpoint of your MCP server",
+      "natural_language_description": "参数名: Endpoint | 作用: Endpoint of your MCP server | (必填项)"
     },
     "serverTransport": {
       "displayName": "Server Transport",
       "name": "serverTransport",
       "type": "options",
-      "options": [
-        {
-          "name": "HTTP Streamable",
-          "value": "httpStreamable"
-        },
-        {
-          "name": "Server Sent Events (Deprecated)",
-          "value": "sse"
-        }
-      ],
+      "required": false,
       "default": "httpStreamable",
       "description": "The transport used by your endpoint",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 1.2
-              }
-            }
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Server Transport | 作用: The transport used by your endpoint | 默认值: httpStreamable",
+      "available_options": [
+        "HTTP Streamable (值: httpStreamable)",
+        "Server Sent Events (Deprecated) (值: sse)"
+      ]
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Bearer Auth",
-          "value": "bearerAuth"
-        },
-        {
-          "name": "Header Auth",
-          "value": "headerAuth"
-        },
-        {
-          "name": "MCP OAuth2",
-          "value": "mcpOAuth2Api"
-        },
-        {
-          "name": "Multiple Headers Auth",
-          "value": "multipleHeadersAuth"
-        },
-        {
-          "name": "None",
-          "value": "none"
-        }
-      ],
+      "required": false,
       "default": "none",
       "description": "The way to authenticate with your endpoint",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 1.2
-              }
-            }
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "natural_language_description": "参数名: Authentication | 作用: The way to authenticate with your endpoint | 默认值: none",
+      "available_options": [
+        "Bearer Auth (值: bearerAuth)",
+        "Header Auth (值: headerAuth)",
+        "MCP OAuth2 (值: mcpOAuth2Api)",
+        "Multiple Headers Auth (值: multipleHeadersAuth)",
+        "None (值: none)"
+      ]
     },
     "credentials": {
       "displayName": "Credentials",
       "name": "credentials",
       "type": "credentials",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "authentication": [
-            "headerAuth",
-            "bearerAuth",
-            "mcpOAuth2Api",
-            "multipleHeadersAuth"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Credentials"
     },
     "include": {
       "displayName": "Tools to Include",
       "name": "include",
       "type": "options",
-      "description": "How to select the tools you want to be exposed to the AI Agent",
+      "required": false,
       "default": "all",
-      "options": [
-        {
-          "name": "All",
-          "value": "all",
-          "description": "Also include all unchanged fields from the input"
-        },
-        {
-          "name": "Selected",
-          "value": "selected",
-          "description": "Also include the tools listed in the parameter \"Tools to Include\""
-        },
-        {
-          "name": "All Except",
-          "value": "except",
-          "description": "Exclude the tools listed in the parameter \"Tools to Exclude\""
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "How to select the tools you want to be exposed to the AI Agent",
+      "natural_language_description": "参数名: Tools to Include | 作用: How to select the tools you want to be exposed to the AI Agent | 默认值: all",
+      "available_options": [
+        "All (值: all) - Also include all unchanged fields from the input",
+        "Selected (值: selected) - Also include the tools listed in the parameter \"Tools to Include\"",
+        "All Except (值: except) - Exclude the tools listed in the parameter \"Tools to Exclude\""
+      ]
     },
     "includeTools": {
       "displayName": "Tools to Include",
       "name": "includeTools",
       "type": "multiOptions",
+      "required": false,
       "default": [],
-      "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getTools",
-        "loadOptionsDependsOn": [
-          "sseEndpoint"
-        ]
-      },
-      "displayOptions": {
-        "show": {
-          "include": [
-            "selected"
-          ]
-        }
-      },
-      "ai_hint": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify IDs using an expression",
+      "natural_language_description": "参数名: Tools to Include | 作用: Choose from the list, or specify IDs using an expression | 默认值: []"
     },
     "excludeTools": {
       "displayName": "Tools to Exclude",
       "name": "excludeTools",
       "type": "multiOptions",
+      "required": false,
       "default": [],
-      "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getTools"
-      },
-      "displayOptions": {
-        "show": {
-          "include": [
-            "except"
-          ]
-        }
-      },
-      "ai_hint": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify IDs using an expression",
+      "natural_language_description": "参数名: Tools to Exclude | 作用: Choose from the list, or specify IDs using an expression | 默认值: []"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
-      "placeholder": "Add Option",
-      "description": "Additional options to add",
       "type": "collection",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Timeout",
-          "name": "timeout",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 1
-          },
-          "default": 60000,
-          "description": "Time in ms to wait for tool calls to finish"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "Additional options to add",
+      "natural_language_description": "参数名: Options | 作用: Additional options to add | 默认值: {}",
+      "available_options": [
+        "timeout (值: None) - Time in ms to wait for tool calls to finish"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "notice",
-      "sseEndpoint",
-      "endpointUrl",
-      "serverTransport",
-      "serverTransport",
-      "authentication",
-      "authentication",
-      "credentials",
-      "include",
-      "includeTools",
-      "excludeTools",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF @version == 1 THEN SHOW parameter 'sseEndpoint'",
-      "IF @version == {'_cnd': {'gte': 1.1}} THEN SHOW parameter 'endpointUrl'",
-      "IF @version == 1.1 THEN SHOW parameter 'serverTransport'",
-      "IF @version == {'_cnd': {'gte': 1.2}} THEN SHOW parameter 'serverTransport'",
-      "IF @version == {'_cnd': {'lt': 1.2}} THEN SHOW parameter 'authentication'",
-      "IF @version == {'_cnd': {'gte': 1.2}} THEN SHOW parameter 'authentication'",
-      "IF authentication IN [\"headerAuth\", \"bearerAuth\", \"mcpOAuth2Api\", \"multipleHeadersAuth\"] THEN SHOW parameter 'credentials'",
-      "IF include == 'selected' THEN SHOW parameter 'includeTools'",
-      "IF include == 'except' THEN SHOW parameter 'excludeTools'"
-    ]
   }
 }

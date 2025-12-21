@@ -1,186 +1,68 @@
 {
   "node_id": "n8n-nodes-base.deepL",
-  "name": "n8n-nodes-base.deepL",
+  "name": "DeepL",
   "version": 1,
   "semantic_context": "Translate data using DeepL",
+  "natural_language_description": "这是 DeepL 节点。主要用于: Translate data using DeepL",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Language",
-          "value": "language"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "language",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: language",
+      "available_options": [
+        "Language (值: language)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "language"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Translate",
-          "value": "translate",
-          "description": "Translate data",
-          "action": "Translate a language"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "translate",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: translate",
+      "available_options": [
+        "Translate (值: translate) - Translate data",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "text": {
       "displayName": "Text",
       "name": "text",
       "type": "string",
+      "required": true,
       "default": "",
       "description": "Input text to translate",
-      "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "translate"
-          ]
-        }
-      },
-      "ai_hint": "Input text to translate"
+      "natural_language_description": "参数名: Text | 作用: Input text to translate | (必填项)"
     },
     "translateTo": {
       "displayName": "Target Language Name or ID",
       "name": "translateTo",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getLanguages"
-      },
-      "default": "",
-      "description": "Language to translate to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "translate"
-          ]
-        }
-      },
-      "ai_hint": "Language to translate to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "Language to translate to. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Target Language Name or ID | 作用: Language to translate to. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Source Language Name or ID",
-          "name": "sourceLang",
-          "type": "options",
-          "default": "",
-          "description": "Language to translate from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-          "typeOptions": {
-            "loadOptionsMethod": "getLanguages"
-          }
-        },
-        {
-          "displayName": "Split Sentences",
-          "name": "splitSentences",
-          "type": "options",
-          "default": "1",
-          "description": "How the translation engine should split sentences",
-          "options": [
-            {
-              "name": "Interpunction Only",
-              "value": "nonewlines",
-              "description": "Split text on interpunction only, ignoring newlines"
-            },
-            {
-              "name": "No Splitting",
-              "value": "0",
-              "description": "Treat all text as a single sentence"
-            },
-            {
-              "name": "On Punctuation and Newlines",
-              "value": "1",
-              "description": "Split text on interpunction and newlines"
-            }
-          ]
-        },
-        {
-          "displayName": "Preserve Formatting",
-          "name": "preserveFormatting",
-          "type": "options",
-          "default": "0",
-          "description": "Whether the translation engine should respect the original formatting, even if it would usually correct some aspects",
-          "options": [
-            {
-              "name": "Apply Corrections",
-              "value": "0",
-              "description": "Fix punctuation at the beginning and end of sentences and fixes lower/upper caseing at the beginning"
-            },
-            {
-              "name": "Do Not Correct",
-              "value": "1",
-              "description": "Keep text as similar as possible to the original"
-            }
-          ]
-        },
-        {
-          "displayName": "Formality",
-          "name": "formality",
-          "type": "options",
-          "default": "default",
-          "description": "How formal or informal the target text should be. May not be supported with all languages.",
-          "options": [
-            {
-              "name": "Formal",
-              "value": "more"
-            },
-            {
-              "name": "Informal",
-              "value": "less"
-            },
-            {
-              "name": "Neutral",
-              "value": "default"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "sourceLang (值: None) - Language to translate from. Choose from the list, or specify an ID using an expression.",
+        "splitSentences (值: None) - How the translation engine should split sentences",
+        "preserveFormatting (值: None) - Whether the translation engine should respect the original formatting, even if it would usually correct some aspects",
+        "formality (值: None) - How formal or informal the target text should be. May not be supported with all languages."
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "text",
-      "translateTo",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF resource == 'language' THEN SHOW parameter 'operation'",
-      "IF operation == 'translate' THEN SHOW parameter 'text'",
-      "IF operation == 'translate' THEN SHOW parameter 'translateTo'"
-    ]
   }
 }

@@ -1,2394 +1,521 @@
 {
   "node_id": "n8n-nodes-base.slackTool",
-  "name": "n8n-nodes-base.slackTool",
-  "version": [
-    2,
-    2.1,
-    2.2,
-    2.3,
-    2.4
-  ],
+  "name": "Slack Tool",
+  "version": 1,
   "semantic_context": "Consume Slack API",
+  "natural_language_description": "这是 Slack Tool 节点。主要用于: Consume Slack API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Slack API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Slack API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Slack API | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Access Token",
-          "value": "accessToken"
-        },
-        {
-          "name": "OAuth2",
-          "value": "oAuth2"
-        }
-      ],
+      "required": false,
       "default": "accessToken",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: accessToken",
+      "available_options": [
+        "Access Token (值: accessToken)",
+        "OAuth2 (值: oAuth2)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Channel",
-          "value": "channel"
-        },
-        {
-          "name": "File",
-          "value": "file"
-        },
-        {
-          "name": "Message",
-          "value": "message"
-        },
-        {
-          "name": "Reaction",
-          "value": "reaction"
-        },
-        {
-          "name": "Star",
-          "value": "star"
-        },
-        {
-          "name": "User",
-          "value": "user"
-        },
-        {
-          "name": "User Group",
-          "value": "userGroup"
-        }
-      ],
+      "required": false,
       "default": "message",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: message",
+      "available_options": [
+        "Channel (值: channel)",
+        "File (值: file)",
+        "Message (值: message)",
+        "Reaction (值: reaction)",
+        "Star (值: star)",
+        "User (值: user)",
+        "User Group (值: userGroup)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "userGroup"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "action": "Create a user group"
-        },
-        {
-          "name": "Disable",
-          "value": "disable",
-          "action": "Disable a user group"
-        },
-        {
-          "name": "Enable",
-          "value": "enable",
-          "action": "Enable a user group"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "action": "Get many user groups"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "action": "Update a user group"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create)",
+        "Disable (值: disable)",
+        "Enable (值: enable)",
+        "Get Many (值: getAll)",
+        "Update (值: update)"
+      ]
     },
     "channelId": {
       "displayName": "Channel",
       "name": "channelId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "placeholder": "Select a channel...",
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a channel...",
-          "typeOptions": {
-            "searchListMethod": "getChannels",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9]{2,}",
-                "errorMessage": "Not a valid Slack Channel ID"
-              }
-            }
-          ],
-          "placeholder": "C0122KQ70S7E"
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "placeholder": "https://app.slack.com/client/TS9594PZK/B0556F47Z3A",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "http(s)?://app.slack.com/client/.*/([a-zA-Z0-9]{2,})",
-                "errorMessage": "Not a valid Slack Channel URL"
-              }
-            }
-          ],
-          "extractValue": {
-            "type": "regex",
-            "regex": "https://app.slack.com/client/.*/([a-zA-Z0-9]{2,})"
-          }
-        }
-      ],
-      "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "reaction"
-          ],
-          "operation": [
-            "add",
-            "get",
-            "remove"
-          ]
-        }
-      },
       "description": "The Slack channel to get the reactions from",
-      "ai_hint": "The Slack channel to get the reactions from"
+      "natural_language_description": "参数名: Channel | 作用: The Slack channel to get the reactions from | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "channelVisibility": {
       "displayName": "Channel Visibility",
       "name": "channelVisibility",
       "type": "options",
-      "default": "public",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "channel"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Public Channel",
-          "value": "public"
-        },
-        {
-          "name": "Private Channel",
-          "value": "private"
-        }
-      ],
-      "description": "Whether to create a Public or a Private Slack channel. <a href=\"https://slack.com/help/articles/360017938993-What-is-a-channel\">More info</a>.",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "public",
+      "description": "Whether to create a Public or a Private Slack channel. More info.",
+      "natural_language_description": "参数名: Channel Visibility | 作用: Whether to create a Public or a Private Slack channel. More info. | 默认值: public | (必填项)",
+      "available_options": [
+        "Public Channel (值: public)",
+        "Private Channel (值: private)"
+      ]
     },
     "userIds": {
       "displayName": "User Names or IDs",
       "name": "userIds",
       "type": "multiOptions",
-      "typeOptions": {
-        "loadOptionsMethod": "getUsers"
-      },
-      "default": [],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "invite"
-          ],
-          "resource": [
-            "channel"
-          ]
-        }
-      },
       "required": true,
-      "description": "The ID of the user to invite into channel. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The ID of the user to invite into channel. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": [],
+      "description": "The ID of the user to invite into channel. Choose from the list, or specify IDs using an expression.",
+      "natural_language_description": "参数名: User Names or IDs | 作用: The ID of the user to invite into channel. Choose from the list, or specify IDs using an expression. | 默认值: [] | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "userGroup"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Include Count",
-          "name": "include_count",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to include the number of users in each User Group"
-        },
-        {
-          "displayName": "Include Disabled",
-          "name": "include_disabled",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to include disabled User Groups"
-        },
-        {
-          "displayName": "Include Users",
-          "name": "include_users",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to include the list of users for each User Group"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "include_count (值: None) - Whether to include the number of users in each User Group",
+        "include_disabled (值: None) - Whether to include disabled User Groups",
+        "include_users (值: None) - Whether to include the list of users for each User Group"
+      ]
     },
     "userId": {
       "displayName": "User Name or ID",
       "name": "userId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getUsers"
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "kick"
-          ],
-          "resource": [
-            "channel"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: User Name or ID | 作用: Choose from the list, or specify an ID using an expression"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "userGroup"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "userGroup"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "file"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "placeholder": "Add Field",
-      "options": [
-        {
-          "displayName": "Channel Name or ID",
-          "name": "channelId",
-          "type": "options",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getChannels"
-          },
-          "description": "Channel containing the file to be listed. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Show Files Hidden By Limit",
-          "name": "showFilesHidden",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to show truncated file info for files hidden due to being too old, and the team who owns the file being over the file limit"
-        },
-        {
-          "displayName": "Message Timestamp From",
-          "name": "tsFrom",
-          "type": "string",
-          "default": "",
-          "description": "Filter files created after this timestamp (inclusive)"
-        },
-        {
-          "displayName": "Message Timestamp To",
-          "name": "tsTo",
-          "type": "string",
-          "default": "",
-          "description": "Filter files created before this timestamp (inclusive)"
-        },
-        {
-          "displayName": "Types",
-          "name": "types",
-          "type": "multiOptions",
-          "options": [
-            {
-              "name": "All",
-              "value": "all"
-            },
-            {
-              "name": "Google Docs",
-              "value": "gdocs"
-            },
-            {
-              "name": "Images",
-              "value": "images"
-            },
-            {
-              "name": "PDFs",
-              "value": "pdfs"
-            },
-            {
-              "name": "Snippets",
-              "value": "snippets"
-            },
-            {
-              "name": "Spaces",
-              "value": "spaces"
-            },
-            {
-              "name": "zips",
-              "value": "zips"
-            }
-          ],
-          "default": [
-            "all"
-          ],
-          "description": "Filter files by type"
-        },
-        {
-          "displayName": "User Name or ID",
-          "name": "userId",
-          "type": "options",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getUsers"
-          },
-          "description": "Filter files created by a single user. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "channelId (值: None) - Channel containing the file to be listed. Choose from the list, or specify an ID using an expression.",
+        "showFilesHidden (值: None) - Whether to show truncated file info for files hidden due to being too old, and the team who owns the file being over the file limit",
+        "tsFrom (值: None) - Filter files created after this timestamp (inclusive)",
+        "tsTo (值: None) - Filter files created before this timestamp (inclusive)",
+        "types (值: None) - Filter files by type",
+        "userId (值: None) - Filter files created by a single user. Choose from the list, or specify an ID using an expression."
+      ]
     },
     "resolveData": {
       "displayName": "Resolve Data",
       "name": "resolveData",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "channel"
-          ],
-          "operation": [
-            "member"
-          ]
-        }
-      },
       "description": "Whether to resolve the data automatically. By default the response only contain the ID to resource.",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Resolve Data | 作用: Whether to resolve the data automatically. By default the response only contain the ID to resource. | 默认值: False"
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "userGroup"
-          ]
-        }
-      },
       "required": true,
+      "default": "",
       "description": "A name for the User Group. Must be unique among User Groups.",
-      "ai_hint": "A name for the User Group. Must be unique among User Groups."
+      "natural_language_description": "参数名: Name | 作用: A name for the User Group. Must be unique among User Groups. | (必填项)"
     },
     "ts": {
       "displayName": "Message Timestamp",
       "name": "ts",
-      "required": true,
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
+      "required": true,
+      "default": null,
       "description": "Timestamp of the message to update",
-      "placeholder": "1663233118.856619",
-      "ai_hint": "Timestamp of the message to update"
+      "natural_language_description": "参数名: Message Timestamp | 作用: Timestamp of the message to update | (必填项)"
     },
     "purpose": {
       "displayName": "Purpose",
       "name": "purpose",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "setPurpose"
-          ],
-          "resource": [
-            "channel"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "A new, specialer purpose",
-      "ai_hint": "A new, specialer purpose"
+      "natural_language_description": "参数名: Purpose | 作用: A new, specialer purpose | (必填项)"
     },
     "topic": {
       "displayName": "Topic",
       "name": "topic",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "setTopic"
-          ],
-          "resource": [
-            "channel"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Topic | (必填项)"
     },
     "timestamp": {
       "displayName": "Message Timestamp",
       "name": "timestamp",
-      "required": true,
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "reaction"
-          ],
-          "operation": [
-            "add",
-            "get",
-            "remove"
-          ]
-        }
-      },
+      "required": true,
+      "default": null,
       "description": "Timestamp of the message to add, get or remove",
-      "placeholder": "1663233118.856619",
-      "ai_hint": "Timestamp of the message to add, get or remove"
+      "natural_language_description": "参数名: Message Timestamp | 作用: Timestamp of the message to add, get or remove | (必填项)"
     },
     "select": {
       "displayName": "Send Message To",
       "name": "select",
       "type": "options",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "sendAndWait"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Channel",
-          "value": "channel"
-        },
-        {
-          "name": "User",
-          "value": "user"
-        }
-      ],
       "default": "user",
-      "placeholder": "Select...",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Send Message To | 默认值: user | (必填项)",
+      "available_options": [
+        "Channel (值: channel)",
+        "User (值: user)"
+      ]
     },
     "user": {
       "displayName": "User",
       "name": "user",
       "type": "resourceLocator",
+      "required": false,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "placeholder": "Select a user...",
       "description": "The ID of the user to get the online status of",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getPresence"
-          ],
-          "resource": [
-            "user"
-          ]
-        }
-      },
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a user...",
-          "typeOptions": {
-            "searchListMethod": "getUsers",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9]{2,}",
-                "errorMessage": "Not a valid Slack User ID"
-              }
-            }
-          ],
-          "placeholder": "U123AB45JGM"
-        }
-      ],
-      "ai_hint": "The ID of the user to get the online status of"
+      "natural_language_description": "参数名: User | 作用: The ID of the user to get the online status of | 默认值: {'mode': 'list', 'value': ''}"
     },
     "messageType": {
       "displayName": "Message Type",
       "name": "messageType",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "message"
-          ]
-        }
-      },
-      "description": "Whether to send a simple text message, or use Slack’s Blocks UI builder for more sophisticated messages that include form fields, sections and more",
-      "options": [
-        {
-          "name": "Simple Text Message",
-          "value": "text",
-          "description": "Supports basic Markdown"
-        },
-        {
-          "name": "Blocks",
-          "value": "block",
-          "description": "Combine text, buttons, form elements, dividers and more in Slack 's visual builder"
-        },
-        {
-          "name": "Attachments",
-          "value": "attachment"
-        }
-      ],
+      "required": false,
       "default": "text",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "Whether to send a simple text message, or use Slack’s Blocks UI builder for more sophisticated messages that include form fields, sections and more",
+      "natural_language_description": "参数名: Message Type | 作用: Whether to send a simple text message, or use Slack’s Blocks UI builder for more sophisticated messages that include form fields, sections and more | 默认值: text",
+      "available_options": [
+        "Simple Text Message (值: text) - Supports basic Markdown",
+        "Blocks (值: block) - Combine text, buttons, form elements, dividers and more in Slack 's visual builder",
+        "Attachments (值: attachment)"
+      ]
     },
     "text": {
       "displayName": "Message Text",
       "name": "text",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "update"
-          ],
-          "messageType": [
-            "text"
-          ]
-        }
-      },
-      "description": "The message text to update. Supports <a href=\"https://api.slack.com/reference/surfaces/formatting/\">markdown</a> by default - this can be disabled in \"Options\".",
-      "ai_hint": "The message text to update. Supports <a href=\"https://api.slack.com/reference/surfaces/formatting/\">markdown</a> by default - this can be disabled in \"Options\"."
+      "description": "The message text to update. Supports markdown by default - this can be disabled in \"Options\".",
+      "natural_language_description": "参数名: Message Text | 作用: The message text to update. Supports markdown by default - this can be disabled in \"Options\"."
     },
     "blocksUi": {
       "displayName": "Blocks",
       "name": "blocksUi",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "message"
-          ],
-          "messageType": [
-            "block"
-          ]
-        }
-      },
-      "typeOptions": {
-        "rows": 3
-      },
-      "description": "Enter the JSON output from Slack's visual Block Kit Builder here. You can then use expressions to add variable content to your blocks. To create blocks, use <a target='_blank' href='https://app.slack.com/block-kit-builder'>Slack's Block Kit Builder</a>",
-      "hint": "To create blocks, use <a target='_blank' href='https://app.slack.com/block-kit-builder'>Slack's Block Kit Builder</a>",
       "default": "",
-      "ai_hint": "Enter the JSON output from Slack's visual Block Kit Builder here. You can then use expressions to add variable content to your blocks. To create blocks, use <a target='_blank' href='https://app.slack.com/block-kit-builder'>Slack's Block Kit Builder</a>"
+      "description": "Enter the JSON output from Slack's visual Block Kit Builder here. You can then use expressions to add variable content to your blocks. To create blocks, use Slack's Block Kit Builder",
+      "natural_language_description": "参数名: Blocks | 作用: Enter the JSON output from Slack's visual Block Kit Builder here. You can then use expressions to add variable content to your blocks. To create blocks, use Slack's Block Kit Builder | 提示: To create blocks, use Slack's Block Kit Builder | (必填项)"
     },
     "noticeAttachments": {
       "displayName": "This is a legacy Slack feature. Slack advises to instead use Blocks.",
       "name": "noticeAttachments",
       "type": "notice",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "post"
-          ],
-          "resource": [
-            "message"
-          ],
-          "messageType": [
-            "attachment"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: This is a legacy Slack feature. Slack advises to instead use Blocks."
     },
     "attachments": {
       "displayName": "Attachments",
       "name": "attachments",
       "type": "collection",
-      "typeOptions": {
-        "multipleValues": true,
-        "multipleValueButtonText": "Add attachment"
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "post"
-          ],
-          "resource": [
-            "message"
-          ],
-          "messageType": [
-            "attachment"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "placeholder": "Add attachment item",
-      "options": [
-        {
-          "displayName": "Fallback Text",
-          "name": "fallback",
-          "type": "string",
-          "typeOptions": {
-            "alwaysOpenEditWindow": true
-          },
-          "default": "",
-          "description": "Required plain-text summary of the attachment"
-        },
-        {
-          "displayName": "Text",
-          "name": "text",
-          "type": "string",
-          "typeOptions": {
-            "alwaysOpenEditWindow": true
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Title",
-          "name": "title",
-          "type": "string",
-          "typeOptions": {
-            "alwaysOpenEditWindow": true
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Title Link",
-          "name": "title_link",
-          "type": "string",
-          "typeOptions": {
-            "alwaysOpenEditWindow": true
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Color",
-          "name": "color",
-          "type": "color",
-          "default": "#ff0000",
-          "description": "Color of the line left of text"
-        },
-        {
-          "displayName": "Pretext",
-          "name": "pretext",
-          "type": "string",
-          "typeOptions": {
-            "alwaysOpenEditWindow": true
-          },
-          "default": "",
-          "description": "Text which appears before the message block"
-        },
-        {
-          "displayName": "Author Name",
-          "name": "author_name",
-          "type": "string",
-          "default": "",
-          "description": "Name that should appear"
-        },
-        {
-          "displayName": "Author Link",
-          "name": "author_link",
-          "type": "string",
-          "typeOptions": {
-            "alwaysOpenEditWindow": true
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Author Icon",
-          "name": "author_icon",
-          "type": "string",
-          "typeOptions": {
-            "alwaysOpenEditWindow": true
-          },
-          "default": "",
-          "description": "Icon which should appear for the user"
-        },
-        {
-          "displayName": "Image URL",
-          "name": "image_url",
-          "type": "string",
-          "typeOptions": {
-            "alwaysOpenEditWindow": true
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Thumbnail URL",
-          "name": "thumb_url",
-          "type": "string",
-          "typeOptions": {
-            "alwaysOpenEditWindow": true
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Footer",
-          "name": "footer",
-          "type": "string",
-          "typeOptions": {
-            "alwaysOpenEditWindow": true
-          },
-          "default": "",
-          "description": "Text of footer to add"
-        },
-        {
-          "displayName": "Footer Icon",
-          "name": "footer_icon",
-          "type": "string",
-          "typeOptions": {
-            "alwaysOpenEditWindow": true
-          },
-          "default": "",
-          "description": "Icon which should appear next to footer"
-        },
-        {
-          "displayName": "Message Timestamp",
-          "name": "ts",
-          "type": "number",
-          "default": 0,
-          "description": "Timestamp of the message to post",
-          "placeholder": "1663233118.856619"
-        },
-        {
-          "displayName": "Fields",
-          "name": "fields",
-          "placeholder": "Add Fields",
-          "description": "Fields to add to message",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "item",
-              "displayName": "Item",
-              "values": [
-                {
-                  "displayName": "Title",
-                  "name": "title",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "Short",
-                  "name": "short",
-                  "type": "boolean",
-                  "default": true,
-                  "description": "Whether items can be displayed next to each other"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Attachments | 默认值: {}",
+      "available_options": [
+        "fallback (值: None) - Required plain-text summary of the attachment",
+        "text (值: None)",
+        "title (值: None)",
+        "title_link (值: None)",
+        "color (值: None) - Color of the line left of text",
+        "pretext (值: None) - Text which appears before the message block",
+        "author_name (值: None) - Name that should appear",
+        "author_link (值: None)",
+        "author_icon (值: None) - Icon which should appear for the user",
+        "image_url (值: None)",
+        "thumb_url (值: None)",
+        "footer (值: None) - Text of footer to add",
+        "footer_icon (值: None) - Icon which should appear next to footer",
+        "ts (值: None) - Timestamp of the message to post",
+        "fields (值: None) - Fields to add to message"
+      ]
     },
     "otherOptions": {
       "displayName": "Options",
       "name": "otherOptions",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "message"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
       "description": "Other options to set",
-      "placeholder": "Add option",
-      "options": [
-        {
-          "displayName": "Include Link to Workflow",
-          "name": "includeLinkToWorkflow",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to append a link to this workflow at the end of the message. This is helpful if you have many workflows sending Slack messages."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Options | 作用: Other options to set | 默认值: {}",
+      "available_options": [
+        "includeLinkToWorkflow (值: None) - Whether to append a link to this workflow at the end of the message. This is helpful if you have many workflows sending Slack messages."
+      ]
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "userGroup"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Channel Names or IDs",
-          "name": "channels",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getChannels"
-          },
-          "default": [],
-          "description": "A comma-separated string of encoded channel IDs for which the User Group uses as a default. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Description",
-          "name": "description",
-          "type": "string",
-          "default": "",
-          "description": "A short description of the User Group"
-        },
-        {
-          "displayName": "Handle",
-          "name": "handle",
-          "type": "string",
-          "default": "",
-          "description": "A mention handle. Must be unique among channels, users and User Groups."
-        },
-        {
-          "displayName": "Include Count",
-          "name": "include_count",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to include the number of users in each User Group"
-        },
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": "",
-          "description": "A name for the User Group. Must be unique among User Groups."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "channels (值: None) - A comma-separated string of encoded channel IDs for which the User Group uses as a default. Choose from the list, or specify IDs using an expression.",
+        "description (值: None) - A short description of the User Group",
+        "handle (值: None) - A mention handle. Must be unique among channels, users and User Groups.",
+        "include_count (值: None) - Whether to include the number of users in each User Group",
+        "name (值: None) - A name for the User Group. Must be unique among User Groups."
+      ]
     },
     "query": {
       "displayName": "Search Query",
       "name": "query",
       "type": "string",
-      "description": "The text to search for within messages",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "ai_hint": "The text to search for within messages"
+      "description": "The text to search for within messages",
+      "natural_language_description": "参数名: Search Query | 作用: The text to search for within messages | (必填项)"
     },
     "sort": {
       "displayName": "Sort By",
       "name": "sort",
-      "description": "How search results should be sorted. You can sort by.",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Newest",
-          "value": "desc"
-        },
-        {
-          "name": "Oldest",
-          "value": "asc"
-        },
-        {
-          "name": "Relevance Score",
-          "value": "relevance"
-        }
-      ],
+      "required": false,
       "default": "desc",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "How search results should be sorted. You can sort by.",
+      "natural_language_description": "参数名: Sort By | 作用: How search results should be sorted. You can sort by. | 默认值: desc",
+      "available_options": [
+        "Newest (值: desc)",
+        "Oldest (值: asc)",
+        "Relevance Score (值: relevance)"
+      ]
     },
     "message": {
       "displayName": "Message",
       "name": "message",
       "type": "string",
-      "default": "",
       "required": true,
-      "typeOptions": {
-        "rows": 4
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "sendAndWait"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Message | (必填项)"
     },
     "responseType": {
       "displayName": "Response Type",
       "name": "responseType",
       "type": "options",
+      "required": false,
       "default": "approval",
-      "options": [
-        {
-          "name": "Approval",
-          "value": "approval",
-          "description": "User can approve/disapprove from within the message"
-        },
-        {
-          "name": "Free Text",
-          "value": "freeText",
-          "description": "User can submit a response via a form"
-        },
-        {
-          "name": "Custom Form",
-          "value": "customForm",
-          "description": "User can submit a response via a custom form"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "sendAndWait"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Response Type | 默认值: approval",
+      "available_options": [
+        "Approval (值: approval) - User can approve/disapprove from within the message",
+        "Free Text (值: freeText) - User can submit a response via a form",
+        "Custom Form (值: customForm) - User can submit a response via a custom form"
+      ]
     },
     "defineForm": {
       "displayName": "Define Form",
       "name": "defineForm",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Using Fields Below",
-          "value": "fields"
-        },
-        {
-          "name": "Using JSON",
-          "value": "json"
-        }
-      ],
+      "required": false,
       "default": "fields",
-      "displayOptions": {
-        "show": {
-          "responseType": [
-            "customForm"
-          ],
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "sendAndWait"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Define Form | 默认值: fields",
+      "available_options": [
+        "Using Fields Below (值: fields)",
+        "Using JSON (值: json)"
+      ]
     },
     "jsonOutput": {
       "displayName": "Form Fields",
       "name": "jsonOutput",
       "type": "json",
-      "typeOptions": {
-        "rows": 5
-      },
+      "required": false,
       "default": "[\n  {\n    \"fieldLabel\": \"Name\",\n    \"placeholder\": \"enter your name\",\n    \"requiredField\": true\n  },\n  {\n    \"fieldLabel\": \"Age\",\n    \"fieldType\": \"number\",\n    \"placeholder\": \"enter your age\"\n  },\n  {\n    \"fieldLabel\": \"Email\",\n    \"fieldType\": \"email\",\n    \"requiredField\": true\n  },\n  {\n    \"fieldLabel\": \"Textarea\",\n    \"fieldType\": \"textarea\"\n  },\n  {\n    \"fieldLabel\": \"Dropdown Options\",\n    \"fieldType\": \"dropdown\",\n    \"fieldOptions\": {\n      \"values\": [\n        {\n          \"option\": \"option 1\"\n        },\n        {\n          \"option\": \"option 2\"\n        }\n      ]\n    },\n    \"requiredField\": true\n  },\n  {\n    \"fieldLabel\": \"Checkboxes\",\n    \"fieldType\": \"checkbox\",\n    \"fieldOptions\": {\n      \"values\": [\n        {\n          \"option\": \"option 1\"\n        },\n        {\n          \"option\": \"option 2\"\n        }\n      ]\n    }\n  },\n  {\n    \"fieldLabel\": \"Radio\",\n    \"fieldType\": \"radio\",\n    \"fieldOptions\": {\n      \"values\": [\n        {\n          \"option\": \"option 1\"\n        },\n        {\n          \"option\": \"option 2\"\n        }\n      ]\n    }\n  },\n  {\n    \"fieldLabel\": \"Email\",\n    \"fieldType\": \"email\",\n    \"placeholder\": \"me@mail.con\"\n  },\n  {\n    \"fieldLabel\": \"File\",\n    \"fieldType\": \"file\",\n    \"multipleFiles\": true,\n    \"acceptFileTypes\": \".jpg, .png\"\n  },\n  {\n    \"fieldLabel\": \"Number\",\n    \"fieldType\": \"number\"\n  },\n  {\n    \"fieldLabel\": \"Password\",\n    \"fieldType\": \"password\"\n  }\n]\n",
-      "validateType": "form-fields",
-      "ignoreValidationDuringExecution": true,
-      "hint": "<a href=\"https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.form/\" target=\"_blank\">See docs</a> for field syntax",
-      "displayOptions": {
-        "show": {
-          "defineForm": [
-            "json"
-          ],
-          "responseType": [
-            "customForm"
-          ],
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "sendAndWait"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Form Fields | 提示: See docs for field syntax | 默认值: [\n  {\n    \"fieldLabel\": \"Name\",\n    \"placeholder\": \"enter your name\",\n    \"requiredField\": true\n  },\n  {\n    \"fieldLabel\": \"Age\",\n    \"fieldType\": \"number\",\n    \"placeholder\": \"enter your age\"\n  },\n  {\n    \"fieldLabel\": \"Email\",\n    \"fieldType\": \"email\",\n    \"requiredField\": true\n  },\n  {\n    \"fieldLabel\": \"Textarea\",\n    \"fieldType\": \"textarea\"\n  },\n  {\n    \"fieldLabel\": \"Dropdown Options\",\n    \"fieldType\": \"dropdown\",\n    \"fieldOptions\": {\n      \"values\": [\n        {\n          \"option\": \"option 1\"\n        },\n        {\n          \"option\": \"option 2\"\n        }\n      ]\n    },\n    \"requiredField\": true\n  },\n  {\n    \"fieldLabel\": \"Checkboxes\",\n    \"fieldType\": \"checkbox\",\n    \"fieldOptions\": {\n      \"values\": [\n        {\n          \"option\": \"option 1\"\n        },\n        {\n          \"option\": \"option 2\"\n        }\n      ]\n    }\n  },\n  {\n    \"fieldLabel\": \"Radio\",\n    \"fieldType\": \"radio\",\n    \"fieldOptions\": {\n      \"values\": [\n        {\n          \"option\": \"option 1\"\n        },\n        {\n          \"option\": \"option 2\"\n        }\n      ]\n    }\n  },\n  {\n    \"fieldLabel\": \"Email\",\n    \"fieldType\": \"email\",\n    \"placeholder\": \"me@mail.con\"\n  },\n  {\n    \"fieldLabel\": \"File\",\n    \"fieldType\": \"file\",\n    \"multipleFiles\": true,\n    \"acceptFileTypes\": \".jpg, .png\"\n  },\n  {\n    \"fieldLabel\": \"Number\",\n    \"fieldType\": \"number\"\n  },\n  {\n    \"fieldLabel\": \"Password\",\n    \"fieldType\": \"password\"\n  }\n]\n"
     },
     "formFields": {
       "displayName": "Form Elements",
       "name": "formFields",
-      "placeholder": "Add Form Element",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": true,
-        "sortable": true
-      },
-      "options": [
-        {
-          "displayName": "Values",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Field Name",
-              "name": "fieldLabel",
-              "type": "string",
-              "default": "",
-              "placeholder": "e.g. What is your name?",
-              "description": "Label that appears above the input field",
-              "required": true,
-              "displayOptions": {
-                "hide": {
-                  "fieldType": [
-                    "hiddenField",
-                    "html"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Field Name",
-              "name": "fieldName",
-              "description": "The name of the field, used in input attributes and referenced by the workflow",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "hiddenField"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Element Type",
-              "name": "fieldType",
-              "type": "options",
-              "default": "text",
-              "description": "The type of field to add to the form",
-              "options": [
-                {
-                  "name": "Checkboxes",
-                  "value": "checkbox"
-                },
-                {
-                  "name": "Custom HTML",
-                  "value": "html"
-                },
-                {
-                  "name": "Date",
-                  "value": "date"
-                },
-                {
-                  "name": "Dropdown",
-                  "value": "dropdown"
-                },
-                {
-                  "name": "Email",
-                  "value": "email"
-                },
-                {
-                  "name": "File",
-                  "value": "file"
-                },
-                {
-                  "name": "Hidden Field",
-                  "value": "hiddenField"
-                },
-                {
-                  "name": "Number",
-                  "value": "number"
-                },
-                {
-                  "name": "Password",
-                  "value": "password"
-                },
-                {
-                  "name": "Radio Buttons",
-                  "value": "radio"
-                },
-                {
-                  "name": "Text",
-                  "value": "text"
-                },
-                {
-                  "name": "Textarea",
-                  "value": "textarea"
-                }
-              ],
-              "required": true
-            },
-            {
-              "displayName": "Element Name",
-              "name": "elementName",
-              "type": "string",
-              "default": "",
-              "placeholder": "e.g. content-section",
-              "description": "Optional field. It can be used to include the html in the output.",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "html"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Placeholder",
-              "name": "placeholder",
-              "description": "Sample text to display inside the field",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "hide": {
-                  "fieldType": [
-                    "dropdown",
-                    "date",
-                    "file",
-                    "html",
-                    "hiddenField",
-                    "radio",
-                    "checkbox"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Default Value",
-              "name": "defaultValue",
-              "description": "Default value that will be pre-filled in the form field",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "text",
-                    "number",
-                    "email",
-                    "textarea"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Default Value",
-              "name": "defaultValue",
-              "description": "Default date value that will be pre-filled in the form field (format: YYYY-MM-DD)",
-              "type": "dateTime",
-              "typeOptions": {
-                "dateOnly": true
-              },
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "date"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Default Value",
-              "name": "defaultValue",
-              "description": "Default value that will be pre-selected. Must match one of the option labels.",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "dropdown",
-                    "radio"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Default Value",
-              "name": "defaultValue",
-              "description": "Default value(s) that will be pre-selected. Must match one or multiple of the option labels. Separate multiple pre-selected options with a comma.",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "checkbox"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Field Value",
-              "name": "fieldValue",
-              "description": "Input value can be set here or will be passed as a query parameter via Field Name if no value is set",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "hiddenField"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Field Options",
-              "name": "fieldOptions",
-              "placeholder": "Add Field Option",
-              "description": "List of options that can be selected from the dropdown",
-              "type": "fixedCollection",
-              "default": {
-                "values": [
-                  {
-                    "option": ""
-                  }
-                ]
-              },
-              "required": true,
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "dropdown"
-                  ]
-                }
-              },
-              "typeOptions": {
-                "multipleValues": true,
-                "sortable": true
-              },
-              "options": [
-                {
-                  "displayName": "Values",
-                  "name": "values",
-                  "values": [
-                    {
-                      "displayName": "Option",
-                      "name": "option",
-                      "type": "string",
-                      "default": ""
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "displayName": "Checkboxes",
-              "name": "fieldOptions",
-              "placeholder": "Add Checkbox",
-              "type": "fixedCollection",
-              "default": {
-                "values": [
-                  {
-                    "option": ""
-                  }
-                ]
-              },
-              "required": true,
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "checkbox"
-                  ]
-                }
-              },
-              "typeOptions": {
-                "multipleValues": true,
-                "sortable": true
-              },
-              "options": [
-                {
-                  "displayName": "Values",
-                  "name": "values",
-                  "values": [
-                    {
-                      "displayName": "Checkbox Label",
-                      "name": "option",
-                      "type": "string",
-                      "default": ""
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "displayName": "Radio Buttons",
-              "name": "fieldOptions",
-              "placeholder": "Add Radio Button",
-              "type": "fixedCollection",
-              "default": {
-                "values": [
-                  {
-                    "option": ""
-                  }
-                ]
-              },
-              "required": true,
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "radio"
-                  ]
-                }
-              },
-              "typeOptions": {
-                "multipleValues": true,
-                "sortable": true
-              },
-              "options": [
-                {
-                  "displayName": "Values",
-                  "name": "values",
-                  "values": [
-                    {
-                      "displayName": "Radio Button Label",
-                      "name": "option",
-                      "type": "string",
-                      "default": ""
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "displayName": "Multiple Choice is a legacy option, please use Checkboxes or Radio Buttons field type instead",
-              "name": "multiselectLegacyNotice",
-              "type": "notice",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "multiselect": [
-                    true
-                  ],
-                  "fieldType": [
-                    "dropdown"
-                  ],
-                  "@version": [
-                    {
-                      "_cnd": {
-                        "lt": 2.3
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Multiple Choice",
-              "name": "multiselect",
-              "type": "boolean",
-              "default": false,
-              "description": "Whether to allow the user to select multiple options from the dropdown list",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "dropdown"
-                  ],
-                  "@version": [
-                    {
-                      "_cnd": {
-                        "lt": 2.3
-                      }
-                    }
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Limit Selection",
-              "name": "limitSelection",
-              "type": "options",
-              "default": "unlimited",
-              "options": [
-                {
-                  "name": "Exact Number",
-                  "value": "exact"
-                },
-                {
-                  "name": "Range",
-                  "value": "range"
-                },
-                {
-                  "name": "Unlimited",
-                  "value": "unlimited"
-                }
-              ],
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "checkbox"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Number of Selections",
-              "name": "numberOfSelections",
-              "type": "number",
-              "default": 1,
-              "typeOptions": {
-                "numberPrecision": 0,
-                "minValue": 1
-              },
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "checkbox"
-                  ],
-                  "limitSelection": [
-                    "exact"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Minimum Selections",
-              "name": "minSelections",
-              "type": "number",
-              "default": 0,
-              "typeOptions": {
-                "numberPrecision": 0,
-                "minValue": 0
-              },
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "checkbox"
-                  ],
-                  "limitSelection": [
-                    "range"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Maximum Selections",
-              "name": "maxSelections",
-              "type": "number",
-              "default": 1,
-              "typeOptions": {
-                "numberPrecision": 0,
-                "minValue": 1
-              },
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "checkbox"
-                  ],
-                  "limitSelection": [
-                    "range"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "HTML",
-              "name": "html",
-              "typeOptions": {
-                "editor": "htmlEditor"
-              },
-              "type": "string",
-              "noDataExpression": true,
-              "default": "<!-- Your custom HTML here --->\n\n\n",
-              "description": "HTML elements to display on the form page",
-              "hint": "Does not accept <code>&lt;script&gt;</code>, <code>&lt;style&gt;</code> or <code>&lt;input&gt;</code> tags",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "html"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Multiple Files",
-              "name": "multipleFiles",
-              "type": "boolean",
-              "default": true,
-              "description": "Whether to allow the user to select multiple files from the file input or just one",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "file"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Accepted File Types",
-              "name": "acceptFileTypes",
-              "type": "string",
-              "default": "",
-              "description": "Comma-separated list of allowed file extensions",
-              "hint": "Leave empty to allow all file types",
-              "placeholder": "e.g. .jpg, .png",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "file"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "The displayed date is formatted based on the locale of the user's browser",
-              "name": "formatDate",
-              "type": "notice",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "fieldType": [
-                    "date"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Required Field",
-              "name": "requiredField",
-              "type": "boolean",
-              "default": false,
-              "description": "Whether to require the user to enter a value for this field before submitting the form",
-              "displayOptions": {
-                "hide": {
-                  "fieldType": [
-                    "html",
-                    "hiddenField"
-                  ]
-                }
-              }
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "defineForm": [
-            "fields"
-          ],
-          "responseType": [
-            "customForm"
-          ],
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "sendAndWait"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Form Elements | 默认值: {}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "approvalOptions": {
       "displayName": "Approval Options",
       "name": "approvalOptions",
       "type": "fixedCollection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Values",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Type of Approval",
-              "name": "approvalType",
-              "type": "options",
-              "placeholder": "Add option",
-              "default": "single",
-              "options": [
-                {
-                  "name": "Approve Only",
-                  "value": "single"
-                },
-                {
-                  "name": "Approve and Disapprove",
-                  "value": "double"
-                }
-              ]
-            },
-            {
-              "displayName": "Approve Button Label",
-              "name": "approveLabel",
-              "type": "string",
-              "default": "Approve",
-              "displayOptions": {
-                "show": {
-                  "approvalType": [
-                    "single",
-                    "double"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Approve Button Style",
-              "name": "buttonApprovalStyle",
-              "type": "options",
-              "default": "primary",
-              "options": [
-                {
-                  "name": "Primary",
-                  "value": "primary"
-                },
-                {
-                  "name": "Secondary",
-                  "value": "secondary"
-                }
-              ],
-              "displayOptions": {
-                "show": {
-                  "approvalType": [
-                    "single",
-                    "double"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Disapprove Button Label",
-              "name": "disapproveLabel",
-              "type": "string",
-              "default": "Decline",
-              "displayOptions": {
-                "show": {
-                  "approvalType": [
-                    "double"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Disapprove Button Style",
-              "name": "buttonDisapprovalStyle",
-              "type": "options",
-              "default": "secondary",
-              "options": [
-                {
-                  "name": "Primary",
-                  "value": "primary"
-                },
-                {
-                  "name": "Secondary",
-                  "value": "secondary"
-                }
-              ],
-              "displayOptions": {
-                "show": {
-                  "approvalType": [
-                    "double"
-                  ]
-                }
-              }
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "responseType": [
-            "approval"
-          ],
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "sendAndWait"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Approval Options | 默认值: {}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "target": {
       "displayName": "Item to Add Star",
       "name": "target",
       "type": "options",
       "required": true,
-      "description": "Choose whether to add a star to a message or a file",
       "default": "",
-      "placeholder": "Select...",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "add"
-          ],
-          "resource": [
-            "star"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Message",
-          "value": "message"
-        },
-        {
-          "name": "File",
-          "value": "file"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "Choose whether to add a star to a message or a file",
+      "natural_language_description": "参数名: Item to Add Star | 作用: Choose whether to add a star to a message or a file | (必填项)",
+      "available_options": [
+        "Message (值: message)",
+        "File (值: file)"
+      ]
     },
     "fileId": {
       "displayName": "File ID",
       "name": "fileId",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: File ID"
     },
     "binaryData": {
       "displayName": "Binary File",
       "name": "binaryData",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upload"
-          ],
-          "resource": [
-            "file"
-          ],
-          "@version": [
-            2,
-            2.1
-          ]
-        }
-      },
       "description": "Whether the data to upload should be taken from binary field",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Binary File | 作用: Whether the data to upload should be taken from binary field | 默认值: False"
     },
     "fileContent": {
       "displayName": "File Content",
       "name": "fileContent",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upload"
-          ],
-          "resource": [
-            "file"
-          ],
-          "binaryData": [
-            false
-          ],
-          "@version": [
-            2,
-            2.1
-          ]
-        }
-      },
-      "placeholder": ""
+      "description": "",
+      "natural_language_description": "参数名: File Content"
     },
     "binaryPropertyName": {
       "displayName": "File Property",
       "name": "binaryPropertyName",
       "type": "string",
-      "default": "data",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upload"
-          ],
-          "resource": [
-            "file"
-          ],
-          "@version": [
-            {
-              "_cnd": {
-                "gte": 2.2
-              }
-            }
-          ]
-        }
-      },
-      "placeholder": "",
+      "default": "data",
       "description": "Name of the binary property which contains the data for the file to be uploaded",
-      "ai_hint": "Name of the binary property which contains the data for the file to be uploaded"
+      "natural_language_description": "参数名: File Property | 作用: Name of the binary property which contains the data for the file to be uploaded | 默认值: data | (必填项)"
     },
     "Options": {
       "displayName": "Options",
       "name": "Options",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "userGroup"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Channel Names or IDs",
-          "name": "channelIds",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getChannels"
-          },
-          "default": [],
-          "description": "A comma-separated string of encoded channel IDs for which the User Group uses as a default. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Description",
-          "name": "description",
-          "type": "string",
-          "default": "",
-          "description": "A short description of the User Group"
-        },
-        {
-          "displayName": "Handle",
-          "name": "handle",
-          "type": "string",
-          "default": "",
-          "description": "A mention handle. Must be unique among channels, users and User Groups."
-        },
-        {
-          "displayName": "Include Count",
-          "name": "include_count",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to include the number of users in each User Group"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "channelIds (值: None) - A comma-separated string of encoded channel IDs for which the User Group uses as a default. Choose from the list, or specify IDs using an expression.",
+        "description (值: None) - A short description of the User Group",
+        "handle (值: None) - A mention handle. Must be unique among channels, users and User Groups.",
+        "include_count (值: None) - Whether to include the number of users in each User Group"
+      ]
     },
     "userGroupId": {
       "displayName": "User Group ID",
       "name": "userGroupId",
       "type": "string",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "userGroup"
-          ]
-        }
-      },
       "required": true,
+      "default": "",
       "description": "The encoded ID of the User Group to update",
-      "ai_hint": "The encoded ID of the User Group to update"
+      "natural_language_description": "参数名: User Group ID | 作用: The encoded ID of the User Group to update | (必填项)"
     },
     "option": {
       "displayName": "Options",
       "name": "option",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "userGroup"
-          ],
-          "operation": [
-            "enable"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Include Count",
-          "name": "include_count",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to include the number of users in each User Group"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "include_count (值: None) - Whether to include the number of users in each User Group"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "resource",
-      "operation",
-      "channelId",
-      "channelId",
-      "channelId",
-      "channelVisibility",
-      "channelId",
-      "userIds",
-      "channelId",
-      "options",
-      "channelId",
-      "userId",
-      "channelId",
-      "returnAll",
-      "limit",
-      "filters",
-      "channelId",
-      "returnAll",
-      "limit",
-      "filters",
-      "channelId",
-      "channelId",
-      "returnAll",
-      "limit",
-      "resolveData",
-      "options",
-      "channelId",
-      "name",
-      "channelId",
-      "ts",
-      "returnAll",
-      "limit",
-      "filters",
-      "channelId",
-      "purpose",
-      "channelId",
-      "topic",
-      "channelId",
-      "operation",
-      "channelId",
-      "timestamp",
-      "select",
-      "channelId",
-      "user",
-      "messageType",
-      "text",
-      "blocksUi",
-      "text",
-      "noticeAttachments",
-      "attachments",
-      "otherOptions",
-      "channelId",
-      "ts",
-      "messageType",
-      "blocksUi",
-      "text",
-      "text",
-      "updateFields",
-      "otherOptions",
-      "select",
-      "channelId",
-      "user",
-      "timestamp",
-      "query",
-      "sort",
-      "returnAll",
-      "limit",
-      "options",
-      "select",
-      "channelId",
-      "user",
-      "message",
-      "responseType",
-      "defineForm",
-      "jsonOutput",
-      "formFields",
-      "approvalOptions",
-      "options",
-      "options",
-      "operation",
-      "target",
-      "channelId",
-      "fileId",
-      "timestamp",
-      "options",
-      "options",
-      "returnAll",
-      "limit",
-      "operation",
-      "binaryData",
-      "fileContent",
-      "binaryPropertyName",
-      "binaryPropertyName",
-      "options",
-      "returnAll",
-      "limit",
-      "filters",
-      "fileId",
-      "operation",
-      "channelId",
-      "timestamp",
-      "name",
-      "operation",
-      "user",
-      "returnAll",
-      "limit",
-      "user",
-      "options",
-      "operation",
-      "name",
-      "Options",
-      "userGroupId",
-      "options",
-      "userGroupId",
-      "option",
-      "returnAll",
-      "limit",
-      "options",
-      "userGroupId",
-      "updateFields"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'channel' THEN SHOW parameter 'operation'",
-      "IF operation == 'archive' AND resource == 'channel' THEN SHOW parameter 'channelId'",
-      "IF operation == 'close' AND resource == 'channel' THEN SHOW parameter 'channelId'",
-      "IF operation == 'create' AND resource == 'channel' THEN SHOW parameter 'channelId'",
-      "IF operation == 'create' AND resource == 'channel' THEN SHOW parameter 'channelVisibility'",
-      "IF operation == 'invite' AND resource == 'channel' THEN SHOW parameter 'channelId'",
-      "IF operation == 'invite' AND resource == 'channel' THEN SHOW parameter 'userIds'",
-      "IF operation == 'get' AND resource == 'channel' THEN SHOW parameter 'channelId'",
-      "IF resource == 'channel' AND operation == 'get' THEN SHOW parameter 'options'",
-      "IF operation == 'kick' AND resource == 'channel' THEN SHOW parameter 'channelId'",
-      "IF operation == 'kick' AND resource == 'channel' THEN SHOW parameter 'userId'",
-      "IF operation == 'join' AND resource == 'channel' THEN SHOW parameter 'channelId'",
-      "IF resource == 'channel' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'channel' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'channel' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF operation == 'history' AND resource == 'channel' THEN SHOW parameter 'channelId'",
-      "IF resource == 'channel' AND operation == 'history' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'channel' AND operation == 'history' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'channel' AND operation == 'history' THEN SHOW parameter 'filters'",
-      "IF operation == 'leave' AND resource == 'channel' THEN SHOW parameter 'channelId'",
-      "IF operation == 'member' AND resource == 'channel' THEN SHOW parameter 'channelId'",
-      "IF resource == 'channel' AND operation == 'member' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'member' AND resource == 'channel' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'channel' AND operation == 'member' THEN SHOW parameter 'resolveData'",
-      "IF resource == 'channel' AND operation == 'open' THEN SHOW parameter 'options'",
-      "IF operation == 'rename' AND resource == 'channel' THEN SHOW parameter 'channelId'",
-      "IF operation == 'rename' AND resource == 'channel' THEN SHOW parameter 'name'",
-      "IF operation == 'replies' AND resource == 'channel' THEN SHOW parameter 'channelId'",
-      "IF operation == 'replies' AND resource == 'channel' THEN SHOW parameter 'ts'",
-      "IF resource == 'channel' AND operation == 'replies' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'channel' AND operation == 'replies' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'channel' AND operation == 'replies' THEN SHOW parameter 'filters'",
-      "IF operation == 'setPurpose' AND resource == 'channel' THEN SHOW parameter 'channelId'",
-      "IF operation == 'setPurpose' AND resource == 'channel' THEN SHOW parameter 'purpose'",
-      "IF operation == 'setTopic' AND resource == 'channel' THEN SHOW parameter 'channelId'",
-      "IF operation == 'setTopic' AND resource == 'channel' THEN SHOW parameter 'topic'",
-      "IF operation == 'unarchive' AND resource == 'channel' THEN SHOW parameter 'channelId'",
-      "IF resource == 'message' THEN SHOW parameter 'operation'",
-      "IF resource == 'message' AND operation == 'getPermalink' THEN SHOW parameter 'channelId'",
-      "IF resource == 'message' AND operation == 'getPermalink' THEN SHOW parameter 'timestamp'",
-      "IF resource == 'message' AND operation == 'post' THEN SHOW parameter 'select'",
-      "IF operation == 'post' AND resource == 'message' AND select == 'channel' THEN SHOW parameter 'channelId'",
-      "IF operation == 'post' AND resource == 'message' AND select == 'user' THEN SHOW parameter 'user'",
-      "IF operation == 'post' AND resource == 'message' THEN SHOW parameter 'messageType'",
-      "IF operation == 'post' AND resource == 'message' AND messageType == 'text' THEN SHOW parameter 'text'",
-      "IF operation == 'post' AND resource == 'message' AND messageType == 'block' THEN SHOW parameter 'blocksUi'",
-      "IF operation == 'post' AND resource == 'message' AND messageType == 'block' THEN SHOW parameter 'text'",
-      "IF operation == 'post' AND resource == 'message' AND messageType == 'attachment' THEN SHOW parameter 'noticeAttachments'",
-      "IF operation == 'post' AND resource == 'message' AND messageType == 'attachment' THEN SHOW parameter 'attachments'",
-      "IF operation == 'post' AND resource == 'message' THEN SHOW parameter 'otherOptions'",
-      "IF profilePhotoType == 'emoji' THEN SHOW parameter 'icon_emoji'",
-      "IF profilePhotoType == 'image' THEN SHOW parameter 'icon_url'",
-      "IF /select == 'channel' THEN SHOW parameter 'ephemeral'",
-      "IF /select == 'user' THEN SHOW parameter 'ephemeral'",
-      "IF /authentication == 'accessToken' THEN SHOW parameter 'sendAsUser'",
-      "IF resource == 'message' AND operation == 'update' THEN SHOW parameter 'channelId'",
-      "IF resource == 'message' AND operation == 'update' THEN SHOW parameter 'ts'",
-      "IF operation == 'update' AND resource == 'message' THEN SHOW parameter 'messageType'",
-      "IF operation == 'update' AND resource == 'message' AND messageType == 'block' THEN SHOW parameter 'blocksUi'",
-      "IF operation == 'update' AND resource == 'message' AND messageType == 'block' THEN SHOW parameter 'text'",
-      "IF resource == 'message' AND operation == 'update' AND messageType == 'text' THEN SHOW parameter 'text'",
-      "IF resource == 'message' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'update' AND resource == 'message' THEN SHOW parameter 'otherOptions'",
-      "IF resource == 'message' AND operation == 'delete' THEN SHOW parameter 'select'",
-      "IF operation == 'delete' AND resource == 'message' AND select == 'channel' THEN SHOW parameter 'channelId'",
-      "IF operation == 'delete' AND resource == 'message' AND select == 'user' THEN SHOW parameter 'user'",
-      "IF resource == 'message' AND operation == 'delete' THEN SHOW parameter 'timestamp'",
-      "IF resource == 'message' AND operation == 'search' THEN SHOW parameter 'query'",
-      "IF resource == 'message' AND operation == 'search' THEN SHOW parameter 'sort'",
-      "IF resource == 'message' AND operation == 'search' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'message' AND operation == 'search' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'message' AND operation == 'search' THEN SHOW parameter 'options'",
-      "IF resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'select'",
-      "IF select == 'channel' AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'channelId'",
-      "IF select == 'user' AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'user'",
-      "IF resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'message'",
-      "IF resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'responseType'",
-      "IF responseType == 'customForm' AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'defineForm'",
-      "IF defineForm == 'json' AND responseType == 'customForm' AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'jsonOutput'",
-      "IF defineForm == 'fields' AND responseType == 'customForm' AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'formFields'",
-      "IF fieldType IN [\"hiddenField\", \"html\"] THEN HIDE parameter 'fieldLabel'",
-      "IF fieldType == 'hiddenField' THEN SHOW parameter 'fieldName'",
-      "IF fieldType == 'html' THEN SHOW parameter 'elementName'",
-      "IF fieldType IN [\"dropdown\", \"date\", \"file\", \"html\", \"hiddenField\", \"radio\", \"checkbox\"] THEN HIDE parameter 'placeholder'",
-      "IF fieldType IN [\"text\", \"number\", \"email\", \"textarea\"] THEN SHOW parameter 'defaultValue'",
-      "IF fieldType == 'date' THEN SHOW parameter 'defaultValue'",
-      "IF fieldType IN [\"dropdown\", \"radio\"] THEN SHOW parameter 'defaultValue'",
-      "IF fieldType == 'checkbox' THEN SHOW parameter 'defaultValue'",
-      "IF fieldType == 'hiddenField' THEN SHOW parameter 'fieldValue'",
-      "IF fieldType == 'dropdown' THEN SHOW parameter 'fieldOptions'",
-      "IF fieldType == 'checkbox' THEN SHOW parameter 'fieldOptions'",
-      "IF fieldType == 'radio' THEN SHOW parameter 'fieldOptions'",
-      "IF multiselect == True AND fieldType == 'dropdown' AND @version == {'_cnd': {'lt': 2.3}} THEN SHOW parameter 'multiselectLegacyNotice'",
-      "IF fieldType == 'dropdown' AND @version == {'_cnd': {'lt': 2.3}} THEN SHOW parameter 'multiselect'",
-      "IF fieldType == 'checkbox' THEN SHOW parameter 'limitSelection'",
-      "IF fieldType == 'checkbox' AND limitSelection == 'exact' THEN SHOW parameter 'numberOfSelections'",
-      "IF fieldType == 'checkbox' AND limitSelection == 'range' THEN SHOW parameter 'minSelections'",
-      "IF fieldType == 'checkbox' AND limitSelection == 'range' THEN SHOW parameter 'maxSelections'",
-      "IF fieldType == 'html' THEN SHOW parameter 'html'",
-      "IF fieldType == 'file' THEN SHOW parameter 'multipleFiles'",
-      "IF fieldType == 'file' THEN SHOW parameter 'acceptFileTypes'",
-      "IF fieldType == 'date' THEN SHOW parameter 'formatDate'",
-      "IF fieldType IN [\"html\", \"hiddenField\"] THEN HIDE parameter 'requiredField'",
-      "IF responseType == 'approval' AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'approvalOptions'",
-      "IF approvalType IN [\"single\", \"double\"] THEN SHOW parameter 'approveLabel'",
-      "IF approvalType IN [\"single\", \"double\"] THEN SHOW parameter 'buttonApprovalStyle'",
-      "IF approvalType == 'double' THEN SHOW parameter 'disapproveLabel'",
-      "IF approvalType == 'double' THEN SHOW parameter 'buttonDisapprovalStyle'",
-      "IF responseType == 'approval' AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'options'",
-      "IF limitType == 'afterTimeInterval' THEN SHOW parameter 'resumeAmount'",
-      "IF limitType == 'afterTimeInterval' THEN SHOW parameter 'resumeUnit'",
-      "IF limitType == 'atSpecifiedTime' THEN SHOW parameter 'maxDateAndTime'",
-      "IF responseType IN [\"freeText\", \"customForm\"] AND resource == 'message' AND operation == 'sendAndWait' THEN SHOW parameter 'options'",
-      "IF resource == 'star' THEN SHOW parameter 'operation'",
-      "IF operation == 'add' AND resource == 'star' THEN SHOW parameter 'target'",
-      "IF resource == 'star' AND operation == 'add' AND target IN [\"message\", \"file\"] THEN SHOW parameter 'channelId'",
-      "IF resource == 'star' AND operation == 'add' AND target == 'file' THEN SHOW parameter 'fileId'",
-      "IF resource == 'star' AND operation == 'add' AND target == 'message' THEN SHOW parameter 'timestamp'",
-      "IF operation == 'add' AND resource == 'star' THEN SHOW parameter 'options'",
-      "IF operation == 'delete' AND resource == 'star' THEN SHOW parameter 'options'",
-      "IF resource == 'star' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'star' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'file' THEN SHOW parameter 'operation'",
-      "IF operation == 'upload' AND resource == 'file' AND @version IN [2, 2.1] THEN SHOW parameter 'binaryData'",
-      "IF operation == 'upload' AND resource == 'file' AND binaryData == False AND @version IN [2, 2.1] THEN SHOW parameter 'fileContent'",
-      "IF operation == 'upload' AND resource == 'file' AND binaryData == True AND @version IN [2, 2.1] THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'upload' AND resource == 'file' AND @version == {'_cnd': {'gte': 2.2}} THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'options'",
-      "IF @version IN [2, 2.1] THEN SHOW parameter 'channelIds'",
-      "IF @version == {'_cnd': {'gte': 2.2}} THEN SHOW parameter 'channelId'",
-      "IF resource == 'file' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'file' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'file' THEN SHOW parameter 'filters'",
-      "IF resource == 'file' AND operation == 'get' THEN SHOW parameter 'fileId'",
-      "IF resource == 'reaction' THEN SHOW parameter 'operation'",
-      "IF resource == 'reaction' AND operation IN [\"add\", \"get\", \"remove\"] THEN SHOW parameter 'channelId'",
-      "IF resource == 'reaction' AND operation IN [\"add\", \"get\", \"remove\"] THEN SHOW parameter 'timestamp'",
-      "IF resource == 'reaction' AND operation IN [\"add\", \"remove\"] THEN SHOW parameter 'name'",
-      "IF resource == 'user' THEN SHOW parameter 'operation'",
-      "IF operation IN [\"info\", \"getProfile\"] AND resource == 'user' THEN SHOW parameter 'user'",
-      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'user' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getPresence' AND resource == 'user' THEN SHOW parameter 'user'",
-      "IF resource == 'user' AND operation == 'updateProfile' THEN SHOW parameter 'options'",
-      "IF resource == 'userGroup' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'userGroup' THEN SHOW parameter 'name'",
-      "IF resource == 'userGroup' AND operation == 'create' THEN SHOW parameter 'Options'",
-      "IF operation == 'disable' AND resource == 'userGroup' THEN SHOW parameter 'userGroupId'",
-      "IF resource == 'userGroup' AND operation == 'disable' THEN SHOW parameter 'options'",
-      "IF operation == 'enable' AND resource == 'userGroup' THEN SHOW parameter 'userGroupId'",
-      "IF resource == 'userGroup' AND operation == 'enable' THEN SHOW parameter 'option'",
-      "IF operation == 'getAll' AND resource == 'userGroup' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'userGroup' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'userGroup' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF operation == 'update' AND resource == 'userGroup' THEN SHOW parameter 'userGroupId'",
-      "IF resource == 'userGroup' AND operation == 'update' THEN SHOW parameter 'updateFields'"
-    ]
   }
 }

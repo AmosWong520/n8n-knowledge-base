@@ -1,116 +1,64 @@
 {
   "node_id": "n8n-nodes-base.mailcheckTool",
-  "name": "n8n-nodes-base.mailcheckTool",
+  "name": "Mailcheck Tool",
   "version": 1,
   "semantic_context": "Consume Mailcheck API",
+  "natural_language_description": "这是 Mailcheck Tool 节点。主要用于: Consume Mailcheck API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Mailcheck API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Mailcheck API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Mailcheck API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Email",
-          "value": "email"
-        }
-      ],
+      "required": false,
       "default": "email",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: email",
+      "available_options": [
+        "Email (值: email)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Check",
-          "value": "check",
-          "action": "Check an email"
-        }
-      ],
+      "required": false,
       "default": "check",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: check",
+      "available_options": [
+        "Check (值: check)"
+      ]
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ],
-          "operation": [
-            "check"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "Email address to check",
-      "ai_hint": "Email address to check"
+      "natural_language_description": "参数名: Email | 作用: Email address to check"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "email"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'email' THEN SHOW parameter 'operation'",
-      "IF resource == 'email' AND operation == 'check' THEN SHOW parameter 'email'"
-    ]
   }
 }

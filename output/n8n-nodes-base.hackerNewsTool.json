@@ -1,92 +1,57 @@
 {
   "node_id": "n8n-nodes-base.hackerNewsTool",
-  "name": "n8n-nodes-base.hackerNewsTool",
+  "name": "Hacker News Tool",
   "version": 1,
   "semantic_context": "Consume Hacker News API",
+  "natural_language_description": "这是 Hacker News Tool 节点。主要用于: Consume Hacker News API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Hacker News API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Hacker News API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Hacker News API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "All",
-          "value": "all"
-        },
-        {
-          "name": "Article",
-          "value": "article"
-        },
-        {
-          "name": "User",
-          "value": "user"
-        }
-      ],
+      "required": false,
       "default": "article",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: article",
+      "available_options": [
+        "All (值: all)",
+        "Article (值: article)",
+        "User (值: user)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a Hacker News user",
-          "action": "Get a user"
-        }
-      ],
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Get (值: get) - Get a Hacker News user"
+      ]
     },
     "articleId": {
       "displayName": "Article ID",
@@ -95,17 +60,7 @@
       "required": true,
       "default": "",
       "description": "The ID of the Hacker News article to be returned",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "article"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "The ID of the Hacker News article to be returned"
+      "natural_language_description": "参数名: Article ID | 作用: The ID of the Hacker News article to be returned | (必填项)"
     },
     "username": {
       "displayName": "Username",
@@ -114,153 +69,38 @@
       "required": true,
       "default": "",
       "description": "The Hacker News user to be returned",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "The Hacker News user to be returned"
+      "natural_language_description": "参数名: Username | 作用: The Hacker News user to be returned | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "all"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "typeOptions": {
-        "minValue": 1
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "all"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "all"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Keyword",
-          "name": "keyword",
-          "type": "string",
-          "default": "",
-          "description": "The keyword for filtering the results of the query"
-        },
-        {
-          "displayName": "Tags",
-          "name": "tags",
-          "type": "multiOptions",
-          "options": [
-            {
-              "name": "Ask HN",
-              "value": "ask_hn",
-              "description": "Returns query results filtered by Ask HN tag"
-            },
-            {
-              "name": "Comment",
-              "value": "comment",
-              "description": "Returns query results filtered by comment tag"
-            },
-            {
-              "name": "Front Page",
-              "value": "front_page",
-              "description": "Returns query results filtered by Front Page tag"
-            },
-            {
-              "name": "Poll",
-              "value": "poll",
-              "description": "Returns query results filtered by poll tag"
-            },
-            {
-              "name": "Show HN",
-              "value": "show_hn",
-              "description": "Returns query results filtered by Show HN tag"
-            },
-            {
-              "name": "Story",
-              "value": "story",
-              "description": "Returns query results filtered by story tag"
-            }
-          ],
-          "default": [],
-          "description": "Tags for filtering the results of the query"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "keyword (值: None) - The keyword for filtering the results of the query",
+        "tags (值: None) - Tags for filtering the results of the query"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "operation",
-      "operation",
-      "articleId",
-      "username",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'all' THEN SHOW parameter 'operation'",
-      "IF resource == 'article' THEN SHOW parameter 'operation'",
-      "IF resource == 'user' THEN SHOW parameter 'operation'",
-      "IF resource == 'article' AND operation == 'get' THEN SHOW parameter 'articleId'",
-      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'username'",
-      "IF resource == 'all' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'all' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'article' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'all' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'"
-    ]
   }
 }

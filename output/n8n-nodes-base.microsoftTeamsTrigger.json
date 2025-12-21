@@ -1,267 +1,88 @@
 {
   "node_id": "n8n-nodes-base.microsoftTeamsTrigger",
-  "name": "n8n-nodes-base.microsoftTeamsTrigger",
+  "name": "Microsoft Teams Trigger",
   "version": 1,
   "semantic_context": "Triggers workflows in n8n based on events from Microsoft Teams, such as new messages or team updates, using specified configurations.",
+  "natural_language_description": "这是 Microsoft Teams Trigger 节点。主要用于: Triggers workflows in n8n based on events from Microsoft Teams, such as new messages or team updates, using specified configurations.",
   "parameters": {
     "event": {
       "displayName": "Trigger On",
       "name": "event",
       "type": "options",
+      "required": false,
       "default": "newChannelMessage",
-      "options": [
-        {
-          "name": "New Channel",
-          "value": "newChannel",
-          "description": "A new channel is created"
-        },
-        {
-          "name": "New Channel Message",
-          "value": "newChannelMessage",
-          "description": "A message is posted to a channel"
-        },
-        {
-          "name": "New Chat",
-          "value": "newChat",
-          "description": "A new chat is created"
-        },
-        {
-          "name": "New Chat Message",
-          "value": "newChatMessage",
-          "description": "A message is posted to a chat"
-        },
-        {
-          "name": "New Team Member",
-          "value": "newTeamMember",
-          "description": "A new member is added to a team"
-        }
-      ],
       "description": "Select the event to trigger the workflow",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Trigger On | 作用: Select the event to trigger the workflow | 默认值: newChannelMessage",
+      "available_options": [
+        "New Channel (值: newChannel) - A new channel is created",
+        "New Channel Message (值: newChannelMessage) - A message is posted to a channel",
+        "New Chat (值: newChat) - A new chat is created",
+        "New Chat Message (值: newChatMessage) - A message is posted to a chat",
+        "New Team Member (值: newTeamMember) - A new member is added to a team"
+      ]
     },
     "watchAllTeams": {
       "displayName": "Watch All Teams",
       "name": "watchAllTeams",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to watch for the event in all the available teams",
-      "displayOptions": {
-        "show": {
-          "event": [
-            "newChannel",
-            "newChannelMessage",
-            "newTeamMember"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Watch All Teams | 作用: Whether to watch for the event in all the available teams | 默认值: False"
     },
     "teamId": {
       "displayName": "Team",
       "name": "teamId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
       "description": "Select a team from the list, enter an ID or a URL",
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a team...",
-          "typeOptions": {
-            "searchListMethod": "getTeams",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "type": "string",
-          "placeholder": "e.g., 61165b04-e4cc-4026-b43f-926b4e2a7182"
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "placeholder": "e.g., https://teams.microsoft.com/l/team/19%3A...groupId=your-team-id&tenantId=...",
-          "extractValue": {
-            "type": "regex",
-            "regex": {}
-          }
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "event": [
-            "newChannel",
-            "newChannelMessage",
-            "newTeamMember"
-          ],
-          "watchAllTeams": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Select a team from the list, enter an ID or a URL"
+      "natural_language_description": "参数名: Team | 作用: Select a team from the list, enter an ID or a URL | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "watchAllChannels": {
       "displayName": "Watch All Channels",
       "name": "watchAllChannels",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to watch for the event in all the available channels",
-      "displayOptions": {
-        "show": {
-          "event": [
-            "newChannelMessage"
-          ],
-          "watchAllTeams": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Watch All Channels | 作用: Whether to watch for the event in all the available channels | 默认值: False"
     },
     "channelId": {
       "displayName": "Channel",
       "name": "channelId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
       "description": "Select a channel from the list, enter an ID or a URL",
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a channel...",
-          "typeOptions": {
-            "searchListMethod": "getChannels",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "type": "string",
-          "placeholder": "e.g., 19:-xlxyqXNSCxpI1SDzgQ_L9ZvzSR26pgphq1BJ9y7QJE1@thread.tacv2"
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "placeholder": "e.g., https://teams.microsoft.com/l/channel/19%3A...@thread.tacv2/...",
-          "extractValue": {
-            "type": "regex",
-            "regex": {}
-          }
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "event": [
-            "newChannelMessage"
-          ],
-          "watchAllTeams": [
-            false
-          ],
-          "watchAllChannels": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Select a channel from the list, enter an ID or a URL"
+      "natural_language_description": "参数名: Channel | 作用: Select a channel from the list, enter an ID or a URL | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "watchAllChats": {
       "displayName": "Watch All Chats",
       "name": "watchAllChats",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to watch for the event in all the available chats",
-      "displayOptions": {
-        "show": {
-          "event": [
-            "newChatMessage"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Watch All Chats | 作用: Whether to watch for the event in all the available chats | 默认值: False"
     },
     "chatId": {
       "displayName": "Chat",
       "name": "chatId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
       "description": "Select a chat from the list, enter an ID or a URL",
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a chat...",
-          "typeOptions": {
-            "searchListMethod": "getChats",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "type": "string",
-          "placeholder": "19:7e2f1174-e8ee-4859-b8b1-a8d1cc63d276@unq.gbl.spaces"
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "placeholder": "https://teams.microsoft.com/_#/conversations/CHAT_ID",
-          "extractValue": {
-            "type": "regex",
-            "regex": {}
-          }
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "event": [
-            "newChatMessage"
-          ],
-          "watchAllChats": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Select a chat from the list, enter an ID or a URL"
+      "natural_language_description": "参数名: Chat | 作用: Select a chat from the list, enter an ID or a URL | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "event",
-      "watchAllTeams",
-      "teamId",
-      "watchAllChannels",
-      "channelId",
-      "watchAllChats",
-      "chatId"
-    ],
-    "conditional_rules": [
-      "IF event IN [\"newChannel\", \"newChannelMessage\", \"newTeamMember\"] THEN SHOW parameter 'watchAllTeams'",
-      "IF event IN [\"newChannel\", \"newChannelMessage\", \"newTeamMember\"] AND watchAllTeams == False THEN SHOW parameter 'teamId'",
-      "IF event == 'newChannelMessage' AND watchAllTeams == False THEN SHOW parameter 'watchAllChannels'",
-      "IF event == 'newChannelMessage' AND watchAllTeams == False AND watchAllChannels == False THEN SHOW parameter 'channelId'",
-      "IF event == 'newChatMessage' THEN SHOW parameter 'watchAllChats'",
-      "IF event == 'newChatMessage' AND watchAllChats == False THEN SHOW parameter 'chatId'"
-    ]
   }
 }

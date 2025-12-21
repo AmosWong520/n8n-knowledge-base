@@ -1,307 +1,107 @@
 {
   "node_id": "n8n-nodes-base.pushover",
-  "name": "n8n-nodes-base.pushover",
+  "name": "Pushover",
   "version": 1,
   "semantic_context": "Consume Pushover API",
+  "natural_language_description": "这是 Pushover 节点。主要用于: Consume Pushover API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Message",
-          "value": "message"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "message",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: message",
+      "available_options": [
+        "Message (值: message)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Push",
-          "value": "push",
-          "action": "Push a message"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "push",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: push",
+      "available_options": [
+        "Push (值: push)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "userKey": {
       "displayName": "User Key",
       "name": "userKey",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "push"
-          ]
-        }
-      },
       "default": "",
-      "description": "The user/group key (not e-mail address) of your user (or you), viewable when logged into the <a href=\"https://pushover.net/\">dashboard</a> (often referred to as <code>USER_KEY</code> in the <a href=\"https://support.pushover.net/i44-example-code-and-pushover-libraries\">libraries</a> and code examples)",
-      "ai_hint": "The user/group key (not e-mail address) of your user (or you), viewable when logged into the <a href=\"https://pushover.net/\">dashboard</a> (often referred to as <code>USER_KEY</code> in the <a href=\"https://support.pushover.net/i44-example-code-and-pushover-libraries\">libraries</a> and code examples)"
+      "description": "The user/group key (not e-mail address) of your user (or you), viewable when logged into the dashboard (often referred to as `USER_KEY` in the libraries and code examples)",
+      "natural_language_description": "参数名: User Key | 作用: The user/group key (not e-mail address) of your user (or you), viewable when logged into the dashboard (often referred to as `USER_KEY` in the libraries and code examples) | (必填项)"
     },
     "message": {
       "displayName": "Message",
       "name": "message",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "push"
-          ]
-        }
-      },
       "default": "",
       "description": "Your message",
-      "ai_hint": "Your message"
+      "natural_language_description": "参数名: Message | 作用: Your message | (必填项)"
     },
     "priority": {
       "displayName": "Priority",
       "name": "priority",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "push"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Lowest Priority",
-          "value": -2
-        },
-        {
-          "name": "Low Priority",
-          "value": -1
-        },
-        {
-          "name": "Normal Priority",
-          "value": 0
-        },
-        {
-          "name": "High Priority",
-          "value": 1
-        },
-        {
-          "name": "Emergency Priority",
-          "value": 2
-        }
-      ],
+      "required": false,
       "default": -2,
       "description": "Send as -2 to generate no notification/alert, -1 to always send as a quiet notification, 1 to display as high-priority and bypass the user's quiet hours, or 2 to also require confirmation from the user",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Priority | 作用: Send as -2 to generate no notification/alert, -1 to always send as a quiet notification, 1 to display as high-priority and bypass the user's quiet hours, or 2 to also require confirmation from the user | 默认值: -2",
+      "available_options": [
+        "Lowest Priority (值: -2)",
+        "Low Priority (值: -1)",
+        "Normal Priority (值: 0)",
+        "High Priority (值: 1)",
+        "Emergency Priority (值: 2)"
+      ]
     },
     "retry": {
       "displayName": "Retry (Seconds)",
       "name": "retry",
       "type": "number",
-      "typeOptions": {
-        "minValue": 0
-      },
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "push"
-          ],
-          "priority": [
-            2
-          ]
-        }
-      },
       "default": 30,
       "description": "Specifies how often (in seconds) the Pushover servers will send the same notification to the user. This parameter must have a value of at least 30 seconds between retries.",
-      "ai_hint": "Specifies how often (in seconds) the Pushover servers will send the same notification to the user. This parameter must have a value of at least 30 seconds between retries."
+      "natural_language_description": "参数名: Retry (Seconds) | 作用: Specifies how often (in seconds) the Pushover servers will send the same notification to the user. This parameter must have a value of at least 30 seconds between retries. | 默认值: 30 | (必填项)"
     },
     "expire": {
       "displayName": "Expire (Seconds)",
       "name": "expire",
       "type": "number",
-      "typeOptions": {
-        "minValue": 0,
-        "maxValue": 10800
-      },
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "push"
-          ],
-          "priority": [
-            2
-          ]
-        }
-      },
       "default": 30,
       "description": "Specifies how many seconds your notification will continue to be retried for (every retry seconds)",
-      "ai_hint": "Specifies how many seconds your notification will continue to be retried for (every retry seconds)"
+      "natural_language_description": "参数名: Expire (Seconds) | 作用: Specifies how many seconds your notification will continue to be retried for (every retry seconds) | 默认值: 30 | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "push"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Attachment",
-          "name": "attachmentsUi",
-          "placeholder": "Add Attachments",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "options": [
-            {
-              "name": "attachmentsValues",
-              "displayName": "Attachment Property",
-              "values": [
-                {
-                  "displayName": "Input Binary Field",
-                  "name": "binaryPropertyName",
-                  "type": "string",
-                  "default": "",
-                  "placeholder": "data",
-                  "hint": "The name of the input binary field containing the file which should be added to email as attachment"
-                }
-              ]
-            }
-          ],
-          "default": {}
-        },
-        {
-          "displayName": "Device",
-          "name": "device",
-          "type": "string",
-          "default": "",
-          "description": "Your user's device name to send the message directly to that device, rather than all of the user's devices (multiple devices may be separated by a comma)"
-        },
-        {
-          "displayName": "HTML Formatting",
-          "name": "html",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to enable messages formatting with HTML tags"
-        },
-        {
-          "displayName": "Sound Name or ID",
-          "name": "sound",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getSounds"
-          },
-          "default": "",
-          "description": "The name of one of the sounds supported by device clients to override the user's default sound choice. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Timestamp",
-          "name": "timestamp",
-          "type": "dateTime",
-          "default": "",
-          "description": "A Unix timestamp of your message's date and time to display to the user, rather than the time your message is received by our API"
-        },
-        {
-          "displayName": "Title",
-          "name": "title",
-          "type": "string",
-          "default": "",
-          "description": "Your message's title, otherwise your app's name is used"
-        },
-        {
-          "displayName": "Timestamp",
-          "name": "timestamp",
-          "type": "dateTime",
-          "default": "",
-          "description": "A Unix timestamp of your message's date and time to display to the user, rather than the time your message is received by our API"
-        },
-        {
-          "displayName": "URL",
-          "name": "url",
-          "type": "string",
-          "default": "",
-          "description": "A supplementary URL to show with your message"
-        },
-        {
-          "displayName": "URL Title",
-          "name": "url_title",
-          "type": "string",
-          "default": "",
-          "description": "A title for your supplementary URL, otherwise just the URL is shown"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "attachmentsUi (值: None)",
+        "device (值: None) - Your user's device name to send the message directly to that device, rather than all of the user's devices (multiple devices may be separated by a comma)",
+        "html (值: None) - Whether to enable messages formatting with HTML tags",
+        "sound (值: None) - The name of one of the sounds supported by device clients to override the user's default sound choice. Choose from the list, or specify an ID using an expression.",
+        "timestamp (值: None) - A Unix timestamp of your message's date and time to display to the user, rather than the time your message is received by our API",
+        "title (值: None) - Your message's title, otherwise your app's name is used",
+        "timestamp (值: None) - A Unix timestamp of your message's date and time to display to the user, rather than the time your message is received by our API",
+        "url (值: None) - A supplementary URL to show with your message",
+        "url_title (值: None) - A title for your supplementary URL, otherwise just the URL is shown"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "userKey",
-      "message",
-      "priority",
-      "retry",
-      "expire",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF resource == 'message' THEN SHOW parameter 'operation'",
-      "IF resource == 'message' AND operation == 'push' THEN SHOW parameter 'userKey'",
-      "IF resource == 'message' AND operation == 'push' THEN SHOW parameter 'message'",
-      "IF resource == 'message' AND operation == 'push' THEN SHOW parameter 'priority'",
-      "IF resource == 'message' AND operation == 'push' AND priority == 2 THEN SHOW parameter 'retry'",
-      "IF resource == 'message' AND operation == 'push' AND priority == 2 THEN SHOW parameter 'expire'",
-      "IF resource == 'message' AND operation == 'push' THEN SHOW parameter 'additionalFields'"
-    ]
   }
 }

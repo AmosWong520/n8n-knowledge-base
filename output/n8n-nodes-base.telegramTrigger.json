@@ -1,182 +1,63 @@
 {
   "node_id": "n8n-nodes-base.telegramTrigger",
-  "name": "n8n-nodes-base.telegramTrigger",
-  "version": [
-    1,
-    1.1,
-    1.2
-  ],
+  "name": "Telegram Trigger",
+  "version": 1,
   "semantic_context": "Starts the workflow on a Telegram update",
+  "natural_language_description": "这是 Telegram Trigger 节点。主要用于: Starts the workflow on a Telegram update",
   "parameters": {
     "telegramTriggerNotice": {
       "displayName": "Due to Telegram API limitations, you can use just one Telegram trigger for each bot at a time",
       "name": "telegramTriggerNotice",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Due to Telegram API limitations, you can use just one Telegram trigger for each bot at a time"
     },
     "updates": {
       "displayName": "Trigger On",
       "name": "updates",
       "type": "multiOptions",
-      "options": [
-        {
-          "name": "*",
-          "value": "*",
-          "description": "All updates"
-        },
-        {
-          "name": "Callback Query",
-          "value": "callback_query",
-          "description": "Trigger on new incoming callback query"
-        },
-        {
-          "name": "Channel Post",
-          "value": "channel_post",
-          "description": "Trigger on new incoming channel post of any kind — text, photo, sticker, etc"
-        },
-        {
-          "name": "Edited Channel Post",
-          "value": "edited_channel_post",
-          "description": "Trigger on new version of a channel post that is known to the bot and was edited"
-        },
-        {
-          "name": "Edited Message",
-          "value": "edited_message",
-          "description": "Trigger on new version of a channel post that is known to the bot and was edited"
-        },
-        {
-          "name": "Inline Query",
-          "value": "inline_query",
-          "description": "Trigger on new incoming inline query"
-        },
-        {
-          "name": "Message",
-          "value": "message",
-          "description": "Trigger on new incoming message of any kind — text, photo, sticker, etc"
-        },
-        {
-          "name": "Poll",
-          "value": "poll",
-          "action": "On Poll Change",
-          "description": "Trigger on new poll state. Bots receive only updates about stopped polls and polls, which are sent by the bot."
-        },
-        {
-          "name": "Pre-Checkout Query",
-          "value": "pre_checkout_query",
-          "description": "Trigger on new incoming pre-checkout query. Contains full information about checkout."
-        },
-        {
-          "name": "Shipping Query",
-          "value": "shipping_query",
-          "description": "Trigger on new incoming shipping query. Only for invoices with flexible price."
-        }
-      ],
       "required": true,
-      "default": []
+      "default": [],
+      "description": "",
+      "natural_language_description": "参数名: Trigger On | 默认值: [] | (必填项)",
+      "available_options": [
+        "* (值: *) - All updates",
+        "Callback Query (值: callback_query) - Trigger on new incoming callback query",
+        "Channel Post (值: channel_post) - Trigger on new incoming channel post of any kind — text, photo, sticker, etc",
+        "Edited Channel Post (值: edited_channel_post) - Trigger on new version of a channel post that is known to the bot and was edited",
+        "Edited Message (值: edited_message) - Trigger on new version of a channel post that is known to the bot and was edited",
+        "Inline Query (值: inline_query) - Trigger on new incoming inline query",
+        "Message (值: message) - Trigger on new incoming message of any kind — text, photo, sticker, etc",
+        "Poll (值: poll) - Trigger on new poll state. Bots receive only updates about stopped polls and polls, which are sent by the bot.",
+        "Pre-Checkout Query (值: pre_checkout_query) - Trigger on new incoming pre-checkout query. Contains full information about checkout.",
+        "Shipping Query (值: shipping_query) - Trigger on new incoming shipping query. Only for invoices with flexible price."
+      ]
     },
     "attachmentNotice": {
       "displayName": "Every uploaded attachment, even if sent in a group, will trigger a separate event. You can identify that an attachment belongs to a certain group by <code>media_group_id</code> .",
       "name": "attachmentNotice",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Every uploaded attachment, even if sent in a group, will trigger a separate event. You can identify that an attachment belongs to a certain group by <code>media_group_id</code> ."
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Download Images/Files",
-          "name": "download",
-          "type": "boolean",
-          "default": false,
-          "description": "Telegram delivers the image in multiple sizes. By default, just the large image would be downloaded. If you want to change the size, set the field 'Image Size'."
-        },
-        {
-          "displayName": "Image Size",
-          "name": "imageSize",
-          "type": "options",
-          "displayOptions": {
-            "show": {
-              "download": [
-                true
-              ]
-            }
-          },
-          "options": [
-            {
-              "name": "Small",
-              "value": "small"
-            },
-            {
-              "name": "Medium",
-              "value": "medium"
-            },
-            {
-              "name": "Large",
-              "value": "large"
-            },
-            {
-              "name": "Extra Large",
-              "value": "extraLarge"
-            }
-          ],
-          "default": "large",
-          "description": "The size of the image to be downloaded"
-        },
-        {
-          "displayName": "Restrict to Chat IDs",
-          "name": "chatIds",
-          "type": "string",
-          "default": "",
-          "description": "The chat IDs to restrict the trigger to. Multiple can be defined separated by comma.",
-          "displayOptions": {
-            "show": {
-              "@version": [
-                {
-                  "_cnd": {
-                    "gte": 1.1
-                  }
-                }
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Restrict to User IDs",
-          "name": "userIds",
-          "type": "string",
-          "default": "",
-          "description": "The user IDs to restrict the trigger to. Multiple can be defined separated by comma.",
-          "displayOptions": {
-            "show": {
-              "@version": [
-                {
-                  "_cnd": {
-                    "gte": 1.1
-                  }
-                }
-              ]
-            }
-          }
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "download (值: None) - Telegram delivers the image in multiple sizes. By default, just the large image would be downloaded. If you want to change the size, set the field 'Image Size'.",
+        "imageSize (值: None) - The size of the image to be downloaded",
+        "chatIds (值: None) - The chat IDs to restrict the trigger to. Multiple can be defined separated by comma.",
+        "userIds (值: None) - The user IDs to restrict the trigger to. Multiple can be defined separated by comma."
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "telegramTriggerNotice",
-      "updates",
-      "attachmentNotice",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF download == True THEN SHOW parameter 'imageSize'",
-      "IF @version == {'_cnd': {'gte': 1.1}} THEN SHOW parameter 'chatIds'",
-      "IF @version == {'_cnd': {'gte': 1.1}} THEN SHOW parameter 'userIds'"
-    ]
   }
 }

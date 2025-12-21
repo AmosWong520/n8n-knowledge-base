@@ -1,664 +1,212 @@
 {
   "node_id": "n8n-nodes-base.mandrillTool",
-  "name": "n8n-nodes-base.mandrillTool",
+  "name": "Mandrill Tool",
   "version": 1,
   "semantic_context": "Consume Mandrill API",
+  "natural_language_description": "这是 Mandrill Tool 节点。主要用于: Consume Mandrill API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Mandrill API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Mandrill API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Mandrill API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Message",
-          "value": "message",
-          "description": "Send a message"
-        }
-      ],
+      "required": false,
       "default": "message",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: message",
+      "available_options": [
+        "Message (值: message) - Send a message"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Send Template",
-          "value": "sendTemplate",
-          "description": "Send message based on template",
-          "action": "Send a message based on a template"
-        },
-        {
-          "name": "Send HTML",
-          "value": "sendHtml",
-          "description": "Send message based on HTML",
-          "action": "Send a message based on HTML"
-        }
-      ],
+      "required": false,
       "default": "sendTemplate",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: sendTemplate",
+      "available_options": [
+        "Send Template (值: sendTemplate) - Send message based on template",
+        "Send HTML (值: sendHtml) - Send message based on HTML"
+      ]
     },
     "template": {
       "displayName": "Template Name or ID",
       "name": "template",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getTemplates"
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "sendTemplate"
-          ]
-        }
-      },
-      "default": "",
-      "options": [],
       "required": true,
-      "description": "The template you want to send. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The template you want to send. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "The template you want to send. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Template Name or ID | 作用: The template you want to send. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "fromEmail": {
       "displayName": "From Email",
       "name": "fromEmail",
       "type": "string",
-      "default": "",
       "required": true,
-      "placeholder": "Admin <example@yourdomain.com>",
+      "default": "",
       "description": "Email address of the sender optional with name",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "sendHtml",
-            "sendTemplate"
-          ]
-        }
-      },
-      "ai_hint": "Email address of the sender optional with name"
+      "natural_language_description": "参数名: From Email | 作用: Email address of the sender optional with name | (必填项)"
     },
     "toEmail": {
       "displayName": "To Email",
       "name": "toEmail",
       "type": "string",
-      "default": "",
       "required": true,
-      "placeholder": "info@example.com",
+      "default": "",
       "description": "Email address of the recipient. Multiple ones can be separated by comma.",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "sendHtml",
-            "sendTemplate"
-          ]
-        }
-      },
-      "ai_hint": "Email address of the recipient. Multiple ones can be separated by comma."
+      "natural_language_description": "参数名: To Email | 作用: Email address of the recipient. Multiple ones can be separated by comma. | (必填项)"
     },
     "jsonParameters": {
       "displayName": "JSON Parameters",
       "name": "jsonParameters",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "sendHtml",
-            "sendTemplate"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: JSON Parameters | 默认值: False"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "sendHtml",
-            "sendTemplate"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Async",
-          "name": "async",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to enable a background sending mode that is optimized for bulk sending. In async mode, messages/send will immediately return a status of \"queued\" for every recipient. To handle rejections when sending in async mode, set up a webhook for the 'reject' event. Defaults to false for messages with no more than 10 recipients; messages with more than 10 recipients are always sent asynchronously, regardless of the value of async."
-        },
-        {
-          "displayName": "Auto Text",
-          "name": "autoText",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether or not to automatically generate a text part for messages that are not given text"
-        },
-        {
-          "displayName": "Auto HTML",
-          "name": "autoHtml",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether or not to automatically generate an HTML part for messages that are not given HTML"
-        },
-        {
-          "displayName": "BCC Address",
-          "name": "bccAddress",
-          "type": "string",
-          "default": "",
-          "placeholder": "message.bcc_address@example.com",
-          "description": "An optional address to receive an exact copy of each recipient's email"
-        },
-        {
-          "displayName": "From Name",
-          "name": "fromName",
-          "type": "string",
-          "default": "",
-          "placeholder": "John Doe",
-          "description": "Optional from name to be used"
-        },
-        {
-          "displayName": "Google Analytics Campaign",
-          "name": "googleAnalyticsCampaign",
-          "type": "string",
-          "default": "",
-          "placeholder": "",
-          "description": "Optional string indicating the value to set for the utm_campaign tracking parameter. If this isn't provided the email's from address will be used instead."
-        },
-        {
-          "displayName": "Google Analytics Domains",
-          "name": "googleAnalyticsDomains",
-          "type": "string",
-          "default": "",
-          "placeholder": "",
-          "description": "An array of strings separated by a comma (,) indicating for which any matching URLs will automatically have Google Analytics parameters appended to their query string automatically"
-        },
-        {
-          "displayName": "HTML",
-          "name": "html",
-          "type": "string",
-          "default": "",
-          "typeOptions": {
-            "rows": 5
-          },
-          "options": [],
-          "description": "The html you want to send"
-        },
-        {
-          "displayName": "Important",
-          "name": "important",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether or not this message is important, and should be delivered ahead of non-important messages"
-        },
-        {
-          "displayName": "Inline CSS",
-          "name": "inlineCss",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether or not to automatically inline all CSS styles provided in the message HTML - only for HTML documents less than 256KB in size"
-        },
-        {
-          "displayName": "Ip Pool",
-          "name": "ipPool",
-          "type": "string",
-          "default": "",
-          "placeholder": "",
-          "description": "The name of the dedicated ip pool that should be used to send the message. If you do not have any dedicated IPs, this parameter has no effect. If you specify a pool that does not exist, your default pool will be used instead."
-        },
-        {
-          "displayName": "Preserve Recipients",
-          "name": "preserveRecipients",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether or not to expose all recipients in to \"To\" header for each email"
-        },
-        {
-          "displayName": "Return Path Domain",
-          "name": "returnPathDomain",
-          "type": "string",
-          "default": "",
-          "placeholder": "",
-          "description": "A custom domain to use for the messages's return-path"
-        },
-        {
-          "displayName": "Sent At",
-          "name": "sendAt",
-          "type": "dateTime",
-          "default": "",
-          "placeholder": "",
-          "description": "When this message should be sent as a UTC timestamp in YYYY-MM-DD HH:MM:SS format. If you specify a time in the past, the message will be sent immediately. An additional fee applies for scheduled email, and this feature is only available to accounts with a positive balance."
-        },
-        {
-          "displayName": "Signing Domain",
-          "name": "signingDomain",
-          "type": "string",
-          "default": "",
-          "placeholder": "",
-          "description": "A custom domain to use for SPF/DKIM signing instead of mandrill(for \"via\" or \"on behalf of\" in email clients)"
-        },
-        {
-          "displayName": "Subaccount",
-          "name": "subAccount",
-          "type": "string",
-          "default": "",
-          "placeholder": "",
-          "description": "The unique ID of a subaccount for this message - must already exist or will fail with an error"
-        },
-        {
-          "displayName": "Subject",
-          "name": "subject",
-          "type": "string",
-          "default": "",
-          "placeholder": "My subject line",
-          "description": "Subject line of the email"
-        },
-        {
-          "displayName": "Tags",
-          "name": "tags",
-          "type": "string",
-          "default": "",
-          "placeholder": "",
-          "description": "An array of string separated by a comma (,) to tag the message with. Stats are accumulated using tags, though we only store the first 100 we see, so this should not be unique or change frequently. Tags should be 50 characters or less. Any tags starting with an underscore are reserved for internal use and will cause errors."
-        },
-        {
-          "displayName": "Text",
-          "name": "text",
-          "type": "string",
-          "default": "",
-          "typeOptions": {
-            "rows": 5
-          },
-          "options": [],
-          "description": "Example text content"
-        },
-        {
-          "displayName": "Track Clicks",
-          "name": "trackClicks",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether or not to turn on click tracking for the message"
-        },
-        {
-          "displayName": "Track Opens",
-          "name": "trackOpens",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether or not to turn on open tracking for the message"
-        },
-        {
-          "displayName": "Tracking Domain",
-          "name": "trackingDomain",
-          "type": "string",
-          "default": "",
-          "placeholder": "",
-          "description": "A custom domain to use for tracking opens and clicks instead of mandrillapp.com"
-        },
-        {
-          "displayName": "Url Strip Qs",
-          "name": "urlStripQs",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether or not to strip the query string from URLs when aggregating tracked URL data"
-        },
-        {
-          "displayName": "View Content Link",
-          "name": "viewContentLink",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to remove content logging for sensitive emails"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "async (值: None) - Whether to enable a background sending mode that is optimized for bulk sending. In async mode, messages/send will immediately return a status of \"queued\" for every recipient. To handle rejections when sending in async mode, set up a webhook for the 'reject' event. Defaults to false for messages with no more than 10 recipients; messages with more than 10 recipients are always sent asynchronously, regardless of the value of async.",
+        "autoText (值: None) - Whether or not to automatically generate a text part for messages that are not given text",
+        "autoHtml (值: None) - Whether or not to automatically generate an HTML part for messages that are not given HTML",
+        "bccAddress (值: None) - An optional address to receive an exact copy of each recipient's email",
+        "fromName (值: None) - Optional from name to be used",
+        "googleAnalyticsCampaign (值: None) - Optional string indicating the value to set for the utm_campaign tracking parameter. If this isn't provided the email's from address will be used instead.",
+        "googleAnalyticsDomains (值: None) - An array of strings separated by a comma (,) indicating for which any matching URLs will automatically have Google Analytics parameters appended to their query string automatically",
+        "html (值: None) - The html you want to send",
+        "important (值: None) - Whether or not this message is important, and should be delivered ahead of non-important messages",
+        "inlineCss (值: None) - Whether or not to automatically inline all CSS styles provided in the message HTML - only for HTML documents less than 256KB in size",
+        "ipPool (值: None) - The name of the dedicated ip pool that should be used to send the message. If you do not have any dedicated IPs, this parameter has no effect. If you specify a pool that does not exist, your default pool will be used instead.",
+        "preserveRecipients (值: None) - Whether or not to expose all recipients in to \"To\" header for each email",
+        "returnPathDomain (值: None) - A custom domain to use for the messages's return-path",
+        "sendAt (值: None) - When this message should be sent as a UTC timestamp in YYYY-MM-DD HH:MM:SS format. If you specify a time in the past, the message will be sent immediately. An additional fee applies for scheduled email, and this feature is only available to accounts with a positive balance.",
+        "signingDomain (值: None) - A custom domain to use for SPF/DKIM signing instead of mandrill(for \"via\" or \"on behalf of\" in email clients)",
+        "subAccount (值: None) - The unique ID of a subaccount for this message - must already exist or will fail with an error",
+        "subject (值: None) - Subject line of the email",
+        "tags (值: None) - An array of string separated by a comma (,) to tag the message with. Stats are accumulated using tags, though we only store the first 100 we see, so this should not be unique or change frequently. Tags should be 50 characters or less. Any tags starting with an underscore are reserved for internal use and will cause errors.",
+        "text (值: None) - Example text content",
+        "trackClicks (值: None) - Whether or not to turn on click tracking for the message",
+        "trackOpens (值: None) - Whether or not to turn on open tracking for the message",
+        "trackingDomain (值: None) - A custom domain to use for tracking opens and clicks instead of mandrillapp.com",
+        "urlStripQs (值: None) - Whether or not to strip the query string from URLs when aggregating tracked URL data",
+        "viewContentLink (值: None) - Whether to remove content logging for sensitive emails"
+      ]
     },
     "mergeVarsJson": {
       "displayName": "Merge Vars",
       "name": "mergeVarsJson",
       "type": "json",
-      "typeOptions": {
-        "alwaysOpenEditWindow": true
-      },
+      "required": false,
       "default": "",
-      "placeholder": "[\n\t{\n\t\t{ \"name\": \"name\", \"content\": \"content\" }\n\t}\n]",
-      "displayOptions": {
-        "show": {
-          "jsonParameters": [
-            true
-          ]
-        }
-      },
       "description": "Global merge variables",
-      "ai_hint": "Global merge variables"
+      "natural_language_description": "参数名: Merge Vars | 作用: Global merge variables"
     },
     "mergeVarsUi": {
       "displayName": "Merge Vars",
       "name": "mergeVarsUi",
-      "placeholder": "Add Merge Vars",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
       "description": "Per-recipient merge variables",
-      "options": [
-        {
-          "name": "mergeVarsValues",
-          "displayName": "Vars",
-          "values": [
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Content",
-              "name": "content",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Merge Vars | 作用: Per-recipient merge variables | 默认值: {}",
+      "available_options": [
+        "mergeVarsValues (值: None)"
+      ]
     },
     "metadataUi": {
       "displayName": "Metadata",
       "name": "metadataUi",
-      "placeholder": "Add Metadata",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
       "description": "Metadata an associative array of user metadata. Mandrill will store this metadata and make it available for retrieval. In addition, you can select up to 10 metadata fields to index and make searchable using the Mandrill search api.",
-      "options": [
-        {
-          "name": "metadataValues",
-          "displayName": "Metadata",
-          "values": [
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": "Name of the metadata key to add."
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Value to set for the metadata key"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Metadata | 作用: Metadata an associative array of user metadata. Mandrill will store this metadata and make it available for retrieval. In addition, you can select up to 10 metadata fields to index and make searchable using the Mandrill search api. | 默认值: {}",
+      "available_options": [
+        "metadataValues (值: None)"
+      ]
     },
     "metadataJson": {
       "displayName": "Metadata",
       "name": "metadataJson",
       "type": "json",
-      "typeOptions": {
-        "alwaysOpenEditWindow": true
-      },
-      "displayOptions": {
-        "show": {
-          "jsonParameters": [
-            true
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "placeholder": "{\n\t\"website\": \"www.example.com\"\n}",
       "description": "Metadata an associative array of user metadata. Mandrill will store this metadata and make it available for retrieval. In addition, you can select up to 10 metadata fields to index and make searchable using the Mandrill search api.",
-      "ai_hint": "Metadata an associative array of user metadata. Mandrill will store this metadata and make it available for retrieval. In addition, you can select up to 10 metadata fields to index and make searchable using the Mandrill search api."
+      "natural_language_description": "参数名: Metadata | 作用: Metadata an associative array of user metadata. Mandrill will store this metadata and make it available for retrieval. In addition, you can select up to 10 metadata fields to index and make searchable using the Mandrill search api."
     },
     "attachmentsJson": {
       "displayName": "Attachments",
       "name": "attachmentsJson",
       "type": "json",
-      "typeOptions": {
-        "alwaysOpenEditWindow": true
-      },
-      "displayOptions": {
-        "show": {
-          "jsonParameters": [
-            true
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "placeholder": "[\n\t{\n\t\t\"type\": \"text/plain\" (the MIME type of the attachment),\n\t\t\"name\": \"myfile.txt\" (the file name of the attachment),\n\t\t\"content\": \"ZXhhbXBsZSBmaWxl\" (the content of the attachment as a base64-encoded string)\n\t}\n]",
       "description": "An array of supported attachments to add to the message",
-      "ai_hint": "An array of supported attachments to add to the message"
+      "natural_language_description": "参数名: Attachments | 作用: An array of supported attachments to add to the message"
     },
     "attachmentsUi": {
       "displayName": "Attachments",
       "name": "attachmentsUi",
-      "placeholder": "Add Attachments",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "attachmentsValues",
-          "displayName": "Attachments Values",
-          "values": [
-            {
-              "displayName": "Type",
-              "name": "type",
-              "type": "string",
-              "default": "",
-              "placeholder": "text/plain",
-              "description": "The MIME type of the attachment"
-            },
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": "",
-              "placeholder": "myfile.txt",
-              "description": "The file name of the attachment"
-            },
-            {
-              "displayName": "Content",
-              "name": "content",
-              "type": "string",
-              "default": "",
-              "placeholder": "ZXhhbXBsZSBmaWxl",
-              "description": "The content of the attachment as a base64-encoded string"
-            }
-          ]
-        },
-        {
-          "name": "attachmentsBinary",
-          "displayName": "Attachments Binary",
-          "values": [
-            {
-              "displayName": "Property",
-              "name": "property",
-              "type": "string",
-              "default": "",
-              "description": "Name of the binary properties which contain data which should be added to email as attachment"
-            }
-          ]
-        }
-      ],
+      "required": false,
       "default": {},
       "description": "Array of supported attachments to add to the message",
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Attachments | 作用: Array of supported attachments to add to the message | 默认值: {}",
+      "available_options": [
+        "attachmentsValues (值: None)",
+        "attachmentsBinary (值: None)"
+      ]
     },
     "headersJson": {
       "displayName": "Headers",
       "name": "headersJson",
       "type": "json",
+      "required": false,
       "default": "",
-      "placeholder": "{\n\t\"Reply-To\": \"replies@example.com\"\n}",
-      "displayOptions": {
-        "show": {
-          "jsonParameters": [
-            true
-          ]
-        }
-      },
-      "typeOptions": {
-        "alwaysOpenEditWindow": true
-      },
       "description": "Optional extra headers to add to the message (most headers are allowed)",
-      "ai_hint": "Optional extra headers to add to the message (most headers are allowed)"
+      "natural_language_description": "参数名: Headers | 作用: Optional extra headers to add to the message (most headers are allowed)"
     },
     "headersUi": {
       "displayName": "Headers",
       "name": "headersUi",
-      "placeholder": "Add Headers",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "jsonParameters": [
-            false
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "headersValues",
-          "displayName": "Values",
-          "values": [
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
       "description": "Optional extra headers to add to the message (most headers are allowed)",
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Headers | 作用: Optional extra headers to add to the message (most headers are allowed) | 默认值: {}",
+      "available_options": [
+        "headersValues (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "template",
-      "fromEmail",
-      "toEmail",
-      "jsonParameters",
-      "options",
-      "mergeVarsJson",
-      "mergeVarsUi",
-      "metadataUi",
-      "metadataJson",
-      "attachmentsJson",
-      "attachmentsUi",
-      "headersJson",
-      "headersUi"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'message' THEN SHOW parameter 'operation'",
-      "IF operation == 'sendTemplate' THEN SHOW parameter 'template'",
-      "IF operation IN [\"sendHtml\", \"sendTemplate\"] THEN SHOW parameter 'fromEmail'",
-      "IF operation IN [\"sendHtml\", \"sendTemplate\"] THEN SHOW parameter 'toEmail'",
-      "IF operation IN [\"sendHtml\", \"sendTemplate\"] THEN SHOW parameter 'jsonParameters'",
-      "IF operation IN [\"sendHtml\", \"sendTemplate\"] THEN SHOW parameter 'options'",
-      "IF jsonParameters == True THEN SHOW parameter 'mergeVarsJson'",
-      "IF jsonParameters == False THEN SHOW parameter 'mergeVarsUi'",
-      "IF jsonParameters == False THEN SHOW parameter 'metadataUi'",
-      "IF jsonParameters == True THEN SHOW parameter 'metadataJson'",
-      "IF jsonParameters == True THEN SHOW parameter 'attachmentsJson'",
-      "IF jsonParameters == False THEN SHOW parameter 'attachmentsUi'",
-      "IF jsonParameters == True THEN SHOW parameter 'headersJson'",
-      "IF jsonParameters == False THEN SHOW parameter 'headersUi'"
-    ]
   }
 }

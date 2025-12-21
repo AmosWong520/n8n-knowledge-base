@@ -1,917 +1,347 @@
 {
   "node_id": "n8n-nodes-base.freshworksCrmTool",
-  "name": "n8n-nodes-base.freshworksCrmTool",
+  "name": "Freshworks CRM Tool",
   "version": 1,
   "semantic_context": "Consume the Freshworks CRM API",
+  "natural_language_description": "这是 Freshworks CRM Tool 节点。主要用于: Consume the Freshworks CRM API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume the Freshworks CRM API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume the Freshworks CRM API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume the Freshworks CRM API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Account",
-          "value": "account"
-        },
-        {
-          "name": "Appointment",
-          "value": "appointment"
-        },
-        {
-          "name": "Contact",
-          "value": "contact"
-        },
-        {
-          "name": "Deal",
-          "value": "deal"
-        },
-        {
-          "name": "Note",
-          "value": "note"
-        },
-        {
-          "name": "Sales Activity",
-          "value": "salesActivity"
-        },
-        {
-          "name": "Search",
-          "value": "search"
-        },
-        {
-          "name": "Task",
-          "value": "task"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "account",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: account",
+      "available_options": [
+        "Account (值: account)",
+        "Appointment (值: appointment)",
+        "Contact (值: contact)",
+        "Deal (值: deal)",
+        "Note (值: note)",
+        "Sales Activity (值: salesActivity)",
+        "Search (值: search)",
+        "Task (值: task)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a task",
-          "action": "Create a task"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a task",
-          "action": "Delete a task"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Retrieve a task",
-          "action": "Get a task"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Retrieve many tasks",
-          "action": "Get many tasks"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a task",
-          "action": "Update a task"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a task",
+        "Delete (值: delete) - Delete a task",
+        "Get (值: get) - Retrieve a task",
+        "Get Many (值: getAll) - Retrieve many tasks",
+        "Update (值: update) - Update a task",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "name": {
       "displayName": "Name",
       "name": "name",
-      "description": "Name of the deal",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Name of the deal"
+      "description": "Name of the deal",
+      "natural_language_description": "参数名: Name | 作用: Name of the deal | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Creator Name or ID",
-          "name": "creater_id",
-          "type": "options",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getUsers"
-          },
-          "description": "ID of the user who created the task. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Outcome Name or ID",
-          "name": "outcome_id",
-          "type": "options",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getOutcomes"
-          },
-          "description": "ID of the outcome of the task. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Task Type ID",
-          "name": "task_type_id",
-          "type": "string",
-          "default": "",
-          "description": "ID of the type of task"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "creater_id (值: None) - ID of the user who created the task. Choose from the list, or specify an ID using an expression.",
+        "outcome_id (值: None) - ID of the outcome of the task. Choose from the list, or specify an ID using an expression.",
+        "task_type_id (值: None) - ID of the type of task"
+      ]
     },
     "accountId": {
       "displayName": "Account ID",
       "name": "accountId",
-      "description": "ID of the account to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "account"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the account to update"
+      "description": "ID of the account to update",
+      "natural_language_description": "参数名: Account ID | 作用: ID of the account to update | (必填项)"
     },
     "view": {
       "displayName": "View Name or ID",
       "name": "view",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "typeOptions": {
-        "loadOptionsMethod": "getDealViews"
-      },
+      "required": false,
       "default": "",
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: View Name or ID | 作用: Choose from the list, or specify an ID using an expression"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Creator Name or ID",
-          "name": "creater_id",
-          "type": "options",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getUsers"
-          },
-          "description": "ID of the user who created the sales activity. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Due Date",
-          "name": "dueDate",
-          "description": "Timestamp that denotes when the task is due to be completed",
-          "type": "dateTime",
-          "default": ""
-        },
-        {
-          "displayName": "Outcome Name or ID",
-          "name": "outcome_id",
-          "type": "options",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getOutcomes"
-          },
-          "description": "ID of the outcome of the task. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Owner Name or ID",
-          "name": "owner_id",
-          "type": "options",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getUsers"
-          },
-          "description": "ID of the user to whom the task is assigned. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Target ID",
-          "name": "targetable_id",
-          "type": "string",
-          "default": "",
-          "description": "ID of the entity for which the task is updated. The type of entity is selected in \"Target Type\"."
-        },
-        {
-          "displayName": "Target Type",
-          "name": "targetable_type",
-          "description": "Type of the entity for which the task is updated",
-          "type": "options",
-          "default": "Contact",
-          "options": [
-            {
-              "name": "Contact",
-              "value": "Contact"
-            },
-            {
-              "name": "Deal",
-              "value": "Deal"
-            },
-            {
-              "name": "SalesAccount",
-              "value": "SalesAccount"
-            }
-          ]
-        },
-        {
-          "displayName": "Task Type ID",
-          "name": "task_type_id",
-          "type": "string",
-          "default": "",
-          "description": "ID of the type of task"
-        },
-        {
-          "displayName": "Title",
-          "name": "title",
-          "type": "string",
-          "default": "",
-          "description": "Title of the task"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "creater_id (值: None) - ID of the user who created the sales activity. Choose from the list, or specify an ID using an expression.",
+        "dueDate (值: None) - Timestamp that denotes when the task is due to be completed",
+        "outcome_id (值: None) - ID of the outcome of the task. Choose from the list, or specify an ID using an expression.",
+        "owner_id (值: None) - ID of the user to whom the task is assigned. Choose from the list, or specify an ID using an expression.",
+        "targetable_id (值: None) - ID of the entity for which the task is updated. The type of entity is selected in \"Target Type\".",
+        "targetable_type (值: None) - Type of the entity for which the task is updated",
+        "task_type_id (值: None) - ID of the type of task",
+        "title (值: None) - Title of the task"
+      ]
     },
     "title": {
       "displayName": "Title",
       "name": "title",
-      "description": "Title of the task",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Title of the task"
+      "description": "Title of the task",
+      "natural_language_description": "参数名: Title | 作用: Title of the task | (必填项)"
     },
     "fromDate": {
       "displayName": "Start Date",
       "name": "fromDate",
-      "description": "Timestamp that denotes the start of appointment. Start date if this is an all-day appointment.",
       "type": "dateTime",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "appointment"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Timestamp that denotes the start of appointment. Start date if this is an all-day appointment."
+      "description": "Timestamp that denotes the start of appointment. Start date if this is an all-day appointment.",
+      "natural_language_description": "参数名: Start Date | 作用: Timestamp that denotes the start of appointment. Start date if this is an all-day appointment. | (必填项)"
     },
     "endDate": {
       "displayName": "End Date",
       "name": "endDate",
-      "description": "Timestamp that denotes the end of appointment. End date if this is an all-day appointment.",
       "type": "dateTime",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "appointment"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Timestamp that denotes the end of appointment. End date if this is an all-day appointment."
+      "description": "Timestamp that denotes the end of appointment. End date if this is an all-day appointment.",
+      "natural_language_description": "参数名: End Date | 作用: Timestamp that denotes the end of appointment. End date if this is an all-day appointment. | (必填项)"
     },
     "attendees": {
       "displayName": "Attendees",
       "name": "attendees",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "appointment"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "placeholder": "Add Attendee",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "attendee",
-          "displayName": "Attendee",
-          "values": [
-            {
-              "displayName": "Type",
-              "name": "type",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Contact",
-                  "value": "contact"
-                },
-                {
-                  "name": "User",
-                  "value": "user"
-                }
-              ],
-              "default": "contact"
-            },
-            {
-              "displayName": "User Name or ID",
-              "name": "userId",
-              "type": "options",
-              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "user"
-                  ]
-                }
-              },
-              "typeOptions": {
-                "loadOptionsMethod": "getUsers"
-              },
-              "default": ""
-            },
-            {
-              "displayName": "Contact ID",
-              "name": "contactId",
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "contact"
-                  ]
-                }
-              },
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Attendees | 默认值: {}",
+      "available_options": [
+        "attendee (值: None)"
+      ]
     },
     "appointmentId": {
       "displayName": "Appointment ID",
       "name": "appointmentId",
-      "description": "ID of the appointment to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "appointment"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the appointment to update"
+      "description": "ID of the appointment to update",
+      "natural_language_description": "参数名: Appointment ID | 作用: ID of the appointment to update | (必填项)"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
+      "required": false,
       "default": {},
-      "placeholder": "Add Filter",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Include",
-          "name": "include",
-          "type": "options",
-          "default": "owner",
-          "options": [
-            {
-              "name": "Owner",
-              "value": "owner"
-            },
-            {
-              "name": "Target",
-              "value": "targetable"
-            },
-            {
-              "name": "Users",
-              "value": "users"
-            }
-          ]
-        },
-        {
-          "displayName": "Status",
-          "name": "filter",
-          "type": "options",
-          "default": "open",
-          "options": [
-            {
-              "name": "Completed",
-              "value": "completed"
-            },
-            {
-              "name": "Due Today",
-              "value": "due_today"
-            },
-            {
-              "name": "Due Tomorrow",
-              "value": "due_tomorrow"
-            },
-            {
-              "name": "Open",
-              "value": "open"
-            },
-            {
-              "name": "Overdue",
-              "value": "overdue"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "include (值: None)",
+        "filter (值: None)"
+      ]
     },
     "firstName": {
       "displayName": "First Name",
       "name": "firstName",
-      "description": "First name of the contact",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "First name of the contact"
+      "description": "First name of the contact",
+      "natural_language_description": "参数名: First Name | 作用: First name of the contact | (必填项)"
     },
     "lastName": {
       "displayName": "Last Name",
       "name": "lastName",
-      "description": "Last name of the contact",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Last name of the contact"
+      "description": "Last name of the contact",
+      "natural_language_description": "参数名: Last Name | 作用: Last name of the contact | (必填项)"
     },
     "emails": {
       "displayName": "Email Address",
       "name": "emails",
       "type": "string",
+      "required": true,
       "default": "",
       "description": "Email addresses of the contact",
-      "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Email addresses of the contact"
+      "natural_language_description": "参数名: Email Address | 作用: Email addresses of the contact | (必填项)"
     },
     "contactId": {
       "displayName": "Contact ID",
       "name": "contactId",
-      "description": "ID of the contact to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the contact to update"
+      "description": "ID of the contact to update",
+      "natural_language_description": "参数名: Contact ID | 作用: ID of the contact to update | (必填项)"
     },
     "amount": {
       "displayName": "Amount",
       "name": "amount",
-      "description": "Value of the deal",
       "type": "number",
       "required": true,
       "default": 0,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Value of the deal"
+      "description": "Value of the deal",
+      "natural_language_description": "参数名: Amount | 作用: Value of the deal | 默认值: 0 | (必填项)"
     },
     "dealId": {
       "displayName": "Deal ID",
       "name": "dealId",
-      "description": "ID of the deal to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "deal"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the deal to update"
+      "description": "ID of the deal to update",
+      "natural_language_description": "参数名: Deal ID | 作用: ID of the deal to update | (必填项)"
     },
     "description": {
       "displayName": "Content",
       "name": "description",
-      "description": "Content of the note",
       "type": "string",
       "required": true,
-      "typeOptions": {
-        "rows": 5
-      },
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "note"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Content of the note"
+      "description": "Content of the note",
+      "natural_language_description": "参数名: Content | 作用: Content of the note | (必填项)"
     },
     "targetableType": {
       "displayName": "Target Type",
       "name": "targetableType",
-      "description": "Type of the entity for which the task is updated",
       "type": "options",
       "required": true,
       "default": "Contact",
-      "options": [
-        {
-          "name": "Contact",
-          "value": "Contact"
-        },
-        {
-          "name": "Deal",
-          "value": "Deal"
-        },
-        {
-          "name": "SalesAccount",
-          "value": "SalesAccount"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "Type of the entity for which the task is updated",
+      "natural_language_description": "参数名: Target Type | 作用: Type of the entity for which the task is updated | 默认值: Contact | (必填项)",
+      "available_options": [
+        "Contact (值: Contact)",
+        "Deal (值: Deal)",
+        "SalesAccount (值: SalesAccount)"
+      ]
     },
     "targetable_id": {
       "displayName": "Target ID",
       "name": "targetable_id",
-      "description": "ID of the entity for which the task is created. The type of entity is selected in \"Target Type\".",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "ID of the entity for which the task is created. The type of entity is selected in \"Target Type\"."
+      "default": "",
+      "description": "ID of the entity for which the task is created. The type of entity is selected in \"Target Type\".",
+      "natural_language_description": "参数名: Target ID | 作用: ID of the entity for which the task is created. The type of entity is selected in \"Target Type\". | (必填项)"
     },
     "noteId": {
       "displayName": "Note ID",
       "name": "noteId",
-      "description": "ID of the note to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "note"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the note to update"
+      "description": "ID of the note to update",
+      "natural_language_description": "参数名: Note ID | 作用: ID of the note to update | (必填项)"
     },
     "sales_activity_type_id": {
       "displayName": "Sales Activity Type Name or ID",
       "name": "sales_activity_type_id",
       "type": "options",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "loadOptionsMethod": "getSalesActivityTypes"
-      },
-      "description": "ID of a sales activity type for which the sales activity is created. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "salesActivity"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "ID of a sales activity type for which the sales activity is created. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "ID of a sales activity type for which the sales activity is created. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Sales Activity Type Name or ID | 作用: ID of a sales activity type for which the sales activity is created. Choose from the list, or specify an ID using an expression."
     },
     "ownerId": {
       "displayName": "Owner Name or ID",
       "name": "ownerId",
-      "description": "ID of the user to whom the task is assigned. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
       "type": "options",
-      "default": "",
-      "typeOptions": {
-        "loadOptionsMethod": "getUsers"
-      },
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "ID of the user to whom the task is assigned. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "ID of the user to whom the task is assigned. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Owner Name or ID | 作用: ID of the user to whom the task is assigned. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "from_date": {
       "displayName": "Start Date",
       "name": "from_date",
-      "description": "Timestamp that denotes the end of sales activity",
       "type": "dateTime",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "salesActivity"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Timestamp that denotes the end of sales activity"
+      "description": "Timestamp that denotes the end of sales activity",
+      "natural_language_description": "参数名: Start Date | 作用: Timestamp that denotes the end of sales activity | (必填项)"
     },
     "end_date": {
       "displayName": "End Date",
       "name": "end_date",
-      "description": "Timestamp that denotes the end of sales activity",
       "type": "dateTime",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "salesActivity"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Timestamp that denotes the end of sales activity"
+      "description": "Timestamp that denotes the end of sales activity",
+      "natural_language_description": "参数名: End Date | 作用: Timestamp that denotes the end of sales activity | (必填项)"
     },
     "salesActivityId": {
       "displayName": "Sales Activity ID",
       "name": "salesActivityId",
-      "description": "ID of the salesActivity to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "salesActivity"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the salesActivity to update"
+      "description": "ID of the salesActivity to update",
+      "natural_language_description": "参数名: Sales Activity ID | 作用: ID of the salesActivity to update | (必填项)"
     },
     "query": {
       "displayName": "Search Term",
@@ -919,89 +349,37 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "search"
-          ],
-          "operation": [
-            "query"
-          ]
-        }
-      },
       "description": "Enter a term that will be used for searching entities",
-      "ai_hint": "Enter a term that will be used for searching entities"
+      "natural_language_description": "参数名: Search Term | 作用: Enter a term that will be used for searching entities | (必填项)"
     },
     "entities": {
       "displayName": "Search on Entities",
       "name": "entities",
       "type": "multiOptions",
-      "options": [
-        {
-          "name": "Contact",
-          "value": "contact"
-        },
-        {
-          "name": "Deal",
-          "value": "deal"
-        },
-        {
-          "name": "Sales Account",
-          "value": "sales_account"
-        },
-        {
-          "name": "User",
-          "value": "user"
-        }
-      ],
       "required": true,
       "default": [],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "search"
-          ],
-          "operation": [
-            "query"
-          ]
-        }
-      },
       "description": "Enter a term that will be used for searching entities",
-      "ai_hint": "Enter a term that will be used for searching entities"
+      "natural_language_description": "参数名: Search on Entities | 作用: Enter a term that will be used for searching entities | 默认值: [] | (必填项)",
+      "available_options": [
+        "Contact (值: contact)",
+        "Deal (值: deal)",
+        "Sales Account (值: sales_account)",
+        "User (值: user)"
+      ]
     },
     "searchField": {
       "displayName": "Search Field",
       "name": "searchField",
       "type": "options",
-      "options": [
-        {
-          "name": "Email",
-          "value": "email"
-        },
-        {
-          "name": "Name",
-          "value": "name"
-        },
-        {
-          "name": "Custom Field",
-          "value": "customField",
-          "description": "Only allowed custom fields of type \"Text field\", \"Number\", \"Dropdown\" or \"Radio button\""
-        }
-      ],
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "search"
-          ],
-          "operation": [
-            "lookup"
-          ]
-        }
-      },
       "description": "Field against which the entities have to be searched",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Search Field | 作用: Field against which the entities have to be searched | (必填项)",
+      "available_options": [
+        "Email (值: email)",
+        "Name (值: name)",
+        "Custom Field (值: customField) - Only allowed custom fields of type \"Text field\", \"Number\", \"Dropdown\" or \"Radio button\""
+      ]
     },
     "customFieldName": {
       "displayName": "Custom Field Name",
@@ -1009,19 +387,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "search"
-          ],
-          "operation": [
-            "lookup"
-          ],
-          "searchField": [
-            "customField"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Custom Field Name | (必填项)"
     },
     "customFieldValue": {
       "displayName": "Custom Field Value",
@@ -1029,19 +396,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "search"
-          ],
-          "operation": [
-            "lookup"
-          ],
-          "searchField": [
-            "customField"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Custom Field Value | (必填项)"
     },
     "fieldValue": {
       "displayName": "Field Value",
@@ -1049,295 +405,38 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "search"
-          ],
-          "operation": [
-            "lookup"
-          ],
-          "searchField": [
-            "email",
-            "name"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Field Value | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "search"
-          ],
-          "operation": [
-            "lookup"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Entities",
-          "name": "entities",
-          "type": "multiOptions",
-          "default": [],
-          "options": [
-            {
-              "name": "Contact",
-              "value": "contact"
-            },
-            {
-              "name": "Deal",
-              "value": "deal"
-            },
-            {
-              "name": "Sales Account",
-              "value": "sales_account"
-            }
-          ],
-          "description": "Use 'entities' to query against related entities. You can include multiple entities at once, provided the field is available in both entities or else you'd receive an error response."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "entities (值: None) - Use 'entities' to query against related entities. You can include multiple entities at once, provided the field is available in both entities or else you'd receive an error response."
+      ]
     },
     "dueDate": {
       "displayName": "Due Date",
       "name": "dueDate",
-      "description": "Timestamp that denotes when the task is due to be completed",
       "type": "dateTime",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Timestamp that denotes when the task is due to be completed"
+      "description": "Timestamp that denotes when the task is due to be completed",
+      "natural_language_description": "参数名: Due Date | 作用: Timestamp that denotes when the task is due to be completed | (必填项)"
     },
     "taskId": {
       "displayName": "Task ID",
       "name": "taskId",
-      "description": "ID of the task to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the task to update"
+      "description": "ID of the task to update",
+      "natural_language_description": "参数名: Task ID | 作用: ID of the task to update | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "name",
-      "additionalFields",
-      "accountId",
-      "accountId",
-      "view",
-      "returnAll",
-      "limit",
-      "accountId",
-      "updateFields",
-      "operation",
-      "title",
-      "fromDate",
-      "endDate",
-      "attendees",
-      "additionalFields",
-      "appointmentId",
-      "appointmentId",
-      "returnAll",
-      "limit",
-      "filters",
-      "appointmentId",
-      "updateFields",
-      "operation",
-      "firstName",
-      "lastName",
-      "emails",
-      "additionalFields",
-      "contactId",
-      "contactId",
-      "view",
-      "returnAll",
-      "limit",
-      "contactId",
-      "updateFields",
-      "operation",
-      "amount",
-      "name",
-      "additionalFields",
-      "dealId",
-      "dealId",
-      "view",
-      "returnAll",
-      "limit",
-      "dealId",
-      "updateFields",
-      "operation",
-      "description",
-      "targetableType",
-      "targetable_id",
-      "noteId",
-      "noteId",
-      "updateFields",
-      "operation",
-      "sales_activity_type_id",
-      "title",
-      "ownerId",
-      "from_date",
-      "end_date",
-      "targetableType",
-      "targetable_id",
-      "additionalFields",
-      "salesActivityId",
-      "salesActivityId",
-      "returnAll",
-      "limit",
-      "salesActivityId",
-      "updateFields",
-      "operation",
-      "query",
-      "entities",
-      "returnAll",
-      "limit",
-      "searchField",
-      "customFieldName",
-      "customFieldValue",
-      "fieldValue",
-      "options",
-      "operation",
-      "title",
-      "dueDate",
-      "ownerId",
-      "targetableType",
-      "targetable_id",
-      "additionalFields",
-      "taskId",
-      "taskId",
-      "returnAll",
-      "limit",
-      "filters",
-      "taskId",
-      "updateFields"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'account' THEN SHOW parameter 'operation'",
-      "IF resource == 'account' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'account' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'account' AND operation == 'delete' THEN SHOW parameter 'accountId'",
-      "IF resource == 'account' AND operation == 'get' THEN SHOW parameter 'accountId'",
-      "IF resource == 'account' AND operation == 'getAll' THEN SHOW parameter 'view'",
-      "IF resource == 'account' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'account' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'account' AND operation == 'update' THEN SHOW parameter 'accountId'",
-      "IF resource == 'account' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'appointment' THEN SHOW parameter 'operation'",
-      "IF resource == 'appointment' AND operation == 'create' THEN SHOW parameter 'title'",
-      "IF resource == 'appointment' AND operation == 'create' THEN SHOW parameter 'fromDate'",
-      "IF resource == 'appointment' AND operation == 'create' THEN SHOW parameter 'endDate'",
-      "IF resource == 'appointment' AND operation == 'create' THEN SHOW parameter 'attendees'",
-      "IF type == 'user' THEN SHOW parameter 'userId'",
-      "IF type == 'contact' THEN SHOW parameter 'contactId'",
-      "IF resource == 'appointment' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'appointment' AND operation == 'delete' THEN SHOW parameter 'appointmentId'",
-      "IF resource == 'appointment' AND operation == 'get' THEN SHOW parameter 'appointmentId'",
-      "IF resource == 'appointment' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'appointment' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'appointment' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'appointment' AND operation == 'update' THEN SHOW parameter 'appointmentId'",
-      "IF resource == 'appointment' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'contact' THEN SHOW parameter 'operation'",
-      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'firstName'",
-      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'lastName'",
-      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'emails'",
-      "IF resource == 'contact' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'contact' AND operation == 'delete' THEN SHOW parameter 'contactId'",
-      "IF resource == 'contact' AND operation == 'get' THEN SHOW parameter 'contactId'",
-      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'view'",
-      "IF resource == 'contact' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'contact' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'contact' AND operation == 'update' THEN SHOW parameter 'contactId'",
-      "IF resource == 'contact' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'deal' THEN SHOW parameter 'operation'",
-      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'amount'",
-      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'deal' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'deal' AND operation == 'delete' THEN SHOW parameter 'dealId'",
-      "IF resource == 'deal' AND operation == 'get' THEN SHOW parameter 'dealId'",
-      "IF resource == 'deal' AND operation == 'getAll' THEN SHOW parameter 'view'",
-      "IF resource == 'deal' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'deal' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'deal' AND operation == 'update' THEN SHOW parameter 'dealId'",
-      "IF resource == 'deal' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'note' THEN SHOW parameter 'operation'",
-      "IF resource == 'note' AND operation == 'create' THEN SHOW parameter 'description'",
-      "IF resource == 'note' AND operation == 'create' THEN SHOW parameter 'targetableType'",
-      "IF resource == 'note' AND operation == 'create' THEN SHOW parameter 'targetable_id'",
-      "IF resource == 'note' AND operation == 'delete' THEN SHOW parameter 'noteId'",
-      "IF resource == 'note' AND operation == 'update' THEN SHOW parameter 'noteId'",
-      "IF resource == 'note' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'salesActivity' THEN SHOW parameter 'operation'",
-      "IF resource == 'salesActivity' AND operation == 'create' THEN SHOW parameter 'sales_activity_type_id'",
-      "IF resource == 'salesActivity' AND operation == 'create' THEN SHOW parameter 'title'",
-      "IF resource == 'salesActivity' AND operation == 'create' THEN SHOW parameter 'ownerId'",
-      "IF resource == 'salesActivity' AND operation == 'create' THEN SHOW parameter 'from_date'",
-      "IF resource == 'salesActivity' AND operation == 'create' THEN SHOW parameter 'end_date'",
-      "IF resource == 'salesActivity' AND operation == 'create' THEN SHOW parameter 'targetableType'",
-      "IF resource == 'salesActivity' AND operation == 'create' THEN SHOW parameter 'targetable_id'",
-      "IF resource == 'salesActivity' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'salesActivity' AND operation == 'delete' THEN SHOW parameter 'salesActivityId'",
-      "IF resource == 'salesActivity' AND operation == 'get' THEN SHOW parameter 'salesActivityId'",
-      "IF resource == 'salesActivity' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'salesActivity' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'salesActivity' AND operation == 'update' THEN SHOW parameter 'salesActivityId'",
-      "IF resource == 'salesActivity' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'search' THEN SHOW parameter 'operation'",
-      "IF resource == 'search' AND operation == 'query' THEN SHOW parameter 'query'",
-      "IF resource == 'search' AND operation == 'query' THEN SHOW parameter 'entities'",
-      "IF resource == 'search' AND operation == 'query' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'search' AND operation == 'query' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'search' AND operation == 'lookup' THEN SHOW parameter 'searchField'",
-      "IF resource == 'search' AND operation == 'lookup' AND searchField == 'customField' THEN SHOW parameter 'customFieldName'",
-      "IF resource == 'search' AND operation == 'lookup' AND searchField == 'customField' THEN SHOW parameter 'customFieldValue'",
-      "IF resource == 'search' AND operation == 'lookup' AND searchField IN [\"email\", \"name\"] THEN SHOW parameter 'fieldValue'",
-      "IF resource == 'search' AND operation == 'lookup' THEN SHOW parameter 'options'",
-      "IF resource == 'task' THEN SHOW parameter 'operation'",
-      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'title'",
-      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'dueDate'",
-      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'ownerId'",
-      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'targetableType'",
-      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'targetable_id'",
-      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'task' AND operation == 'delete' THEN SHOW parameter 'taskId'",
-      "IF resource == 'task' AND operation == 'get' THEN SHOW parameter 'taskId'",
-      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'task' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'task' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'taskId'",
-      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'updateFields'"
-    ]
   }
 }

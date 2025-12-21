@@ -1,224 +1,96 @@
 {
   "node_id": "n8n-nodes-base.gotify",
-  "name": "n8n-nodes-base.gotify",
+  "name": "Gotify",
   "version": 1,
   "semantic_context": "Consume Gotify API",
+  "natural_language_description": "这是 Gotify 节点。主要用于: Consume Gotify API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Message",
-          "value": "message"
-        }
-      ],
+      "required": false,
       "default": "message",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: message",
+      "available_options": [
+        "Message (值: message)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "action": "Create a message"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "action": "Delete a message"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "action": "Get many messages"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create)",
+        "Delete (值: delete)",
+        "Get Many (值: getAll)"
+      ]
     },
     "message": {
       "displayName": "Message",
       "name": "message",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "",
       "description": "The message to send, If using Markdown add the Content Type option",
-      "ai_hint": "The message to send, If using Markdown add the Content Type option"
+      "natural_language_description": "参数名: Message | 作用: The message to send, If using Markdown add the Content Type option | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Priority",
-          "name": "priority",
-          "type": "number",
-          "default": 1,
-          "description": "The priority of the message"
-        },
-        {
-          "displayName": "Title",
-          "name": "title",
-          "type": "string",
-          "default": "",
-          "description": "The title of the message"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "priority (值: None) - The priority of the message",
+        "title (值: None) - The title of the message"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Content Type",
-          "name": "contentType",
-          "type": "options",
-          "default": "text/plain",
-          "description": "The message content type",
-          "options": [
-            {
-              "name": "Plain",
-              "value": "text/plain"
-            },
-            {
-              "name": "Markdown",
-              "value": "text/markdown"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "contentType (值: None) - The message content type"
+      ]
     },
     "messageId": {
       "displayName": "Message ID",
       "name": "messageId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "delete"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Message ID | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "description": "Max number of results to return",
+      "required": false,
       "default": 20,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "description": "Max number of results to return",
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 20"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "message",
-      "additionalFields",
-      "options",
-      "messageId",
-      "returnAll",
-      "limit"
-    ],
-    "conditional_rules": [
-      "IF resource == 'message' THEN SHOW parameter 'operation'",
-      "IF resource == 'message' AND operation == 'create' THEN SHOW parameter 'message'",
-      "IF resource == 'message' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'message' AND operation == 'create' THEN SHOW parameter 'options'",
-      "IF resource == 'message' AND operation == 'delete' THEN SHOW parameter 'messageId'",
-      "IF resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'message' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'"
-    ]
   }
 }

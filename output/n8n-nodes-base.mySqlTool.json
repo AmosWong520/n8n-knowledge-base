@@ -1,973 +1,225 @@
 {
   "node_id": "n8n-nodes-base.mySqlTool",
-  "name": "n8n-nodes-base.mySqlTool",
-  "version": [
-    2,
-    2.1,
-    2.2,
-    2.3,
-    2.4,
-    2.5
-  ],
+  "name": "MySQL Tool",
+  "version": 1,
   "semantic_context": "Get, add and update data in MySQL",
+  "natural_language_description": "这是 MySQL Tool 节点。主要用于: Get, add and update data in MySQL",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Get, add and update data in MySQL",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Get, add and update data in MySQL",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Get, add and update data in MySQL | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "hidden",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Database",
-          "value": "database"
-        }
-      ],
-      "default": "database"
+      "required": false,
+      "default": "database",
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: database",
+      "available_options": [
+        "Database (值: database)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Delete",
-          "value": "deleteTable",
-          "description": "Delete an entire table or rows in a table",
-          "action": "Delete table or rows"
-        },
-        {
-          "name": "Execute SQL",
-          "value": "executeQuery",
-          "description": "Execute an SQL query",
-          "action": "Execute a SQL query"
-        },
-        {
-          "name": "Insert",
-          "value": "insert",
-          "description": "Insert rows in a table",
-          "action": "Insert rows in a table"
-        },
-        {
-          "name": "Insert or Update",
-          "value": "upsert",
-          "description": "Insert or update rows in a table",
-          "action": "Insert or update rows in a table"
-        },
-        {
-          "name": "Select",
-          "value": "select",
-          "description": "Select rows from a table",
-          "action": "Select rows from a table"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update rows in a table",
-          "action": "Update rows in a table"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ]
-        }
-      },
+      "required": false,
       "default": "insert",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: insert",
+      "available_options": [
+        "Delete (值: deleteTable) - Delete an entire table or rows in a table",
+        "Execute SQL (值: executeQuery) - Execute an SQL query",
+        "Insert (值: insert) - Insert rows in a table",
+        "Insert or Update (值: upsert) - Insert or update rows in a table",
+        "Select (值: select) - Select rows from a table",
+        "Update (值: update) - Update rows in a table"
+      ]
     },
     "table": {
       "displayName": "Table",
       "name": "table",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
       "description": "The table you want to work on",
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a Table...",
-          "typeOptions": {
-            "searchListMethod": "searchTables",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "placeholder": "table_name"
-        }
-      ],
-      "displayOptions": {
-        "hide": {
-          "operation": [
-            "executeQuery"
-          ]
-        }
-      },
-      "ai_hint": "The table you want to work on"
+      "natural_language_description": "参数名: Table | 作用: The table you want to work on | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "deleteCommand": {
       "displayName": "Command",
       "name": "deleteCommand",
       "type": "options",
+      "required": false,
       "default": "truncate",
-      "options": [
-        {
-          "name": "Truncate",
-          "value": "truncate",
-          "description": "Only removes the table's data and preserves the table's structure"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete the rows that match the 'Select Rows' conditions below. If no selection is made, all rows in the table are deleted."
-        },
-        {
-          "name": "Drop",
-          "value": "drop",
-          "description": "Deletes the table's data and also the table's structure permanently"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "deleteTable"
-          ]
-        },
-        "hide": {
-          "table": [
-            ""
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Command | 默认值: truncate",
+      "available_options": [
+        "Truncate (值: truncate) - Only removes the table's data and preserves the table's structure",
+        "Delete (值: delete) - Delete the rows that match the 'Select Rows' conditions below. If no selection is made, all rows in the table are deleted.",
+        "Drop (值: drop) - Deletes the table's data and also the table's structure permanently"
+      ]
     },
     "where": {
       "displayName": "Select Rows",
       "name": "where",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "placeholder": "Add Condition",
+      "required": false,
       "default": {},
       "description": "If not set, all rows will be selected",
-      "options": [
-        {
-          "displayName": "Values",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Column",
-              "name": "column",
-              "type": "options",
-              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\" target=\"_blank\">expression</a>",
-              "default": "",
-              "placeholder": "e.g. ID",
-              "typeOptions": {
-                "loadOptionsMethod": "getColumns",
-                "loadOptionsDependsOn": [
-                  "schema.value",
-                  "table.value"
-                ]
-              }
-            },
-            {
-              "displayName": "Operator",
-              "name": "condition",
-              "type": "options",
-              "description": "The operator to check the column against. When using 'LIKE' operator percent sign ( %) matches zero or more characters, underscore ( _ ) matches any single character.",
-              "options": [
-                {
-                  "name": "Equal",
-                  "value": "equal"
-                },
-                {
-                  "name": "Not Equal",
-                  "value": "!="
-                },
-                {
-                  "name": "Like",
-                  "value": "LIKE"
-                },
-                {
-                  "name": "Greater Than",
-                  "value": ">"
-                },
-                {
-                  "name": "Less Than",
-                  "value": "<"
-                },
-                {
-                  "name": "Greater Than Or Equal",
-                  "value": ">="
-                },
-                {
-                  "name": "Less Than Or Equal",
-                  "value": "<="
-                },
-                {
-                  "name": "Is Null",
-                  "value": "IS NULL"
-                },
-                {
-                  "name": "Is Not Null",
-                  "value": "IS NOT NULL"
-                }
-              ],
-              "default": "equal"
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "displayOptions": {
-                "hide": {
-                  "condition": [
-                    "IS NULL",
-                    "IS NOT NULL"
-                  ]
-                }
-              },
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "select"
-          ]
-        },
-        "hide": {
-          "table": [
-            ""
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Select Rows | 作用: If not set, all rows will be selected | 默认值: {}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "combineConditions": {
       "displayName": "Combine Conditions",
       "name": "combineConditions",
       "type": "options",
-      "description": "How to combine the conditions defined in \"Select Rows\": AND requires all conditions to be true, OR requires at least one condition to be true",
-      "options": [
-        {
-          "name": "AND",
-          "value": "AND",
-          "description": "Only rows that meet all the conditions are selected"
-        },
-        {
-          "name": "OR",
-          "value": "OR",
-          "description": "Rows that meet at least one condition are selected"
-        }
-      ],
+      "required": false,
       "default": "AND",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "select"
-          ]
-        },
-        "hide": {
-          "table": [
-            ""
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "How to combine the conditions defined in \"Select Rows\": AND requires all conditions to be true, OR requires at least one condition to be true",
+      "natural_language_description": "参数名: Combine Conditions | 作用: How to combine the conditions defined in \"Select Rows\": AND requires all conditions to be true, OR requires at least one condition to be true | 默认值: AND",
+      "available_options": [
+        "AND (值: AND) - Only rows that meet all the conditions are selected",
+        "OR (值: OR) - Rows that meet at least one condition are selected"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
+      "required": false,
       "default": {},
-      "placeholder": "Add option",
-      "options": [
-        {
-          "displayName": "Connection Timeout",
-          "name": "connectionTimeoutMillis",
-          "type": "number",
-          "default": 30,
-          "description": "Number of milliseconds reserved for connecting to the database",
-          "typeOptions": {
-            "minValue": 1
-          }
-        },
-        {
-          "displayName": "Connections Limit",
-          "name": "connectionLimit",
-          "type": "number",
-          "default": 10,
-          "typeOptions": {
-            "minValue": 1
-          },
-          "description": "Maximum amount of connections to the database, setting high value can lead to performance issues and potential database crashes"
-        },
-        {
-          "displayName": "Query Batching",
-          "name": "queryBatching",
-          "type": "options",
-          "noDataExpression": true,
-          "description": "The way queries should be sent to the database",
-          "options": [
-            {
-              "name": "Single Query",
-              "value": "single",
-              "description": "A single query for all incoming items"
-            },
-            {
-              "name": "Independent",
-              "value": "independently",
-              "description": "Execute one query per incoming item of the run"
-            },
-            {
-              "name": "Transaction",
-              "value": "transaction",
-              "description": "Execute all queries in a transaction, if a failure occurs, all changes are rolled back"
-            }
-          ],
-          "default": "single"
-        },
-        {
-          "displayName": "Query Parameters",
-          "name": "queryReplacement",
-          "type": "string",
-          "default": "",
-          "placeholder": "e.g. value1,value2,value3",
-          "description": "Comma-separated list of the values you want to use as query parameters. You can drag the values from the input panel on the left. <a href=\"https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.mysql/\" target=\"_blank\">More info</a>",
-          "hint": "Comma-separated list of values: reference them in your query as $1, $2, $3…",
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "executeQuery"
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Output Columns",
-          "name": "outputColumns",
-          "type": "multiOptions",
-          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\" target=\"_blank\">expression</a>",
-          "typeOptions": {
-            "loadOptionsMethod": "getColumnsMultiOptions",
-            "loadOptionsDependsOn": [
-              "table.value"
-            ]
-          },
-          "default": [],
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "select"
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Output Large-Format Numbers As",
-          "name": "largeNumbersOutput",
-          "type": "options",
-          "options": [
-            {
-              "name": "Numbers",
-              "value": "numbers"
-            },
-            {
-              "name": "Text",
-              "value": "text",
-              "description": "Use this if you expect numbers longer than 16 digits (otherwise numbers may be incorrect)"
-            }
-          ],
-          "hint": "Applies to NUMERIC and BIGINT columns only",
-          "default": "text",
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "select",
-                "executeQuery"
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Output Decimals as Numbers",
-          "name": "decimalNumbers",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to output DECIMAL types as numbers instead of strings",
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "select",
-                "executeQuery"
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Priority",
-          "name": "priority",
-          "type": "options",
-          "options": [
-            {
-              "name": "Low Prioirity",
-              "value": "LOW_PRIORITY",
-              "description": "Delays execution of the INSERT until no other clients are reading from the table"
-            },
-            {
-              "name": "High Priority",
-              "value": "HIGH_PRIORITY",
-              "description": "Overrides the effect of the --low-priority-updates option if the server was started with that option. It also causes concurrent inserts not to be used."
-            }
-          ],
-          "default": "LOW_PRIORITY",
-          "description": "Ignore any ignorable errors that occur while executing the INSERT statement",
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "insert"
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Replace Empty Strings with NULL",
-          "name": "replaceEmptyStrings",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to replace empty strings with NULL in input, could be useful when data come from spreadsheet",
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "insert",
-                "update",
-                "upsert",
-                "executeQuery"
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Select Distinct",
-          "name": "selectDistinct",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to remove these duplicate rows",
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "select"
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Output Query Execution Details",
-          "name": "detailedOutput",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to show in output details of the ofexecuted query for each statement, or just confirmation of success"
-        },
-        {
-          "displayName": "Skip on Conflict",
-          "name": "skipOnConflict",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to skip the row and do not throw error if a unique constraint or exclusion constraint is violated",
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "insert"
-              ]
-            }
-          }
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        },
-        "hide": {
-          "table": [
-            ""
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "connectionTimeoutMillis (值: None) - Number of milliseconds reserved for connecting to the database",
+        "connectionLimit (值: None) - Maximum amount of connections to the database, setting high value can lead to performance issues and potential database crashes",
+        "queryBatching (值: None) - The way queries should be sent to the database",
+        "queryReplacement (值: None) - Comma-separated list of the values you want to use as query parameters. You can drag the values from the input panel on the left. More info",
+        "outputColumns (值: None) - Choose from the list, or specify IDs using an expression",
+        "largeNumbersOutput (值: None)",
+        "decimalNumbers (值: None) - Whether to output DECIMAL types as numbers instead of strings",
+        "priority (值: None) - Ignore any ignorable errors that occur while executing the INSERT statement",
+        "replaceEmptyStrings (值: None) - Whether to replace empty strings with NULL in input, could be useful when data come from spreadsheet",
+        "selectDistinct (值: None) - Whether to remove these duplicate rows",
+        "detailedOutput (值: None) - Whether to show in output details of the ofexecuted query for each statement, or just confirmation of success",
+        "skipOnConflict (值: None) - Whether to skip the row and do not throw error if a unique constraint or exclusion constraint is violated"
+      ]
     },
     "query": {
       "displayName": "Query",
       "name": "query",
       "type": "string",
-      "default": "",
-      "placeholder": "e.g. SELECT id, name FROM product WHERE id < 40",
       "required": true,
+      "default": "",
       "description": "The SQL query to execute. You can use n8n expressions and $1, $2, $3, etc to refer to the 'Query Parameters' set in options below.",
-      "noDataExpression": true,
-      "typeOptions": {
-        "editor": "sqlEditor",
-        "sqlDialect": "MySQL"
-      },
-      "hint": "Consider using query parameters to prevent SQL injection attacks. Add them in the options below",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "executeQuery"
-          ]
-        }
-      },
-      "ai_hint": "The SQL query to execute. You can use n8n expressions and $1, $2, $3, etc to refer to the 'Query Parameters' set in options below."
+      "natural_language_description": "参数名: Query | 作用: The SQL query to execute. You can use n8n expressions and $1, $2, $3, etc to refer to the 'Query Parameters' set in options below. | 提示: Consider using query parameters to prevent SQL injection attacks. Add them in the options below | (必填项)"
     },
     "dataMode": {
       "displayName": "Data Mode",
       "name": "dataMode",
       "type": "options",
-      "options": [
-        {
-          "name": "Auto-Map Input Data to Columns",
-          "value": "autoMapInputData",
-          "description": "Use when node input properties names exactly match the table column names"
-        },
-        {
-          "name": "Map Each Column Below",
-          "value": "defineBelow",
-          "description": "Set the value for each destination column manually"
-        }
-      ],
+      "required": false,
       "default": "autoMapInputData",
       "description": "Whether to map node input properties and the table data automatically or manually",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        },
-        "hide": {
-          "table": [
-            ""
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Data Mode | 作用: Whether to map node input properties and the table data automatically or manually | 默认值: autoMapInputData",
+      "available_options": [
+        "Auto-Map Input Data to Columns (值: autoMapInputData) - Use when node input properties names exactly match the table column names",
+        "Map Each Column Below (值: defineBelow) - Set the value for each destination column manually"
+      ]
     },
     "notice": {
       "displayName": "\n\t\tIn this mode, make sure incoming data fields are named the same as the columns in your table. If needed, use an 'Edit Fields' node before this node to change the field names.\n\t\t",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "dataMode": [
-            "autoMapInputData"
-          ],
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        },
-        "hide": {
-          "table": [
-            ""
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: \n\t\tIn this mode, make sure incoming data fields are named the same as the columns in your table. If needed, use an 'Edit Fields' node before this node to change the field names.\n\t\t"
     },
     "valuesToSend": {
       "displayName": "Values to Send",
       "name": "valuesToSend",
-      "placeholder": "Add Value",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValueButtonText": "Add Value",
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "dataMode": [
-            "defineBelow"
-          ],
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        },
-        "hide": {
-          "table": [
-            ""
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Values",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Column",
-              "name": "column",
-              "type": "options",
-              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\" target=\"_blank\">expression</a>",
-              "typeOptions": {
-                "loadOptionsMethod": "getColumnsWithoutColumnToMatchOn",
-                "loadOptionsDependsOn": [
-                  "schema.value",
-                  "table.value"
-                ]
-              },
-              "default": []
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Values to Send | 默认值: {}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "select"
-          ]
-        },
-        "hide": {
-          "table": [
-            ""
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "displayOptions": {
-        "show": {
-          "returnAll": [
-            false
-          ],
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "select"
-          ]
-        },
-        "hide": {
-          "table": [
-            ""
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "sort": {
       "displayName": "Sort",
       "name": "sort",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "placeholder": "Add Sort Rule",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Values",
-          "name": "values",
-          "values": [
-            {
-              "displayName": "Column",
-              "name": "column",
-              "type": "options",
-              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\" target=\"_blank\">expression</a>",
-              "default": "",
-              "typeOptions": {
-                "loadOptionsMethod": "getColumns",
-                "loadOptionsDependsOn": [
-                  "schema.value",
-                  "table.value"
-                ]
-              }
-            },
-            {
-              "displayName": "Direction",
-              "name": "direction",
-              "type": "options",
-              "options": [
-                {
-                  "name": "ASC",
-                  "value": "ASC"
-                },
-                {
-                  "name": "DESC",
-                  "value": "DESC"
-                }
-              ],
-              "default": "ASC"
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "select"
-          ]
-        },
-        "hide": {
-          "table": [
-            ""
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Sort | 默认值: {}",
+      "available_options": [
+        "values (值: None)"
+      ]
     },
     "columnToMatchOn": {
       "displayName": "Column to Match On",
       "name": "columnToMatchOn",
       "type": "options",
       "required": true,
-      "description": "The column to compare when finding the rows to update. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\" target=\"_blank\">expression</a>.",
-      "typeOptions": {
-        "loadOptionsMethod": "getColumns",
-        "loadOptionsDependsOn": [
-          "schema.value",
-          "table.value"
-        ]
-      },
       "default": "",
-      "hint": "Used to find the correct row to update. Doesn't get changed. Has to be unique.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        },
-        "hide": {
-          "table": [
-            ""
-          ]
-        }
-      },
-      "ai_hint": "The column to compare when finding the rows to update. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\" target=\"_blank\">expression</a>."
+      "description": "The column to compare when finding the rows to update. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Column to Match On | 作用: The column to compare when finding the rows to update. Choose from the list, or specify an ID using an expression. | 提示: Used to find the correct row to update. Doesn't get changed. Has to be unique. | (必填项)"
     },
     "valueToMatchOn": {
       "displayName": "Value of Column to Match On",
       "name": "valueToMatchOn",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "Rows with a value in the specified \"Column to Match On\" that corresponds to the value in this field will be updated. New rows will be created for non-matching items.",
-      "displayOptions": {
-        "show": {
-          "dataMode": [
-            "defineBelow"
-          ],
-          "resource": [
-            "database"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        },
-        "hide": {
-          "table": [
-            ""
-          ]
-        }
-      },
-      "ai_hint": "Rows with a value in the specified \"Column to Match On\" that corresponds to the value in this field will be updated. New rows will be created for non-matching items."
+      "natural_language_description": "参数名: Value of Column to Match On | 作用: Rows with a value in the specified \"Column to Match On\" that corresponds to the value in this field will be updated. New rows will be created for non-matching items."
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "table",
-      "deleteCommand",
-      "where",
-      "combineConditions",
-      "options",
-      "query",
-      "options",
-      "dataMode",
-      "notice",
-      "valuesToSend",
-      "options",
-      "returnAll",
-      "limit",
-      "where",
-      "combineConditions",
-      "sort",
-      "options",
-      "dataMode",
-      "notice",
-      "columnToMatchOn",
-      "valueToMatchOn",
-      "valuesToSend",
-      "options",
-      "dataMode",
-      "notice",
-      "columnToMatchOn",
-      "valueToMatchOn",
-      "valuesToSend",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'database' THEN SHOW parameter 'operation'",
-      "IF operation == 'executeQuery' THEN HIDE parameter 'table'",
-      "IF resource == 'database' AND operation == 'deleteTable' THEN SHOW parameter 'deleteCommand'",
-      "IF table == '' THEN HIDE parameter 'deleteCommand'",
-      "IF deleteCommand == 'delete' AND resource == 'database' AND operation == 'deleteTable' THEN SHOW parameter 'where'",
-      "IF table == '' THEN HIDE parameter 'where'",
-      "IF condition IN [\"IS NULL\", \"IS NOT NULL\"] THEN HIDE parameter 'value'",
-      "IF deleteCommand == 'delete' AND resource == 'database' AND operation == 'deleteTable' THEN SHOW parameter 'combineConditions'",
-      "IF table == '' THEN HIDE parameter 'combineConditions'",
-      "IF resource == 'database' AND operation == 'deleteTable' THEN SHOW parameter 'options'",
-      "IF table == '' THEN HIDE parameter 'options'",
-      "IF /operation == 'executeQuery' THEN SHOW parameter 'queryReplacement'",
-      "IF /operation == 'select' THEN SHOW parameter 'outputColumns'",
-      "IF /operation IN [\"select\", \"executeQuery\"] THEN SHOW parameter 'largeNumbersOutput'",
-      "IF /operation IN [\"select\", \"executeQuery\"] THEN SHOW parameter 'decimalNumbers'",
-      "IF /operation == 'insert' THEN SHOW parameter 'priority'",
-      "IF /operation IN [\"insert\", \"update\", \"upsert\", \"executeQuery\"] THEN SHOW parameter 'replaceEmptyStrings'",
-      "IF /operation == 'select' THEN SHOW parameter 'selectDistinct'",
-      "IF /operation == 'insert' THEN SHOW parameter 'skipOnConflict'",
-      "IF resource == 'database' AND operation == 'executeQuery' THEN SHOW parameter 'query'",
-      "IF resource == 'database' AND operation == 'executeQuery' THEN SHOW parameter 'options'",
-      "IF resource == 'database' AND operation == 'insert' THEN SHOW parameter 'dataMode'",
-      "IF table == '' THEN HIDE parameter 'dataMode'",
-      "IF dataMode == 'autoMapInputData' AND resource == 'database' AND operation == 'insert' THEN SHOW parameter 'notice'",
-      "IF table == '' THEN HIDE parameter 'notice'",
-      "IF dataMode == 'defineBelow' AND resource == 'database' AND operation == 'insert' THEN SHOW parameter 'valuesToSend'",
-      "IF table == '' THEN HIDE parameter 'valuesToSend'",
-      "IF resource == 'database' AND operation == 'insert' THEN SHOW parameter 'options'",
-      "IF resource == 'database' AND operation == 'select' THEN SHOW parameter 'returnAll'",
-      "IF table == '' THEN HIDE parameter 'returnAll'",
-      "IF returnAll == False AND resource == 'database' AND operation == 'select' THEN SHOW parameter 'limit'",
-      "IF table == '' THEN HIDE parameter 'limit'",
-      "IF resource == 'database' AND operation == 'select' THEN SHOW parameter 'where'",
-      "IF resource == 'database' AND operation == 'select' THEN SHOW parameter 'combineConditions'",
-      "IF resource == 'database' AND operation == 'select' THEN SHOW parameter 'sort'",
-      "IF table == '' THEN HIDE parameter 'sort'",
-      "IF resource == 'database' AND operation == 'select' THEN SHOW parameter 'options'",
-      "IF resource == 'database' AND operation == 'update' THEN SHOW parameter 'dataMode'",
-      "IF dataMode == 'autoMapInputData' AND resource == 'database' AND operation == 'update' THEN SHOW parameter 'notice'",
-      "IF resource == 'database' AND operation == 'update' THEN SHOW parameter 'columnToMatchOn'",
-      "IF table == '' THEN HIDE parameter 'columnToMatchOn'",
-      "IF dataMode == 'defineBelow' AND resource == 'database' AND operation == 'update' THEN SHOW parameter 'valueToMatchOn'",
-      "IF table == '' THEN HIDE parameter 'valueToMatchOn'",
-      "IF dataMode == 'defineBelow' AND resource == 'database' AND operation == 'update' THEN SHOW parameter 'valuesToSend'",
-      "IF resource == 'database' AND operation == 'update' THEN SHOW parameter 'options'",
-      "IF resource == 'database' AND operation == 'upsert' THEN SHOW parameter 'dataMode'",
-      "IF dataMode == 'autoMapInputData' AND resource == 'database' AND operation == 'upsert' THEN SHOW parameter 'notice'",
-      "IF resource == 'database' AND operation == 'upsert' THEN SHOW parameter 'columnToMatchOn'",
-      "IF dataMode == 'defineBelow' AND resource == 'database' AND operation == 'upsert' THEN SHOW parameter 'valueToMatchOn'",
-      "IF dataMode == 'defineBelow' AND resource == 'database' AND operation == 'upsert' THEN SHOW parameter 'valuesToSend'",
-      "IF resource == 'database' AND operation == 'upsert' THEN SHOW parameter 'options'"
-    ]
   }
 }

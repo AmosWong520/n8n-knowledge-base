@@ -1,618 +1,219 @@
 {
   "node_id": "n8n-nodes-base.nocoDb",
-  "name": "n8n-nodes-base.nocoDb",
-  "version": [
-    1,
-    2,
-    3
-  ],
+  "name": "NocoDB",
+  "version": 1,
   "semantic_context": "Read, update, write and delete data from NocoDB",
+  "natural_language_description": "这是 NocoDB 节点。主要用于: Read, update, write and delete data from NocoDB",
   "parameters": {
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "API Token",
-          "value": "nocoDbApiToken"
-        },
-        {
-          "name": "User Token",
-          "value": "nocoDb"
-        }
-      ],
+      "required": false,
       "default": "nocoDb",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: nocoDb",
+      "available_options": [
+        "API Token (值: nocoDbApiToken)",
+        "User Token (值: nocoDb)"
+      ]
     },
     "version": {
       "displayName": "API Version",
       "name": "version",
       "type": "options",
-      "isNodeSetting": true,
-      "options": [
-        {
-          "name": "Before v0.90.0",
-          "value": 1
-        },
-        {
-          "name": "v0.90.0 Onwards",
-          "value": 2
-        },
-        {
-          "name": "v0.200.0 Onwards",
-          "value": 3
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "@version": [
-            3
-          ]
-        }
-      },
+      "required": false,
       "default": 3,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: API Version | 默认值: 3",
+      "available_options": [
+        "Before v0.90.0 (值: 1)",
+        "v0.90.0 Onwards (值: 2)",
+        "v0.200.0 Onwards (值: 3)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Row",
-          "value": "row"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "row",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: row",
+      "available_options": [
+        "Row (值: row)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "row"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a row",
-          "action": "Create a row"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a row",
-          "action": "Delete a row"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Retrieve a row",
-          "action": "Get a row"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Retrieve many rows",
-          "action": "Get many rows"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a row",
-          "action": "Update a row"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Create (值: create) - Create a row",
+        "Delete (值: delete) - Delete a row",
+        "Get (值: get) - Retrieve a row",
+        "Get Many (值: getAll) - Retrieve many rows",
+        "Update (值: update) - Update a row",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "workspaceId": {
       "displayName": "Workspace Name or ID",
       "name": "workspaceId",
       "type": "options",
+      "required": false,
       "default": "none",
-      "displayOptions": {
-        "show": {
-          "version": [
-            3
-          ]
-        }
-      },
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getWorkspaces"
-      },
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Workspace Name or ID | 作用: Choose from the list, or specify an ID using an expression | 默认值: none"
     },
     "projectId": {
       "displayName": "Project Name or ID",
       "name": "projectId",
       "type": "options",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "version": [
-            2
-          ]
-        }
-      },
       "required": true,
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getBases"
-      },
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "default": "",
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Project Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "table": {
       "displayName": "Table",
       "name": "table",
       "type": "string",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "version": [
-            1
-          ]
-        }
-      },
       "required": true,
+      "default": "",
       "description": "The name of the table",
-      "ai_hint": "The name of the table"
+      "natural_language_description": "参数名: Table | 作用: The name of the table | (必填项)"
     },
     "primaryKey": {
       "displayName": "Primary Key Type",
       "name": "primaryKey",
       "type": "options",
+      "required": false,
       "default": "id",
-      "options": [
-        {
-          "name": "Default",
-          "value": "id",
-          "description": "Default, added when table was created from UI by those options: Create new table / Import from Excel / Import from CSV"
-        },
-        {
-          "name": "Imported From Airtable",
-          "value": "ncRecordId",
-          "description": "Select if table was imported from Airtable"
-        },
-        {
-          "name": "Custom",
-          "value": "custom",
-          "description": "When connecting to existing external database as existing primary key field is retained as is, enter the name of the primary key field below"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "version": [
-            3
-          ],
-          "operation": [
-            "delete"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Primary Key Type | 默认值: id",
+      "available_options": [
+        "Default (值: id) - Default, added when table was created from UI by those options: Create new table / Import from Excel / Import from CSV",
+        "Imported From Airtable (值: ncRecordId) - Select if table was imported from Airtable",
+        "Custom (值: custom) - When connecting to existing external database as existing primary key field is retained as is, enter the name of the primary key field below"
+      ]
     },
     "customPrimaryKey": {
       "displayName": "Field Name",
       "name": "customPrimaryKey",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "version": [
-            3
-          ],
-          "operation": [
-            "delete"
-          ],
-          "primaryKey": [
-            "custom"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Field Name"
     },
     "id": {
       "displayName": "Row ID Value",
       "name": "id",
       "type": "string",
-      "default": "",
       "required": true,
+      "default": "",
       "description": "The value of the ID field",
-      "displayOptions": {
-        "show": {
-          "version": [
-            3
-          ],
-          "operation": [
-            "delete",
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "The value of the ID field"
+      "natural_language_description": "参数名: Row ID Value | 作用: The value of the ID field | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 100
-      },
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "downloadAttachments": {
       "displayName": "Download Attachments",
       "name": "downloadAttachments",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether the attachment fields define in 'Download Fields' will be downloaded",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Download Attachments | 作用: Whether the attachment fields define in 'Download Fields' will be downloaded | 默认值: False"
     },
     "downloadFieldNames": {
       "displayName": "Download Fields",
       "name": "downloadFieldNames",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get"
-          ],
-          "downloadAttachments": [
-            true
-          ]
-        }
-      },
       "default": "",
       "description": "Name of the fields of type 'attachment' that should be downloaded. Multiple ones can be defined separated by comma. Case sensitive.",
-      "ai_hint": "Name of the fields of type 'attachment' that should be downloaded. Multiple ones can be defined separated by comma. Case sensitive."
+      "natural_language_description": "参数名: Download Fields | 作用: Name of the fields of type 'attachment' that should be downloaded. Multiple ones can be defined separated by comma. Case sensitive. | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "placeholder": "Add option",
-      "options": [
-        {
-          "displayName": "View ID",
-          "name": "viewId",
-          "type": "string",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": "",
-          "placeholder": "View ID",
-          "description": "The select fields of the returned rows"
-        },
-        {
-          "displayName": "Fields",
-          "name": "fields",
-          "type": "string",
-          "typeOptions": {
-            "multipleValues": true,
-            "multipleValueButtonText": "Add Field"
-          },
-          "default": [],
-          "placeholder": "Name",
-          "description": "The select fields of the returned rows"
-        },
-        {
-          "displayName": "Sort",
-          "name": "sort",
-          "placeholder": "Add Sort Rule",
-          "description": "The sorting rules for the returned rows",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "property",
-              "displayName": "Property",
-              "values": [
-                {
-                  "displayName": "Field",
-                  "name": "field",
-                  "type": "string",
-                  "default": "",
-                  "description": "Name of the field to sort on"
-                },
-                {
-                  "displayName": "Direction",
-                  "name": "direction",
-                  "type": "options",
-                  "options": [
-                    {
-                      "name": "ASC",
-                      "value": "asc",
-                      "description": "Sort in ascending order (small -> large)"
-                    },
-                    {
-                      "name": "DESC",
-                      "value": "desc",
-                      "description": "Sort in descending order (large -> small)"
-                    }
-                  ],
-                  "default": "asc",
-                  "description": "The sort direction"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Filter By Formula",
-          "name": "where",
-          "type": "string",
-          "default": "",
-          "placeholder": "(name,like,example%)~or(name,eq,test)",
-          "description": "A formula used to filter rows"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "viewId (值: None) - The select fields of the returned rows",
+        "fields (值: None) - The select fields of the returned rows",
+        "sort (值: None) - The sorting rules for the returned rows",
+        "where (值: None) - A formula used to filter rows"
+      ]
     },
     "dataToSend": {
       "displayName": "Data to Send",
       "name": "dataToSend",
       "type": "options",
-      "options": [
-        {
-          "name": "Auto-Map Input Data to Columns",
-          "value": "autoMapInputData",
-          "description": "Use when node input properties match destination column names"
-        },
-        {
-          "name": "Define Below for Each Column",
-          "value": "defineBelow",
-          "description": "Set the value for each destination column"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create",
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": "defineBelow",
       "description": "Whether to insert the input data this node receives in the new row",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Data to Send | 作用: Whether to insert the input data this node receives in the new row | 默认值: defineBelow",
+      "available_options": [
+        "Auto-Map Input Data to Columns (值: autoMapInputData) - Use when node input properties match destination column names",
+        "Define Below for Each Column (值: defineBelow) - Set the value for each destination column"
+      ]
     },
     "info": {
       "displayName": "This operation requires the primary key to be included for each row.",
       "name": "info",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "version": [
-            3
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: This operation requires the primary key to be included for each row."
     },
     "inputsToIgnore": {
       "displayName": "Inputs to Ignore",
       "name": "inputsToIgnore",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create",
-            "update"
-          ],
-          "dataToSend": [
-            "autoMapInputData"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "List of input properties to avoid sending, separated by commas. Leave empty to send all properties.",
-      "placeholder": "Enter properties...",
-      "ai_hint": "List of input properties to avoid sending, separated by commas. Leave empty to send all properties."
+      "natural_language_description": "参数名: Inputs to Ignore | 作用: List of input properties to avoid sending, separated by commas. Leave empty to send all properties."
     },
     "fieldsUi": {
       "displayName": "Fields to Send",
       "name": "fieldsUi",
-      "placeholder": "Add Field",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValueButtonText": "Add Field to Send",
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create",
-            "update"
-          ],
-          "dataToSend": [
-            "defineBelow"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Field",
-          "name": "fieldValues",
-          "values": [
-            {
-              "displayName": "Field Name",
-              "name": "fieldName",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Is Binary File",
-              "name": "binaryData",
-              "type": "boolean",
-              "default": false,
-              "description": "Whether the field data to set is binary and should be taken from a binary property"
-            },
-            {
-              "displayName": "Field Value",
-              "name": "fieldValue",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "binaryData": [
-                    false
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Take Input From Field",
-              "name": "binaryProperty",
-              "type": "string",
-              "description": "The field containing the binary file data to be uploaded",
-              "default": "",
-              "displayOptions": {
-                "show": {
-                  "binaryData": [
-                    true
-                  ]
-                }
-              }
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Fields to Send | 默认值: {}",
+      "available_options": [
+        "fieldValues (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "authentication",
-      "version",
-      "version",
-      "version",
-      "resource",
-      "operation",
-      "workspaceId",
-      "projectId",
-      "projectId",
-      "projectId",
-      "table",
-      "table",
-      "primaryKey",
-      "primaryKey",
-      "customPrimaryKey",
-      "customPrimaryKey",
-      "id",
-      "id",
-      "returnAll",
-      "limit",
-      "downloadAttachments",
-      "downloadFieldNames",
-      "options",
-      "downloadAttachments",
-      "downloadFieldNames",
-      "dataToSend",
-      "info",
-      "info",
-      "inputsToIgnore",
-      "fieldsUi"
-    ],
-    "conditional_rules": [
-      "IF @version == 1 THEN SHOW parameter 'version'",
-      "IF @version == 2 THEN SHOW parameter 'version'",
-      "IF @version == 3 THEN SHOW parameter 'version'",
-      "IF resource == 'row' THEN SHOW parameter 'operation'",
-      "IF version == 3 THEN SHOW parameter 'workspaceId'",
-      "IF version == 3 THEN SHOW parameter 'projectId'",
-      "IF version == 1 THEN SHOW parameter 'projectId'",
-      "IF version == 2 THEN SHOW parameter 'projectId'",
-      "IF version IN [2, 3] THEN SHOW parameter 'table'",
-      "IF version == 1 THEN SHOW parameter 'table'",
-      "IF version IN [1, 2] AND operation IN [\"delete\", \"update\"] THEN SHOW parameter 'primaryKey'",
-      "IF version == 3 AND operation == 'delete' THEN SHOW parameter 'primaryKey'",
-      "IF version IN [1, 2] AND operation IN [\"delete\", \"update\"] AND primaryKey == 'custom' THEN SHOW parameter 'customPrimaryKey'",
-      "IF version == 3 AND operation == 'delete' AND primaryKey == 'custom' THEN SHOW parameter 'customPrimaryKey'",
-      "IF version IN [1, 2] AND operation IN [\"delete\", \"get\", \"update\"] THEN SHOW parameter 'id'",
-      "IF version == 3 AND operation IN [\"delete\", \"get\"] THEN SHOW parameter 'id'",
-      "IF operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' THEN SHOW parameter 'downloadAttachments'",
-      "IF operation == 'getAll' AND downloadAttachments == True THEN SHOW parameter 'downloadFieldNames'",
-      "IF operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF operation == 'get' THEN SHOW parameter 'downloadAttachments'",
-      "IF operation == 'get' AND downloadAttachments == True THEN SHOW parameter 'downloadFieldNames'",
-      "IF operation IN [\"create\", \"update\"] THEN SHOW parameter 'dataToSend'",
-      "IF dataToSend == 'autoMapInputData' THEN SHOW parameter 'info'",
-      "IF operation == 'update' AND version == 3 THEN SHOW parameter 'info'",
-      "IF operation IN [\"create\", \"update\"] AND dataToSend == 'autoMapInputData' THEN SHOW parameter 'inputsToIgnore'",
-      "IF operation IN [\"create\", \"update\"] AND dataToSend == 'defineBelow' THEN SHOW parameter 'fieldsUi'",
-      "IF binaryData == False THEN SHOW parameter 'fieldValue'",
-      "IF binaryData == True THEN SHOW parameter 'binaryProperty'"
-    ]
   }
 }

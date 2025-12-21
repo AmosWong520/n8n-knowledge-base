@@ -1,212 +1,94 @@
 {
   "node_id": "n8n-nodes-base.codaTool",
-  "name": "n8n-nodes-base.codaTool",
-  "version": [
-    1,
-    1.1
-  ],
+  "name": "Coda Tool",
+  "version": 1,
   "semantic_context": "Consume Coda API",
+  "natural_language_description": "这是 Coda Tool 节点。主要用于: Consume Coda API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Coda API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Coda API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Coda API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Control",
-          "value": "control",
-          "description": "Controls provide a user-friendly way to input a value that can affect other parts of the doc"
-        },
-        {
-          "name": "Formula",
-          "value": "formula",
-          "description": "Formulas can be great for performing one-off computations"
-        },
-        {
-          "name": "Table",
-          "value": "table",
-          "description": "Access data of tables in documents"
-        },
-        {
-          "name": "View",
-          "value": "view",
-          "description": "Access data of views in documents"
-        }
-      ],
+      "required": false,
       "default": "table",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: table",
+      "available_options": [
+        "Control (值: control) - Controls provide a user-friendly way to input a value that can affect other parts of the doc",
+        "Formula (值: formula) - Formulas can be great for performing one-off computations",
+        "Table (值: table) - Access data of tables in documents",
+        "View (值: view) - Access data of views in documents"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "view"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Delete Row",
-          "value": "deleteViewRow",
-          "description": "Delete view row",
-          "action": "Delete a view row"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a view",
-          "action": "Get a view"
-        },
-        {
-          "name": "Get Columns",
-          "value": "getAllViewColumns",
-          "description": "Get all views columns",
-          "action": "Get all view columns"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many views",
-          "action": "Get many views"
-        },
-        {
-          "name": "Get Rows",
-          "value": "getAllViewRows",
-          "description": "Get all views rows",
-          "action": "Get a view row"
-        },
-        {
-          "name": "Push Button",
-          "value": "pushViewButton",
-          "description": "Push view button",
-          "action": "Push a view button"
-        },
-        {
-          "name": "Update Row",
-          "value": "updateViewRow",
-          "action": "Update a view row"
-        }
-      ],
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Delete Row (值: deleteViewRow) - Delete view row",
+        "Get (值: get) - Get a view",
+        "Get Columns (值: getAllViewColumns) - Get all views columns",
+        "Get Many (值: getAll) - Get many views",
+        "Get Rows (值: getAllViewRows) - Get all views rows",
+        "Push Button (值: pushViewButton) - Push view button",
+        "Update Row (值: updateViewRow)"
+      ]
     },
     "docId": {
       "displayName": "Doc Name or ID",
       "name": "docId",
       "type": "options",
       "required": true,
-      "typeOptions": {
-        "loadOptionsMethod": "getDocs"
-      },
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "view"
-          ],
-          "operation": [
-            "updateViewRow"
-          ]
-        }
-      },
-      "description": "ID of the doc. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "ID of the doc. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "ID of the doc. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Doc Name or ID | 作用: ID of the doc. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "tableId": {
       "displayName": "Table Name or ID",
       "name": "tableId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsDependsOn": [
-          "docId"
-        ],
-        "loadOptionsMethod": "getTables"
-      },
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "table"
-          ],
-          "operation": [
-            "getAllColumns"
-          ]
-        }
-      },
-      "description": "The table to get the row from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The table to get the row from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The table to get the row from. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Table Name or ID | 作用: The table to get the row from. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "view"
-          ],
-          "operation": [
-            "updateViewRow"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Disable Parsing",
-          "name": "disableParsing",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the API will not attempt to parse the data in any way"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "disableParsing (值: None) - Whether the API will not attempt to parse the data in any way"
+      ]
     },
     "rowId": {
       "displayName": "Row Name or ID",
@@ -214,93 +96,35 @@
       "type": "options",
       "required": true,
       "default": "",
-      "typeOptions": {
-        "loadOptionsMethod": "getViewRows",
-        "loadOptionsDependsOn": [
-          "viewId"
-        ]
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "view"
-          ],
-          "operation": [
-            "updateViewRow"
-          ]
-        }
-      },
-      "description": "The view to get the row from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The view to get the row from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The view to get the row from. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Row Name or ID | 作用: The view to get the row from. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "view"
-          ],
-          "operation": [
-            "getAllViewColumns"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "view"
-          ],
-          "operation": [
-            "getAllViewColumns"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 100
-      },
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "columnId": {
       "displayName": "Column Name or ID",
       "name": "columnId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
       "required": true,
-      "typeOptions": {
-        "loadOptionsMethod": "getViewColumns",
-        "loadOptionsDependsOn": [
-          "docId",
-          "viewId"
-        ]
-      },
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "view"
-          ],
-          "operation": [
-            "pushViewButton"
-          ]
-        }
-      },
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Column Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "formulaId": {
       "displayName": "Formula ID",
@@ -308,18 +132,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "formula"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
       "description": "The formula to get the row from",
-      "ai_hint": "The formula to get the row from"
+      "natural_language_description": "参数名: Formula ID | 作用: The formula to get the row from | (必填项)"
     },
     "controlId": {
       "displayName": "Control ID",
@@ -327,18 +141,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "control"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
       "description": "The control to get the row from",
-      "ai_hint": "The control to get the row from"
+      "natural_language_description": "参数名: Control ID | 作用: The control to get the row from | (必填项)"
     },
     "viewId": {
       "displayName": "View Name or ID",
@@ -346,24 +150,8 @@
       "type": "options",
       "required": true,
       "default": "",
-      "typeOptions": {
-        "loadOptionsMethod": "getViews",
-        "loadOptionsDependsOn": [
-          "docId"
-        ]
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "view"
-          ],
-          "operation": [
-            "updateViewRow"
-          ]
-        }
-      },
-      "description": "The view to get the row from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The view to get the row from. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The view to get the row from. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: View Name or ID | 作用: The view to get the row from. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "keyName": {
       "displayName": "Key Name",
@@ -371,160 +159,8 @@
       "type": "string",
       "required": true,
       "default": "columns",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "view"
-          ],
-          "operation": [
-            "updateViewRow"
-          ]
-        }
-      },
       "description": "The view to get the row from",
-      "ai_hint": "The view to get the row from"
+      "natural_language_description": "参数名: Key Name | 作用: The view to get the row from | 默认值: columns | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "docId",
-      "tableId",
-      "options",
-      "docId",
-      "tableId",
-      "rowId",
-      "options",
-      "docId",
-      "tableId",
-      "returnAll",
-      "limit",
-      "options",
-      "docId",
-      "tableId",
-      "rowId",
-      "docId",
-      "tableId",
-      "rowId",
-      "columnId",
-      "docId",
-      "tableId",
-      "columnId",
-      "docId",
-      "tableId",
-      "returnAll",
-      "limit",
-      "operation",
-      "docId",
-      "formulaId",
-      "docId",
-      "returnAll",
-      "limit",
-      "operation",
-      "docId",
-      "controlId",
-      "docId",
-      "returnAll",
-      "limit",
-      "operation",
-      "docId",
-      "viewId",
-      "docId",
-      "returnAll",
-      "limit",
-      "docId",
-      "viewId",
-      "returnAll",
-      "limit",
-      "options",
-      "docId",
-      "viewId",
-      "returnAll",
-      "limit",
-      "docId",
-      "viewId",
-      "rowId",
-      "docId",
-      "viewId",
-      "rowId",
-      "columnId",
-      "docId",
-      "viewId",
-      "rowId",
-      "keyName",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'table' THEN SHOW parameter 'operation'",
-      "IF resource == 'table' AND operation == 'createRow' THEN SHOW parameter 'docId'",
-      "IF resource == 'table' AND operation == 'createRow' THEN SHOW parameter 'tableId'",
-      "IF resource == 'table' AND operation == 'createRow' THEN SHOW parameter 'options'",
-      "IF resource == 'table' AND operation == 'getRow' THEN SHOW parameter 'docId'",
-      "IF resource == 'table' AND operation == 'getRow' THEN SHOW parameter 'tableId'",
-      "IF resource == 'table' AND operation == 'getRow' THEN SHOW parameter 'rowId'",
-      "IF resource == 'table' AND operation == 'getRow' THEN SHOW parameter 'options'",
-      "IF resource == 'table' AND operation == 'getAllRows' THEN SHOW parameter 'docId'",
-      "IF resource == 'table' AND operation == 'getAllRows' THEN SHOW parameter 'tableId'",
-      "IF resource == 'table' AND operation == 'getAllRows' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'table' AND operation == 'getAllRows' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'table' AND operation == 'getAllRows' THEN SHOW parameter 'options'",
-      "IF resource == 'table' AND operation == 'deleteRow' THEN SHOW parameter 'docId'",
-      "IF resource == 'table' AND operation == 'deleteRow' THEN SHOW parameter 'tableId'",
-      "IF resource == 'table' AND operation == 'deleteRow' THEN SHOW parameter 'rowId'",
-      "IF resource == 'table' AND operation == 'pushButton' THEN SHOW parameter 'docId'",
-      "IF resource == 'table' AND operation == 'pushButton' THEN SHOW parameter 'tableId'",
-      "IF resource == 'table' AND operation == 'pushButton' THEN SHOW parameter 'rowId'",
-      "IF resource == 'table' AND operation == 'pushButton' THEN SHOW parameter 'columnId'",
-      "IF resource == 'table' AND operation == 'getColumn' THEN SHOW parameter 'docId'",
-      "IF resource == 'table' AND operation == 'getColumn' THEN SHOW parameter 'tableId'",
-      "IF resource == 'table' AND operation == 'getColumn' THEN SHOW parameter 'columnId'",
-      "IF resource == 'table' AND operation == 'getAllColumns' THEN SHOW parameter 'docId'",
-      "IF resource == 'table' AND operation == 'getAllColumns' THEN SHOW parameter 'tableId'",
-      "IF resource == 'table' AND operation == 'getAllColumns' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'table' AND operation == 'getAllColumns' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'formula' THEN SHOW parameter 'operation'",
-      "IF resource == 'formula' AND operation == 'get' THEN SHOW parameter 'docId'",
-      "IF resource == 'formula' AND operation == 'get' THEN SHOW parameter 'formulaId'",
-      "IF resource == 'formula' AND operation == 'getAll' THEN SHOW parameter 'docId'",
-      "IF resource == 'formula' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'formula' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'control' THEN SHOW parameter 'operation'",
-      "IF resource == 'control' AND operation == 'get' THEN SHOW parameter 'docId'",
-      "IF resource == 'control' AND operation == 'get' THEN SHOW parameter 'controlId'",
-      "IF resource == 'control' AND operation == 'getAll' THEN SHOW parameter 'docId'",
-      "IF resource == 'control' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'control' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'view' THEN SHOW parameter 'operation'",
-      "IF resource == 'view' AND operation == 'get' THEN SHOW parameter 'docId'",
-      "IF resource == 'view' AND operation == 'get' THEN SHOW parameter 'viewId'",
-      "IF resource == 'view' AND operation == 'getAll' THEN SHOW parameter 'docId'",
-      "IF resource == 'view' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'view' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'view' AND operation == 'getAllViewRows' THEN SHOW parameter 'docId'",
-      "IF resource == 'view' AND operation == 'getAllViewRows' THEN SHOW parameter 'viewId'",
-      "IF resource == 'view' AND operation == 'getAllViewRows' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'view' AND operation == 'getAllViewRows' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'view' AND operation == 'getAllViewRows' THEN SHOW parameter 'options'",
-      "IF resource == 'view' AND operation == 'getAllViewColumns' THEN SHOW parameter 'docId'",
-      "IF resource == 'view' AND operation == 'getAllViewColumns' THEN SHOW parameter 'viewId'",
-      "IF resource == 'view' AND operation == 'getAllViewColumns' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'view' AND operation == 'getAllViewColumns' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'view' AND operation == 'deleteViewRow' THEN SHOW parameter 'docId'",
-      "IF resource == 'view' AND operation == 'deleteViewRow' THEN SHOW parameter 'viewId'",
-      "IF resource == 'view' AND operation == 'deleteViewRow' THEN SHOW parameter 'rowId'",
-      "IF resource == 'view' AND operation == 'pushViewButton' THEN SHOW parameter 'docId'",
-      "IF resource == 'view' AND operation == 'pushViewButton' THEN SHOW parameter 'viewId'",
-      "IF resource == 'view' AND operation == 'pushViewButton' THEN SHOW parameter 'rowId'",
-      "IF resource == 'view' AND operation == 'pushViewButton' THEN SHOW parameter 'columnId'",
-      "IF resource == 'view' AND operation == 'updateViewRow' THEN SHOW parameter 'docId'",
-      "IF resource == 'view' AND operation == 'updateViewRow' THEN SHOW parameter 'viewId'",
-      "IF resource == 'view' AND operation == 'updateViewRow' THEN SHOW parameter 'rowId'",
-      "IF resource == 'view' AND operation == 'updateViewRow' THEN SHOW parameter 'keyName'",
-      "IF resource == 'view' AND operation == 'updateViewRow' THEN SHOW parameter 'options'"
-    ]
   }
 }

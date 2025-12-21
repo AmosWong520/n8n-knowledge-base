@@ -1,425 +1,160 @@
 {
   "node_id": "n8n-nodes-base.metabase",
-  "name": "n8n-nodes-base.metabase",
+  "name": "Metabase",
   "version": 1,
   "semantic_context": "Use the Metabase API",
+  "natural_language_description": "这是 Metabase 节点。主要用于: Use the Metabase API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Alert",
-          "value": "alerts"
-        },
-        {
-          "name": "Database",
-          "value": "databases"
-        },
-        {
-          "name": "Metric",
-          "value": "metrics"
-        },
-        {
-          "name": "Question",
-          "value": "questions"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "questions",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: questions",
+      "available_options": [
+        "Alert (值: alerts)",
+        "Database (值: databases)",
+        "Metric (值: metrics)",
+        "Question (值: questions)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "alerts"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get specific alert",
-          "routing": {
-            "request": {
-              "method": "GET",
-              "url": "={{\"/api/alert/\" + $parameter.alertId}}"
-            }
-          },
-          "action": "Get an alert"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many alerts",
-          "routing": {
-            "request": {
-              "method": "GET",
-              "url": "/api/alert/"
-            }
-          },
-          "action": "Get many alerts"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "getAll",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getAll",
+      "available_options": [
+        "Get (值: get) - Get specific alert",
+        "Get Many (值: getAll) - Get many alerts",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "questionId": {
       "displayName": "Question ID",
       "name": "questionId",
       "type": "string",
       "required": true,
-      "placeholder": "0",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "questions"
-          ],
-          "operation": [
-            "get",
-            "resultData"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Question ID | (必填项)"
     },
     "format": {
       "displayName": "Format",
       "name": "format",
       "type": "options",
       "required": true,
-      "options": [
-        {
-          "name": "CSV",
-          "value": "csv"
-        },
-        {
-          "name": "JSON",
-          "value": "json"
-        },
-        {
-          "name": "XLSX",
-          "value": "xlsx"
-        }
-      ],
       "default": "csv",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "questions"
-          ],
-          "operation": [
-            "resultData"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Format | 默认值: csv | (必填项)",
+      "available_options": [
+        "CSV (值: csv)",
+        "JSON (值: json)",
+        "XLSX (值: xlsx)"
+      ]
     },
     "metricId": {
       "displayName": "Metric ID",
       "name": "metricId",
       "type": "string",
       "required": true,
-      "placeholder": "0",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "metrics"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Metric ID | (必填项)"
     },
     "databaseId": {
       "displayName": "Database ID",
       "name": "databaseId",
       "type": "string",
       "required": true,
-      "placeholder": "0",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "databases"
-          ],
-          "operation": [
-            "getFields"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Database ID | (必填项)"
     },
     "engine": {
       "displayName": "Engine",
       "name": "engine",
       "type": "options",
       "required": true,
-      "placeholder": "PostgreSQL",
-      "options": [
-        {
-          "name": "H2",
-          "value": "h2"
-        },
-        {
-          "name": "MongoDB",
-          "value": "mongo"
-        },
-        {
-          "name": "Mysql",
-          "value": "mysql"
-        },
-        {
-          "name": "PostgreSQL",
-          "value": "postgres"
-        },
-        {
-          "name": "Redshift",
-          "value": "redshift"
-        },
-        {
-          "name": "Sqlite",
-          "value": "sqlite"
-        }
-      ],
       "default": "postgres",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "databases"
-          ],
-          "operation": [
-            "addNewDatasource"
-          ]
-        }
-      },
-      "routing": {
-        "send": {
-          "property": "engine",
-          "type": "body"
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Engine | 默认值: postgres | (必填项)",
+      "available_options": [
+        "H2 (值: h2)",
+        "MongoDB (值: mongo)",
+        "Mysql (值: mysql)",
+        "PostgreSQL (值: postgres)",
+        "Redshift (值: redshift)",
+        "Sqlite (值: sqlite)"
+      ]
     },
     "host": {
       "displayName": "Host",
       "name": "host",
       "type": "string",
       "required": true,
-      "placeholder": "localhost:5432",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "databases"
-          ],
-          "operation": [
-            "addNewDatasource"
-          ],
-          "engine": [
-            "postgres",
-            "redshift",
-            "mysql",
-            "mongo"
-          ]
-        }
-      },
-      "routing": {
-        "send": {
-          "property": "details.host",
-          "type": "body"
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Host | (必填项)"
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
       "required": true,
-      "placeholder": "Database 1",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "databases"
-          ],
-          "operation": [
-            "addNewDatasource"
-          ]
-        }
-      },
-      "routing": {
-        "send": {
-          "property": "name",
-          "type": "body"
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Name | (必填项)"
     },
     "port": {
       "displayName": "Port",
       "name": "port",
       "type": "number",
       "required": true,
-      "placeholder": "5432",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "databases"
-          ],
-          "operation": [
-            "addNewDatasource"
-          ],
-          "engine": [
-            "postgres",
-            "redshift",
-            "mysql",
-            "mongo"
-          ]
-        }
-      },
-      "routing": {
-        "send": {
-          "property": "details.port",
-          "type": "body"
-        }
-      },
-      "default": 5432
+      "default": 5432,
+      "description": "",
+      "natural_language_description": "参数名: Port | 默认值: 5432 | (必填项)"
     },
     "user": {
       "displayName": "User",
       "name": "user",
       "type": "string",
       "required": true,
-      "placeholder": "Admin",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "databases"
-          ],
-          "operation": [
-            "addNewDatasource"
-          ],
-          "engine": [
-            "postgres",
-            "redshift",
-            "mysql",
-            "mongo"
-          ]
-        }
-      },
-      "routing": {
-        "send": {
-          "property": "details.user",
-          "type": "body"
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: User | (必填项)"
     },
     "password": {
       "displayName": "Password",
       "name": "password",
       "type": "string",
-      "typeOptions": {
-        "password": true
-      },
       "required": true,
-      "placeholder": "password",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "databases"
-          ],
-          "operation": [
-            "addNewDatasource"
-          ],
-          "engine": [
-            "postgres",
-            "redshift",
-            "mysql",
-            "mongo"
-          ]
-        }
-      },
-      "routing": {
-        "send": {
-          "property": "details.password",
-          "type": "body"
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Password | (必填项)"
     },
     "dbName": {
       "displayName": "Database Name",
       "name": "dbName",
       "type": "string",
-      "placeholder": "Users",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "databases"
-          ],
-          "operation": [
-            "addNewDatasource"
-          ],
-          "engine": [
-            "postgres",
-            "redshift",
-            "mysql",
-            "mongo"
-          ]
-        }
-      },
-      "routing": {
-        "send": {
-          "property": "details.db",
-          "type": "body"
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Database Name"
     },
     "filePath": {
       "displayName": "File Path",
       "name": "filePath",
       "type": "string",
       "required": true,
-      "placeholder": "file:/Users/admin/Desktop/Users",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "databases"
-          ],
-          "operation": [
-            "addNewDatasource"
-          ],
-          "engine": [
-            "h2",
-            "sqlite"
-          ]
-        }
-      },
-      "routing": {
-        "send": {
-          "property": "details.db",
-          "type": "body"
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: File Path | (必填项)"
     },
     "fullSync": {
       "displayName": "Full Sync",
@@ -427,208 +162,41 @@
       "type": "boolean",
       "required": true,
       "default": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "databases"
-          ],
-          "operation": [
-            "addNewDatasource"
-          ]
-        }
-      },
-      "routing": {
-        "send": {
-          "property": "is_full_sync",
-          "type": "body"
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: Full Sync | 默认值: True | (必填项)"
     },
     "simple": {
       "displayName": "Simplify",
       "name": "simple",
       "type": "boolean",
-      "description": "Whether to return a simplified version of the response instead of the raw data",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "databases"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "routing": {
-        "output": {
-          "postReceive": [
-            {
-              "type": "setKeyValue",
-              "enabled": "={{$value}}",
-              "properties": {
-                "id": "={{$responseItem.id}}",
-                "name": "={{$responseItem.name}}",
-                "description": "={{$responseItem.description}}",
-                "engine": "={{$responseItem.engine}}",
-                "creator_id": "={{$responseItem.creator_id}}",
-                "timezone": "={{$responseItem.timezone}}",
-                "created_at": "={{$responseItem.created_at}}",
-                "updated_at": "={{$responseItem.updated_at}}",
-                "db": "={{$responseItem.details.db}}",
-                "user": "={{$responseItem.details.user}}",
-                "host": "={{$responseItem.details.host}}",
-                "port": "={{$responseItem.details.port}}",
-                "ssl": "={{$responseItem.details.ssl}}",
-                "is_full_sync": "={{$responseItem.details.is_full_sync}}"
-              }
-            }
-          ]
-        }
-      },
+      "required": false,
       "default": true,
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "Whether to return a simplified version of the response instead of the raw data",
+      "natural_language_description": "参数名: Simplify | 作用: Whether to return a simplified version of the response instead of the raw data | 默认值: True"
     },
     "alertId": {
       "displayName": "Alert ID",
       "name": "alertId",
       "type": "string",
       "required": true,
-      "placeholder": "0",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "alerts"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Alert ID | (必填项)"
     },
     "requestOptions": {
       "displayName": "Request Options",
       "name": "requestOptions",
       "type": "collection",
-      "isNodeSetting": true,
-      "placeholder": "Add Option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Batching",
-          "name": "batching",
-          "placeholder": "Add Batching",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": {
-            "batch": {}
-          },
-          "options": [
-            {
-              "displayName": "Batching",
-              "name": "batch",
-              "values": [
-                {
-                  "displayName": "Items per Batch",
-                  "name": "batchSize",
-                  "type": "number",
-                  "typeOptions": {
-                    "minValue": -1
-                  },
-                  "default": 50,
-                  "description": "Input will be split in batches to throttle requests. -1 for disabled. 0 will be treated as 1."
-                },
-                {
-                  "displayName": "Batch Interval (ms)",
-                  "name": "batchInterval",
-                  "type": "number",
-                  "typeOptions": {
-                    "minValue": 0
-                  },
-                  "default": 1000,
-                  "description": "Time (in milliseconds) between each batch of requests. 0 for disabled."
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Ignore SSL Issues (Insecure)",
-          "name": "allowUnauthorizedCerts",
-          "type": "boolean",
-          "noDataExpression": true,
-          "default": false,
-          "description": "Whether to accept the response even if SSL certificate validation is not possible"
-        },
-        {
-          "displayName": "Proxy",
-          "name": "proxy",
-          "type": "string",
-          "default": "",
-          "placeholder": "e.g. http://myproxy:3128",
-          "description": "HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128"
-        },
-        {
-          "displayName": "Timeout",
-          "name": "timeout",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 1
-          },
-          "default": 10000,
-          "description": "Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Request Options | 默认值: {}",
+      "available_options": [
+        "batching (值: None)",
+        "allowUnauthorizedCerts (值: None) - Whether to accept the response even if SSL certificate validation is not possible",
+        "proxy (值: None) - HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128",
+        "timeout (值: None) - Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "questionId",
-      "format",
-      "operation",
-      "metricId",
-      "operation",
-      "databaseId",
-      "engine",
-      "host",
-      "name",
-      "port",
-      "user",
-      "password",
-      "dbName",
-      "filePath",
-      "fullSync",
-      "simple",
-      "operation",
-      "alertId",
-      "requestOptions"
-    ],
-    "conditional_rules": [
-      "IF resource == 'questions' THEN SHOW parameter 'operation'",
-      "IF resource == 'questions' AND operation IN [\"get\", \"resultData\"] THEN SHOW parameter 'questionId'",
-      "IF resource == 'questions' AND operation == 'resultData' THEN SHOW parameter 'format'",
-      "IF resource == 'metrics' THEN SHOW parameter 'operation'",
-      "IF resource == 'metrics' AND operation == 'get' THEN SHOW parameter 'metricId'",
-      "IF resource == 'databases' THEN SHOW parameter 'operation'",
-      "IF resource == 'databases' AND operation == 'getFields' THEN SHOW parameter 'databaseId'",
-      "IF resource == 'databases' AND operation == 'addNewDatasource' THEN SHOW parameter 'engine'",
-      "IF resource == 'databases' AND operation == 'addNewDatasource' AND engine IN [\"postgres\", \"redshift\", \"mysql\", \"mongo\"] THEN SHOW parameter 'host'",
-      "IF resource == 'databases' AND operation == 'addNewDatasource' THEN SHOW parameter 'name'",
-      "IF resource == 'databases' AND operation == 'addNewDatasource' AND engine IN [\"postgres\", \"redshift\", \"mysql\", \"mongo\"] THEN SHOW parameter 'port'",
-      "IF resource == 'databases' AND operation == 'addNewDatasource' AND engine IN [\"postgres\", \"redshift\", \"mysql\", \"mongo\"] THEN SHOW parameter 'user'",
-      "IF resource == 'databases' AND operation == 'addNewDatasource' AND engine IN [\"postgres\", \"redshift\", \"mysql\", \"mongo\"] THEN SHOW parameter 'password'",
-      "IF resource == 'databases' AND operation == 'addNewDatasource' AND engine IN [\"postgres\", \"redshift\", \"mysql\", \"mongo\"] THEN SHOW parameter 'dbName'",
-      "IF resource == 'databases' AND operation == 'addNewDatasource' AND engine IN [\"h2\", \"sqlite\"] THEN SHOW parameter 'filePath'",
-      "IF resource == 'databases' AND operation == 'addNewDatasource' THEN SHOW parameter 'fullSync'",
-      "IF resource == 'databases' AND operation == 'getAll' THEN SHOW parameter 'simple'",
-      "IF resource == 'alerts' THEN SHOW parameter 'operation'",
-      "IF resource == 'alerts' AND operation == 'get' THEN SHOW parameter 'alertId'"
-    ]
   }
 }

@@ -1,2036 +1,657 @@
 {
   "node_id": "n8n-nodes-base.activeCampaignTool",
-  "name": "n8n-nodes-base.activeCampaignTool",
+  "name": "ActiveCampaign Tool",
   "version": 1,
   "semantic_context": "Create and edit data in ActiveCampaign",
+  "natural_language_description": "这是 ActiveCampaign Tool 节点。主要用于: Create and edit data in ActiveCampaign",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Create and edit data in ActiveCampaign",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Create and edit data in ActiveCampaign",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Create and edit data in ActiveCampaign | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Account",
-          "value": "account"
-        },
-        {
-          "name": "Account Contact",
-          "value": "accountContact"
-        },
-        {
-          "name": "Connection",
-          "value": "connection"
-        },
-        {
-          "name": "Contact",
-          "value": "contact"
-        },
-        {
-          "name": "Contact List",
-          "value": "contactList"
-        },
-        {
-          "name": "Contact Tag",
-          "value": "contactTag"
-        },
-        {
-          "name": "Deal",
-          "value": "deal"
-        },
-        {
-          "name": "E-Commerce Customer",
-          "value": "ecommerceCustomer"
-        },
-        {
-          "name": "E-Commerce Order",
-          "value": "ecommerceOrder"
-        },
-        {
-          "name": "E-Commerce Order Product",
-          "value": "ecommerceOrderProducts"
-        },
-        {
-          "name": "List",
-          "value": "list"
-        },
-        {
-          "name": "Tag",
-          "value": "tag"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "contact",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: contact",
+      "available_options": [
+        "Account (值: account)",
+        "Account Contact (值: accountContact)",
+        "Connection (值: connection)",
+        "Contact (值: contact)",
+        "Contact List (值: contactList)",
+        "Contact Tag (值: contactTag)",
+        "Deal (值: deal)",
+        "E-Commerce Customer (值: ecommerceCustomer)",
+        "E-Commerce Order (值: ecommerceOrder)",
+        "E-Commerce Order Product (值: ecommerceOrderProducts)",
+        "List (值: list)",
+        "Tag (值: tag)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ecommerceOrderProducts"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get data of many order products",
-          "action": "Get many ecommerce orders"
-        },
-        {
-          "name": "Get by Product ID",
-          "value": "getByProductId",
-          "description": "Get data of a ordered product",
-          "action": "Get an e-commerce order product by product ID"
-        },
-        {
-          "name": "Get by Order ID",
-          "value": "getByOrderId",
-          "description": "Get data of an order's products",
-          "action": "Get an e-commerce order product by order ID"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "getAll",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getAll",
+      "available_options": [
+        "Get Many (值: getAll) - Get data of many order products",
+        "Get by Product ID (值: getByProductId) - Get data of a ordered product",
+        "Get by Order ID (值: getByOrderId) - Get data of an order's products",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "tagType": {
       "displayName": "Type",
       "name": "tagType",
       "type": "options",
-      "default": "contact",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "tag"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Contact",
-          "value": "contact",
-          "description": "Tag contact"
-        },
-        {
-          "name": "Template",
-          "value": "template",
-          "description": "Tag template"
-        }
-      ],
+      "default": "contact",
       "description": "Tag-type of the new tag",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Type | 作用: Tag-type of the new tag | 默认值: contact | (必填项)",
+      "available_options": [
+        "Contact (值: contact) - Tag contact",
+        "Template (值: template) - Tag template"
+      ]
     },
     "name": {
       "displayName": "Account Name",
       "name": "name",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "connection"
-          ]
-        }
-      },
+      "default": "",
       "description": "The name associated with the account in the external service. Often this will be a company name (e.g., \"My Toystore, Inc.\").",
-      "ai_hint": "The name associated with the account in the external service. Often this will be a company name (e.g., \"My Toystore, Inc.\")."
+      "natural_language_description": "参数名: Account Name | 作用: The name associated with the account in the external service. Often this will be a company name (e.g., \"My Toystore, Inc.\"). | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "ecommerceCustomer"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Accepts Marketing",
-          "name": "acceptsMarketing",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether customer has opt-ed in to marketing communications"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "acceptsMarketing (值: None) - Whether customer has opt-ed in to marketing communications"
+      ]
     },
     "tagId": {
       "displayName": "Tag Name or ID",
       "name": "tagId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getTags"
-      },
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "add"
-          ],
-          "resource": [
-            "contactTag"
-          ]
-        }
-      },
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "default": "",
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Tag Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "description": "The fields to update",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "ecommerceCustomer"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Service ID",
-          "name": "connectionid",
-          "type": "string",
-          "default": "",
-          "description": "The ID of the connection object for the service where the customer originates"
-        },
-        {
-          "displayName": "Customer ID",
-          "name": "externalid",
-          "type": "string",
-          "default": "",
-          "description": "The ID of the customer in the external service"
-        },
-        {
-          "displayName": "Customer Email",
-          "name": "email",
-          "type": "string",
-          "placeholder": "name@email.com",
-          "default": "",
-          "description": "The email address of the customer"
-        },
-        {
-          "displayName": "Accepts Marketing",
-          "name": "acceptsMarketing",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether customer has opt-ed in to marketing communications"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "The fields to update",
+      "natural_language_description": "参数名: Update Fields | 作用: The fields to update | 默认值: {}",
+      "available_options": [
+        "connectionid (值: None) - The ID of the connection object for the service where the customer originates",
+        "externalid (值: None) - The ID of the customer in the external service",
+        "email (值: None) - The email address of the customer",
+        "acceptsMarketing (值: None) - Whether customer has opt-ed in to marketing communications"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "ecommerceOrderProducts"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "ecommerceOrderProducts"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "simple": {
       "displayName": "Simplify",
       "name": "simple",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "ecommerceOrderProducts"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether to return a simplified version of the response instead of the raw data",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Simplify | 作用: Whether to return a simplified version of the response instead of the raw data | 默认值: True"
     },
     "contactId": {
       "displayName": "Contact ID",
       "name": "contactId",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get"
-          ],
-          "resource": [
-            "contact"
-          ]
-        }
-      },
-      "default": 0,
       "required": true,
+      "default": 0,
       "description": "ID of the contact to get",
-      "ai_hint": "ID of the contact to get"
+      "natural_language_description": "参数名: Contact ID | 作用: ID of the contact to get | 默认值: 0 | (必填项)"
     },
     "contactTagId": {
       "displayName": "Contact Tag ID",
       "name": "contactTagId",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "remove"
-          ],
-          "resource": [
-            "contactTag"
-          ]
-        }
-      },
-      "default": 0,
       "required": true,
+      "default": 0,
       "description": "ID of the contact tag to delete",
-      "ai_hint": "ID of the contact tag to delete"
+      "natural_language_description": "参数名: Contact Tag ID | 作用: ID of the contact tag to delete | 默认值: 0 | (必填项)"
     },
     "listId": {
       "displayName": "List ID",
       "name": "listId",
       "type": "number",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "remove"
-          ],
-          "resource": [
-            "contactList"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: List ID | (必填项)"
     },
     "accountId": {
       "displayName": "Account ID",
       "name": "accountId",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get"
-          ],
-          "resource": [
-            "account"
-          ]
-        }
-      },
-      "default": 0,
       "required": true,
+      "default": 0,
       "description": "ID of the account to get",
-      "ai_hint": "ID of the account to get"
+      "natural_language_description": "参数名: Account ID | 作用: ID of the account to get | 默认值: 0 | (必填项)"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "account"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Search",
-          "name": "search",
-          "type": "string",
-          "default": "",
-          "description": "Search by name"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "search (值: None) - Search by name"
+      ]
     },
     "account": {
       "displayName": "Account ID",
       "name": "account",
       "type": "number",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "accountContact"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Account ID | (必填项)"
     },
     "contact": {
       "displayName": "Deal's Contact ID",
       "name": "contact",
       "type": "number",
-      "default": 0,
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "deal"
-          ]
-        }
-      },
+      "default": 0,
       "description": "The ID of the deal's contact",
-      "ai_hint": "The ID of the deal's contact"
+      "natural_language_description": "参数名: Deal's Contact ID | 作用: The ID of the deal's contact | 默认值: 0 | (必填项)"
     },
     "accountContactId": {
       "displayName": "Account Contact ID",
       "name": "accountContactId",
       "type": "number",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "accountContact"
-          ]
-        }
-      },
+      "default": "",
       "description": "Account ID",
-      "ai_hint": "Account ID"
+      "natural_language_description": "参数名: Account Contact ID | 作用: Account ID | (必填项)"
     },
     "email": {
       "displayName": "Customer Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "ecommerceCustomer"
-          ]
-        }
-      },
+      "default": "",
       "description": "The email address of the customer",
-      "ai_hint": "The email address of the customer"
+      "natural_language_description": "参数名: Customer Email | 作用: The email address of the customer | (必填项)"
     },
     "updateIfExists": {
       "displayName": "Update if Exists",
       "name": "updateIfExists",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "contact"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to update user if it exists already. If not set and user exists it will error instead.",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Update if Exists | 作用: Whether to update user if it exists already. If not set and user exists it will error instead. | 默认值: False"
     },
     "title": {
       "displayName": "Title",
       "name": "title",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "deal"
-          ]
-        }
-      },
+      "default": "",
       "description": "The title of the deal",
-      "ai_hint": "The title of the deal"
+      "natural_language_description": "参数名: Title | 作用: The title of the deal | (必填项)"
     },
     "value": {
       "displayName": "Deal Value",
       "name": "value",
       "type": "number",
-      "default": 0,
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "deal"
-          ]
-        }
-      },
+      "default": 0,
       "description": "The value of the deal in cents",
-      "ai_hint": "The value of the deal in cents"
+      "natural_language_description": "参数名: Deal Value | 作用: The value of the deal in cents | 默认值: 0 | (必填项)"
     },
     "currency": {
       "displayName": "Order Currency",
       "name": "currency",
       "type": "options",
-      "default": "eur",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "ecommerceOrder"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Euro",
-          "value": "eur"
-        },
-        {
-          "name": "United States Dollar",
-          "value": "usd"
-        },
-        {
-          "name": "British Pound Sterling",
-          "value": "gbp"
-        },
-        {
-          "name": "Swiss Franc",
-          "value": "chf"
-        },
-        {
-          "name": "Renminbi",
-          "value": "cny"
-        },
-        {
-          "name": "--------",
-          "value": ""
-        },
-        {
-          "name": "United Arab Emirates Dirham",
-          "value": "aed"
-        },
-        {
-          "name": "Afghan Afghani",
-          "value": "afn"
-        },
-        {
-          "name": "Albanian Lek",
-          "value": "all"
-        },
-        {
-          "name": "Armenian Dram",
-          "value": "amd"
-        },
-        {
-          "name": "Netherlands Antillean Guilder",
-          "value": "ang"
-        },
-        {
-          "name": "Angolan Kwanza",
-          "value": "aoa"
-        },
-        {
-          "name": "Argentine Peso",
-          "value": "ars"
-        },
-        {
-          "name": "Australian Dollar",
-          "value": "aud"
-        },
-        {
-          "name": "Aruban Florin",
-          "value": "awg"
-        },
-        {
-          "name": "Azerbaijani Manat",
-          "value": "azn"
-        },
-        {
-          "name": "Bosnia-Herzegovina Convertible Mark",
-          "value": "bam"
-        },
-        {
-          "name": "Barbadian Dollar",
-          "value": "bbd"
-        },
-        {
-          "name": "Bangladeshi Taka",
-          "value": "bdt"
-        },
-        {
-          "name": "Bulgarian Lev",
-          "value": "bgn"
-        },
-        {
-          "name": "Bahraini Dinar",
-          "value": "bhd"
-        },
-        {
-          "name": "Burundian Franc",
-          "value": "bif"
-        },
-        {
-          "name": "Bermudan Dollar",
-          "value": "bmd"
-        },
-        {
-          "name": "Brunei Dollar",
-          "value": "bnd"
-        },
-        {
-          "name": "Bolivian Boliviano",
-          "value": "bob"
-        },
-        {
-          "name": "Brazilian Real",
-          "value": "brl"
-        },
-        {
-          "name": "Bahamian Dollar",
-          "value": "bsd"
-        },
-        {
-          "name": "Bitcoin",
-          "value": "btc"
-        },
-        {
-          "name": "Bhutanese Ngultrum",
-          "value": "btn"
-        },
-        {
-          "name": "Botswanan Pula",
-          "value": "bwp"
-        },
-        {
-          "name": "Belarusian Ruble",
-          "value": "byn"
-        },
-        {
-          "name": "Belize Dollar",
-          "value": "bzd"
-        },
-        {
-          "name": "Canadian Dollar",
-          "value": "cad"
-        },
-        {
-          "name": "Congolese Franc",
-          "value": "cdf"
-        },
-        {
-          "name": "Chilean Unit of Account (UF)",
-          "value": "clf"
-        },
-        {
-          "name": "Chilean Peso",
-          "value": "clp"
-        },
-        {
-          "name": "Chinese Yuan (Offshore)",
-          "value": "cnh"
-        },
-        {
-          "name": "Colombian Peso",
-          "value": "cop"
-        },
-        {
-          "name": "Costa Rican Colón",
-          "value": "crc"
-        },
-        {
-          "name": "Cuban Convertible Peso",
-          "value": "cuc"
-        },
-        {
-          "name": "Cuban Peso",
-          "value": "cup"
-        },
-        {
-          "name": "Cape Verdean Escudo",
-          "value": "cve"
-        },
-        {
-          "name": "Czech Republic Koruna",
-          "value": "czk"
-        },
-        {
-          "name": "Djiboutian Franc",
-          "value": "djf"
-        },
-        {
-          "name": "Danish Krone",
-          "value": "dkk"
-        },
-        {
-          "name": "Dominican Peso",
-          "value": "dop"
-        },
-        {
-          "name": "Algerian Dinar",
-          "value": "dzd"
-        },
-        {
-          "name": "Egyptian Pound",
-          "value": "egp"
-        },
-        {
-          "name": "Eritrean Nakfa",
-          "value": "ern"
-        },
-        {
-          "name": "Ethiopian Birr",
-          "value": "etb"
-        },
-        {
-          "name": "Fijian Dollar",
-          "value": "fjd"
-        },
-        {
-          "name": "Falkland Islands Pound",
-          "value": "fkp"
-        },
-        {
-          "name": "Georgian Lari",
-          "value": "gel"
-        },
-        {
-          "name": "Guernsey Pound",
-          "value": "ggp"
-        },
-        {
-          "name": "Ghanaian Cedi",
-          "value": "ghs"
-        },
-        {
-          "name": "Gibraltar Pound",
-          "value": "gip"
-        },
-        {
-          "name": "Gambian Dalasi",
-          "value": "gmd"
-        },
-        {
-          "name": "Guinean Franc",
-          "value": "gnf"
-        },
-        {
-          "name": "Guatemalan Quetzal",
-          "value": "gtq"
-        },
-        {
-          "name": "Guyanaese Dollar",
-          "value": "gyd"
-        },
-        {
-          "name": "Hong Kong Dollar",
-          "value": "hkd"
-        },
-        {
-          "name": "Honduran Lempira",
-          "value": "hnl"
-        },
-        {
-          "name": "Croatian Kuna",
-          "value": "hrk"
-        },
-        {
-          "name": "Haitian Gourde",
-          "value": "htg"
-        },
-        {
-          "name": "Hungarian Forint",
-          "value": "huf"
-        },
-        {
-          "name": "Indonesian Rupiah",
-          "value": "idr"
-        },
-        {
-          "name": "Israeli New Sheqel",
-          "value": "ils"
-        },
-        {
-          "name": "Manx Pound",
-          "value": "imp"
-        },
-        {
-          "name": "Indian Rupee",
-          "value": "inr"
-        },
-        {
-          "name": "Iraqi Dinar",
-          "value": "iqd"
-        },
-        {
-          "name": "Iranian Rial",
-          "value": "irr"
-        },
-        {
-          "name": "Icelandic Króna",
-          "value": "isk"
-        },
-        {
-          "name": "Jersey Pound",
-          "value": "jep"
-        },
-        {
-          "name": "Jamaican Dollar",
-          "value": "jmd"
-        },
-        {
-          "name": "Jordanian Dinar",
-          "value": "jod"
-        },
-        {
-          "name": "Japanese Yen",
-          "value": "jpy"
-        },
-        {
-          "name": "Kenyan Shilling",
-          "value": "kes"
-        },
-        {
-          "name": "Kyrgystani Som",
-          "value": "kgs"
-        },
-        {
-          "name": "Cambodian Riel",
-          "value": "khr"
-        },
-        {
-          "name": "Comorian Franc",
-          "value": "kmf"
-        },
-        {
-          "name": "North Korean Won",
-          "value": "kpw"
-        },
-        {
-          "name": "South Korean Won",
-          "value": "krw"
-        },
-        {
-          "name": "Kuwaiti Dinar",
-          "value": "kwd"
-        },
-        {
-          "name": "Cayman Islands Dollar",
-          "value": "kyd"
-        },
-        {
-          "name": "Kazakhstani Tenge",
-          "value": "kzt"
-        },
-        {
-          "name": "Laotian Kip",
-          "value": "lak"
-        },
-        {
-          "name": "Lebanese Pound",
-          "value": "lbp"
-        },
-        {
-          "name": "Sri Lankan Rupee",
-          "value": "lkr"
-        },
-        {
-          "name": "Liberian Dollar",
-          "value": "lrd"
-        },
-        {
-          "name": "Lesotho Loti",
-          "value": "lsl"
-        },
-        {
-          "name": "Libyan Dinar",
-          "value": "lyd"
-        },
-        {
-          "name": "Moroccan Dirham",
-          "value": "mad"
-        },
-        {
-          "name": "Moldovan Leu",
-          "value": "mdl"
-        },
-        {
-          "name": "Malagasy Ariary",
-          "value": "mga"
-        },
-        {
-          "name": "Macedonian Denar",
-          "value": "mkd"
-        },
-        {
-          "name": "Myanma Kyat",
-          "value": "mmk"
-        },
-        {
-          "name": "Mongolian Tugrik",
-          "value": "mnt"
-        },
-        {
-          "name": "Macanese Pataca",
-          "value": "mop"
-        },
-        {
-          "name": "Mauritanian Ouguiya (Pre-2018)",
-          "value": "mro"
-        },
-        {
-          "name": "Mauritanian Ouguiya",
-          "value": "mru"
-        },
-        {
-          "name": "Mauritian Rupee",
-          "value": "mur"
-        },
-        {
-          "name": "Maldivian Rufiyaa",
-          "value": "mvr"
-        },
-        {
-          "name": "Malawian Kwacha",
-          "value": "mwk"
-        },
-        {
-          "name": "Mexican Peso",
-          "value": "mxn"
-        },
-        {
-          "name": "Malaysian Ringgit",
-          "value": "myr"
-        },
-        {
-          "name": "Mozambican Metical",
-          "value": "mzn"
-        },
-        {
-          "name": "Namibian Dollar",
-          "value": "nad"
-        },
-        {
-          "name": "Nigerian Naira",
-          "value": "ngn"
-        },
-        {
-          "name": "Nicaraguan Córdoba",
-          "value": "nio"
-        },
-        {
-          "name": "Norwegian Krone",
-          "value": "nok"
-        },
-        {
-          "name": "Nepalese Rupee",
-          "value": "npr"
-        },
-        {
-          "name": "New Zealand Dollar",
-          "value": "nzd"
-        },
-        {
-          "name": "Omani Rial",
-          "value": "omr"
-        },
-        {
-          "name": "Panamanian Balboa",
-          "value": "pab"
-        },
-        {
-          "name": "Peruvian Nuevo Sol",
-          "value": "pen"
-        },
-        {
-          "name": "Papua New Guinean Kina",
-          "value": "pgk"
-        },
-        {
-          "name": "Philippine Peso",
-          "value": "php"
-        },
-        {
-          "name": "Pakistani Rupee",
-          "value": "pkr"
-        },
-        {
-          "name": "Polish Zloty",
-          "value": "pln"
-        },
-        {
-          "name": "Paraguayan Guarani",
-          "value": "pyg"
-        },
-        {
-          "name": "Qatari Rial",
-          "value": "qar"
-        },
-        {
-          "name": "Romanian Leu",
-          "value": "ron"
-        },
-        {
-          "name": "Serbian Dinar",
-          "value": "rsd"
-        },
-        {
-          "name": "Russian Ruble",
-          "value": "rub"
-        },
-        {
-          "name": "Rwandan Franc",
-          "value": "rwf"
-        },
-        {
-          "name": "Saudi Riyal",
-          "value": "sar"
-        },
-        {
-          "name": "Solomon Islands Dollar",
-          "value": "sbd"
-        },
-        {
-          "name": "Seychellois Rupee",
-          "value": "scr"
-        },
-        {
-          "name": "Sudanese Pound",
-          "value": "sdg"
-        },
-        {
-          "name": "Swedish Krona",
-          "value": "sek"
-        },
-        {
-          "name": "Singapore Dollar",
-          "value": "sgd"
-        },
-        {
-          "name": "Saint Helena Pound",
-          "value": "shp"
-        },
-        {
-          "name": "Sierra Leonean Leone",
-          "value": "sll"
-        },
-        {
-          "name": "Somali Shilling",
-          "value": "sos"
-        },
-        {
-          "name": "Surinamese Dollar",
-          "value": "srd"
-        },
-        {
-          "name": "South Sudanese Pound",
-          "value": "ssp"
-        },
-        {
-          "name": "São Tomé and Príncipe Dobra (Pre-2018)",
-          "value": "std"
-        },
-        {
-          "name": "São Tomé and Príncipe Dobra",
-          "value": "stn"
-        },
-        {
-          "name": "Salvadoran Colón",
-          "value": "svc"
-        },
-        {
-          "name": "Syrian Pound",
-          "value": "syp"
-        },
-        {
-          "name": "Swazi Lilangeni",
-          "value": "szl"
-        },
-        {
-          "name": "Thai Baht",
-          "value": "thb"
-        },
-        {
-          "name": "Tajikistani Somoni",
-          "value": "tjs"
-        },
-        {
-          "name": "Turkmenistani Manat",
-          "value": "tmt"
-        },
-        {
-          "name": "Tunisian Dinar",
-          "value": "tnd"
-        },
-        {
-          "name": "Tongan Pa'anga",
-          "value": "top"
-        },
-        {
-          "name": "Turkish Lira",
-          "value": "try"
-        },
-        {
-          "name": "Trinidad and Tobago Dollar",
-          "value": "ttd"
-        },
-        {
-          "name": "New Taiwan Dollar",
-          "value": "twd"
-        },
-        {
-          "name": "Tanzanian Shilling",
-          "value": "tzs"
-        },
-        {
-          "name": "Ukrainian Hryvnia",
-          "value": "uah"
-        },
-        {
-          "name": "Ugandan Shilling",
-          "value": "ugx"
-        },
-        {
-          "name": "Uruguayan Peso",
-          "value": "uyu"
-        },
-        {
-          "name": "Uzbekistan Som",
-          "value": "uzs"
-        },
-        {
-          "name": "Venezuelan Bolívar Fuerte",
-          "value": "vef"
-        },
-        {
-          "name": "Vietnamese Dong",
-          "value": "vnd"
-        },
-        {
-          "name": "Vanuatu Vatu",
-          "value": "vuv"
-        },
-        {
-          "name": "Samoan Tala",
-          "value": "wst"
-        },
-        {
-          "name": "CFA Franc BEAC",
-          "value": "xaf"
-        },
-        {
-          "name": "Silver Ounce",
-          "value": "xag"
-        },
-        {
-          "name": "Gold Ounce",
-          "value": "xau"
-        },
-        {
-          "name": "East Caribbean Dollar",
-          "value": "xcd"
-        },
-        {
-          "name": "Special Drawing Rights",
-          "value": "xdr"
-        },
-        {
-          "name": "CFA Franc BCEAO",
-          "value": "xof"
-        },
-        {
-          "name": "Palladium Ounce",
-          "value": "xpd"
-        },
-        {
-          "name": "CFP Franc",
-          "value": "xpf"
-        },
-        {
-          "name": "Platinum Ounce",
-          "value": "xpt"
-        },
-        {
-          "name": "Yemeni Rial",
-          "value": "yer"
-        },
-        {
-          "name": "South African Rand",
-          "value": "zar"
-        },
-        {
-          "name": "Zambian Kwacha",
-          "value": "zmw"
-        },
-        {
-          "name": "Zimbabwean Dollar",
-          "value": "zwl"
-        }
-      ],
+      "default": "eur",
       "description": "The currency of the order (3-digit ISO code, e.g., \"USD\")",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Order Currency | 作用: The currency of the order (3-digit ISO code, e.g., \"USD\") | 默认值: eur | (必填项)",
+      "available_options": [
+        "Euro (值: eur)",
+        "United States Dollar (值: usd)",
+        "British Pound Sterling (值: gbp)",
+        "Swiss Franc (值: chf)",
+        "Renminbi (值: cny)",
+        "-------- (值: )",
+        "United Arab Emirates Dirham (值: aed)",
+        "Afghan Afghani (值: afn)",
+        "Albanian Lek (值: all)",
+        "Armenian Dram (值: amd)",
+        "Netherlands Antillean Guilder (值: ang)",
+        "Angolan Kwanza (值: aoa)",
+        "Argentine Peso (值: ars)",
+        "Australian Dollar (值: aud)",
+        "Aruban Florin (值: awg)",
+        "Azerbaijani Manat (值: azn)",
+        "Bosnia-Herzegovina Convertible Mark (值: bam)",
+        "Barbadian Dollar (值: bbd)",
+        "Bangladeshi Taka (值: bdt)",
+        "Bulgarian Lev (值: bgn)",
+        "Bahraini Dinar (值: bhd)",
+        "Burundian Franc (值: bif)",
+        "Bermudan Dollar (值: bmd)",
+        "Brunei Dollar (值: bnd)",
+        "Bolivian Boliviano (值: bob)",
+        "Brazilian Real (值: brl)",
+        "Bahamian Dollar (值: bsd)",
+        "Bitcoin (值: btc)",
+        "Bhutanese Ngultrum (值: btn)",
+        "Botswanan Pula (值: bwp)",
+        "Belarusian Ruble (值: byn)",
+        "Belize Dollar (值: bzd)",
+        "Canadian Dollar (值: cad)",
+        "Congolese Franc (值: cdf)",
+        "Chilean Unit of Account (UF) (值: clf)",
+        "Chilean Peso (值: clp)",
+        "Chinese Yuan (Offshore) (值: cnh)",
+        "Colombian Peso (值: cop)",
+        "Costa Rican Colón (值: crc)",
+        "Cuban Convertible Peso (值: cuc)",
+        "Cuban Peso (值: cup)",
+        "Cape Verdean Escudo (值: cve)",
+        "Czech Republic Koruna (值: czk)",
+        "Djiboutian Franc (值: djf)",
+        "Danish Krone (值: dkk)",
+        "Dominican Peso (值: dop)",
+        "Algerian Dinar (值: dzd)",
+        "Egyptian Pound (值: egp)",
+        "Eritrean Nakfa (值: ern)",
+        "Ethiopian Birr (值: etb)",
+        "Fijian Dollar (值: fjd)",
+        "Falkland Islands Pound (值: fkp)",
+        "Georgian Lari (值: gel)",
+        "Guernsey Pound (值: ggp)",
+        "Ghanaian Cedi (值: ghs)",
+        "Gibraltar Pound (值: gip)",
+        "Gambian Dalasi (值: gmd)",
+        "Guinean Franc (值: gnf)",
+        "Guatemalan Quetzal (值: gtq)",
+        "Guyanaese Dollar (值: gyd)",
+        "Hong Kong Dollar (值: hkd)",
+        "Honduran Lempira (值: hnl)",
+        "Croatian Kuna (值: hrk)",
+        "Haitian Gourde (值: htg)",
+        "Hungarian Forint (值: huf)",
+        "Indonesian Rupiah (值: idr)",
+        "Israeli New Sheqel (值: ils)",
+        "Manx Pound (值: imp)",
+        "Indian Rupee (值: inr)",
+        "Iraqi Dinar (值: iqd)",
+        "Iranian Rial (值: irr)",
+        "Icelandic Króna (值: isk)",
+        "Jersey Pound (值: jep)",
+        "Jamaican Dollar (值: jmd)",
+        "Jordanian Dinar (值: jod)",
+        "Japanese Yen (值: jpy)",
+        "Kenyan Shilling (值: kes)",
+        "Kyrgystani Som (值: kgs)",
+        "Cambodian Riel (值: khr)",
+        "Comorian Franc (值: kmf)",
+        "North Korean Won (值: kpw)",
+        "South Korean Won (值: krw)",
+        "Kuwaiti Dinar (值: kwd)",
+        "Cayman Islands Dollar (值: kyd)",
+        "Kazakhstani Tenge (值: kzt)",
+        "Laotian Kip (值: lak)",
+        "Lebanese Pound (值: lbp)",
+        "Sri Lankan Rupee (值: lkr)",
+        "Liberian Dollar (值: lrd)",
+        "Lesotho Loti (值: lsl)",
+        "Libyan Dinar (值: lyd)",
+        "Moroccan Dirham (值: mad)",
+        "Moldovan Leu (值: mdl)",
+        "Malagasy Ariary (值: mga)",
+        "Macedonian Denar (值: mkd)",
+        "Myanma Kyat (值: mmk)",
+        "Mongolian Tugrik (值: mnt)",
+        "Macanese Pataca (值: mop)",
+        "Mauritanian Ouguiya (Pre-2018) (值: mro)",
+        "Mauritanian Ouguiya (值: mru)",
+        "Mauritian Rupee (值: mur)",
+        "Maldivian Rufiyaa (值: mvr)",
+        "Malawian Kwacha (值: mwk)",
+        "Mexican Peso (值: mxn)",
+        "Malaysian Ringgit (值: myr)",
+        "Mozambican Metical (值: mzn)",
+        "Namibian Dollar (值: nad)",
+        "Nigerian Naira (值: ngn)",
+        "Nicaraguan Córdoba (值: nio)",
+        "Norwegian Krone (值: nok)",
+        "Nepalese Rupee (值: npr)",
+        "New Zealand Dollar (值: nzd)",
+        "Omani Rial (值: omr)",
+        "Panamanian Balboa (值: pab)",
+        "Peruvian Nuevo Sol (值: pen)",
+        "Papua New Guinean Kina (值: pgk)",
+        "Philippine Peso (值: php)",
+        "Pakistani Rupee (值: pkr)",
+        "Polish Zloty (值: pln)",
+        "Paraguayan Guarani (值: pyg)",
+        "Qatari Rial (值: qar)",
+        "Romanian Leu (值: ron)",
+        "Serbian Dinar (值: rsd)",
+        "Russian Ruble (值: rub)",
+        "Rwandan Franc (值: rwf)",
+        "Saudi Riyal (值: sar)",
+        "Solomon Islands Dollar (值: sbd)",
+        "Seychellois Rupee (值: scr)",
+        "Sudanese Pound (值: sdg)",
+        "Swedish Krona (值: sek)",
+        "Singapore Dollar (值: sgd)",
+        "Saint Helena Pound (值: shp)",
+        "Sierra Leonean Leone (值: sll)",
+        "Somali Shilling (值: sos)",
+        "Surinamese Dollar (值: srd)",
+        "South Sudanese Pound (值: ssp)",
+        "São Tomé and Príncipe Dobra (Pre-2018) (值: std)",
+        "São Tomé and Príncipe Dobra (值: stn)",
+        "Salvadoran Colón (值: svc)",
+        "Syrian Pound (值: syp)",
+        "Swazi Lilangeni (值: szl)",
+        "Thai Baht (值: thb)",
+        "Tajikistani Somoni (值: tjs)",
+        "Turkmenistani Manat (值: tmt)",
+        "Tunisian Dinar (值: tnd)",
+        "Tongan Pa'anga (值: top)",
+        "Turkish Lira (值: try)",
+        "Trinidad and Tobago Dollar (值: ttd)",
+        "New Taiwan Dollar (值: twd)",
+        "Tanzanian Shilling (值: tzs)",
+        "Ukrainian Hryvnia (值: uah)",
+        "Ugandan Shilling (值: ugx)",
+        "Uruguayan Peso (值: uyu)",
+        "Uzbekistan Som (值: uzs)",
+        "Venezuelan Bolívar Fuerte (值: vef)",
+        "Vietnamese Dong (值: vnd)",
+        "Vanuatu Vatu (值: vuv)",
+        "Samoan Tala (值: wst)",
+        "CFA Franc BEAC (值: xaf)",
+        "Silver Ounce (值: xag)",
+        "Gold Ounce (值: xau)",
+        "East Caribbean Dollar (值: xcd)",
+        "Special Drawing Rights (值: xdr)",
+        "CFA Franc BCEAO (值: xof)",
+        "Palladium Ounce (值: xpd)",
+        "CFP Franc (值: xpf)",
+        "Platinum Ounce (值: xpt)",
+        "Yemeni Rial (值: yer)",
+        "South African Rand (值: zar)",
+        "Zambian Kwacha (值: zmw)",
+        "Zimbabwean Dollar (值: zwl)"
+      ]
     },
     "group": {
       "displayName": "Deal Pipeline ID",
       "name": "group",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "deal"
-          ]
-        }
-      },
       "description": "The pipeline ID of the deal",
-      "ai_hint": "The pipeline ID of the deal"
+      "natural_language_description": "参数名: Deal Pipeline ID | 作用: The pipeline ID of the deal"
     },
     "stage": {
       "displayName": "Deal Stage ID",
       "name": "stage",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "deal"
-          ]
-        }
-      },
       "description": "The stage ID of the deal",
-      "ai_hint": "The stage ID of the deal"
+      "natural_language_description": "参数名: Deal Stage ID | 作用: The stage ID of the deal"
     },
     "owner": {
       "displayName": "Deal Owner ID",
       "name": "owner",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "deal"
-          ]
-        }
-      },
       "description": "The owner ID of the deal",
-      "ai_hint": "The owner ID of the deal"
+      "natural_language_description": "参数名: Deal Owner ID | 作用: The owner ID of the deal"
     },
     "dealId": {
       "displayName": "Deal ID",
       "name": "dealId",
       "type": "number",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "updateNote"
-          ],
-          "resource": [
-            "deal"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the deal note",
-      "ai_hint": "The ID of the deal note"
+      "natural_language_description": "参数名: Deal ID | 作用: The ID of the deal note | (必填项)"
     },
     "dealNote": {
       "displayName": "Deal Note",
       "name": "dealNote",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "updateNote"
-          ],
-          "resource": [
-            "deal"
-          ]
-        }
-      },
       "description": "The content of the deal note",
-      "ai_hint": "The content of the deal note"
+      "natural_language_description": "参数名: Deal Note | 作用: The content of the deal note"
     },
     "dealNoteId": {
       "displayName": "Deal Note ID",
       "name": "dealNoteId",
       "type": "number",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "updateNote"
-          ],
-          "resource": [
-            "deal"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the deal note",
-      "ai_hint": "The ID of the deal note"
+      "natural_language_description": "参数名: Deal Note ID | 作用: The ID of the deal note | (必填项)"
     },
     "service": {
       "displayName": "Service",
       "name": "service",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "connection"
-          ]
-        }
-      },
+      "default": "",
       "description": "The name of the service",
-      "ai_hint": "The name of the service"
+      "natural_language_description": "参数名: Service | 作用: The name of the service | (必填项)"
     },
     "externalid": {
       "displayName": "Customer ID",
       "name": "externalid",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "ecommerceCustomer"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the customer in the external service",
-      "ai_hint": "The ID of the customer in the external service"
+      "natural_language_description": "参数名: Customer ID | 作用: The ID of the customer in the external service | (必填项)"
     },
     "logoUrl": {
       "displayName": "Logo URL",
       "name": "logoUrl",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "connection"
-          ]
-        }
-      },
+      "default": "",
       "description": "The URL to a logo image for the external service",
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "natural_language_description": "参数名: Logo URL | 作用: The URL to a logo image for the external service | (必填项)"
     },
     "linkUrl": {
       "displayName": "Link URL",
       "name": "linkUrl",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "connection"
-          ]
-        }
-      },
+      "default": "",
       "description": "The URL to a page where the integration with the external service can be managed in the third-party's website",
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "natural_language_description": "参数名: Link URL | 作用: The URL to a page where the integration with the external service can be managed in the third-party's website | (必填项)"
     },
     "connectionId": {
       "displayName": "Connection ID",
       "name": "connectionId",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get"
-          ],
-          "resource": [
-            "connection"
-          ]
-        }
-      },
-      "default": 0,
       "required": true,
+      "default": 0,
       "description": "ID of the connection to get",
-      "ai_hint": "ID of the connection to get"
+      "natural_language_description": "参数名: Connection ID | 作用: ID of the connection to get | 默认值: 0 | (必填项)"
     },
     "externalcheckoutid": {
       "displayName": "External Checkout ID",
       "name": "externalcheckoutid",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "ecommerceOrder"
-          ]
-        }
-      },
       "description": "The ID of the cart in the external service. ONLY REQUIRED IF EXTERNALID IS NOT INCLUDED.",
-      "ai_hint": "The ID of the cart in the external service. ONLY REQUIRED IF EXTERNALID IS NOT INCLUDED."
+      "natural_language_description": "参数名: External Checkout ID | 作用: The ID of the cart in the external service. ONLY REQUIRED IF EXTERNALID IS NOT INCLUDED."
     },
     "source": {
       "displayName": "Order Source",
       "name": "source",
       "type": "number",
-      "default": 0,
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "ecommerceOrder"
-          ]
-        }
-      },
+      "default": 0,
       "description": "The order source code (0 - will not trigger automations, 1 - will trigger automations)",
-      "ai_hint": "The order source code (0 - will not trigger automations, 1 - will trigger automations)"
+      "natural_language_description": "参数名: Order Source | 作用: The order source code (0 - will not trigger automations, 1 - will trigger automations) | 默认值: 0 | (必填项)"
     },
     "totalPrice": {
       "displayName": "Total Price",
       "name": "totalPrice",
       "type": "number",
-      "default": 0,
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "ecommerceOrder"
-          ]
-        }
-      },
+      "default": 0,
       "description": "The total price of the order in cents, including tax and shipping charges. (i.e. $456.78 => 45678). Must be greater than or equal to zero.",
-      "ai_hint": "The total price of the order in cents, including tax and shipping charges. (i.e. $456.78 => 45678). Must be greater than or equal to zero."
+      "natural_language_description": "参数名: Total Price | 作用: The total price of the order in cents, including tax and shipping charges. (i.e. $456.78 => 45678). Must be greater than or equal to zero. | 默认值: 0 | (必填项)"
     },
     "connectionid": {
       "displayName": "Service ID",
       "name": "connectionid",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "ecommerceCustomer"
-          ]
-        }
-      },
+      "default": "",
       "description": "The ID of the connection object for the service where the customer originates",
-      "ai_hint": "The ID of the connection object for the service where the customer originates"
+      "natural_language_description": "参数名: Service ID | 作用: The ID of the connection object for the service where the customer originates | (必填项)"
     },
     "customerid": {
       "displayName": "Customer ID",
       "name": "customerid",
       "type": "number",
-      "default": 0,
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "ecommerceOrder"
-          ]
-        }
-      },
+      "default": 0,
       "description": "The ID of the customer associated with this order",
-      "ai_hint": "The ID of the customer associated with this order"
+      "natural_language_description": "参数名: Customer ID | 作用: The ID of the customer associated with this order | 默认值: 0 | (必填项)"
     },
     "externalCreatedDate": {
       "displayName": "Creation Date",
       "name": "externalCreatedDate",
       "type": "dateTime",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "ecommerceOrder"
-          ]
-        }
-      },
+      "default": "",
       "description": "The date the order was placed",
-      "ai_hint": "The date the order was placed"
+      "natural_language_description": "参数名: Creation Date | 作用: The date the order was placed | (必填项)"
     },
     "abandonedDate": {
       "displayName": "Abandoning Date",
       "name": "abandonedDate",
       "type": "dateTime",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "ecommerceOrder"
-          ]
-        }
-      },
       "description": "The date the cart was abandoned. REQUIRED ONLY IF INCLUDING EXTERNALCHECKOUTID.",
-      "ai_hint": "The date the cart was abandoned. REQUIRED ONLY IF INCLUDING EXTERNALCHECKOUTID."
+      "natural_language_description": "参数名: Abandoning Date | 作用: The date the cart was abandoned. REQUIRED ONLY IF INCLUDING EXTERNALCHECKOUTID."
     },
     "orderProducts": {
       "displayName": "Products",
       "name": "orderProducts",
       "type": "collection",
-      "typeOptions": {
-        "multipleValues": true,
-        "multipleValueButtonText": "Add product"
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "ecommerceOrder"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
       "description": "All ordered products",
-      "placeholder": "Add product field",
-      "options": [
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": "",
-          "description": "The name of the product"
-        },
-        {
-          "displayName": "Price",
-          "name": "price",
-          "type": "number",
-          "default": 0,
-          "description": "The price of the product, in cents. (i.e. $456.78 => 45678). Must be greater than or equal to zero."
-        },
-        {
-          "displayName": "Product Quantity",
-          "name": "quantity",
-          "type": "number",
-          "default": 0,
-          "description": "The quantity ordered"
-        },
-        {
-          "displayName": "Product External ID",
-          "name": "externalid",
-          "type": "string",
-          "default": "",
-          "description": "The ID of the product in the external service"
-        },
-        {
-          "displayName": "Product Category",
-          "name": "category",
-          "type": "string",
-          "default": "",
-          "description": "The category of the product"
-        },
-        {
-          "displayName": "SKU",
-          "name": "sku",
-          "type": "string",
-          "default": "",
-          "description": "The SKU for the product"
-        },
-        {
-          "displayName": "Description",
-          "name": "description",
-          "type": "string",
-          "default": "",
-          "description": "The description of the product"
-        },
-        {
-          "displayName": "Image URL",
-          "name": "imageUrl",
-          "type": "string",
-          "default": "",
-          "description": "An Image URL that displays an image of the product"
-        },
-        {
-          "displayName": "Product URL",
-          "name": "productUrl",
-          "type": "string",
-          "default": "",
-          "description": "A URL linking to the product in your store"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Products | 作用: All ordered products | 默认值: {}",
+      "available_options": [
+        "name (值: None) - The name of the product",
+        "price (值: None) - The price of the product, in cents. (i.e. $456.78 => 45678). Must be greater than or equal to zero.",
+        "quantity (值: None) - The quantity ordered",
+        "externalid (值: None) - The ID of the product in the external service",
+        "category (值: None) - The category of the product",
+        "sku (值: None) - The SKU for the product",
+        "description (值: None) - The description of the product",
+        "imageUrl (值: None) - An Image URL that displays an image of the product",
+        "productUrl (值: None) - A URL linking to the product in your store"
+      ]
     },
     "orderId": {
       "displayName": "Order ID",
       "name": "orderId",
       "type": "number",
+      "required": false,
       "default": 0,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getByOrderId"
-          ],
-          "resource": [
-            "ecommerceOrderProducts"
-          ]
-        }
-      },
       "description": "The ID of the order whose products you'd like returned",
-      "ai_hint": "The ID of the order whose products you'd like returned"
+      "natural_language_description": "参数名: Order ID | 作用: The ID of the order whose products you'd like returned | 默认值: 0"
     },
     "ecommerceCustomerId": {
       "displayName": "Customer ID",
       "name": "ecommerceCustomerId",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get"
-          ],
-          "resource": [
-            "ecommerceCustomer"
-          ]
-        }
-      },
-      "default": 0,
       "required": true,
+      "default": 0,
       "description": "ID of the E-commerce customer to get",
-      "ai_hint": "ID of the E-commerce customer to get"
+      "natural_language_description": "参数名: Customer ID | 作用: ID of the E-commerce customer to get | 默认值: 0 | (必填项)"
     },
     "procuctId": {
       "displayName": "Product ID",
       "name": "procuctId",
       "type": "number",
+      "required": false,
       "default": 0,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getByProductId"
-          ],
-          "resource": [
-            "ecommerceOrderProducts"
-          ]
-        }
-      },
       "description": "The ID of the product you'd like returned",
-      "ai_hint": "The ID of the product you'd like returned"
+      "natural_language_description": "参数名: Product ID | 作用: The ID of the product you'd like returned | 默认值: 0"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "tagType",
-      "name",
-      "additionalFields",
-      "tagId",
-      "updateFields",
-      "tagId",
-      "tagId",
-      "returnAll",
-      "limit",
-      "simple",
-      "returnAll",
-      "limit",
-      "simple",
-      "tagId",
-      "contactId",
-      "contactTagId",
-      "listId",
-      "contactId",
-      "listId",
-      "contactId",
-      "name",
-      "additionalFields",
-      "accountId",
-      "updateFields",
-      "accountId",
-      "accountId",
-      "returnAll",
-      "limit",
-      "simple",
-      "filters",
-      "account",
-      "contact",
-      "additionalFields",
-      "accountContactId",
-      "accountContactId",
-      "updateFields",
-      "email",
-      "updateIfExists",
-      "additionalFields",
-      "contactId",
-      "updateFields",
-      "contactId",
-      "contactId",
-      "returnAll",
-      "limit",
-      "simple",
-      "additionalFields",
-      "title",
-      "contact",
-      "value",
-      "currency",
-      "group",
-      "stage",
-      "owner",
-      "additionalFields",
-      "dealId",
-      "updateFields",
-      "dealId",
-      "dealId",
-      "returnAll",
-      "limit",
-      "simple",
-      "dealId",
-      "dealNote",
-      "dealId",
-      "dealNoteId",
-      "dealNote",
-      "service",
-      "externalid",
-      "name",
-      "logoUrl",
-      "linkUrl",
-      "connectionId",
-      "updateFields",
-      "connectionId",
-      "connectionId",
-      "returnAll",
-      "limit",
-      "simple",
-      "externalid",
-      "externalcheckoutid",
-      "source",
-      "email",
-      "totalPrice",
-      "currency",
-      "connectionid",
-      "customerid",
-      "externalCreatedDate",
-      "abandonedDate",
-      "orderProducts",
-      "additionalFields",
-      "orderId",
-      "updateFields",
-      "orderId",
-      "orderId",
-      "returnAll",
-      "limit",
-      "simple",
-      "connectionid",
-      "externalid",
-      "email",
-      "additionalFields",
-      "ecommerceCustomerId",
-      "updateFields",
-      "ecommerceCustomerId",
-      "ecommerceCustomerId",
-      "returnAll",
-      "limit",
-      "simple",
-      "orderId",
-      "procuctId",
-      "returnAll",
-      "limit",
-      "simple"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'account' THEN SHOW parameter 'operation'",
-      "IF resource == 'contact' THEN SHOW parameter 'operation'",
-      "IF resource == 'accountContact' THEN SHOW parameter 'operation'",
-      "IF resource == 'contactList' THEN SHOW parameter 'operation'",
-      "IF resource == 'contactTag' THEN SHOW parameter 'operation'",
-      "IF resource == 'list' THEN SHOW parameter 'operation'",
-      "IF resource == 'tag' THEN SHOW parameter 'operation'",
-      "IF resource == 'deal' THEN SHOW parameter 'operation'",
-      "IF resource == 'connection' THEN SHOW parameter 'operation'",
-      "IF resource == 'ecommerceOrder' THEN SHOW parameter 'operation'",
-      "IF resource == 'ecommerceCustomer' THEN SHOW parameter 'operation'",
-      "IF resource == 'ecommerceOrderProducts' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'tag' THEN SHOW parameter 'tagType'",
-      "IF operation == 'create' AND resource == 'tag' THEN SHOW parameter 'name'",
-      "IF operation == 'create' AND resource == 'tag' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'update' AND resource == 'tag' THEN SHOW parameter 'tagId'",
-      "IF operation == 'update' AND resource == 'tag' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'delete' AND resource == 'tag' THEN SHOW parameter 'tagId'",
-      "IF operation == 'get' AND resource == 'tag' THEN SHOW parameter 'tagId'",
-      "IF operation == 'getAll' AND resource == 'tag' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'tag' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'tag' THEN SHOW parameter 'simple'",
-      "IF operation == 'getAll' AND resource == 'list' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'list' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'list' THEN SHOW parameter 'simple'",
-      "IF operation == 'add' AND resource == 'contactTag' THEN SHOW parameter 'tagId'",
-      "IF operation == 'add' AND resource == 'contactTag' THEN SHOW parameter 'contactId'",
-      "IF operation == 'remove' AND resource == 'contactTag' THEN SHOW parameter 'contactTagId'",
-      "IF operation == 'add' AND resource == 'contactList' THEN SHOW parameter 'listId'",
-      "IF operation == 'add' AND resource == 'contactList' THEN SHOW parameter 'contactId'",
-      "IF operation == 'remove' AND resource == 'contactList' THEN SHOW parameter 'listId'",
-      "IF operation == 'remove' AND resource == 'contactList' THEN SHOW parameter 'contactId'",
-      "IF operation == 'create' AND resource == 'account' THEN SHOW parameter 'name'",
-      "IF operation == 'create' AND resource == 'account' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'update' AND resource == 'account' THEN SHOW parameter 'accountId'",
-      "IF operation == 'update' AND resource == 'account' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'delete' AND resource == 'account' THEN SHOW parameter 'accountId'",
-      "IF operation == 'get' AND resource == 'account' THEN SHOW parameter 'accountId'",
-      "IF operation == 'getAll' AND resource == 'account' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'account' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'account' THEN SHOW parameter 'simple'",
-      "IF operation == 'getAll' AND resource == 'account' THEN SHOW parameter 'filters'",
-      "IF operation == 'create' AND resource == 'accountContact' THEN SHOW parameter 'account'",
-      "IF operation == 'create' AND resource == 'accountContact' THEN SHOW parameter 'contact'",
-      "IF operation == 'create' AND resource == 'accountContact' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'delete' AND resource == 'accountContact' THEN SHOW parameter 'accountContactId'",
-      "IF operation == 'update' AND resource == 'accountContact' THEN SHOW parameter 'accountContactId'",
-      "IF operation == 'update' AND resource == 'accountContact' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'create' AND resource == 'contact' THEN SHOW parameter 'email'",
-      "IF operation == 'create' AND resource == 'contact' THEN SHOW parameter 'updateIfExists'",
-      "IF operation == 'create' AND resource == 'contact' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'update' AND resource == 'contact' THEN SHOW parameter 'contactId'",
-      "IF operation == 'update' AND resource == 'contact' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'delete' AND resource == 'contact' THEN SHOW parameter 'contactId'",
-      "IF operation == 'get' AND resource == 'contact' THEN SHOW parameter 'contactId'",
-      "IF operation == 'getAll' AND resource == 'contact' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'contact' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'contact' THEN SHOW parameter 'simple'",
-      "IF operation == 'getAll' AND resource == 'contact' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'create' AND resource == 'deal' THEN SHOW parameter 'title'",
-      "IF operation == 'create' AND resource == 'deal' THEN SHOW parameter 'contact'",
-      "IF operation == 'create' AND resource == 'deal' THEN SHOW parameter 'value'",
-      "IF operation == 'create' AND resource == 'deal' THEN SHOW parameter 'currency'",
-      "IF operation == 'create' AND resource == 'deal' THEN SHOW parameter 'group'",
-      "IF operation == 'create' AND resource == 'deal' THEN SHOW parameter 'stage'",
-      "IF operation == 'create' AND resource == 'deal' THEN SHOW parameter 'owner'",
-      "IF operation == 'create' AND resource == 'deal' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'update' AND resource == 'deal' THEN SHOW parameter 'dealId'",
-      "IF operation == 'update' AND resource == 'deal' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'delete' AND resource == 'deal' THEN SHOW parameter 'dealId'",
-      "IF operation == 'get' AND resource == 'deal' THEN SHOW parameter 'dealId'",
-      "IF operation == 'getAll' AND resource == 'deal' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'deal' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'deal' THEN SHOW parameter 'simple'",
-      "IF operation == 'createNote' AND resource == 'deal' THEN SHOW parameter 'dealId'",
-      "IF operation == 'createNote' AND resource == 'deal' THEN SHOW parameter 'dealNote'",
-      "IF operation == 'updateNote' AND resource == 'deal' THEN SHOW parameter 'dealId'",
-      "IF operation == 'updateNote' AND resource == 'deal' THEN SHOW parameter 'dealNoteId'",
-      "IF operation == 'updateNote' AND resource == 'deal' THEN SHOW parameter 'dealNote'",
-      "IF operation == 'create' AND resource == 'connection' THEN SHOW parameter 'service'",
-      "IF operation == 'create' AND resource == 'connection' THEN SHOW parameter 'externalid'",
-      "IF operation == 'create' AND resource == 'connection' THEN SHOW parameter 'name'",
-      "IF operation == 'create' AND resource == 'connection' THEN SHOW parameter 'logoUrl'",
-      "IF operation == 'create' AND resource == 'connection' THEN SHOW parameter 'linkUrl'",
-      "IF operation == 'update' AND resource == 'connection' THEN SHOW parameter 'connectionId'",
-      "IF operation == 'update' AND resource == 'connection' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'delete' AND resource == 'connection' THEN SHOW parameter 'connectionId'",
-      "IF operation == 'get' AND resource == 'connection' THEN SHOW parameter 'connectionId'",
-      "IF operation == 'getAll' AND resource == 'connection' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'connection' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'connection' THEN SHOW parameter 'simple'",
-      "IF operation == 'create' AND resource == 'ecommerceOrder' THEN SHOW parameter 'externalid'",
-      "IF operation == 'create' AND resource == 'ecommerceOrder' THEN SHOW parameter 'externalcheckoutid'",
-      "IF operation == 'create' AND resource == 'ecommerceOrder' THEN SHOW parameter 'source'",
-      "IF operation == 'create' AND resource == 'ecommerceOrder' THEN SHOW parameter 'email'",
-      "IF operation == 'create' AND resource == 'ecommerceOrder' THEN SHOW parameter 'totalPrice'",
-      "IF operation == 'create' AND resource == 'ecommerceOrder' THEN SHOW parameter 'currency'",
-      "IF operation == 'create' AND resource == 'ecommerceOrder' THEN SHOW parameter 'connectionid'",
-      "IF operation == 'create' AND resource == 'ecommerceOrder' THEN SHOW parameter 'customerid'",
-      "IF operation == 'create' AND resource == 'ecommerceOrder' THEN SHOW parameter 'externalCreatedDate'",
-      "IF operation == 'create' AND resource == 'ecommerceOrder' THEN SHOW parameter 'abandonedDate'",
-      "IF operation == 'create' AND resource == 'ecommerceOrder' THEN SHOW parameter 'orderProducts'",
-      "IF operation == 'create' AND resource == 'ecommerceOrder' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'update' AND resource == 'ecommerceOrder' THEN SHOW parameter 'orderId'",
-      "IF operation == 'update' AND resource == 'ecommerceOrder' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'delete' AND resource == 'ecommerceOrder' THEN SHOW parameter 'orderId'",
-      "IF operation == 'get' AND resource == 'ecommerceOrder' THEN SHOW parameter 'orderId'",
-      "IF operation == 'getAll' AND resource == 'ecommerceOrder' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'ecommerceOrder' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'ecommerceOrder' THEN SHOW parameter 'simple'",
-      "IF operation == 'create' AND resource == 'ecommerceCustomer' THEN SHOW parameter 'connectionid'",
-      "IF operation == 'create' AND resource == 'ecommerceCustomer' THEN SHOW parameter 'externalid'",
-      "IF operation == 'create' AND resource == 'ecommerceCustomer' THEN SHOW parameter 'email'",
-      "IF operation == 'create' AND resource == 'ecommerceCustomer' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'update' AND resource == 'ecommerceCustomer' THEN SHOW parameter 'ecommerceCustomerId'",
-      "IF operation == 'update' AND resource == 'ecommerceCustomer' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'delete' AND resource == 'ecommerceCustomer' THEN SHOW parameter 'ecommerceCustomerId'",
-      "IF operation == 'get' AND resource == 'ecommerceCustomer' THEN SHOW parameter 'ecommerceCustomerId'",
-      "IF operation == 'getAll' AND resource == 'ecommerceCustomer' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'ecommerceCustomer' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'ecommerceCustomer' THEN SHOW parameter 'simple'",
-      "IF operation == 'getByOrderId' AND resource == 'ecommerceOrderProducts' THEN SHOW parameter 'orderId'",
-      "IF operation == 'getByProductId' AND resource == 'ecommerceOrderProducts' THEN SHOW parameter 'procuctId'",
-      "IF operation == 'getAll' AND resource == 'ecommerceOrderProducts' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'ecommerceOrderProducts' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'ecommerceOrderProducts' THEN SHOW parameter 'simple'"
-    ]
   }
 }

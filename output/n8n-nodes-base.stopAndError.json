@@ -1,72 +1,40 @@
 {
   "node_id": "n8n-nodes-base.stopAndError",
-  "name": "n8n-nodes-base.stopAndError",
+  "name": "Stop and Error",
   "version": 1,
   "semantic_context": "Throw an error in the workflow",
+  "natural_language_description": "这是 Stop and Error 节点。主要用于: Throw an error in the workflow",
   "parameters": {
     "errorType": {
       "displayName": "Error Type",
       "name": "errorType",
       "type": "options",
-      "options": [
-        {
-          "name": "Error Message",
-          "value": "errorMessage"
-        },
-        {
-          "name": "Error Object",
-          "value": "errorObject"
-        }
-      ],
+      "required": false,
       "default": "errorMessage",
       "description": "Type of error to throw",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Error Type | 作用: Type of error to throw | 默认值: errorMessage",
+      "available_options": [
+        "Error Message (值: errorMessage)",
+        "Error Object (值: errorObject)"
+      ]
     },
     "errorMessage": {
       "displayName": "Error Message",
       "name": "errorMessage",
       "type": "string",
-      "placeholder": "An error occurred!",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "errorType": [
-            "errorMessage"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Error Message | (必填项)"
     },
     "errorObject": {
       "displayName": "Error Object",
       "name": "errorObject",
       "type": "json",
-      "description": "Object containing error properties",
-      "default": "",
-      "typeOptions": {
-        "alwaysOpenEditWindow": true
-      },
-      "placeholder": "{\n\t\"code\": \"404\",\n\t\"description\": \"The resource could not be fetched\"\n}",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "errorType": [
-            "errorObject"
-          ]
-        }
-      },
-      "ai_hint": "Object containing error properties"
+      "default": "",
+      "description": "Object containing error properties",
+      "natural_language_description": "参数名: Error Object | 作用: Object containing error properties | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "errorType",
-      "errorMessage",
-      "errorObject"
-    ],
-    "conditional_rules": [
-      "IF errorType == 'errorMessage' THEN SHOW parameter 'errorMessage'",
-      "IF errorType == 'errorObject' THEN SHOW parameter 'errorObject'"
-    ]
   }
 }

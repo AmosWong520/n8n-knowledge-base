@@ -1,421 +1,140 @@
 {
   "node_id": "n8n-nodes-base.dataTableTool",
-  "name": "n8n-nodes-base.dataTableTool",
+  "name": "Data table Tool",
   "version": 1,
   "semantic_context": "Permanently save data across workflow executions in a table",
+  "natural_language_description": "这是 Data table Tool 节点。主要用于: Permanently save data across workflow executions in a table",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Permanently save data across workflow executions in a table",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Permanently save data across workflow executions in a table",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Permanently save data across workflow executions in a table | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Row",
-          "value": "row"
-        }
-      ],
+      "required": false,
       "default": "row",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: row",
+      "available_options": [
+        "Row (值: row)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "row"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Delete",
-          "value": "deleteRows",
-          "description": "Delete row(s)",
-          "action": "Delete row(s)"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get row(s)",
-          "action": "Get row(s)"
-        },
-        {
-          "name": "If Row Exists",
-          "value": "rowExists",
-          "description": "Match input items that are in the data table",
-          "action": "If row exists"
-        },
-        {
-          "name": "If Row Does Not Exist",
-          "value": "rowNotExists",
-          "description": "Match input items that are not in the data table",
-          "action": "If row does not exist"
-        },
-        {
-          "name": "Insert",
-          "value": "insert",
-          "description": "Insert a new row",
-          "action": "Insert row"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update row(s) matching certain fields",
-          "action": "Update row(s)"
-        },
-        {
-          "name": "Upsert",
-          "value": "upsert",
-          "description": "Update row(s), or insert if there is no match",
-          "action": "Upsert row(s)"
-        }
-      ],
+      "required": false,
       "default": "insert",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: insert",
+      "available_options": [
+        "Delete (值: deleteRows) - Delete row(s)",
+        "Get (值: get) - Get row(s)",
+        "If Row Exists (值: rowExists) - Match input items that are in the data table",
+        "If Row Does Not Exist (值: rowNotExists) - Match input items that are not in the data table",
+        "Insert (值: insert) - Insert a new row",
+        "Update (值: update) - Update row(s) matching certain fields",
+        "Upsert (值: upsert) - Update row(s), or insert if there is no match"
+      ]
     },
     "dataTableId": {
       "displayName": "Data table",
       "name": "dataTableId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "tableSearch",
-            "searchable": true,
-            "allowNewResource": {
-              "label": "resourceLocator.dataTable.createNew",
-              "url": "/projects/{{$projectId}}/datatables/new"
-            }
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "row"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Data table | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "matchType": {
       "displayName": "Must Match",
       "name": "matchType",
       "type": "options",
-      "options": [
-        {
-          "name": "Any Condition",
-          "value": "anyCondition"
-        },
-        {
-          "name": "All Conditions",
-          "value": "allConditions"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "row"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        }
-      },
+      "required": false,
       "default": "anyCondition",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Must Match | 默认值: anyCondition",
+      "available_options": [
+        "Any Condition (值: anyCondition)",
+        "All Conditions (值: allConditions)"
+      ]
     },
     "filters": {
       "displayName": "Conditions",
       "name": "filters",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true,
-        "minRequiredFields": 0
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "row"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "placeholder": "Add Condition",
-      "options": [
-        {
-          "displayName": "Conditions",
-          "name": "conditions",
-          "values": [
-            {
-              "displayName": "Column",
-              "name": "keyName",
-              "type": "options",
-              "description": "Choose from the list, or specify using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-              "typeOptions": {
-                "loadOptionsDependsOn": [
-                  "dataTableId.value"
-                ],
-                "loadOptionsMethod": "getDataTableColumns"
-              },
-              "default": "id"
-            },
-            {
-              "displayName": "Condition",
-              "name": "condition",
-              "type": "options",
-              "typeOptions": {
-                "loadOptionsDependsOn": [
-                  "&keyName"
-                ],
-                "loadOptionsMethod": "getConditionsForColumn"
-              },
-              "default": "eq"
-            },
-            {
-              "displayName": "Value",
-              "name": "keyValue",
-              "type": "string",
-              "default": "",
-              "displayOptions": {
-                "hide": {
-                  "condition": [
-                    "isEmpty",
-                    "isNotEmpty",
-                    "isTrue",
-                    "isFalse"
-                  ]
-                }
-              }
-            }
-          ]
-        }
-      ],
       "description": "Filter to decide which rows get",
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Conditions | 作用: Filter to decide which rows get | 默认值: {}",
+      "available_options": [
+        "conditions (值: None)"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
+      "required": false,
       "default": {},
-      "placeholder": "Add option",
-      "options": [
-        {
-          "displayName": "Dry Run",
-          "name": "dryRun",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the operation simulates and returns affected rows in their \"before\" and \"after\" states"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "row"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "dryRun (值: None) - Whether the operation simulates and returns affected rows in their \"before\" and \"after\" states"
+      ]
     },
     "columns": {
       "displayName": "Columns",
       "name": "columns",
       "type": "resourceMapper",
+      "required": true,
       "default": {
         "mappingMode": "defineBelow",
         "value": null
       },
-      "noDataExpression": true,
-      "required": true,
-      "typeOptions": {
-        "loadOptionsDependsOn": [
-          "dataTableId.value"
-        ],
-        "resourceMapper": {
-          "valuesLabel": "Values to upsert",
-          "resourceMapperMethod": "getDataTables",
-          "mode": "add",
-          "fieldWords": {
-            "singular": "column",
-            "plural": "columns"
-          },
-          "addAllFields": true,
-          "multiKeyMatch": true,
-          "hideNoDataError": true
-        }
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "row"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Columns | 默认值: {'mappingMode': 'defineBelow', 'value': None} | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "row"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "row"
-          ],
-          "operation": [
-            "get"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1
-      },
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "dataTableId",
-      "matchType",
-      "filters",
-      "options",
-      "columns",
-      "options",
-      "matchType",
-      "filters",
-      "returnAll",
-      "limit",
-      "matchType",
-      "filters",
-      "matchType",
-      "filters",
-      "matchType",
-      "filters",
-      "columns",
-      "options",
-      "matchType",
-      "filters",
-      "columns",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'row' THEN SHOW parameter 'operation'",
-      "IF resource == 'row' THEN SHOW parameter 'dataTableId'",
-      "IF resource == 'row' AND operation == 'deleteRows' THEN SHOW parameter 'matchType'",
-      "IF resource == 'row' AND operation == 'deleteRows' THEN SHOW parameter 'filters'",
-      "IF condition IN [\"isEmpty\", \"isNotEmpty\", \"isTrue\", \"isFalse\"] THEN HIDE parameter 'keyValue'",
-      "IF resource == 'row' AND operation == 'deleteRows' THEN SHOW parameter 'options'",
-      "IF resource == 'row' AND operation == 'insert' THEN SHOW parameter 'columns'",
-      "IF resource == 'row' AND operation == 'insert' THEN SHOW parameter 'options'",
-      "IF resource == 'row' AND operation == 'get' THEN SHOW parameter 'matchType'",
-      "IF resource == 'row' AND operation == 'get' THEN SHOW parameter 'filters'",
-      "IF resource == 'row' AND operation == 'get' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'row' AND operation == 'get' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'row' AND operation == 'rowExists' THEN SHOW parameter 'matchType'",
-      "IF resource == 'row' AND operation == 'rowExists' THEN SHOW parameter 'filters'",
-      "IF @version == {'_cnd': {'lt': 0}} THEN SHOW parameter 'condition'",
-      "IF resource == 'row' AND operation == 'rowNotExists' THEN SHOW parameter 'matchType'",
-      "IF resource == 'row' AND operation == 'rowNotExists' THEN SHOW parameter 'filters'",
-      "IF resource == 'row' AND operation == 'update' THEN SHOW parameter 'matchType'",
-      "IF resource == 'row' AND operation == 'update' THEN SHOW parameter 'filters'",
-      "IF resource == 'row' AND operation == 'update' THEN SHOW parameter 'columns'",
-      "IF resource == 'row' AND operation == 'update' THEN SHOW parameter 'options'",
-      "IF resource == 'row' AND operation == 'upsert' THEN SHOW parameter 'matchType'",
-      "IF resource == 'row' AND operation == 'upsert' THEN SHOW parameter 'filters'",
-      "IF resource == 'row' AND operation == 'upsert' THEN SHOW parameter 'columns'",
-      "IF resource == 'row' AND operation == 'upsert' THEN SHOW parameter 'options'"
-    ]
   }
 }

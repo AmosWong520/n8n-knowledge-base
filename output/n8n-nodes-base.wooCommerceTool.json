@@ -1,497 +1,152 @@
 {
   "node_id": "n8n-nodes-base.wooCommerceTool",
-  "name": "n8n-nodes-base.wooCommerceTool",
+  "name": "WooCommerce Tool",
   "version": 1,
   "semantic_context": "Consume WooCommerce API",
+  "natural_language_description": "这是 WooCommerce Tool 节点。主要用于: Consume WooCommerce API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume WooCommerce API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume WooCommerce API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume WooCommerce API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Customer",
-          "value": "customer"
-        },
-        {
-          "name": "Order",
-          "value": "order"
-        },
-        {
-          "name": "Product",
-          "value": "product"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "product",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: product",
+      "available_options": [
+        "Customer (值: customer)",
+        "Order (值: order)",
+        "Product (值: product)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a order",
-          "action": "Create an order"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a order",
-          "action": "Delete an order"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a order",
-          "action": "Get an order"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many orders",
-          "action": "Get many orders"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a order",
-          "action": "Update an order"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a order",
+        "Delete (值: delete) - Delete a order",
+        "Get (值: get) - Get a order",
+        "Get Many (值: getAll) - Get many orders",
+        "Update (值: update) - Update a order",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "customer"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Email | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Currency",
-          "name": "currency",
-          "type": "string",
-          "default": "",
-          "description": "Currency the order was created with"
-        },
-        {
-          "displayName": "Customer ID",
-          "name": "customerId",
-          "type": "string",
-          "default": "",
-          "description": "User ID who owns the order. 0 for guests."
-        },
-        {
-          "displayName": "Customer Note",
-          "name": "customerNote",
-          "type": "string",
-          "default": "",
-          "description": "Note left by customer during checkout"
-        },
-        {
-          "displayName": "Parent ID",
-          "name": "parentId",
-          "type": "string",
-          "default": "",
-          "description": "Parent order ID"
-        },
-        {
-          "displayName": "Payment Method ID",
-          "name": "paymentMethodId",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Payment Method Title",
-          "name": "paymentMethodTitle",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Set Paid",
-          "name": "setPaid",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the order is paid. It will set the status to processing and reduce stock items."
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Cancelled",
-              "value": "cancelled"
-            },
-            {
-              "name": "Completed",
-              "value": "completed"
-            },
-            {
-              "name": "Failed",
-              "value": "failed"
-            },
-            {
-              "name": "on-hold",
-              "value": "on-hold"
-            },
-            {
-              "name": "Pending",
-              "value": "pending"
-            },
-            {
-              "name": "Processing",
-              "value": "processing"
-            },
-            {
-              "name": "Refunded",
-              "value": "refunded"
-            },
-            {
-              "name": "Trash",
-              "value": "trash"
-            }
-          ],
-          "default": "pending",
-          "description": "A named status for the order"
-        },
-        {
-          "displayName": "Transaction ID",
-          "name": "transactionID",
-          "type": "string",
-          "default": "",
-          "description": "Unique transaction ID"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "currency (值: None) - Currency the order was created with",
+        "customerId (值: None) - User ID who owns the order. 0 for guests.",
+        "customerNote (值: None) - Note left by customer during checkout",
+        "parentId (值: None) - Parent order ID",
+        "paymentMethodId (值: None)",
+        "paymentMethodTitle (值: None)",
+        "setPaid (值: None) - Whether the order is paid. It will set the status to processing and reduce stock items.",
+        "status (值: None) - A named status for the order",
+        "transactionID (值: None) - Unique transaction ID"
+      ]
     },
     "customerId": {
       "displayName": "Customer ID",
       "name": "customerId",
-      "description": "ID of the customer to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "customer"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the customer to update"
+      "description": "ID of the customer to update",
+      "natural_language_description": "参数名: Customer ID | 作用: ID of the customer to update | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 100
-      },
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "customer"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Email",
-          "name": "email",
-          "type": "string",
-          "placeholder": "name@email.com",
-          "default": "",
-          "description": "Email address to filter customers by"
-        },
-        {
-          "displayName": "Sort Order",
-          "name": "order",
-          "description": "Order to sort customers in",
-          "type": "options",
-          "options": [
-            {
-              "name": "Ascending",
-              "value": "asc"
-            },
-            {
-              "name": "Descending",
-              "value": "desc"
-            }
-          ],
-          "default": "asc"
-        },
-        {
-          "displayName": "Order By",
-          "name": "orderby",
-          "description": "Field to sort customers by",
-          "type": "options",
-          "options": [
-            {
-              "name": "ID",
-              "value": "id"
-            },
-            {
-              "name": "Include",
-              "value": "include"
-            },
-            {
-              "name": "Name",
-              "value": "name"
-            },
-            {
-              "name": "Registered Date",
-              "value": "registered_date"
-            }
-          ],
-          "default": "id"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "email (值: None) - Email address to filter customers by",
+        "order (值: None) - Order to sort customers in",
+        "orderby (值: None) - Field to sort customers by"
+      ]
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Currency",
-          "name": "currency",
-          "type": "string",
-          "default": "",
-          "description": "Currency the order was created with"
-        },
-        {
-          "displayName": "Customer ID",
-          "name": "customerId",
-          "type": "string",
-          "default": "",
-          "description": "User ID who owns the order. 0 for guests."
-        },
-        {
-          "displayName": "Customer Note",
-          "name": "customerNote",
-          "type": "string",
-          "default": "",
-          "description": "Note left by customer during checkout"
-        },
-        {
-          "displayName": "Parent ID",
-          "name": "parentId",
-          "type": "string",
-          "default": "",
-          "description": "Parent order ID"
-        },
-        {
-          "displayName": "Payment Method ID",
-          "name": "paymentMethodId",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Payment Method Title",
-          "name": "paymentMethodTitle",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Cancelled",
-              "value": "cancelled"
-            },
-            {
-              "name": "Completed",
-              "value": "completed"
-            },
-            {
-              "name": "Failed",
-              "value": "failed"
-            },
-            {
-              "name": "on-hold",
-              "value": "on-hold"
-            },
-            {
-              "name": "Pending",
-              "value": "pending"
-            },
-            {
-              "name": "Processing",
-              "value": "processing"
-            },
-            {
-              "name": "Refunded",
-              "value": "refunded"
-            },
-            {
-              "name": "Trash",
-              "value": "trash"
-            }
-          ],
-          "default": "pending",
-          "description": "A named status for the order"
-        },
-        {
-          "displayName": "Transaction ID",
-          "name": "transactionID",
-          "type": "string",
-          "default": "",
-          "description": "Unique transaction ID"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "currency (值: None) - Currency the order was created with",
+        "customerId (值: None) - User ID who owns the order. 0 for guests.",
+        "customerNote (值: None) - Note left by customer during checkout",
+        "parentId (值: None) - Parent order ID",
+        "paymentMethodId (值: None)",
+        "paymentMethodTitle (值: None)",
+        "status (值: None) - A named status for the order",
+        "transactionID (值: None) - Unique transaction ID"
+      ]
     },
     "name": {
       "displayName": "Name",
@@ -499,999 +154,154 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "product"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "description": "Product name",
-      "ai_hint": "Product name"
+      "natural_language_description": "参数名: Name | 作用: Product name | (必填项)"
     },
     "dimensionsUi": {
       "displayName": "Dimensions",
       "name": "dimensionsUi",
-      "placeholder": "Add Dimension",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": false
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "product"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
       "description": "Product dimensions",
-      "options": [
-        {
-          "name": "dimensionsValues",
-          "displayName": "Dimension",
-          "values": [
-            {
-              "displayName": "Height",
-              "name": "height",
-              "type": "string",
-              "default": "",
-              "description": "Product height"
-            },
-            {
-              "displayName": "Length",
-              "name": "length",
-              "type": "string",
-              "default": "",
-              "description": "Product length"
-            },
-            {
-              "displayName": "Width",
-              "name": "width",
-              "type": "string",
-              "default": "",
-              "description": "Product width"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Dimensions | 作用: Product dimensions | 默认值: {}",
+      "available_options": [
+        "dimensionsValues (值: None)"
+      ]
     },
     "imagesUi": {
       "displayName": "Images",
       "name": "imagesUi",
-      "placeholder": "Add Image",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "product"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
       "description": "Product Image",
-      "options": [
-        {
-          "name": "imagesValues",
-          "displayName": "Image",
-          "values": [
-            {
-              "displayName": "Alt",
-              "name": "alt",
-              "type": "string",
-              "default": "",
-              "description": "Image alternative text"
-            },
-            {
-              "displayName": "Src",
-              "name": "src",
-              "type": "string",
-              "default": "",
-              "description": "Image URL"
-            },
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": "",
-              "description": "Image name"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Images | 作用: Product Image | 默认值: {}",
+      "available_options": [
+        "imagesValues (值: None)"
+      ]
     },
     "metadataUi": {
       "displayName": "Metadata",
       "name": "metadataUi",
-      "placeholder": "Add Metadata",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
       "description": "Meta data",
-      "options": [
-        {
-          "name": "metadataValues",
-          "displayName": "Metadata",
-          "values": [
-            {
-              "displayName": "Key",
-              "name": "key",
-              "type": "string",
-              "default": "",
-              "description": "Name of the metadata key to add"
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Value to set for the metadata key"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Metadata | 作用: Meta data | 默认值: {}",
+      "available_options": [
+        "metadataValues (值: None)"
+      ]
     },
     "productId": {
       "displayName": "Product ID",
       "name": "productId",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "product"
-          ],
-          "operation": [
-            "delete"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Product ID"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "After",
-          "name": "after",
-          "type": "dateTime",
-          "default": "",
-          "description": "Limit response to resources published after a given ISO8601 compliant date"
-        },
-        {
-          "displayName": "Before",
-          "name": "before",
-          "type": "dateTime",
-          "default": "",
-          "description": "Limit response to resources published before a given ISO8601 compliant date"
-        },
-        {
-          "displayName": "Customer",
-          "name": "customer",
-          "type": "string",
-          "default": "",
-          "description": "Limit result set to orders assigned a specific customer"
-        },
-        {
-          "displayName": "Decimal Points",
-          "name": "decimalPoints",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 0,
-            "maxValue": 10
-          },
-          "default": 2,
-          "description": "Number of decimal points to use in each resource"
-        },
-        {
-          "displayName": "Order",
-          "name": "order",
-          "type": "options",
-          "options": [
-            {
-              "name": "ASC",
-              "value": "asc"
-            },
-            {
-              "name": "DESC",
-              "value": "desc"
-            }
-          ],
-          "default": "desc",
-          "description": "Order sort attribute ascending or descending"
-        },
-        {
-          "displayName": "Product",
-          "name": "product",
-          "type": "string",
-          "default": "",
-          "description": "Limit result set to orders assigned a specific product"
-        },
-        {
-          "displayName": "Order By",
-          "name": "orderBy",
-          "type": "options",
-          "options": [
-            {
-              "name": "Date",
-              "value": "date"
-            },
-            {
-              "name": "ID",
-              "value": "id"
-            },
-            {
-              "name": "Include",
-              "value": "include"
-            },
-            {
-              "name": "Slug",
-              "value": "slug"
-            },
-            {
-              "name": "Title",
-              "value": "title"
-            }
-          ],
-          "default": "id",
-          "description": "Sort collection by object attribute"
-        },
-        {
-          "displayName": "Search",
-          "name": "search",
-          "type": "string",
-          "default": "",
-          "description": "Limit results to those matching a string"
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Any",
-              "value": "any"
-            },
-            {
-              "name": "Cancelled",
-              "value": "cancelled"
-            },
-            {
-              "name": "Completed",
-              "value": "completed"
-            },
-            {
-              "name": "Failed",
-              "value": "failed"
-            },
-            {
-              "name": "On-Hold",
-              "value": "on-hold"
-            },
-            {
-              "name": "Pending",
-              "value": "pending"
-            },
-            {
-              "name": "Processing",
-              "value": "processing"
-            },
-            {
-              "name": "Refunded",
-              "value": "refunded"
-            },
-            {
-              "name": "Trash",
-              "value": "trash"
-            }
-          ],
-          "default": "any",
-          "description": "Limit result set to orders assigned a specific status"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "after (值: None) - Limit response to resources published after a given ISO8601 compliant date",
+        "before (值: None) - Limit response to resources published before a given ISO8601 compliant date",
+        "customer (值: None) - Limit result set to orders assigned a specific customer",
+        "decimalPoints (值: None) - Number of decimal points to use in each resource",
+        "order (值: None) - Order sort attribute ascending or descending",
+        "product (值: None) - Limit result set to orders assigned a specific product",
+        "orderBy (值: None) - Sort collection by object attribute",
+        "search (值: None) - Limit results to those matching a string",
+        "status (值: None) - Limit result set to orders assigned a specific status"
+      ]
     },
     "billingUi": {
       "displayName": "Billing",
       "name": "billingUi",
-      "placeholder": "Add Billing",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": false
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
       "description": "Billing address",
-      "options": [
-        {
-          "name": "billingValues",
-          "displayName": "Address",
-          "values": [
-            {
-              "displayName": "First Name",
-              "name": "firstName",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Last Name",
-              "name": "lastName",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Company",
-              "name": "company",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Address Line 1",
-              "name": "address_1",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Address Line 2",
-              "name": "address_2",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "City",
-              "name": "city",
-              "type": "string",
-              "default": "",
-              "description": "ISO code or name of the state, province or district"
-            },
-            {
-              "displayName": "Postal Code",
-              "name": "postalCode",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Country",
-              "name": "country",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Email",
-              "name": "email",
-              "type": "string",
-              "placeholder": "name@email.com",
-              "default": ""
-            },
-            {
-              "displayName": "Phone",
-              "name": "phone",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Billing | 作用: Billing address | 默认值: {}",
+      "available_options": [
+        "billingValues (值: None)"
+      ]
     },
     "couponLinesUi": {
       "displayName": "Coupon Lines",
       "name": "couponLinesUi",
-      "placeholder": "Add Coupon Line",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
       "description": "Coupons line data",
-      "options": [
-        {
-          "name": "couponLinesValues",
-          "displayName": "Coupon Line",
-          "values": [
-            {
-              "displayName": "Code",
-              "name": "code",
-              "type": "string",
-              "default": "",
-              "description": "Coupon code"
-            },
-            {
-              "displayName": "Metadata",
-              "name": "metadataUi",
-              "placeholder": "Add Metadata",
-              "type": "fixedCollection",
-              "default": {},
-              "typeOptions": {
-                "multipleValues": true
-              },
-              "description": "Meta data",
-              "options": [
-                {
-                  "name": "metadataValues",
-                  "displayName": "Metadata",
-                  "values": [
-                    {
-                      "displayName": "Key",
-                      "name": "key",
-                      "type": "string",
-                      "default": "",
-                      "description": "Name of the metadata key to add"
-                    },
-                    {
-                      "displayName": "Value",
-                      "name": "value",
-                      "type": "string",
-                      "default": "",
-                      "description": "Value to set for the metadata key"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Coupon Lines | 作用: Coupons line data | 默认值: {}",
+      "available_options": [
+        "couponLinesValues (值: None)"
+      ]
     },
     "feeLinesUi": {
       "displayName": "Fee Lines",
       "name": "feeLinesUi",
-      "placeholder": "Add Fee Line",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
       "description": "Fee line data",
-      "options": [
-        {
-          "name": "feeLinesValues",
-          "displayName": "Fee Line",
-          "values": [
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": "",
-              "description": "Fee name"
-            },
-            {
-              "displayName": "Tax Class",
-              "name": "taxClass",
-              "type": "string",
-              "description": "Tax class of fee",
-              "default": ""
-            },
-            {
-              "displayName": "Tax Status",
-              "name": "taxStatus",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Taxable",
-                  "value": "taxable"
-                },
-                {
-                  "name": "None",
-                  "value": "none"
-                }
-              ],
-              "default": "",
-              "description": "Tax class of fee"
-            },
-            {
-              "displayName": "Total",
-              "name": "total",
-              "type": "string",
-              "default": "",
-              "description": "Line total (after discounts)"
-            },
-            {
-              "displayName": "Metadata",
-              "name": "metadataUi",
-              "placeholder": "Add Metadata",
-              "type": "fixedCollection",
-              "default": {},
-              "typeOptions": {
-                "multipleValues": true
-              },
-              "description": "Meta data",
-              "options": [
-                {
-                  "name": "metadataValues",
-                  "displayName": "Metadata",
-                  "values": [
-                    {
-                      "displayName": "Key",
-                      "name": "key",
-                      "type": "string",
-                      "default": "",
-                      "description": "Name of the metadata key to add"
-                    },
-                    {
-                      "displayName": "Value",
-                      "name": "value",
-                      "type": "string",
-                      "default": "",
-                      "description": "Value to set for the metadata key"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Fee Lines | 作用: Fee line data | 默认值: {}",
+      "available_options": [
+        "feeLinesValues (值: None)"
+      ]
     },
     "lineItemsUi": {
       "displayName": "Line Items",
       "name": "lineItemsUi",
-      "placeholder": "Add Line Item",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
       "description": "Line item data",
-      "options": [
-        {
-          "name": "lineItemsValues",
-          "displayName": "Line Item",
-          "values": [
-            {
-              "displayName": "Name",
-              "name": "name",
-              "type": "string",
-              "default": "",
-              "description": "Product name"
-            },
-            {
-              "displayName": "Product ID",
-              "name": "productId",
-              "type": "number",
-              "default": 0
-            },
-            {
-              "displayName": "Variation ID",
-              "name": "variationId",
-              "type": "number",
-              "default": 0,
-              "description": "Variation ID, if applicable"
-            },
-            {
-              "displayName": "Quantity",
-              "name": "quantity",
-              "type": "number",
-              "default": 1,
-              "description": "Quantity ordered"
-            },
-            {
-              "displayName": "Tax Class",
-              "name": "taxClass",
-              "type": "string",
-              "default": "",
-              "description": "Slug of the tax class of product"
-            },
-            {
-              "displayName": "Subtotal",
-              "name": "subtotal",
-              "type": "string",
-              "default": "",
-              "description": "Line subtotal (before discounts)"
-            },
-            {
-              "displayName": "Total",
-              "name": "total",
-              "type": "string",
-              "default": "",
-              "description": "Line total (after discounts)"
-            },
-            {
-              "displayName": "Metadata",
-              "name": "metadataUi",
-              "placeholder": "Add Metadata",
-              "type": "fixedCollection",
-              "default": {},
-              "typeOptions": {
-                "multipleValues": true
-              },
-              "description": "Meta data",
-              "options": [
-                {
-                  "name": "metadataValues",
-                  "displayName": "Metadata",
-                  "values": [
-                    {
-                      "displayName": "Key",
-                      "name": "key",
-                      "type": "string",
-                      "default": "",
-                      "description": "Name of the metadata key to add"
-                    },
-                    {
-                      "displayName": "Value",
-                      "name": "value",
-                      "type": "string",
-                      "default": "",
-                      "description": "Value to set for the metadata key"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Line Items | 作用: Line item data | 默认值: {}",
+      "available_options": [
+        "lineItemsValues (值: None)"
+      ]
     },
     "shippingUi": {
       "displayName": "Shipping",
       "name": "shippingUi",
-      "placeholder": "Add Shipping",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": false
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
       "description": "Shipping address",
-      "options": [
-        {
-          "name": "shippingValues",
-          "displayName": "Address",
-          "values": [
-            {
-              "displayName": "First Name",
-              "name": "firstName",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Last Name",
-              "name": "lastName",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Company",
-              "name": "company",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Address Line 1",
-              "name": "address_1",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Address Line 2",
-              "name": "address_2",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "City",
-              "name": "city",
-              "type": "string",
-              "default": "",
-              "description": "ISO code or name of the state, province or district"
-            },
-            {
-              "displayName": "Postal Code",
-              "name": "postalCode",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Country",
-              "name": "country",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Shipping | 作用: Shipping address | 默认值: {}",
+      "available_options": [
+        "shippingValues (值: None)"
+      ]
     },
     "shippingLinesUi": {
       "displayName": "Shipping Lines",
       "name": "shippingLinesUi",
-      "placeholder": "Add Shipping Line",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
       "description": "Shipping line data",
-      "options": [
-        {
-          "name": "shippingLinesValues",
-          "displayName": "Fee Line",
-          "values": [
-            {
-              "displayName": "Method Title",
-              "name": "methodTitle",
-              "type": "string",
-              "default": "",
-              "description": "Shipping method name"
-            },
-            {
-              "displayName": "Method ID",
-              "name": "method ID",
-              "type": "string",
-              "description": "Shipping method ID",
-              "default": ""
-            },
-            {
-              "displayName": "Total",
-              "name": "total",
-              "type": "string",
-              "default": "",
-              "description": "Line total (after discounts)"
-            },
-            {
-              "displayName": "Metadata",
-              "name": "metadataUi",
-              "placeholder": "Add Metadata",
-              "type": "fixedCollection",
-              "default": {},
-              "typeOptions": {
-                "multipleValues": true
-              },
-              "description": "Meta data",
-              "options": [
-                {
-                  "name": "metadataValues",
-                  "displayName": "Metadata",
-                  "values": [
-                    {
-                      "displayName": "Key",
-                      "name": "key",
-                      "type": "string",
-                      "default": "",
-                      "description": "Name of the metadata key to add"
-                    },
-                    {
-                      "displayName": "Value",
-                      "name": "value",
-                      "type": "string",
-                      "default": "",
-                      "description": "Value to set for the metadata key"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Shipping Lines | 作用: Shipping line data | 默认值: {}",
+      "available_options": [
+        "shippingLinesValues (值: None)"
+      ]
     },
     "orderId": {
       "displayName": "Order ID",
       "name": "orderId",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "order"
-          ],
-          "operation": [
-            "delete"
-          ]
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Order ID"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "email",
-      "additionalFields",
-      "customerId",
-      "customerId",
-      "returnAll",
-      "limit",
-      "filters",
-      "customerId",
-      "updateFields",
-      "operation",
-      "name",
-      "additionalFields",
-      "dimensionsUi",
-      "imagesUi",
-      "metadataUi",
-      "productId",
-      "updateFields",
-      "dimensionsUi",
-      "imagesUi",
-      "metadataUi",
-      "productId",
-      "returnAll",
-      "limit",
-      "options",
-      "productId",
-      "operation",
-      "additionalFields",
-      "billingUi",
-      "couponLinesUi",
-      "feeLinesUi",
-      "lineItemsUi",
-      "metadataUi",
-      "shippingUi",
-      "shippingLinesUi",
-      "orderId",
-      "updateFields",
-      "billingUi",
-      "couponLinesUi",
-      "feeLinesUi",
-      "lineItemsUi",
-      "metadataUi",
-      "shippingUi",
-      "shippingLinesUi",
-      "orderId",
-      "returnAll",
-      "limit",
-      "options",
-      "orderId"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'customer' THEN SHOW parameter 'operation'",
-      "IF resource == 'customer' AND operation == 'create' THEN SHOW parameter 'email'",
-      "IF resource == 'customer' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF /resource == 'customer' AND /operation == 'create' THEN SHOW parameter 'password'",
-      "IF resource == 'customer' AND operation == 'delete' THEN SHOW parameter 'customerId'",
-      "IF resource == 'customer' AND operation == 'get' THEN SHOW parameter 'customerId'",
-      "IF resource == 'customer' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'customer' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'customer' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'customer' AND operation == 'update' THEN SHOW parameter 'customerId'",
-      "IF resource == 'customer' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'product' THEN SHOW parameter 'operation'",
-      "IF resource == 'product' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'product' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'product' AND operation == 'create' THEN SHOW parameter 'dimensionsUi'",
-      "IF resource == 'product' AND operation == 'create' THEN SHOW parameter 'imagesUi'",
-      "IF resource == 'product' AND operation == 'create' THEN SHOW parameter 'metadataUi'",
-      "IF resource == 'product' AND operation == 'update' THEN SHOW parameter 'productId'",
-      "IF resource == 'product' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'product' AND operation == 'update' THEN SHOW parameter 'dimensionsUi'",
-      "IF resource == 'product' AND operation == 'update' THEN SHOW parameter 'imagesUi'",
-      "IF resource == 'product' AND operation == 'update' THEN SHOW parameter 'metadataUi'",
-      "IF resource == 'product' AND operation == 'get' THEN SHOW parameter 'productId'",
-      "IF resource == 'product' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'product' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'product' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'product' AND operation == 'delete' THEN SHOW parameter 'productId'",
-      "IF resource == 'order' THEN SHOW parameter 'operation'",
-      "IF resource == 'order' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'order' AND operation == 'create' THEN SHOW parameter 'billingUi'",
-      "IF resource == 'order' AND operation == 'create' THEN SHOW parameter 'couponLinesUi'",
-      "IF resource == 'order' AND operation == 'create' THEN SHOW parameter 'feeLinesUi'",
-      "IF resource == 'order' AND operation == 'create' THEN SHOW parameter 'lineItemsUi'",
-      "IF resource == 'order' AND operation == 'create' THEN SHOW parameter 'metadataUi'",
-      "IF resource == 'order' AND operation == 'create' THEN SHOW parameter 'shippingUi'",
-      "IF resource == 'order' AND operation == 'create' THEN SHOW parameter 'shippingLinesUi'",
-      "IF resource == 'order' AND operation == 'update' THEN SHOW parameter 'orderId'",
-      "IF resource == 'order' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'order' AND operation == 'update' THEN SHOW parameter 'billingUi'",
-      "IF resource == 'order' AND operation == 'update' THEN SHOW parameter 'couponLinesUi'",
-      "IF resource == 'order' AND operation == 'update' THEN SHOW parameter 'feeLinesUi'",
-      "IF resource == 'order' AND operation == 'update' THEN SHOW parameter 'lineItemsUi'",
-      "IF resource == 'order' AND operation == 'update' THEN SHOW parameter 'metadataUi'",
-      "IF resource == 'order' AND operation == 'update' THEN SHOW parameter 'shippingUi'",
-      "IF resource == 'order' AND operation == 'update' THEN SHOW parameter 'shippingLinesUi'",
-      "IF resource == 'order' AND operation == 'get' THEN SHOW parameter 'orderId'",
-      "IF resource == 'order' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'order' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'order' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'order' AND operation == 'delete' THEN SHOW parameter 'orderId'"
-    ]
   }
 }

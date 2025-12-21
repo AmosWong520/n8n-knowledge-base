@@ -1,20 +1,18 @@
 {
   "node_id": "n8n-nodes-base.mqttTool",
-  "name": "n8n-nodes-base.mqttTool",
+  "name": "MQTT Tool",
   "version": 1,
   "semantic_context": "Push messages to MQTT",
+  "natural_language_description": "这是 MQTT Tool 节点。主要用于: Push messages to MQTT",
   "parameters": {
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Push messages to MQTT",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Push messages to MQTT",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Push messages to MQTT | (必填项)"
     },
     "topic": {
       "displayName": "Topic",
@@ -23,81 +21,38 @@
       "required": true,
       "default": "",
       "description": "The topic to publish to",
-      "ai_hint": "The topic to publish to"
+      "natural_language_description": "参数名: Topic | 作用: The topic to publish to | (必填项)"
     },
     "sendInputData": {
       "displayName": "Send Input Data",
       "name": "sendInputData",
       "type": "boolean",
+      "required": false,
       "default": true,
       "description": "Whether to send the data the node receives as JSON",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Send Input Data | 作用: Whether to send the data the node receives as JSON | 默认值: True"
     },
     "message": {
       "displayName": "Message",
       "name": "message",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "sendInputData": [
-            false
-          ]
-        }
-      },
       "default": "",
       "description": "The message to publish",
-      "ai_hint": "The message to publish"
+      "natural_language_description": "参数名: Message | 作用: The message to publish | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "QoS",
-          "name": "qos",
-          "type": "options",
-          "options": [
-            {
-              "name": "Received at Most Once",
-              "value": 0
-            },
-            {
-              "name": "Received at Least Once",
-              "value": 1
-            },
-            {
-              "name": "Exactly Once",
-              "value": 2
-            }
-          ],
-          "default": 0,
-          "description": "QoS subscription level"
-        },
-        {
-          "displayName": "Retain",
-          "name": "retain",
-          "type": "boolean",
-          "default": false,
-          "description": "Normally if a publisher publishes a message to a topic, and no one is subscribed to that topic the message is simply discarded by the broker. However the publisher can tell the broker to keep the last message on that topic by setting the retain flag to true."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "qos (值: None) - QoS subscription level",
+        "retain (值: None) - Normally if a publisher publishes a message to a topic, and no one is subscribed to that topic the message is simply discarded by the broker. However the publisher can tell the broker to keep the last message on that topic by setting the retain flag to true."
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "toolDescription",
-      "topic",
-      "sendInputData",
-      "message",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF sendInputData == False THEN SHOW parameter 'message'"
-    ]
   }
 }

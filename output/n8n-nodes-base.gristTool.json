@@ -1,385 +1,138 @@
 {
   "node_id": "n8n-nodes-base.gristTool",
-  "name": "n8n-nodes-base.gristTool",
+  "name": "Grist Tool",
   "version": 1,
   "semantic_context": "Consume the Grist API",
+  "natural_language_description": "这是 Grist Tool 节点。主要用于: Consume the Grist API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume the Grist API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume the Grist API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume the Grist API | (必填项)"
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Create Row",
-          "value": "create",
-          "description": "Create rows in a table",
-          "action": "Create rows in a table"
-        },
-        {
-          "name": "Delete Row",
-          "value": "delete",
-          "description": "Delete rows from a table",
-          "action": "Delete rows from a table"
-        },
-        {
-          "name": "Get Many Rows",
-          "value": "getAll",
-          "description": "Read rows from a table",
-          "action": "Read rows from a table"
-        },
-        {
-          "name": "Update Row",
-          "value": "update",
-          "description": "Update rows in a table",
-          "action": "Update rows in a table"
-        }
-      ],
+      "required": false,
       "default": "getAll",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getAll",
+      "available_options": [
+        "Create Row (值: create) - Create rows in a table",
+        "Delete Row (值: delete) - Delete rows from a table",
+        "Get Many Rows (值: getAll) - Read rows from a table",
+        "Update Row (值: update) - Update rows in a table"
+      ]
     },
     "docId": {
       "displayName": "Document ID",
       "name": "docId",
       "type": "string",
-      "default": "",
       "required": true,
+      "default": "",
       "description": "In your document, click your profile icon, then Document Settings, then copy the value under \"This document's ID\"",
-      "ai_hint": "In your document, click your profile icon, then Document Settings, then copy the value under \"This document's ID\""
+      "natural_language_description": "参数名: Document ID | 作用: In your document, click your profile icon, then Document Settings, then copy the value under \"This document's ID\" | (必填项)"
     },
     "tableId": {
       "displayName": "Table ID",
       "name": "tableId",
       "type": "string",
-      "default": "",
       "required": true,
+      "default": "",
       "description": "ID of table to operate on. If unsure, look at the Code View.",
-      "ai_hint": "ID of table to operate on. If unsure, look at the Code View."
+      "natural_language_description": "参数名: Table ID | 作用: ID of table to operate on. If unsure, look at the Code View. | (必填项)"
     },
     "rowId": {
       "displayName": "Row ID",
       "name": "rowId",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
       "description": "ID of the row to update",
-      "required": true,
-      "ai_hint": "ID of the row to update"
+      "natural_language_description": "参数名: Row ID | 作用: ID of the row to update | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "typeOptions": {
-        "minValue": 1
-      },
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "additionalOptions": {
       "displayName": "Additional Options",
       "name": "additionalOptions",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "placeholder": "Add option",
-      "options": [
-        {
-          "displayName": "Filter",
-          "name": "filter",
-          "placeholder": "Add Filter",
-          "description": "Only return rows matching all of the given filters. For complex filters, create a formula column and filter for the value \"true\".",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "options": [
-            {
-              "displayName": "Filter Properties",
-              "name": "filterProperties",
-              "values": [
-                {
-                  "displayName": "Column Name or ID",
-                  "name": "field",
-                  "type": "options",
-                  "typeOptions": {
-                    "loadOptionsDependsOn": [
-                      "docId",
-                      "tableId"
-                    ],
-                    "loadOptionsMethod": "getTableColumns"
-                  },
-                  "default": "",
-                  "description": "Column to apply the filter in. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-                  "required": true
-                },
-                {
-                  "displayName": "Values",
-                  "name": "values",
-                  "type": "string",
-                  "default": "",
-                  "description": "Comma-separated list of values to search for in the filtered column"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Sort Order",
-          "name": "sort",
-          "placeholder": "Add Field",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "options": [
-            {
-              "displayName": "Sort Properties",
-              "name": "sortProperties",
-              "values": [
-                {
-                  "displayName": "Column Name or ID",
-                  "name": "field",
-                  "type": "options",
-                  "typeOptions": {
-                    "loadOptionsDependsOn": [
-                      "docId",
-                      "tableId"
-                    ],
-                    "loadOptionsMethod": "getTableColumns"
-                  },
-                  "default": "",
-                  "required": true,
-                  "description": "Column to sort on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-                },
-                {
-                  "displayName": "Direction",
-                  "name": "direction",
-                  "type": "options",
-                  "options": [
-                    {
-                      "name": "Ascending",
-                      "value": "asc"
-                    },
-                    {
-                      "name": "Descending",
-                      "value": "desc"
-                    }
-                  ],
-                  "default": "asc",
-                  "description": "Direction to sort in"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Options | 默认值: {}",
+      "available_options": [
+        "filter (值: None) - Only return rows matching all of the given filters. For complex filters, create a formula column and filter for the value \"true\".",
+        "sort (值: None)"
+      ]
     },
     "dataToSend": {
       "displayName": "Data to Send",
       "name": "dataToSend",
       "type": "options",
-      "options": [
-        {
-          "name": "Auto-Map Input Data to Columns",
-          "value": "autoMapInputs",
-          "description": "Use when node input properties match destination column names"
-        },
-        {
-          "name": "Define Below for Each Column",
-          "value": "defineInNode",
-          "description": "Set the value for each destination column"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create",
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": "defineInNode",
       "description": "Whether to insert the input data this node receives in the new row",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Data to Send | 作用: Whether to insert the input data this node receives in the new row | 默认值: defineInNode",
+      "available_options": [
+        "Auto-Map Input Data to Columns (值: autoMapInputs) - Use when node input properties match destination column names",
+        "Define Below for Each Column (值: defineInNode) - Set the value for each destination column"
+      ]
     },
     "inputsToIgnore": {
       "displayName": "Inputs to Ignore",
       "name": "inputsToIgnore",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create",
-            "update"
-          ],
-          "dataToSend": [
-            "autoMapInputs"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "List of input properties to avoid sending, separated by commas. Leave empty to send all properties.",
-      "placeholder": "Enter properties...",
-      "ai_hint": "List of input properties to avoid sending, separated by commas. Leave empty to send all properties."
+      "natural_language_description": "参数名: Inputs to Ignore | 作用: List of input properties to avoid sending, separated by commas. Leave empty to send all properties."
     },
     "fieldsToSend": {
       "displayName": "Fields to Send",
       "name": "fieldsToSend",
-      "placeholder": "Add Field",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValueButtonText": "Add Field to Send",
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create",
-            "update"
-          ],
-          "dataToSend": [
-            "defineInNode"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Properties",
-          "name": "properties",
-          "values": [
-            {
-              "displayName": "Column Name or ID",
-              "name": "fieldId",
-              "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-              "type": "options",
-              "typeOptions": {
-                "loadOptionsDependsOn": [
-                  "tableId"
-                ],
-                "loadOptionsMethod": "getTableColumns"
-              },
-              "default": ""
-            },
-            {
-              "displayName": "Field Value",
-              "name": "fieldValue",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Fields to Send | 默认值: {}",
+      "available_options": [
+        "properties (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "operation",
-      "docId",
-      "tableId",
-      "rowId",
-      "returnAll",
-      "limit",
-      "additionalOptions",
-      "rowId",
-      "dataToSend",
-      "inputsToIgnore",
-      "fieldsToSend"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF operation == 'delete' THEN SHOW parameter 'rowId'",
-      "IF operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' THEN SHOW parameter 'additionalOptions'",
-      "IF operation == 'update' THEN SHOW parameter 'rowId'",
-      "IF operation IN [\"create\", \"update\"] THEN SHOW parameter 'dataToSend'",
-      "IF operation IN [\"create\", \"update\"] AND dataToSend == 'autoMapInputs' THEN SHOW parameter 'inputsToIgnore'",
-      "IF operation IN [\"create\", \"update\"] AND dataToSend == 'defineInNode' THEN SHOW parameter 'fieldsToSend'"
-    ]
   }
 }

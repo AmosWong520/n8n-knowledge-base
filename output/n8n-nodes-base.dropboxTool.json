@@ -1,442 +1,182 @@
 {
   "node_id": "n8n-nodes-base.dropboxTool",
-  "name": "n8n-nodes-base.dropboxTool",
+  "name": "Dropbox Tool",
   "version": 1,
   "semantic_context": "Access data on Dropbox",
+  "natural_language_description": "这是 Dropbox Tool 节点。主要用于: Access data on Dropbox",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Access data on Dropbox",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Access data on Dropbox",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Access data on Dropbox | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Access Token",
-          "value": "accessToken"
-        },
-        {
-          "name": "OAuth2",
-          "value": "oAuth2"
-        }
-      ],
+      "required": false,
       "default": "accessToken",
       "description": "Means of authenticating with the service",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "natural_language_description": "参数名: Authentication | 作用: Means of authenticating with the service | 默认值: accessToken",
+      "available_options": [
+        "Access Token (值: accessToken)",
+        "OAuth2 (值: oAuth2)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "File",
-          "value": "file"
-        },
-        {
-          "name": "Folder",
-          "value": "folder"
-        },
-        {
-          "name": "Search",
-          "value": "search"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "file",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: file",
+      "available_options": [
+        "File (值: file)",
+        "Folder (值: folder)",
+        "Search (值: search)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "search"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Query",
-          "value": "query",
-          "action": "Query"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "query",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: query",
+      "available_options": [
+        "Query (值: query)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "path": {
       "displayName": "Folder Path",
       "name": "path",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ],
-          "resource": [
-            "folder"
-          ]
-        }
-      },
-      "placeholder": "/invoices/2019/",
       "description": "The path of which to list the content",
-      "ai_hint": "The path of which to list the content"
+      "natural_language_description": "参数名: Folder Path | 作用: The path of which to list the content"
     },
     "toPath": {
       "displayName": "To Path",
       "name": "toPath",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "move"
-          ],
-          "resource": [
-            "file",
-            "folder"
-          ]
-        }
-      },
-      "placeholder": "/invoices/new_name.txt",
+      "default": "",
       "description": "The new path of file or folder",
-      "ai_hint": "The new path of file or folder"
+      "natural_language_description": "参数名: To Path | 作用: The new path of file or folder | (必填项)"
     },
     "binaryPropertyName": {
       "displayName": "Input Binary Field",
       "name": "binaryPropertyName",
       "type": "string",
-      "default": "data",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upload"
-          ],
-          "resource": [
-            "file"
-          ],
-          "binaryData": [
-            true
-          ]
-        }
-      },
-      "placeholder": "",
-      "hint": "The name of the input binary field containing the file to be uploaded"
+      "default": "data",
+      "description": "",
+      "natural_language_description": "参数名: Input Binary Field | 提示: The name of the input binary field containing the file to be uploaded | 默认值: data | (必填项)"
     },
     "binaryData": {
       "displayName": "Binary File",
       "name": "binaryData",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upload"
-          ],
-          "resource": [
-            "file"
-          ]
-        }
-      },
       "description": "Whether the data to upload should be taken from binary field",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Binary File | 作用: Whether the data to upload should be taken from binary field | 默认值: False"
     },
     "fileContent": {
       "displayName": "File Content",
       "name": "fileContent",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upload"
-          ],
-          "resource": [
-            "file"
-          ],
-          "binaryData": [
-            false
-          ]
-        }
-      },
-      "placeholder": "",
       "description": "The text content of the file to upload",
-      "ai_hint": "The text content of the file to upload"
+      "natural_language_description": "参数名: File Content | 作用: The text content of the file to upload"
     },
     "query": {
       "displayName": "Query",
       "name": "query",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "query"
-          ],
-          "resource": [
-            "search"
-          ]
-        }
-      },
+      "default": "",
       "description": "The string to search for. May match across multiple fields based on the request arguments.",
-      "ai_hint": "The string to search for. May match across multiple fields based on the request arguments."
+      "natural_language_description": "参数名: Query | 作用: The string to search for. May match across multiple fields based on the request arguments. | (必填项)"
     },
     "fileStatus": {
       "displayName": "File Status",
       "name": "fileStatus",
       "type": "options",
-      "options": [
-        {
-          "name": "Active",
-          "value": "active"
-        },
-        {
-          "name": "Deleted",
-          "value": "deleted"
-        }
-      ],
+      "required": false,
       "default": "active",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "query"
-          ],
-          "resource": [
-            "search"
-          ]
-        }
-      },
       "description": "The string to search for. May match across multiple fields based on the request arguments.",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: File Status | 作用: The string to search for. May match across multiple fields based on the request arguments. | 默认值: active",
+      "available_options": [
+        "Active (值: active)",
+        "Deleted (值: deleted)"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "list"
-          ],
-          "resource": [
-            "folder"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folder"
-          ],
-          "operation": [
-            "list"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "simple": {
       "displayName": "Simplify",
       "name": "simple",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "query"
-          ],
-          "resource": [
-            "search"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether to return a simplified version of the response instead of the raw data",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Simplify | 作用: Whether to return a simplified version of the response instead of the raw data | 默认值: True"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folder"
-          ],
-          "operation": [
-            "list"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Include Deleted",
-          "name": "include_deleted",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the results will include entries for files and folders that used to exist but were deleted. The default for this field is False."
-        },
-        {
-          "displayName": "Include Shared Members",
-          "name": "include_has_explicit_shared_members",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the results will include a flag for each file indicating whether or not that file has any explicit members. The default for this field is False."
-        },
-        {
-          "displayName": "Include Mounted Folders",
-          "name": "include_mounted_folders",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether the results will include entries under mounted folders which includes app folder, shared folder and team folder. The default for this field is True."
-        },
-        {
-          "displayName": "Include Non Downloadable Files",
-          "name": "include_non_downloadable_files",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to include files that are not downloadable, i.e. Google Docs. The default for this field is True."
-        },
-        {
-          "displayName": "Recursive",
-          "name": "recursive",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether the list folder operation will be applied recursively to all subfolders and the response will contain contents of all subfolders. The default for this field is False."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "include_deleted (值: None) - Whether the results will include entries for files and folders that used to exist but were deleted. The default for this field is False.",
+        "include_has_explicit_shared_members (值: None) - Whether the results will include a flag for each file indicating whether or not that file has any explicit members. The default for this field is False.",
+        "include_mounted_folders (值: None) - Whether the results will include entries under mounted folders which includes app folder, shared folder and team folder. The default for this field is True.",
+        "include_non_downloadable_files (值: None) - Whether to include files that are not downloadable, i.e. Google Docs. The default for this field is True.",
+        "recursive (值: None) - Whether the list folder operation will be applied recursively to all subfolders and the response will contain contents of all subfolders. The default for this field is False."
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "resource",
-      "operation",
-      "operation",
-      "operation",
-      "path",
-      "toPath",
-      "path",
-      "path",
-      "toPath",
-      "path",
-      "binaryPropertyName",
-      "path",
-      "binaryData",
-      "fileContent",
-      "binaryPropertyName",
-      "query",
-      "fileStatus",
-      "returnAll",
-      "limit",
-      "simple",
-      "filters",
-      "path",
-      "path",
-      "returnAll",
-      "limit",
-      "filters"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'file' THEN SHOW parameter 'operation'",
-      "IF resource == 'folder' THEN SHOW parameter 'operation'",
-      "IF resource == 'search' THEN SHOW parameter 'operation'",
-      "IF operation == 'copy' AND resource IN [\"file\", \"folder\"] THEN SHOW parameter 'path'",
-      "IF operation == 'copy' AND resource IN [\"file\", \"folder\"] THEN SHOW parameter 'toPath'",
-      "IF operation == 'delete' AND resource IN [\"file\", \"folder\"] THEN SHOW parameter 'path'",
-      "IF operation == 'move' AND resource IN [\"file\", \"folder\"] THEN SHOW parameter 'path'",
-      "IF operation == 'move' AND resource IN [\"file\", \"folder\"] THEN SHOW parameter 'toPath'",
-      "IF operation == 'download' AND resource == 'file' THEN SHOW parameter 'path'",
-      "IF operation == 'download' AND resource == 'file' THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'path'",
-      "IF operation == 'upload' AND resource == 'file' THEN SHOW parameter 'binaryData'",
-      "IF operation == 'upload' AND resource == 'file' AND binaryData == False THEN SHOW parameter 'fileContent'",
-      "IF operation == 'upload' AND resource == 'file' AND binaryData == True THEN SHOW parameter 'binaryPropertyName'",
-      "IF operation == 'query' AND resource == 'search' THEN SHOW parameter 'query'",
-      "IF operation == 'query' AND resource == 'search' THEN SHOW parameter 'fileStatus'",
-      "IF operation == 'query' AND resource == 'search' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'search' AND operation == 'query' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'query' AND resource == 'search' THEN SHOW parameter 'simple'",
-      "IF resource == 'search' AND operation == 'query' THEN SHOW parameter 'filters'",
-      "IF operation == 'create' AND resource == 'folder' THEN SHOW parameter 'path'",
-      "IF operation == 'list' AND resource == 'folder' THEN SHOW parameter 'path'",
-      "IF operation == 'list' AND resource == 'folder' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'folder' AND operation == 'list' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'folder' AND operation == 'list' THEN SHOW parameter 'filters'"
-    ]
   }
 }

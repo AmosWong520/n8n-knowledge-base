@@ -1,108 +1,68 @@
 {
   "node_id": "n8n-nodes-base.simulate",
-  "name": "n8n-nodes-base.simulate",
+  "name": "Simulate",
   "version": 1,
   "semantic_context": "Simulate a node",
+  "natural_language_description": "这是 Simulate 节点。主要用于: Simulate a node",
   "parameters": {
     "icon": {
       "displayName": "Icon to Display on Canvas",
       "name": "icon",
       "type": "options",
-      "description": "Select a type of node to show corresponding icon",
+      "required": false,
       "default": "n8n-nodes-base.noOp",
-      "typeOptions": {
-        "loadOptionsMethod": "getNodeTypes"
-      },
-      "ai_hint": "Select a type of node to show corresponding icon"
+      "description": "Select a type of node to show corresponding icon",
+      "natural_language_description": "参数名: Icon to Display on Canvas | 作用: Select a type of node to show corresponding icon | 默认值: n8n-nodes-base.noOp"
     },
     "subtitle": {
       "displayName": "Subtitle",
       "name": "subtitle",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "e.g. 'record: read'"
+      "description": "",
+      "natural_language_description": "参数名: Subtitle"
     },
     "output": {
       "displayName": "Output",
       "name": "output",
       "type": "options",
+      "required": false,
       "default": "all",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Returns all input items",
-          "value": "all"
-        },
-        {
-          "name": "Specify how many of input items to return",
-          "value": "specify"
-        },
-        {
-          "name": "Specify output as JSON",
-          "value": "custom"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Output | 默认值: all",
+      "available_options": [
+        "Returns all input items (值: all)",
+        "Specify how many of input items to return (值: specify)",
+        "Specify output as JSON (值: custom)"
+      ]
     },
     "numberOfItems": {
       "displayName": "Number of Items",
       "name": "numberOfItems",
       "type": "number",
+      "required": false,
       "default": 1,
       "description": "Number input of items to return, if greater then input length all items will be returned",
-      "displayOptions": {
-        "show": {
-          "output": [
-            "specify"
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1
-      },
-      "ai_hint": "Number input of items to return, if greater then input length all items will be returned"
+      "natural_language_description": "参数名: Number of Items | 作用: Number input of items to return, if greater then input length all items will be returned | 默认值: 1"
     },
     "jsonOutput": {
       "displayName": "JSON",
       "name": "jsonOutput",
       "type": "json",
-      "typeOptions": {
-        "rows": 5
-      },
+      "required": false,
       "default": "[\n  {\n  \"my_field_1\": \"value\",\n  \"my_field_2\": 1\n  }\n]",
-      "validateType": "array",
-      "displayOptions": {
-        "show": {
-          "output": [
-            "custom"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: JSON | 默认值: [\n  {\n  \"my_field_1\": \"value\",\n  \"my_field_2\": 1\n  }\n]"
     },
     "executionDuration": {
       "displayName": "Execution Duration (MS)",
       "name": "executionDuration",
       "type": "number",
+      "required": false,
       "default": 150,
       "description": "Execution duration in milliseconds",
-      "typeOptions": {
-        "minValue": 0
-      },
-      "ai_hint": "Execution duration in milliseconds"
+      "natural_language_description": "参数名: Execution Duration (MS) | 作用: Execution duration in milliseconds | 默认值: 150"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "icon",
-      "subtitle",
-      "output",
-      "numberOfItems",
-      "jsonOutput",
-      "executionDuration"
-    ],
-    "conditional_rules": [
-      "IF output == 'specify' THEN SHOW parameter 'numberOfItems'",
-      "IF output == 'custom' THEN SHOW parameter 'jsonOutput'"
-    ]
   }
 }

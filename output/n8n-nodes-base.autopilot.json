@@ -1,472 +1,137 @@
 {
   "node_id": "n8n-nodes-base.autopilot",
-  "name": "n8n-nodes-base.autopilot",
+  "name": "Autopilot",
   "version": 1,
   "semantic_context": "Consume Autopilot API",
+  "natural_language_description": "这是 Autopilot 节点。主要用于: Consume Autopilot API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Contact",
-          "value": "contact"
-        },
-        {
-          "name": "Contact Journey",
-          "value": "contactJourney"
-        },
-        {
-          "name": "Contact List",
-          "value": "contactList"
-        },
-        {
-          "name": "List",
-          "value": "list"
-        }
-      ],
+      "required": false,
       "default": "contact",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: contact",
+      "available_options": [
+        "Contact (值: contact)",
+        "Contact Journey (值: contactJourney)",
+        "Contact List (值: contactList)",
+        "List (值: list)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "list"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a list",
-          "action": "Create a list"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many lists",
-          "action": "Get many lists"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a list",
+        "Get Many (值: getAll) - Get many lists"
+      ]
     },
     "email": {
       "displayName": "Email",
       "name": "email",
-      "required": true,
       "type": "string",
-      "placeholder": "name@email.com",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upsert"
-          ],
-          "resource": [
-            "contact"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
       "description": "Email address of the contact",
-      "ai_hint": "Email address of the contact"
+      "natural_language_description": "参数名: Email | 作用: Email address of the contact | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "upsert"
-          ],
-          "resource": [
-            "contact"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "placeholder": "Add Field",
-      "options": [
-        {
-          "displayName": "Company",
-          "name": "Company",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Custom Fields",
-          "name": "customFieldsUi",
-          "type": "fixedCollection",
-          "default": {},
-          "placeholder": "Add Custom Field",
-          "typeOptions": {
-            "multipleValues": true,
-            "loadOptionsMethod": "getCustomFields"
-          },
-          "options": [
-            {
-              "name": "customFieldsValues",
-              "displayName": "Custom Field",
-              "values": [
-                {
-                  "displayName": "Key Name or ID",
-                  "name": "key",
-                  "type": "options",
-                  "typeOptions": {
-                    "loadOptionsMethod": "getCustomFields"
-                  },
-                  "description": "User-specified key of user-defined data. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-                  "default": ""
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "description": "User-specified value of user-defined data",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Fax",
-          "name": "Fax",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "First Name",
-          "name": "FirstName",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Industry",
-          "name": "Industry",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Last Name",
-          "name": "LastName",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Lead Source",
-          "name": "LeadSource",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "LinkedIn URL",
-          "name": "LinkedIn",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "List Name or ID",
-          "name": "autopilotList",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getLists"
-          },
-          "default": "",
-          "description": "List to which this contact will be added on creation. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Mailing Country",
-          "name": "MailingCountry",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Mailing Postal Code",
-          "name": "MailingPostalCode",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Mailing State",
-          "name": "MailingState",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Mailing Street",
-          "name": "MailingStreet",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Mailing City",
-          "name": "MailingCity",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Mobile Phone",
-          "name": "MobilePhone",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "New Email",
-          "name": "newEmail",
-          "type": "string",
-          "default": "",
-          "description": "If provided, will change the email address of the contact identified by the Email field"
-        },
-        {
-          "displayName": "Notify",
-          "name": "notify",
-          "type": "boolean",
-          "default": true,
-          "description": "By default Autopilot notifies registered REST hook endpoints for contact_added/contact_updated events when a new contact is added or an existing contact is updated via API. Disable to skip notifications."
-        },
-        {
-          "displayName": "Number of Employees",
-          "name": "NumberOfEmployees",
-          "type": "number",
-          "default": 0
-        },
-        {
-          "displayName": "Owner Name",
-          "name": "owner_name",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Phone",
-          "name": "Phone",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Salutation",
-          "name": "Salutation",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Session ID",
-          "name": "autopilotSessionId",
-          "type": "string",
-          "default": "",
-          "description": "Used to associate a contact with a session"
-        },
-        {
-          "displayName": "Status",
-          "name": "Status",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Title",
-          "name": "Title",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Subscribe",
-          "name": "unsubscribed",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to subscribe or un-subscribe a contact"
-        },
-        {
-          "displayName": "Website URL",
-          "name": "Website",
-          "type": "string",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "Company (值: None)",
+        "customFieldsUi (值: None)",
+        "Fax (值: None)",
+        "FirstName (值: None)",
+        "Industry (值: None)",
+        "LastName (值: None)",
+        "LeadSource (值: None)",
+        "LinkedIn (值: None)",
+        "autopilotList (值: None) - List to which this contact will be added on creation. Choose from the list, or specify an ID using an expression.",
+        "MailingCountry (值: None)",
+        "MailingPostalCode (值: None)",
+        "MailingState (值: None)",
+        "MailingStreet (值: None)",
+        "MailingCity (值: None)",
+        "MobilePhone (值: None)",
+        "newEmail (值: None) - If provided, will change the email address of the contact identified by the Email field",
+        "notify (值: None) - By default Autopilot notifies registered REST hook endpoints for contact_added/contact_updated events when a new contact is added or an existing contact is updated via API. Disable to skip notifications.",
+        "NumberOfEmployees (值: None)",
+        "owner_name (值: None)",
+        "Phone (值: None)",
+        "Salutation (值: None)",
+        "autopilotSessionId (值: None) - Used to associate a contact with a session",
+        "Status (值: None)",
+        "Title (值: None)",
+        "unsubscribed (值: None) - Whether to subscribe or un-subscribe a contact",
+        "Website (值: None)"
+      ]
     },
     "contactId": {
       "displayName": "Contact ID",
       "name": "contactId",
-      "required": true,
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "add",
-            "remove",
-            "exist"
-          ],
-          "resource": [
-            "contactList"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
       "description": "Can be ID or email",
-      "ai_hint": "Can be ID or email"
+      "natural_language_description": "参数名: Contact ID | 作用: Can be ID or email | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "list"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "triggerId": {
       "displayName": "Trigger Name or ID",
       "name": "triggerId",
-      "required": true,
-      "typeOptions": {
-        "loadOptionsMethod": "getTriggers"
-      },
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "add"
-          ],
-          "resource": [
-            "contactJourney"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
-      "description": "List ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "List ID. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "List ID. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Trigger Name or ID | 作用: List ID. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "listId": {
       "displayName": "List Name or ID",
       "name": "listId",
-      "required": true,
-      "typeOptions": {
-        "loadOptionsMethod": "getLists"
-      },
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "add",
-            "remove",
-            "exist",
-            "getAll"
-          ],
-          "resource": [
-            "contactList"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
-      "description": "ID of the list to operate on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "ID of the list to operate on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "ID of the list to operate on. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: List Name or ID | 作用: ID of the list to operate on. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "name": {
       "displayName": "Name",
       "name": "name",
-      "required": true,
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "list"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
       "description": "Name of the list to create",
-      "ai_hint": "Name of the list to create"
+      "natural_language_description": "参数名: Name | 作用: Name of the list to create | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "email",
-      "additionalFields",
-      "contactId",
-      "contactId",
-      "returnAll",
-      "limit",
-      "operation",
-      "triggerId",
-      "contactId",
-      "operation",
-      "listId",
-      "contactId",
-      "returnAll",
-      "limit",
-      "operation",
-      "name",
-      "returnAll",
-      "limit"
-    ],
-    "conditional_rules": [
-      "IF resource == 'contact' THEN SHOW parameter 'operation'",
-      "IF operation == 'upsert' AND resource == 'contact' THEN SHOW parameter 'email'",
-      "IF operation == 'upsert' AND resource == 'contact' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'delete' AND resource == 'contact' THEN SHOW parameter 'contactId'",
-      "IF operation == 'get' AND resource == 'contact' THEN SHOW parameter 'contactId'",
-      "IF operation == 'getAll' AND resource == 'contact' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'contact' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'contactJourney' THEN SHOW parameter 'operation'",
-      "IF operation == 'add' AND resource == 'contactJourney' THEN SHOW parameter 'triggerId'",
-      "IF operation == 'add' AND resource == 'contactJourney' THEN SHOW parameter 'contactId'",
-      "IF resource == 'contactList' THEN SHOW parameter 'operation'",
-      "IF operation IN [\"add\", \"remove\", \"exist\", \"getAll\"] AND resource == 'contactList' THEN SHOW parameter 'listId'",
-      "IF operation IN [\"add\", \"remove\", \"exist\"] AND resource == 'contactList' THEN SHOW parameter 'contactId'",
-      "IF operation == 'getAll' AND resource == 'contactList' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'contactList' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'list' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'list' THEN SHOW parameter 'name'",
-      "IF operation == 'getAll' AND resource == 'list' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'list' AND returnAll == False THEN SHOW parameter 'limit'"
-    ]
   }
 }

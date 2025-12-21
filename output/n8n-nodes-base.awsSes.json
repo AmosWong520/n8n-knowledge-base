@@ -1,596 +1,236 @@
 {
   "node_id": "n8n-nodes-base.awsSes",
-  "name": "n8n-nodes-base.awsSes",
+  "name": "AWS SES",
   "version": 1,
   "semantic_context": "Sends data to AWS SES",
+  "natural_language_description": "这是 AWS SES 节点。主要用于: Sends data to AWS SES",
   "parameters": {
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "AWS (IAM)",
-          "value": "iam"
-        },
-        {
-          "name": "AWS (Assume Role)",
-          "value": "assumeRole"
-        }
-      ],
+      "required": false,
       "default": "iam",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: iam",
+      "available_options": [
+        "AWS (IAM) (值: iam)",
+        "AWS (Assume Role) (值: assumeRole)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Custom Verification Email",
-          "value": "customVerificationEmail"
-        },
-        {
-          "name": "Email",
-          "value": "email"
-        },
-        {
-          "name": "Template",
-          "value": "template"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "email",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: email",
+      "available_options": [
+        "Custom Verification Email (值: customVerificationEmail)",
+        "Email (值: email)",
+        "Template (值: template)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "template"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a template",
-          "action": "Create a template"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a template",
-          "action": "Delete a template"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a template",
-          "action": "Get a template"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many templates",
-          "action": "Get many templates"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a template",
-          "action": "Update a template"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a template",
+        "Delete (值: delete) - Delete a template",
+        "Get (值: get) - Get a template",
+        "Get Many (值: getAll) - Get many templates",
+        "Update (值: update) - Update a template",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "fromEmailAddress": {
       "displayName": "From Email",
       "name": "fromEmailAddress",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "customVerificationEmail"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "required": true,
-      "description": "The email address that the custom verification email is sent from",
       "default": "",
-      "ai_hint": "The email address that the custom verification email is sent from"
+      "description": "The email address that the custom verification email is sent from",
+      "natural_language_description": "参数名: From Email | 作用: The email address that the custom verification email is sent from | (必填项)"
     },
     "templateName": {
       "displayName": "Template Name",
       "name": "templateName",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "template"
-          ],
-          "operation": [
-            "update",
-            "create",
-            "get",
-            "delete"
-          ]
-        }
-      },
       "required": true,
-      "description": "The name of the template",
       "default": "",
-      "ai_hint": "The name of the template"
+      "description": "The name of the template",
+      "natural_language_description": "参数名: Template Name | 作用: The name of the template | (必填项)"
     },
     "templateContent": {
       "displayName": "Template Content",
       "name": "templateContent",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "customVerificationEmail"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "description": "The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML",
+      "required": false,
       "default": "",
-      "ai_hint": "The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML"
+      "description": "The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML",
+      "natural_language_description": "参数名: Template Content | 作用: The content of the custom verification email. The total size of the email must be less than 10 MB. The message body may contain HTML"
     },
     "templateSubject": {
       "displayName": "Template Subject",
       "name": "templateSubject",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "customVerificationEmail"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "The subject line of the custom verification email",
-      "ai_hint": "The subject line of the custom verification email"
+      "natural_language_description": "参数名: Template Subject | 作用: The subject line of the custom verification email | (必填项)"
     },
     "successRedirectionURL": {
       "displayName": "Success Redirection URL",
       "name": "successRedirectionURL",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "customVerificationEmail"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "required": true,
-      "description": "The URL that the recipient of the verification email is sent to if his or her address is successfully verified",
       "default": "",
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "description": "The URL that the recipient of the verification email is sent to if his or her address is successfully verified",
+      "natural_language_description": "参数名: Success Redirection URL | 作用: The URL that the recipient of the verification email is sent to if his or her address is successfully verified | (必填项)"
     },
     "failureRedirectionURL": {
       "displayName": "Failure Redirection URL",
       "name": "failureRedirectionURL",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "customVerificationEmail"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "required": true,
-      "description": "The URL that the recipient of the verification email is sent to if his or her address is not successfully verified",
       "default": "",
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "description": "The URL that the recipient of the verification email is sent to if his or her address is not successfully verified",
+      "natural_language_description": "参数名: Failure Redirection URL | 作用: The URL that the recipient of the verification email is sent to if his or her address is not successfully verified | (必填项)"
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "customVerificationEmail"
-          ],
-          "operation": [
-            "send"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "The email address to verify",
-      "ai_hint": "The email address to verify"
+      "natural_language_description": "参数名: Email | 作用: The email address to verify | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "template"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Text Part",
-          "name": "textPart",
-          "type": "string",
-          "description": "The email body that will be visible to recipients whose email clients do not display HTML",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "textPart (值: None) - The email body that will be visible to recipients whose email clients do not display HTML"
+      ]
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "template"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Text Part",
-          "name": "textPart",
-          "type": "string",
-          "description": "The email body that will be visible to recipients whose email clients do not display HTML",
-          "default": ""
-        },
-        {
-          "displayName": "Subject Part",
-          "name": "subjectPart",
-          "type": "string",
-          "description": "The subject line of the email",
-          "default": ""
-        },
-        {
-          "displayName": "Html Part",
-          "name": "htmlPart",
-          "type": "string",
-          "description": "The HTML body of the email",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "textPart (值: None) - The email body that will be visible to recipients whose email clients do not display HTML",
+        "subjectPart (值: None) - The subject line of the email",
+        "htmlPart (值: None) - The HTML body of the email"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "template"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "description": "Max number of results to return",
+      "required": false,
       "default": 20,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "template"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "description": "Max number of results to return",
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 20"
     },
     "isBodyHtml": {
       "displayName": "Is Body HTML",
       "name": "isBodyHtml",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ],
-          "operation": [
-            "send"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether body is HTML or simple text",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Is Body HTML | 作用: Whether body is HTML or simple text | 默认值: False"
     },
     "subject": {
       "displayName": "Subject",
       "name": "subject",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ],
-          "operation": [
-            "send"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Subject | (必填项)"
     },
     "body": {
       "displayName": "Body",
       "name": "body",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ],
-          "operation": [
-            "send"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
       "description": "The message to be sent",
-      "required": true,
-      "ai_hint": "The message to be sent"
+      "natural_language_description": "参数名: Body | 作用: The message to be sent | (必填项)"
     },
     "fromEmail": {
       "displayName": "From Email",
       "name": "fromEmail",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ],
-          "operation": [
-            "sendTemplate"
-          ]
-        }
-      },
       "required": true,
-      "description": "Email address of the sender",
-      "placeholder": "admin@example.com",
       "default": "",
-      "ai_hint": "Email address of the sender"
+      "description": "Email address of the sender",
+      "natural_language_description": "参数名: From Email | 作用: Email address of the sender | (必填项)"
     },
     "toAddresses": {
       "displayName": "To Addresses",
       "name": "toAddresses",
       "type": "string",
-      "description": "Email addresses of the recipients",
-      "typeOptions": {
-        "multipleValues": true,
-        "multipleValueButtonText": "Add To Email"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ],
-          "operation": [
-            "sendTemplate"
-          ]
-        }
-      },
-      "placeholder": "info@example.com",
+      "required": false,
       "default": [],
-      "ai_hint": "Email addresses of the recipients"
+      "description": "Email addresses of the recipients",
+      "natural_language_description": "参数名: To Addresses | 作用: Email addresses of the recipients | 默认值: []"
     },
     "templateDataUi": {
       "displayName": "Template Data",
       "name": "templateDataUi",
       "type": "fixedCollection",
-      "placeholder": "Add Data",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "email"
-          ],
-          "operation": [
-            "sendTemplate"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Data",
-          "name": "templateDataValues",
-          "values": [
-            {
-              "displayName": "Key",
-              "name": "key",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Template Data | 默认值: {}",
+      "available_options": [
+        "templateDataValues (值: None)"
+      ]
     },
     "subjectPart": {
       "displayName": "Subject Part",
       "name": "subjectPart",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "template"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "description": "The subject line of the email",
+      "required": false,
       "default": "",
-      "ai_hint": "The subject line of the email"
+      "description": "The subject line of the email",
+      "natural_language_description": "参数名: Subject Part | 作用: The subject line of the email"
     },
     "htmlPart": {
       "displayName": "Html Part",
       "name": "htmlPart",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "template"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "description": "The HTML body of the email",
+      "required": false,
       "default": "",
-      "ai_hint": "The HTML body of the email"
+      "description": "The HTML body of the email",
+      "natural_language_description": "参数名: Html Part | 作用: The HTML body of the email"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "authentication",
-      "resource",
-      "operation",
-      "fromEmailAddress",
-      "templateName",
-      "templateContent",
-      "templateSubject",
-      "successRedirectionURL",
-      "failureRedirectionURL",
-      "email",
-      "templateName",
-      "additionalFields",
-      "templateName",
-      "updateFields",
-      "returnAll",
-      "limit",
-      "operation",
-      "isBodyHtml",
-      "subject",
-      "body",
-      "fromEmail",
-      "toAddresses",
-      "templateName",
-      "fromEmail",
-      "toAddresses",
-      "templateDataUi",
-      "additionalFields",
-      "operation",
-      "templateName",
-      "subjectPart",
-      "htmlPart",
-      "additionalFields",
-      "updateFields",
-      "returnAll",
-      "limit"
-    ],
-    "conditional_rules": [
-      "IF resource == 'customVerificationEmail' THEN SHOW parameter 'operation'",
-      "IF resource == 'customVerificationEmail' AND operation == 'create' THEN SHOW parameter 'fromEmailAddress'",
-      "IF resource == 'customVerificationEmail' AND operation == 'create' THEN SHOW parameter 'templateName'",
-      "IF resource == 'customVerificationEmail' AND operation == 'create' THEN SHOW parameter 'templateContent'",
-      "IF resource == 'customVerificationEmail' AND operation == 'create' THEN SHOW parameter 'templateSubject'",
-      "IF resource == 'customVerificationEmail' AND operation == 'create' THEN SHOW parameter 'successRedirectionURL'",
-      "IF resource == 'customVerificationEmail' AND operation == 'create' THEN SHOW parameter 'failureRedirectionURL'",
-      "IF resource == 'customVerificationEmail' AND operation == 'send' THEN SHOW parameter 'email'",
-      "IF resource == 'customVerificationEmail' AND operation == 'send' THEN SHOW parameter 'templateName'",
-      "IF resource == 'customVerificationEmail' AND operation == 'send' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'customVerificationEmail' AND operation IN [\"update\", \"delete\", \"get\"] THEN SHOW parameter 'templateName'",
-      "IF resource == 'customVerificationEmail' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'customVerificationEmail' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'customVerificationEmail' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'email' THEN SHOW parameter 'operation'",
-      "IF resource == 'email' AND operation == 'send' THEN SHOW parameter 'isBodyHtml'",
-      "IF resource == 'email' AND operation == 'send' THEN SHOW parameter 'subject'",
-      "IF resource == 'email' AND operation == 'send' THEN SHOW parameter 'body'",
-      "IF resource == 'email' AND operation == 'send' THEN SHOW parameter 'fromEmail'",
-      "IF resource == 'email' AND operation == 'send' THEN SHOW parameter 'toAddresses'",
-      "IF resource == 'email' AND operation == 'sendTemplate' THEN SHOW parameter 'templateName'",
-      "IF resource == 'email' AND operation == 'sendTemplate' THEN SHOW parameter 'fromEmail'",
-      "IF resource == 'email' AND operation == 'sendTemplate' THEN SHOW parameter 'toAddresses'",
-      "IF resource == 'email' AND operation == 'sendTemplate' THEN SHOW parameter 'templateDataUi'",
-      "IF resource == 'email' AND operation IN [\"send\", \"sendTemplate\"] THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'template' THEN SHOW parameter 'operation'",
-      "IF resource == 'template' AND operation IN [\"update\", \"create\", \"get\", \"delete\"] THEN SHOW parameter 'templateName'",
-      "IF resource == 'template' AND operation == 'create' THEN SHOW parameter 'subjectPart'",
-      "IF resource == 'template' AND operation == 'create' THEN SHOW parameter 'htmlPart'",
-      "IF resource == 'template' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'template' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'template' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'template' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'"
-    ]
   }
 }

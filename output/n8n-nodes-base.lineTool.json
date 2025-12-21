@@ -1,259 +1,89 @@
 {
   "node_id": "n8n-nodes-base.lineTool",
-  "name": "n8n-nodes-base.lineTool",
+  "name": "Line Tool",
   "version": 1,
   "semantic_context": "Consume Line API",
+  "natural_language_description": "这是 Line Tool 节点。主要用于: Consume Line API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Line API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Line API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Line API | (必填项)"
     },
     "notice": {
       "displayName": "End of service: LINE Notify will be discontinued from April 1st 2025, You can find more information <a href=\"https://notify-bot.line.me/closing-announce\" target=\"_blank\">here</a>",
       "name": "notice",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: End of service: LINE Notify will be discontinued from April 1st 2025, You can find more information <a href=\"https://notify-bot.line.me/closing-announce\" target=\"_blank\">here</a>"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Notification",
-          "value": "notification"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "notification",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: notification",
+      "available_options": [
+        "Notification (值: notification)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "notification"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Send",
-          "value": "send",
-          "description": "Sends notifications to users or groups",
-          "action": "Send a notification"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "send",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: send",
+      "available_options": [
+        "Send (值: send) - Sends notifications to users or groups",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "message": {
       "displayName": "Message",
       "name": "message",
-      "required": true,
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "send"
-          ],
-          "resource": [
-            "notification"
-          ]
-        }
-      },
-      "default": ""
+      "required": true,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Message | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "send"
-          ],
-          "resource": [
-            "notification"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Image",
-          "name": "imageUi",
-          "placeholder": "Add Image",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "imageValue",
-              "displayName": "Image",
-              "values": [
-                {
-                  "displayName": "Binary File",
-                  "name": "binaryData",
-                  "type": "boolean",
-                  "default": false
-                },
-                {
-                  "displayName": "Image Full Size",
-                  "name": "imageFullsize",
-                  "type": "string",
-                  "default": "",
-                  "displayOptions": {
-                    "show": {
-                      "binaryData": [
-                        false
-                      ]
-                    }
-                  },
-                  "description": "HTTP/HTTPS URL. Maximum size of 2048×2048px JPEG."
-                },
-                {
-                  "displayName": "Image Thumbnail",
-                  "name": "imageThumbnail",
-                  "type": "string",
-                  "displayOptions": {
-                    "show": {
-                      "binaryData": [
-                        false
-                      ]
-                    }
-                  },
-                  "default": "",
-                  "description": "HTTP/HTTPS URL. Maximum size of 240×240px JPEG."
-                },
-                {
-                  "displayName": "Input Binary Field",
-                  "name": "binaryProperty",
-                  "type": "string",
-                  "displayOptions": {
-                    "show": {
-                      "binaryData": [
-                        true
-                      ]
-                    }
-                  },
-                  "default": "data",
-                  "hint": "The name of the input binary field containing the file to be written"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Notification Disabled",
-          "name": "notificationDisabled",
-          "type": "boolean",
-          "default": false,
-          "description": "<p>true: The user doesn't receive a push notification when the message is sent.</p><p>false: The user receives a push notification when the message is sent</p>"
-        },
-        {
-          "displayName": "Sticker",
-          "name": "stickerUi",
-          "placeholder": "Add Sticker",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": {},
-          "options": [
-            {
-              "name": "stickerValue",
-              "displayName": "Sticker",
-              "values": [
-                {
-                  "displayName": "Sticker ID",
-                  "name": "stickerId",
-                  "type": "number",
-                  "default": ""
-                },
-                {
-                  "displayName": "Sticker Package ID",
-                  "name": "stickerPackageId",
-                  "type": "number",
-                  "default": "",
-                  "description": "Package ID"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "imageUi (值: None)",
+        "notificationDisabled (值: None) - true: The user doesn't receive a push notification when the message is sent.false: The user receives a push notification when the message is sent",
+        "stickerUi (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "notice",
-      "resource",
-      "operation",
-      "message",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'notification' THEN SHOW parameter 'operation'",
-      "IF operation == 'send' AND resource == 'notification' THEN SHOW parameter 'message'",
-      "IF operation == 'send' AND resource == 'notification' THEN SHOW parameter 'additionalFields'",
-      "IF binaryData == False THEN SHOW parameter 'imageFullsize'",
-      "IF binaryData == False THEN SHOW parameter 'imageThumbnail'",
-      "IF binaryData == True THEN SHOW parameter 'binaryProperty'"
-    ]
   }
 }

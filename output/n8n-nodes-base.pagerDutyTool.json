@@ -1,121 +1,73 @@
 {
   "node_id": "n8n-nodes-base.pagerDutyTool",
-  "name": "n8n-nodes-base.pagerDutyTool",
+  "name": "PagerDuty Tool",
   "version": 1,
   "semantic_context": "Consume PagerDuty API",
+  "natural_language_description": "这是 PagerDuty Tool 节点。主要用于: Consume PagerDuty API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume PagerDuty API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume PagerDuty API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume PagerDuty API | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "API Token",
-          "value": "apiToken"
-        },
-        {
-          "name": "OAuth2",
-          "value": "oAuth2"
-        }
-      ],
+      "required": false,
       "default": "apiToken",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: apiToken",
+      "available_options": [
+        "API Token (值: apiToken)",
+        "OAuth2 (值: oAuth2)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Incident",
-          "value": "incident"
-        },
-        {
-          "name": "Incident Note",
-          "value": "incidentNote"
-        },
-        {
-          "name": "Log Entry",
-          "value": "logEntry"
-        },
-        {
-          "name": "User",
-          "value": "user"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "incident",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: incident",
+      "available_options": [
+        "Incident (值: incident)",
+        "Incident Note (值: incidentNote)",
+        "Log Entry (值: logEntry)",
+        "User (值: user)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a user",
-          "action": "Get a user"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Get (值: get) - Get a user",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "title": {
       "displayName": "Title",
@@ -123,174 +75,54 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "incident"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "description": "A succinct description of the nature, symptoms, cause, or effect of the incident",
-      "ai_hint": "A succinct description of the nature, symptoms, cause, or effect of the incident"
+      "natural_language_description": "参数名: Title | 作用: A succinct description of the nature, symptoms, cause, or effect of the incident | (必填项)"
     },
     "serviceId": {
       "displayName": "Service Name or ID",
       "name": "serviceId",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getServices"
-      },
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "incident"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "description": "The incident will be created on this service. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The incident will be created on this service. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The incident will be created on this service. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Service Name or ID | 作用: The incident will be created on this service. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "incidentNote"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "description": "The email address of a valid user associated with the account making the request",
-      "ai_hint": "The email address of a valid user associated with the account making the request"
+      "natural_language_description": "参数名: Email | 作用: The email address of a valid user associated with the account making the request | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "incident"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Escalation Policy Name or ID",
-          "name": "escalationPolicyId",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getEscalationPolicies"
-          },
-          "default": "",
-          "description": "Delegate this incident to the specified escalation policy. Cannot be specified if an assignee is given. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Incident Details",
-          "name": "details",
-          "type": "string",
-          "default": "",
-          "description": "Additional details about the incident which will go in the body"
-        },
-        {
-          "displayName": "Incident Key",
-          "name": "incidentKey",
-          "type": "string",
-          "default": "",
-          "description": "Sending subsequent requests referencing the same service and with the same incident_key will result in those requests being rejected if an open incident matches that incident_key"
-        },
-        {
-          "displayName": "Priority Name or ID",
-          "name": "priorityId",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getPriorities"
-          },
-          "default": "",
-          "description": "The incident will be created on this service. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Urgency",
-          "name": "urgency",
-          "type": "options",
-          "options": [
-            {
-              "name": "Hight",
-              "value": "high"
-            },
-            {
-              "name": "Low",
-              "value": "low"
-            }
-          ],
-          "default": "",
-          "description": "The urgency of the incident"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "escalationPolicyId (值: None) - Delegate this incident to the specified escalation policy. Cannot be specified if an assignee is given. Choose from the list, or specify an ID using an expression.",
+        "details (值: None) - Additional details about the incident which will go in the body",
+        "incidentKey (值: None) - Sending subsequent requests referencing the same service and with the same incident_key will result in those requests being rejected if an open incident matches that incident_key",
+        "priorityId (值: None) - The incident will be created on this service. Choose from the list, or specify an ID using an expression.",
+        "urgency (值: None) - The urgency of the incident"
+      ]
     },
     "conferenceBridgeUi": {
       "displayName": "Conference Bridge",
       "name": "conferenceBridgeUi",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": false
-      },
-      "placeholder": "Add Conference Bridge",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "incident"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Conference Bridge",
-          "name": "conferenceBridgeValues",
-          "values": [
-            {
-              "displayName": "Conference Number",
-              "name": "conferenceNumber",
-              "type": "string",
-              "default": "",
-              "description": "Phone numbers should be formatted like +1 415-555-1212,,,,1234#, where a comma (,) represents a one-second wait and pound (#) completes access code input"
-            },
-            {
-              "displayName": "Conference URL",
-              "name": "conferenceUrl",
-              "type": "string",
-              "default": "",
-              "description": "An URL for the conference bridge. This could be a link to a web conference or Slack channel."
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Conference Bridge | 默认值: {}",
+      "available_options": [
+        "conferenceBridgeValues (值: None)"
+      ]
     },
     "incidentId": {
       "displayName": "Incident ID",
@@ -298,235 +130,60 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "incidentNote"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
       "description": "Unique identifier for the incident",
-      "ai_hint": "Unique identifier for the incident"
+      "natural_language_description": "参数名: Incident ID | 作用: Unique identifier for the incident | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "logEntry"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "logEntry"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "logEntry"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Include",
-          "name": "include",
-          "type": "multiOptions",
-          "options": [
-            {
-              "name": "Channels",
-              "value": "channels"
-            },
-            {
-              "name": "Incidents",
-              "value": "incidents"
-            },
-            {
-              "name": "Services",
-              "value": "services"
-            },
-            {
-              "name": "Teams",
-              "value": "teams"
-            }
-          ],
-          "default": [],
-          "description": "Additional details to include"
-        },
-        {
-          "displayName": "Is Overview",
-          "name": "isOverview",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to return a subset of log entries that show only the most important changes to the incident"
-        },
-        {
-          "displayName": "Since",
-          "name": "since",
-          "type": "dateTime",
-          "default": "",
-          "description": "The start of the date range over which you want to search. (the limit on date ranges is 6 months)."
-        },
-        {
-          "displayName": "Timezone Name or ID",
-          "name": "timeZone",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getTimezones"
-          },
-          "default": "",
-          "description": "Time zone in which dates in the result will be rendered. If not set dates will return UTC. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Until",
-          "name": "until",
-          "type": "dateTime",
-          "default": "",
-          "description": "The end of the date range over which you want to search. (the limit on date ranges is 6 months)."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "include (值: None) - Additional details to include",
+        "isOverview (值: None) - Whether to return a subset of log entries that show only the most important changes to the incident",
+        "since (值: None) - The start of the date range over which you want to search. (the limit on date ranges is 6 months).",
+        "timeZone (值: None) - Time zone in which dates in the result will be rendered. If not set dates will return UTC. Choose from the list, or specify an ID using an expression.",
+        "until (值: None) - The end of the date range over which you want to search. (the limit on date ranges is 6 months)."
+      ]
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "incident"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Escalation Level",
-          "name": "escalationLevel",
-          "type": "number",
-          "default": 0,
-          "typeOptions": {
-            "minValue": 0
-          },
-          "description": "Escalate the incident to this level in the escalation policy"
-        },
-        {
-          "displayName": "Escalation Policy Name or ID",
-          "name": "escalationPolicyId",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getEscalationPolicies"
-          },
-          "default": "",
-          "description": "Delegate this incident to the specified escalation policy. Cannot be specified if an assignee is given. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Priority Name or ID",
-          "name": "priorityId",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getPriorities"
-          },
-          "default": "",
-          "description": "The incident will be created on this service. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Resolution",
-          "name": "resolution",
-          "type": "string",
-          "default": "",
-          "description": "The resolution for this incident if status is set to resolved"
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Acknowledged",
-              "value": "acknowledged"
-            },
-            {
-              "name": "Resolved",
-              "value": "resolved"
-            }
-          ],
-          "default": "",
-          "description": "The new status of the incident"
-        },
-        {
-          "displayName": "Title",
-          "name": "title",
-          "type": "string",
-          "default": "",
-          "description": "A succinct description of the nature, symptoms, cause, or effect of the incident"
-        },
-        {
-          "displayName": "Urgency",
-          "name": "urgency",
-          "type": "options",
-          "options": [
-            {
-              "name": "High",
-              "value": "high"
-            },
-            {
-              "name": "Low",
-              "value": "low"
-            }
-          ],
-          "default": "",
-          "description": "The urgency of the incident"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "escalationLevel (值: None) - Escalate the incident to this level in the escalation policy",
+        "escalationPolicyId (值: None) - Delegate this incident to the specified escalation policy. Cannot be specified if an assignee is given. Choose from the list, or specify an ID using an expression.",
+        "priorityId (值: None) - The incident will be created on this service. Choose from the list, or specify an ID using an expression.",
+        "resolution (值: None) - The resolution for this incident if status is set to resolved",
+        "status (值: None) - The new status of the incident",
+        "title (值: None) - A succinct description of the nature, symptoms, cause, or effect of the incident",
+        "urgency (值: None) - The urgency of the incident"
+      ]
     },
     "content": {
       "displayName": "Content",
@@ -534,18 +191,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "incidentNote"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "description": "The note content",
-      "ai_hint": "The note content"
+      "natural_language_description": "参数名: Content | 作用: The note content | (必填项)"
     },
     "logEntryId": {
       "displayName": "Log Entry ID",
@@ -553,18 +200,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "logEntry"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
       "description": "Unique identifier for the log entry",
-      "ai_hint": "Unique identifier for the log entry"
+      "natural_language_description": "参数名: Log Entry ID | 作用: Unique identifier for the log entry | (必填项)"
     },
     "userId": {
       "displayName": "User ID",
@@ -572,85 +209,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
       "description": "Unique identifier for the user",
-      "ai_hint": "Unique identifier for the user"
+      "natural_language_description": "参数名: User ID | 作用: Unique identifier for the user | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "resource",
-      "operation",
-      "title",
-      "serviceId",
-      "email",
-      "additionalFields",
-      "conferenceBridgeUi",
-      "incidentId",
-      "returnAll",
-      "limit",
-      "options",
-      "incidentId",
-      "email",
-      "updateFields",
-      "conferenceBridgeUi",
-      "operation",
-      "incidentId",
-      "content",
-      "email",
-      "incidentId",
-      "returnAll",
-      "limit",
-      "operation",
-      "logEntryId",
-      "returnAll",
-      "limit",
-      "options",
-      "operation",
-      "userId"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'incident' THEN SHOW parameter 'operation'",
-      "IF resource == 'incident' AND operation == 'create' THEN SHOW parameter 'title'",
-      "IF resource == 'incident' AND operation == 'create' THEN SHOW parameter 'serviceId'",
-      "IF resource == 'incident' AND operation == 'create' THEN SHOW parameter 'email'",
-      "IF resource == 'incident' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'incident' AND operation == 'create' THEN SHOW parameter 'conferenceBridgeUi'",
-      "IF resource == 'incident' AND operation == 'get' THEN SHOW parameter 'incidentId'",
-      "IF operation == 'getAll' AND resource == 'incident' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'incident' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'incident' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'incident' AND operation == 'update' THEN SHOW parameter 'incidentId'",
-      "IF resource == 'incident' AND operation == 'update' THEN SHOW parameter 'email'",
-      "IF resource == 'incident' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'incident' AND operation == 'update' THEN SHOW parameter 'conferenceBridgeUi'",
-      "IF resource == 'incidentNote' THEN SHOW parameter 'operation'",
-      "IF resource == 'incidentNote' AND operation == 'create' THEN SHOW parameter 'incidentId'",
-      "IF resource == 'incidentNote' AND operation == 'create' THEN SHOW parameter 'content'",
-      "IF resource == 'incidentNote' AND operation == 'create' THEN SHOW parameter 'email'",
-      "IF resource == 'incidentNote' AND operation == 'getAll' THEN SHOW parameter 'incidentId'",
-      "IF operation == 'getAll' AND resource == 'incidentNote' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'incidentNote' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'logEntry' THEN SHOW parameter 'operation'",
-      "IF resource == 'logEntry' AND operation == 'get' THEN SHOW parameter 'logEntryId'",
-      "IF operation == 'getAll' AND resource == 'logEntry' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'logEntry' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'logEntry' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'user' THEN SHOW parameter 'operation'",
-      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'userId'"
-    ]
   }
 }

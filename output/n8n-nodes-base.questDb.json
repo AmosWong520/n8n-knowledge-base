@@ -1,149 +1,76 @@
 {
   "node_id": "n8n-nodes-base.questDb",
-  "name": "n8n-nodes-base.questDb",
+  "name": "QuestDB",
   "version": 1,
   "semantic_context": "Get, add and update data in QuestDB",
+  "natural_language_description": "这是 QuestDB 节点。主要用于: Get, add and update data in QuestDB",
   "parameters": {
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Execute Query",
-          "value": "executeQuery",
-          "description": "Executes a SQL query",
-          "action": "Execute a SQL query"
-        },
-        {
-          "name": "Insert",
-          "value": "insert",
-          "description": "Insert rows in database",
-          "action": "Insert rows in database"
-        }
-      ],
+      "required": false,
       "default": "insert",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: insert",
+      "available_options": [
+        "Execute Query (值: executeQuery) - Executes a SQL query",
+        "Insert (值: insert) - Insert rows in database"
+      ]
     },
     "query": {
       "displayName": "Query",
       "name": "query",
       "type": "string",
-      "noDataExpression": true,
-      "typeOptions": {
-        "editor": "sqlEditor",
-        "sqlDialect": "PostgreSQL"
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "executeQuery"
-          ]
-        }
-      },
-      "default": "",
-      "placeholder": "SELECT id, name FROM product WHERE quantity > $1 AND price <= $2",
       "required": true,
+      "default": "",
       "description": "The SQL query to execute. You can use n8n expressions or $1 and $2 in conjunction with query parameters.",
-      "ai_hint": "The SQL query to execute. You can use n8n expressions or $1 and $2 in conjunction with query parameters."
+      "natural_language_description": "参数名: Query | 作用: The SQL query to execute. You can use n8n expressions or $1 and $2 in conjunction with query parameters. | (必填项)"
     },
     "schema": {
       "displayName": "Schema",
       "name": "schema",
       "type": "hidden",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "insert"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "Name of the schema the table belongs to",
-      "ai_hint": "Name of the schema the table belongs to"
+      "natural_language_description": "参数名: Schema | 作用: Name of the schema the table belongs to"
     },
     "table": {
       "displayName": "Table",
       "name": "table",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "insert"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "Name of the table in which to insert data to",
-      "ai_hint": "Name of the table in which to insert data to"
+      "natural_language_description": "参数名: Table | 作用: Name of the table in which to insert data to | (必填项)"
     },
     "columns": {
       "displayName": "Columns",
       "name": "columns",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "insert"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "placeholder": "id,name,description",
       "description": "Comma-separated list of the properties which should used as columns for the new rows",
-      "ai_hint": "Comma-separated list of the properties which should used as columns for the new rows"
+      "natural_language_description": "参数名: Columns | 作用: Comma-separated list of the properties which should used as columns for the new rows"
     },
     "returnFields": {
       "displayName": "Return Fields",
       "name": "returnFields",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "insert"
-          ]
-        }
-      },
+      "required": false,
       "default": "*",
       "description": "Comma-separated list of the fields that the operation will return",
-      "ai_hint": "Comma-separated list of the fields that the operation will return"
+      "natural_language_description": "参数名: Return Fields | 作用: Comma-separated list of the fields that the operation will return | 默认值: *"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "hidden",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "insert"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "operation",
-      "query",
-      "schema",
-      "table",
-      "columns",
-      "returnFields",
-      "additionalFields",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF operation == 'executeQuery' THEN SHOW parameter 'query'",
-      "IF operation == 'insert' THEN SHOW parameter 'schema'",
-      "IF operation == 'insert' THEN SHOW parameter 'table'",
-      "IF operation == 'insert' THEN SHOW parameter 'columns'",
-      "IF operation == 'insert' THEN SHOW parameter 'returnFields'",
-      "IF operation == 'executeQuery' THEN SHOW parameter 'additionalFields'",
-      "IF /operation == 'executeQuery' THEN SHOW parameter 'queryParams'",
-      "IF operation == 'insert' THEN SHOW parameter 'additionalFields'"
-    ]
   }
 }

@@ -1,114 +1,51 @@
 {
   "node_id": "n8n-nodes-base.calTrigger",
-  "name": "n8n-nodes-base.calTrigger",
-  "version": [
-    1,
-    2
-  ],
+  "name": "Cal.com Trigger",
+  "version": 1,
   "semantic_context": "Handle Cal.com events via webhooks",
+  "natural_language_description": "这是 Cal.com Trigger 节点。主要用于: Handle Cal.com events via webhooks",
   "parameters": {
     "events": {
       "displayName": "Events",
       "name": "events",
       "type": "multiOptions",
-      "options": [
-        {
-          "name": "Booking Cancelled",
-          "value": "BOOKING_CANCELLED",
-          "description": "Receive notifications when a Cal event is canceled"
-        },
-        {
-          "name": "Booking Created",
-          "value": "BOOKING_CREATED",
-          "description": "Receive notifications when a new Cal event is created"
-        },
-        {
-          "name": "Booking Rescheduled",
-          "value": "BOOKING_RESCHEDULED",
-          "description": "Receive notifications when a Cal event is rescheduled"
-        },
-        {
-          "name": "Meeting Ended",
-          "value": "MEETING_ENDED",
-          "description": "Receive notifications when a Cal event or meeting has ended"
-        }
-      ],
+      "required": true,
       "default": [],
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Events | 默认值: [] | (必填项)",
+      "available_options": [
+        "Booking Cancelled (值: BOOKING_CANCELLED) - Receive notifications when a Cal event is canceled",
+        "Booking Created (值: BOOKING_CREATED) - Receive notifications when a new Cal event is created",
+        "Booking Rescheduled (值: BOOKING_RESCHEDULED) - Receive notifications when a Cal event is rescheduled",
+        "Meeting Ended (值: MEETING_ENDED) - Receive notifications when a Cal event or meeting has ended"
+      ]
     },
     "version": {
       "displayName": "API Version",
       "name": "version",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            2
-          ]
-        }
-      },
-      "isNodeSetting": true,
-      "options": [
-        {
-          "name": "Before v2.0",
-          "value": 1
-        },
-        {
-          "name": "v2.0 Onwards",
-          "value": 2
-        }
-      ],
+      "required": false,
       "default": 2,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: API Version | 默认值: 2",
+      "available_options": [
+        "Before v2.0 (值: 1)",
+        "v2.0 Onwards (值: 2)"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "App ID",
-          "name": "appId",
-          "type": "string",
-          "description": "The ID of the App to monitor",
-          "default": ""
-        },
-        {
-          "displayName": "EventType Name or ID",
-          "name": "eventTypeId",
-          "type": "options",
-          "typeOptions": {
-            "loadOptionsMethod": "getEventTypes"
-          },
-          "description": "The EventType to monitor. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-          "default": ""
-        },
-        {
-          "displayName": "Payload Template",
-          "name": "payloadTemplate",
-          "type": "string",
-          "description": "Template to customize the webhook payload",
-          "default": "",
-          "typeOptions": {
-            "rows": 4
-          }
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "appId (值: None) - The ID of the App to monitor",
+        "eventTypeId (值: None) - The EventType to monitor. Choose from the list, or specify an ID using an expression.",
+        "payloadTemplate (值: None) - Template to customize the webhook payload"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "events",
-      "version",
-      "version",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF @version == 1 THEN SHOW parameter 'version'",
-      "IF @version == 2 THEN SHOW parameter 'version'"
-    ]
   }
 }

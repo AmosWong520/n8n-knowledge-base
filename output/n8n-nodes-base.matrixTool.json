@@ -1,696 +1,260 @@
 {
   "node_id": "n8n-nodes-base.matrixTool",
-  "name": "n8n-nodes-base.matrixTool",
+  "name": "Matrix Tool",
   "version": 1,
   "semantic_context": "Consume Matrix API",
+  "natural_language_description": "这是 Matrix Tool 节点。主要用于: Consume Matrix API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Matrix API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Matrix API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Matrix API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Account",
-          "value": "account"
-        },
-        {
-          "name": "Event",
-          "value": "event"
-        },
-        {
-          "name": "Media",
-          "value": "media"
-        },
-        {
-          "name": "Message",
-          "value": "message"
-        },
-        {
-          "name": "Room",
-          "value": "room"
-        },
-        {
-          "name": "Room Member",
-          "value": "roomMember"
-        }
-      ],
+      "required": false,
       "default": "message",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: message",
+      "available_options": [
+        "Account (值: account)",
+        "Event (值: event)",
+        "Media (值: media)",
+        "Message (值: message)",
+        "Room (值: room)",
+        "Room Member (值: roomMember)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "roomMember"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many members",
-          "action": "Get many room members"
-        }
-      ],
+      "required": false,
       "default": "getAll",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getAll",
+      "available_options": [
+        "Get Many (值: getAll) - Get many members"
+      ]
     },
     "roomId": {
       "displayName": "Room Name or ID",
       "name": "roomId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getChannels"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "roomMember"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "default": "",
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Room Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "eventId": {
       "displayName": "Event ID",
       "name": "eventId",
       "type": "string",
-      "default": "",
-      "placeholder": "$1234abcd:matrix.org",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get"
-          ],
-          "resource": [
-            "event"
-          ]
-        }
-      },
       "required": true,
+      "default": "",
       "description": "The room related to the event",
-      "ai_hint": "The room related to the event"
+      "natural_language_description": "参数名: Event ID | 作用: The room related to the event | (必填项)"
     },
     "binaryPropertyName": {
       "displayName": "Input Binary Field",
       "name": "binaryPropertyName",
       "type": "string",
-      "default": "data",
       "required": true,
-      "hint": "The name of the input binary field containing the file to be uploaded",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "media"
-          ],
-          "operation": [
-            "upload"
-          ]
-        }
-      }
+      "default": "data",
+      "description": "",
+      "natural_language_description": "参数名: Input Binary Field | 提示: The name of the input binary field containing the file to be uploaded | 默认值: data | (必填项)"
     },
     "mediaType": {
       "displayName": "Media Type",
       "name": "mediaType",
       "type": "options",
-      "default": "image",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "media"
-          ],
-          "operation": [
-            "upload"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "File",
-          "value": "file",
-          "description": "General file"
-        },
-        {
-          "name": "Image",
-          "value": "image",
-          "description": "Image media type"
-        },
-        {
-          "name": "Audio",
-          "value": "audio",
-          "description": "Audio media type"
-        },
-        {
-          "name": "Video",
-          "value": "video",
-          "description": "Video media type"
-        }
-      ],
-      "description": "Type of file being uploaded",
-      "placeholder": "mxc://matrix.org/uploaded-media-uri",
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "image",
+      "description": "Type of file being uploaded",
+      "natural_language_description": "参数名: Media Type | 作用: Type of file being uploaded | 默认值: image | (必填项)",
+      "available_options": [
+        "File (值: file) - General file",
+        "Image (值: image) - Image media type",
+        "Audio (值: audio) - Audio media type",
+        "Video (值: video) - Video media type"
+      ]
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "media"
-          ],
-          "operation": [
-            "upload"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "File Name",
-          "name": "fileName",
-          "type": "string",
-          "default": "",
-          "description": "Name of the file being uploaded"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "fileName (值: None) - Name of the file being uploaded"
+      ]
     },
     "text": {
       "displayName": "Text",
       "name": "text",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "Hello from n8n!",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "message"
-          ]
-        }
-      },
       "description": "The text to send",
-      "ai_hint": "The text to send"
+      "natural_language_description": "参数名: Text | 作用: The text to send"
     },
     "messageType": {
       "displayName": "Message Type",
       "name": "messageType",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "message"
-          ]
-        }
-      },
       "type": "options",
-      "options": [
-        {
-          "name": "Emote",
-          "value": "m.emote",
-          "description": "Perform an action (similar to /me in IRC)"
-        },
-        {
-          "name": "Notice",
-          "value": "m.notice",
-          "description": "Send a notice"
-        },
-        {
-          "name": "Text",
-          "value": "m.text",
-          "description": "Send a text message"
-        }
-      ],
+      "required": false,
       "default": "m.text",
       "description": "The type of message to send",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Message Type | 作用: The type of message to send | 默认值: m.text",
+      "available_options": [
+        "Emote (值: m.emote) - Perform an action (similar to /me in IRC)",
+        "Notice (值: m.notice) - Send a notice",
+        "Text (值: m.text) - Send a text message"
+      ]
     },
     "messageFormat": {
       "displayName": "Message Format",
       "name": "messageFormat",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "message"
-          ]
-        }
-      },
       "type": "options",
-      "options": [
-        {
-          "name": "Plain Text",
-          "value": "plain",
-          "description": "Text only"
-        },
-        {
-          "name": "HTML",
-          "value": "org.matrix.custom.html",
-          "description": "HTML-formatted text"
-        }
-      ],
+      "required": false,
       "default": "plain",
       "description": "The format of the message's body",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Message Format | 作用: The format of the message's body | 默认值: plain",
+      "available_options": [
+        "Plain Text (值: plain) - Text only",
+        "HTML (值: org.matrix.custom.html) - HTML-formatted text"
+      ]
     },
     "fallbackText": {
       "displayName": "Fallback Text",
       "name": "fallbackText",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "create"
-          ],
-          "messageFormat": [
-            "org.matrix.custom.html"
-          ]
-        }
-      },
       "type": "string",
+      "required": false,
+      "default": "",
       "description": "A plain text message to display in case the HTML cannot be rendered by the Matrix client",
-      "ai_hint": "A plain text message to display in case the HTML cannot be rendered by the Matrix client"
+      "natural_language_description": "参数名: Fallback Text | 作用: A plain text message to display in case the HTML cannot be rendered by the Matrix client"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "description": "Whether to return all results or only up to a given limit",
       "required": true,
-      "ai_hint": "布尔值：true 或 false。"
+      "default": false,
+      "description": "Whether to return all results or only up to a given limit",
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False | (必填项)"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "otherOptions": {
       "displayName": "Other Options",
       "name": "otherOptions",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "message"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "placeholder": "Add option",
-      "options": [
-        {
-          "displayName": "Filter",
-          "name": "filter",
-          "type": "string",
-          "default": "",
-          "description": "A JSON RoomEventFilter to filter returned events with. More information can be found on this <a href=\"https://matrix.org/docs/spec/client_server/r0.6.0\">page</a>.",
-          "placeholder": "{\"contains_url\":true,\"types\":[\"m.room.message\", \"m.sticker\"]}"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Other Options | 默认值: {}",
+      "available_options": [
+        "filter (值: None) - A JSON RoomEventFilter to filter returned events with. More information can be found on this page."
+      ]
     },
     "roomName": {
       "displayName": "Room Name",
       "name": "roomName",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "room"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
-      "placeholder": "My new room",
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Room Name | (必填项)"
     },
     "preset": {
       "displayName": "Preset",
       "name": "preset",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "room"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Private Chat",
-          "value": "private_chat"
-        },
-        {
-          "name": "Public Chat",
-          "value": "public_chat",
-          "description": "Open and public chat"
-        }
-      ],
-      "default": "public_chat",
-      "placeholder": "My new room",
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "public_chat",
+      "description": "",
+      "natural_language_description": "参数名: Preset | 默认值: public_chat | (必填项)",
+      "available_options": [
+        "Private Chat (值: private_chat)",
+        "Public Chat (值: public_chat) - Open and public chat"
+      ]
     },
     "roomAlias": {
       "displayName": "Room Alias",
       "name": "roomAlias",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "room"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "placeholder": "coolest-room-around"
+      "description": "",
+      "natural_language_description": "参数名: Room Alias"
     },
     "roomIdOrAlias": {
       "displayName": "Room ID or Alias",
       "name": "roomIdOrAlias",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "room"
-          ],
-          "operation": [
-            "join"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Room ID or Alias | (必填项)"
     },
     "userId": {
       "displayName": "User ID",
       "name": "userId",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "room"
-          ],
-          "operation": [
-            "kick"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
       "description": "The fully qualified user ID",
-      "placeholder": "@cheeky_monkey:matrix.org",
-      "required": true,
-      "ai_hint": "The fully qualified user ID"
+      "natural_language_description": "参数名: User ID | 作用: The fully qualified user ID | (必填项)"
     },
     "reason": {
       "displayName": "Reason",
       "name": "reason",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "room"
-          ],
-          "operation": [
-            "kick"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "Reason for kick",
-      "placeholder": "Telling unfunny jokes",
-      "ai_hint": "Reason for kick"
+      "natural_language_description": "参数名: Reason | 作用: Reason for kick"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "roomMember"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
       "description": "Filtering options",
-      "placeholder": "Add filter",
-      "options": [
-        {
-          "displayName": "Exclude Membership",
-          "name": "notMembership",
-          "type": "options",
-          "default": "",
-          "description": "Excludes members whose membership is other than selected (uses OR filter with membership)",
-          "options": [
-            {
-              "name": "Any",
-              "value": "",
-              "description": "Any user membership"
-            },
-            {
-              "name": "Ban",
-              "value": "ban",
-              "description": "Users removed from the room"
-            },
-            {
-              "name": "Invite",
-              "value": "invite",
-              "description": "Users invited to join"
-            },
-            {
-              "name": "Join",
-              "value": "join",
-              "description": "Users currently in the room"
-            },
-            {
-              "name": "Leave",
-              "value": "leave",
-              "description": "Users who left"
-            }
-          ]
-        },
-        {
-          "displayName": "Membership",
-          "name": "membership",
-          "type": "options",
-          "default": "",
-          "description": "Only fetch users with selected membership status (uses OR filter with exclude membership)",
-          "options": [
-            {
-              "name": "Any",
-              "value": "",
-              "description": "Any user membership"
-            },
-            {
-              "name": "Ban",
-              "value": "ban",
-              "description": "Users removed from the room"
-            },
-            {
-              "name": "Invite",
-              "value": "invite",
-              "description": "Users invited to join"
-            },
-            {
-              "name": "Join",
-              "value": "join",
-              "description": "Users currently in the room"
-            },
-            {
-              "name": "Leave",
-              "value": "leave",
-              "description": "Users who left"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Filters | 作用: Filtering options | 默认值: {}",
+      "available_options": [
+        "notMembership (值: None) - Excludes members whose membership is other than selected (uses OR filter with membership)",
+        "membership (值: None) - Only fetch users with selected membership status (uses OR filter with exclude membership)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "operation",
-      "roomId",
-      "eventId",
-      "operation",
-      "roomId",
-      "binaryPropertyName",
-      "mediaType",
-      "additionalFields",
-      "operation",
-      "roomId",
-      "text",
-      "messageType",
-      "messageFormat",
-      "fallbackText",
-      "roomId",
-      "returnAll",
-      "limit",
-      "otherOptions",
-      "operation",
-      "roomName",
-      "preset",
-      "roomAlias",
-      "roomIdOrAlias",
-      "roomId",
-      "roomId",
-      "userId",
-      "roomId",
-      "userId",
-      "reason",
-      "operation",
-      "roomId",
-      "filters"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'account' THEN SHOW parameter 'operation'",
-      "IF resource == 'event' THEN SHOW parameter 'operation'",
-      "IF operation == 'get' AND resource == 'event' THEN SHOW parameter 'roomId'",
-      "IF operation == 'get' AND resource == 'event' THEN SHOW parameter 'eventId'",
-      "IF resource == 'media' THEN SHOW parameter 'operation'",
-      "IF resource == 'media' AND operation == 'upload' THEN SHOW parameter 'roomId'",
-      "IF resource == 'media' AND operation == 'upload' THEN SHOW parameter 'binaryPropertyName'",
-      "IF resource == 'media' AND operation == 'upload' THEN SHOW parameter 'mediaType'",
-      "IF resource == 'media' AND operation == 'upload' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'message' THEN SHOW parameter 'operation'",
-      "IF operation == 'create' AND resource == 'message' THEN SHOW parameter 'roomId'",
-      "IF operation == 'create' AND resource == 'message' THEN SHOW parameter 'text'",
-      "IF operation == 'create' AND resource == 'message' THEN SHOW parameter 'messageType'",
-      "IF operation == 'create' AND resource == 'message' THEN SHOW parameter 'messageFormat'",
-      "IF resource == 'message' AND operation == 'create' AND messageFormat == 'org.matrix.custom.html' THEN SHOW parameter 'fallbackText'",
-      "IF resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'roomId'",
-      "IF resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'message' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'message' AND operation == 'getAll' THEN SHOW parameter 'otherOptions'",
-      "IF resource == 'room' THEN SHOW parameter 'operation'",
-      "IF resource == 'room' AND operation == 'create' THEN SHOW parameter 'roomName'",
-      "IF resource == 'room' AND operation == 'create' THEN SHOW parameter 'preset'",
-      "IF resource == 'room' AND operation == 'create' THEN SHOW parameter 'roomAlias'",
-      "IF resource == 'room' AND operation == 'join' THEN SHOW parameter 'roomIdOrAlias'",
-      "IF resource == 'room' AND operation == 'leave' THEN SHOW parameter 'roomId'",
-      "IF resource == 'room' AND operation == 'invite' THEN SHOW parameter 'roomId'",
-      "IF resource == 'room' AND operation == 'invite' THEN SHOW parameter 'userId'",
-      "IF resource == 'room' AND operation == 'kick' THEN SHOW parameter 'roomId'",
-      "IF resource == 'room' AND operation == 'kick' THEN SHOW parameter 'userId'",
-      "IF resource == 'room' AND operation == 'kick' THEN SHOW parameter 'reason'",
-      "IF resource == 'roomMember' THEN SHOW parameter 'operation'",
-      "IF resource == 'roomMember' AND operation == 'getAll' THEN SHOW parameter 'roomId'",
-      "IF resource == 'roomMember' AND operation == 'getAll' THEN SHOW parameter 'filters'"
-    ]
   }
 }

@@ -1,119 +1,60 @@
 {
   "node_id": "n8n-nodes-base.msg91",
-  "name": "n8n-nodes-base.msg91",
+  "name": "MSG91",
   "version": 1,
   "semantic_context": "Sends transactional SMS via MSG91",
+  "natural_language_description": "这是 MSG91 节点。主要用于: Sends transactional SMS via MSG91",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "SMS",
-          "value": "sms"
-        }
-      ],
+      "required": false,
       "default": "sms",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: sms",
+      "available_options": [
+        "SMS (值: sms)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "sms"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Send",
-          "value": "send",
-          "description": "Send SMS",
-          "action": "Send an SMS"
-        }
-      ],
+      "required": false,
       "default": "send",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: send",
+      "available_options": [
+        "Send (值: send) - Send SMS"
+      ]
     },
     "from": {
       "displayName": "Sender ID",
       "name": "from",
       "type": "string",
-      "default": "",
-      "placeholder": "4155238886",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "send"
-          ],
-          "resource": [
-            "sms"
-          ]
-        }
-      },
+      "default": "",
       "description": "The number from which to send the message",
-      "ai_hint": "The number from which to send the message"
+      "natural_language_description": "参数名: Sender ID | 作用: The number from which to send the message | (必填项)"
     },
     "to": {
       "displayName": "To",
       "name": "to",
       "type": "string",
-      "default": "",
-      "placeholder": "+14155238886",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "send"
-          ],
-          "resource": [
-            "sms"
-          ]
-        }
-      },
+      "default": "",
       "description": "The number, with coutry code, to which to send the message",
-      "ai_hint": "The number, with coutry code, to which to send the message"
+      "natural_language_description": "参数名: To | 作用: The number, with coutry code, to which to send the message | (必填项)"
     },
     "message": {
       "displayName": "Message",
       "name": "message",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "send"
-          ],
-          "resource": [
-            "sms"
-          ]
-        }
-      },
+      "default": "",
       "description": "The message to send",
-      "ai_hint": "The message to send"
+      "natural_language_description": "参数名: Message | 作用: The message to send | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "from",
-      "to",
-      "message"
-    ],
-    "conditional_rules": [
-      "IF resource == 'sms' THEN SHOW parameter 'operation'",
-      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'from'",
-      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'to'",
-      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'message'"
-    ]
   }
 }

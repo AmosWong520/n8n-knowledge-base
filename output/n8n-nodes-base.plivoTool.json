@@ -1,255 +1,115 @@
 {
   "node_id": "n8n-nodes-base.plivoTool",
-  "name": "n8n-nodes-base.plivoTool",
+  "name": "Plivo Tool",
   "version": 1,
   "semantic_context": "Send SMS/MMS messages or make phone calls",
+  "natural_language_description": "这是 Plivo Tool 节点。主要用于: Send SMS/MMS messages or make phone calls",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Send SMS/MMS messages or make phone calls",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Send SMS/MMS messages or make phone calls",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Send SMS/MMS messages or make phone calls | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Call",
-          "value": "call"
-        },
-        {
-          "name": "MMS",
-          "value": "mms"
-        },
-        {
-          "name": "SMS",
-          "value": "sms"
-        }
-      ],
-      "default": "sms",
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "sms",
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: sms | (必填项)",
+      "available_options": [
+        "Call (值: call)",
+        "MMS (值: mms)",
+        "SMS (值: sms)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "call"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Make",
-          "value": "make",
-          "description": "Make a voice call",
-          "action": "Make a call"
-        }
-      ],
+      "required": false,
       "default": "make",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: make",
+      "available_options": [
+        "Make (值: make) - Make a voice call"
+      ]
     },
     "from": {
       "displayName": "From",
       "name": "from",
       "type": "string",
-      "default": "",
-      "placeholder": "+14156667777",
-      "description": "Caller ID for the call to make",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "call"
-          ],
-          "operation": [
-            "make"
-          ]
-        }
-      },
-      "ai_hint": "Caller ID for the call to make"
+      "default": "",
+      "description": "Caller ID for the call to make",
+      "natural_language_description": "参数名: From | 作用: Caller ID for the call to make | (必填项)"
     },
     "to": {
       "displayName": "To",
       "name": "to",
       "type": "string",
-      "default": "",
-      "placeholder": "+14156667778",
       "required": true,
+      "default": "",
       "description": "Phone number to make the call to",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "call"
-          ],
-          "operation": [
-            "make"
-          ]
-        }
-      },
-      "ai_hint": "Phone number to make the call to"
+      "natural_language_description": "参数名: To | 作用: Phone number to make the call to | (必填项)"
     },
     "message": {
       "displayName": "Message",
       "name": "message",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "Message to send",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "mms"
-          ],
-          "operation": [
-            "send"
-          ]
-        }
-      },
-      "ai_hint": "Message to send"
+      "natural_language_description": "参数名: Message | 作用: Message to send"
     },
     "media_urls": {
       "displayName": "Media URLs",
       "name": "media_urls",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "mms"
-          ],
-          "operation": [
-            "send"
-          ]
-        }
-      },
       "description": "Comma-separated list of media URLs of the files from your file server",
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "natural_language_description": "参数名: Media URLs | 作用: Comma-separated list of media URLs of the files from your file server"
     },
     "answer_method": {
       "displayName": "Answer Method",
       "name": "answer_method",
       "type": "options",
       "required": true,
-      "description": "HTTP verb to be used when invoking the Answer URL",
       "default": "POST",
-      "options": [
-        {
-          "name": "GET",
-          "value": "GET"
-        },
-        {
-          "name": "POST",
-          "value": "POST"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "call"
-          ],
-          "operation": [
-            "make"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "HTTP verb to be used when invoking the Answer URL",
+      "natural_language_description": "参数名: Answer Method | 作用: HTTP verb to be used when invoking the Answer URL | 默认值: POST | (必填项)",
+      "available_options": [
+        "GET (值: GET)",
+        "POST (值: POST)"
+      ]
     },
     "answer_url": {
       "displayName": "Answer URL",
       "name": "answer_url",
       "type": "string",
+      "required": true,
       "default": "",
       "description": "URL to be invoked by Plivo once the call is answered. It should return the XML to handle the call once answered.",
-      "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "call"
-          ],
-          "operation": [
-            "make"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "natural_language_description": "参数名: Answer URL | 作用: URL to be invoked by Plivo once the call is answered. It should return the XML to handle the call once answered. | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "from",
-      "to",
-      "message",
-      "operation",
-      "from",
-      "to",
-      "message",
-      "media_urls",
-      "operation",
-      "from",
-      "to",
-      "answer_method",
-      "answer_url"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'sms' THEN SHOW parameter 'operation'",
-      "IF resource == 'sms' AND operation == 'send' THEN SHOW parameter 'from'",
-      "IF resource == 'sms' AND operation == 'send' THEN SHOW parameter 'to'",
-      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'message'",
-      "IF resource == 'mms' THEN SHOW parameter 'operation'",
-      "IF resource == 'mms' AND operation == 'send' THEN SHOW parameter 'from'",
-      "IF operation == 'send' AND resource == 'mms' THEN SHOW parameter 'to'",
-      "IF resource == 'mms' AND operation == 'send' THEN SHOW parameter 'message'",
-      "IF resource == 'mms' AND operation == 'send' THEN SHOW parameter 'media_urls'",
-      "IF resource == 'call' THEN SHOW parameter 'operation'",
-      "IF resource == 'call' AND operation == 'make' THEN SHOW parameter 'from'",
-      "IF resource == 'call' AND operation == 'make' THEN SHOW parameter 'to'",
-      "IF resource == 'call' AND operation == 'make' THEN SHOW parameter 'answer_method'",
-      "IF resource == 'call' AND operation == 'make' THEN SHOW parameter 'answer_url'"
-    ]
   }
 }

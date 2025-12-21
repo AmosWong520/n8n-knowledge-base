@@ -1,322 +1,122 @@
 {
   "node_id": "n8n-nodes-base.hunterTool",
-  "name": "n8n-nodes-base.hunterTool",
+  "name": "Hunter Tool",
   "version": 1,
   "semantic_context": "Consume Hunter API",
+  "natural_language_description": "这是 Hunter Tool 节点。主要用于: Consume Hunter API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Hunter API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Hunter API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Hunter API | (必填项)"
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Domain Search",
-          "value": "domainSearch",
-          "description": "Get every email address found on the internet using a given domain name, with sources",
-          "action": "Get every email address found on the internet using a given domain name, with sources"
-        },
-        {
-          "name": "Email Finder",
-          "value": "emailFinder",
-          "description": "Generate or retrieve the most likely email address from a domain name, a first name and a last name",
-          "action": "Generate or retrieve the most likely email address from a domain name, a first name and a last name"
-        },
-        {
-          "name": "Email Verifier",
-          "value": "emailVerifier",
-          "description": "Verify the deliverability of an email address",
-          "action": "Verify the deliverability of an email address"
-        }
-      ],
+      "required": false,
       "default": "domainSearch",
       "description": "Operation to consume",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Operation | 作用: Operation to consume | 默认值: domainSearch",
+      "available_options": [
+        "Domain Search (值: domainSearch) - Get every email address found on the internet using a given domain name, with sources",
+        "Email Finder (值: emailFinder) - Generate or retrieve the most likely email address from a domain name, a first name and a last name",
+        "Email Verifier (值: emailVerifier) - Verify the deliverability of an email address"
+      ]
     },
     "domain": {
       "displayName": "Domain",
       "name": "domain",
       "type": "string",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "emailFinder"
-          ]
-        }
-      },
       "required": true,
+      "default": "",
       "description": "Domain name from which you want to find the email addresses. For example, \"stripe.com\".",
-      "ai_hint": "Domain name from which you want to find the email addresses. For example, \"stripe.com\"."
+      "natural_language_description": "参数名: Domain | 作用: Domain name from which you want to find the email addresses. For example, \"stripe.com\". | (必填项)"
     },
     "onlyEmails": {
       "displayName": "Only Emails",
       "name": "onlyEmails",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "domainSearch"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether to return only the found emails",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Only Emails | 作用: Whether to return only the found emails | 默认值: True"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "domainSearch"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "domainSearch"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 100
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "domainSearch"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Type",
-          "name": "type",
-          "type": "options",
-          "default": "",
-          "options": [
-            {
-              "name": "Personal",
-              "value": "personal"
-            },
-            {
-              "name": "Generic",
-              "value": "generic"
-            }
-          ]
-        },
-        {
-          "displayName": "Seniority",
-          "name": "seniority",
-          "type": "multiOptions",
-          "default": [],
-          "options": [
-            {
-              "name": "Junior",
-              "value": "junior"
-            },
-            {
-              "name": "Senior",
-              "value": "senior"
-            },
-            {
-              "name": "Executive",
-              "value": "executive"
-            }
-          ]
-        },
-        {
-          "displayName": "Department",
-          "name": "department",
-          "type": "multiOptions",
-          "default": [],
-          "options": [
-            {
-              "name": "Communication",
-              "value": "communication"
-            },
-            {
-              "name": "Executive",
-              "value": "executive"
-            },
-            {
-              "name": "Finance",
-              "value": "finance"
-            },
-            {
-              "name": "HR",
-              "value": "hr"
-            },
-            {
-              "name": "IT",
-              "value": "it"
-            },
-            {
-              "name": "Legal",
-              "value": "legal"
-            },
-            {
-              "name": "Management",
-              "value": "management"
-            },
-            {
-              "name": "Marketing",
-              "value": "marketing"
-            },
-            {
-              "name": "Sales",
-              "value": "sales"
-            },
-            {
-              "name": "Support",
-              "value": "support"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "type (值: None)",
+        "seniority (值: None)",
+        "department (值: None)"
+      ]
     },
     "firstname": {
       "displayName": "First Name",
       "name": "firstname",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "emailFinder"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "The person's first name. It doesn't need to be in lowercase.",
-      "ai_hint": "The person's first name. It doesn't need to be in lowercase."
+      "natural_language_description": "参数名: First Name | 作用: The person's first name. It doesn't need to be in lowercase. | (必填项)"
     },
     "lastname": {
       "displayName": "Last Name",
       "name": "lastname",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "emailFinder"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "The person's last name. It doesn't need to be in lowercase.",
-      "ai_hint": "The person's last name. It doesn't need to be in lowercase."
+      "natural_language_description": "参数名: Last Name | 作用: The person's last name. It doesn't need to be in lowercase. | (必填项)"
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "emailVerifier"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "The email address you want to verify",
-      "ai_hint": "The email address you want to verify"
+      "natural_language_description": "参数名: Email | 作用: The email address you want to verify | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "operation",
-      "domain",
-      "onlyEmails",
-      "returnAll",
-      "limit",
-      "filters",
-      "domain",
-      "firstname",
-      "lastname",
-      "email"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF operation == 'domainSearch' THEN SHOW parameter 'domain'",
-      "IF operation == 'domainSearch' THEN SHOW parameter 'onlyEmails'",
-      "IF operation == 'domainSearch' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'domainSearch' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'domainSearch' THEN SHOW parameter 'filters'",
-      "IF operation == 'emailFinder' THEN SHOW parameter 'domain'",
-      "IF operation == 'emailFinder' THEN SHOW parameter 'firstname'",
-      "IF operation == 'emailFinder' THEN SHOW parameter 'lastname'",
-      "IF operation == 'emailVerifier' THEN SHOW parameter 'email'"
-    ]
   }
 }

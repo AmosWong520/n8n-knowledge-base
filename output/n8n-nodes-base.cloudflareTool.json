@@ -1,303 +1,126 @@
 {
   "node_id": "n8n-nodes-base.cloudflareTool",
-  "name": "n8n-nodes-base.cloudflareTool",
+  "name": "Cloudflare Tool",
   "version": 1,
   "semantic_context": "Consume Cloudflare API",
+  "natural_language_description": "这是 Cloudflare Tool 节点。主要用于: Consume Cloudflare API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Cloudflare API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Cloudflare API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Cloudflare API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Zone Certificate",
-          "value": "zoneCertificate"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "zoneCertificate",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: zoneCertificate",
+      "available_options": [
+        "Zone Certificate (值: zoneCertificate)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "zoneCertificate"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a certificate",
-          "action": "Delete a certificate"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a certificate",
-          "action": "Get a certificate"
-        },
-        {
-          "name": "Get Many",
-          "value": "getMany",
-          "description": "Get many certificates",
-          "action": "Get many certificates"
-        },
-        {
-          "name": "Upload",
-          "value": "upload",
-          "description": "Upload a certificate",
-          "action": "Upload a certificate"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "upload",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: upload",
+      "available_options": [
+        "Delete (值: delete) - Delete a certificate",
+        "Get (值: get) - Get a certificate",
+        "Get Many (值: getMany) - Get many certificates",
+        "Upload (值: upload) - Upload a certificate",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "zoneId": {
       "displayName": "Zone Name or ID",
       "name": "zoneId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getZones"
-      },
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "zoneCertificate"
-          ],
-          "operation": [
-            "upload",
-            "getMany",
-            "get",
-            "delete"
-          ]
-        }
-      },
       "default": "",
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Zone Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "certificate": {
       "displayName": "Certificate Content",
       "name": "certificate",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "zoneCertificate"
-          ],
-          "operation": [
-            "upload"
-          ]
-        }
-      },
       "default": "",
       "description": "The zone's leaf certificate",
-      "ai_hint": "The zone's leaf certificate"
+      "natural_language_description": "参数名: Certificate Content | 作用: The zone's leaf certificate | (必填项)"
     },
     "privateKey": {
       "displayName": "Private Key",
       "name": "privateKey",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "zoneCertificate"
-          ],
-          "operation": [
-            "upload"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Private Key | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "description": "Whether to return all results or only up to a given limit",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "zoneCertificate"
-          ],
-          "operation": [
-            "getMany"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "Whether to return all results or only up to a given limit",
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 25,
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 50
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "zoneCertificate"
-          ],
-          "operation": [
-            "getMany"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 25"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "zoneCertificate"
-          ],
-          "operation": [
-            "getMany"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Active",
-              "value": "active"
-            },
-            {
-              "name": "Expired",
-              "value": "expired"
-            },
-            {
-              "name": "Deleted",
-              "value": "deleted"
-            },
-            {
-              "name": "Pending",
-              "value": "pending"
-            }
-          ],
-          "default": "",
-          "description": "Status of the zone's custom SSL"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "status (值: None) - Status of the zone's custom SSL"
+      ]
     },
     "certificateId": {
       "displayName": "Certificate ID",
       "name": "certificateId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "zoneCertificate"
-          ],
-          "operation": [
-            "get",
-            "delete"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Certificate ID | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "zoneId",
-      "certificate",
-      "privateKey",
-      "returnAll",
-      "limit",
-      "filters",
-      "certificateId"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'zoneCertificate' THEN SHOW parameter 'operation'",
-      "IF resource == 'zoneCertificate' AND operation IN [\"upload\", \"getMany\", \"get\", \"delete\"] THEN SHOW parameter 'zoneId'",
-      "IF resource == 'zoneCertificate' AND operation == 'upload' THEN SHOW parameter 'certificate'",
-      "IF resource == 'zoneCertificate' AND operation == 'upload' THEN SHOW parameter 'privateKey'",
-      "IF resource == 'zoneCertificate' AND operation == 'getMany' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'zoneCertificate' AND operation == 'getMany' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'zoneCertificate' AND operation == 'getMany' THEN SHOW parameter 'filters'",
-      "IF resource == 'zoneCertificate' AND operation IN [\"get\", \"delete\"] THEN SHOW parameter 'certificateId'"
-    ]
   }
 }

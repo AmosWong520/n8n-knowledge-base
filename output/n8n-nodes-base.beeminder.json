@@ -1,533 +1,199 @@
 {
   "node_id": "n8n-nodes-base.beeminder",
-  "name": "n8n-nodes-base.beeminder",
+  "name": "Beeminder",
   "version": 1,
   "semantic_context": "Consume Beeminder API",
+  "natural_language_description": "这是 Beeminder 节点。主要用于: Consume Beeminder API",
   "parameters": {
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "API Token",
-          "value": "apiToken"
-        },
-        {
-          "name": "OAuth2",
-          "value": "oAuth2"
-        }
-      ],
+      "required": false,
       "default": "apiToken",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: apiToken",
+      "available_options": [
+        "API Token (值: apiToken)",
+        "OAuth2 (值: oAuth2)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
       "required": true,
-      "options": [
-        {
-          "name": "Charge",
-          "value": "charge"
-        },
-        {
-          "name": "Datapoint",
-          "value": "datapoint"
-        },
-        {
-          "name": "Goal",
-          "value": "goal"
-        },
-        {
-          "name": "User",
-          "value": "user"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
       "default": "datapoint",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: datapoint | (必填项)",
+      "available_options": [
+        "Charge (值: charge)",
+        "Datapoint (值: datapoint)",
+        "Goal (值: goal)",
+        "User (值: user)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get user information",
-          "action": "Get user information"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
-      "default": "get",
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "get",
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get | (必填项)",
+      "available_options": [
+        "Get (值: get) - Get user information",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "goalName": {
       "displayName": "Goal Name or ID",
       "name": "goalName",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getGoals"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "goal"
-          ],
-          "operation": [
-            "get",
-            "update",
-            "refresh",
-            "shortCircuit",
-            "stepDown",
-            "cancelStepDown"
-          ]
-        }
-      },
-      "default": "",
-      "description": "The name of the goal. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
       "required": true,
-      "ai_hint": "The name of the goal. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "The name of the goal. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Goal Name or ID | 作用: The name of the goal. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "amount": {
       "displayName": "Amount",
       "name": "amount",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "charge"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": true,
       "default": 0,
       "description": "Charge amount in USD",
-      "required": true,
-      "ai_hint": "Charge amount in USD"
+      "natural_language_description": "参数名: Amount | 作用: Charge amount in USD | 默认值: 0 | (必填项)"
     },
     "datapoints": {
       "displayName": "Datapoints",
       "name": "datapoints",
       "type": "json",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "datapoint"
-          ],
-          "operation": [
-            "createAll"
-          ]
-        }
-      },
+      "required": true,
       "default": "[]",
       "description": "Array of datapoint objects to create. Each object should contain value and optionally timestamp, comment, etc.",
-      "placeholder": "[{\"value\": 1, \"comment\": \"First datapoint\"}, {\"value\": 2, \"comment\": \"Second datapoint\"}]",
-      "required": true,
-      "ai_hint": "Array of datapoint objects to create. Each object should contain value and optionally timestamp, comment, etc."
+      "natural_language_description": "参数名: Datapoints | 作用: Array of datapoint objects to create. Each object should contain value and optionally timestamp, comment, etc. | 默认值: [] | (必填项)"
     },
     "slug": {
       "displayName": "Goal Slug",
       "name": "slug",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "goal"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
       "description": "Unique identifier for the goal",
-      "required": true,
-      "ai_hint": "Unique identifier for the goal"
+      "natural_language_description": "参数名: Goal Slug | 作用: Unique identifier for the goal | (必填项)"
     },
     "title": {
       "displayName": "Goal Title",
       "name": "title",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "goal"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
       "description": "Human-readable title for the goal",
-      "required": true,
-      "ai_hint": "Human-readable title for the goal"
+      "natural_language_description": "参数名: Goal Title | 作用: Human-readable title for the goal | (必填项)"
     },
     "goal_type": {
       "displayName": "Goal Type",
       "name": "goal_type",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "goal"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Hustler",
-          "value": "hustler"
-        },
-        {
-          "name": "Biker",
-          "value": "biker"
-        },
-        {
-          "name": "Fatloser",
-          "value": "fatloser"
-        },
-        {
-          "name": "Gainer",
-          "value": "gainer"
-        },
-        {
-          "name": "Inboxer",
-          "value": "inboxer"
-        },
-        {
-          "name": "Drinker",
-          "value": "drinker"
-        },
-        {
-          "name": "Custom",
-          "value": "custom"
-        }
-      ],
-      "default": "hustler",
-      "description": "Type of goal. <a href=\"https://api.beeminder.com/#attributes-2\">More info here.</a>.",
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "hustler",
+      "description": "Type of goal. More info here..",
+      "natural_language_description": "参数名: Goal Type | 作用: Type of goal. More info here.. | 默认值: hustler | (必填项)",
+      "available_options": [
+        "Hustler (值: hustler)",
+        "Biker (值: biker)",
+        "Fatloser (值: fatloser)",
+        "Gainer (值: gainer)",
+        "Inboxer (值: inboxer)",
+        "Drinker (值: drinker)",
+        "Custom (值: custom)"
+      ]
     },
     "gunits": {
       "displayName": "Goal Units",
       "name": "gunits",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "goal"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": true,
       "default": "",
       "description": "Units for the goal (e.g., \"hours\", \"pages\", \"pounds\")",
-      "required": true,
-      "ai_hint": "Units for the goal (e.g., \"hours\", \"pages\", \"pounds\")"
+      "natural_language_description": "参数名: Goal Units | 作用: Units for the goal (e.g., \"hours\", \"pages\", \"pounds\") | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "datapoint"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "datapoint"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 300
-      },
+      "required": false,
       "default": 30,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 30"
     },
     "value": {
       "displayName": "Value",
       "name": "value",
       "type": "number",
-      "default": 1,
-      "placeholder": "",
-      "description": "Datapoint value to send",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "datapoint"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "required": true,
-      "ai_hint": "Datapoint value to send"
+      "default": 1,
+      "description": "Datapoint value to send",
+      "natural_language_description": "参数名: Value | 作用: Datapoint value to send | 默认值: 1 | (必填项)"
     },
     "datapointId": {
       "displayName": "Datapoint ID",
       "name": "datapointId",
       "type": "string",
+      "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "datapoint"
-          ],
-          "operation": [
-            "update",
-            "delete",
-            "get"
-          ]
-        }
-      },
-      "required": true
+      "description": "",
+      "natural_language_description": "参数名: Datapoint ID | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "goal"
-          ],
-          "operation": [
-            "getArchived"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Emaciated",
-          "name": "emaciated",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to include the goal attributes called road, roadall, and fullroad will be stripped from the goal objects"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "emaciated (值: None) - Whether to include the goal attributes called road, roadall, and fullroad will be stripped from the goal objects"
+      ]
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "datapoint"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Value",
-          "name": "value",
-          "type": "number",
-          "default": 1,
-          "placeholder": "",
-          "description": "Datapoint value to send"
-        },
-        {
-          "displayName": "Comment",
-          "name": "comment",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Timestamp",
-          "name": "timestamp",
-          "type": "dateTime",
-          "default": "",
-          "placeholder": "",
-          "description": "Defaults to \"now\" if none is passed in, or the existing timestamp if the datapoint is being updated rather than created"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "value (值: None) - Datapoint value to send",
+        "comment (值: None)",
+        "timestamp (值: None) - Defaults to \"now\" if none is passed in, or the existing timestamp if the datapoint is being updated rather than created"
+      ]
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "datapoint"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Sort",
-          "name": "sort",
-          "type": "string",
-          "default": "id",
-          "placeholder": "",
-          "description": "Attribute to sort on"
-        },
-        {
-          "displayName": "Page",
-          "name": "page",
-          "type": "number",
-          "displayOptions": {
-            "show": {
-              "/returnAll": [
-                false
-              ]
-            }
-          },
-          "default": 1,
-          "typeOptions": {
-            "minValue": 1
-          },
-          "description": "Used to paginate results, 1-indexed, meaning page 1 is the first page"
-        },
-        {
-          "displayName": "Per Page",
-          "name": "per",
-          "type": "number",
-          "displayOptions": {
-            "show": {
-              "/returnAll": [
-                false
-              ]
-            }
-          },
-          "default": 25,
-          "typeOptions": {
-            "minValue": 0
-          },
-          "description": "Number of results per page. Default 25. Ignored without page parameter. Must be non-negative"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "sort (值: None) - Attribute to sort on",
+        "page (值: None) - Used to paginate results, 1-indexed, meaning page 1 is the first page",
+        "per (值: None) - Number of results per page. Default 25. Ignored without page parameter. Must be non-negative"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "authentication",
-      "resource",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "goalName",
-      "goalName",
-      "goalName",
-      "amount",
-      "datapoints",
-      "slug",
-      "title",
-      "goal_type",
-      "gunits",
-      "returnAll",
-      "limit",
-      "value",
-      "datapointId",
-      "additionalFields",
-      "additionalFields",
-      "additionalFields",
-      "updateFields",
-      "additionalFields",
-      "additionalFields",
-      "additionalFields",
-      "additionalFields",
-      "options",
-      "updateFields"
-    ],
-    "conditional_rules": [
-      "IF resource == 'charge' THEN SHOW parameter 'operation'",
-      "IF resource == 'datapoint' THEN SHOW parameter 'operation'",
-      "IF resource == 'goal' THEN SHOW parameter 'operation'",
-      "IF resource == 'user' THEN SHOW parameter 'operation'",
-      "IF resource == 'datapoint' THEN SHOW parameter 'goalName'",
-      "IF resource == 'goal' AND operation == 'uncle' THEN SHOW parameter 'goalName'",
-      "IF resource == 'goal' AND operation IN [\"get\", \"update\", \"refresh\", \"shortCircuit\", \"stepDown\", \"cancelStepDown\"] THEN SHOW parameter 'goalName'",
-      "IF resource == 'charge' AND operation == 'create' THEN SHOW parameter 'amount'",
-      "IF resource == 'datapoint' AND operation == 'createAll' THEN SHOW parameter 'datapoints'",
-      "IF resource == 'goal' AND operation == 'create' THEN SHOW parameter 'slug'",
-      "IF resource == 'goal' AND operation == 'create' THEN SHOW parameter 'title'",
-      "IF resource == 'goal' AND operation == 'create' THEN SHOW parameter 'goal_type'",
-      "IF resource == 'goal' AND operation == 'create' THEN SHOW parameter 'gunits'",
-      "IF operation == 'getAll' AND resource == 'datapoint' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'datapoint' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'datapoint' AND operation == 'create' THEN SHOW parameter 'value'",
-      "IF resource == 'datapoint' AND operation IN [\"update\", \"delete\", \"get\"] THEN SHOW parameter 'datapointId'",
-      "IF resource == 'datapoint' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'charge' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'goal' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'goal' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'goal' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'goal' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'goal' AND operation == 'getArchived' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'datapoint' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF /returnAll == False THEN SHOW parameter 'page'",
-      "IF /returnAll == False THEN SHOW parameter 'per'",
-      "IF resource == 'datapoint' AND operation == 'update' THEN SHOW parameter 'updateFields'"
-    ]
   }
 }

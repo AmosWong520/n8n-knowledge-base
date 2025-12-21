@@ -1,145 +1,60 @@
 {
   "node_id": "n8n-nodes-base.freshservice",
-  "name": "n8n-nodes-base.freshservice",
+  "name": "Freshservice",
   "version": 1,
   "semantic_context": "Consume the Freshservice API",
+  "natural_language_description": "这是 Freshservice 节点。主要用于: Consume the Freshservice API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Agent",
-          "value": "agent"
-        },
-        {
-          "name": "Agent Group",
-          "value": "agentGroup"
-        },
-        {
-          "name": "Agent Role",
-          "value": "agentRole"
-        },
-        {
-          "name": "Announcement",
-          "value": "announcement"
-        },
-        {
-          "name": "Asset Type",
-          "value": "assetType"
-        },
-        {
-          "name": "Change",
-          "value": "change"
-        },
-        {
-          "name": "Department",
-          "value": "department"
-        },
-        {
-          "name": "Location",
-          "value": "location"
-        },
-        {
-          "name": "Problem",
-          "value": "problem"
-        },
-        {
-          "name": "Product",
-          "value": "product"
-        },
-        {
-          "name": "Release",
-          "value": "release"
-        },
-        {
-          "name": "Requester",
-          "value": "requester"
-        },
-        {
-          "name": "Requester Group",
-          "value": "requesterGroup"
-        },
-        {
-          "name": "Software",
-          "value": "software"
-        },
-        {
-          "name": "Ticket",
-          "value": "ticket"
-        }
-      ],
+      "required": false,
       "default": "agent",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: agent",
+      "available_options": [
+        "Agent (值: agent)",
+        "Agent Group (值: agentGroup)",
+        "Agent Role (值: agentRole)",
+        "Announcement (值: announcement)",
+        "Asset Type (值: assetType)",
+        "Change (值: change)",
+        "Department (值: department)",
+        "Location (值: location)",
+        "Problem (值: problem)",
+        "Product (值: product)",
+        "Release (值: release)",
+        "Requester (值: requester)",
+        "Requester Group (值: requesterGroup)",
+        "Software (值: software)",
+        "Ticket (值: ticket)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a ticket",
-          "action": "Create a ticket"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a ticket",
-          "action": "Delete a ticket"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Retrieve a ticket",
-          "action": "Get a ticket"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Retrieve many tickets",
-          "action": "Get many tickets"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a ticket",
-          "action": "Update a ticket"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a ticket",
+        "Delete (值: delete) - Delete a ticket",
+        "Get (值: get) - Retrieve a ticket",
+        "Get Many (值: getAll) - Retrieve many tickets",
+        "Update (值: update) - Update a ticket"
+      ]
     },
     "email": {
       "displayName": "Email",
       "name": "email",
-      "description": "Email address of the ticket author",
       "type": "string",
-      "placeholder": "name@email.com",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Email address of the ticket author"
+      "description": "Email address of the ticket author",
+      "natural_language_description": "参数名: Email | 作用: Email address of the ticket author | (必填项)"
     },
     "firstName": {
       "displayName": "First Name",
@@ -147,504 +62,103 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "requester"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: First Name | (必填项)"
     },
     "roles": {
       "displayName": "Roles",
       "name": "roles",
-      "description": "Role to assign to the agent",
       "type": "fixedCollection",
-      "placeholder": "Add Role",
-      "typeOptions": {
-        "multipleValues": true
-      },
       "required": true,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "agent"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Role Properties",
-          "name": "roleProperties",
-          "values": [
-            {
-              "displayName": "Role Name or ID",
-              "name": "role",
-              "description": "Name of the role to assign to the agent. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-              "type": "options",
-              "typeOptions": {
-                "loadOptionsMethod": "getAgentRoles"
-              },
-              "required": true,
-              "default": ""
-            },
-            {
-              "displayName": "Scope",
-              "name": "assignment_scope",
-              "description": "Scope in which the agent may use the permissions granted by the role",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Entire Helpdesk",
-                  "value": "entire_helpdesk"
-                },
-                {
-                  "name": "Member Groups",
-                  "value": "member_groups"
-                },
-                {
-                  "name": "Specified Groups",
-                  "value": "specified_groups"
-                },
-                {
-                  "name": "Assigned Items",
-                  "value": "assigned_items"
-                }
-              ],
-              "required": true,
-              "default": "specified_groups"
-            },
-            {
-              "displayName": "Group Names or IDs",
-              "name": "groups",
-              "description": "Groups in which the permissions granted by the role apply. Required only when Scope is Specified Groups - ignored otherwise. Choose from the list or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-              "type": "multiOptions",
-              "typeOptions": {
-                "loadOptionsMethod": "getAgentGroups"
-              },
-              "default": []
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "Role to assign to the agent",
+      "natural_language_description": "参数名: Roles | 作用: Role to assign to the agent | 默认值: {} | (必填项)",
+      "available_options": [
+        "roleProperties (值: None)"
+      ]
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "CC Emails",
-          "name": "cc_emails",
-          "type": "string",
-          "default": "",
-          "description": "Comma-separated email addresses to add in the CC field of the ticket email"
-        },
-        {
-          "displayName": "Department Name or ID",
-          "name": "department_id",
-          "type": "options",
-          "default": "",
-          "description": "ID of the department to which this ticket belongs. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-          "typeOptions": {
-            "loadOptionsMethod": "getDepartments"
-          }
-        },
-        {
-          "displayName": "Group Name or ID",
-          "name": "group_id",
-          "type": "options",
-          "default": "",
-          "description": "ID of the group to which the ticket has been assigned. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-          "typeOptions": {
-            "loadOptionsMethod": "getAgentGroups"
-          }
-        },
-        {
-          "displayName": "Impact",
-          "name": "impact",
-          "type": "options",
-          "default": 1,
-          "options": [
-            {
-              "name": "Low",
-              "value": 1
-            },
-            {
-              "name": "Medium",
-              "value": 2
-            },
-            {
-              "name": "High",
-              "value": 3
-            }
-          ]
-        },
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": "",
-          "description": "Name of the ticket author"
-        },
-        {
-          "displayName": "Requester Name or ID",
-          "name": "requester_id",
-          "type": "options",
-          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getRequesters"
-          }
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "cc_emails (值: None) - Comma-separated email addresses to add in the CC field of the ticket email",
+        "department_id (值: None) - ID of the department to which this ticket belongs. Choose from the list, or specify an ID using an expression.",
+        "group_id (值: None) - ID of the group to which the ticket has been assigned. Choose from the list, or specify an ID using an expression.",
+        "impact (值: None)",
+        "name (值: None) - Name of the ticket author",
+        "requester_id (值: None) - Choose from the list, or specify an ID using an expression"
+      ]
     },
     "agentId": {
       "displayName": "Agent ID",
       "name": "agentId",
-      "description": "ID of the agent to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "agent"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the agent to update"
+      "description": "ID of the agent to update",
+      "natural_language_description": "参数名: Agent ID | 作用: ID of the agent to update | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Agent Name or ID",
-          "name": "agent_id",
-          "type": "options",
-          "default": "",
-          "description": "ID of the agent to whom the tickets have been assigned. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-          "typeOptions": {
-            "loadOptionsMethod": "getAgents"
-          }
-        },
-        {
-          "displayName": "Group Name or ID",
-          "name": "group_id",
-          "type": "options",
-          "default": "",
-          "description": "ID of the group to which the tickets have been assigned. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-          "typeOptions": {
-            "loadOptionsMethod": "getAgentGroups"
-          }
-        },
-        {
-          "displayName": "Impact",
-          "name": "impact",
-          "type": "options",
-          "default": 1,
-          "options": [
-            {
-              "name": "Low",
-              "value": 1
-            },
-            {
-              "name": "Medium",
-              "value": 2
-            },
-            {
-              "name": "High",
-              "value": 3
-            }
-          ]
-        },
-        {
-          "displayName": "Priority",
-          "name": "priority",
-          "type": "options",
-          "default": 1,
-          "options": [
-            {
-              "name": "Low",
-              "value": 1
-            },
-            {
-              "name": "Medium",
-              "value": 2
-            },
-            {
-              "name": "High",
-              "value": 3
-            },
-            {
-              "name": "Urgent",
-              "value": 4
-            }
-          ]
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "default": 2,
-          "options": [
-            {
-              "name": "Open",
-              "value": 2
-            },
-            {
-              "name": "Pending",
-              "value": 3
-            },
-            {
-              "name": "Resolved",
-              "value": 4
-            },
-            {
-              "name": "Closed",
-              "value": 5
-            }
-          ]
-        },
-        {
-          "displayName": "Created On",
-          "name": "created_at",
-          "type": "dateTime",
-          "default": "",
-          "description": "Date when the ticket was created"
-        },
-        {
-          "displayName": "Due By",
-          "name": "due_by",
-          "description": "Date when the ticket is due to be resolved",
-          "type": "dateTime",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "agent_id (值: None) - ID of the agent to whom the tickets have been assigned. Choose from the list, or specify an ID using an expression.",
+        "group_id (值: None) - ID of the group to which the tickets have been assigned. Choose from the list, or specify an ID using an expression.",
+        "impact (值: None)",
+        "priority (值: None)",
+        "status (值: None)",
+        "created_at (值: None) - Date when the ticket was created",
+        "due_by (值: None) - Date when the ticket is due to be resolved"
+      ]
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Department Name or ID",
-          "name": "department_id",
-          "type": "options",
-          "default": "",
-          "description": "ID of the department to which this ticket has been assigned. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-          "typeOptions": {
-            "loadOptionsMethod": "getDepartments"
-          }
-        },
-        {
-          "displayName": "Description",
-          "name": "description",
-          "type": "string",
-          "default": "",
-          "description": "HTML supported"
-        },
-        {
-          "displayName": "Email",
-          "name": "email",
-          "type": "string",
-          "placeholder": "name@email.com",
-          "default": "",
-          "description": "Email address of the ticket author"
-        },
-        {
-          "displayName": "Group Name or ID",
-          "name": "group_id",
-          "type": "options",
-          "default": "",
-          "description": "ID of the group to which the ticket has been assigned. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-          "typeOptions": {
-            "loadOptionsMethod": "getAgentGroups"
-          }
-        },
-        {
-          "displayName": "Impact",
-          "name": "impact",
-          "type": "options",
-          "default": 1,
-          "options": [
-            {
-              "name": "Low",
-              "value": 1
-            },
-            {
-              "name": "Medium",
-              "value": 2
-            },
-            {
-              "name": "High",
-              "value": 3
-            }
-          ]
-        },
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": "",
-          "description": "Name of the ticket author"
-        },
-        {
-          "displayName": "Phone",
-          "name": "phone",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Priority",
-          "name": "priority",
-          "type": "options",
-          "default": 1,
-          "description": "Priority of the ticket",
-          "options": [
-            {
-              "name": "Low",
-              "value": 1
-            },
-            {
-              "name": "Medium",
-              "value": 2
-            },
-            {
-              "name": "High",
-              "value": 3
-            },
-            {
-              "name": "Urgent",
-              "value": 4
-            }
-          ]
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "default": 2,
-          "options": [
-            {
-              "name": "Open",
-              "value": 2
-            },
-            {
-              "name": "Pending",
-              "value": 3
-            },
-            {
-              "name": "Resolved",
-              "value": 4
-            },
-            {
-              "name": "Closed",
-              "value": 5
-            }
-          ]
-        },
-        {
-          "displayName": "Subject",
-          "name": "subject",
-          "type": "string",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "department_id (值: None) - ID of the department to which this ticket has been assigned. Choose from the list, or specify an ID using an expression.",
+        "description (值: None) - HTML supported",
+        "email (值: None) - Email address of the ticket author",
+        "group_id (值: None) - ID of the group to which the ticket has been assigned. Choose from the list, or specify an ID using an expression.",
+        "impact (值: None)",
+        "name (值: None) - Name of the ticket author",
+        "phone (值: None)",
+        "priority (值: None) - Priority of the ticket",
+        "status (值: None)",
+        "subject (值: None)"
+      ]
     },
     "name": {
       "displayName": "Name",
@@ -652,54 +166,26 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "software"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Name | (必填项)"
     },
     "agentGroupId": {
       "displayName": "Agent Group ID",
       "name": "agentGroupId",
-      "description": "ID of the agent group to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "agentGroup"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the agent group to update"
+      "description": "ID of the agent group to update",
+      "natural_language_description": "参数名: Agent Group ID | 作用: ID of the agent group to update | (必填项)"
     },
     "agentRoleId": {
       "displayName": "Agent Role ID",
       "name": "agentRoleId",
-      "description": "ID of the agent role to retrieve",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "agentRole"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "ID of the agent role to retrieve"
+      "description": "ID of the agent role to retrieve",
+      "natural_language_description": "参数名: Agent Role ID | 作用: ID of the agent role to retrieve | (必填项)"
     },
     "title": {
       "displayName": "Title",
@@ -707,35 +193,17 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "announcement"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Title | (必填项)"
     },
     "bodyHtml": {
       "displayName": "Body",
       "name": "bodyHtml",
-      "description": "HTML supported",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "announcement"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "HTML supported"
+      "description": "HTML supported",
+      "natural_language_description": "参数名: Body | 作用: HTML supported | (必填项)"
     },
     "visibility": {
       "displayName": "Visibility",
@@ -743,126 +211,58 @@
       "type": "options",
       "required": true,
       "default": "everyone",
-      "options": [
-        {
-          "name": "Agents Only",
-          "value": "agents_only"
-        },
-        {
-          "name": "Agents and Groups",
-          "value": "grouped_visibility"
-        },
-        {
-          "name": "Everyone",
-          "value": "everyone"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "announcement"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Visibility | 默认值: everyone | (必填项)",
+      "available_options": [
+        "Agents Only (值: agents_only)",
+        "Agents and Groups (值: grouped_visibility)",
+        "Everyone (值: everyone)"
+      ]
     },
     "visibleFrom": {
       "displayName": "Visible From",
       "name": "visibleFrom",
-      "description": "Timestamp at which announcement becomes active",
       "type": "dateTime",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "announcement"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Timestamp at which announcement becomes active"
+      "description": "Timestamp at which announcement becomes active",
+      "natural_language_description": "参数名: Visible From | 作用: Timestamp at which announcement becomes active | (必填项)"
     },
     "announcementId": {
       "displayName": "Announcement ID",
       "name": "announcementId",
-      "description": "ID of the announcement to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "announcement"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the announcement to update"
+      "description": "ID of the announcement to update",
+      "natural_language_description": "参数名: Announcement ID | 作用: ID of the announcement to update | (必填项)"
     },
     "assetTypeId": {
       "displayName": "Asset Type Name or ID",
       "name": "assetTypeId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
       "required": true,
       "default": "",
-      "typeOptions": {
-        "loadOptionsMethod": "getAssetTypes"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "product"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Asset Type Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "requesterId": {
       "displayName": "Requester ID",
       "name": "requesterId",
-      "description": "ID of the requester to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "requester"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the requester to update"
+      "description": "ID of the requester to update",
+      "natural_language_description": "参数名: Requester ID | 作用: ID of the requester to update | (必填项)"
     },
     "subject": {
       "displayName": "Subject",
       "name": "subject",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Subject"
     },
     "plannedStartDate": {
       "displayName": "Planned Start Date",
@@ -870,16 +270,8 @@
       "type": "dateTime",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "release"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Planned Start Date | (必填项)"
     },
     "plannedEndDate": {
       "displayName": "Planned End Date",
@@ -887,697 +279,175 @@
       "type": "dateTime",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "release"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Planned End Date | (必填项)"
     },
     "changeId": {
       "displayName": "Change ID",
       "name": "changeId",
-      "description": "ID of the change to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "change"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the change to update"
+      "description": "ID of the change to update",
+      "natural_language_description": "参数名: Change ID | 作用: ID of the change to update | (必填项)"
     },
     "departmentId": {
       "displayName": "Department ID",
       "name": "departmentId",
-      "description": "ID of the department to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "department"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the department to update"
+      "description": "ID of the department to update",
+      "natural_language_description": "参数名: Department ID | 作用: ID of the department to update | (必填项)"
     },
     "locationId": {
       "displayName": "Location ID",
       "name": "locationId",
-      "description": "ID of the location to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "location"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the location to update"
+      "description": "ID of the location to update",
+      "natural_language_description": "参数名: Location ID | 作用: ID of the location to update | (必填项)"
     },
     "dueBy": {
       "displayName": "Due By",
       "name": "dueBy",
-      "description": "Date when the problem is due to be solved",
       "type": "dateTime",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "problem"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Date when the problem is due to be solved"
+      "description": "Date when the problem is due to be solved",
+      "natural_language_description": "参数名: Due By | 作用: Date when the problem is due to be solved"
     },
     "problemId": {
       "displayName": "Problem ID",
       "name": "problemId",
-      "description": "ID of the problem to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "problem"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the problem to update"
+      "description": "ID of the problem to update",
+      "natural_language_description": "参数名: Problem ID | 作用: ID of the problem to update | (必填项)"
     },
     "productId": {
       "displayName": "Product ID",
       "name": "productId",
-      "description": "ID of the product to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "product"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the product to update"
+      "description": "ID of the product to update",
+      "natural_language_description": "参数名: Product ID | 作用: ID of the product to update | (必填项)"
     },
     "releaseType": {
       "displayName": "Release Type",
       "name": "releaseType",
       "type": "options",
+      "required": false,
       "default": 1,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "release"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Minor",
-          "value": 1
-        },
-        {
-          "name": "Standard",
-          "value": 2
-        },
-        {
-          "name": "Major",
-          "value": 3
-        },
-        {
-          "name": "Emergency",
-          "value": 4
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Release Type | 默认值: 1",
+      "available_options": [
+        "Minor (值: 1)",
+        "Standard (值: 2)",
+        "Major (值: 3)",
+        "Emergency (值: 4)"
+      ]
     },
     "priority": {
       "displayName": "Priority",
       "name": "priority",
       "type": "options",
+      "required": false,
       "default": 1,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Low",
-          "value": 1
-        },
-        {
-          "name": "Medium",
-          "value": 2
-        },
-        {
-          "name": "High",
-          "value": 3
-        },
-        {
-          "name": "Urgent",
-          "value": 4
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Priority | 默认值: 1",
+      "available_options": [
+        "Low (值: 1)",
+        "Medium (值: 2)",
+        "High (值: 3)",
+        "Urgent (值: 4)"
+      ]
     },
     "status": {
       "displayName": "Status",
       "name": "status",
       "type": "options",
+      "required": false,
       "default": 2,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Open",
-          "value": 2
-        },
-        {
-          "name": "Pending",
-          "value": 3
-        },
-        {
-          "name": "Resolved",
-          "value": 4
-        },
-        {
-          "name": "Closed",
-          "value": 5
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Status | 默认值: 2",
+      "available_options": [
+        "Open (值: 2)",
+        "Pending (值: 3)",
+        "Resolved (值: 4)",
+        "Closed (值: 5)"
+      ]
     },
     "releaseId": {
       "displayName": "Release ID",
       "name": "releaseId",
-      "description": "ID of the release to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "release"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the release to update"
+      "description": "ID of the release to update",
+      "natural_language_description": "参数名: Release ID | 作用: ID of the release to update | (必填项)"
     },
     "primaryEmail": {
       "displayName": "Primary Email",
       "name": "primaryEmail",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "requester"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Primary Email"
     },
     "requesterGroupId": {
       "displayName": "Requester Group ID",
       "name": "requesterGroupId",
-      "description": "ID of the requester group to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "requesterGroup"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the requester group to update"
+      "description": "ID of the requester group to update",
+      "natural_language_description": "参数名: Requester Group ID | 作用: ID of the requester group to update | (必填项)"
     },
     "applicationType": {
       "displayName": "Application Type",
       "name": "applicationType",
       "type": "options",
       "required": true,
-      "options": [
-        {
-          "name": "Desktop",
-          "value": "desktop"
-        },
-        {
-          "name": "Mobile",
-          "value": "mobile"
-        },
-        {
-          "name": "SaaS",
-          "value": "saas"
-        }
-      ],
       "default": "desktop",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "software"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Application Type | 默认值: desktop | (必填项)",
+      "available_options": [
+        "Desktop (值: desktop)",
+        "Mobile (值: mobile)",
+        "SaaS (值: saas)"
+      ]
     },
     "softwareId": {
       "displayName": "Software ID",
       "name": "softwareId",
-      "description": "ID of the software application to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "software"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the software application to update"
+      "description": "ID of the software application to update",
+      "natural_language_description": "参数名: Software ID | 作用: ID of the software application to update | (必填项)"
     },
     "description": {
       "displayName": "Description",
       "name": "description",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "HTML supported",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "HTML supported"
+      "natural_language_description": "参数名: Description | 作用: HTML supported"
     },
     "ticketId": {
       "displayName": "Ticket ID",
       "name": "ticketId",
-      "description": "ID of the ticket to update",
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "ticket"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "ID of the ticket to update"
+      "description": "ID of the ticket to update",
+      "natural_language_description": "参数名: Ticket ID | 作用: ID of the ticket to update | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "email",
-      "firstName",
-      "roles",
-      "additionalFields",
-      "agentId",
-      "agentId",
-      "returnAll",
-      "limit",
-      "filters",
-      "agentId",
-      "updateFields",
-      "operation",
-      "name",
-      "additionalFields",
-      "agentGroupId",
-      "agentGroupId",
-      "returnAll",
-      "limit",
-      "agentGroupId",
-      "updateFields",
-      "operation",
-      "agentRoleId",
-      "returnAll",
-      "limit",
-      "operation",
-      "title",
-      "bodyHtml",
-      "visibility",
-      "visibleFrom",
-      "additionalFields",
-      "announcementId",
-      "announcementId",
-      "returnAll",
-      "limit",
-      "announcementId",
-      "updateFields",
-      "operation",
-      "name",
-      "additionalFields",
-      "assetTypeId",
-      "assetTypeId",
-      "returnAll",
-      "limit",
-      "assetTypeId",
-      "updateFields",
-      "operation",
-      "requesterId",
-      "subject",
-      "plannedStartDate",
-      "plannedEndDate",
-      "additionalFields",
-      "changeId",
-      "changeId",
-      "returnAll",
-      "limit",
-      "filters",
-      "changeId",
-      "updateFields",
-      "operation",
-      "name",
-      "additionalFields",
-      "departmentId",
-      "departmentId",
-      "returnAll",
-      "limit",
-      "filters",
-      "departmentId",
-      "updateFields",
-      "operation",
-      "name",
-      "additionalFields",
-      "locationId",
-      "locationId",
-      "returnAll",
-      "limit",
-      "locationId",
-      "updateFields",
-      "operation",
-      "subject",
-      "requesterId",
-      "dueBy",
-      "additionalFields",
-      "problemId",
-      "problemId",
-      "returnAll",
-      "limit",
-      "problemId",
-      "updateFields",
-      "operation",
-      "assetTypeId",
-      "name",
-      "additionalFields",
-      "productId",
-      "productId",
-      "returnAll",
-      "limit",
-      "productId",
-      "updateFields",
-      "operation",
-      "subject",
-      "releaseType",
-      "priority",
-      "status",
-      "plannedStartDate",
-      "plannedEndDate",
-      "additionalFields",
-      "releaseId",
-      "releaseId",
-      "returnAll",
-      "limit",
-      "releaseId",
-      "updateFields",
-      "operation",
-      "firstName",
-      "primaryEmail",
-      "additionalFields",
-      "requesterId",
-      "requesterId",
-      "returnAll",
-      "limit",
-      "filters",
-      "requesterId",
-      "updateFields",
-      "operation",
-      "name",
-      "additionalFields",
-      "requesterGroupId",
-      "requesterGroupId",
-      "returnAll",
-      "limit",
-      "requesterGroupId",
-      "updateFields",
-      "operation",
-      "applicationType",
-      "name",
-      "additionalFields",
-      "softwareId",
-      "softwareId",
-      "returnAll",
-      "limit",
-      "softwareId",
-      "updateFields",
-      "operation",
-      "email",
-      "subject",
-      "description",
-      "priority",
-      "status",
-      "additionalFields",
-      "ticketId",
-      "ticketId",
-      "returnAll",
-      "limit",
-      "filters",
-      "ticketId",
-      "updateFields"
-    ],
-    "conditional_rules": [
-      "IF resource == 'agent' THEN SHOW parameter 'operation'",
-      "IF resource == 'agent' AND operation == 'create' THEN SHOW parameter 'email'",
-      "IF resource == 'agent' AND operation == 'create' THEN SHOW parameter 'firstName'",
-      "IF resource == 'agent' AND operation == 'create' THEN SHOW parameter 'roles'",
-      "IF resource == 'agent' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'agent' AND operation == 'delete' THEN SHOW parameter 'agentId'",
-      "IF resource == 'agent' AND operation == 'get' THEN SHOW parameter 'agentId'",
-      "IF resource == 'agent' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'agent' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'agent' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'agent' AND operation == 'update' THEN SHOW parameter 'agentId'",
-      "IF resource == 'agent' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'agentGroup' THEN SHOW parameter 'operation'",
-      "IF resource == 'agentGroup' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'agentGroup' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'agentGroup' AND operation == 'delete' THEN SHOW parameter 'agentGroupId'",
-      "IF resource == 'agentGroup' AND operation == 'get' THEN SHOW parameter 'agentGroupId'",
-      "IF resource == 'agentGroup' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'agentGroup' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'agentGroup' AND operation == 'update' THEN SHOW parameter 'agentGroupId'",
-      "IF resource == 'agentGroup' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'agentRole' THEN SHOW parameter 'operation'",
-      "IF resource == 'agentRole' AND operation == 'get' THEN SHOW parameter 'agentRoleId'",
-      "IF resource == 'agentRole' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'agentRole' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'announcement' THEN SHOW parameter 'operation'",
-      "IF resource == 'announcement' AND operation == 'create' THEN SHOW parameter 'title'",
-      "IF resource == 'announcement' AND operation == 'create' THEN SHOW parameter 'bodyHtml'",
-      "IF resource == 'announcement' AND operation == 'create' THEN SHOW parameter 'visibility'",
-      "IF resource == 'announcement' AND operation == 'create' THEN SHOW parameter 'visibleFrom'",
-      "IF resource == 'announcement' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'announcement' AND operation == 'delete' THEN SHOW parameter 'announcementId'",
-      "IF resource == 'announcement' AND operation == 'get' THEN SHOW parameter 'announcementId'",
-      "IF resource == 'announcement' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'announcement' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'announcement' AND operation == 'update' THEN SHOW parameter 'announcementId'",
-      "IF resource == 'announcement' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'assetType' THEN SHOW parameter 'operation'",
-      "IF resource == 'assetType' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'assetType' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'assetType' AND operation == 'delete' THEN SHOW parameter 'assetTypeId'",
-      "IF resource == 'assetType' AND operation == 'get' THEN SHOW parameter 'assetTypeId'",
-      "IF resource == 'assetType' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'assetType' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'assetType' AND operation == 'update' THEN SHOW parameter 'assetTypeId'",
-      "IF resource == 'assetType' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'change' THEN SHOW parameter 'operation'",
-      "IF resource == 'change' AND operation == 'create' THEN SHOW parameter 'requesterId'",
-      "IF resource == 'change' AND operation == 'create' THEN SHOW parameter 'subject'",
-      "IF resource == 'change' AND operation == 'create' THEN SHOW parameter 'plannedStartDate'",
-      "IF resource == 'change' AND operation == 'create' THEN SHOW parameter 'plannedEndDate'",
-      "IF resource == 'change' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'change' AND operation == 'delete' THEN SHOW parameter 'changeId'",
-      "IF resource == 'change' AND operation == 'get' THEN SHOW parameter 'changeId'",
-      "IF resource == 'change' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'change' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'change' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'change' AND operation == 'update' THEN SHOW parameter 'changeId'",
-      "IF resource == 'change' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'department' THEN SHOW parameter 'operation'",
-      "IF resource == 'department' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'department' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'department' AND operation == 'delete' THEN SHOW parameter 'departmentId'",
-      "IF resource == 'department' AND operation == 'get' THEN SHOW parameter 'departmentId'",
-      "IF resource == 'department' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'department' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'department' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'department' AND operation == 'update' THEN SHOW parameter 'departmentId'",
-      "IF resource == 'department' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'location' THEN SHOW parameter 'operation'",
-      "IF resource == 'location' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'location' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'location' AND operation == 'delete' THEN SHOW parameter 'locationId'",
-      "IF resource == 'location' AND operation == 'get' THEN SHOW parameter 'locationId'",
-      "IF resource == 'location' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'location' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'location' AND operation == 'update' THEN SHOW parameter 'locationId'",
-      "IF resource == 'location' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'problem' THEN SHOW parameter 'operation'",
-      "IF resource == 'problem' AND operation == 'create' THEN SHOW parameter 'subject'",
-      "IF resource == 'problem' AND operation == 'create' THEN SHOW parameter 'requesterId'",
-      "IF resource == 'problem' AND operation == 'create' THEN SHOW parameter 'dueBy'",
-      "IF resource == 'problem' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'problem' AND operation == 'delete' THEN SHOW parameter 'problemId'",
-      "IF resource == 'problem' AND operation == 'get' THEN SHOW parameter 'problemId'",
-      "IF resource == 'problem' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'problem' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'problem' AND operation == 'update' THEN SHOW parameter 'problemId'",
-      "IF resource == 'problem' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'product' THEN SHOW parameter 'operation'",
-      "IF resource == 'product' AND operation == 'create' THEN SHOW parameter 'assetTypeId'",
-      "IF resource == 'product' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'product' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'product' AND operation == 'delete' THEN SHOW parameter 'productId'",
-      "IF resource == 'product' AND operation == 'get' THEN SHOW parameter 'productId'",
-      "IF resource == 'product' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'product' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'product' AND operation == 'update' THEN SHOW parameter 'productId'",
-      "IF resource == 'product' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'release' THEN SHOW parameter 'operation'",
-      "IF resource == 'release' AND operation == 'create' THEN SHOW parameter 'subject'",
-      "IF resource == 'release' AND operation == 'create' THEN SHOW parameter 'releaseType'",
-      "IF resource == 'release' AND operation == 'create' THEN SHOW parameter 'priority'",
-      "IF resource == 'release' AND operation == 'create' THEN SHOW parameter 'status'",
-      "IF resource == 'release' AND operation == 'create' THEN SHOW parameter 'plannedStartDate'",
-      "IF resource == 'release' AND operation == 'create' THEN SHOW parameter 'plannedEndDate'",
-      "IF resource == 'release' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'release' AND operation == 'delete' THEN SHOW parameter 'releaseId'",
-      "IF resource == 'release' AND operation == 'get' THEN SHOW parameter 'releaseId'",
-      "IF resource == 'release' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'release' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'release' AND operation == 'update' THEN SHOW parameter 'releaseId'",
-      "IF resource == 'release' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'requester' THEN SHOW parameter 'operation'",
-      "IF resource == 'requester' AND operation == 'create' THEN SHOW parameter 'firstName'",
-      "IF resource == 'requester' AND operation == 'create' THEN SHOW parameter 'primaryEmail'",
-      "IF resource == 'requester' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'requester' AND operation == 'delete' THEN SHOW parameter 'requesterId'",
-      "IF resource == 'requester' AND operation == 'get' THEN SHOW parameter 'requesterId'",
-      "IF resource == 'requester' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'requester' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'requester' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'requester' AND operation == 'update' THEN SHOW parameter 'requesterId'",
-      "IF resource == 'requester' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'requesterGroup' THEN SHOW parameter 'operation'",
-      "IF resource == 'requesterGroup' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'requesterGroup' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'requesterGroup' AND operation == 'delete' THEN SHOW parameter 'requesterGroupId'",
-      "IF resource == 'requesterGroup' AND operation == 'get' THEN SHOW parameter 'requesterGroupId'",
-      "IF resource == 'requesterGroup' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'requesterGroup' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'requesterGroup' AND operation == 'update' THEN SHOW parameter 'requesterGroupId'",
-      "IF resource == 'requesterGroup' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'software' THEN SHOW parameter 'operation'",
-      "IF resource == 'software' AND operation == 'create' THEN SHOW parameter 'applicationType'",
-      "IF resource == 'software' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'software' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'software' AND operation == 'delete' THEN SHOW parameter 'softwareId'",
-      "IF resource == 'software' AND operation == 'get' THEN SHOW parameter 'softwareId'",
-      "IF resource == 'software' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'software' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'software' AND operation == 'update' THEN SHOW parameter 'softwareId'",
-      "IF resource == 'software' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'ticket' THEN SHOW parameter 'operation'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'email'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'subject'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'description'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'priority'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'status'",
-      "IF resource == 'ticket' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'ticket' AND operation == 'delete' THEN SHOW parameter 'ticketId'",
-      "IF resource == 'ticket' AND operation == 'get' THEN SHOW parameter 'ticketId'",
-      "IF resource == 'ticket' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'ticket' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'ticket' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'ticket' AND operation == 'update' THEN SHOW parameter 'ticketId'",
-      "IF resource == 'ticket' AND operation == 'update' THEN SHOW parameter 'updateFields'"
-    ]
   }
 }

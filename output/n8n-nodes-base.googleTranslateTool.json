@@ -1,174 +1,88 @@
 {
   "node_id": "n8n-nodes-base.googleTranslateTool",
-  "name": "n8n-nodes-base.googleTranslateTool",
-  "version": [
-    1,
-    2
-  ],
+  "name": "Google Translate Tool",
+  "version": 1,
   "semantic_context": "Translate data using Google Translate",
+  "natural_language_description": "这是 Google Translate Tool 节点。主要用于: Translate data using Google Translate",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Translate data using Google Translate",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Translate data using Google Translate",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Translate data using Google Translate | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "OAuth2 (recommended)",
-          "value": "oAuth2"
-        },
-        {
-          "name": "Service Account",
-          "value": "serviceAccount"
-        }
-      ],
+      "required": false,
       "default": "oAuth2",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            2
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: oAuth2",
+      "available_options": [
+        "OAuth2 (recommended) (值: oAuth2)",
+        "Service Account (值: serviceAccount)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Language",
-          "value": "language"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "language",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: language",
+      "available_options": [
+        "Language (值: language)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "language"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Translate",
-          "value": "translate",
-          "description": "Translate data",
-          "action": "Translate a language"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "translate",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: translate",
+      "available_options": [
+        "Translate (值: translate) - Translate data",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "text": {
       "displayName": "Text",
       "name": "text",
       "type": "string",
+      "required": true,
       "default": "",
       "description": "The input text to translate",
-      "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "translate"
-          ]
-        }
-      },
-      "ai_hint": "The input text to translate"
+      "natural_language_description": "参数名: Text | 作用: The input text to translate | (必填项)"
     },
     "translateTo": {
       "displayName": "Translate To",
       "name": "translateTo",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getLanguages"
-      },
-      "default": "",
-      "description": "The language to use for translation of the input text, set to one of the language codes listed in <a href=\"https://cloud.google.com/translate/docs/languages\">Language Support</a>. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "translate"
-          ]
-        }
-      },
-      "ai_hint": "The language to use for translation of the input text, set to one of the language codes listed in <a href=\"https://cloud.google.com/translate/docs/languages\">Language Support</a>. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "The language to use for translation of the input text, set to one of the language codes listed in Language Support. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Translate To | 作用: The language to use for translation of the input text, set to one of the language codes listed in Language Support. Choose from the list, or specify an ID using an expression. | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "authentication",
-      "resource",
-      "operation",
-      "text",
-      "translateTo"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF @version == 1 THEN SHOW parameter 'authentication'",
-      "IF @version == 2 THEN SHOW parameter 'authentication'",
-      "IF resource == 'language' THEN SHOW parameter 'operation'",
-      "IF operation == 'translate' THEN SHOW parameter 'text'",
-      "IF operation == 'translate' THEN SHOW parameter 'translateTo'"
-    ]
   }
 }

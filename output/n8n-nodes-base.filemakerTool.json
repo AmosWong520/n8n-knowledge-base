@@ -1,683 +1,253 @@
 {
   "node_id": "n8n-nodes-base.filemakerTool",
-  "name": "n8n-nodes-base.filemakerTool",
+  "name": "FileMaker Tool",
   "version": 1,
   "semantic_context": "Retrieve data from the FileMaker data API",
+  "natural_language_description": "这是 FileMaker Tool 节点。主要用于: Retrieve data from the FileMaker data API",
   "parameters": {
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Retrieve data from the FileMaker data API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Retrieve data from the FileMaker data API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Retrieve data from the FileMaker data API | (必填项)"
     },
     "action": {
       "displayName": "Action",
       "name": "action",
       "type": "options",
+      "required": false,
       "default": "record",
-      "options": [
-        {
-          "name": "Create Record",
-          "value": "create"
-        },
-        {
-          "name": "Delete Record",
-          "value": "delete"
-        },
-        {
-          "name": "Duplicate Record",
-          "value": "duplicate"
-        },
-        {
-          "name": "Edit Record",
-          "value": "edit"
-        },
-        {
-          "name": "Find Records",
-          "value": "find"
-        },
-        {
-          "name": "Get Records",
-          "value": "records"
-        },
-        {
-          "name": "Get Records By ID",
-          "value": "record"
-        },
-        {
-          "name": "Perform Script",
-          "value": "performscript"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Action | 默认值: record",
+      "available_options": [
+        "Create Record (值: create)",
+        "Delete Record (值: delete)",
+        "Duplicate Record (值: duplicate)",
+        "Edit Record (值: edit)",
+        "Find Records (值: find)",
+        "Get Records (值: records)",
+        "Get Records By ID (值: record)",
+        "Perform Script (值: performscript)"
+      ]
     },
     "layout": {
       "displayName": "Layout Name or ID",
       "name": "layout",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getLayouts"
-      },
-      "options": [],
-      "default": "",
       "required": true,
-      "displayOptions": {},
-      "placeholder": "Layout Name",
-      "description": "FileMaker Layout Name. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "FileMaker Layout Name. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "FileMaker Layout Name. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Layout Name or ID | 作用: FileMaker Layout Name. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "recid": {
       "displayName": "Record ID",
       "name": "recid",
       "type": "number",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "action": [
-            "record",
-            "edit",
-            "delete",
-            "duplicate"
-          ]
-        }
-      },
-      "placeholder": "Record ID",
+      "default": "",
       "description": "Internal Record ID returned by get (recordid)",
-      "ai_hint": "Internal Record ID returned by get (recordid)"
+      "natural_language_description": "参数名: Record ID | 作用: Internal Record ID returned by get (recordid) | (必填项)"
     },
     "offset": {
       "displayName": "Offset",
       "name": "offset",
-      "placeholder": "0",
-      "description": "The record number of the first record in the range of records",
       "type": "number",
+      "required": false,
       "default": 1,
-      "displayOptions": {
-        "show": {
-          "action": [
-            "find",
-            "records"
-          ]
-        }
-      },
-      "ai_hint": "The record number of the first record in the range of records"
+      "description": "The record number of the first record in the range of records",
+      "natural_language_description": "参数名: Offset | 作用: The record number of the first record in the range of records | 默认值: 1"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
-      "placeholder": "100",
-      "description": "Max number of results to return",
       "type": "number",
-      "typeOptions": {
-        "minValue": 1
-      },
+      "required": false,
       "default": 100,
-      "displayOptions": {
-        "show": {
-          "action": [
-            "find",
-            "records"
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "description": "Max number of results to return",
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "getPortals": {
       "displayName": "Get Portals",
       "name": "getPortals",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to get portal data as well",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "record",
-            "records",
-            "find"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Get Portals | 作用: Whether to get portal data as well | 默认值: False"
     },
     "portals": {
       "displayName": "Portals Name or ID",
       "name": "portals",
       "type": "options",
-      "typeOptions": {
-        "multipleValues": true,
-        "multipleValueButtonText": "Add portal",
-        "loadOptionsMethod": "getPortals"
-      },
-      "options": [],
+      "required": false,
       "default": [],
-      "displayOptions": {
-        "show": {
-          "action": [
-            "record",
-            "records",
-            "find"
-          ],
-          "getPortals": [
-            true
-          ]
-        }
-      },
-      "placeholder": "Portals",
-      "description": "The portal result set to return. Use the portal object name or portal table name. If this parameter is omitted, the API will return all portal objects and records in the layout. For best performance, pass the portal object name or portal table name. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The portal result set to return. Use the portal object name or portal table name. If this parameter is omitted, the API will return all portal objects and records in the layout. For best performance, pass the portal object name or portal table name. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The portal result set to return. Use the portal object name or portal table name. If this parameter is omitted, the API will return all portal objects and records in the layout. For best performance, pass the portal object name or portal table name. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Portals Name or ID | 作用: The portal result set to return. Use the portal object name or portal table name. If this parameter is omitted, the API will return all portal objects and records in the layout. For best performance, pass the portal object name or portal table name. Choose from the list, or specify an ID using an expression. | 默认值: []"
     },
     "responseLayout": {
       "displayName": "Response Layout Name or ID",
       "name": "responseLayout",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getResponseLayouts"
-      },
-      "options": [],
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "find"
-          ]
-        }
-      },
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Response Layout Name or ID | 作用: Choose from the list, or specify an ID using an expression"
     },
     "queries": {
       "displayName": "Queries",
       "name": "queries",
-      "placeholder": "Add query",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "action": [
-            "find"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "query",
-          "displayName": "Query",
-          "values": [
-            {
-              "displayName": "Fields",
-              "name": "fields",
-              "placeholder": "Add field",
-              "type": "fixedCollection",
-              "default": {},
-              "typeOptions": {
-                "multipleValues": true
-              },
-              "options": [
-                {
-                  "name": "field",
-                  "displayName": "Field",
-                  "values": [
-                    {
-                      "displayName": "Field Name or ID",
-                      "name": "name",
-                      "type": "options",
-                      "default": "",
-                      "typeOptions": {
-                        "loadOptionsMethod": "getFields"
-                      },
-                      "options": [],
-                      "description": "Search Field. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-                    },
-                    {
-                      "displayName": "Value",
-                      "name": "value",
-                      "type": "string",
-                      "default": "",
-                      "description": "Value to search"
-                    }
-                  ]
-                }
-              ],
-              "description": "Field Name"
-            },
-            {
-              "displayName": "Omit",
-              "name": "omit",
-              "type": "boolean",
-              "default": false
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Queries | 默认值: {}",
+      "available_options": [
+        "query (值: None)"
+      ]
     },
     "setSort": {
       "displayName": "Sort Data?",
       "name": "setSort",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to sort data",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "find",
-            "record",
-            "records"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Sort Data? | 作用: Whether to sort data | 默认值: False"
     },
     "sortParametersUi": {
       "displayName": "Sort",
       "name": "sortParametersUi",
-      "placeholder": "Add Sort Rules",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "setSort": [
-            true
-          ],
-          "action": [
-            "find",
-            "records"
-          ]
-        }
-      },
-      "description": "Sort rules",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "rules",
-          "displayName": "Rules",
-          "values": [
-            {
-              "displayName": "Field Name or ID",
-              "name": "name",
-              "type": "options",
-              "default": "",
-              "typeOptions": {
-                "loadOptionsMethod": "getFields"
-              },
-              "options": [],
-              "description": "Field Name. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-            },
-            {
-              "displayName": "Order",
-              "name": "value",
-              "type": "options",
-              "default": "ascend",
-              "options": [
-                {
-                  "name": "Ascend",
-                  "value": "ascend"
-                },
-                {
-                  "name": "Descend",
-                  "value": "descend"
-                }
-              ],
-              "description": "Sort order"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "Sort rules",
+      "natural_language_description": "参数名: Sort | 作用: Sort rules | 默认值: {}",
+      "available_options": [
+        "rules (值: None)"
+      ]
     },
     "setScriptBefore": {
       "displayName": "Before Find Script",
       "name": "setScriptBefore",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to define a script to be run before the action specified by the API call and after the subsequent sort",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "find",
-            "record",
-            "records"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Before Find Script | 作用: Whether to define a script to be run before the action specified by the API call and after the subsequent sort | 默认值: False"
     },
     "scriptBefore": {
       "displayName": "Script Name or ID",
       "name": "scriptBefore",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getScripts"
-      },
-      "options": [],
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "action": [
-            "find",
-            "record",
-            "records"
-          ],
-          "setScriptBefore": [
-            true
-          ]
-        }
-      },
-      "placeholder": "Script Name",
-      "description": "The name of the FileMaker script to be run after the action specified by the API call and after the subsequent sort. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The name of the FileMaker script to be run after the action specified by the API call and after the subsequent sort. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "The name of the FileMaker script to be run after the action specified by the API call and after the subsequent sort. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Script Name or ID | 作用: The name of the FileMaker script to be run after the action specified by the API call and after the subsequent sort. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "scriptBeforeParam": {
       "displayName": "Script Parameter",
       "name": "scriptBeforeParam",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "find",
-            "record",
-            "records"
-          ],
-          "setScriptBefore": [
-            true
-          ]
-        }
-      },
-      "placeholder": "Script Parameters",
       "description": "A parameter for the FileMaker script",
-      "ai_hint": "A parameter for the FileMaker script"
+      "natural_language_description": "参数名: Script Parameter | 作用: A parameter for the FileMaker script"
     },
     "setScriptSort": {
       "displayName": "Before Sort Script",
       "name": "setScriptSort",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to define a script to be run after the action specified by the API call but before the subsequent sort",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "find",
-            "record",
-            "records"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Before Sort Script | 作用: Whether to define a script to be run after the action specified by the API call but before the subsequent sort | 默认值: False"
     },
     "scriptSort": {
       "displayName": "Script Name or ID",
       "name": "scriptSort",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getScripts"
-      },
-      "options": [],
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "action": [
-            "find",
-            "record",
-            "records"
-          ],
-          "setScriptSort": [
-            true
-          ]
-        }
-      },
-      "placeholder": "Script Name",
-      "description": "The name of the FileMaker script to be run after the action specified by the API call but before the subsequent sort. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The name of the FileMaker script to be run after the action specified by the API call but before the subsequent sort. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "The name of the FileMaker script to be run after the action specified by the API call but before the subsequent sort. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Script Name or ID | 作用: The name of the FileMaker script to be run after the action specified by the API call but before the subsequent sort. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "scriptSortParam": {
       "displayName": "Script Parameter",
       "name": "scriptSortParam",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "find",
-            "record",
-            "records"
-          ],
-          "setScriptSort": [
-            true
-          ]
-        }
-      },
-      "placeholder": "Script Parameters",
       "description": "A parameter for the FileMaker script",
-      "ai_hint": "A parameter for the FileMaker script"
+      "natural_language_description": "参数名: Script Parameter | 作用: A parameter for the FileMaker script"
     },
     "setScriptAfter": {
       "displayName": "After Sort Script",
       "name": "setScriptAfter",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to define a script to be run after the action specified by the API call but before the subsequent sort",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "find",
-            "record",
-            "records"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: After Sort Script | 作用: Whether to define a script to be run after the action specified by the API call but before the subsequent sort | 默认值: False"
     },
     "scriptAfter": {
       "displayName": "Script Name or ID",
       "name": "scriptAfter",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getScripts"
-      },
-      "options": [],
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "action": [
-            "find",
-            "record",
-            "records"
-          ],
-          "setScriptAfter": [
-            true
-          ]
-        }
-      },
-      "placeholder": "Script Name",
-      "description": "The name of the FileMaker script to be run after the action specified by the API call and after the subsequent sort. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The name of the FileMaker script to be run after the action specified by the API call and after the subsequent sort. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "The name of the FileMaker script to be run after the action specified by the API call and after the subsequent sort. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Script Name or ID | 作用: The name of the FileMaker script to be run after the action specified by the API call and after the subsequent sort. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "scriptAfterParam": {
       "displayName": "Script Parameter",
       "name": "scriptAfterParam",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "find",
-            "record",
-            "records"
-          ],
-          "setScriptAfter": [
-            true
-          ]
-        }
-      },
-      "placeholder": "Script Parameters",
       "description": "A parameter for the FileMaker script",
-      "ai_hint": "A parameter for the FileMaker script"
+      "natural_language_description": "参数名: Script Parameter | 作用: A parameter for the FileMaker script"
     },
     "modId": {
       "displayName": "Mod ID",
       "name": "modId",
-      "description": "The last modification ID. When you use modId, a record is edited only when the modId matches.",
       "type": "number",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "edit"
-          ]
-        }
-      },
-      "ai_hint": "The last modification ID. When you use modId, a record is edited only when the modId matches."
+      "description": "The last modification ID. When you use modId, a record is edited only when the modId matches.",
+      "natural_language_description": "参数名: Mod ID | 作用: The last modification ID. When you use modId, a record is edited only when the modId matches."
     },
     "fieldsParametersUi": {
       "displayName": "Fields",
       "name": "fieldsParametersUi",
-      "placeholder": "Add field",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "action": [
-            "create",
-            "edit"
-          ]
-        }
-      },
-      "description": "Fields to define",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "fields",
-          "displayName": "Fields",
-          "values": [
-            {
-              "displayName": "Field Name or ID",
-              "name": "name",
-              "type": "options",
-              "default": "",
-              "typeOptions": {
-                "loadOptionsMethod": "getFields"
-              },
-              "options": [],
-              "description": "Field Name. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "Fields to define",
+      "natural_language_description": "参数名: Fields | 作用: Fields to define | 默认值: {}",
+      "available_options": [
+        "fields (值: None)"
+      ]
     },
     "script": {
       "displayName": "Script Name or ID",
       "name": "script",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getScripts"
-      },
-      "options": [],
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "action": [
-            "performscript"
-          ]
-        }
-      },
-      "placeholder": "Script Name",
-      "description": "The name of the FileMaker script to be run. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The name of the FileMaker script to be run. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "The name of the FileMaker script to be run. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Script Name or ID | 作用: The name of the FileMaker script to be run. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "scriptParam": {
       "displayName": "Script Parameter",
       "name": "scriptParam",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "action": [
-            "performscript"
-          ]
-        }
-      },
-      "placeholder": "Script Parameters",
       "description": "A parameter for the FileMaker script",
-      "ai_hint": "A parameter for the FileMaker script"
+      "natural_language_description": "参数名: Script Parameter | 作用: A parameter for the FileMaker script"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "toolDescription",
-      "action",
-      "layout",
-      "recid",
-      "offset",
-      "limit",
-      "getPortals",
-      "portals",
-      "responseLayout",
-      "queries",
-      "setSort",
-      "sortParametersUi",
-      "setScriptBefore",
-      "scriptBefore",
-      "scriptBeforeParam",
-      "setScriptSort",
-      "scriptSort",
-      "scriptSortParam",
-      "setScriptAfter",
-      "scriptAfter",
-      "scriptAfterParam",
-      "modId",
-      "fieldsParametersUi",
-      "script",
-      "scriptParam"
-    ],
-    "conditional_rules": [
-      "IF action IN [\"record\", \"edit\", \"delete\", \"duplicate\"] THEN SHOW parameter 'recid'",
-      "IF action IN [\"find\", \"records\"] THEN SHOW parameter 'offset'",
-      "IF action IN [\"find\", \"records\"] THEN SHOW parameter 'limit'",
-      "IF action IN [\"record\", \"records\", \"find\"] THEN SHOW parameter 'getPortals'",
-      "IF action IN [\"record\", \"records\", \"find\"] AND getPortals == True THEN SHOW parameter 'portals'",
-      "IF action == 'find' THEN SHOW parameter 'responseLayout'",
-      "IF action == 'find' THEN SHOW parameter 'queries'",
-      "IF action IN [\"find\", \"record\", \"records\"] THEN SHOW parameter 'setSort'",
-      "IF setSort == True AND action IN [\"find\", \"records\"] THEN SHOW parameter 'sortParametersUi'",
-      "IF action IN [\"find\", \"record\", \"records\"] THEN SHOW parameter 'setScriptBefore'",
-      "IF action IN [\"find\", \"record\", \"records\"] AND setScriptBefore == True THEN SHOW parameter 'scriptBefore'",
-      "IF action IN [\"find\", \"record\", \"records\"] AND setScriptBefore == True THEN SHOW parameter 'scriptBeforeParam'",
-      "IF action IN [\"find\", \"record\", \"records\"] THEN SHOW parameter 'setScriptSort'",
-      "IF action IN [\"find\", \"record\", \"records\"] AND setScriptSort == True THEN SHOW parameter 'scriptSort'",
-      "IF action IN [\"find\", \"record\", \"records\"] AND setScriptSort == True THEN SHOW parameter 'scriptSortParam'",
-      "IF action IN [\"find\", \"record\", \"records\"] THEN SHOW parameter 'setScriptAfter'",
-      "IF action IN [\"find\", \"record\", \"records\"] AND setScriptAfter == True THEN SHOW parameter 'scriptAfter'",
-      "IF action IN [\"find\", \"record\", \"records\"] AND setScriptAfter == True THEN SHOW parameter 'scriptAfterParam'",
-      "IF action == 'edit' THEN SHOW parameter 'modId'",
-      "IF action IN [\"create\", \"edit\"] THEN SHOW parameter 'fieldsParametersUi'",
-      "IF action == 'performscript' THEN SHOW parameter 'script'",
-      "IF action == 'performscript' THEN SHOW parameter 'scriptParam'"
-    ]
   }
 }

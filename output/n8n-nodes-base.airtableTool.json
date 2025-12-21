@@ -1,538 +1,166 @@
 {
   "node_id": "n8n-nodes-base.airtableTool",
-  "name": "n8n-nodes-base.airtableTool",
-  "version": [
-    2,
-    2.1
-  ],
+  "name": "Airtable Tool",
+  "version": 1,
   "semantic_context": "Read, update, write and delete data from Airtable",
+  "natural_language_description": "这是 Airtable Tool 节点。主要用于: Read, update, write and delete data from Airtable",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Read, update, write and delete data from Airtable",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Read, update, write and delete data from Airtable",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Read, update, write and delete data from Airtable | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Access Token",
-          "value": "airtableTokenApi"
-        },
-        {
-          "name": "OAuth2",
-          "value": "airtableOAuth2Api"
-        }
-      ],
+      "required": false,
       "default": "airtableTokenApi",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: airtableTokenApi",
+      "available_options": [
+        "Access Token (值: airtableTokenApi)",
+        "OAuth2 (值: airtableOAuth2Api)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Base",
-          "value": "base"
-        },
-        {
-          "name": "Record",
-          "value": "record"
-        }
-      ],
+      "required": false,
       "default": "record",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: record",
+      "available_options": [
+        "Base (值: base)",
+        "Record (值: record)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Get Many",
-          "value": "getMany",
-          "description": "List all the bases",
-          "action": "Get many bases"
-        },
-        {
-          "name": "Get Schema",
-          "value": "getSchema",
-          "description": "Get the schema of the tables in a base",
-          "action": "Get base schema"
-        }
-      ],
+      "required": false,
       "default": "getMany",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "base"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getMany",
+      "available_options": [
+        "Get Many (值: getMany) - List all the bases",
+        "Get Schema (值: getSchema) - Get the schema of the tables in a base"
+      ]
     },
     "base": {
       "displayName": "Base",
       "name": "base",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "baseSearch",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "placeholder": "e.g. https://airtable.com/app12DiScdfes/tbl9WvGeEPa6lZyVq/viwHdfasdfeieg5p",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "https://airtable.com/([a-zA-Z0-9]{2,})/.*",
-                "errorMessage": "Not a valid Airtable Base URL"
-              }
-            }
-          ],
-          "extractValue": {
-            "type": "regex",
-            "regex": "https://airtable.com/([a-zA-Z0-9]{2,})"
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9]{2,}",
-                "errorMessage": "Not a valid Airtable Base ID"
-              }
-            }
-          ],
-          "placeholder": "e.g. appD3dfaeidke",
-          "url": "=https://airtable.com/{{$value}}"
-        }
-      ],
       "description": "The Airtable Base to retrieve the schema from",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "base"
-          ],
-          "operation": [
-            "getSchema"
-          ]
-        }
-      },
-      "ai_hint": "The Airtable Base to retrieve the schema from"
+      "natural_language_description": "参数名: Base | 作用: The Airtable Base to retrieve the schema from | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "table": {
       "displayName": "Table",
       "name": "table",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "typeOptions": {
-        "loadOptionsDependsOn": [
-          "base.value"
-        ]
-      },
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "tableSearch",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "type": "string",
-          "placeholder": "https://airtable.com/app12DiScdfes/tblAAAAAAAAAAAAA/viwHdfasdfeieg5p",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "https://airtable.com/[a-zA-Z0-9]{2,}/([a-zA-Z0-9]{2,})/.*",
-                "errorMessage": "Not a valid Airtable Table URL"
-              }
-            }
-          ],
-          "extractValue": {
-            "type": "regex",
-            "regex": "https://airtable.com/[a-zA-Z0-9]{2,}/([a-zA-Z0-9]{2,})"
-          }
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9]{2,}",
-                "errorMessage": "Not a valid Airtable Table ID"
-              }
-            }
-          ],
-          "placeholder": "tbl3dirwqeidke"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "record"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Table | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "columns": {
       "displayName": "Columns",
       "name": "columns",
       "type": "resourceMapper",
-      "noDataExpression": true,
+      "required": true,
       "default": {
         "mappingMode": "defineBelow",
         "value": null
       },
-      "required": true,
-      "typeOptions": {
-        "loadOptionsDependsOn": [
-          "table.value",
-          "base.value"
-        ],
-        "resourceMapper": {
-          "resourceMapperMethod": "getColumnsWithRecordId",
-          "mode": "update",
-          "fieldWords": {
-            "singular": "column",
-            "plural": "columns"
-          },
-          "addAllFields": true,
-          "multiKeyMatch": true
-        }
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "record"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Columns | 默认值: {'mappingMode': 'defineBelow', 'value': None} | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Permission Level",
-          "name": "permissionLevel",
-          "type": "multiOptions",
-          "options": [
-            {
-              "name": "Comment",
-              "value": "comment"
-            },
-            {
-              "name": "Create",
-              "value": "create"
-            },
-            {
-              "name": "Edit",
-              "value": "edit"
-            },
-            {
-              "name": "None",
-              "value": "none"
-            },
-            {
-              "name": "Read",
-              "value": "read"
-            }
-          ],
-          "default": [],
-          "description": "Filter the returned bases by one or more permission levels"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "base"
-          ],
-          "operation": [
-            "getMany"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "permissionLevel (值: None) - Filter the returned bases by one or more permission levels"
+      ]
     },
     "id": {
       "displayName": "Record ID",
       "name": "id",
       "type": "string",
-      "default": "",
-      "placeholder": "e.g. recf7EaZp707CEc8g",
       "required": true,
-      "description": "ID of the record to get. <a href=\"https://support.airtable.com/docs/record-id\" target=\"_blank\">More info</a>.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "record"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "ID of the record to get. <a href=\"https://support.airtable.com/docs/record-id\" target=\"_blank\">More info</a>."
+      "default": "",
+      "description": "ID of the record to get. More info.",
+      "natural_language_description": "参数名: Record ID | 作用: ID of the record to get. More info. | (必填项)"
     },
     "filterByFormula": {
       "displayName": "Filter By Formula",
       "name": "filterByFormula",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "e.g. NOT({Name} = 'Admin')",
-      "hint": "If empty, all the records will be returned",
-      "description": "The formula will be evaluated for each record, and if the result is not 0, false, \"\", NaN, [], or #Error! the record will be included in the response. <a href=\"https://support.airtable.com/docs/formula-field-reference\" target=\"_blank\">More info</a>.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "record"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "ai_hint": "The formula will be evaluated for each record, and if the result is not 0, false, \"\", NaN, [], or #Error! the record will be included in the response. <a href=\"https://support.airtable.com/docs/formula-field-reference\" target=\"_blank\">More info</a>."
+      "description": "The formula will be evaluated for each record, and if the result is not 0, false, \"\", NaN, [], or #Error! the record will be included in the response. More info.",
+      "natural_language_description": "参数名: Filter By Formula | 作用: The formula will be evaluated for each record, and if the result is not 0, false, \"\", NaN, [], or #Error! the record will be included in the response. More info. | 提示: If empty, all the records will be returned"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": true,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "base"
-          ],
-          "operation": [
-            "getMany"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: True"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "returnAll": [
-            false
-          ],
-          "resource": [
-            "base"
-          ],
-          "operation": [
-            "getMany"
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 100
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "sort": {
       "displayName": "Sort",
       "name": "sort",
-      "placeholder": "Add Sort Rule",
-      "description": "Defines how the returned records should be ordered",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "property",
-          "displayName": "Property",
-          "values": [
-            {
-              "displayName": "Field",
-              "name": "field",
-              "type": "options",
-              "typeOptions": {
-                "loadOptionsMethod": "getColumns",
-                "loadOptionsDependsOn": [
-                  "base.value",
-                  "table.value"
-                ]
-              },
-              "default": "",
-              "description": "Name of the field to sort on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-            },
-            {
-              "displayName": "Direction",
-              "name": "direction",
-              "type": "options",
-              "options": [
-                {
-                  "name": "ASC",
-                  "value": "asc",
-                  "description": "Sort in ascending order (small -> large)"
-                },
-                {
-                  "name": "DESC",
-                  "value": "desc",
-                  "description": "Sort in descending order (large -> small)"
-                }
-              ],
-              "default": "asc",
-              "description": "The sort direction"
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "record"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "Defines how the returned records should be ordered",
+      "natural_language_description": "参数名: Sort | 作用: Defines how the returned records should be ordered | 默认值: {}",
+      "available_options": [
+        "property (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "resource",
-      "operation",
-      "base",
-      "table",
-      "columns",
-      "options",
-      "id",
-      "id",
-      "options",
-      "filterByFormula",
-      "returnAll",
-      "limit",
-      "options",
-      "sort",
-      "columns",
-      "options",
-      "columns",
-      "options",
-      "operation",
-      "returnAll",
-      "limit",
-      "options",
-      "base"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'record' THEN SHOW parameter 'operation'",
-      "IF resource == 'record' THEN SHOW parameter 'base'",
-      "IF resource == 'record' THEN SHOW parameter 'table'",
-      "IF resource == 'record' AND operation == 'create' THEN SHOW parameter 'columns'",
-      "IF resource == 'record' AND operation == 'create' THEN SHOW parameter 'options'",
-      "IF /columns.mappingMode == 'autoMapInputData' THEN SHOW parameter 'ignoreFields'",
-      "IF /operation IN [\"update\", \"upsert\"] THEN SHOW parameter 'updateAllMatches'",
-      "IF resource == 'record' AND operation == 'deleteRecord' THEN SHOW parameter 'id'",
-      "IF resource == 'record' AND operation == 'get' THEN SHOW parameter 'id'",
-      "IF resource == 'record' AND operation == 'get' THEN SHOW parameter 'options'",
-      "IF resource == 'record' AND operation == 'search' THEN SHOW parameter 'filterByFormula'",
-      "IF resource == 'record' AND operation == 'search' THEN SHOW parameter 'returnAll'",
-      "IF returnAll == False AND resource == 'record' AND operation == 'search' THEN SHOW parameter 'limit'",
-      "IF resource == 'record' AND operation == 'search' THEN SHOW parameter 'options'",
-      "IF resource == 'record' AND operation == 'search' THEN SHOW parameter 'sort'",
-      "IF resource == 'record' AND operation == 'update' THEN SHOW parameter 'columns'",
-      "IF resource == 'record' AND operation == 'update' THEN SHOW parameter 'options'",
-      "IF resource == 'record' AND operation == 'upsert' THEN SHOW parameter 'columns'",
-      "IF resource == 'record' AND operation == 'upsert' THEN SHOW parameter 'options'",
-      "IF resource == 'base' THEN SHOW parameter 'operation'",
-      "IF resource == 'base' AND operation == 'getMany' THEN SHOW parameter 'returnAll'",
-      "IF returnAll == False AND resource == 'base' AND operation == 'getMany' THEN SHOW parameter 'limit'",
-      "IF resource == 'base' AND operation == 'getMany' THEN SHOW parameter 'options'",
-      "IF resource == 'base' AND operation == 'getSchema' THEN SHOW parameter 'base'"
-    ]
   }
 }

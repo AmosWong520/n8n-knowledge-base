@@ -1,318 +1,111 @@
 {
   "node_id": "n8n-nodes-base.postHogTool",
-  "name": "n8n-nodes-base.postHogTool",
+  "name": "PostHog Tool",
   "version": 1,
   "semantic_context": "Consume PostHog API",
+  "natural_language_description": "这是 PostHog Tool 节点。主要用于: Consume PostHog API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume PostHog API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume PostHog API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume PostHog API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Alias",
-          "value": "alias"
-        },
-        {
-          "name": "Event",
-          "value": "event"
-        },
-        {
-          "name": "Identity",
-          "value": "identity"
-        },
-        {
-          "name": "Track",
-          "value": "track"
-        }
-      ],
+      "required": false,
       "default": "event",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: event",
+      "available_options": [
+        "Alias (值: alias)",
+        "Event (值: event)",
+        "Identity (值: identity)",
+        "Track (值: track)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "track"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Page",
-          "value": "page",
-          "description": "Track a page",
-          "action": "Track a page"
-        },
-        {
-          "name": "Screen",
-          "value": "screen",
-          "description": "Track a screen",
-          "action": "Track a screen"
-        }
-      ],
+      "required": false,
       "default": "page",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: page",
+      "available_options": [
+        "Page (值: page) - Track a page",
+        "Screen (值: screen) - Track a screen"
+      ]
     },
     "alias": {
       "displayName": "Alias",
       "name": "alias",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "alias"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "",
       "description": "The name of the alias",
-      "ai_hint": "The name of the alias"
+      "natural_language_description": "参数名: Alias | 作用: The name of the alias | (必填项)"
     },
     "distinctId": {
       "displayName": "Distinct ID",
       "name": "distinctId",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "track"
-          ],
-          "operation": [
-            "page",
-            "screen"
-          ]
-        }
-      },
       "default": "",
       "description": "The user's distinct ID",
-      "ai_hint": "The user's distinct ID"
+      "natural_language_description": "参数名: Distinct ID | 作用: The user's distinct ID | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "track"
-          ],
-          "operation": [
-            "page",
-            "screen"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Category",
-          "name": "category",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Context",
-          "name": "contextUi",
-          "type": "fixedCollection",
-          "placeholder": "Add Property",
-          "default": {},
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "options": [
-            {
-              "displayName": "Context",
-              "name": "contextValues",
-              "values": [
-                {
-                  "displayName": "Key",
-                  "name": "key",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Message ID",
-          "name": "messageId",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Properties",
-          "name": "propertiesUi",
-          "type": "fixedCollection",
-          "placeholder": "Add Property",
-          "default": {},
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "options": [
-            {
-              "displayName": "Property",
-              "name": "propertyValues",
-              "values": [
-                {
-                  "displayName": "Key",
-                  "name": "key",
-                  "type": "string",
-                  "default": ""
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Timestamp",
-          "name": "timestamp",
-          "type": "dateTime",
-          "default": "",
-          "description": "If not set, it'll automatically be set to the current time"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "category (值: None)",
+        "contextUi (值: None)",
+        "messageId (值: None)",
+        "propertiesUi (值: None)",
+        "timestamp (值: None) - If not set, it'll automatically be set to the current time"
+      ]
     },
     "eventName": {
       "displayName": "Event",
       "name": "eventName",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "event"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
       "default": "",
       "description": "The name of the event",
-      "ai_hint": "The name of the event"
+      "natural_language_description": "参数名: Event | 作用: The name of the event | (必填项)"
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "track"
-          ],
-          "operation": [
-            "page",
-            "screen"
-          ]
-        }
-      },
-      "default": ""
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Name | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "alias",
-      "distinctId",
-      "additionalFields",
-      "operation",
-      "eventName",
-      "distinctId",
-      "additionalFields",
-      "operation",
-      "distinctId",
-      "additionalFields",
-      "operation",
-      "name",
-      "distinctId",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'alias' THEN SHOW parameter 'operation'",
-      "IF resource == 'alias' AND operation == 'create' THEN SHOW parameter 'alias'",
-      "IF resource == 'alias' AND operation == 'create' THEN SHOW parameter 'distinctId'",
-      "IF resource == 'alias' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'event' THEN SHOW parameter 'operation'",
-      "IF resource == 'event' AND operation == 'create' THEN SHOW parameter 'eventName'",
-      "IF resource == 'event' AND operation == 'create' THEN SHOW parameter 'distinctId'",
-      "IF resource == 'event' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'identity' THEN SHOW parameter 'operation'",
-      "IF resource == 'identity' AND operation == 'create' THEN SHOW parameter 'distinctId'",
-      "IF resource == 'identity' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'track' THEN SHOW parameter 'operation'",
-      "IF resource == 'track' AND operation IN [\"page\", \"screen\"] THEN SHOW parameter 'name'",
-      "IF resource == 'track' AND operation IN [\"page\", \"screen\"] THEN SHOW parameter 'distinctId'",
-      "IF resource == 'track' AND operation IN [\"page\", \"screen\"] THEN SHOW parameter 'additionalFields'"
-    ]
   }
 }

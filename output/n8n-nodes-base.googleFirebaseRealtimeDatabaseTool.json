@@ -1,157 +1,75 @@
 {
   "node_id": "n8n-nodes-base.googleFirebaseRealtimeDatabaseTool",
-  "name": "n8n-nodes-base.googleFirebaseRealtimeDatabaseTool",
+  "name": "Google Cloud Realtime Database Tool",
   "version": 1,
   "semantic_context": "Interact with Google Firebase - Realtime Database API",
+  "natural_language_description": "这是 Google Cloud Realtime Database Tool 节点。主要用于: Interact with Google Firebase - Realtime Database API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Interact with Google Firebase - Realtime Database API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Interact with Google Firebase - Realtime Database API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Interact with Google Firebase - Realtime Database API | (必填项)"
     },
     "projectId": {
       "displayName": "Project Name or ID",
       "name": "projectId",
       "type": "options",
-      "default": "",
-      "typeOptions": {
-        "loadOptionsMethod": "getProjects"
-      },
-      "description": "As displayed in firebase console URL. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
       "required": true,
-      "ai_hint": "As displayed in firebase console URL. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": "",
+      "description": "As displayed in firebase console URL. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Project Name or ID | 作用: As displayed in firebase console URL. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Write data to a database",
-          "action": "Write data to a database"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete data from a database",
-          "action": "Delete data from a database"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a record from a database",
-          "action": "Get a record from a database"
-        },
-        {
-          "name": "Push",
-          "value": "push",
-          "description": "Append to a list of data",
-          "action": "Append to a list of data"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update item on a database",
-          "action": "Update item in a database"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
-      "default": "create",
       "required": true,
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "create",
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create | (必填项)",
+      "available_options": [
+        "Create (值: create) - Write data to a database",
+        "Delete (值: delete) - Delete data from a database",
+        "Get (值: get) - Get a record from a database",
+        "Push (值: push) - Append to a list of data",
+        "Update (值: update) - Update item on a database",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "path": {
       "displayName": "Object Path",
       "name": "path",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "e.g. /app/users",
       "description": "Object path on database. Do not append .json.",
-      "hint": "Leave blank to get a whole database object",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "Object path on database. Do not append .json."
+      "natural_language_description": "参数名: Object Path | 作用: Object path on database. Do not append .json. | 提示: Leave blank to get a whole database object"
     },
     "attributes": {
       "displayName": "Columns / Attributes",
       "name": "attributes",
       "type": "string",
-      "default": "",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create",
-            "push",
-            "update"
-          ]
-        }
-      },
-      "description": "Attributes to save",
       "required": true,
-      "placeholder": "age, name, city",
-      "ai_hint": "Attributes to save"
+      "default": "",
+      "description": "Attributes to save",
+      "natural_language_description": "参数名: Columns / Attributes | 作用: Attributes to save | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "projectId",
-      "operation",
-      "path",
-      "path",
-      "attributes"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF operation == 'get' THEN HIDE parameter 'path'",
-      "IF operation == 'get' THEN SHOW parameter 'path'",
-      "IF operation IN [\"create\", \"push\", \"update\"] THEN SHOW parameter 'attributes'"
-    ]
   }
 }

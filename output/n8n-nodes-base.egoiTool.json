@@ -1,553 +1,171 @@
 {
   "node_id": "n8n-nodes-base.egoiTool",
-  "name": "n8n-nodes-base.egoiTool",
+  "name": "E-goi Tool",
   "version": 1,
   "semantic_context": "Consume E-goi API",
+  "natural_language_description": "这是 E-goi Tool 节点。主要用于: Consume E-goi API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume E-goi API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume E-goi API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume E-goi API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
       "required": true,
-      "options": [
-        {
-          "name": "Contact",
-          "value": "contact"
-        }
-      ],
       "default": "contact",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: contact | (必填项)",
+      "available_options": [
+        "Contact (值: contact)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
       "required": true,
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a member",
-          "action": "Create a member"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a member",
-          "action": "Get a member"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many members",
-          "action": "Get many members"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a member",
-          "action": "Update a member"
-        }
-      ],
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create | (必填项)",
+      "available_options": [
+        "Create (值: create) - Create a member",
+        "Get (值: get) - Get a member",
+        "Get Many (值: getAll) - Get many members",
+        "Update (值: update) - Update a member"
+      ]
     },
     "list": {
       "displayName": "List Name or ID",
       "name": "list",
       "type": "options",
-      "typeOptions": {
-        "loadOptionsMethod": "getLists"
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll",
-            "create",
-            "update",
-            "get"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "description": "ID of list to operate on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "ID of list to operate on. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "ID of list to operate on. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: List Name or ID | 作用: ID of list to operate on. Choose from the list, or specify an ID using an expression."
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "get"
-          ],
-          "by": [
-            "email"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "Email address for subscriber",
-      "ai_hint": "Email address for subscriber"
+      "natural_language_description": "参数名: Email | 作用: Email address for subscriber"
     },
     "contactId": {
       "displayName": "Contact ID",
       "name": "contactId",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "contact"
-          ],
-          "operation": [
-            "get"
-          ],
-          "by": [
-            "id"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
       "description": "Contact ID of the subscriber",
-      "ai_hint": "Contact ID of the subscriber"
+      "natural_language_description": "参数名: Contact ID | 作用: Contact ID of the subscriber"
     },
     "resolveData": {
       "displayName": "Resolve Data",
       "name": "resolveData",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create",
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "By default the response just includes the contact ID. If this option gets activated, it will resolve the data automatically.",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Resolve Data | 作用: By default the response just includes the contact ID. If this option gets activated, it will resolve the data automatically. | 默认值: True"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "create"
-          ],
-          "resource": [
-            "contact"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Birth Date",
-          "name": "birth_date",
-          "type": "dateTime",
-          "default": "",
-          "description": "Birth date of a subscriber"
-        },
-        {
-          "displayName": "Cellphone",
-          "name": "cellphone",
-          "type": "string",
-          "default": "",
-          "description": "Cellphone of a subscriber"
-        },
-        {
-          "displayName": "Extra Fields",
-          "name": "extraFieldsUi",
-          "type": "fixedCollection",
-          "placeholder": "Add Field",
-          "default": {},
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "options": [
-            {
-              "displayName": "Extra Field",
-              "name": "extraFieldValues",
-              "typeOptions": {
-                "multipleValueButtonText": "Add Field"
-              },
-              "values": [
-                {
-                  "displayName": "Field Name or ID",
-                  "name": "field_id",
-                  "type": "options",
-                  "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-                  "typeOptions": {
-                    "loadOptionsMethod": "getExtraFields",
-                    "loadOptionsDependsOn": [
-                      "list"
-                    ]
-                  },
-                  "default": ""
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "First Name",
-          "name": "first_name",
-          "type": "string",
-          "default": "",
-          "description": "Name of a subscriber"
-        },
-        {
-          "displayName": "Last Name",
-          "name": "last_name",
-          "type": "string",
-          "default": "",
-          "description": "Name of a subscriber"
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Unconfirmed",
-              "value": "unconfirmed"
-            },
-            {
-              "name": "Active",
-              "value": "active"
-            },
-            {
-              "name": "Inactive",
-              "value": "inactive"
-            },
-            {
-              "name": "Removed",
-              "value": "removed"
-            }
-          ],
-          "default": "active",
-          "description": "Subscriber's current status"
-        },
-        {
-          "displayName": "Tag Names or IDs",
-          "name": "tagIds",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getListTags"
-          },
-          "default": [],
-          "description": "List of tag IDs to be added. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "birth_date (值: None) - Birth date of a subscriber",
+        "cellphone (值: None) - Cellphone of a subscriber",
+        "extraFieldsUi (值: None)",
+        "first_name (值: None) - Name of a subscriber",
+        "last_name (值: None) - Name of a subscriber",
+        "status (值: None) - Subscriber's current status",
+        "tagIds (值: None) - List of tag IDs to be added. Choose from the list, or specify IDs using an expression."
+      ]
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Birth Date",
-          "name": "birth_date",
-          "type": "dateTime",
-          "default": "",
-          "description": "Birth date of subscriber"
-        },
-        {
-          "displayName": "Cellphone",
-          "name": "cellphone",
-          "type": "string",
-          "default": "",
-          "description": "Cellphone of subscriber"
-        },
-        {
-          "displayName": "Email",
-          "name": "email",
-          "type": "string",
-          "placeholder": "name@email.com",
-          "default": "",
-          "description": "Email address for subscriber"
-        },
-        {
-          "displayName": "Extra Fields",
-          "name": "extraFieldsUi",
-          "type": "fixedCollection",
-          "placeholder": "Add Field",
-          "default": {},
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "options": [
-            {
-              "displayName": "Extra Field",
-              "name": "extraFieldValues",
-              "typeOptions": {
-                "multipleValueButtonText": "Add Field"
-              },
-              "values": [
-                {
-                  "displayName": "Field Name or ID",
-                  "name": "field_id",
-                  "type": "options",
-                  "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-                  "typeOptions": {
-                    "loadOptionsMethod": "getExtraFields",
-                    "loadOptionsDependsOn": [
-                      "list"
-                    ]
-                  },
-                  "default": ""
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "First Name",
-          "name": "first_name",
-          "type": "string",
-          "default": "",
-          "description": "Name of subscriber"
-        },
-        {
-          "displayName": "Last Name",
-          "name": "last_name",
-          "type": "string",
-          "default": "",
-          "description": "Name of subscriber"
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "options": [
-            {
-              "name": "Unconfirmed",
-              "value": "unconfirmed"
-            },
-            {
-              "name": "Active",
-              "value": "active"
-            },
-            {
-              "name": "Inactive",
-              "value": "inactive"
-            },
-            {
-              "name": "Removed",
-              "value": "removed"
-            }
-          ],
-          "default": "active",
-          "description": "Subscriber's current status"
-        },
-        {
-          "displayName": "Tag Names or IDs",
-          "name": "tagIds",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getListTags"
-          },
-          "default": [],
-          "description": "List of tag IDs to be added. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "birth_date (值: None) - Birth date of subscriber",
+        "cellphone (值: None) - Cellphone of subscriber",
+        "email (值: None) - Email address for subscriber",
+        "extraFieldsUi (值: None)",
+        "first_name (值: None) - Name of subscriber",
+        "last_name (值: None) - Name of subscriber",
+        "status (值: None) - Subscriber's current status",
+        "tagIds (值: None) - List of tag IDs to be added. Choose from the list, or specify IDs using an expression."
+      ]
     },
     "by": {
       "displayName": "By",
       "name": "by",
       "type": "options",
-      "options": [
-        {
-          "name": "Contact ID",
-          "value": "id"
-        },
-        {
-          "name": "Email",
-          "value": "email"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get"
-          ],
-          "resource": [
-            "contact"
-          ]
-        }
-      },
+      "required": false,
       "default": "id",
       "description": "Search by",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: By | 作用: Search by | 默认值: id",
+      "available_options": [
+        "Contact ID (值: id)",
+        "Email (值: email)"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "contact"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "contact"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "simple": {
       "displayName": "Simplify",
       "name": "simple",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get",
-            "getAll"
-          ],
-          "resource": [
-            "contact"
-          ]
-        }
-      },
+      "required": false,
       "default": true,
       "description": "Whether to return a simplified version of the response instead of the raw data",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Simplify | 作用: Whether to return a simplified version of the response instead of the raw data | 默认值: True"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "list",
-      "email",
-      "contactId",
-      "resolveData",
-      "additionalFields",
-      "updateFields",
-      "by",
-      "contactId",
-      "email",
-      "returnAll",
-      "limit",
-      "simple"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF operation IN [\"getAll\", \"create\", \"update\", \"get\"] THEN SHOW parameter 'list'",
-      "IF operation == 'create' THEN SHOW parameter 'email'",
-      "IF resource == 'contact' AND operation == 'update' THEN SHOW parameter 'contactId'",
-      "IF operation IN [\"create\", \"update\"] THEN SHOW parameter 'resolveData'",
-      "IF operation == 'create' AND resource == 'contact' THEN SHOW parameter 'additionalFields'",
-      "IF operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'get' AND resource == 'contact' THEN SHOW parameter 'by'",
-      "IF resource == 'contact' AND operation == 'get' AND by == 'id' THEN SHOW parameter 'contactId'",
-      "IF resource == 'contact' AND operation == 'get' AND by == 'email' THEN SHOW parameter 'email'",
-      "IF operation == 'getAll' AND resource == 'contact' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'contact' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation IN [\"get\", \"getAll\"] AND resource == 'contact' THEN SHOW parameter 'simple'"
-    ]
   }
 }

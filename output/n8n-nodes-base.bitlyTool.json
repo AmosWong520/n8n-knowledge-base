@@ -1,354 +1,133 @@
 {
   "node_id": "n8n-nodes-base.bitlyTool",
-  "name": "n8n-nodes-base.bitlyTool",
+  "name": "Bitly Tool",
   "version": 1,
   "semantic_context": "Consume Bitly API",
+  "natural_language_description": "这是 Bitly Tool 节点。主要用于: Consume Bitly API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Bitly API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Bitly API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Bitly API | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Access Token",
-          "value": "accessToken"
-        },
-        {
-          "name": "OAuth2",
-          "value": "oAuth2"
-        }
-      ],
+      "required": false,
       "default": "accessToken",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: accessToken",
+      "available_options": [
+        "Access Token (值: accessToken)",
+        "OAuth2 (值: oAuth2)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Link",
-          "value": "link"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "link",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: link",
+      "available_options": [
+        "Link (值: link)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "link"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a link",
-          "action": "Create a link"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Get a link",
-          "action": "Get a link"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update a link",
-          "action": "Update a link"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a link",
+        "Get (值: get) - Get a link",
+        "Update (值: update) - Update a link",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "longUrl": {
       "displayName": "Long URL",
       "name": "longUrl",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "link"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "default": "",
-      "placeholder": "https://example.com",
       "required": true,
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Long URL | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "link"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Domain",
-          "name": "domain",
-          "type": "string",
-          "default": "bit.ly"
-        },
-        {
-          "displayName": "Group Name or ID",
-          "name": "group",
-          "type": "options",
-          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getGroups"
-          }
-        },
-        {
-          "displayName": "Tag Names or IDs",
-          "name": "tags",
-          "type": "multiOptions",
-          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "default": [],
-          "typeOptions": {
-            "loadOptionsMethod": "getTags",
-            "loadOptionsDependsOn": [
-              "group"
-            ]
-          }
-        },
-        {
-          "displayName": "Title",
-          "name": "title",
-          "type": "string",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "domain (值: None)",
+        "group (值: None) - Choose from the list, or specify an ID using an expression",
+        "tags (值: None) - Choose from the list, or specify IDs using an expression",
+        "title (值: None)"
+      ]
     },
     "deeplink": {
       "displayName": "Deeplinks",
       "name": "deeplink",
-      "placeholder": "Add Deep Link",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "link"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "deeplinkUi",
-          "displayName": "Deep Link",
-          "values": [
-            {
-              "displayName": "App ID",
-              "name": "appId",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "App URI Path",
-              "name": "appUriPath",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Install Type",
-              "name": "installType",
-              "type": "string",
-              "default": ""
-            },
-            {
-              "displayName": "Install URL",
-              "name": "installUrl",
-              "type": "string",
-              "default": ""
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Deeplinks | 默认值: {}",
+      "available_options": [
+        "deeplinkUi (值: None)"
+      ]
     },
     "id": {
       "displayName": "Bitlink",
       "name": "id",
       "type": "string",
-      "default": "",
-      "placeholder": "bit.ly/22u3ypK",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "link"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Bitlink | (必填项)"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "link"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Archived",
-          "name": "archived",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "Group Name or ID",
-          "name": "group",
-          "type": "options",
-          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "default": "",
-          "typeOptions": {
-            "loadOptionsMethod": "getGroups"
-          }
-        },
-        {
-          "displayName": "Long URL",
-          "name": "longUrl",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Tag Names or IDs",
-          "name": "tags",
-          "type": "multiOptions",
-          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "default": [],
-          "typeOptions": {
-            "loadOptionsMethod": "getTags",
-            "loadOptionsDependsOn": [
-              "group"
-            ]
-          }
-        },
-        {
-          "displayName": "Title",
-          "name": "title",
-          "type": "string",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "archived (值: None)",
+        "group (值: None) - Choose from the list, or specify an ID using an expression",
+        "longUrl (值: None)",
+        "tags (值: None) - Choose from the list, or specify IDs using an expression",
+        "title (值: None)"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "resource",
-      "operation",
-      "longUrl",
-      "additionalFields",
-      "deeplink",
-      "id",
-      "updateFields",
-      "deeplink",
-      "id"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'link' THEN SHOW parameter 'operation'",
-      "IF resource == 'link' AND operation == 'create' THEN SHOW parameter 'longUrl'",
-      "IF resource == 'link' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'link' AND operation == 'create' THEN SHOW parameter 'deeplink'",
-      "IF resource == 'link' AND operation == 'update' THEN SHOW parameter 'id'",
-      "IF resource == 'link' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'link' AND operation == 'update' THEN SHOW parameter 'deeplink'",
-      "IF resource == 'link' AND operation == 'get' THEN SHOW parameter 'id'"
-    ]
   }
 }

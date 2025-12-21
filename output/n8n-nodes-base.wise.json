@@ -1,84 +1,42 @@
 {
   "node_id": "n8n-nodes-base.wise",
-  "name": "n8n-nodes-base.wise",
+  "name": "Wise",
   "version": 1,
   "semantic_context": "Consume the Wise API",
+  "natural_language_description": "这是 Wise 节点。主要用于: Consume the Wise API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Account",
-          "value": "account"
-        },
-        {
-          "name": "Exchange Rate",
-          "value": "exchangeRate"
-        },
-        {
-          "name": "Profile",
-          "value": "profile"
-        },
-        {
-          "name": "Quote",
-          "value": "quote"
-        },
-        {
-          "name": "Recipient",
-          "value": "recipient"
-        },
-        {
-          "name": "Transfer",
-          "value": "transfer"
-        }
-      ],
+      "required": false,
       "default": "account",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: account",
+      "available_options": [
+        "Account (值: account)",
+        "Exchange Rate (值: exchangeRate)",
+        "Profile (值: profile)",
+        "Quote (值: quote)",
+        "Recipient (值: recipient)",
+        "Transfer (值: transfer)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
+      "required": false,
       "default": "get",
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "action": "Create a transfer"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "action": "Delete a transfer"
-        },
-        {
-          "name": "Execute",
-          "value": "execute",
-          "action": "Execute a transfer"
-        },
-        {
-          "name": "Get",
-          "value": "get",
-          "action": "Get a transfer"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "action": "Get many transfers"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "transfer"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Create (值: create)",
+        "Delete (值: delete)",
+        "Execute (值: execute)",
+        "Get (值: get)",
+        "Get Many (值: getAll)"
+      ]
     },
     "profileId": {
       "displayName": "Profile Name or ID",
@@ -86,100 +44,41 @@
       "type": "options",
       "required": true,
       "default": [],
-      "typeOptions": {
-        "loadOptionsMethod": "getProfiles"
-      },
-      "description": "ID of the user profile to retrieve. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "transfer"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "ID of the user profile to retrieve. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "ID of the user profile to retrieve. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Profile Name or ID | 作用: ID of the user profile to retrieve. Choose from the list, or specify an ID using an expression. | 默认值: [] | (必填项)"
     },
     "borderlessAccountId": {
       "displayName": "Borderless Account Name or ID",
       "name": "borderlessAccountId",
       "type": "options",
-      "default": [],
       "required": true,
-      "typeOptions": {
-        "loadOptionsMethod": "getBorderlessAccounts",
-        "loadOptionsDependsOn": [
-          "profileId"
-        ]
-      },
-      "description": "ID of the borderless account to retrieve the statement of. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "account"
-          ],
-          "operation": [
-            "getStatement"
-          ]
-        }
-      },
-      "ai_hint": "ID of the borderless account to retrieve the statement of. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "default": [],
+      "description": "ID of the borderless account to retrieve the statement of. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Borderless Account Name or ID | 作用: ID of the borderless account to retrieve the statement of. Choose from the list, or specify an ID using an expression. | 默认值: [] | (必填项)"
     },
     "currency": {
       "displayName": "Currency",
       "name": "currency",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "Code of the currency of the borderless account to retrieve the statement of",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "account"
-          ],
-          "operation": [
-            "getStatement"
-          ]
-        }
-      },
-      "ai_hint": "Code of the currency of the borderless account to retrieve the statement of"
+      "natural_language_description": "参数名: Currency | 作用: Code of the currency of the borderless account to retrieve the statement of"
     },
     "format": {
       "displayName": "Format",
       "name": "format",
       "type": "options",
+      "required": false,
       "default": "json",
       "description": "File format to retrieve the statement in",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "account"
-          ],
-          "operation": [
-            "getStatement"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "JSON",
-          "value": "json"
-        },
-        {
-          "name": "CSV",
-          "value": "csv"
-        },
-        {
-          "name": "PDF",
-          "value": "pdf"
-        },
-        {
-          "name": "XML (CAMT.053)",
-          "value": "xml"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Format | 作用: File format to retrieve the statement in | 默认值: json",
+      "available_options": [
+        "JSON (值: json)",
+        "CSV (值: csv)",
+        "PDF (值: pdf)",
+        "XML (CAMT.053) (值: xml)"
+      ]
     },
     "binaryProperty": {
       "displayName": "Put Output File in Field",
@@ -187,20 +86,8 @@
       "type": "string",
       "required": true,
       "default": "data",
-      "hint": "The name of the output binary field to put the file in",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "transfer"
-          ],
-          "operation": [
-            "get"
-          ],
-          "downloadReceipt": [
-            true
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Put Output File in Field | 提示: The name of the output binary field to put the file in | 默认值: data | (必填项)"
     },
     "fileName": {
       "displayName": "File Name",
@@ -208,85 +95,38 @@
       "type": "string",
       "required": true,
       "default": "",
-      "placeholder": "data.pdf",
       "description": "Name of the file that will be downloaded",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "transfer"
-          ],
-          "operation": [
-            "get"
-          ],
-          "downloadReceipt": [
-            true
-          ]
-        }
-      },
-      "ai_hint": "Name of the file that will be downloaded"
+      "natural_language_description": "参数名: File Name | 作用: Name of the file that will be downloaded | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "transfer"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Reference",
-          "name": "reference",
-          "type": "string",
-          "default": "",
-          "description": "Reference text to show in the recipient's bank statement"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "reference (值: None) - Reference text to show in the recipient's bank statement"
+      ]
     },
     "source": {
       "displayName": "Source Currency",
       "name": "source",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "Code of the source currency to retrieve the exchange rate for",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "exchangeRate"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "Code of the source currency to retrieve the exchange rate for"
+      "natural_language_description": "参数名: Source Currency | 作用: Code of the source currency to retrieve the exchange rate for"
     },
     "target": {
       "displayName": "Target Currency",
       "name": "target",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "Code of the target currency to retrieve the exchange rate for",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "exchangeRate"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "Code of the target currency to retrieve the exchange rate for"
+      "natural_language_description": "参数名: Target Currency | 作用: Code of the target currency to retrieve the exchange rate for"
     },
     "targetAccountId": {
       "displayName": "Target Account Name or ID",
@@ -294,106 +134,48 @@
       "type": "options",
       "required": true,
       "default": [],
-      "typeOptions": {
-        "loadOptionsMethod": "getRecipients"
-      },
-      "description": "ID of the account that will receive the funds. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "transfer"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "ID of the account that will receive the funds. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "ID of the account that will receive the funds. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Target Account Name or ID | 作用: ID of the account that will receive the funds. Choose from the list, or specify an ID using an expression. | 默认值: [] | (必填项)"
     },
     "amountType": {
       "displayName": "Amount Type",
       "name": "amountType",
       "type": "options",
+      "required": false,
       "default": "source",
-      "options": [
-        {
-          "name": "Source",
-          "value": "source"
-        },
-        {
-          "name": "Target",
-          "value": "target"
-        }
-      ],
       "description": "Whether the amount is to be sent or received",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "quote"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Amount Type | 作用: Whether the amount is to be sent or received | 默认值: source",
+      "available_options": [
+        "Source (值: source)",
+        "Target (值: target)"
+      ]
     },
     "amount": {
       "displayName": "Amount",
       "name": "amount",
       "type": "number",
+      "required": false,
       "default": 1,
-      "typeOptions": {
-        "minValue": 1
-      },
       "description": "Amount of funds for the quote to create",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "quote"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Amount of funds for the quote to create"
+      "natural_language_description": "参数名: Amount | 作用: Amount of funds for the quote to create | 默认值: 1"
     },
     "sourceCurrency": {
       "displayName": "Source Currency",
       "name": "sourceCurrency",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "Code of the currency to send for the quote to create",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "quote"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Code of the currency to send for the quote to create"
+      "natural_language_description": "参数名: Source Currency | 作用: Code of the currency to send for the quote to create"
     },
     "targetCurrency": {
       "displayName": "Target Currency",
       "name": "targetCurrency",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "Code of the currency to receive for the quote to create",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "quote"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Code of the currency to receive for the quote to create"
+      "natural_language_description": "参数名: Target Currency | 作用: Code of the currency to receive for the quote to create"
     },
     "quoteId": {
       "displayName": "Quote ID",
@@ -402,60 +184,25 @@
       "required": true,
       "default": "",
       "description": "ID of the quote based on which to create the transfer",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "transfer"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "ID of the quote based on which to create the transfer"
+      "natural_language_description": "参数名: Quote ID | 作用: ID of the quote based on which to create the transfer | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "transfer"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 5,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 1000
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "transfer"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 5"
     },
     "transferId": {
       "displayName": "Transfer ID",
@@ -464,17 +211,7 @@
       "required": true,
       "default": "",
       "description": "ID of the transfer to retrieve",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "transfer"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "ID of the transfer to retrieve"
+      "natural_language_description": "参数名: Transfer ID | 作用: ID of the transfer to retrieve | (必填项)"
     },
     "downloadReceipt": {
       "displayName": "Download Receipt",
@@ -483,218 +220,22 @@
       "required": true,
       "default": false,
       "description": "Whether to download the transfer receipt as a PDF file. Only for executed transfers, having status 'Outgoing Payment Sent'.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "transfer"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Download Receipt | 作用: Whether to download the transfer receipt as a PDF file. Only for executed transfers, having status 'Outgoing Payment Sent'. | 默认值: False | (必填项)"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "transfer"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Range",
-          "name": "range",
-          "type": "fixedCollection",
-          "placeholder": "Add Range",
-          "description": "Range of time for filtering the transfers",
-          "default": {},
-          "options": [
-            {
-              "displayName": "Range Properties",
-              "name": "rangeProperties",
-              "values": [
-                {
-                  "displayName": "Created Date Start",
-                  "name": "createdDateStart",
-                  "type": "dateTime",
-                  "default": ""
-                },
-                {
-                  "displayName": "Created Date End",
-                  "name": "createdDateEnd",
-                  "type": "dateTime",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Source Currency",
-          "name": "sourceCurrency",
-          "type": "string",
-          "default": "",
-          "description": "Code of the source currency for filtering the transfers"
-        },
-        {
-          "displayName": "Status",
-          "name": "status",
-          "type": "options",
-          "default": "processing",
-          "options": [
-            {
-              "name": "Bounced Back",
-              "value": "bounced_back"
-            },
-            {
-              "name": "Cancelled",
-              "value": "cancelled"
-            },
-            {
-              "name": "Charged Back",
-              "value": "charged_back"
-            },
-            {
-              "name": "Funds Converted",
-              "value": "funds_converted"
-            },
-            {
-              "name": "Funds Refunded",
-              "value": "funds_refunded"
-            },
-            {
-              "name": "Incoming Payment Waiting",
-              "value": "incoming_payment_waiting"
-            },
-            {
-              "name": "Outgoing Payment Sent",
-              "value": "outgoing_payment_sent"
-            },
-            {
-              "name": "Processing",
-              "value": "processing"
-            },
-            {
-              "name": "Unknown",
-              "value": "unknown"
-            },
-            {
-              "name": "Waiting for Recipient Input to Proceed",
-              "value": "waiting_recipient_input_to_proceed"
-            }
-          ]
-        },
-        {
-          "displayName": "Target Currency",
-          "name": "targetCurrency",
-          "type": "string",
-          "default": "",
-          "description": "Code of the target currency for filtering the transfers"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "range (值: None) - Range of time for filtering the transfers",
+        "sourceCurrency (值: None) - Code of the source currency for filtering the transfers",
+        "status (值: None)",
+        "targetCurrency (值: None) - Code of the target currency for filtering the transfers"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "profileId",
-      "profileId",
-      "borderlessAccountId",
-      "currency",
-      "format",
-      "binaryProperty",
-      "fileName",
-      "additionalFields",
-      "operation",
-      "source",
-      "target",
-      "additionalFields",
-      "operation",
-      "profileId",
-      "operation",
-      "profileId",
-      "targetAccountId",
-      "amountType",
-      "amount",
-      "sourceCurrency",
-      "targetCurrency",
-      "quoteId",
-      "operation",
-      "returnAll",
-      "limit",
-      "operation",
-      "profileId",
-      "quoteId",
-      "targetAccountId",
-      "additionalFields",
-      "transferId",
-      "profileId",
-      "transferId",
-      "transferId",
-      "downloadReceipt",
-      "binaryProperty",
-      "fileName",
-      "profileId",
-      "returnAll",
-      "limit",
-      "filters"
-    ],
-    "conditional_rules": [
-      "IF resource == 'account' THEN SHOW parameter 'operation'",
-      "IF resource == 'account' AND operation == 'getBalances' THEN SHOW parameter 'profileId'",
-      "IF resource == 'account' AND operation == 'getStatement' THEN SHOW parameter 'profileId'",
-      "IF resource == 'account' AND operation == 'getStatement' THEN SHOW parameter 'borderlessAccountId'",
-      "IF resource == 'account' AND operation == 'getStatement' THEN SHOW parameter 'currency'",
-      "IF resource == 'account' AND operation == 'getStatement' THEN SHOW parameter 'format'",
-      "IF resource == 'account' AND operation == 'getStatement' AND format IN [\"csv\", \"pdf\", \"xml\"] THEN SHOW parameter 'binaryProperty'",
-      "IF resource == 'account' AND operation == 'getStatement' AND format IN [\"csv\", \"pdf\", \"xml\"] THEN SHOW parameter 'fileName'",
-      "IF resource == 'account' AND operation == 'getStatement' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'exchangeRate' THEN SHOW parameter 'operation'",
-      "IF resource == 'exchangeRate' AND operation == 'get' THEN SHOW parameter 'source'",
-      "IF resource == 'exchangeRate' AND operation == 'get' THEN SHOW parameter 'target'",
-      "IF resource == 'exchangeRate' AND operation == 'get' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'profile' THEN SHOW parameter 'operation'",
-      "IF resource == 'profile' AND operation == 'get' THEN SHOW parameter 'profileId'",
-      "IF resource == 'quote' THEN SHOW parameter 'operation'",
-      "IF resource == 'quote' AND operation == 'create' THEN SHOW parameter 'profileId'",
-      "IF resource == 'quote' AND operation == 'create' THEN SHOW parameter 'targetAccountId'",
-      "IF resource == 'quote' AND operation == 'create' THEN SHOW parameter 'amountType'",
-      "IF resource == 'quote' AND operation == 'create' THEN SHOW parameter 'amount'",
-      "IF resource == 'quote' AND operation == 'create' THEN SHOW parameter 'sourceCurrency'",
-      "IF resource == 'quote' AND operation == 'create' THEN SHOW parameter 'targetCurrency'",
-      "IF resource == 'quote' AND operation == 'get' THEN SHOW parameter 'quoteId'",
-      "IF resource == 'recipient' THEN SHOW parameter 'operation'",
-      "IF resource == 'recipient' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'recipient' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'transfer' THEN SHOW parameter 'operation'",
-      "IF resource == 'transfer' AND operation == 'create' THEN SHOW parameter 'profileId'",
-      "IF resource == 'transfer' AND operation == 'create' THEN SHOW parameter 'quoteId'",
-      "IF resource == 'transfer' AND operation == 'create' THEN SHOW parameter 'targetAccountId'",
-      "IF resource == 'transfer' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'transfer' AND operation == 'delete' THEN SHOW parameter 'transferId'",
-      "IF resource == 'transfer' AND operation == 'execute' THEN SHOW parameter 'profileId'",
-      "IF resource == 'transfer' AND operation == 'execute' THEN SHOW parameter 'transferId'",
-      "IF resource == 'transfer' AND operation == 'get' THEN SHOW parameter 'transferId'",
-      "IF resource == 'transfer' AND operation == 'get' THEN SHOW parameter 'downloadReceipt'",
-      "IF resource == 'transfer' AND operation == 'get' AND downloadReceipt == True THEN SHOW parameter 'binaryProperty'",
-      "IF resource == 'transfer' AND operation == 'get' AND downloadReceipt == True THEN SHOW parameter 'fileName'",
-      "IF resource == 'transfer' AND operation == 'getAll' THEN SHOW parameter 'profileId'",
-      "IF resource == 'transfer' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'transfer' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'transfer' AND operation == 'getAll' THEN SHOW parameter 'filters'"
-    ]
   }
 }

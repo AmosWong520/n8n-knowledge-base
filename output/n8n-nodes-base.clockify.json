@@ -1,139 +1,68 @@
 {
   "node_id": "n8n-nodes-base.clockify",
-  "name": "n8n-nodes-base.clockify",
+  "name": "Clockify",
   "version": 1,
   "semantic_context": "Consume Clockify REST API",
+  "natural_language_description": "这是 Clockify 节点。主要用于: Consume Clockify REST API",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Client",
-          "value": "client"
-        },
-        {
-          "name": "Project",
-          "value": "project"
-        },
-        {
-          "name": "Tag",
-          "value": "tag"
-        },
-        {
-          "name": "Task",
-          "value": "task"
-        },
-        {
-          "name": "Time Entry",
-          "value": "timeEntry"
-        },
-        {
-          "name": "User",
-          "value": "user"
-        },
-        {
-          "name": "Workspace",
-          "value": "workspace"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "project",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: project",
+      "available_options": [
+        "Client (值: client)",
+        "Project (值: project)",
+        "Tag (值: tag)",
+        "Task (值: task)",
+        "Time Entry (值: timeEntry)",
+        "User (值: user)",
+        "Workspace (值: workspace)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "workspace"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many workspaces",
-          "action": "Get many workspaces"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "getAll",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: getAll",
+      "available_options": [
+        "Get Many (值: getAll) - Get many workspaces",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "user"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "user"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "workspaceId": {
       "displayName": "Workspace Name or ID",
       "name": "workspaceId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "listWorkspaces"
-      },
       "required": true,
       "default": [],
-      "displayOptions": {
-        "hide": {
-          "resource": [
-            "workspace"
-          ]
-        }
-      },
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Workspace Name or ID | 作用: Choose from the list, or specify an ID using an expression | 默认值: [] | (必填项)"
     },
     "name": {
       "displayName": "Task Name",
@@ -142,204 +71,57 @@
       "required": true,
       "default": "",
       "description": "Name of task to create",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Name of task to create"
+      "natural_language_description": "参数名: Task Name | 作用: Name of task to create | (必填项)"
     },
     "clientId": {
       "displayName": "Client ID",
       "name": "clientId",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "client"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Client ID"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "get"
-          ],
-          "resource": [
-            "timeEntry"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Consider Duration Format",
-          "name": "consider-duration-format",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to return the time entry's duration rounded to minutes or seconds based on duration format (hh:mm or hh:mm:ss) from workspace settings"
-        },
-        {
-          "displayName": "Hydrated",
-          "name": "hydrated",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to return the time entry's project, task and tags in full and not just their IDs"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "consider-duration-format (值: None) - Whether to return the time entry's duration rounded to minutes or seconds based on duration format (hh:mm or hh:mm:ss) from workspace settings",
+        "hydrated (值: None) - Whether to return the time entry's project, task and tags in full and not just their IDs"
+      ]
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ],
-          "resource": [
-            "timeEntry"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Billable",
-          "name": "billable",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "Custom Fields",
-          "name": "customFieldsUi",
-          "placeholder": "Add Custom Field",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "description": "Filter by custom fields",
-          "default": {},
-          "options": [
-            {
-              "name": "customFieldsValues",
-              "displayName": "Custom Field",
-              "values": [
-                {
-                  "displayName": "Field Name or ID",
-                  "name": "customFieldId",
-                  "type": "options",
-                  "typeOptions": {
-                    "loadOptionsDependsOn": [
-                      "workspaceId"
-                    ],
-                    "loadOptionsMethod": "loadCustomFieldsForWorkspace"
-                  },
-                  "default": "",
-                  "description": "The ID of the field to add custom field to. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": "",
-                  "description": "The value to set on custom field"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Description",
-          "name": "description",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "End",
-          "name": "end",
-          "type": "dateTime",
-          "default": ""
-        },
-        {
-          "displayName": "Project Name or ID",
-          "name": "projectId",
-          "type": "options",
-          "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "typeOptions": {
-            "loadOptionsDependsOn": [
-              "workspaceId"
-            ],
-            "loadOptionsMethod": "loadProjectsForWorkspace"
-          },
-          "default": ""
-        },
-        {
-          "displayName": "Start",
-          "name": "start",
-          "type": "dateTime",
-          "default": ""
-        },
-        {
-          "displayName": "Tag Names or IDs",
-          "name": "tagIds",
-          "type": "multiOptions",
-          "description": "Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-          "typeOptions": {
-            "loadOptionsDependsOn": [
-              "workspaceId"
-            ],
-            "loadOptionsMethod": "loadTagsForWorkspace"
-          },
-          "default": []
-        },
-        {
-          "displayName": "Task ID",
-          "name": "taskId",
-          "type": "string",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "billable (值: None)",
+        "customFieldsUi (值: None) - Filter by custom fields",
+        "description (值: None)",
+        "end (值: None)",
+        "projectId (值: None) - Choose from the list, or specify an ID using an expression",
+        "start (值: None)",
+        "tagIds (值: None) - Choose from the list, or specify IDs using an expression",
+        "taskId (值: None)"
+      ]
     },
     "projectId": {
       "displayName": "Project Name or ID",
       "name": "projectId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsDependsOn": [
-          "workspaceId"
-        ],
-        "loadOptionsMethod": "loadProjectsForWorkspace"
-      },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ]
-        }
-      },
       "required": true,
       "default": "",
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Project Name or ID | 作用: Choose from the list, or specify an ID using an expression | (必填项)"
     },
     "tagId": {
       "displayName": "Tag ID",
@@ -347,16 +129,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "tag"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Tag ID | (必填项)"
     },
     "taskId": {
       "displayName": "Task ID",
@@ -364,79 +138,23 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "task"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
       "description": "ID of task to update",
-      "ai_hint": "ID of task to update"
+      "natural_language_description": "参数名: Task ID | 作用: ID of task to update | (必填项)"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "task"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Is Active",
-          "name": "is-active",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": "",
-          "description": "Text to match in the task name"
-        },
-        {
-          "displayName": "Sort Column",
-          "name": "sort-column",
-          "type": "options",
-          "options": [
-            {
-              "name": "Name",
-              "value": "NAME"
-            }
-          ],
-          "default": "NAME"
-        },
-        {
-          "displayName": "Sort Order",
-          "name": "sort-order",
-          "type": "options",
-          "options": [
-            {
-              "name": "Ascending",
-              "value": "ASCENDING"
-            },
-            {
-              "name": "Descending",
-              "value": "DESCENDING"
-            }
-          ],
-          "default": "ASCENDING"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "is-active (值: None)",
+        "name (值: None) - Text to match in the task name",
+        "sort-column (值: None)",
+        "sort-order (值: None)"
+      ]
     },
     "start": {
       "displayName": "Start",
@@ -444,16 +162,8 @@
       "type": "dateTime",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "timeEntry"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Start | (必填项)"
     },
     "timeEntryId": {
       "displayName": "Time Entry ID",
@@ -461,133 +171,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "timeEntry"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: Time Entry ID | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "operation",
-      "returnAll",
-      "limit",
-      "workspaceId",
-      "name",
-      "clientId",
-      "clientId",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "clientId",
-      "name",
-      "updateFields",
-      "name",
-      "additionalFields",
-      "projectId",
-      "projectId",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "projectId",
-      "updateFields",
-      "name",
-      "tagId",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "tagId",
-      "updateFields",
-      "projectId",
-      "name",
-      "additionalFields",
-      "taskId",
-      "taskId",
-      "returnAll",
-      "limit",
-      "filters",
-      "taskId",
-      "updateFields",
-      "returnAll",
-      "limit",
-      "additionalFields",
-      "start",
-      "additionalFields",
-      "timeEntryId",
-      "timeEntryId",
-      "additionalFields",
-      "timeEntryId",
-      "updateFields"
-    ],
-    "conditional_rules": [
-      "IF resource == 'client' THEN SHOW parameter 'operation'",
-      "IF resource == 'project' THEN SHOW parameter 'operation'",
-      "IF resource == 'tag' THEN SHOW parameter 'operation'",
-      "IF resource == 'task' THEN SHOW parameter 'operation'",
-      "IF resource == 'timeEntry' THEN SHOW parameter 'operation'",
-      "IF resource == 'user' THEN SHOW parameter 'operation'",
-      "IF resource == 'workspace' THEN SHOW parameter 'operation'",
-      "IF operation == 'getAll' AND resource == 'workspace' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'workspace' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'workspace' THEN HIDE parameter 'workspaceId'",
-      "IF resource == 'client' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'client' AND operation == 'delete' THEN SHOW parameter 'clientId'",
-      "IF resource == 'client' AND operation == 'get' THEN SHOW parameter 'clientId'",
-      "IF operation == 'getAll' AND resource == 'client' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'client' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'client' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'client' AND operation == 'update' THEN SHOW parameter 'clientId'",
-      "IF resource == 'client' AND operation == 'update' THEN SHOW parameter 'name'",
-      "IF operation == 'update' AND resource == 'client' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'project' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF operation == 'create' AND resource == 'project' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'project' AND operation == 'delete' THEN SHOW parameter 'projectId'",
-      "IF resource == 'project' AND operation == 'get' THEN SHOW parameter 'projectId'",
-      "IF operation == 'getAll' AND resource == 'project' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'project' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'project' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'project' AND operation == 'update' THEN SHOW parameter 'projectId'",
-      "IF operation == 'update' AND resource == 'project' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'tag' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'tag' AND operation == 'delete' THEN SHOW parameter 'tagId'",
-      "IF operation == 'getAll' AND resource == 'tag' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'tag' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'tag' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'tag' AND operation == 'update' THEN SHOW parameter 'tagId'",
-      "IF operation == 'update' AND resource == 'tag' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'task' THEN SHOW parameter 'projectId'",
-      "IF resource == 'task' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF operation == 'create' AND resource == 'task' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'task' AND operation == 'delete' THEN SHOW parameter 'taskId'",
-      "IF resource == 'task' AND operation == 'get' THEN SHOW parameter 'taskId'",
-      "IF operation == 'getAll' AND resource == 'task' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'task' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'task' THEN SHOW parameter 'filters'",
-      "IF resource == 'task' AND operation == 'update' THEN SHOW parameter 'taskId'",
-      "IF operation == 'update' AND resource == 'task' THEN SHOW parameter 'updateFields'",
-      "IF operation == 'getAll' AND resource == 'user' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'user' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'timeEntry' AND operation == 'create' THEN SHOW parameter 'start'",
-      "IF operation == 'create' AND resource == 'timeEntry' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'timeEntry' AND operation == 'delete' THEN SHOW parameter 'timeEntryId'",
-      "IF resource == 'timeEntry' AND operation == 'get' THEN SHOW parameter 'timeEntryId'",
-      "IF operation == 'get' AND resource == 'timeEntry' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'timeEntry' AND operation == 'update' THEN SHOW parameter 'timeEntryId'",
-      "IF operation == 'update' AND resource == 'timeEntry' THEN SHOW parameter 'updateFields'"
-    ]
   }
 }

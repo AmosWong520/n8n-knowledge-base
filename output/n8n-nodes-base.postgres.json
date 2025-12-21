@@ -1,239 +1,100 @@
 {
   "node_id": "n8n-nodes-base.postgres",
-  "name": "n8n-nodes-base.postgres",
+  "name": "Postgres",
   "version": 1,
   "semantic_context": "Get, add and update data in Postgres",
+  "natural_language_description": "这是 Postgres 节点。主要用于: Get, add and update data in Postgres",
   "parameters": {
     "oldVersionNotice": {
       "displayName": "<strong>New node version available:</strong> get the latest version with added features from the nodes panel.",
       "name": "oldVersionNotice",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: <strong>New node version available:</strong> get the latest version with added features from the nodes panel."
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Execute Query",
-          "value": "executeQuery",
-          "description": "Execute an SQL query",
-          "action": "Execute a SQL query"
-        },
-        {
-          "name": "Insert",
-          "value": "insert",
-          "description": "Insert rows in database",
-          "action": "Insert rows in database"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update rows in database",
-          "action": "Update rows in database"
-        }
-      ],
+      "required": false,
       "default": "insert",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: insert",
+      "available_options": [
+        "Execute Query (值: executeQuery) - Execute an SQL query",
+        "Insert (值: insert) - Insert rows in database",
+        "Update (值: update) - Update rows in database"
+      ]
     },
     "query": {
       "displayName": "Query",
       "name": "query",
       "type": "string",
-      "noDataExpression": true,
-      "typeOptions": {
-        "editor": "sqlEditor",
-        "sqlDialect": "PostgreSQL"
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "executeQuery"
-          ]
-        }
-      },
-      "default": "",
-      "placeholder": "SELECT id, name FROM product WHERE quantity > $1 AND price <= $2",
       "required": true,
+      "default": "",
       "description": "The SQL query to execute. You can use n8n expressions or $1 and $2 in conjunction with query parameters.",
-      "ai_hint": "The SQL query to execute. You can use n8n expressions or $1 and $2 in conjunction with query parameters."
+      "natural_language_description": "参数名: Query | 作用: The SQL query to execute. You can use n8n expressions or $1 and $2 in conjunction with query parameters. | (必填项)"
     },
     "schema": {
       "displayName": "Schema",
       "name": "schema",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": "public",
       "description": "Name of the schema the table belongs to",
-      "ai_hint": "Name of the schema the table belongs to"
+      "natural_language_description": "参数名: Schema | 作用: Name of the schema the table belongs to | 默认值: public"
     },
     "table": {
       "displayName": "Table",
       "name": "table",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "default": "",
       "required": true,
+      "default": "",
       "description": "Name of the table in which to update data in",
-      "ai_hint": "Name of the table in which to update data in"
+      "natural_language_description": "参数名: Table | 作用: Name of the table in which to update data in | (必填项)"
     },
     "columns": {
       "displayName": "Columns",
       "name": "columns",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": "",
-      "placeholder": "name:text,description",
       "description": "Comma-separated list of the properties which should used as columns for rows to update. You can use type casting with colons (:) like id:int.",
-      "ai_hint": "Comma-separated list of the properties which should used as columns for rows to update. You can use type casting with colons (:) like id:int."
+      "natural_language_description": "参数名: Columns | 作用: Comma-separated list of the properties which should used as columns for rows to update. You can use type casting with colons (:) like id:int."
     },
     "updateKey": {
       "displayName": "Update Key",
       "name": "updateKey",
       "type": "string",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "default": "id",
       "required": true,
+      "default": "id",
       "description": "Comma-separated list of the properties which decides which rows in the database should be updated. Normally that would be \"id\".",
-      "ai_hint": "Comma-separated list of the properties which decides which rows in the database should be updated. Normally that would be \"id\"."
+      "natural_language_description": "参数名: Update Key | 作用: Comma-separated list of the properties which decides which rows in the database should be updated. Normally that would be \"id\". | 默认值: id | (必填项)"
     },
     "returnFields": {
       "displayName": "Return Fields",
       "name": "returnFields",
       "type": "string",
-      "requiresDataPath": "multiple",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "insert",
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": "*",
       "description": "Comma-separated list of the fields that the operation will return",
-      "ai_hint": "Comma-separated list of the fields that the operation will return"
+      "natural_language_description": "参数名: Return Fields | 作用: Comma-separated list of the fields that the operation will return | 默认值: *"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Mode",
-          "name": "mode",
-          "type": "options",
-          "options": [
-            {
-              "name": "Independently",
-              "value": "independently",
-              "description": "Execute each query independently"
-            },
-            {
-              "name": "Multiple Queries",
-              "value": "multiple",
-              "description": "<b>Default</b>. Sends multiple queries at once to database."
-            },
-            {
-              "name": "Transaction",
-              "value": "transaction",
-              "description": "Executes all queries in a single transaction"
-            }
-          ],
-          "default": "multiple",
-          "description": "The way queries should be sent to database. Can be used in conjunction with <b>Continue on Fail</b>. See <a href=\"https://docs.n8n.io/integrations/builtin/app-nodes/n8n-nodes-base.postgres/\">the docs</a> for more examples"
-        },
-        {
-          "displayName": "Output Large-Format Numbers As",
-          "name": "largeNumbersOutput",
-          "type": "options",
-          "options": [
-            {
-              "name": "Numbers",
-              "value": "numbers"
-            },
-            {
-              "name": "Text",
-              "value": "text",
-              "description": "Use this if you expect numbers longer than 16 digits (otherwise numbers may be incorrect)"
-            }
-          ],
-          "hint": "Applies to NUMERIC and BIGINT columns only",
-          "default": "text"
-        },
-        {
-          "displayName": "Query Parameters",
-          "name": "queryParams",
-          "type": "string",
-          "displayOptions": {
-            "show": {
-              "/operation": [
-                "executeQuery"
-              ]
-            }
-          },
-          "default": "",
-          "placeholder": "quantity,price",
-          "description": "Comma-separated list of properties which should be used as query parameters"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "mode (值: None) - The way queries should be sent to database. Can be used in conjunction with **Continue on Fail**. See the docs for more examples",
+        "largeNumbersOutput (值: None)",
+        "queryParams (值: None) - Comma-separated list of properties which should be used as query parameters"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "oldVersionNotice",
-      "operation",
-      "query",
-      "schema",
-      "table",
-      "columns",
-      "schema",
-      "table",
-      "updateKey",
-      "columns",
-      "returnFields",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF operation == 'executeQuery' THEN SHOW parameter 'query'",
-      "IF operation == 'insert' THEN SHOW parameter 'schema'",
-      "IF operation == 'insert' THEN SHOW parameter 'table'",
-      "IF operation == 'insert' THEN SHOW parameter 'columns'",
-      "IF operation == 'update' THEN SHOW parameter 'schema'",
-      "IF operation == 'update' THEN SHOW parameter 'table'",
-      "IF operation == 'update' THEN SHOW parameter 'updateKey'",
-      "IF operation == 'update' THEN SHOW parameter 'columns'",
-      "IF operation IN [\"insert\", \"update\"] THEN SHOW parameter 'returnFields'",
-      "IF /operation == 'executeQuery' THEN SHOW parameter 'queryParams'"
-    ]
   }
 }

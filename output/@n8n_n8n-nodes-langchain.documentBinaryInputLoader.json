@@ -1,185 +1,92 @@
 {
   "node_id": "@n8n/n8n-nodes-langchain.documentBinaryInputLoader",
-  "name": "@n8n/n8n-nodes-langchain.documentBinaryInputLoader",
+  "name": "Binary Input Loader",
   "version": 1,
   "semantic_context": "Use binary data from a previous step in the workflow",
+  "natural_language_description": "这是 Binary Input Loader 节点。主要用于: Use binary data from a previous step in the workflow",
   "parameters": {
     "notice": {
       "displayName": "This node must be connected to a vector store. <a data-action='openSelectiveNodeCreator' data-action-parameter-connectiontype='ai_vectorStore'>Insert one</a>",
       "name": "notice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "containerClass": "ndv-connection-hint-notice"
-      }
+      "description": "",
+      "natural_language_description": "参数名: This node must be connected to a vector store. <a data-action='openSelectiveNodeCreator' data-action-parameter-connectiontype='ai_vectorStore'>Insert one</a>"
     },
     "loader": {
       "displayName": "Loader Type",
       "name": "loader",
       "type": "options",
-      "default": "jsonLoader",
       "required": true,
-      "options": [
-        {
-          "name": "CSV Loader",
-          "value": "csvLoader",
-          "description": "Load CSV files"
-        },
-        {
-          "name": "Docx Loader",
-          "value": "docxLoader",
-          "description": "Load Docx documents"
-        },
-        {
-          "name": "EPub Loader",
-          "value": "epubLoader",
-          "description": "Load EPub files"
-        },
-        {
-          "name": "JSON Loader",
-          "value": "jsonLoader",
-          "description": "Load JSON files"
-        },
-        {
-          "name": "PDF Loader",
-          "value": "pdfLoader",
-          "description": "Load PDF documents"
-        },
-        {
-          "name": "Text Loader",
-          "value": "textLoader",
-          "description": "Load plain text files"
-        }
-      ],
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "jsonLoader",
+      "description": "",
+      "natural_language_description": "参数名: Loader Type | 默认值: jsonLoader | (必填项)",
+      "available_options": [
+        "CSV Loader (值: csvLoader) - Load CSV files",
+        "Docx Loader (值: docxLoader) - Load Docx documents",
+        "EPub Loader (值: epubLoader) - Load EPub files",
+        "JSON Loader (值: jsonLoader) - Load JSON files",
+        "PDF Loader (值: pdfLoader) - Load PDF documents",
+        "Text Loader (值: textLoader) - Load plain text files"
+      ]
     },
     "binaryDataKey": {
       "displayName": "Binary Data Key",
       "name": "binaryDataKey",
       "type": "string",
-      "default": "data",
       "required": true,
+      "default": "data",
       "description": "Name of the binary property from which to read the file buffer",
-      "ai_hint": "Name of the binary property from which to read the file buffer"
+      "natural_language_description": "参数名: Binary Data Key | 作用: Name of the binary property from which to read the file buffer | 默认值: data | (必填项)"
     },
     "splitPages": {
       "displayName": "Split Pages",
       "name": "splitPages",
       "type": "boolean",
+      "required": false,
       "default": true,
-      "displayOptions": {
-        "show": {
-          "loader": [
-            "pdfLoader"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: Split Pages | 默认值: True"
     },
     "column": {
       "displayName": "Column",
       "name": "column",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "Column to extract from CSV",
-      "displayOptions": {
-        "show": {
-          "loader": [
-            "csvLoader"
-          ]
-        }
-      },
-      "ai_hint": "Column to extract from CSV"
+      "natural_language_description": "参数名: Column | 作用: Column to extract from CSV"
     },
     "separator": {
       "displayName": "Separator",
       "name": "separator",
       "type": "string",
-      "description": "Separator to use for CSV",
+      "required": false,
       "default": ",",
-      "displayOptions": {
-        "show": {
-          "loader": [
-            "csvLoader"
-          ]
-        }
-      },
-      "ai_hint": "Separator to use for CSV"
+      "description": "Separator to use for CSV",
+      "natural_language_description": "参数名: Separator | 作用: Separator to use for CSV | 默认值: ,"
     },
     "pointers": {
       "displayName": "Pointers",
       "name": "pointers",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "Pointers to extract from JSON, e.g. \"/text\" or \"/text, /meta/title\"",
-      "displayOptions": {
-        "show": {
-          "loader": [
-            "jsonLoader"
-          ]
-        }
-      },
-      "ai_hint": "Pointers to extract from JSON, e.g. \"/text\" or \"/text, /meta/title\""
+      "natural_language_description": "参数名: Pointers | 作用: Pointers to extract from JSON, e.g. \"/text\" or \"/text, /meta/title\""
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Metadata",
-          "name": "metadata",
-          "type": "fixedCollection",
-          "description": "Metadata to add to each document. Could be used for filtering during retrieval",
-          "typeOptions": {
-            "multipleValues": true
-          },
-          "default": {},
-          "placeholder": "Add property",
-          "options": [
-            {
-              "name": "metadataValues",
-              "displayName": "Fields to Set",
-              "values": [
-                {
-                  "displayName": "Name",
-                  "name": "name",
-                  "type": "string",
-                  "default": "",
-                  "required": true
-                },
-                {
-                  "displayName": "Value",
-                  "name": "value",
-                  "type": "string",
-                  "default": ""
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "metadata (值: None) - Metadata to add to each document. Could be used for filtering during retrieval"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "notice",
-      "loader",
-      "binaryDataKey",
-      "splitPages",
-      "column",
-      "separator",
-      "pointers",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF loader == 'pdfLoader' THEN SHOW parameter 'splitPages'",
-      "IF loader == 'csvLoader' THEN SHOW parameter 'column'",
-      "IF loader == 'csvLoader' THEN SHOW parameter 'separator'",
-      "IF loader == 'jsonLoader' THEN SHOW parameter 'pointers'"
-    ]
   }
 }

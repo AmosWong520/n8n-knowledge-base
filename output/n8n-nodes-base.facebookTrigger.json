@@ -1,8 +1,9 @@
 {
   "node_id": "n8n-nodes-base.facebookTrigger",
-  "name": "n8n-nodes-base.facebookTrigger",
+  "name": "Facebook Trigger",
   "version": 1,
   "semantic_context": "Starts the workflow when Facebook events occur",
+  "natural_language_description": "这是 Facebook Trigger 节点。主要用于: Starts the workflow when Facebook events occur",
   "parameters": {
     "appId": {
       "displayName": "APP ID",
@@ -11,129 +12,59 @@
       "required": true,
       "default": "",
       "description": "Facebook APP ID",
-      "ai_hint": "Facebook APP ID"
+      "natural_language_description": "参数名: APP ID | 作用: Facebook APP ID | (必填项)"
     },
     "whatsappBusinessAccountNotice": {
       "displayName": "To watch Whatsapp business account events use the Whatsapp trigger node",
       "name": "whatsappBusinessAccountNotice",
       "type": "notice",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "object": [
-            "whatsappBusinessAccount"
-          ]
-        }
-      }
+      "description": "",
+      "natural_language_description": "参数名: To watch Whatsapp business account events use the Whatsapp trigger node"
     },
     "object": {
       "displayName": "Object",
       "name": "object",
       "type": "options",
-      "options": [
-        {
-          "name": "Ad Account",
-          "value": "adAccount",
-          "description": "Get updates about Ad Account"
-        },
-        {
-          "name": "Application",
-          "value": "application",
-          "description": "Get updates about the app"
-        },
-        {
-          "name": "Certificate Transparency",
-          "value": "certificateTransparency",
-          "description": "Get updates about Certificate Transparency"
-        },
-        {
-          "name": "Group",
-          "value": "group",
-          "description": "Get updates about activity in groups and events in groups for Workplace"
-        },
-        {
-          "name": "Instagram",
-          "value": "instagram",
-          "description": "Get updates about comments on your media"
-        },
-        {
-          "name": "Link",
-          "value": "link",
-          "description": "Get updates about links for rich previews by an external provider"
-        },
-        {
-          "name": "Page",
-          "value": "page",
-          "description": "Page updates"
-        },
-        {
-          "name": "Permissions",
-          "value": "permissions",
-          "description": "Updates regarding granting or revoking permissions"
-        },
-        {
-          "name": "User",
-          "value": "user",
-          "description": "User profile updates"
-        },
-        {
-          "name": "Whatsapp Business Account",
-          "value": "whatsappBusinessAccount",
-          "description": "Get updates about Whatsapp business account"
-        },
-        {
-          "name": "Workplace Security",
-          "value": "workplaceSecurity",
-          "description": "Get updates about Workplace Security"
-        }
-      ],
       "required": true,
       "default": "user",
       "description": "The object to subscribe to",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Object | 作用: The object to subscribe to | 默认值: user | (必填项)",
+      "available_options": [
+        "Ad Account (值: adAccount) - Get updates about Ad Account",
+        "Application (值: application) - Get updates about the app",
+        "Certificate Transparency (值: certificateTransparency) - Get updates about Certificate Transparency",
+        "Group (值: group) - Get updates about activity in groups and events in groups for Workplace",
+        "Instagram (值: instagram) - Get updates about comments on your media",
+        "Link (值: link) - Get updates about links for rich previews by an external provider",
+        "Page (值: page) - Page updates",
+        "Permissions (值: permissions) - Updates regarding granting or revoking permissions",
+        "User (值: user) - User profile updates",
+        "Whatsapp Business Account (值: whatsappBusinessAccount) - Get updates about Whatsapp business account",
+        "Workplace Security (值: workplaceSecurity) - Get updates about Workplace Security"
+      ]
     },
     "fields": {
       "displayName": "Field Names or IDs",
       "name": "fields",
       "type": "multiOptions",
-      "typeOptions": {
-        "loadOptionsMethod": "getObjectFields",
-        "loadOptionsDependsOn": [
-          "object"
-        ]
-      },
+      "required": false,
       "default": [],
-      "description": "The set of fields in this object that are subscribed to. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The set of fields in this object that are subscribed to. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The set of fields in this object that are subscribed to. Choose from the list, or specify IDs using an expression.",
+      "natural_language_description": "参数名: Field Names or IDs | 作用: The set of fields in this object that are subscribed to. Choose from the list, or specify IDs using an expression. | 默认值: []"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
+      "required": false,
       "default": {},
-      "placeholder": "Add option",
-      "options": [
-        {
-          "displayName": "Include Values",
-          "name": "includeValues",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether change notifications should include the new values"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "includeValues (值: None) - Whether change notifications should include the new values"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "appId",
-      "whatsappBusinessAccountNotice",
-      "object",
-      "fields",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF object == 'whatsappBusinessAccount' THEN SHOW parameter 'whatsappBusinessAccountNotice'"
-    ]
   }
 }

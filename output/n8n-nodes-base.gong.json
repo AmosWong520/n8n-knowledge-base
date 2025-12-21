@@ -1,548 +1,133 @@
 {
   "node_id": "n8n-nodes-base.gong",
-  "name": "n8n-nodes-base.gong",
+  "name": "Gong",
   "version": 1,
   "semantic_context": "Interact with Gong API",
+  "natural_language_description": "这是 Gong 节点。主要用于: Interact with Gong API",
   "parameters": {
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Access Token",
-          "value": "accessToken"
-        },
-        {
-          "name": "OAuth2",
-          "value": "oAuth2"
-        }
-      ],
+      "required": false,
       "default": "accessToken",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: accessToken",
+      "available_options": [
+        "Access Token (值: accessToken)",
+        "OAuth2 (值: oAuth2)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Call",
-          "value": "call"
-        },
-        {
-          "name": "User",
-          "value": "user"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "call",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: call",
+      "available_options": [
+        "Call (值: call)",
+        "User (值: user)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Get",
-          "value": "get",
-          "description": "Retrieve data for a specific user",
-          "action": "Get user",
-          "routing": {
-            "request": {
-              "method": "POST",
-              "url": "/v2/users/extensive",
-              "ignoreHttpStatusErrors": true
-            },
-            "output": {
-              "postReceive": [
-                null
-              ]
-            }
-          }
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Retrieve a list of users",
-          "action": "Get many users",
-          "routing": {
-            "request": {
-              "method": "POST",
-              "url": "/v2/users/extensive",
-              "body": {
-                "filter": {}
-              },
-              "ignoreHttpStatusErrors": true
-            },
-            "output": {
-              "postReceive": [
-                null
-              ]
-            }
-          }
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "get",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: get",
+      "available_options": [
+        "Get (值: get) - Retrieve data for a specific user",
+        "Get Many (值: getAll) - Retrieve a list of users",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "call": {
       "displayName": "Call to Get",
       "name": "call",
+      "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "call"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "getCalls",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "placeholder": "e.g. 7782342274025937895",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[0-9]{1,20}",
-                "errorMessage": "Not a valid Gong Call ID"
-              }
-            }
-          ]
-        },
-        {
-          "displayName": "By URL",
-          "name": "url",
-          "extractValue": {
-            "type": "regex",
-            "regex": "https:\\/\\/[a-zA-Z0-9-]+\\.app\\.gong\\.io\\/call\\?id=([0-9]{1,20})"
-          },
-          "placeholder": "e.g. https://subdomain.app.gong.io/call?id=7782342274025937895",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "https:\\/\\/[a-zA-Z0-9-]+\\.app\\.gong\\.io\\/call\\?id=([0-9]{1,20})",
-                "errorMessage": "Not a valid Gong URL"
-              }
-            }
-          ]
-        }
-      ],
-      "required": true,
-      "routing": {
-        "send": {
-          "type": "body",
-          "property": "filter.callIds",
-          "propertyInDotNotation": true,
-          "value": "={{ [$value] }}"
-        },
-        "output": {
-          "postReceive": [
-            {
-              "type": "rootProperty",
-              "properties": {
-                "property": "calls"
-              }
-            }
-          ]
-        }
-      },
-      "type": "resourceLocator"
+      "description": "",
+      "natural_language_description": "参数名: Call to Get | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
-      "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "call"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Call Data to Include",
-          "name": "properties",
-          "type": "multiOptions",
-          "default": [],
-          "description": "The Call properties to include in the returned results. Choose from a list, or specify IDs using an <a href=\"https://docs.n8n.io/code-examples/expressions/\">expression</a>.",
-          "options": [
-            {
-              "name": "Participants",
-              "value": "parties",
-              "description": "Information about the participants of the call"
-            },
-            {
-              "name": "Topics",
-              "value": "topics",
-              "description": "Information about the topics of the call"
-            }
-          ],
-          "routing": {
-            "send": {
-              "preSend": [
-                null
-              ]
-            }
-          }
-        }
-      ],
-      "placeholder": "Add Option",
       "type": "collection",
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "required": false,
+      "default": {},
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "properties (值: None) - The Call properties to include in the returned results. Choose from a list, or specify IDs using an expression."
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
+      "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "routing": {
-        "send": {
-          "paginate": "={{ $value }}"
-        },
-        "operations": {}
-      },
-      "type": "boolean",
-      "validateType": "boolean",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
+      "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "getAll"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "routing": {
-        "output": {
-          "postReceive": [
-            {
-              "type": "rootProperty",
-              "properties": {
-                "property": "users"
-              }
-            },
-            {
-              "type": "limit",
-              "properties": {
-                "maxResults": "={{ $value }}"
-              }
-            }
-          ]
-        }
-      },
-      "type": "number",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "validateType": "number",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
-      "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Created After",
-          "name": "createdFromDateTime",
-          "default": "",
-          "description": "An optional user creation time lower limit, if supplied the API will return only the users created at or after this time",
-          "placeholder": "e.g. 2018-02-18T02:30:00-07:00 or 2018-02-18T08:00:00Z",
-          "routing": {
-            "send": {
-              "type": "body",
-              "property": "filter.createdFromDateTime",
-              "propertyInDotNotation": true,
-              "value": "={{ new Date($value).toISOString() }}"
-            }
-          },
-          "type": "dateTime",
-          "validateType": "dateTime"
-        },
-        {
-          "displayName": "Created Before",
-          "name": "createdToDateTime",
-          "default": "",
-          "description": "An optional user creation time upper limit, if supplied the API will return only the users created before this time",
-          "placeholder": "e.g. 2018-02-18T02:30:00-07:00 or 2018-02-18T08:00:00Z",
-          "routing": {
-            "send": {
-              "type": "body",
-              "property": "filter.createdToDateTime",
-              "propertyInDotNotation": true,
-              "value": "={{ new Date($value).toISOString() }}"
-            }
-          },
-          "type": "dateTime",
-          "validateType": "dateTime"
-        },
-        {
-          "displayName": "User IDs",
-          "name": "userIds",
-          "default": "",
-          "description": "Set of Gong's unique numeric identifiers for the users (up to 20 digits)",
-          "hint": "Comma separated list of IDs, array of strings can be set in expression",
-          "routing": {
-            "send": {
-              "preSend": [
-                null
-              ]
-            }
-          },
-          "placeholder": "e.g. 7782342274025937895",
-          "type": "string"
-        }
-      ],
-      "placeholder": "Add Filter",
       "type": "collection",
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "required": false,
+      "default": {},
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "createdFromDateTime (值: None) - An optional user creation time lower limit, if supplied the API will return only the users created at or after this time",
+        "createdToDateTime (值: None) - An optional user creation time upper limit, if supplied the API will return only the users created before this time",
+        "userIds (值: None) - Set of Gong's unique numeric identifiers for the users (up to 20 digits)"
+      ]
     },
     "user": {
       "displayName": "User to Get",
       "name": "user",
+      "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "user"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "From List",
-          "name": "list",
-          "type": "list",
-          "typeOptions": {
-            "searchListMethod": "getUsers",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "By ID",
-          "name": "id",
-          "placeholder": "e.g. 7782342274025937895",
-          "type": "string",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[0-9]{1,20}",
-                "errorMessage": "Not a valid Gong User ID"
-              }
-            }
-          ]
-        }
-      ],
-      "routing": {
-        "send": {
-          "type": "body",
-          "property": "filter.userIds",
-          "propertyInDotNotation": true,
-          "value": "={{ [$value] }}"
-        },
-        "output": {
-          "postReceive": [
-            {
-              "type": "rootProperty",
-              "properties": {
-                "property": "users"
-              }
-            }
-          ]
-        }
-      },
-      "type": "resourceLocator"
+      "description": "",
+      "natural_language_description": "参数名: User to Get | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "requestOptions": {
       "displayName": "Request Options",
       "name": "requestOptions",
       "type": "collection",
-      "isNodeSetting": true,
-      "placeholder": "Add Option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Batching",
-          "name": "batching",
-          "placeholder": "Add Batching",
-          "type": "fixedCollection",
-          "typeOptions": {
-            "multipleValues": false
-          },
-          "default": {
-            "batch": {}
-          },
-          "options": [
-            {
-              "displayName": "Batching",
-              "name": "batch",
-              "values": [
-                {
-                  "displayName": "Items per Batch",
-                  "name": "batchSize",
-                  "type": "number",
-                  "typeOptions": {
-                    "minValue": -1
-                  },
-                  "default": 50,
-                  "description": "Input will be split in batches to throttle requests. -1 for disabled. 0 will be treated as 1."
-                },
-                {
-                  "displayName": "Batch Interval (ms)",
-                  "name": "batchInterval",
-                  "type": "number",
-                  "typeOptions": {
-                    "minValue": 0
-                  },
-                  "default": 1000,
-                  "description": "Time (in milliseconds) between each batch of requests. 0 for disabled."
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "displayName": "Ignore SSL Issues (Insecure)",
-          "name": "allowUnauthorizedCerts",
-          "type": "boolean",
-          "noDataExpression": true,
-          "default": false,
-          "description": "Whether to accept the response even if SSL certificate validation is not possible"
-        },
-        {
-          "displayName": "Proxy",
-          "name": "proxy",
-          "type": "string",
-          "default": "",
-          "placeholder": "e.g. http://myproxy:3128",
-          "description": "HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128"
-        },
-        {
-          "displayName": "Timeout",
-          "name": "timeout",
-          "type": "number",
-          "typeOptions": {
-            "minValue": 1
-          },
-          "default": 10000,
-          "description": "Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Request Options | 默认值: {}",
+      "available_options": [
+        "batching (值: None)",
+        "allowUnauthorizedCerts (值: None) - Whether to accept the response even if SSL certificate validation is not possible",
+        "proxy (值: None) - HTTP proxy to use. If authentication is required it can be defined as follow: http://username:password@myproxy:3128",
+        "timeout (值: None) - Time in ms to wait for the server to send response headers (and start the response body) before aborting the request"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "authentication",
-      "resource",
-      "operation",
-      "call",
-      "options",
-      "returnAll",
-      "limit",
-      "filters",
-      "options",
-      "operation",
-      "user",
-      "returnAll",
-      "limit",
-      "filters",
-      "requestOptions"
-    ],
-    "conditional_rules": [
-      "IF resource == 'call' THEN SHOW parameter 'operation'",
-      "IF resource == 'call' AND operation == 'get' THEN SHOW parameter 'call'",
-      "IF resource == 'call' AND operation == 'get' THEN SHOW parameter 'options'",
-      "IF resource == 'call' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'call' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'call' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'call' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'user' THEN SHOW parameter 'operation'",
-      "IF resource == 'user' AND operation == 'get' THEN SHOW parameter 'user'",
-      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'user' AND operation == 'getAll' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'user' AND operation == 'getAll' THEN SHOW parameter 'filters'"
-    ]
   }
 }

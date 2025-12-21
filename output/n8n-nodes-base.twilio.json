@@ -1,194 +1,93 @@
 {
   "node_id": "n8n-nodes-base.twilio",
-  "name": "n8n-nodes-base.twilio",
+  "name": "Twilio",
   "version": 1,
   "semantic_context": "Send SMS and WhatsApp messages or make phone calls",
+  "natural_language_description": "这是 Twilio 节点。主要用于: Send SMS and WhatsApp messages or make phone calls",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Call",
-          "value": "call"
-        },
-        {
-          "name": "SMS",
-          "value": "sms"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "sms",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: sms",
+      "available_options": [
+        "Call (值: call)",
+        "SMS (值: sms)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "call"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Make",
-          "value": "make",
-          "action": "Make a call"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "make",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: make",
+      "available_options": [
+        "Make (值: make)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "from": {
       "displayName": "From",
       "name": "from",
       "type": "string",
-      "default": "",
-      "placeholder": "+14155238886",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "send",
-            "make"
-          ],
-          "resource": [
-            "sms",
-            "call"
-          ]
-        }
-      },
+      "default": "",
       "description": "The number from which to send the message",
-      "ai_hint": "The number from which to send the message"
+      "natural_language_description": "参数名: From | 作用: The number from which to send the message | (必填项)"
     },
     "to": {
       "displayName": "To",
       "name": "to",
       "type": "string",
-      "default": "",
-      "placeholder": "+14155238886",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "send",
-            "make"
-          ],
-          "resource": [
-            "sms",
-            "call"
-          ]
-        }
-      },
+      "default": "",
       "description": "The number to which to send the message",
-      "ai_hint": "The number to which to send the message"
+      "natural_language_description": "参数名: To | 作用: The number to which to send the message | (必填项)"
     },
     "toWhatsapp": {
       "displayName": "To Whatsapp",
       "name": "toWhatsapp",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "send"
-          ],
-          "resource": [
-            "sms"
-          ]
-        }
-      },
       "description": "Whether the message should be sent to WhatsApp",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: To Whatsapp | 作用: Whether the message should be sent to WhatsApp | 默认值: False"
     },
     "message": {
       "displayName": "Message",
       "name": "message",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "make"
-          ],
-          "resource": [
-            "call"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Message | (必填项)"
     },
     "twiml": {
       "displayName": "Use TwiML",
       "name": "twiml",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "make"
-          ],
-          "resource": [
-            "call"
-          ]
-        }
-      },
-      "description": "Whether to use the <a href=\"https://www.twilio.com/docs/voice/twiml\">Twilio Markup Language</a> in the message",
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "Whether to use the Twilio Markup Language in the message",
+      "natural_language_description": "参数名: Use TwiML | 作用: Whether to use the Twilio Markup Language in the message | 默认值: False"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Status Callback",
-          "name": "statusCallback",
-          "type": "string",
-          "default": "",
-          "description": "Status Callbacks allow you to receive events related to the REST resources managed by Twilio: Rooms, Recordings and Compositions"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "statusCallback (值: None) - Status Callbacks allow you to receive events related to the REST resources managed by Twilio: Rooms, Recordings and Compositions"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "operation",
-      "from",
-      "to",
-      "toWhatsapp",
-      "message",
-      "twiml",
-      "message",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF resource == 'sms' THEN SHOW parameter 'operation'",
-      "IF resource == 'call' THEN SHOW parameter 'operation'",
-      "IF operation IN [\"send\", \"make\"] AND resource IN [\"sms\", \"call\"] THEN SHOW parameter 'from'",
-      "IF operation IN [\"send\", \"make\"] AND resource IN [\"sms\", \"call\"] THEN SHOW parameter 'to'",
-      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'toWhatsapp'",
-      "IF operation == 'send' AND resource == 'sms' THEN SHOW parameter 'message'",
-      "IF operation == 'make' AND resource == 'call' THEN SHOW parameter 'twiml'",
-      "IF operation == 'make' AND resource == 'call' THEN SHOW parameter 'message'"
-    ]
   }
 }

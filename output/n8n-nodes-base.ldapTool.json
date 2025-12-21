@@ -1,122 +1,66 @@
 {
   "node_id": "n8n-nodes-base.ldapTool",
-  "name": "n8n-nodes-base.ldapTool",
+  "name": "Ldap Tool",
   "version": 1,
   "semantic_context": "Interact with LDAP servers",
+  "natural_language_description": "这是 Ldap Tool 节点。主要用于: Interact with LDAP servers",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Interact with LDAP servers",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Interact with LDAP servers",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Interact with LDAP servers | (必填项)"
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Compare",
-          "value": "compare",
-          "description": "Compare an attribute",
-          "action": "Compare an attribute"
-        },
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a new entry",
-          "action": "Create a new entry"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete an entry",
-          "action": "Delete an entry"
-        },
-        {
-          "name": "Rename",
-          "value": "rename",
-          "description": "Rename the DN of an existing entry",
-          "action": "Rename the DN of an existing entry"
-        },
-        {
-          "name": "Search",
-          "value": "search",
-          "description": "Search LDAP",
-          "action": "Search LDAP"
-        },
-        {
-          "name": "Update",
-          "value": "update",
-          "description": "Update attributes",
-          "action": "Update attributes"
-        }
-      ],
+      "required": false,
       "default": "search",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: search",
+      "available_options": [
+        "Compare (值: compare) - Compare an attribute",
+        "Create (值: create) - Create a new entry",
+        "Delete (值: delete) - Delete an entry",
+        "Rename (值: rename) - Rename the DN of an existing entry",
+        "Search (值: search) - Search LDAP",
+        "Update (值: update) - Update attributes"
+      ]
     },
     "nodeDebug": {
       "displayName": "Debug",
       "name": "nodeDebug",
       "type": "boolean",
-      "isNodeSetting": true,
+      "required": false,
       "default": false,
-      "noDataExpression": true,
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: Debug | 默认值: False"
     },
     "dn": {
       "displayName": "DN",
       "name": "dn",
       "type": "string",
-      "default": "",
-      "placeholder": "e.g. ou=users,dc=n8n,dc=io",
       "required": true,
-      "typeOptions": {
-        "alwaysOpenEditWindow": false
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ]
-        }
-      },
+      "default": "",
       "description": "The distinguished name of the entry to update",
-      "ai_hint": "The distinguished name of the entry to update"
+      "natural_language_description": "参数名: DN | 作用: The distinguished name of the entry to update | (必填项)"
     },
     "id": {
       "displayName": "Attribute ID",
@@ -124,188 +68,67 @@
       "type": "options",
       "required": true,
       "default": [],
-      "typeOptions": {
-        "loadOptionsMethod": "getAttributesForDn"
-      },
       "description": "The ID of the attribute to compare",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "compare"
-          ]
-        }
-      },
-      "ai_hint": "The ID of the attribute to compare"
+      "natural_language_description": "参数名: Attribute ID | 作用: The ID of the attribute to compare | 默认值: [] | (必填项)"
     },
     "value": {
       "displayName": "Value",
       "name": "value",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "The value to compare",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "compare"
-          ]
-        }
-      },
-      "ai_hint": "The value to compare"
+      "natural_language_description": "参数名: Value | 作用: The value to compare"
     },
     "targetDn": {
       "displayName": "New DN",
       "name": "targetDn",
       "type": "string",
-      "default": "",
-      "placeholder": "e.g. cn=nathan,ou=users,dc=n8n,dc=io",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "rename"
-          ]
-        }
-      },
+      "default": "",
       "description": "The new distinguished name for the entry",
-      "ai_hint": "The new distinguished name for the entry"
+      "natural_language_description": "参数名: New DN | 作用: The new distinguished name for the entry | (必填项)"
     },
     "attributes": {
       "displayName": "Update Attributes",
       "name": "attributes",
-      "placeholder": "Update Attributes",
       "type": "fixedCollection",
-      "typeOptions": {
-        "multipleValues": true,
-        "sortable": true
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "description": "Update entry attributes",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "name": "add",
-          "displayName": "Add",
-          "values": [
-            {
-              "displayName": "Attribute ID",
-              "name": "id",
-              "type": "string",
-              "default": "",
-              "description": "The ID of the attribute to add",
-              "required": true
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Value of the attribute to set"
-            }
-          ]
-        },
-        {
-          "name": "replace",
-          "displayName": "Replace",
-          "values": [
-            {
-              "displayName": "Attribute ID",
-              "name": "id",
-              "type": "string",
-              "default": "",
-              "description": "The ID of the attribute to replace",
-              "required": true
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Value of the attribute to replace"
-            }
-          ]
-        },
-        {
-          "name": "delete",
-          "displayName": "Remove",
-          "values": [
-            {
-              "displayName": "Attribute ID",
-              "name": "id",
-              "type": "string",
-              "default": "",
-              "description": "The ID of the attribute to remove",
-              "required": true
-            },
-            {
-              "displayName": "Value",
-              "name": "value",
-              "type": "string",
-              "default": "",
-              "description": "Value of the attribute to remove"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "Update entry attributes",
+      "natural_language_description": "参数名: Update Attributes | 作用: Update entry attributes | 默认值: {}",
+      "available_options": [
+        "add (值: None)",
+        "replace (值: None)",
+        "delete (值: None)"
+      ]
     },
     "baseDN": {
       "displayName": "Base DN",
       "name": "baseDN",
       "type": "string",
-      "default": "",
-      "placeholder": "e.g. ou=users, dc=n8n, dc=io",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "search"
-          ]
-        }
-      },
+      "default": "",
       "description": "The distinguished name of the subtree to search in",
-      "ai_hint": "The distinguished name of the subtree to search in"
+      "natural_language_description": "参数名: Base DN | 作用: The distinguished name of the subtree to search in | (必填项)"
     },
     "searchFor": {
       "displayName": "Search For",
       "name": "searchFor",
       "type": "options",
+      "required": false,
       "default": [],
-      "typeOptions": {
-        "loadOptionsMethod": "getObjectClasses"
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "search"
-          ]
-        }
-      },
       "description": "Directory object class to search for",
-      "ai_hint": "Directory object class to search for"
+      "natural_language_description": "参数名: Search For | 作用: Directory object class to search for | 默认值: []"
     },
     "customFilter": {
       "displayName": "Custom Filter",
       "name": "customFilter",
       "type": "string",
+      "required": false,
       "default": "(objectclass=*)",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "search"
-          ],
-          "searchFor": [
-            "custom"
-          ]
-        }
-      },
       "description": "Custom LDAP filter. Escape these chars * ( ) \\ with a backslash \"\\\".",
-      "ai_hint": "Custom LDAP filter. Escape these chars * ( ) \\ with a backslash \"\\\"."
+      "natural_language_description": "参数名: Custom Filter | 作用: Custom LDAP filter. Escape these chars * ( ) \\ with a backslash \"\\\". | 默认值: (objectclass=*)"
     },
     "attribute": {
       "displayName": "Attribute",
@@ -313,189 +136,49 @@
       "type": "options",
       "required": true,
       "default": [],
-      "typeOptions": {
-        "loadOptionsMethod": "getAttributes"
-      },
       "description": "Attribute to search for",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "search"
-          ]
-        },
-        "hide": {
-          "searchFor": [
-            "custom"
-          ]
-        }
-      },
-      "ai_hint": "Attribute to search for"
+      "natural_language_description": "参数名: Attribute | 作用: Attribute to search for | 默认值: [] | (必填项)"
     },
     "searchText": {
       "displayName": "Search Text",
       "name": "searchText",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "search"
-          ]
-        },
-        "hide": {
-          "searchFor": [
-            "custom"
-          ]
-        }
-      },
+      "default": "",
       "description": "Text to search for, Use * for a wildcard",
-      "ai_hint": "Text to search for, Use * for a wildcard"
+      "natural_language_description": "参数名: Search Text | 作用: Text to search for, Use * for a wildcard | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "search"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Attribute Names or IDs",
-          "name": "attributes",
-          "type": "multiOptions",
-          "typeOptions": {
-            "loadOptionsMethod": "getAttributes"
-          },
-          "default": [],
-          "description": "Comma-separated list of attributes to return. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
-        },
-        {
-          "displayName": "Page Size",
-          "name": "pageSize",
-          "type": "number",
-          "default": 1000,
-          "typeOptions": {
-            "minValue": 0
-          },
-          "description": "Maximum number of results to request at one time. Set to 0 to disable paging."
-        },
-        {
-          "displayName": "Scope",
-          "name": "scope",
-          "default": "sub",
-          "description": "The set of entries at or below the BaseDN that may be considered potential matches",
-          "type": "options",
-          "options": [
-            {
-              "name": "Base Object",
-              "value": "base"
-            },
-            {
-              "name": "Single Level",
-              "value": "one"
-            },
-            {
-              "name": "Whole Subtree",
-              "value": "sub"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "attributes (值: None) - Comma-separated list of attributes to return. Choose from the list, or specify IDs using an expression.",
+        "pageSize (值: None) - Maximum number of results to request at one time. Set to 0 to disable paging.",
+        "scope (值: None) - The set of entries at or below the BaseDN that may be considered potential matches"
+      ]
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "operation",
-      "nodeDebug",
-      "dn",
-      "dn",
-      "dn",
-      "dn",
-      "dn",
-      "dn",
-      "id",
-      "value",
-      "targetDn",
-      "attributes",
-      "attributes",
-      "baseDN",
-      "searchFor",
-      "customFilter",
-      "attribute",
-      "searchText",
-      "returnAll",
-      "limit",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF operation == 'compare' THEN SHOW parameter 'dn'",
-      "IF operation == 'create' THEN SHOW parameter 'dn'",
-      "IF operation == 'delete' THEN SHOW parameter 'dn'",
-      "IF operation == 'rename' THEN SHOW parameter 'dn'",
-      "IF operation == 'modify' THEN SHOW parameter 'dn'",
-      "IF operation == 'update' THEN SHOW parameter 'dn'",
-      "IF operation == 'compare' THEN SHOW parameter 'id'",
-      "IF operation == 'compare' THEN SHOW parameter 'value'",
-      "IF operation == 'rename' THEN SHOW parameter 'targetDn'",
-      "IF operation == 'create' THEN SHOW parameter 'attributes'",
-      "IF operation == 'update' THEN SHOW parameter 'attributes'",
-      "IF operation == 'search' THEN SHOW parameter 'baseDN'",
-      "IF operation == 'search' THEN SHOW parameter 'searchFor'",
-      "IF operation == 'search' AND searchFor == 'custom' THEN SHOW parameter 'customFilter'",
-      "IF operation == 'search' THEN SHOW parameter 'attribute'",
-      "IF searchFor == 'custom' THEN HIDE parameter 'attribute'",
-      "IF operation == 'search' THEN SHOW parameter 'searchText'",
-      "IF searchFor == 'custom' THEN HIDE parameter 'searchText'",
-      "IF operation == 'search' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'search' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'search' THEN SHOW parameter 'options'"
-    ]
   }
 }

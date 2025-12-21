@@ -1,1284 +1,272 @@
 {
   "node_id": "n8n-nodes-base.googleDriveTool",
-  "name": "n8n-nodes-base.googleDriveTool",
-  "version": 3,
+  "name": "Google Drive Tool",
+  "version": 1,
   "semantic_context": "Access data on Google Drive",
+  "natural_language_description": "这是 Google Drive Tool 节点。主要用于: Access data on Google Drive",
   "parameters": {
     "preBuiltAgentsCalloutGoogleDrive": {
       "displayName": "Retrieve, analyze, and answer questions using your Google Drive documents with our pre-built",
       "name": "preBuiltAgentsCalloutGoogleDrive",
       "type": "callout",
-      "typeOptions": {
-        "calloutAction": {
-          "label": "Knowledge store agent",
-          "icon": "bot",
-          "type": "openSampleWorkflowTemplate",
-          "templateId": "knowledge_store_agent_with_google_drive"
-        }
-      },
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Retrieve, analyze, and answer questions using your Google Drive documents with our pre-built"
     },
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Access data on Google Drive",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Access data on Google Drive",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Access data on Google Drive | (必填项)"
     },
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "OAuth2 (recommended)",
-          "value": "oAuth2"
-        },
-        {
-          "name": "Service Account",
-          "value": "serviceAccount"
-        }
-      ],
+      "required": false,
       "default": "oAuth2",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: oAuth2",
+      "available_options": [
+        "OAuth2 (recommended) (值: oAuth2)",
+        "Service Account (值: serviceAccount)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "File",
-          "value": "file"
-        },
-        {
-          "name": "File/Folder",
-          "value": "fileFolder"
-        },
-        {
-          "name": "Folder",
-          "value": "folder"
-        },
-        {
-          "name": "Shared Drive",
-          "value": "drive"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "file",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: file",
+      "available_options": [
+        "File (值: file)",
+        "File/Folder (值: fileFolder)",
+        "Folder (值: folder)",
+        "Shared Drive (值: drive)",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folder"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a folder",
-          "action": "Create folder"
-        },
-        {
-          "name": "Delete",
-          "value": "deleteFolder",
-          "description": "Permanently delete a folder",
-          "action": "Delete folder"
-        },
-        {
-          "name": "Share",
-          "value": "share",
-          "description": "Add sharing permissions to a folder",
-          "action": "Share folder"
-        },
-        {
-          "name": "Custom API Call",
-          "value": "__CUSTOM_API_CALL__"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a folder",
+        "Delete (值: deleteFolder) - Permanently delete a folder",
+        "Share (值: share) - Add sharing permissions to a folder",
+        "Custom API Call (值: __CUSTOM_API_CALL__)"
+      ]
     },
     "name": {
       "displayName": "Folder Name",
       "name": "name",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "e.g. New Folder",
       "description": "The name of the new folder. If not set, 'Untitled' will be used.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folder"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "The name of the new folder. If not set, 'Untitled' will be used."
+      "natural_language_description": "参数名: Folder Name | 作用: The name of the new folder. If not set, 'Untitled' will be used."
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Email Message",
-          "name": "emailMessage",
-          "type": "string",
-          "default": "",
-          "description": "A plain text custom message to include in the notification email",
-          "typeOptions": {
-            "rows": 2
-          }
-        },
-        {
-          "displayName": "Move To New Owners Root",
-          "name": "moveToNewOwnersRoot",
-          "type": "boolean",
-          "default": false,
-          "description": "<p>This parameter only takes effect if the item is not in a shared drive and the request is attempting to transfer the ownership of the item.</p><p>When set to true, the item is moved to the new owner's My Drive root folder and all prior parents removed.</p>"
-        },
-        {
-          "displayName": "Send Notification Email",
-          "name": "sendNotificationEmail",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to send a notification email when sharing to users or groups"
-        },
-        {
-          "displayName": "Transfer Ownership",
-          "name": "transferOwnership",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to transfer ownership to the specified user and downgrade the current owner to a writer"
-        },
-        {
-          "displayName": "Use Domain Admin Access",
-          "name": "useDomainAdminAccess",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to perform the operation as domain administrator, i.e. if you are an administrator of the domain to which the shared drive belongs, you will be granted access automatically."
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folder"
-          ],
-          "operation": [
-            "share"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "emailMessage (值: None) - A plain text custom message to include in the notification email",
+        "moveToNewOwnersRoot (值: None) - This parameter only takes effect if the item is not in a shared drive and the request is attempting to transfer the ownership of the item.When set to true, the item is moved to the new owner's My Drive root folder and all prior parents removed.",
+        "sendNotificationEmail (值: None) - Whether to send a notification email when sharing to users or groups",
+        "transferOwnership (值: None) - Whether to transfer ownership to the specified user and downgrade the current owner to a writer",
+        "useDomainAdminAccess (值: None) - Whether to perform the operation as domain administrator, i.e. if you are an administrator of the domain to which the shared drive belongs, you will be granted access automatically."
+      ]
     },
     "driveId": {
       "displayName": "Parent Drive",
       "name": "driveId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": "My Drive"
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "Drive",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a drive...",
-          "typeOptions": {
-            "searchListMethod": "driveSearchWithDefault",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "Link",
-          "name": "url",
-          "type": "string",
-          "placeholder": "https://drive.google.com/drive/folders/0AaaaaAAAAAAAaa",
-          "extractValue": {
-            "type": "regex",
-            "regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
-          },
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)",
-                "errorMessage": "Not a valid Google Drive Drive URL"
-              }
-            }
-          ]
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "hint": "The ID of the shared drive",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9\\-_]{2,}",
-                "errorMessage": "Not a valid Google Drive Drive ID"
-              }
-            }
-          ],
-          "url": "=https://drive.google.com/drive/folders/{{$value}}"
-        }
-      ],
       "description": "The drive where to create the new folder",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folder"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "The drive where to create the new folder"
+      "natural_language_description": "参数名: Parent Drive | 作用: The drive where to create the new folder | 默认值: {'mode': 'list', 'value': 'My Drive'} | (必填项)"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "fileFolder"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
+      "required": false,
       "default": 50,
       "description": "Max number of results to return",
-      "typeOptions": {
-        "minValue": 1
-      },
-      "displayOptions": {
-        "show": {
-          "returnAll": [
-            false
-          ],
-          "resource": [
-            "fileFolder"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 50"
     },
     "fileId": {
       "displayName": "File to Update",
       "name": "fileId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "File",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a file...",
-          "typeOptions": {
-            "searchListMethod": "fileSearch",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "Link",
-          "name": "url",
-          "type": "string",
-          "placeholder": "e.g. https://drive.google.com/file/d/1anGBg0b5re2VtF2bKu201_a-Vnz5BHq9Y4r-yBDAj5A/edit",
-          "extractValue": {
-            "type": "regex",
-            "regex": "https:\\/\\/(?:drive|docs)\\.google\\.com(?:\\/.*|)\\/d\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
-          },
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "https:\\/\\/(?:drive|docs)\\.google\\.com(?:\\/.*|)\\/d\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)",
-                "errorMessage": "Not a valid Google Drive File URL"
-              }
-            }
-          ]
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "placeholder": "e.g. 1anGBg0b5re2VtF2bKu201_a-Vnz5BHq9Y4r-yBDAj5A",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9\\-_]{2,}",
-                "errorMessage": "Not a valid Google Drive File ID"
-              }
-            }
-          ],
-          "url": "=https://drive.google.com/file/d/{{$value}}/view"
-        }
-      ],
       "description": "The file to update",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "The file to update"
+      "natural_language_description": "参数名: File to Update | 作用: The file to update | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     },
     "sameFolder": {
       "displayName": "Copy In The Same Folder",
       "name": "sameFolder",
       "type": "boolean",
+      "required": false,
       "default": true,
       "description": "Whether to copy the file in the same folder as the original file",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "copy"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Copy In The Same Folder | 作用: Whether to copy the file in the same folder as the original file | 默认值: True"
     },
     "folderId": {
       "displayName": "Parent Folder",
       "name": "folderId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": "root",
         "cachedResultName": "/ (Root folder)"
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "Folder",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a folder...",
-          "typeOptions": {
-            "searchListMethod": "folderSearchWithDefault",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "Link",
-          "name": "url",
-          "type": "string",
-          "placeholder": "e.g. https://drive.google.com/drive/folders/1Tx9WHbA3wBpPB4C_HcoZDH9WZFWYxAMU",
-          "extractValue": {
-            "type": "regex",
-            "regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
-          },
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)",
-                "errorMessage": "Not a valid Google Drive Folder URL"
-              }
-            }
-          ]
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "placeholder": "e.g. 1anGBg0b5re2VtF2bKu201_a-Vnz5BHq9Y4r-yBDAj5A",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9\\-_]{2,}",
-                "errorMessage": "Not a valid Google Drive Folder ID"
-              }
-            }
-          ],
-          "url": "=https://drive.google.com/drive/folders/{{$value}}"
-        }
-      ],
       "description": "The parent folder where to create the new folder",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folder"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "The parent folder where to create the new folder"
+      "natural_language_description": "参数名: Parent Folder | 作用: The parent folder where to create the new folder | 默认值: {'mode': 'list', 'value': 'root', 'cachedResultName': '/ (Root folder)'} | (必填项)"
     },
     "content": {
       "displayName": "File Content",
       "name": "content",
       "type": "string",
+      "required": false,
       "default": "",
-      "typeOptions": {
-        "rows": 2
-      },
       "description": "The text to create the file with",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "createFromText"
-          ]
-        }
-      },
-      "ai_hint": "The text to create the file with"
+      "natural_language_description": "参数名: File Content | 作用: The text to create the file with"
     },
     "permissionsUi": {
       "displayName": "Permissions",
       "name": "permissionsUi",
-      "placeholder": "Add Permission",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "typeOptions": {
-        "multipleValues": false
-      },
-      "options": [
-        {
-          "displayName": "Permission",
-          "name": "permissionsValues",
-          "values": [
-            {
-              "displayName": "Role",
-              "name": "role",
-              "type": "options",
-              "description": "Defines what users can do with the file or folder",
-              "options": [
-                {
-                  "name": "Commenter",
-                  "value": "commenter"
-                },
-                {
-                  "name": "File Organizer",
-                  "value": "fileOrganizer"
-                },
-                {
-                  "name": "Organizer",
-                  "value": "organizer"
-                },
-                {
-                  "name": "Owner",
-                  "value": "owner"
-                },
-                {
-                  "name": "Reader",
-                  "value": "reader"
-                },
-                {
-                  "name": "Writer",
-                  "value": "writer"
-                }
-              ],
-              "default": ""
-            },
-            {
-              "displayName": "Type",
-              "name": "type",
-              "type": "options",
-              "options": [
-                {
-                  "name": "User",
-                  "value": "user"
-                },
-                {
-                  "name": "Group",
-                  "value": "group"
-                },
-                {
-                  "name": "Domain",
-                  "value": "domain"
-                },
-                {
-                  "name": "Anyone",
-                  "value": "anyone"
-                }
-              ],
-              "default": "",
-              "description": "The scope of the permission. A permission with type=user applies to a specific user whereas a permission with type=domain applies to everyone in a specific domain."
-            },
-            {
-              "displayName": "Email Address",
-              "name": "emailAddress",
-              "type": "string",
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "user",
-                    "group"
-                  ]
-                }
-              },
-              "placeholder": "“e.g. name@mail.com",
-              "default": "",
-              "description": "The email address of the user or group to which this permission refers"
-            },
-            {
-              "displayName": "Domain",
-              "name": "domain",
-              "type": "string",
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "domain"
-                  ]
-                }
-              },
-              "placeholder": "e.g. mycompany.com",
-              "default": "",
-              "description": "The domain to which this permission refers"
-            },
-            {
-              "displayName": "Allow File Discovery",
-              "name": "allowFileDiscovery",
-              "type": "boolean",
-              "displayOptions": {
-                "show": {
-                  "type": [
-                    "domain",
-                    "anyone"
-                  ]
-                }
-              },
-              "default": false,
-              "description": "Whether to allow the file to be discovered through search"
-            }
-          ]
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folder"
-          ],
-          "operation": [
-            "share"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Permissions | 默认值: {}",
+      "available_options": [
+        "permissionsValues (值: None)"
+      ]
     },
     "changeFileContent": {
       "displayName": "Change File Content",
       "name": "changeFileContent",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to send a new binary data to update the file",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Change File Content | 作用: Whether to send a new binary data to update the file | 默认值: False"
     },
     "inputDataFieldName": {
       "displayName": "Input Data Field Name",
       "name": "inputDataFieldName",
       "type": "string",
-      "placeholder": "“e.g. data",
-      "default": "data",
       "required": true,
-      "hint": "The name of the input field containing the binary file data to update the file",
+      "default": "data",
       "description": "Find the name of input field containing the binary data to update the file in the Input panel on the left, in the Binary tab",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "upload"
-          ]
-        }
-      },
-      "ai_hint": "Find the name of input field containing the binary data to update the file in the Input panel on the left, in the Binary tab"
+      "natural_language_description": "参数名: Input Data Field Name | 作用: Find the name of input field containing the binary data to update the file in the Input panel on the left, in the Binary tab | 提示: The name of the input field containing the binary file data to update the file | 默认值: data | (必填项)"
     },
     "newUpdatedFileName": {
       "displayName": "New Updated File Name",
       "name": "newUpdatedFileName",
       "type": "string",
+      "required": false,
       "default": "",
-      "placeholder": "e.g. My New File",
       "description": "If not specified, the file name will not be changed",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
-      "ai_hint": "If not specified, the file name will not be changed"
+      "natural_language_description": "参数名: New Updated File Name | 作用: If not specified, the file name will not be changed"
     },
     "searchMethod": {
       "displayName": "Search Method",
       "name": "searchMethod",
       "type": "options",
-      "options": [
-        {
-          "name": "Search File/Folder Name",
-          "value": "name"
-        },
-        {
-          "name": "Advanced Search",
-          "value": "query"
-        }
-      ],
+      "required": false,
       "default": "name",
       "description": "Whether to search for the file/folder name or use a query string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "fileFolder"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Search Method | 作用: Whether to search for the file/folder name or use a query string | 默认值: name",
+      "available_options": [
+        "Search File/Folder Name (值: name)",
+        "Advanced Search (值: query)"
+      ]
     },
     "queryString": {
       "displayName": "Query String",
       "name": "queryString",
       "type": "string",
+      "required": false,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "searchMethod": [
-            "query"
-          ],
-          "resource": [
-            "fileFolder"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "placeholder": "e.g. not name contains 'hello'",
-      "description": "Use the Google query strings syntax to search for a specific set of files or folders. <a href=\"https://developers.google.com/drive/api/v3/search-files\" target=\"_blank\">Learn more</a>.",
-      "ai_hint": "Use the Google query strings syntax to search for a specific set of files or folders. <a href=\"https://developers.google.com/drive/api/v3/search-files\" target=\"_blank\">Learn more</a>."
+      "description": "Use the Google query strings syntax to search for a specific set of files or folders. Learn more.",
+      "natural_language_description": "参数名: Query String | 作用: Use the Google query strings syntax to search for a specific set of files or folders. Learn more."
     },
     "filter": {
       "displayName": "Filter",
       "name": "filter",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Drive",
-          "name": "driveId",
-          "type": "resourceLocator",
-          "default": {
-            "mode": "list",
-            "value": "My Drive"
-          },
-          "required": false,
-          "modes": [
-            {
-              "displayName": "Drive",
-              "name": "list",
-              "type": "list",
-              "placeholder": "Select a drive...",
-              "typeOptions": {
-                "searchListMethod": "driveSearchWithDefault",
-                "searchable": true
-              }
-            },
-            {
-              "displayName": "Link",
-              "name": "url",
-              "type": "string",
-              "placeholder": "https://drive.google.com/drive/folders/0AaaaaAAAAAAAaa",
-              "extractValue": {
-                "type": "regex",
-                "regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
-              },
-              "validation": [
-                {
-                  "type": "regex",
-                  "properties": {
-                    "regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)",
-                    "errorMessage": "Not a valid Google Drive Drive URL"
-                  }
-                }
-              ]
-            },
-            {
-              "displayName": "ID",
-              "name": "id",
-              "type": "string",
-              "hint": "The ID of the shared drive",
-              "validation": [
-                {
-                  "type": "regex",
-                  "properties": {
-                    "regex": "[a-zA-Z0-9\\-_]{2,}",
-                    "errorMessage": "Not a valid Google Drive Drive ID"
-                  }
-                }
-              ],
-              "url": "=https://drive.google.com/drive/folders/{{$value}}"
-            }
-          ],
-          "description": "The drive you want to search in. By default, the personal \"My Drive\" is used."
-        },
-        {
-          "displayName": "Folder",
-          "name": "folderId",
-          "type": "resourceLocator",
-          "default": {
-            "mode": "list",
-            "value": "root",
-            "cachedResultName": "/ (Root folder)"
-          },
-          "required": false,
-          "modes": [
-            {
-              "displayName": "Folder",
-              "name": "list",
-              "type": "list",
-              "placeholder": "Select a folder...",
-              "typeOptions": {
-                "searchListMethod": "folderSearchWithDefault",
-                "searchable": true
-              }
-            },
-            {
-              "displayName": "Link",
-              "name": "url",
-              "type": "string",
-              "placeholder": "e.g. https://drive.google.com/drive/folders/1Tx9WHbA3wBpPB4C_HcoZDH9WZFWYxAMU",
-              "extractValue": {
-                "type": "regex",
-                "regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
-              },
-              "validation": [
-                {
-                  "type": "regex",
-                  "properties": {
-                    "regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)",
-                    "errorMessage": "Not a valid Google Drive Folder URL"
-                  }
-                }
-              ]
-            },
-            {
-              "displayName": "ID",
-              "name": "id",
-              "type": "string",
-              "placeholder": "e.g. 1anGBg0b5re2VtF2bKu201_a-Vnz5BHq9Y4r-yBDAj5A",
-              "validation": [
-                {
-                  "type": "regex",
-                  "properties": {
-                    "regex": "[a-zA-Z0-9\\-_]{2,}",
-                    "errorMessage": "Not a valid Google Drive Folder ID"
-                  }
-                }
-              ],
-              "url": "=https://drive.google.com/drive/folders/{{$value}}"
-            }
-          ],
-          "description": "The folder you want to search in. By default, the root folder of the drive is used. If you select a folder other than the root folder, only the direct children will be included."
-        },
-        {
-          "displayName": "What to Search",
-          "name": "whatToSearch",
-          "type": "options",
-          "default": "all",
-          "options": [
-            {
-              "name": "Files and Folders",
-              "value": "all"
-            },
-            {
-              "name": "Files",
-              "value": "files"
-            },
-            {
-              "name": "Folders",
-              "value": "folders"
-            }
-          ]
-        },
-        {
-          "displayName": "File Types",
-          "name": "fileTypes",
-          "type": "multiOptions",
-          "default": [],
-          "description": "Return only items corresponding to the selected MIME types",
-          "options": [
-            {
-              "name": "All",
-              "value": "*",
-              "description": "Return all file types"
-            },
-            {
-              "name": "3rd Party Shortcut",
-              "value": "application/vnd.google-apps.drive-sdk"
-            },
-            {
-              "name": "Audio",
-              "value": "application/vnd.google-apps.audio"
-            },
-            {
-              "name": "Folder",
-              "value": "application/vnd.google-apps.folder"
-            },
-            {
-              "name": "Google Apps Scripts",
-              "value": "application/vnd.google-apps.script"
-            },
-            {
-              "name": "Google Docs",
-              "value": "application/vnd.google-apps.document"
-            },
-            {
-              "name": "Google Drawing",
-              "value": "application/vnd.google-apps.drawing"
-            },
-            {
-              "name": "Google Forms",
-              "value": "application/vnd.google-apps.form"
-            },
-            {
-              "name": "Google Fusion Tables",
-              "value": "application/vnd.google-apps.fusiontable"
-            },
-            {
-              "name": "Google My Maps",
-              "value": "application/vnd.google-apps.map"
-            },
-            {
-              "name": "Google Sheets",
-              "value": "application/vnd.google-apps.spreadsheet"
-            },
-            {
-              "name": "Google Sites",
-              "value": "application/vnd.google-apps.sites"
-            },
-            {
-              "name": "Google Slides",
-              "value": "application/vnd.google-apps.presentation"
-            },
-            {
-              "name": "Photo",
-              "value": "application/vnd.google-apps.photo"
-            },
-            {
-              "name": "Unknown",
-              "value": "application/vnd.google-apps.unknown"
-            },
-            {
-              "name": "Video",
-              "value": "application/vnd.google-apps.video"
-            }
-          ],
-          "displayOptions": {
-            "show": {
-              "whatToSearch": [
-                "all"
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "File Types",
-          "name": "fileTypes",
-          "type": "multiOptions",
-          "default": [],
-          "description": "Return only items corresponding to the selected MIME types",
-          "options": [
-            {
-              "name": "All",
-              "value": "*",
-              "description": "Return all file types"
-            },
-            {
-              "name": "3rd Party Shortcut",
-              "value": "application/vnd.google-apps.drive-sdk"
-            },
-            {
-              "name": "Audio",
-              "value": "application/vnd.google-apps.audio"
-            },
-            {
-              "name": "Google Apps Scripts",
-              "value": "application/vnd.google-apps.script"
-            },
-            {
-              "name": "Google Docs",
-              "value": "application/vnd.google-apps.document"
-            },
-            {
-              "name": "Google Drawing",
-              "value": "application/vnd.google-apps.drawing"
-            },
-            {
-              "name": "Google Forms",
-              "value": "application/vnd.google-apps.form"
-            },
-            {
-              "name": "Google Fusion Tables",
-              "value": "application/vnd.google-apps.fusiontable"
-            },
-            {
-              "name": "Google My Maps",
-              "value": "application/vnd.google-apps.map"
-            },
-            {
-              "name": "Google Sheets",
-              "value": "application/vnd.google-apps.spreadsheet"
-            },
-            {
-              "name": "Google Sites",
-              "value": "application/vnd.google-apps.sites"
-            },
-            {
-              "name": "Google Slides",
-              "value": "application/vnd.google-apps.presentation"
-            },
-            {
-              "name": "Photo",
-              "value": "application/vnd.google-apps.photo"
-            },
-            {
-              "name": "Unknown",
-              "value": "application/vnd.google-apps.unknown"
-            },
-            {
-              "name": "Video",
-              "value": "application/vnd.google-apps.video"
-            }
-          ],
-          "displayOptions": {
-            "show": {
-              "whatToSearch": [
-                "files"
-              ]
-            }
-          }
-        },
-        {
-          "displayName": "Include Trashed Items",
-          "name": "includeTrashed",
-          "type": "boolean",
-          "default": false,
-          "description": "Whether to return also items in the Drive's bin"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "fileFolder"
-          ],
-          "operation": [
-            "search"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filter | 默认值: {}",
+      "available_options": [
+        "driveId (值: None) - The drive you want to search in. By default, the personal \"My Drive\" is used.",
+        "folderId (值: None) - The folder you want to search in. By default, the root folder of the drive is used. If you select a folder other than the root folder, only the direct children will be included.",
+        "whatToSearch (值: None)",
+        "fileTypes (值: None) - Return only items corresponding to the selected MIME types",
+        "fileTypes (值: None) - Return only items corresponding to the selected MIME types",
+        "includeTrashed (值: None) - Whether to return also items in the Drive's bin"
+      ]
     },
     "folderNoRootId": {
       "displayName": "Folder",
       "name": "folderNoRootId",
       "type": "resourceLocator",
+      "required": true,
       "default": {
         "mode": "list",
         "value": ""
       },
-      "required": true,
-      "modes": [
-        {
-          "displayName": "Folder",
-          "name": "list",
-          "type": "list",
-          "placeholder": "Select a folder...",
-          "typeOptions": {
-            "searchListMethod": "folderSearch",
-            "searchable": true
-          }
-        },
-        {
-          "displayName": "Link",
-          "name": "url",
-          "type": "string",
-          "placeholder": "e.g. https://drive.google.com/drive/folders/1Tx9WHbA3wBpPB4C_HcoZDH9WZFWYxAMU",
-          "extractValue": {
-            "type": "regex",
-            "regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)"
-          },
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "https:\\/\\/drive\\.google\\.com(?:\\/.*|)\\/folders\\/([0-9a-zA-Z\\-_]+)(?:\\/.*|)",
-                "errorMessage": "Not a valid Google Drive Folder URL"
-              }
-            }
-          ]
-        },
-        {
-          "displayName": "ID",
-          "name": "id",
-          "type": "string",
-          "placeholder": "e.g. 1anGBg0b5re2VtF2bKu201_a-Vnz5BHq9Y4r-yBDAj5A",
-          "validation": [
-            {
-              "type": "regex",
-              "properties": {
-                "regex": "[a-zA-Z0-9\\-_]{2,}",
-                "errorMessage": "Not a valid Google Drive Folder ID"
-              }
-            }
-          ],
-          "url": "=https://drive.google.com/drive/folders/{{$value}}"
-        }
-      ],
       "description": "The folder to share",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "folder"
-          ],
-          "operation": [
-            "share"
-          ]
-        }
-      },
-      "ai_hint": "The folder to share"
+      "natural_language_description": "参数名: Folder | 作用: The folder to share | 默认值: {'mode': 'list', 'value': ''} | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "preBuiltAgentsCalloutGoogleDrive",
-      "descriptionType",
-      "toolDescription",
-      "authentication",
-      "resource",
-      "operation",
-      "name",
-      "options",
-      "driveId",
-      "driveId",
-      "options",
-      "returnAll",
-      "limit",
-      "options",
-      "driveId",
-      "options",
-      "operation",
-      "fileId",
-      "name",
-      "sameFolder",
-      "driveId",
-      "folderId",
-      "options",
-      "fileId",
-      "options",
-      "content",
-      "name",
-      "driveId",
-      "folderId",
-      "options",
-      "fileId",
-      "options",
-      "fileId",
-      "driveId",
-      "folderId",
-      "fileId",
-      "permissionsUi",
-      "options",
-      "fileId",
-      "changeFileContent",
-      "inputDataFieldName",
-      "newUpdatedFileName",
-      "options",
-      "inputDataFieldName",
-      "name",
-      "driveId",
-      "folderId",
-      "options",
-      "operation",
-      "searchMethod",
-      "queryString",
-      "queryString",
-      "returnAll",
-      "limit",
-      "filter",
-      "options",
-      "operation",
-      "name",
-      "driveId",
-      "folderId",
-      "options",
-      "folderNoRootId",
-      "options",
-      "folderNoRootId",
-      "permissionsUi",
-      "options"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'drive' THEN SHOW parameter 'operation'",
-      "IF resource == 'drive' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'drive' AND operation == 'create' THEN SHOW parameter 'options'",
-      "IF resource == 'drive' AND operation == 'deleteDrive' THEN SHOW parameter 'driveId'",
-      "IF resource == 'drive' AND operation == 'get' THEN SHOW parameter 'driveId'",
-      "IF resource == 'drive' AND operation == 'get' THEN SHOW parameter 'options'",
-      "IF resource == 'drive' AND operation == 'list' THEN SHOW parameter 'returnAll'",
-      "IF returnAll == False AND resource == 'drive' AND operation == 'list' THEN SHOW parameter 'limit'",
-      "IF resource == 'drive' AND operation == 'list' THEN SHOW parameter 'options'",
-      "IF resource == 'drive' AND operation == 'update' THEN SHOW parameter 'driveId'",
-      "IF operation == 'update' AND resource == 'drive' THEN SHOW parameter 'options'",
-      "IF resource == 'file' THEN SHOW parameter 'operation'",
-      "IF resource == 'file' AND operation == 'copy' THEN SHOW parameter 'fileId'",
-      "IF resource == 'file' AND operation == 'copy' THEN SHOW parameter 'name'",
-      "IF resource == 'file' AND operation == 'copy' THEN SHOW parameter 'sameFolder'",
-      "IF sameFolder == False AND resource == 'file' AND operation == 'copy' THEN SHOW parameter 'driveId'",
-      "IF sameFolder == False AND resource == 'file' AND operation == 'copy' THEN SHOW parameter 'folderId'",
-      "IF resource == 'file' AND operation == 'copy' THEN SHOW parameter 'options'",
-      "IF resource == 'file' AND operation == 'deleteFile' THEN SHOW parameter 'fileId'",
-      "IF resource == 'file' AND operation == 'deleteFile' THEN SHOW parameter 'options'",
-      "IF resource == 'file' AND operation == 'createFromText' THEN SHOW parameter 'content'",
-      "IF resource == 'file' AND operation == 'createFromText' THEN SHOW parameter 'name'",
-      "IF resource == 'file' AND operation == 'createFromText' THEN SHOW parameter 'driveId'",
-      "IF resource == 'file' AND operation == 'createFromText' THEN SHOW parameter 'folderId'",
-      "IF resource == 'file' AND operation == 'createFromText' THEN SHOW parameter 'options'",
-      "IF resource == 'file' AND operation == 'download' THEN SHOW parameter 'fileId'",
-      "IF resource == 'file' AND operation == 'download' THEN SHOW parameter 'options'",
-      "IF resource == 'file' AND operation == 'move' THEN SHOW parameter 'fileId'",
-      "IF resource == 'file' AND operation == 'move' THEN SHOW parameter 'driveId'",
-      "IF resource == 'file' AND operation == 'move' THEN SHOW parameter 'folderId'",
-      "IF resource == 'file' AND operation == 'share' THEN SHOW parameter 'fileId'",
-      "IF resource == 'file' AND operation == 'share' THEN SHOW parameter 'permissionsUi'",
-      "IF type IN [\"user\", \"group\"] THEN SHOW parameter 'emailAddress'",
-      "IF type == 'domain' THEN SHOW parameter 'domain'",
-      "IF type IN [\"domain\", \"anyone\"] THEN SHOW parameter 'allowFileDiscovery'",
-      "IF resource == 'file' AND operation == 'share' THEN SHOW parameter 'options'",
-      "IF resource == 'file' AND operation == 'update' THEN SHOW parameter 'fileId'",
-      "IF resource == 'file' AND operation == 'update' THEN SHOW parameter 'changeFileContent'",
-      "IF changeFileContent == True AND resource == 'file' AND operation == 'update' THEN SHOW parameter 'inputDataFieldName'",
-      "IF resource == 'file' AND operation == 'update' THEN SHOW parameter 'newUpdatedFileName'",
-      "IF resource == 'file' AND operation == 'update' THEN SHOW parameter 'options'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'inputDataFieldName'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'name'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'driveId'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'folderId'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'options'",
-      "IF resource == 'fileFolder' THEN SHOW parameter 'operation'",
-      "IF resource == 'fileFolder' AND operation == 'search' THEN SHOW parameter 'searchMethod'",
-      "IF searchMethod == 'name' AND resource == 'fileFolder' AND operation == 'search' THEN SHOW parameter 'queryString'",
-      "IF searchMethod == 'query' AND resource == 'fileFolder' AND operation == 'search' THEN SHOW parameter 'queryString'",
-      "IF resource == 'fileFolder' AND operation == 'search' THEN SHOW parameter 'returnAll'",
-      "IF returnAll == False AND resource == 'fileFolder' AND operation == 'search' THEN SHOW parameter 'limit'",
-      "IF resource == 'fileFolder' AND operation == 'search' THEN SHOW parameter 'filter'",
-      "IF whatToSearch == 'all' THEN SHOW parameter 'fileTypes'",
-      "IF whatToSearch == 'files' THEN SHOW parameter 'fileTypes'",
-      "IF resource == 'fileFolder' AND operation == 'search' THEN SHOW parameter 'options'",
-      "IF resource == 'folder' THEN SHOW parameter 'operation'",
-      "IF resource == 'folder' AND operation == 'create' THEN SHOW parameter 'name'",
-      "IF resource == 'folder' AND operation == 'create' THEN SHOW parameter 'driveId'",
-      "IF resource == 'folder' AND operation == 'create' THEN SHOW parameter 'folderId'",
-      "IF resource == 'folder' AND operation == 'create' THEN SHOW parameter 'options'",
-      "IF resource == 'folder' AND operation == 'deleteFolder' THEN SHOW parameter 'folderNoRootId'",
-      "IF resource == 'folder' AND operation == 'deleteFolder' THEN SHOW parameter 'options'",
-      "IF resource == 'folder' AND operation == 'share' THEN SHOW parameter 'folderNoRootId'",
-      "IF resource == 'folder' AND operation == 'share' THEN SHOW parameter 'permissionsUi'",
-      "IF resource == 'folder' AND operation == 'share' THEN SHOW parameter 'options'"
-    ]
   }
 }

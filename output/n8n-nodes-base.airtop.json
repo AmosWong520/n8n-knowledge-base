@@ -1,92 +1,42 @@
 {
   "node_id": "n8n-nodes-base.airtop",
-  "name": "n8n-nodes-base.airtop",
-  "version": [
-    1,
-    1.1
-  ],
+  "name": "Airtop",
+  "version": 1,
   "semantic_context": "Scrape and control any site with Airtop",
+  "natural_language_description": "这是 Airtop 节点。主要用于: Scrape and control any site with Airtop",
   "parameters": {
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Agent",
-          "value": "agent"
-        },
-        {
-          "name": "Extraction",
-          "value": "extraction"
-        },
-        {
-          "name": "File",
-          "value": "file"
-        },
-        {
-          "name": "Interaction",
-          "value": "interaction"
-        },
-        {
-          "name": "Session",
-          "value": "session"
-        },
-        {
-          "name": "Window",
-          "value": "window"
-        }
-      ],
+      "required": false,
       "default": "session",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: session",
+      "available_options": [
+        "Agent (值: agent)",
+        "Extraction (值: extraction)",
+        "File (值: file)",
+        "Interaction (值: interaction)",
+        "Session (值: session)",
+        "Window (值: window)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "interaction"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Click an Element",
-          "value": "click",
-          "description": "Execute a click on an element given a description",
-          "action": "Click an element"
-        },
-        {
-          "name": "Fill Form",
-          "value": "fill",
-          "description": "Fill a form with the provided information",
-          "action": "Fill form"
-        },
-        {
-          "name": "Hover on an Element",
-          "value": "hover",
-          "description": "Execute a hover action on an element given a description",
-          "action": "Hover on an element"
-        },
-        {
-          "name": "Scroll",
-          "value": "scroll",
-          "description": "Execute a scroll action on the page",
-          "action": "Scroll on page"
-        },
-        {
-          "name": "Type",
-          "value": "type",
-          "description": "Execute a Type action on an element given a description",
-          "action": "Type text"
-        }
-      ],
+      "required": false,
       "default": "click",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: click",
+      "available_options": [
+        "Click an Element (值: click) - Execute a click on an element given a description",
+        "Fill Form (值: fill) - Fill a form with the provided information",
+        "Hover on an Element (值: hover) - Execute a hover action on an element given a description",
+        "Scroll (值: scroll) - Execute a scroll action on the page",
+        "Type (值: type) - Execute a Type action on an element given a description"
+      ]
     },
     "webhookUrl": {
       "displayName": "Webhook URL",
@@ -94,18 +44,8 @@
       "type": "string",
       "required": true,
       "default": "",
-      "description": "Webhook URL to invoke the Airtop agent. Visit <a href=\"https://portal.airtop.ai/agents\" target=\"_blank\">Airtop Agents</a> for more information.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "agent"
-          ],
-          "operation": [
-            "run"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "description": "Webhook URL to invoke the Airtop agent. Visit Airtop Agents for more information.",
+      "natural_language_description": "参数名: Webhook URL | 作用: Webhook URL to invoke the Airtop agent. Visit Airtop Agents for more information. | (必填项)"
     },
     "agentParameters": {
       "displayName": "Parameters",
@@ -113,1321 +53,123 @@
       "type": "json",
       "required": true,
       "default": "{}",
-      "description": "Agent's input parameters in JSON format. Visit <a href=\"https://portal.airtop.ai/agents\" target=\"_blank\">Airtop Agents</a> for more information.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "agent"
-          ],
-          "operation": [
-            "run"
-          ]
-        }
-      },
-      "ai_hint": "Agent's input parameters in JSON format. Visit <a href=\"https://portal.airtop.ai/agents\" target=\"_blank\">Airtop Agents</a> for more information."
+      "description": "Agent's input parameters in JSON format. Visit Airtop Agents for more information.",
+      "natural_language_description": "参数名: Parameters | 作用: Agent's input parameters in JSON format. Visit Airtop Agents for more information. | 默认值: {} | (必填项)"
     },
     "awaitExecution": {
       "displayName": "Await Agent",
       "name": "awaitExecution",
       "type": "boolean",
+      "required": false,
       "default": true,
       "description": "Whether to wait for the agent to complete its execution",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "agent"
-          ],
-          "operation": [
-            "run"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Await Agent | 作用: Whether to wait for the agent to complete its execution | 默认值: True"
     },
     "timeout": {
       "displayName": "Timeout",
       "name": "timeout",
       "type": "number",
+      "required": false,
       "default": 600,
       "description": "Timeout in seconds to wait for the agent to finish",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "agent"
-          ],
-          "operation": [
-            "run"
-          ],
-          "awaitExecution": [
-            true
-          ]
-        }
-      },
-      "ai_hint": "Timeout in seconds to wait for the agent to finish"
+      "natural_language_description": "参数名: Timeout | 作用: Timeout in seconds to wait for the agent to finish | 默认值: 600"
     },
     "profileName": {
       "displayName": "Profile Name",
       "name": "profileName",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "The name of the Airtop profile to load or create",
-      "hint": "<a href=\"https://docs.airtop.ai/guides/how-to/saving-a-profile\" target=\"_blank\">Learn more</a> about Airtop profiles",
-      "placeholder": "e.g. my-x-profile",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "extraction"
-          ],
-          "sessionMode": [
-            "new"
-          ]
-        }
-      },
-      "ai_hint": "The name of the Airtop profile to load or create"
+      "natural_language_description": "参数名: Profile Name | 作用: The name of the Airtop profile to load or create | 提示: Learn more about Airtop profiles"
     },
     "saveProfileOnTermination": {
       "displayName": "Save Profile",
       "name": "saveProfileOnTermination",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "description": "Whether to automatically save the <a href=\"https://docs.airtop.ai/guides/how-to/saving-a-profile\" target=\"_blank\">Airtop profile</a> for this session upon termination",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "session"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "Whether to automatically save the Airtop profile for this session upon termination",
+      "natural_language_description": "参数名: Save Profile | 作用: Whether to automatically save the Airtop profile for this session upon termination | 默认值: False"
     },
     "record": {
       "displayName": "Record Session",
       "name": "record",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "description": "Whether to record the browser session. <a href=\"https://docs.airtop.ai/guides/how-to/recording-a-session\" target=\"_blank\">More details</a>.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "session"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "Whether to record the browser session. More details.",
+      "natural_language_description": "参数名: Record Session | 作用: Whether to record the browser session. More details. | 默认值: False"
     },
     "timeoutMinutes": {
       "displayName": "Idle Timeout",
       "name": "timeoutMinutes",
       "type": "number",
+      "required": false,
       "default": 10,
-      "validateType": "number",
       "description": "Minutes to wait before the session is terminated due to inactivity",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "session"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "Minutes to wait before the session is terminated due to inactivity"
+      "natural_language_description": "参数名: Idle Timeout | 作用: Minutes to wait before the session is terminated due to inactivity | 默认值: 10"
     },
     "proxy": {
       "displayName": "Proxy",
       "name": "proxy",
       "type": "options",
+      "required": false,
       "default": "none",
       "description": "Choose how to configure the proxy for this session",
-      "options": [
-        {
-          "name": "None",
-          "value": "none",
-          "description": "No proxy will be used"
-        },
-        {
-          "name": "Integrated",
-          "value": "integrated",
-          "description": "Use Airtop-provided proxy"
-        },
-        {
-          "name": "Proxy URL",
-          "value": "proxyUrl",
-          "description": "Use a proxy URL to configure the proxy"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "session"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Proxy | 作用: Choose how to configure the proxy for this session | 默认值: none",
+      "available_options": [
+        "None (值: none) - No proxy will be used",
+        "Integrated (值: integrated) - Use Airtop-provided proxy",
+        "Proxy URL (值: proxyUrl) - Use a proxy URL to configure the proxy"
+      ]
     },
     "proxyConfig": {
       "displayName": "Proxy Configuration",
       "name": "proxyConfig",
       "type": "collection",
+      "required": false,
       "default": {
         "country": "US",
         "sticky": true
       },
       "description": "The Airtop-provided configuration to use for the proxy",
-      "placeholder": "Add Attribute",
-      "options": [
-        {
-          "displayName": "Country",
-          "name": "country",
-          "type": "options",
-          "default": "US",
-          "description": "The country to use for the proxy. Not all countries are guaranteed to provide a proxy. Learn more <a href=\"https://docs.airtop.ai/api-reference/airtop-api/sessions/create#request.body.configuration.proxy.Proxy.Airtop-Proxy-Configuration.country\" target=\"_blank\">here</a>.",
-          "options": [
-            {
-              "name": "Afghanistan",
-              "value": "AF"
-            },
-            {
-              "name": "Aland Islands",
-              "value": "AX"
-            },
-            {
-              "name": "Albania",
-              "value": "AL"
-            },
-            {
-              "name": "Algeria",
-              "value": "DZ"
-            },
-            {
-              "name": "American Samoa",
-              "value": "AS"
-            },
-            {
-              "name": "Andorra",
-              "value": "AD"
-            },
-            {
-              "name": "Angola",
-              "value": "AO"
-            },
-            {
-              "name": "Anguilla",
-              "value": "AI"
-            },
-            {
-              "name": "Antarctica",
-              "value": "AQ"
-            },
-            {
-              "name": "Antigua and Barbuda",
-              "value": "AG"
-            },
-            {
-              "name": "Argentina",
-              "value": "AR"
-            },
-            {
-              "name": "Armenia",
-              "value": "AM"
-            },
-            {
-              "name": "Aruba",
-              "value": "AW"
-            },
-            {
-              "name": "Australia",
-              "value": "AU"
-            },
-            {
-              "name": "Austria",
-              "value": "AT"
-            },
-            {
-              "name": "Azerbaijan",
-              "value": "AZ"
-            },
-            {
-              "name": "Bahamas",
-              "value": "BS"
-            },
-            {
-              "name": "Bahrain",
-              "value": "BH"
-            },
-            {
-              "name": "Bangladesh",
-              "value": "BD"
-            },
-            {
-              "name": "Barbados",
-              "value": "BB"
-            },
-            {
-              "name": "Belarus",
-              "value": "BY"
-            },
-            {
-              "name": "Belgium",
-              "value": "BE"
-            },
-            {
-              "name": "Belize",
-              "value": "BZ"
-            },
-            {
-              "name": "Benin",
-              "value": "BJ"
-            },
-            {
-              "name": "Bermuda",
-              "value": "BM"
-            },
-            {
-              "name": "Bhutan",
-              "value": "BT"
-            },
-            {
-              "name": "Bolivia, Plurinational State Of",
-              "value": "BO"
-            },
-            {
-              "name": "Bonaire, Sint Eustatius and Saba",
-              "value": "BQ"
-            },
-            {
-              "name": "Bosnia and Herzegovina",
-              "value": "BA"
-            },
-            {
-              "name": "Botswana",
-              "value": "BW"
-            },
-            {
-              "name": "Bouvet Island",
-              "value": "BV"
-            },
-            {
-              "name": "Brazil",
-              "value": "BR"
-            },
-            {
-              "name": "British Indian Ocean Territory",
-              "value": "IO"
-            },
-            {
-              "name": "Brunei Darussalam",
-              "value": "BN"
-            },
-            {
-              "name": "Bulgaria",
-              "value": "BG"
-            },
-            {
-              "name": "Burkina Faso",
-              "value": "BF"
-            },
-            {
-              "name": "Burundi",
-              "value": "BI"
-            },
-            {
-              "name": "Cabo Verde",
-              "value": "CV"
-            },
-            {
-              "name": "Cambodia",
-              "value": "KH"
-            },
-            {
-              "name": "Cameroon",
-              "value": "CM"
-            },
-            {
-              "name": "Canada",
-              "value": "CA"
-            },
-            {
-              "name": "Cayman Islands",
-              "value": "KY"
-            },
-            {
-              "name": "Central African Republic",
-              "value": "CF"
-            },
-            {
-              "name": "Chad",
-              "value": "TD"
-            },
-            {
-              "name": "Chile",
-              "value": "CL"
-            },
-            {
-              "name": "China",
-              "value": "CN"
-            },
-            {
-              "name": "Christmas Island",
-              "value": "CX"
-            },
-            {
-              "name": "Cocos (Keeling) Islands",
-              "value": "CC"
-            },
-            {
-              "name": "Colombia",
-              "value": "CO"
-            },
-            {
-              "name": "Comoros",
-              "value": "KM"
-            },
-            {
-              "name": "Congo",
-              "value": "CG"
-            },
-            {
-              "name": "Congo, Democratic Republic of The",
-              "value": "CD"
-            },
-            {
-              "name": "Cook Islands",
-              "value": "CK"
-            },
-            {
-              "name": "Costa Rica",
-              "value": "CR"
-            },
-            {
-              "name": "Cote d'Ivoire",
-              "value": "CI"
-            },
-            {
-              "name": "Croatia",
-              "value": "HR"
-            },
-            {
-              "name": "Cuba",
-              "value": "CU"
-            },
-            {
-              "name": "Curaçao",
-              "value": "CW"
-            },
-            {
-              "name": "Cyprus",
-              "value": "CY"
-            },
-            {
-              "name": "Czechia",
-              "value": "CZ"
-            },
-            {
-              "name": "Denmark",
-              "value": "DK"
-            },
-            {
-              "name": "Djibouti",
-              "value": "DJ"
-            },
-            {
-              "name": "Dominica",
-              "value": "DM"
-            },
-            {
-              "name": "Dominican Republic",
-              "value": "DO"
-            },
-            {
-              "name": "Ecuador",
-              "value": "EC"
-            },
-            {
-              "name": "Egypt",
-              "value": "EG"
-            },
-            {
-              "name": "El Salvador",
-              "value": "SV"
-            },
-            {
-              "name": "Equatorial Guinea",
-              "value": "GQ"
-            },
-            {
-              "name": "Eritrea",
-              "value": "ER"
-            },
-            {
-              "name": "Estonia",
-              "value": "EE"
-            },
-            {
-              "name": "Eswatini",
-              "value": "SZ"
-            },
-            {
-              "name": "Ethiopia",
-              "value": "ET"
-            },
-            {
-              "name": "Falkland Islands (Malvinas)",
-              "value": "FK"
-            },
-            {
-              "name": "Faroe Islands",
-              "value": "FO"
-            },
-            {
-              "name": "Fiji",
-              "value": "FJ"
-            },
-            {
-              "name": "Finland",
-              "value": "FI"
-            },
-            {
-              "name": "France",
-              "value": "FR"
-            },
-            {
-              "name": "French Guiana",
-              "value": "GF"
-            },
-            {
-              "name": "French Polynesia",
-              "value": "PF"
-            },
-            {
-              "name": "French Southern Territories",
-              "value": "TF"
-            },
-            {
-              "name": "Gabon",
-              "value": "GA"
-            },
-            {
-              "name": "Gambia",
-              "value": "GM"
-            },
-            {
-              "name": "Georgia",
-              "value": "GE"
-            },
-            {
-              "name": "Germany",
-              "value": "DE"
-            },
-            {
-              "name": "Ghana",
-              "value": "GH"
-            },
-            {
-              "name": "Gibraltar",
-              "value": "GI"
-            },
-            {
-              "name": "Greece",
-              "value": "GR"
-            },
-            {
-              "name": "Greenland",
-              "value": "GL"
-            },
-            {
-              "name": "Grenada",
-              "value": "GD"
-            },
-            {
-              "name": "Guadeloupe",
-              "value": "GP"
-            },
-            {
-              "name": "Guam",
-              "value": "GU"
-            },
-            {
-              "name": "Guatemala",
-              "value": "GT"
-            },
-            {
-              "name": "Guernsey",
-              "value": "GG"
-            },
-            {
-              "name": "Guinea",
-              "value": "GN"
-            },
-            {
-              "name": "Guinea-Bissau",
-              "value": "GW"
-            },
-            {
-              "name": "Guyana",
-              "value": "GY"
-            },
-            {
-              "name": "Haiti",
-              "value": "HT"
-            },
-            {
-              "name": "Heard Island and McDonald Islands",
-              "value": "HM"
-            },
-            {
-              "name": "Holy See",
-              "value": "VA"
-            },
-            {
-              "name": "Honduras",
-              "value": "HN"
-            },
-            {
-              "name": "Hong Kong",
-              "value": "HK"
-            },
-            {
-              "name": "Hungary",
-              "value": "HU"
-            },
-            {
-              "name": "Iceland",
-              "value": "IS"
-            },
-            {
-              "name": "India",
-              "value": "IN"
-            },
-            {
-              "name": "Indonesia",
-              "value": "ID"
-            },
-            {
-              "name": "Iran, Islamic Republic Of",
-              "value": "IR"
-            },
-            {
-              "name": "Iraq",
-              "value": "IQ"
-            },
-            {
-              "name": "Ireland",
-              "value": "IE"
-            },
-            {
-              "name": "Isle of Man",
-              "value": "IM"
-            },
-            {
-              "name": "Israel",
-              "value": "IL"
-            },
-            {
-              "name": "Italy",
-              "value": "IT"
-            },
-            {
-              "name": "Jamaica",
-              "value": "JM"
-            },
-            {
-              "name": "Japan",
-              "value": "JP"
-            },
-            {
-              "name": "Jersey",
-              "value": "JE"
-            },
-            {
-              "name": "Jordan",
-              "value": "JO"
-            },
-            {
-              "name": "Kazakhstan",
-              "value": "KZ"
-            },
-            {
-              "name": "Kenya",
-              "value": "KE"
-            },
-            {
-              "name": "Kiribati",
-              "value": "KI"
-            },
-            {
-              "name": "Korea, Democratic People's Republic Of",
-              "value": "KP"
-            },
-            {
-              "name": "Korea, Republic Of",
-              "value": "KR"
-            },
-            {
-              "name": "Kuwait",
-              "value": "KW"
-            },
-            {
-              "name": "Kyrgyzstan",
-              "value": "KG"
-            },
-            {
-              "name": "Lao People's Democratic Republic",
-              "value": "LA"
-            },
-            {
-              "name": "Latvia",
-              "value": "LV"
-            },
-            {
-              "name": "Lebanon",
-              "value": "LB"
-            },
-            {
-              "name": "Lesotho",
-              "value": "LS"
-            },
-            {
-              "name": "Liberia",
-              "value": "LR"
-            },
-            {
-              "name": "Libya",
-              "value": "LY"
-            },
-            {
-              "name": "Liechtenstein",
-              "value": "LI"
-            },
-            {
-              "name": "Lithuania",
-              "value": "LT"
-            },
-            {
-              "name": "Luxembourg",
-              "value": "LU"
-            },
-            {
-              "name": "Macao",
-              "value": "MO"
-            },
-            {
-              "name": "Madagascar",
-              "value": "MG"
-            },
-            {
-              "name": "Malawi",
-              "value": "MW"
-            },
-            {
-              "name": "Malaysia",
-              "value": "MY"
-            },
-            {
-              "name": "Maldives",
-              "value": "MV"
-            },
-            {
-              "name": "Mali",
-              "value": "ML"
-            },
-            {
-              "name": "Malta",
-              "value": "MT"
-            },
-            {
-              "name": "Marshall Islands",
-              "value": "MH"
-            },
-            {
-              "name": "Martinique",
-              "value": "MQ"
-            },
-            {
-              "name": "Mauritania",
-              "value": "MR"
-            },
-            {
-              "name": "Mauritius",
-              "value": "MU"
-            },
-            {
-              "name": "Mayotte",
-              "value": "YT"
-            },
-            {
-              "name": "Mexico",
-              "value": "MX"
-            },
-            {
-              "name": "Micronesia, Federated States Of",
-              "value": "FM"
-            },
-            {
-              "name": "Moldova, Republic Of",
-              "value": "MD"
-            },
-            {
-              "name": "Monaco",
-              "value": "MC"
-            },
-            {
-              "name": "Mongolia",
-              "value": "MN"
-            },
-            {
-              "name": "Montenegro",
-              "value": "ME"
-            },
-            {
-              "name": "Montserrat",
-              "value": "MS"
-            },
-            {
-              "name": "Morocco",
-              "value": "MA"
-            },
-            {
-              "name": "Mozambique",
-              "value": "MZ"
-            },
-            {
-              "name": "Myanmar",
-              "value": "MM"
-            },
-            {
-              "name": "Namibia",
-              "value": "NA"
-            },
-            {
-              "name": "Nauru",
-              "value": "NR"
-            },
-            {
-              "name": "Nepal",
-              "value": "NP"
-            },
-            {
-              "name": "Netherlands, Kingdom of The",
-              "value": "NL"
-            },
-            {
-              "name": "New Caledonia",
-              "value": "NC"
-            },
-            {
-              "name": "New Zealand",
-              "value": "NZ"
-            },
-            {
-              "name": "Nicaragua",
-              "value": "NI"
-            },
-            {
-              "name": "Niger",
-              "value": "NE"
-            },
-            {
-              "name": "Nigeria",
-              "value": "NG"
-            },
-            {
-              "name": "Niue",
-              "value": "NU"
-            },
-            {
-              "name": "Norfolk Island",
-              "value": "NF"
-            },
-            {
-              "name": "North Macedonia",
-              "value": "MK"
-            },
-            {
-              "name": "Northern Mariana Islands",
-              "value": "MP"
-            },
-            {
-              "name": "Norway",
-              "value": "NO"
-            },
-            {
-              "name": "Oman",
-              "value": "OM"
-            },
-            {
-              "name": "Pakistan",
-              "value": "PK"
-            },
-            {
-              "name": "Palau",
-              "value": "PW"
-            },
-            {
-              "name": "Palestine, State Of",
-              "value": "PS"
-            },
-            {
-              "name": "Panama",
-              "value": "PA"
-            },
-            {
-              "name": "Papua New Guinea",
-              "value": "PG"
-            },
-            {
-              "name": "Paraguay",
-              "value": "PY"
-            },
-            {
-              "name": "Peru",
-              "value": "PE"
-            },
-            {
-              "name": "Philippines",
-              "value": "PH"
-            },
-            {
-              "name": "Pitcairn",
-              "value": "PN"
-            },
-            {
-              "name": "Poland",
-              "value": "PL"
-            },
-            {
-              "name": "Portugal",
-              "value": "PT"
-            },
-            {
-              "name": "Puerto Rico",
-              "value": "PR"
-            },
-            {
-              "name": "Qatar",
-              "value": "QA"
-            },
-            {
-              "name": "Réunion",
-              "value": "RE"
-            },
-            {
-              "name": "Romania",
-              "value": "RO"
-            },
-            {
-              "name": "Russian Federation",
-              "value": "RU"
-            },
-            {
-              "name": "Rwanda",
-              "value": "RW"
-            },
-            {
-              "name": "Saint Barthelemy",
-              "value": "BL"
-            },
-            {
-              "name": "Saint Helena, Ascension and Tristan Da Cunha",
-              "value": "SH"
-            },
-            {
-              "name": "Saint Kitts and Nevis",
-              "value": "KN"
-            },
-            {
-              "name": "Saint Lucia",
-              "value": "LC"
-            },
-            {
-              "name": "Saint Martin (French Part)",
-              "value": "MF"
-            },
-            {
-              "name": "Saint Pierre and Miquelon",
-              "value": "PM"
-            },
-            {
-              "name": "Saint Vincent and the Grenadines",
-              "value": "VC"
-            },
-            {
-              "name": "Samoa",
-              "value": "WS"
-            },
-            {
-              "name": "San Marino",
-              "value": "SM"
-            },
-            {
-              "name": "Sao Tome and Principe",
-              "value": "ST"
-            },
-            {
-              "name": "Saudi Arabia",
-              "value": "SA"
-            },
-            {
-              "name": "Senegal",
-              "value": "SN"
-            },
-            {
-              "name": "Serbia",
-              "value": "RS"
-            },
-            {
-              "name": "Seychelles",
-              "value": "SC"
-            },
-            {
-              "name": "Sierra Leone",
-              "value": "SL"
-            },
-            {
-              "name": "Singapore",
-              "value": "SG"
-            },
-            {
-              "name": "Sint Maarten (Dutch Part)",
-              "value": "SX"
-            },
-            {
-              "name": "Slovakia",
-              "value": "SK"
-            },
-            {
-              "name": "Slovenia",
-              "value": "SI"
-            },
-            {
-              "name": "Solomon Islands",
-              "value": "SB"
-            },
-            {
-              "name": "Somalia",
-              "value": "SO"
-            },
-            {
-              "name": "South Africa",
-              "value": "ZA"
-            },
-            {
-              "name": "South Georgia and the South Sandwich Islands",
-              "value": "GS"
-            },
-            {
-              "name": "South Sudan",
-              "value": "SS"
-            },
-            {
-              "name": "Spain",
-              "value": "ES"
-            },
-            {
-              "name": "Sri Lanka",
-              "value": "LK"
-            },
-            {
-              "name": "Sudan",
-              "value": "SD"
-            },
-            {
-              "name": "Suriname",
-              "value": "SR"
-            },
-            {
-              "name": "Svalbard and Jan Mayen",
-              "value": "SJ"
-            },
-            {
-              "name": "Sweden",
-              "value": "SE"
-            },
-            {
-              "name": "Switzerland",
-              "value": "CH"
-            },
-            {
-              "name": "Syrian Arab Republic",
-              "value": "SY"
-            },
-            {
-              "name": "Taiwan, Province of China",
-              "value": "TW"
-            },
-            {
-              "name": "Tajikistan",
-              "value": "TJ"
-            },
-            {
-              "name": "Tanzania, United Republic Of",
-              "value": "TZ"
-            },
-            {
-              "name": "Thailand",
-              "value": "TH"
-            },
-            {
-              "name": "Timor-Leste",
-              "value": "TL"
-            },
-            {
-              "name": "Togo",
-              "value": "TG"
-            },
-            {
-              "name": "Tokelau",
-              "value": "TK"
-            },
-            {
-              "name": "Tonga",
-              "value": "TO"
-            },
-            {
-              "name": "Trinidad and Tobago",
-              "value": "TT"
-            },
-            {
-              "name": "Tunisia",
-              "value": "TN"
-            },
-            {
-              "name": "Turkey",
-              "value": "TR"
-            },
-            {
-              "name": "Turkmenistan",
-              "value": "TM"
-            },
-            {
-              "name": "Turks and Caicos Islands",
-              "value": "TC"
-            },
-            {
-              "name": "Tuvalu",
-              "value": "TV"
-            },
-            {
-              "name": "Uganda",
-              "value": "UG"
-            },
-            {
-              "name": "Ukraine",
-              "value": "UA"
-            },
-            {
-              "name": "United Arab Emirates",
-              "value": "AE"
-            },
-            {
-              "name": "United Kingdom of Great Britain and Northern Ireland",
-              "value": "GB"
-            },
-            {
-              "name": "United States Minor Outlying Islands",
-              "value": "UM"
-            },
-            {
-              "name": "United States of America",
-              "value": "US"
-            },
-            {
-              "name": "Uruguay",
-              "value": "UY"
-            },
-            {
-              "name": "Uzbekistan",
-              "value": "UZ"
-            },
-            {
-              "name": "Vanuatu",
-              "value": "VU"
-            },
-            {
-              "name": "Venezuela, Bolivarian Republic Of",
-              "value": "VE"
-            },
-            {
-              "name": "Viet Nam",
-              "value": "VN"
-            },
-            {
-              "name": "Virgin Islands (British)",
-              "value": "VG"
-            },
-            {
-              "name": "Virgin Islands (U.S.)",
-              "value": "VI"
-            },
-            {
-              "name": "Wallis and Futuna",
-              "value": "WF"
-            },
-            {
-              "name": "Western Sahara",
-              "value": "EH"
-            },
-            {
-              "name": "Yemen",
-              "value": "YE"
-            },
-            {
-              "name": "Zambia",
-              "value": "ZM"
-            },
-            {
-              "name": "Zimbabwe",
-              "value": "ZW"
-            }
-          ]
-        },
-        {
-          "displayName": "Keep Same IP",
-          "name": "sticky",
-          "type": "boolean",
-          "default": true,
-          "description": "Whether to try to maintain the same IP address for the duration of the session. Airtop can guarantee that the same IP address will be available for up to a maximum of 30 minutes."
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "session"
-          ],
-          "operation": [
-            "create"
-          ],
-          "proxy": [
-            "integrated"
-          ]
-        }
-      },
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Proxy Configuration | 作用: The Airtop-provided configuration to use for the proxy | 默认值: {'country': 'US', 'sticky': True}",
+      "available_options": [
+        "country (值: None) - The country to use for the proxy. Not all countries are guaranteed to provide a proxy. Learn more here.",
+        "sticky (值: None) - Whether to try to maintain the same IP address for the duration of the session. Airtop can guarantee that the same IP address will be available for up to a maximum of 30 minutes."
+      ]
     },
     "proxyUrl": {
       "displayName": "Proxy URL",
       "name": "proxyUrl",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "The URL of the proxy to use",
-      "validateType": "string",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "session"
-          ],
-          "operation": [
-            "create"
-          ],
-          "proxy": [
-            "proxyUrl"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "natural_language_description": "参数名: Proxy URL | 作用: The URL of the proxy to use"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "interaction"
-          ],
-          "operation": [
-            "click",
-            "hover",
-            "type",
-            "scroll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Visual Scope",
-          "name": "visualScope",
-          "type": "options",
-          "default": "auto",
-          "description": "Defines the strategy for visual analysis of the current window",
-          "options": [
-            {
-              "name": "Auto",
-              "description": "Provides the simplest out-of-the-box experience for most web pages",
-              "value": "auto"
-            },
-            {
-              "name": "Viewport",
-              "description": "For analysis of the current browser view only",
-              "value": "viewport"
-            },
-            {
-              "name": "Page",
-              "description": "For analysis of the entire page",
-              "value": "page"
-            },
-            {
-              "name": "Scan",
-              "description": "For a full page analysis on sites that have compatibility issues with 'Page' mode",
-              "value": "scan"
-            }
-          ]
-        },
-        {
-          "displayName": "Wait Until Event After Navigation",
-          "name": "waitForNavigation",
-          "type": "options",
-          "default": "load",
-          "description": "The condition to wait for the navigation to complete after an interaction (click, type or hover). Defaults to 'Fully Loaded'.",
-          "options": [
-            {
-              "name": "Fully Loaded (Slower)",
-              "value": "load"
-            },
-            {
-              "name": "DOM Only Loaded (Faster)",
-              "value": "domcontentloaded"
-            },
-            {
-              "name": "All Network Activity Has Stopped",
-              "value": "networkidle0"
-            },
-            {
-              "name": "Most Network Activity Has Stopped",
-              "value": "networkidle2"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "visualScope (值: None) - Defines the strategy for visual analysis of the current window",
+        "waitForNavigation (值: None) - The condition to wait for the navigation to complete after an interaction (click, type or hover). Defaults to 'Fully Loaded'."
+      ]
     },
     "notice": {
       "displayName": "Note: This operation is not needed if you enabled 'Save Profile' in the 'Create Session' operation",
       "name": "notice",
       "type": "notice",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "session"
-          ],
-          "operation": [
-            "save"
-          ]
-        }
-      },
-      "default": "This operation will save the profile on session termination"
+      "required": false,
+      "default": "This operation will save the profile on session termination",
+      "description": "",
+      "natural_language_description": "参数名: Note: This operation is not needed if you enabled 'Save Profile' in the 'Create Session' operation | 默认值: This operation will save the profile on session termination"
     },
     "sessionId": {
       "displayName": "Session ID",
@@ -1435,15 +177,8 @@
       "type": "string",
       "required": true,
       "default": "={{ $json[\"sessionId\"] }}",
-      "description": "The ID of the <a href=\"https://docs.airtop.ai/guides/how-to/creating-a-session\" target=\"_blank\">Session</a> to use",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "interaction"
-          ]
-        }
-      },
-      "ai_hint": "The ID of the <a href=\"https://docs.airtop.ai/guides/how-to/creating-a-session\" target=\"_blank\">Session</a> to use"
+      "description": "The ID of the Session to use",
+      "natural_language_description": "参数名: Session ID | 作用: The ID of the Session to use | 默认值: ={{ $json[\"sessionId\"] }} | (必填项)"
     },
     "windowId": {
       "displayName": "Window ID",
@@ -1451,731 +186,298 @@
       "type": "string",
       "required": true,
       "default": "={{ $json[\"windowId\"] }}",
-      "description": "The ID of the <a href=\"https://docs.airtop.ai/guides/how-to/creating-a-session#windows\" target=\"_blank\">Window</a> to use",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "interaction"
-          ]
-        }
-      },
-      "ai_hint": "The ID of the <a href=\"https://docs.airtop.ai/guides/how-to/creating-a-session#windows\" target=\"_blank\">Window</a> to use"
+      "description": "The ID of the Window to use",
+      "natural_language_description": "参数名: Window ID | 作用: The ID of the Window to use | 默认值: ={{ $json[\"windowId\"] }} | (必填项)"
     },
     "url": {
       "displayName": "URL",
       "name": "url",
       "type": "string",
-      "default": "",
-      "placeholder": "e.g. https://google.com",
-      "description": "URL to load in the window",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "extraction"
-          ],
-          "sessionMode": [
-            "new"
-          ]
-        }
-      },
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "default": "",
+      "description": "URL to load in the window",
+      "natural_language_description": "参数名: URL | 作用: URL to load in the window | (必填项)"
     },
     "getLiveView": {
       "displayName": "Get Live View",
       "name": "getLiveView",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "description": "Whether to get the URL of the window's <a href=\"https://docs.airtop.ai/guides/how-to/creating-a-live-view\" target=\"_blank\">Live View</a>",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "window"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "Whether to get the URL of the window's Live View",
+      "natural_language_description": "参数名: Get Live View | 作用: Whether to get the URL of the window's Live View | 默认值: False"
     },
     "includeNavigationBar": {
       "displayName": "Include Navigation Bar",
       "name": "includeNavigationBar",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to include the navigation bar in the Live View. When enabled, the navigation bar will be visible allowing you to navigate between pages.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "window"
-          ],
-          "operation": [
-            "create"
-          ],
-          "getLiveView": [
-            true
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Include Navigation Bar | 作用: Whether to include the navigation bar in the Live View. When enabled, the navigation bar will be visible allowing you to navigate between pages. | 默认值: False"
     },
     "screenResolution": {
       "displayName": "Screen Resolution",
       "name": "screenResolution",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "The screen resolution of the Live View. Setting a resolution will force the window to open at that specific size.",
-      "placeholder": "e.g. 1280x720",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "window"
-          ],
-          "operation": [
-            "create"
-          ],
-          "getLiveView": [
-            true
-          ]
-        }
-      },
-      "ai_hint": "The screen resolution of the Live View. Setting a resolution will force the window to open at that specific size."
+      "natural_language_description": "参数名: Screen Resolution | 作用: The screen resolution of the Live View. Setting a resolution will force the window to open at that specific size."
     },
     "disableResize": {
       "displayName": "Disable Resize",
       "name": "disableResize",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to disable the window from being resized in the Live View",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "window"
-          ],
-          "operation": [
-            "create"
-          ],
-          "getLiveView": [
-            true
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Disable Resize | 作用: Whether to disable the window from being resized in the Live View | 默认值: False"
     },
     "outputImageAsBinary": {
       "displayName": "Output Binary Image",
-      "description": "Whether to output the image as a binary file instead of a base64 encoded string",
       "name": "outputImageAsBinary",
       "type": "boolean",
+      "required": false,
       "default": false,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "window"
-          ],
-          "operation": [
-            "takeScreenshot"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "Whether to output the image as a binary file instead of a base64 encoded string",
+      "natural_language_description": "参数名: Output Binary Image | 作用: Whether to output the image as a binary file instead of a base64 encoded string | 默认值: False"
     },
     "fileId": {
       "displayName": "File ID",
       "name": "fileId",
       "type": "string",
-      "default": "",
       "required": true,
+      "default": "",
       "description": "ID of the file to load into the session",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "load"
-          ]
-        }
-      },
-      "ai_hint": "ID of the file to load into the session"
+      "natural_language_description": "参数名: File ID | 作用: ID of the file to load into the session | (必填项)"
     },
     "outputBinaryFile": {
       "displayName": "Output Binary File",
       "name": "outputBinaryFile",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to output the file in binary format if the file is ready for download",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "get"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Output Binary File | 作用: Whether to output the file in binary format if the file is ready for download | 默认值: False"
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "getMany"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "getMany"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 100
-      },
+      "required": false,
       "default": 10,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 10"
     },
     "sessionIds": {
       "displayName": "Session IDs",
       "name": "sessionIds",
       "type": "string",
+      "required": false,
       "default": "",
-      "description": "Comma-separated list of <a href=\"https://docs.airtop.ai/api-reference/airtop-api/sessions/create\" target=\"_blank\">Session IDs</a> to filter files by. When empty, all files from all sessions will be returned.",
-      "placeholder": "e.g. 6aac6f73-bd89-4a76-ab32-5a6c422e8b0b, a13c6f73-bd89-4a76-ab32-5a6c422e8224",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "getMany"
-          ]
-        }
-      },
-      "ai_hint": "Comma-separated list of <a href=\"https://docs.airtop.ai/api-reference/airtop-api/sessions/create\" target=\"_blank\">Session IDs</a> to filter files by. When empty, all files from all sessions will be returned."
+      "description": "Comma-separated list of Session IDs to filter files by. When empty, all files from all sessions will be returned.",
+      "natural_language_description": "参数名: Session IDs | 作用: Comma-separated list of Session IDs to filter files by. When empty, all files from all sessions will be returned."
     },
     "outputSingleItem": {
       "displayName": "Output Files in Single Item",
       "name": "outputSingleItem",
       "type": "boolean",
+      "required": false,
       "default": true,
       "description": "Whether to output one item containing all files or output each file as a separate item",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "getMany"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Output Files in Single Item | 作用: Whether to output one item containing all files or output each file as a separate item | 默认值: True"
     },
     "elementDescription": {
       "displayName": "Element Description",
       "name": "elementDescription",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "A specific description of the element to execute the interaction on",
-      "placeholder": "e.g. the search box at the top of the page",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "interaction"
-          ],
-          "operation": [
-            "type"
-          ]
-        }
-      },
-      "ai_hint": "A specific description of the element to execute the interaction on"
+      "natural_language_description": "参数名: Element Description | 作用: A specific description of the element to execute the interaction on"
     },
     "includeHiddenElements": {
       "displayName": "Include Hidden Elements",
       "name": "includeHiddenElements",
       "type": "boolean",
+      "required": false,
       "default": true,
       "description": "Whether to include hidden elements in the interaction",
-      "displayOptions": {
-        "show": {
-          "triggerFileInputParameter": [
-            true
-          ],
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "upload"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Include Hidden Elements | 作用: Whether to include hidden elements in the interaction | 默认值: True"
     },
     "fileName": {
       "displayName": "File Name",
       "name": "fileName",
       "type": "string",
-      "default": "",
       "required": true,
-      "description": "Name for the file to upload. For a session, all files loaded should have <b>unique names</b>.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "upload"
-          ]
-        }
-      },
-      "ai_hint": "Name for the file to upload. For a session, all files loaded should have <b>unique names</b>."
+      "default": "",
+      "description": "Name for the file to upload. For a session, all files loaded should have **unique names**.",
+      "natural_language_description": "参数名: File Name | 作用: Name for the file to upload. For a session, all files loaded should have **unique names**. | (必填项)"
     },
     "fileType": {
       "displayName": "File Type",
       "name": "fileType",
       "type": "options",
-      "options": [
-        {
-          "name": "Browser Download",
-          "value": "browser_download"
-        },
-        {
-          "name": "Screenshot",
-          "value": "screenshot"
-        },
-        {
-          "name": "Video",
-          "value": "video"
-        },
-        {
-          "name": "Customer Upload",
-          "value": "customer_upload"
-        }
-      ],
+      "required": false,
       "default": "customer_upload",
       "description": "Choose the type of file to upload. Defaults to 'Customer Upload'.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "upload"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: File Type | 作用: Choose the type of file to upload. Defaults to 'Customer Upload'. | 默认值: customer_upload",
+      "available_options": [
+        "Browser Download (值: browser_download)",
+        "Screenshot (值: screenshot)",
+        "Video (值: video)",
+        "Customer Upload (值: customer_upload)"
+      ]
     },
     "source": {
       "displayName": "Source",
       "name": "source",
       "type": "options",
-      "options": [
-        {
-          "name": "URL",
-          "value": "url"
-        },
-        {
-          "name": "Binary",
-          "value": "binary"
-        }
-      ],
+      "required": false,
       "default": "url",
       "description": "Source of the file to upload",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "upload"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Source | 作用: Source of the file to upload | 默认值: url",
+      "available_options": [
+        "URL (值: url)",
+        "Binary (值: binary)"
+      ]
     },
     "binaryPropertyName": {
       "displayName": "Binary Property",
       "name": "binaryPropertyName",
       "type": "string",
-      "default": "data",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "source": [
-            "binary"
-          ],
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "upload"
-          ]
-        }
-      },
+      "default": "data",
       "description": "Name of the binary property containing the file data",
-      "ai_hint": "Name of the binary property containing the file data"
+      "natural_language_description": "参数名: Binary Property | 作用: Name of the binary property containing the file data | 默认值: data | (必填项)"
     },
     "triggerFileInputParameter": {
       "displayName": "Trigger File Input",
       "name": "triggerFileInputParameter",
       "type": "boolean",
+      "required": false,
       "default": true,
       "description": "Whether to automatically trigger the file input dialog in the current window. If disabled, the file will only be uploaded to the session without opening the file input dialog.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "file"
-          ],
-          "operation": [
-            "upload"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Trigger File Input | 作用: Whether to automatically trigger the file input dialog in the current window. If disabled, the file will only be uploaded to the session without opening the file input dialog. | 默认值: True"
     },
     "sessionMode": {
       "displayName": "Session Mode",
       "name": "sessionMode",
       "type": "options",
+      "required": false,
       "default": "existing",
       "description": "Choose between creating a new session or using an existing one",
-      "options": [
-        {
-          "name": "Automatically Create Session",
-          "description": "Automatically create a new session and window for this operation",
-          "value": "new"
-        },
-        {
-          "name": "Use Existing Session",
-          "description": "Use an existing session and window for this operation",
-          "value": "existing"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "extraction"
-          ],
-          "operation": [
-            "getPaginated",
-            "query",
-            "scrape"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Session Mode | 作用: Choose between creating a new session or using an existing one | 默认值: existing",
+      "available_options": [
+        "Automatically Create Session (值: new) - Automatically create a new session and window for this operation",
+        "Use Existing Session (值: existing) - Use an existing session and window for this operation"
+      ]
     },
     "autoTerminateSession": {
       "displayName": "Auto-Terminate Session",
       "name": "autoTerminateSession",
       "type": "boolean",
+      "required": false,
       "default": true,
       "description": "Whether to terminate the session after the operation is complete. When disabled, you must manually terminate the session. By default, idle sessions timeout after 10 minutes",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "extraction"
-          ],
-          "sessionMode": [
-            "new"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Auto-Terminate Session | 作用: Whether to terminate the session after the operation is complete. When disabled, you must manually terminate the session. By default, idle sessions timeout after 10 minutes | 默认值: True"
     },
     "prompt": {
       "displayName": "Prompt",
       "name": "prompt",
       "type": "string",
-      "typeOptions": {
-        "rows": 4
-      },
       "required": true,
       "default": "",
-      "placeholder": "e.g. Is there a login form in this page?",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "extraction"
-          ],
-          "operation": [
-            "query"
-          ]
-        }
-      },
       "description": "The prompt to query the page content",
-      "ai_hint": "The prompt to query the page content"
+      "natural_language_description": "参数名: Prompt | 作用: The prompt to query the page content | (必填项)"
     },
     "clickType": {
       "displayName": "Click Type",
       "name": "clickType",
       "type": "options",
+      "required": false,
       "default": "click",
       "description": "The type of click to perform. Defaults to left click.",
-      "options": [
-        {
-          "name": "Left Click",
-          "value": "click"
-        },
-        {
-          "name": "Double Click",
-          "value": "doubleClick"
-        },
-        {
-          "name": "Right Click",
-          "value": "rightClick"
-        }
-      ],
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "interaction"
-          ],
-          "operation": [
-            "click"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Click Type | 作用: The type of click to perform. Defaults to left click. | 默认值: click",
+      "available_options": [
+        "Left Click (值: click)",
+        "Double Click (值: doubleClick)",
+        "Right Click (值: rightClick)"
+      ]
     },
     "formData": {
       "displayName": "Form Data",
       "name": "formData",
       "type": "string",
-      "typeOptions": {
-        "rows": 4
-      },
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "interaction"
-          ],
-          "operation": [
-            "fill"
-          ]
-        }
-      },
       "description": "The information to fill into the form written in natural language",
-      "placeholder": "e.g. \"Name: John Doe, Email: john.doe@example.com\"",
-      "ai_hint": "The information to fill into the form written in natural language"
+      "natural_language_description": "参数名: Form Data | 作用: The information to fill into the form written in natural language | (必填项)"
     },
     "scrollingMode": {
       "displayName": "Scroll Mode",
       "name": "scrollingMode",
       "type": "options",
-      "description": "Choose the mode of scrolling",
-      "options": [
-        {
-          "name": "Automatic",
-          "value": "automatic",
-          "description": "Describe with natural language the element to scroll to"
-        },
-        {
-          "name": "Manual",
-          "value": "manual",
-          "description": "Define the direction and amount to scroll by"
-        }
-      ],
-      "default": "automatic",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "interaction"
-          ],
-          "operation": [
-            "scroll"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "automatic",
+      "description": "Choose the mode of scrolling",
+      "natural_language_description": "参数名: Scroll Mode | 作用: Choose the mode of scrolling | 默认值: automatic | (必填项)",
+      "available_options": [
+        "Automatic (值: automatic) - Describe with natural language the element to scroll to",
+        "Manual (值: manual) - Define the direction and amount to scroll by"
+      ]
     },
     "scrollToElement": {
       "displayName": "Element Description",
-      "default": "",
-      "description": "A natural language description of the element to scroll to",
       "name": "scrollToElement",
       "type": "string",
-      "placeholder": "e.g. the page section titled \"Contact Us\"",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "interaction"
-          ],
-          "operation": [
-            "scroll"
-          ],
-          "scrollingMode": [
-            "automatic"
-          ]
-        }
-      },
-      "ai_hint": "A natural language description of the element to scroll to"
+      "default": "",
+      "description": "A natural language description of the element to scroll to",
+      "natural_language_description": "参数名: Element Description | 作用: A natural language description of the element to scroll to | (必填项)"
     },
     "scrollToEdge": {
       "displayName": "Scroll To Edge",
       "name": "scrollToEdge",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
-      "placeholder": "Add Edge Direction",
       "description": "The direction to scroll to. When 'Scroll By' is defined, 'Scroll To Edge' action will be executed first, then 'Scroll By' action.",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "interaction"
-          ],
-          "operation": [
-            "scroll"
-          ],
-          "scrollingMode": [
-            "manual"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Page Edges",
-          "name": "edgeValues",
-          "values": [
-            {
-              "displayName": "Vertically",
-              "name": "yAxis",
-              "type": "options",
-              "default": "",
-              "options": [
-                {
-                  "name": "Empty",
-                  "value": ""
-                },
-                {
-                  "name": "Top",
-                  "value": "top"
-                },
-                {
-                  "name": "Bottom",
-                  "value": "bottom"
-                }
-              ]
-            },
-            {
-              "displayName": "Horizontally",
-              "name": "xAxis",
-              "type": "options",
-              "default": "",
-              "options": [
-                {
-                  "name": "Empty",
-                  "value": ""
-                },
-                {
-                  "name": "Left",
-                  "value": "left"
-                },
-                {
-                  "name": "Right",
-                  "value": "right"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Scroll To Edge | 作用: The direction to scroll to. When 'Scroll By' is defined, 'Scroll To Edge' action will be executed first, then 'Scroll By' action. | 默认值: {}",
+      "available_options": [
+        "edgeValues (值: None)"
+      ]
     },
     "scrollBy": {
       "displayName": "Scroll By",
       "name": "scrollBy",
       "type": "fixedCollection",
+      "required": false,
       "default": {},
       "description": "The amount to scroll by. When 'Scroll To Edge' is defined, 'Scroll By' action will be executed after 'Scroll To Edge'.",
-      "placeholder": "Add Scroll Amount",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "interaction"
-          ],
-          "operation": [
-            "scroll"
-          ],
-          "scrollingMode": [
-            "manual"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "scrollValues",
-          "displayName": "Scroll Values",
-          "description": "The amount in pixels or percentage to scroll by",
-          "values": [
-            {
-              "displayName": "Vertically",
-              "name": "yAxis",
-              "type": "string",
-              "default": "",
-              "placeholder": "e.g. 200px, 50%, -100px"
-            },
-            {
-              "displayName": "Horizontally",
-              "name": "xAxis",
-              "type": "string",
-              "default": "",
-              "placeholder": "e.g. 50px, 10%, -200px"
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "natural_language_description": "参数名: Scroll By | 作用: The amount to scroll by. When 'Scroll To Edge' is defined, 'Scroll By' action will be executed after 'Scroll To Edge'. | 默认值: {}",
+      "available_options": [
+        "scrollValues (值: None) - The amount in pixels or percentage to scroll by"
+      ]
     },
     "scrollWithin": {
       "displayName": "Scrollable Area",
       "name": "scrollWithin",
       "type": "string",
+      "required": false,
       "default": "",
       "description": "Scroll within an element on the page",
-      "placeholder": "e.g. the left sidebar",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "interaction"
-          ],
-          "operation": [
-            "scroll"
-          ]
-        }
-      },
-      "ai_hint": "Scroll within an element on the page"
+      "natural_language_description": "参数名: Scrollable Area | 作用: Scroll within an element on the page"
     },
     "text": {
       "displayName": "Text",
@@ -2183,210 +485,17 @@
       "type": "string",
       "required": true,
       "default": "",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "interaction"
-          ],
-          "operation": [
-            "type"
-          ]
-        }
-      },
       "description": "The text to type into the browser window",
-      "placeholder": "e.g. email@example.com",
-      "ai_hint": "The text to type into the browser window"
+      "natural_language_description": "参数名: Text | 作用: The text to type into the browser window | (必填项)"
     },
     "pressEnterKey": {
       "displayName": "Press Enter Key",
       "name": "pressEnterKey",
       "type": "boolean",
+      "required": false,
       "default": false,
       "description": "Whether to press the Enter key after typing the text",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "interaction"
-          ],
-          "operation": [
-            "type"
-          ]
-        }
-      },
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Press Enter Key | 作用: Whether to press the Enter key after typing the text | 默认值: False"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "resource",
-      "operation",
-      "webhookUrl",
-      "agentParameters",
-      "awaitExecution",
-      "timeout",
-      "operation",
-      "profileName",
-      "saveProfileOnTermination",
-      "record",
-      "timeoutMinutes",
-      "proxy",
-      "proxyConfig",
-      "proxyUrl",
-      "additionalFields",
-      "notice",
-      "sessionId",
-      "profileName",
-      "sessionId",
-      "sessionId",
-      "additionalFields",
-      "operation",
-      "sessionId",
-      "windowId",
-      "url",
-      "getLiveView",
-      "includeNavigationBar",
-      "screenResolution",
-      "disableResize",
-      "additionalFields",
-      "additionalFields",
-      "url",
-      "additionalFields",
-      "outputImageAsBinary",
-      "operation",
-      "fileId",
-      "fileId",
-      "outputBinaryFile",
-      "returnAll",
-      "limit",
-      "sessionIds",
-      "outputSingleItem",
-      "sessionId",
-      "windowId",
-      "fileId",
-      "elementDescription",
-      "includeHiddenElements",
-      "sessionId",
-      "windowId",
-      "fileName",
-      "fileType",
-      "source",
-      "binaryPropertyName",
-      "url",
-      "triggerFileInputParameter",
-      "elementDescription",
-      "includeHiddenElements",
-      "operation",
-      "sessionMode",
-      "sessionId",
-      "windowId",
-      "url",
-      "profileName",
-      "autoTerminateSession",
-      "prompt",
-      "additionalFields",
-      "prompt",
-      "additionalFields",
-      "operation",
-      "sessionId",
-      "windowId",
-      "elementDescription",
-      "clickType",
-      "formData",
-      "elementDescription",
-      "scrollingMode",
-      "scrollToElement",
-      "scrollToEdge",
-      "scrollBy",
-      "scrollWithin",
-      "text",
-      "pressEnterKey",
-      "elementDescription",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF resource == 'agent' THEN SHOW parameter 'operation'",
-      "IF resource == 'agent' AND operation == 'run' THEN SHOW parameter 'webhookUrl'",
-      "IF resource == 'agent' AND operation == 'run' THEN SHOW parameter 'agentParameters'",
-      "IF resource == 'agent' AND operation == 'run' THEN SHOW parameter 'awaitExecution'",
-      "IF resource == 'agent' AND operation == 'run' AND awaitExecution == True THEN SHOW parameter 'timeout'",
-      "IF resource == 'session' THEN SHOW parameter 'operation'",
-      "IF resource == 'session' AND operation == 'create' THEN SHOW parameter 'profileName'",
-      "IF resource == 'session' AND operation == 'create' THEN SHOW parameter 'saveProfileOnTermination'",
-      "IF resource == 'session' AND operation == 'create' THEN SHOW parameter 'record'",
-      "IF resource == 'session' AND operation == 'create' THEN SHOW parameter 'timeoutMinutes'",
-      "IF resource == 'session' AND operation == 'create' THEN SHOW parameter 'proxy'",
-      "IF resource == 'session' AND operation == 'create' AND proxy == 'integrated' THEN SHOW parameter 'proxyConfig'",
-      "IF resource == 'session' AND operation == 'create' AND proxy == 'proxyUrl' THEN SHOW parameter 'proxyUrl'",
-      "IF resource == 'session' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'session' AND operation == 'save' THEN SHOW parameter 'notice'",
-      "IF resource == 'session' AND operation == 'save' THEN SHOW parameter 'sessionId'",
-      "IF resource == 'session' AND operation == 'save' THEN SHOW parameter 'profileName'",
-      "IF resource == 'session' AND operation == 'terminate' THEN SHOW parameter 'sessionId'",
-      "IF resource == 'session' AND operation == 'waitForDownload' THEN SHOW parameter 'sessionId'",
-      "IF resource == 'session' AND operation == 'waitForDownload' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'window' THEN SHOW parameter 'operation'",
-      "IF resource == 'window' THEN SHOW parameter 'sessionId'",
-      "IF resource == 'window' AND operation IN [\"close\", \"takeScreenshot\", \"load\", \"getLiveView\"] THEN SHOW parameter 'windowId'",
-      "IF resource == 'window' AND operation == 'create' THEN SHOW parameter 'url'",
-      "IF resource == 'window' AND operation == 'create' THEN SHOW parameter 'getLiveView'",
-      "IF resource == 'window' AND operation == 'create' AND getLiveView == True THEN SHOW parameter 'includeNavigationBar'",
-      "IF resource == 'window' AND operation == 'create' AND getLiveView == True THEN SHOW parameter 'screenResolution'",
-      "IF resource == 'window' AND operation == 'create' AND getLiveView == True THEN SHOW parameter 'disableResize'",
-      "IF resource == 'window' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'window' AND operation == 'getLiveView' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'window' AND operation == 'load' THEN SHOW parameter 'url'",
-      "IF resource == 'window' AND operation == 'load' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'window' AND operation == 'takeScreenshot' THEN SHOW parameter 'outputImageAsBinary'",
-      "IF resource == 'file' THEN SHOW parameter 'operation'",
-      "IF resource == 'file' AND operation == 'deleteFile' THEN SHOW parameter 'fileId'",
-      "IF resource == 'file' AND operation == 'get' THEN SHOW parameter 'fileId'",
-      "IF resource == 'file' AND operation == 'get' THEN SHOW parameter 'outputBinaryFile'",
-      "IF resource == 'file' AND operation == 'getMany' THEN SHOW parameter 'returnAll'",
-      "IF resource == 'file' AND operation == 'getMany' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'file' AND operation == 'getMany' THEN SHOW parameter 'sessionIds'",
-      "IF resource == 'file' AND operation == 'getMany' THEN SHOW parameter 'outputSingleItem'",
-      "IF resource == 'file' AND operation == 'load' THEN SHOW parameter 'sessionId'",
-      "IF resource == 'file' AND operation == 'load' THEN SHOW parameter 'windowId'",
-      "IF resource == 'file' AND operation == 'load' THEN SHOW parameter 'fileId'",
-      "IF resource == 'file' AND operation == 'load' THEN SHOW parameter 'elementDescription'",
-      "IF resource == 'file' AND operation == 'load' THEN SHOW parameter 'includeHiddenElements'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'sessionId'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'windowId'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'fileName'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'fileType'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'source'",
-      "IF source == 'binary' AND resource == 'file' AND operation == 'upload' THEN SHOW parameter 'binaryPropertyName'",
-      "IF source == 'url' AND resource == 'file' AND operation == 'upload' THEN SHOW parameter 'url'",
-      "IF resource == 'file' AND operation == 'upload' THEN SHOW parameter 'triggerFileInputParameter'",
-      "IF triggerFileInputParameter == True AND resource == 'file' AND operation == 'upload' THEN SHOW parameter 'elementDescription'",
-      "IF triggerFileInputParameter == True AND resource == 'file' AND operation == 'upload' THEN SHOW parameter 'includeHiddenElements'",
-      "IF resource == 'extraction' THEN SHOW parameter 'operation'",
-      "IF resource == 'extraction' AND operation IN [\"getPaginated\", \"query\", \"scrape\"] THEN SHOW parameter 'sessionMode'",
-      "IF resource == 'extraction' AND sessionMode == 'existing' THEN SHOW parameter 'sessionId'",
-      "IF resource == 'extraction' AND sessionMode == 'existing' THEN SHOW parameter 'windowId'",
-      "IF resource == 'extraction' AND sessionMode == 'new' THEN SHOW parameter 'url'",
-      "IF resource == 'extraction' AND sessionMode == 'new' THEN SHOW parameter 'profileName'",
-      "IF resource == 'extraction' AND sessionMode == 'new' THEN SHOW parameter 'autoTerminateSession'",
-      "IF resource == 'extraction' AND operation == 'getPaginated' THEN SHOW parameter 'prompt'",
-      "IF resource == 'extraction' AND operation == 'getPaginated' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'extraction' AND operation == 'query' THEN SHOW parameter 'prompt'",
-      "IF resource == 'extraction' AND operation == 'query' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'interaction' THEN SHOW parameter 'operation'",
-      "IF resource == 'interaction' THEN SHOW parameter 'sessionId'",
-      "IF resource == 'interaction' THEN SHOW parameter 'windowId'",
-      "IF resource == 'interaction' AND operation == 'click' THEN SHOW parameter 'elementDescription'",
-      "IF resource == 'interaction' AND operation == 'click' THEN SHOW parameter 'clickType'",
-      "IF resource == 'interaction' AND operation == 'fill' THEN SHOW parameter 'formData'",
-      "IF resource == 'interaction' AND operation == 'hover' THEN SHOW parameter 'elementDescription'",
-      "IF resource == 'interaction' AND operation == 'scroll' THEN SHOW parameter 'scrollingMode'",
-      "IF resource == 'interaction' AND operation == 'scroll' AND scrollingMode == 'automatic' THEN SHOW parameter 'scrollToElement'",
-      "IF resource == 'interaction' AND operation == 'scroll' AND scrollingMode == 'manual' THEN SHOW parameter 'scrollToEdge'",
-      "IF resource == 'interaction' AND operation == 'scroll' AND scrollingMode == 'manual' THEN SHOW parameter 'scrollBy'",
-      "IF resource == 'interaction' AND operation == 'scroll' THEN SHOW parameter 'scrollWithin'",
-      "IF resource == 'interaction' AND operation == 'type' THEN SHOW parameter 'text'",
-      "IF resource == 'interaction' AND operation == 'type' THEN SHOW parameter 'pressEnterKey'",
-      "IF resource == 'interaction' AND operation == 'type' THEN SHOW parameter 'elementDescription'",
-      "IF resource == 'interaction' AND operation IN [\"click\", \"hover\", \"type\", \"scroll\"] THEN SHOW parameter 'additionalFields'"
-    ]
   }
 }

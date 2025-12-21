@@ -1,135 +1,62 @@
 {
   "node_id": "n8n-nodes-base.bitbucketTrigger",
-  "name": "n8n-nodes-base.bitbucketTrigger",
-  "version": [
-    1,
-    1.1
-  ],
+  "name": "Bitbucket Trigger",
+  "version": 1,
   "semantic_context": "Handle Bitbucket events via webhooks",
+  "natural_language_description": "这是 Bitbucket Trigger 节点。主要用于: Handle Bitbucket events via webhooks",
   "parameters": {
     "authentication": {
       "displayName": "Authentication",
       "name": "authentication",
       "type": "options",
-      "options": [
-        {
-          "name": "Password (Deprecated)",
-          "value": "password"
-        },
-        {
-          "name": "Access Token",
-          "value": "accessToken"
-        }
-      ],
+      "required": false,
       "default": "accessToken",
-      "displayOptions": {
-        "show": {
-          "@version": [
-            1.1
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。 与鉴权相关，注意不要在公共日志中输出敏感信息。"
+      "description": "",
+      "natural_language_description": "参数名: Authentication | 默认值: accessToken",
+      "available_options": [
+        "Password (Deprecated) (值: password)",
+        "Access Token (值: accessToken)"
+      ]
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
       "required": true,
-      "options": [
-        {
-          "name": "Repository",
-          "value": "repository"
-        },
-        {
-          "name": "Workspace",
-          "value": "workspace"
-        }
-      ],
       "default": "workspace",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: workspace | (必填项)",
+      "available_options": [
+        "Repository (值: repository)",
+        "Workspace (值: workspace)"
+      ]
     },
     "workspace": {
       "displayName": "Workspace Name or ID",
       "name": "workspace",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "workspace",
-            "repository"
-          ]
-        }
-      },
-      "typeOptions": {
-        "loadOptionsMethod": "getWorkspaces"
-      },
       "required": true,
       "default": "",
-      "description": "The repository of which to listen to the events. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The repository of which to listen to the events. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The repository of which to listen to the events. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Workspace Name or ID | 作用: The repository of which to listen to the events. Choose from the list, or specify an ID using an expression. | (必填项)"
     },
     "events": {
       "displayName": "Event Names or IDs",
       "name": "events",
       "type": "multiOptions",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "repository"
-          ]
-        }
-      },
-      "typeOptions": {
-        "loadOptionsMethod": "getRepositoriesEvents"
-      },
-      "options": [],
       "required": true,
       "default": [],
-      "description": "The events to listen to. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The events to listen to. Choose from the list, or specify IDs using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The events to listen to. Choose from the list, or specify IDs using an expression.",
+      "natural_language_description": "参数名: Event Names or IDs | 作用: The events to listen to. Choose from the list, or specify IDs using an expression. | 默认值: [] | (必填项)"
     },
     "repository": {
       "displayName": "Repository Name or ID",
       "name": "repository",
       "type": "options",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "repository"
-          ]
-        }
-      },
-      "typeOptions": {
-        "loadOptionsMethod": "getRepositories",
-        "loadOptionsDependsOn": [
-          "workspace"
-        ]
-      },
       "required": true,
       "default": "",
-      "description": "The repository of which to listen to the events. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>.",
-      "ai_hint": "The repository of which to listen to the events. Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>."
+      "description": "The repository of which to listen to the events. Choose from the list, or specify an ID using an expression.",
+      "natural_language_description": "参数名: Repository Name or ID | 作用: The repository of which to listen to the events. Choose from the list, or specify an ID using an expression. | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "authentication",
-      "authentication",
-      "resource",
-      "workspace",
-      "events",
-      "repository",
-      "events"
-    ],
-    "conditional_rules": [
-      "IF @version == 1 THEN SHOW parameter 'authentication'",
-      "IF @version == 1.1 THEN SHOW parameter 'authentication'",
-      "IF resource IN [\"workspace\", \"repository\"] THEN SHOW parameter 'workspace'",
-      "IF resource == 'workspace' THEN SHOW parameter 'events'",
-      "IF resource == 'repository' THEN SHOW parameter 'repository'",
-      "IF resource == 'repository' THEN SHOW parameter 'events'"
-    ]
   }
 }

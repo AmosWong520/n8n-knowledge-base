@@ -1,255 +1,103 @@
 {
   "node_id": "n8n-nodes-base.clearbitTool",
-  "name": "n8n-nodes-base.clearbitTool",
+  "name": "Clearbit Tool",
   "version": 1,
   "semantic_context": "Consume Clearbit API",
+  "natural_language_description": "这是 Clearbit Tool 节点。主要用于: Consume Clearbit API",
   "parameters": {
     "descriptionType": {
       "displayName": "Tool Description",
       "name": "descriptionType",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Set Automatically",
-          "value": "auto",
-          "description": "Automatically set based on resource and operation"
-        },
-        {
-          "name": "Set Manually",
-          "value": "manual",
-          "description": "Manually set the description"
-        }
-      ],
+      "required": false,
       "default": "auto",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Tool Description | 默认值: auto",
+      "available_options": [
+        "Set Automatically (值: auto) - Automatically set based on resource and operation",
+        "Set Manually (值: manual) - Manually set the description"
+      ]
     },
     "toolDescription": {
       "displayName": "Description",
       "name": "toolDescription",
       "type": "string",
-      "default": "Consume Clearbit API",
       "required": true,
-      "typeOptions": {
-        "rows": 2
-      },
+      "default": "Consume Clearbit API",
       "description": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often",
-      "displayOptions": {
-        "show": {
-          "descriptionType": [
-            "manual"
-          ]
-        }
-      },
-      "ai_hint": "Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often"
+      "natural_language_description": "参数名: Description | 作用: Explain to the LLM what this tool does, a good, specific description would allow LLMs to produce expected results much more often | 默认值: Consume Clearbit API | (必填项)"
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Company",
-          "value": "company",
-          "description": "The Company API allows you to look up a company by their domain"
-        },
-        {
-          "name": "Person",
-          "value": "person",
-          "description": "The Person API lets you retrieve social information associated with an email address, such as a person’s name, location and Twitter handle"
-        }
-      ],
+      "required": false,
       "default": "company",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: company",
+      "available_options": [
+        "Company (值: company) - The Company API allows you to look up a company by their domain",
+        "Person (值: person) - The Person API lets you retrieve social information associated with an email address, such as a person’s name, location and Twitter handle"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "person"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Enrich",
-          "value": "enrich",
-          "description": "Look up a person and company data based on an email or domain",
-          "action": "Enrich a person"
-        }
-      ],
+      "required": false,
       "default": "enrich",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: enrich",
+      "available_options": [
+        "Enrich (值: enrich) - Look up a person and company data based on an email or domain"
+      ]
     },
     "domain": {
       "displayName": "Domain",
       "name": "domain",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "company"
-          ],
-          "operation": [
-            "enrich"
-          ]
-        }
-      },
+      "default": "",
       "description": "The domain to look up",
-      "ai_hint": "The domain to look up"
+      "natural_language_description": "参数名: Domain | 作用: The domain to look up | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "person"
-          ],
-          "operation": [
-            "enrich"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Company",
-          "name": "company",
-          "type": "string",
-          "default": "",
-          "description": "The name of the person’s employer"
-        },
-        {
-          "displayName": "Company Domain",
-          "name": "companyDomain",
-          "type": "string",
-          "default": "",
-          "description": "The domain for the person’s employer"
-        },
-        {
-          "displayName": "Facebook",
-          "name": "facebook",
-          "type": "string",
-          "default": "",
-          "description": "The Facebook URL for the person"
-        },
-        {
-          "displayName": "Family Name",
-          "name": "familyName",
-          "type": "string",
-          "default": "",
-          "description": "Last name of person. If you have this, passing this is strongly recommended to improve match rates."
-        },
-        {
-          "displayName": "Given Name",
-          "name": "givenName",
-          "type": "string",
-          "default": "",
-          "description": "First name of person"
-        },
-        {
-          "displayName": "IP Address",
-          "name": "ipAddress",
-          "type": "string",
-          "default": "",
-          "description": "IP address of the person. If you have this, passing this is strongly recommended to improve match rates."
-        },
-        {
-          "displayName": "Location",
-          "name": "location",
-          "type": "string",
-          "default": "",
-          "description": "The city or country where the person resides"
-        },
-        {
-          "displayName": "LinkedIn",
-          "name": "linkedIn",
-          "type": "string",
-          "default": "",
-          "description": "The LinkedIn URL for the person"
-        },
-        {
-          "displayName": "Twitter",
-          "name": "twitter",
-          "type": "string",
-          "default": "",
-          "description": "The Twitter handle for the person"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "company (值: None) - The name of the person’s employer",
+        "companyDomain (值: None) - The domain for the person’s employer",
+        "facebook (值: None) - The Facebook URL for the person",
+        "familyName (值: None) - Last name of person. If you have this, passing this is strongly recommended to improve match rates.",
+        "givenName (值: None) - First name of person",
+        "ipAddress (值: None) - IP address of the person. If you have this, passing this is strongly recommended to improve match rates.",
+        "location (值: None) - The city or country where the person resides",
+        "linkedIn (值: None) - The LinkedIn URL for the person",
+        "twitter (值: None) - The Twitter handle for the person"
+      ]
     },
     "name": {
       "displayName": "Name",
       "name": "name",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "company"
-          ],
-          "operation": [
-            "autocomplete"
-          ]
-        }
-      },
+      "default": "",
       "description": "Name is the partial name of the company",
-      "ai_hint": "Name is the partial name of the company"
+      "natural_language_description": "参数名: Name | 作用: Name is the partial name of the company | (必填项)"
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "person"
-          ],
-          "operation": [
-            "enrich"
-          ]
-        }
-      },
+      "default": "",
       "description": "The email address to look up",
-      "ai_hint": "The email address to look up"
+      "natural_language_description": "参数名: Email | 作用: The email address to look up | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "descriptionType",
-      "toolDescription",
-      "resource",
-      "operation",
-      "domain",
-      "additionalFields",
-      "name",
-      "operation",
-      "email",
-      "additionalFields"
-    ],
-    "conditional_rules": [
-      "IF descriptionType == 'manual' THEN SHOW parameter 'toolDescription'",
-      "IF resource == 'company' THEN SHOW parameter 'operation'",
-      "IF resource == 'company' AND operation == 'enrich' THEN SHOW parameter 'domain'",
-      "IF resource == 'company' AND operation == 'enrich' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'company' AND operation == 'autocomplete' THEN SHOW parameter 'name'",
-      "IF resource == 'person' THEN SHOW parameter 'operation'",
-      "IF resource == 'person' AND operation == 'enrich' THEN SHOW parameter 'email'",
-      "IF resource == 'person' AND operation == 'enrich' THEN SHOW parameter 'additionalFields'"
-    ]
   }
 }

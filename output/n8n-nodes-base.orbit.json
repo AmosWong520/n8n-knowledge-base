@@ -1,921 +1,283 @@
 {
   "node_id": "n8n-nodes-base.orbit",
-  "name": "n8n-nodes-base.orbit",
+  "name": "Orbit",
   "version": 1,
   "semantic_context": "Consume Orbit API",
+  "natural_language_description": "这是 Orbit 节点。主要用于: Consume Orbit API",
   "parameters": {
     "deprecated": {
       "displayName": "Orbit has been shutdown and will no longer function from July 11th, You can read more <a target=\"_blank\" href=\"https://orbit.love/blog/orbit-is-joining-postman\">here</a>.",
       "name": "deprecated",
       "type": "notice",
-      "default": ""
+      "required": false,
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Orbit has been shutdown and will no longer function from July 11th, You can read more <a target=\"_blank\" href=\"https://orbit.love/blog/orbit-is-joining-postman\">here</a>."
     },
     "resource": {
       "displayName": "Resource",
       "name": "resource",
       "type": "options",
-      "noDataExpression": true,
-      "options": [
-        {
-          "name": "Activity",
-          "value": "activity"
-        },
-        {
-          "name": "Member",
-          "value": "member"
-        },
-        {
-          "name": "Note",
-          "value": "note"
-        },
-        {
-          "name": "Post",
-          "value": "post"
-        }
-      ],
+      "required": false,
       "default": "member",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Resource | 默认值: member",
+      "available_options": [
+        "Activity (值: activity)",
+        "Member (值: member)",
+        "Note (值: note)",
+        "Post (值: post)"
+      ]
     },
     "operation": {
       "displayName": "Operation",
       "name": "operation",
       "type": "options",
-      "noDataExpression": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ]
-        }
-      },
-      "options": [
-        {
-          "name": "Create",
-          "value": "create",
-          "description": "Create a post",
-          "action": "Create a post"
-        },
-        {
-          "name": "Get Many",
-          "value": "getAll",
-          "description": "Get many posts",
-          "action": "Get many posts"
-        },
-        {
-          "name": "Delete",
-          "value": "delete",
-          "description": "Delete a post",
-          "action": "Delete a post"
-        }
-      ],
+      "required": false,
       "default": "create",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "description": "",
+      "natural_language_description": "参数名: Operation | 默认值: create",
+      "available_options": [
+        "Create (值: create) - Create a post",
+        "Get Many (值: getAll) - Get many posts",
+        "Delete (值: delete) - Delete a post"
+      ]
     },
     "workspaceId": {
       "displayName": "Workspace Name or ID",
       "name": "workspaceId",
       "type": "options",
-      "description": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>",
-      "typeOptions": {
-        "loadOptionsMethod": "getWorkspaces"
-      },
-      "default": "Deprecated",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "delete"
-          ]
-        }
-      },
-      "ai_hint": "Choose from the list, or specify an ID using an <a href=\"https://docs.n8n.io/code/expressions/\">expression</a>"
+      "default": "Deprecated",
+      "description": "Choose from the list, or specify an ID using an expression",
+      "natural_language_description": "参数名: Workspace Name or ID | 作用: Choose from the list, or specify an ID using an expression | 默认值: Deprecated | (必填项)"
     },
     "memberId": {
       "displayName": "Member ID",
       "name": "memberId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "delete"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Member ID | (必填项)"
     },
     "title": {
       "displayName": "Title",
       "name": "title",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "activity"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Title | (必填项)"
     },
     "additionalFields": {
       "displayName": "Additional Fields",
       "name": "additionalFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Occurred At",
-          "name": "publishedAt",
-          "type": "dateTime",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Additional Fields | 默认值: {}",
+      "available_options": [
+        "publishedAt (值: None)"
+      ]
     },
     "returnAll": {
       "displayName": "Return All",
       "name": "returnAll",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "post"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "Whether to return all results or only up to a given limit",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Return All | 作用: Whether to return all results or only up to a given limit | 默认值: False"
     },
     "limit": {
       "displayName": "Limit",
       "name": "limit",
       "type": "number",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "post"
-          ],
-          "returnAll": [
-            false
-          ]
-        }
-      },
-      "typeOptions": {
-        "minValue": 1,
-        "maxValue": 500
-      },
+      "required": false,
       "default": 100,
       "description": "Max number of results to return",
-      "ai_hint": "Max number of results to return"
+      "natural_language_description": "参数名: Limit | 作用: Max number of results to return | 默认值: 100"
     },
     "filters": {
       "displayName": "Filters",
       "name": "filters",
       "type": "collection",
-      "placeholder": "Add Filter",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Member ID",
-          "name": "memberId",
-          "type": "string",
-          "default": "",
-          "description": "When set the post will be filtered by the member ID"
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Filters | 默认值: {}",
+      "available_options": [
+        "memberId (值: None) - When set the post will be filtered by the member ID"
+      ]
     },
     "resolveIdentities": {
       "displayName": "Resolve Identities",
       "name": "resolveIdentities",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "member"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
       "description": "By default, the response just includes the reference of the identity. When set to true the identities will be resolved automatically.",
-      "ai_hint": "布尔值：true 或 false。"
+      "natural_language_description": "参数名: Resolve Identities | 作用: By default, the response just includes the reference of the identity. When set to true the identities will be resolved automatically. | 默认值: False"
     },
     "options": {
       "displayName": "Options",
       "name": "options",
       "type": "collection",
-      "placeholder": "Add option",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "getAll"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Sort By",
-          "name": "sort",
-          "type": "string",
-          "default": "",
-          "description": "Name of the field the response will be sorted by"
-        },
-        {
-          "displayName": "Sort Direction",
-          "name": "direction",
-          "type": "options",
-          "options": [
-            {
-              "name": "ASC",
-              "value": "ASC"
-            },
-            {
-              "name": "DESC",
-              "value": "DESC"
-            }
-          ],
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Options | 默认值: {}",
+      "available_options": [
+        "sort (值: None) - Name of the field the response will be sorted by",
+        "direction (值: None)"
+      ]
     },
     "source": {
       "displayName": "Source",
       "name": "source",
       "type": "options",
-      "options": [
-        {
-          "name": "Discourse",
-          "value": "discourse"
-        },
-        {
-          "name": "Email",
-          "value": "email"
-        },
-        {
-          "name": "GitHub",
-          "value": "github"
-        },
-        {
-          "name": "Twitter",
-          "value": "twitter"
-        }
-      ],
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "lookup"
-          ]
-        }
-      },
+      "default": "",
       "description": "Set to github, twitter, email, discourse or the source of any identities you've manually created",
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "natural_language_description": "参数名: Source | 作用: Set to github, twitter, email, discourse or the source of any identities you've manually created | (必填项)",
+      "available_options": [
+        "Discourse (值: discourse)",
+        "Email (值: email)",
+        "GitHub (值: github)",
+        "Twitter (值: twitter)"
+      ]
     },
     "searchBy": {
       "displayName": "Search By",
       "name": "searchBy",
       "type": "options",
-      "options": [
-        {
-          "name": "Username",
-          "value": "username"
-        },
-        {
-          "name": "ID",
-          "value": "id"
-        }
-      ],
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "lookup"
-          ],
-          "source": [
-            "discourse",
-            "github",
-            "twitter"
-          ]
-        }
-      },
-      "ai_hint": "根据 REST 规范选择方法: 查询用 GET，创建用 POST，更新用 PUT/PATCH。"
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Search By | (必填项)",
+      "available_options": [
+        "Username (值: username)",
+        "ID (值: id)"
+      ]
     },
     "id": {
       "displayName": "ID",
       "name": "id",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "lookup"
-          ],
-          "searchBy": [
-            "id"
-          ],
-          "source": [
-            "discourse",
-            "github",
-            "twitter"
-          ]
-        }
-      },
+      "default": "",
       "description": "The username at the source",
-      "ai_hint": "The username at the source"
+      "natural_language_description": "参数名: ID | 作用: The username at the source | (必填项)"
     },
     "username": {
       "displayName": "Username",
       "name": "username",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "lookup"
-          ],
-          "searchBy": [
-            "username"
-          ],
-          "source": [
-            "discourse",
-            "github",
-            "twitter"
-          ]
-        }
-      },
+      "default": "",
       "description": "The username at the source",
-      "ai_hint": "The username at the source"
+      "natural_language_description": "参数名: Username | 作用: The username at the source | (必填项)"
     },
     "email": {
       "displayName": "Email",
       "name": "email",
       "type": "string",
-      "placeholder": "name@email.com",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "lookup"
-          ],
-          "source": [
-            "email"
-          ]
-        }
-      },
+      "default": "",
       "description": "The email address",
-      "ai_hint": "The email address"
+      "natural_language_description": "参数名: Email | 作用: The email address | (必填项)"
     },
     "host": {
       "displayName": "Host",
       "name": "host",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "lookup"
-          ],
-          "source": [
-            "discourse"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Host | (必填项)"
     },
     "updateFields": {
       "displayName": "Update Fields",
       "name": "updateFields",
       "type": "collection",
-      "placeholder": "Add Field",
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      },
+      "required": false,
       "default": {},
-      "options": [
-        {
-          "displayName": "Bio",
-          "name": "bio",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Birthday",
-          "name": "birthday",
-          "type": "dateTime",
-          "default": ""
-        },
-        {
-          "displayName": "Company",
-          "name": "company",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Location",
-          "name": "location",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Name",
-          "name": "name",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Pronouns",
-          "name": "pronouns",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Shipping Address",
-          "name": "shippingAddress",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Slug",
-          "name": "slug",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Tags to Add",
-          "name": "tagsToAdd",
-          "type": "string",
-          "default": "",
-          "description": "Adds tags to member; comma-separated string or array"
-        },
-        {
-          "displayName": "Tag List",
-          "name": "tagList",
-          "type": "string",
-          "default": "",
-          "description": "Replaces all tags for the member; comma-separated string or array"
-        },
-        {
-          "displayName": "T-Shirt",
-          "name": "tShirt",
-          "type": "string",
-          "default": ""
-        },
-        {
-          "displayName": "Teammate",
-          "name": "teammate",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "displayName": "URL",
-          "name": "url",
-          "type": "string",
-          "default": ""
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "",
+      "natural_language_description": "参数名: Update Fields | 默认值: {}",
+      "available_options": [
+        "bio (值: None)",
+        "birthday (值: None)",
+        "company (值: None)",
+        "location (值: None)",
+        "name (值: None)",
+        "pronouns (值: None)",
+        "shippingAddress (值: None)",
+        "slug (值: None)",
+        "tagsToAdd (值: None) - Adds tags to member; comma-separated string or array",
+        "tagList (值: None) - Replaces all tags for the member; comma-separated string or array",
+        "tShirt (值: None)",
+        "teammate (值: None)",
+        "url (值: None)"
+      ]
     },
     "identityUi": {
       "displayName": "Identity",
       "name": "identityUi",
       "type": "fixedCollection",
-      "description": "The identity is used to find the member. If no member exists, a new member will be created and linked to the provided identity.",
-      "typeOptions": {
-        "multipleValues": false
-      },
-      "placeholder": "Add Identity",
+      "required": false,
       "default": {},
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "member"
-          ],
-          "operation": [
-            "upsert"
-          ]
-        }
-      },
-      "options": [
-        {
-          "displayName": "Identity",
-          "name": "identityValue",
-          "values": [
-            {
-              "displayName": "Source",
-              "name": "source",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Discourse",
-                  "value": "discourse"
-                },
-                {
-                  "name": "Email",
-                  "value": "email"
-                },
-                {
-                  "name": "GitHub",
-                  "value": "github"
-                },
-                {
-                  "name": "Twitter",
-                  "value": "twitter"
-                }
-              ],
-              "default": "",
-              "description": "Set to github, twitter, email, discourse or the source of any identities you've manually created"
-            },
-            {
-              "displayName": "Search By",
-              "name": "searchBy",
-              "type": "options",
-              "options": [
-                {
-                  "name": "Username",
-                  "value": "username"
-                },
-                {
-                  "name": "ID",
-                  "value": "id"
-                }
-              ],
-              "default": "",
-              "required": true,
-              "displayOptions": {
-                "show": {
-                  "source": [
-                    "discourse",
-                    "github",
-                    "twitter"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "ID",
-              "name": "id",
-              "type": "string",
-              "default": "",
-              "required": true,
-              "displayOptions": {
-                "show": {
-                  "searchBy": [
-                    "id"
-                  ],
-                  "source": [
-                    "discourse",
-                    "github",
-                    "twitter"
-                  ]
-                }
-              },
-              "description": "The username at the source"
-            },
-            {
-              "displayName": "Username",
-              "name": "username",
-              "type": "string",
-              "default": "",
-              "required": true,
-              "displayOptions": {
-                "show": {
-                  "searchBy": [
-                    "username"
-                  ],
-                  "source": [
-                    "discourse",
-                    "github",
-                    "twitter"
-                  ]
-                }
-              },
-              "description": "The username at the source"
-            },
-            {
-              "displayName": "Email",
-              "name": "email",
-              "type": "string",
-              "placeholder": "name@email.com",
-              "default": "",
-              "required": true,
-              "displayOptions": {
-                "show": {
-                  "source": [
-                    "email"
-                  ]
-                }
-              }
-            },
-            {
-              "displayName": "Host",
-              "name": "host",
-              "type": "string",
-              "default": "",
-              "required": true,
-              "displayOptions": {
-                "show": {
-                  "source": [
-                    "discourse"
-                  ]
-                }
-              }
-            }
-          ]
-        }
-      ],
-      "ai_hint": "此参数为 fixedCollection，包含嵌套字段，不要扁平化。"
+      "description": "The identity is used to find the member. If no member exists, a new member will be created and linked to the provided identity.",
+      "natural_language_description": "参数名: Identity | 作用: The identity is used to find the member. If no member exists, a new member will be created and linked to the provided identity. | 默认值: {}",
+      "available_options": [
+        "identityValue (值: None)"
+      ]
     },
     "note": {
       "displayName": "Note",
       "name": "note",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "note"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Note | (必填项)"
     },
     "resolveMember": {
       "displayName": "Resolve Member",
       "name": "resolveMember",
       "type": "boolean",
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "getAll"
-          ],
-          "resource": [
-            "note"
-          ]
-        }
-      },
+      "required": false,
       "default": false,
-      "ai_hint": "布尔值：true 或 false。"
+      "description": "",
+      "natural_language_description": "参数名: Resolve Member | 默认值: False"
     },
     "noteId": {
       "displayName": "Note ID",
       "name": "noteId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "note"
-          ],
-          "operation": [
-            "update"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Note ID | (必填项)"
     },
     "url": {
       "displayName": "URL",
       "name": "url",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "resource": [
-            "post"
-          ],
-          "operation": [
-            "create"
-          ]
-        }
-      },
+      "default": "",
       "description": "Supply any URL and Orbit will do its best job to parse out a title, description, and image",
-      "ai_hint": "必须包含协议头 (http:// 或 https://)。支持表达式注入。"
+      "natural_language_description": "参数名: URL | 作用: Supply any URL and Orbit will do its best job to parse out a title, description, and image | (必填项)"
     },
     "postId": {
       "displayName": "Post ID",
       "name": "postId",
       "type": "string",
-      "default": "",
       "required": true,
-      "displayOptions": {
-        "show": {
-          "operation": [
-            "delete"
-          ],
-          "resource": [
-            "post"
-          ]
-        }
-      }
+      "default": "",
+      "description": "",
+      "natural_language_description": "参数名: Post ID | (必填项)"
     }
-  },
-  "configuration_logic": {
-    "required_sequence": [
-      "deprecated",
-      "resource",
-      "operation",
-      "workspaceId",
-      "memberId",
-      "title",
-      "additionalFields",
-      "workspaceId",
-      "returnAll",
-      "limit",
-      "filters",
-      "operation",
-      "workspaceId",
-      "memberId",
-      "workspaceId",
-      "memberId",
-      "resolveIdentities",
-      "workspaceId",
-      "returnAll",
-      "limit",
-      "resolveIdentities",
-      "options",
-      "workspaceId",
-      "source",
-      "searchBy",
-      "id",
-      "username",
-      "email",
-      "host",
-      "workspaceId",
-      "memberId",
-      "updateFields",
-      "workspaceId",
-      "identityUi",
-      "additionalFields",
-      "operation",
-      "workspaceId",
-      "memberId",
-      "note",
-      "workspaceId",
-      "memberId",
-      "returnAll",
-      "limit",
-      "resolveMember",
-      "workspaceId",
-      "memberId",
-      "noteId",
-      "note",
-      "operation",
-      "workspaceId",
-      "memberId",
-      "url",
-      "additionalFields",
-      "workspaceId",
-      "returnAll",
-      "limit",
-      "filters",
-      "workspaceId",
-      "memberId",
-      "postId"
-    ],
-    "conditional_rules": [
-      "IF resource == 'activity' THEN SHOW parameter 'operation'",
-      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'workspaceId'",
-      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'memberId'",
-      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'title'",
-      "IF resource == 'activity' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'activity' AND operation == 'getAll' THEN SHOW parameter 'workspaceId'",
-      "IF operation == 'getAll' AND resource == 'activity' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'activity' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'activity' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'member' THEN SHOW parameter 'operation'",
-      "IF resource == 'member' AND operation == 'delete' THEN SHOW parameter 'workspaceId'",
-      "IF resource == 'member' AND operation == 'delete' THEN SHOW parameter 'memberId'",
-      "IF resource == 'member' AND operation == 'get' THEN SHOW parameter 'workspaceId'",
-      "IF resource == 'member' AND operation == 'get' THEN SHOW parameter 'memberId'",
-      "IF operation == 'get' AND resource == 'member' THEN SHOW parameter 'resolveIdentities'",
-      "IF resource == 'member' AND operation == 'getAll' THEN SHOW parameter 'workspaceId'",
-      "IF operation == 'getAll' AND resource == 'member' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'member' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'member' THEN SHOW parameter 'resolveIdentities'",
-      "IF resource == 'member' AND operation == 'getAll' THEN SHOW parameter 'options'",
-      "IF resource == 'member' AND operation == 'lookup' THEN SHOW parameter 'workspaceId'",
-      "IF resource == 'member' AND operation == 'lookup' THEN SHOW parameter 'source'",
-      "IF resource == 'member' AND operation == 'lookup' AND source IN [\"discourse\", \"github\", \"twitter\"] THEN SHOW parameter 'searchBy'",
-      "IF resource == 'member' AND operation == 'lookup' AND searchBy == 'id' AND source IN [\"discourse\", \"github\", \"twitter\"] THEN SHOW parameter 'id'",
-      "IF resource == 'member' AND operation == 'lookup' AND searchBy == 'username' AND source IN [\"discourse\", \"github\", \"twitter\"] THEN SHOW parameter 'username'",
-      "IF resource == 'member' AND operation == 'lookup' AND source == 'email' THEN SHOW parameter 'email'",
-      "IF resource == 'member' AND operation == 'lookup' AND source == 'discourse' THEN SHOW parameter 'host'",
-      "IF resource == 'member' AND operation == 'update' THEN SHOW parameter 'workspaceId'",
-      "IF resource == 'member' AND operation == 'update' THEN SHOW parameter 'memberId'",
-      "IF resource == 'member' AND operation == 'update' THEN SHOW parameter 'updateFields'",
-      "IF resource == 'member' AND operation == 'upsert' THEN SHOW parameter 'workspaceId'",
-      "IF resource == 'member' AND operation == 'upsert' THEN SHOW parameter 'identityUi'",
-      "IF source IN [\"discourse\", \"github\", \"twitter\"] THEN SHOW parameter 'searchBy'",
-      "IF searchBy == 'id' AND source IN [\"discourse\", \"github\", \"twitter\"] THEN SHOW parameter 'id'",
-      "IF searchBy == 'username' AND source IN [\"discourse\", \"github\", \"twitter\"] THEN SHOW parameter 'username'",
-      "IF source == 'email' THEN SHOW parameter 'email'",
-      "IF source == 'discourse' THEN SHOW parameter 'host'",
-      "IF resource == 'member' AND operation == 'upsert' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'note' THEN SHOW parameter 'operation'",
-      "IF resource == 'note' AND operation == 'create' THEN SHOW parameter 'workspaceId'",
-      "IF resource == 'note' AND operation == 'create' THEN SHOW parameter 'memberId'",
-      "IF resource == 'note' AND operation == 'create' THEN SHOW parameter 'note'",
-      "IF resource == 'note' AND operation == 'getAll' THEN SHOW parameter 'workspaceId'",
-      "IF resource == 'note' AND operation == 'getAll' THEN SHOW parameter 'memberId'",
-      "IF operation == 'getAll' AND resource == 'note' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'note' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF operation == 'getAll' AND resource == 'note' THEN SHOW parameter 'resolveMember'",
-      "IF resource == 'note' AND operation == 'update' THEN SHOW parameter 'workspaceId'",
-      "IF resource == 'note' AND operation == 'update' THEN SHOW parameter 'memberId'",
-      "IF resource == 'note' AND operation == 'update' THEN SHOW parameter 'noteId'",
-      "IF resource == 'note' AND operation == 'update' THEN SHOW parameter 'note'",
-      "IF resource == 'post' THEN SHOW parameter 'operation'",
-      "IF resource == 'post' AND operation == 'create' THEN SHOW parameter 'workspaceId'",
-      "IF resource == 'post' AND operation == 'create' THEN SHOW parameter 'memberId'",
-      "IF resource == 'post' AND operation == 'create' THEN SHOW parameter 'url'",
-      "IF resource == 'post' AND operation == 'create' THEN SHOW parameter 'additionalFields'",
-      "IF resource == 'post' AND operation == 'getAll' THEN SHOW parameter 'workspaceId'",
-      "IF operation == 'getAll' AND resource == 'post' THEN SHOW parameter 'returnAll'",
-      "IF operation == 'getAll' AND resource == 'post' AND returnAll == False THEN SHOW parameter 'limit'",
-      "IF resource == 'post' AND operation == 'getAll' THEN SHOW parameter 'filters'",
-      "IF resource == 'post' AND operation == 'delete' THEN SHOW parameter 'workspaceId'",
-      "IF resource == 'post' AND operation == 'delete' THEN SHOW parameter 'memberId'",
-      "IF operation == 'delete' AND resource == 'post' THEN SHOW parameter 'postId'"
-    ]
   }
 }
