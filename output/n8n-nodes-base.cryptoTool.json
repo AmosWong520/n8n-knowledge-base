@@ -201,5 +201,15 @@
       "description": "Length of the generated string",
       "natural_language_description": "参数名: Length | 作用: Length of the generated string | 默认值: 32"
     }
+  },
+  "ids_manifest": {
+    "role": "processor",
+    "input_contract": {
+      "preferred_source": "{{ $json.payload.primary }}",
+      "accepts_binary": true
+    },
+    "output_contract": {
+      "standardizer_logic": "return { payload: { primary: upstream.data || upstream.hash || upstream.signature || upstream.result } }"
+    }
   }
 }

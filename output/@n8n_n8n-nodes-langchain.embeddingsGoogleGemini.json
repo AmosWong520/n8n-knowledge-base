@@ -23,5 +23,15 @@
       "description": "The model which will generate the embeddings. Learn more.",
       "natural_language_description": "参数名: Model | 作用: The model which will generate the embeddings. Learn more. | 默认值: models/text-embedding-004"
     }
+  },
+  "ids_manifest": {
+    "role": "processor",
+    "input_contract": {
+      "preferred_source": "{{ $json.payload.primary }}",
+      "accepts_binary": false
+    },
+    "output_contract": {
+      "standardizer_logic": "return { payload: { primary: upstream.embeddings || upstream } }"
+    }
   }
 }

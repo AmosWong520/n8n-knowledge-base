@@ -175,5 +175,15 @@
       "description": "The API version to use for requests. It controls the format and structure of the incoming event payloads that Stripe sends to your webhook. If empty, Stripe will use the default API version set in your account at the time, which may lead to event processing issues if the API version changes in the future.",
       "natural_language_description": "参数名: API Version | 作用: The API version to use for requests. It controls the format and structure of the incoming event payloads that Stripe sends to your webhook. If empty, Stripe will use the default API version set in your account at the time, which may lead to event processing issues if the API version changes in the future."
     }
+  },
+  "ids_manifest": {
+    "role": "trigger",
+    "input_contract": {
+      "preferred_source": "{{ $json.metadata }}",
+      "accepts_binary": false
+    },
+    "output_contract": {
+      "standardizer_logic": "return { payload: { primary: upstream.data.object } }"
+    }
   }
 }

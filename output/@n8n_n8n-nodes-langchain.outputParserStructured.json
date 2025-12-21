@@ -81,5 +81,15 @@
       "description": "Prompt template used for fixing the output. Uses placeholders: \"{instructions}\" for parsing rules, \"{completion}\" for the failed attempt, and \"{error}\" for the validation error message.",
       "natural_language_description": "参数名: Custom Prompt | 作用: Prompt template used for fixing the output. Uses placeholders: \"{instructions}\" for parsing rules, \"{completion}\" for the failed attempt, and \"{error}\" for the validation error message. | 提示: Should include \"{error}\", \"{instructions}\", and \"{completion}\" placeholders | 默认值: Instructions:\n--------------\n{instructions}\n--------------\nCompletion:\n--------------\n{completion}\n--------------\n\nAbove, the Completion did not satisfy the constraints given in the Instructions.\nError:\n--------------\n{error}\n--------------\n\nPlease try again. Please only respond with an answer that satisfies the constraints laid out in the Instructions:"
     }
+  },
+  "ids_manifest": {
+    "role": "processor",
+    "input_contract": {
+      "preferred_source": "{{ $json.payload.primary }}",
+      "accepts_binary": false
+    },
+    "output_contract": {
+      "standardizer_logic": "return { payload: { primary: upstream } }"
+    }
   }
 }

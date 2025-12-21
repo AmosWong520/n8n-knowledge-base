@@ -154,5 +154,15 @@
         "master_timeout (值: None) - Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. Defaults to `1m`. See the Elasticsearch time units reference"
       ]
     }
+  },
+  "ids_manifest": {
+    "role": "sink",
+    "input_contract": {
+      "preferred_source": "{{ $json.payload.primary }}",
+      "accepts_binary": false
+    },
+    "output_contract": {
+      "standardizer_logic": "return { payload: { primary: upstream } }"
+    }
   }
 }

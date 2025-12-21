@@ -66,5 +66,15 @@
       "description": "",
       "natural_language_description": "参数名: Input Binary Field | 提示: The name of the input binary field containing the file to be written | 默认值: data | (必填项)"
     }
+  },
+  "ids_manifest": {
+    "role": "source",
+    "input_contract": {
+      "preferred_source": "{{ $json.metadata }}",
+      "accepts_binary": false
+    },
+    "output_contract": {
+      "standardizer_logic": "if (operation === 'read') { return { payload: { primary: upstream.data } }; } else if (operation === 'write') { return { payload: { primary: { success: upstream.success, filePath: upstream.filePath } } }; }"
+    }
   }
 }

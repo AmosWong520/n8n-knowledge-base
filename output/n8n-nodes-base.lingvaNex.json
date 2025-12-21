@@ -49,5 +49,15 @@
         "translateMode (值: None) - Describe the input text format. Possible value is \"html\" for translating and preserving html structure. If value is not specified or is other than \"html\" than plain text is translating."
       ]
     }
+  },
+  "ids_manifest": {
+    "role": "processor",
+    "input_contract": {
+      "preferred_source": "{{ $json.payload.primary }}",
+      "accepts_binary": false
+    },
+    "output_contract": {
+      "standardizer_logic": "return { payload: { primary: upstream.text || upstream.translatedText || upstream } }"
+    }
   }
 }

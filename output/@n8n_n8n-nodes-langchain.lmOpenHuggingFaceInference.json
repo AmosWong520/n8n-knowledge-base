@@ -41,5 +41,15 @@
         "topP (值: None) - Controls diversity via nucleus sampling: 0.5 means half of all likelihood-weighted options are considered. We generally recommend altering this or temperature but not both."
       ]
     }
+  },
+  "ids_manifest": {
+    "role": "processor",
+    "input_contract": {
+      "preferred_source": "{{ $json.payload.primary }}",
+      "accepts_binary": false
+    },
+    "output_contract": {
+      "standardizer_logic": "return { payload: { primary: upstream.text || upstream.content || upstream } }"
+    }
   }
 }

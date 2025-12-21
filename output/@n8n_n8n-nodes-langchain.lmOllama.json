@@ -53,5 +53,15 @@
         "format (值: None) - Specifies the format of the API response"
       ]
     }
+  },
+  "ids_manifest": {
+    "role": "processor",
+    "input_contract": {
+      "preferred_source": "{{ $json.payload.primary }}",
+      "accepts_binary": false
+    },
+    "output_contract": {
+      "standardizer_logic": "return { payload: { primary: upstream.response || upstream.message || upstream.text || upstream.content || upstream } }"
+    }
   }
 }

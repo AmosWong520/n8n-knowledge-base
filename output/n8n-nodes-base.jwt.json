@@ -80,5 +80,15 @@
         "algorithm (值: None) - The algorithm to use for signing or verifying the token, overrides algorithm in credentials"
       ]
     }
+  },
+  "ids_manifest": {
+    "role": "processor",
+    "input_contract": {
+      "preferred_source": "{{ $json.payload.primary }}",
+      "accepts_binary": false
+    },
+    "output_contract": {
+      "standardizer_logic": "if (upstream.token) { return { payload: { primary: upstream.token } }; } else if (upstream.payload) { return { payload: { primary: upstream.payload } }; } else { return { payload: { primary: upstream } }; }"
+    }
   }
 }

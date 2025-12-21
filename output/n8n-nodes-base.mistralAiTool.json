@@ -123,5 +123,15 @@
         "deleteFiles (值: None) - Whether to delete the files on Mistral Cloud after processing"
       ]
     }
+  },
+  "ids_manifest": {
+    "role": "processor",
+    "input_contract": {
+      "preferred_source": "{{ $json.payload.primary }}",
+      "accepts_binary": true
+    },
+    "output_contract": {
+      "standardizer_logic": "return { payload: { primary: upstream.text || upstream.content || upstream } }"
+    }
   }
 }

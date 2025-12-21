@@ -254,5 +254,15 @@
       "description": "URL(s) of the file(s) to attach, multiple URLs can be added separated by comma",
       "natural_language_description": "参数名: Attachment URL(s) | 作用: URL(s) of the file(s) to attach, multiple URLs can be added separated by comma"
     }
+  },
+  "ids_manifest": {
+    "role": "processor",
+    "input_contract": {
+      "preferred_source": "{{ $json.payload.primary }}",
+      "accepts_binary": true
+    },
+    "output_contract": {
+      "standardizer_logic": "return { payload: { primary: upstream.content || upstream.text || upstream } }"
+    }
   }
 }

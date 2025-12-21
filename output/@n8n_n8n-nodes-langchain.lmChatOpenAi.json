@@ -79,5 +79,15 @@
         "promptConfig (值: None) - Configure the reusable prompt template configured via OpenAI Dashboard. Learn more."
       ]
     }
+  },
+  "ids_manifest": {
+    "role": "processor",
+    "input_contract": {
+      "preferred_source": "{{ $json.payload.primary }}",
+      "accepts_binary": false
+    },
+    "output_contract": {
+      "standardizer_logic": "return { payload: { primary: upstream.choices?.[0]?.message?.content || upstream.text || upstream.content || upstream } }"
+    }
   }
 }

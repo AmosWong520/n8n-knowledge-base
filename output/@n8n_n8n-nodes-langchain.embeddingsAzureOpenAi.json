@@ -38,5 +38,15 @@
         "dimensions (值: None) - The number of dimensions the resulting output embeddings should have. Only supported in text-embedding-3 and later models."
       ]
     }
+  },
+  "ids_manifest": {
+    "role": "processor",
+    "input_contract": {
+      "preferred_source": "{{ $json.payload.primary }}",
+      "accepts_binary": false
+    },
+    "output_contract": {
+      "standardizer_logic": "return { payload: { primary: upstream.embeddings || upstream.data || upstream } }"
+    }
   }
 }

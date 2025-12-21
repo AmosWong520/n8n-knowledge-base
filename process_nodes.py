@@ -15,7 +15,7 @@ OUTPUT_DIR = ROOT / "output"
 # 2. 硅基流动 (SiliconFlow) / DeepSeek 配置
 ENABLE_AI = True  # 开关：设置为 False 则只做基础清洗，不生成 Manifest
 API_KEY = "sk-plppwsqhdtwwwamcdugzwofxizixyiemvoicnyjjndhkuuwt"  # 🔴 这里填入你的 SiliconFlow API Key
-API_BASE = "[https://api.siliconflow.cn/v1](https://api.siliconflow.cn/v1)"       # 硅基流动官方地址
+API_BASE = "https://api.siliconflow.cn/v1"       # 硅基流动官方地址
 MODEL_NAME = "Pro/deepseek-ai/DeepSeek-V3.1-Terminus"           # 指定 DeepSeek-V3 模型
 
 # ==========================================================
